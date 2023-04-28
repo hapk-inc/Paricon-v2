@@ -104,7 +104,7 @@ class LoginPanel extends ConsumerWidget {
                           ),
                           maxLines: 2,
                           minFontSize: 12,
-                          maxFontSize: 18,
+                          maxFontSize: 14,
                         ),
                       ),
                     ),

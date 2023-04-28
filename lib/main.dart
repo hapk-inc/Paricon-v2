@@ -7,8 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:paricon/firebase_option.dart';
 
+import 'firebase_option.dart';
 import 'logic/auth.dart';
 import 'logic/bot_datastore.dart';
 import 'logic/firebase_init.dart';
@@ -17,10 +17,13 @@ import 'logic/user_datastore.dart';
 import 'routes/my_route.dart';
 import 'theme/app_theme.dart';
 
+//void main() => runApp(const M1());
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final FirebaseApp app = await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform);
+      options:
+          kIsWeb || kDebugMode ? DefaultFirebaseOptions.currentPlatform : null);
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instanceFor(app: app);
   //final FirebaseAnalytics analytics = FirebaseAnalytics.instanceFor(app: app);
@@ -42,6 +45,19 @@ Future<void> main() async {
 }
 
 final _myRoute = MyRouter();
+
+class M1 extends StatelessWidget {
+  const M1({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.green,
+      ),
+    );
+  }
+}
 
 class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);

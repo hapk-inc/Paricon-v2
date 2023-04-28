@@ -68,26 +68,27 @@ class Auth {
     final String avatar = ref.read(pickAvatarProvider);
     //final String avatar = mockString();
 
-    return _auth.signInAnonymously().then(
-      (userCred) {
-        return ref
-            .read(fireStoreProvider)
-            .collection('users')
-            .doc(userCred.user!.uid)
-            .set(
-          {
-            ...MyUser(
-              name: name,
-              id: mockInteger(11111111, 99999999),
-              isActive: true,
-              avatar: avatar.isNotEmpty ? avatar : mockString(),
-              isHuman: true,
-            ).toJson(),
-            ...MyDuration(currentTime: DateTime.now()).toJson()
-          },
-        );
-      },
-    ) /*.whenComplete(() => _auth.currentUser!.updateDisplayName(name))*/;
+    return _auth.signInAnonymously().then((userCred) {
+      return ref
+          .read(fireStoreProvider)
+          .collection('users')
+          .doc(userCred.user!.uid)
+          .set(
+        {
+          ...MyUser(
+            name: name,
+            id: mockInteger(11111111, 99999999),
+            isActive: true,
+            avatar: avatar.isNotEmpty ? avatar : mockString(),
+            isHuman: true,
+          ).toJson(),
+          ...MyDuration(currentTime: DateTime.now()).toJson()
+        },
+      );
+    }, onError: (e, s) {
+      print(e);
+      print(s);
+    }) /*.whenComplete(() => _auth.currentUser!.updateDisplayName(name))*/;
   }
 
   Future get signOut async => _auth.signOut();

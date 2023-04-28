@@ -8,7 +8,6 @@ import 'package:random_avatar/random_avatar.dart';
 
 import '../logic/s_size.dart';
 import '../logic/user_datastore.dart';
-import '../my_widgets/my_names.dart';
 import 'my_list_tile.dart';
 import 'my_logo.dart';
 
@@ -101,9 +100,17 @@ AppBar myAppBar(ScreenSize size, {double? leadingWidth}) {
         title: SizedBox(
           width: 360.w * 0.4,
           height: 120.h,
-          child: MyListTile(
-            leading: RandomAvatar(mockString(), trBackground: true),
-            title: "Welcome ${myRandomName()}",
+          child: Consumer(
+            builder: (context, ref, child) {
+              final myUser = ref.watch(myUserProvider).value;
+              if (myUser == null) return Container();
+              return FadeInRight(
+                child: MyListTile(
+                  leading: RandomAvatar(myUser.avatar, trBackground: true),
+                  title: "Welcome ${myUser.name}",
+                ),
+              );
+            },
           ),
         ),
       );

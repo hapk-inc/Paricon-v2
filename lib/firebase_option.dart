@@ -7,6 +7,9 @@ class DefaultFirebaseOptions {
     if (kIsWeb) {
       return web;
     }
+    if (defaultTargetPlatform == TargetPlatform.macOS) {
+      return macos;
+    }
     throw UnsupportedError(
       'DefaultFirebaseOptions are not supported for this platform.',
     );
@@ -33,4 +36,18 @@ class DefaultFirebaseOptions {
           storageBucket: 'paricon-85795.appspot.com',
           measurementId: 'G-7WN0JQJDXS',
         );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyCgWL9wWazKbcQtt07ovk4EDqpEzy0es7g',
+    appId: '1:118238046593:ios:62bc4f3c1d8fe9add0a080',
+    messagingSenderId: '118238046593',
+    projectId: 'flutter-paricon',
+    databaseURL: 'https://flutter-paricon.firebaseio.com',
+    storageBucket: 'flutter-paricon.appspot.com',
+    androidClientId:
+        '118238046593-cer6cij6i7e3skqhf2fsgastdp6gt3nd.apps.googleusercontent.com',
+    iosClientId:
+        '118238046593-fueao4h12snth56f96f6pm5oac34bbuv.apps.googleusercontent.com',
+    iosBundleId: 'com.hapk.paricon',
+  );
 }
