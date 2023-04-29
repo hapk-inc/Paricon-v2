@@ -46,19 +46,6 @@ Future<void> main() async {
 
 final _myRoute = MyRouter();
 
-class M1 extends StatelessWidget {
-  const M1({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.green,
-      ),
-    );
-  }
-}
-
 class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -105,7 +92,7 @@ class MyApp extends ConsumerWidget {
     return ScreenUtilInit(
       designSize: const Size(360, 900),
       useInheritedMediaQuery: true,
-      builder: (_, c) {
+      builder: (_, __) {
         final double x = 900.h / 360.w;
         if (kDebugMode) {
           print("ScreenRatio $x");

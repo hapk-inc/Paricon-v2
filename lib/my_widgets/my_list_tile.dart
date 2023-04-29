@@ -79,3 +79,21 @@ class MyListTile extends StatelessWidget {
     );
   }
 }
+
+class Space20 extends StatelessWidget {
+  const Space20({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(height: 20.h);
+  }
+}
+
+class Space10 extends StatelessWidget {
+  const Space10({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(height: 10.h);
+  }
+}
