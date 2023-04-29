@@ -106,7 +106,7 @@ class LoginPanel extends ConsumerWidget {
                             ),
                             maxLines: 2,
                             minFontSize: 12,
-                            maxFontSize: 14,
+                            maxFontSize: 16,
                           ),
                         ),
                       ),
@@ -222,36 +222,39 @@ class LoginPanel extends ConsumerWidget {
                   maxFontSize: 14,
                 ),
               ),
-              Wrap(
-                spacing: 6.w,
-                runSpacing: 20.h,
-                alignment: WrapAlignment.start,
-                crossAxisAlignment: WrapCrossAlignment.start,
-                runAlignment: WrapAlignment.start,
-                children: List.generate(4, (i) {
-                  final String avatar = ref.read(randomAvatarProvider)[i];
+              Align(
+                alignment: Alignment.centerRight,
+                child: Wrap(
+                  spacing: 6.w,
+                  runSpacing: 20.h,
+                  alignment: WrapAlignment.start,
+                  crossAxisAlignment: WrapCrossAlignment.start,
+                  runAlignment: WrapAlignment.start,
+                  children: List.generate(4, (i) {
+                    final String avatar = ref.read(randomAvatarProvider)[i];
 
-                  return AnimatedOpacity(
-                    //opacity: 1,
-                    opacity: avatar == pickAvatar ? 1 : 0.2,
-                    duration: const Duration(milliseconds: 500),
-                    child: InkWell(
-                      onTap: () {
-                        //print("mString $mString");
-                        ref.read(pickAvatarProvider.notifier).state = avatar;
-                      },
-                      child: CircleAvatar(
-                        backgroundColor:
-                            Colors.primaries[mockInteger(0, 10)].shade200,
-                        radius: 40,
-                        child: RandomAvatar(
-                          avatar,
-                          trBackground: true,
+                    return AnimatedOpacity(
+                      //opacity: 1,
+                      opacity: avatar == pickAvatar ? 1 : 0.2,
+                      duration: const Duration(milliseconds: 500),
+                      child: InkWell(
+                        onTap: () {
+                          //print("mString $mString");
+                          ref.read(pickAvatarProvider.notifier).state = avatar;
+                        },
+                        child: CircleAvatar(
+                          backgroundColor:
+                              Colors.primaries[mockInteger(0, 10)].shade200,
+                          radius: 36,
+                          child: RandomAvatar(
+                            avatar,
+                            trBackground: true,
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  }),
+                ),
               ),
               SizedBox(
                 height: 100.h,

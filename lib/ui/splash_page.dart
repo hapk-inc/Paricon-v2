@@ -13,11 +13,12 @@ class SplashPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.deepPurple.shade700,
       body: Center(
-          child: FadeIn(
-        delay: const Duration(seconds: 1),
-        duration: const Duration(seconds: 2),
-        child: const MyLogo(),
-      )),
+        child: FadeIn(
+          delay: const Duration(milliseconds: 500),
+          duration: const Duration(seconds: 1),
+          child: const MyLogo(),
+        ),
+      ),
     );
   }
 }

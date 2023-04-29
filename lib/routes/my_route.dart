@@ -44,3 +44,5 @@ class MyRouter extends _$MyRouter {
 //flutter pub run build_runner build --delete-conflicting-outputs
 
 //flutter pub run flutter_native_splash:create
+
+//flutter build appbundle --flavor prod --no-tree-shake-icons

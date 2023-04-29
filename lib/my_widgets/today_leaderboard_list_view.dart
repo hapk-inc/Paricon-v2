@@ -31,8 +31,7 @@ class TodayLeaderBoardListView extends ConsumerWidget {
       children: [
         Align(
           alignment: Alignment.centerLeft,
-          child: Container(
-            alignment: Alignment.centerLeft,
+          child: SizedBox(
             height: 80.h * dateSortList.length,
             width: 450,
             child: ListView(
@@ -68,7 +67,7 @@ class TodayLeaderBoardListView extends ConsumerWidget {
             ),
           ),
         ),
-        const Space20(),
+
 /*        DashboardSubHeader(),
         SizedBox(
           height: 75.h * yesterdayScores.length,

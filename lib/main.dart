@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import 'firebase_option.dart';
 import 'logic/auth.dart';
@@ -21,9 +22,10 @@ import 'theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final PackageInfo info = await PackageInfo.fromPlatform();
+
   final FirebaseApp app = await Firebase.initializeApp(
-      options:
-          kIsWeb || kDebugMode ? DefaultFirebaseOptions.currentPlatform : null);
+      options: DefaultFirebaseOptions.currentPlatform(info.appName));
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instanceFor(app: app);
   //final FirebaseAnalytics analytics = FirebaseAnalytics.instanceFor(app: app);

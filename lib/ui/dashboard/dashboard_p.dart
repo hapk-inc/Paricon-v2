@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 import '../../logic/auth.dart';
+import '../../logic/s_size.dart';
 import '../../logic/tournament_datastore.dart';
 import '../../logic/user_datastore.dart';
 import '../../model/my_user.dart';
@@ -78,9 +79,9 @@ class DashboardP extends ConsumerWidget {
                       child: Column(
                         children: const [
                           Space20(),
-                          _PlayTournamentButton(),
+                          PlayTournamentButton(),
                           Space20(),
-                          _DashboardSubHeader(title: "Today's Leaderboard"),
+                          DashboardSubHeader(title: "Today's Leaderboard"),
                           Space10(),
                           TodayLeaderBoardListView(),
                         ],
@@ -148,11 +149,12 @@ class _MyProfileOpenContainer extends StatelessWidget {
       );
 }
 
-class _PlayTournamentButton extends ConsumerWidget {
-  const _PlayTournamentButton();
+class PlayTournamentButton extends ConsumerWidget {
+  const PlayTournamentButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final ScreenSize sSize = ref.read(sizeProvider);
     return ElevatedButton(
       onPressed: () {
         context.router.push(const TournamentRoute());
@@ -164,7 +166,9 @@ class _PlayTournamentButton extends ConsumerWidget {
         ),
       ),
       child: Container(
-        width: 320.w,
+        width: sSize == ScreenSize.phone || sSize == ScreenSize.tab
+            ? 320.w
+            : 360.w,
         height: 60.h,
         alignment: Alignment.center,
         child: AnimatedTextKit(
@@ -191,9 +195,9 @@ class _PlayTournamentButton extends ConsumerWidget {
   }
 }
 
-class _DashboardSubHeader extends StatelessWidget {
+class DashboardSubHeader extends StatelessWidget {
   final String title;
-  const _DashboardSubHeader({required this.title});
+  const DashboardSubHeader({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
