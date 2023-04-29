@@ -60,242 +60,247 @@ class LoginPanel extends ConsumerWidget {
         ),
       ),
       child: LayoutBuilder(
-        builder: (p0, p1) => Column(
-          children: [
-            Container(
-              height: 270.h,
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-              child: LayoutBuilder(
-                builder: (_, p1) => Stack(
-                  children: [
-                    if (!kIsWeb)
+        builder: (p0, p1) => SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                height: 270.h,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                child: LayoutBuilder(
+                  builder: (_, p1) => Stack(
+                    children: [
+                      if (!kIsWeb)
+                        Positioned(
+                          width: p1.maxWidth * 1,
+                          height: p1.maxHeight * 0.1,
+                          top: p1.maxHeight * 0.05,
+                          child: FadeInRight(
+                            delay: const Duration(milliseconds: 500),
+                            from: 50,
+                            child: const Text(
+                              "Firstly, Thanks for Installing",
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Colors.deepPurple,
+                                //fontWeight: FontWeight.w300,
+                                fontSize: 9,
+                              ),
+                            ),
+                          ),
+                        ),
                       Positioned(
+                        top: p1.maxHeight * 0.15,
                         width: p1.maxWidth * 1,
-                        height: p1.maxHeight * 0.1,
-                        top: p1.maxHeight * 0.05,
+                        height: p1.maxHeight * 0.45,
                         child: FadeInRight(
-                          delay: const Duration(milliseconds: 500),
+                          delay: const Duration(seconds: 1),
                           from: 50,
-                          child: const Text(
-                            "Firstly, Thanks for Installing",
+                          child: const AutoSizeText(
+                            "Invite your friends to a battle of wits.The smartest wins",
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               color: Colors.deepPurple,
-                              //fontWeight: FontWeight.w300,
-                              fontSize: 9,
+                              fontWeight: FontWeight.w700,
+                              //fontSize: 24,
                             ),
+                            maxLines: 2,
+                            minFontSize: 12,
+                            maxFontSize: 14,
                           ),
                         ),
                       ),
-                    Positioned(
-                      top: p1.maxHeight * 0.15,
-                      width: p1.maxWidth * 1,
-                      height: p1.maxHeight * 0.45,
-                      child: FadeInRight(
-                        delay: const Duration(seconds: 1),
-                        from: 50,
-                        child: const AutoSizeText(
-                          "Invite your friends to a battle of wits.The smartest wins",
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Colors.deepPurple,
-                            fontWeight: FontWeight.w700,
-                            //fontSize: 24,
+                      Positioned(
+                        bottom: 10.h,
+                        width: 300.w,
+                        height: p1.maxHeight * 0.4,
+                        child: FadeInRight(
+                          delay: const Duration(seconds: 1),
+                          child: TextFormField(
+                            onTap: () {
+                              //debugPrint(_panelController.isPanelOpen.toString());
+                              if (!_panelController.isPanelOpen) {
+                                _panelController.open();
+                              }
+                            },
+                            enabled: true,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter some Name Ex: ${mockName()}';
+                              }
+                              /*if (pickAvatar.isEmpty) {
+                                    return 'Choose any avatar below';
+                                  }*/
+                              return null;
+                            },
+                            controller: _nameController,
+                            style: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 16,
+                              color: Colors.deepPurple,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            decoration: InputDecoration(
+                              /*errorText:
+                          _nameController.text.isEmpty || _nameController.text == ""
+                              ? 'Please enter some Name Ex: ${mockName()}'
+                              : null,*/
+                              filled: true,
+                              fillColor:
+                                  Colors.deepPurple.shade100.withOpacity(0.25),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4),
+                                borderSide:
+                                    const BorderSide(color: Colors.deepPurple),
+                              ),
+                              labelText: 'Enter your Name',
+                              /*helperText: 'Ex: ${mockName()}',
+                                helperStyle: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 14.h,
+                                ),*/
+                              labelStyle: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 18.h,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.deepPurple.shade400,
+                              ),
+                              errorStyle: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 9,
+                                color: Colors.red.shade400,
+                              ),
+                              //icon: Icon(Icons.pin, size: 24),
+                              iconColor: Colors.deepPurple,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4),
+                                borderSide:
+                                    const BorderSide(color: Colors.green),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4),
+                                borderSide: BorderSide(
+                                    color: Colors.deepPurple.shade200),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4),
+                                borderSide: BorderSide(
+                                  color: Colors.red.shade100,
+                                  width: .1,
+                                ),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(4),
+                                borderSide: const BorderSide(
+                                  color: Colors.red,
+                                  width: .75,
+                                ),
+                              ),
+                              enabled: true,
+                            ),
                           ),
-                          maxLines: 2,
-                          minFontSize: 12,
-                          maxFontSize: 14,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                height: p1.maxHeight * 0.125,
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.only(left: 10.w),
+                child: const AutoSizeText(
+                  "Pick your avatar",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Colors.deepPurple,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                  ),
+                  maxLines: 2,
+                  minFontSize: 9,
+                  maxFontSize: 14,
+                ),
+              ),
+              Wrap(
+                spacing: 6.w,
+                runSpacing: 20.h,
+                alignment: WrapAlignment.start,
+                crossAxisAlignment: WrapCrossAlignment.start,
+                runAlignment: WrapAlignment.start,
+                children: List.generate(4, (i) {
+                  final String avatar = ref.read(randomAvatarProvider)[i];
+
+                  return AnimatedOpacity(
+                    //opacity: 1,
+                    opacity: avatar == pickAvatar ? 1 : 0.2,
+                    duration: const Duration(milliseconds: 500),
+                    child: InkWell(
+                      onTap: () {
+                        //print("mString $mString");
+                        ref.read(pickAvatarProvider.notifier).state = avatar;
+                      },
+                      child: CircleAvatar(
+                        backgroundColor:
+                            Colors.primaries[mockInteger(0, 10)].shade200,
+                        radius: 40,
+                        child: RandomAvatar(
+                          avatar,
+                          trBackground: true,
                         ),
                       ),
                     ),
-                    Positioned(
-                      bottom: 10.h,
-                      width: 300.w,
-                      height: p1.maxHeight * 0.4,
-                      child: FadeInRight(
-                        delay: const Duration(seconds: 1),
-                        child: TextFormField(
-                          onTap: () {
-                            //debugPrint(_panelController.isPanelOpen.toString());
-                            if (!_panelController.isPanelOpen) {
-                              _panelController.open();
-                            }
-                          },
-                          enabled: true,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter some Name Ex: ${mockName()}';
-                            }
-                            /*if (pickAvatar.isEmpty) {
-                                  return 'Choose any avatar below';
-                                }*/
-                            return null;
-                          },
-                          controller: _nameController,
-                          style: const TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 16,
-                            color: Colors.deepPurple,
+                  );
+                }),
+              ),
+              SizedBox(
+                height: 100.h,
+                child: ButtonBar(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(
+                              Colors.deepPurple.shade400)),
+                      child: Container(
+                        width: 150.w,
+                        height: 45.h,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Google Sign In",
+                          style: TextStyle(
+                              color: Colors.deepPurple.shade200,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () =>
+                          ref.read(anonymousProvider(_nameController.text)),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(
+                            Colors.deepPurple.shade300),
+                      ),
+                      child: Container(
+                        width: 150.w,
+                        height: 45.h,
+                        alignment: Alignment.center,
+                        child: const Text(
+                          "Guest Mode",
+                          style: TextStyle(
+                            fontSize: 12,
                             fontWeight: FontWeight.w700,
-                          ),
-                          decoration: InputDecoration(
-                            /*errorText:
-                        _nameController.text.isEmpty || _nameController.text == ""
-                            ? 'Please enter some Name Ex: ${mockName()}'
-                            : null,*/
-                            filled: true,
-                            fillColor:
-                                Colors.deepPurple.shade100.withOpacity(0.25),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide:
-                                  const BorderSide(color: Colors.deepPurple),
-                            ),
-                            labelText: 'Enter your Name',
-                            /*helperText: 'Ex: ${mockName()}',
-                              helperStyle: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 14.h,
-                              ),*/
-                            labelStyle: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 18.h,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.deepPurple.shade400,
-                            ),
-                            errorStyle: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 9,
-                              color: Colors.red.shade400,
-                            ),
-                            //icon: Icon(Icons.pin, size: 24),
-                            iconColor: Colors.deepPurple,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: const BorderSide(color: Colors.green),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide:
-                                  BorderSide(color: Colors.deepPurple.shade200),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: BorderSide(
-                                color: Colors.red.shade100,
-                                width: .1,
-                              ),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: const BorderSide(
-                                color: Colors.red,
-                                width: .75,
-                              ),
-                            ),
-                            enabled: true,
+                            color: Colors.deepPurple,
                           ),
                         ),
                       ),
                     )
                   ],
                 ),
-              ),
-            ),
-            Container(
-              height: p1.maxHeight * 0.125,
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(left: 10.w),
-              child: const AutoSizeText(
-                "Pick your avatar",
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  color: Colors.deepPurple,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
-                ),
-                maxLines: 2,
-                minFontSize: 9,
-                maxFontSize: 14,
-              ),
-            ),
-            Wrap(
-              spacing: 6.w,
-              runSpacing: 20.h,
-              alignment: WrapAlignment.start,
-              crossAxisAlignment: WrapCrossAlignment.start,
-              runAlignment: WrapAlignment.start,
-              children: List.generate(4, (i) {
-                final String avatar = ref.read(randomAvatarProvider)[i];
-
-                return AnimatedOpacity(
-                  //opacity: 1,
-                  opacity: avatar == pickAvatar ? 1 : 0.2,
-                  duration: const Duration(milliseconds: 500),
-                  child: InkWell(
-                    onTap: () {
-                      //print("mString $mString");
-                      ref.read(pickAvatarProvider.notifier).state = avatar;
-                    },
-                    child: CircleAvatar(
-                      backgroundColor:
-                          Colors.primaries[mockInteger(0, 10)].shade200,
-                      radius: 40,
-                      child: RandomAvatar(
-                        avatar,
-                        trBackground: true,
-                      ),
-                    ),
-                  ),
-                );
-              }),
-            ),
-            Expanded(
-              child: ButtonBar(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStatePropertyAll(
-                            Colors.deepPurple.shade400)),
-                    child: Container(
-                      width: 150.w,
-                      height: 45.h,
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Google Sign In",
-                        style: TextStyle(
-                            color: Colors.deepPurple.shade200,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: () =>
-                        ref.read(anonymousProvider(_nameController.text)),
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll(Colors.deepPurple.shade300),
-                    ),
-                    child: Container(
-                      width: 150.w,
-                      height: 45.h,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        "Guest Mode",
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.deepPurple,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

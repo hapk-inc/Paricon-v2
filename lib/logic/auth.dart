@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -91,5 +92,42 @@ class Auth {
     }) /*.whenComplete(() => _auth.currentUser!.updateDisplayName(name))*/;
   }
 
-  Future get signOut async => _auth.signOut();
+  Future get signOut async {
+    if (_auth.currentUser != null) {
+      User? user = _auth.currentUser;
+      bool? isAnonymous = user!.isAnonymous;
+      await _auth.signOut();
+      if (isAnonymous) {
+        await ref
+            .read(fireStoreProvider)
+            .collection('users')
+            .doc(user.uid)
+            .delete();
+        // await batchDelete();
+        await _auth.currentUser!
+            .delete()
+            .whenComplete(
+              () => print("User Deleted"),
+            )
+            .catchError((e, s) => print(e));
+      }
+    }
+  }
+
+  Future batchDelete() {
+    WriteBatch batch = ref.read(fireStoreProvider).batch();
+    final String id = ref.read(firebaseUserProvider).uid;
+    return ref
+        .read(fireStoreProvider)
+        .collection('tournament')
+        .where('userId', isEqualTo: id)
+        .get()
+        .then((querySnapshot) {
+      for (var document in querySnapshot.docs) {
+        batch.delete(document.reference);
+      }
+
+      return batch.commit();
+    });
+  }
 }

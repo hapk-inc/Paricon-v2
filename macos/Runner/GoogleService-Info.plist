@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>118238046593-fueao4h12snth56f96f6pm5oac34bbuv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.118238046593-fueao4h12snth56f96f6pm5oac34bbuv</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>118238046593-cer6cij6i7e3skqhf2fsgastdp6gt3nd.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCgWL9wWazKbcQtt07ovk4EDqpEzy0es7g</string>
+	<key>GCM_SENDER_ID</key>
+	<string>118238046593</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.hapk.paricon</string>
+	<key>PROJECT_ID</key>
+	<string>flutter-paricon</string>
+	<key>STORAGE_BUCKET</key>
+	<string>flutter-paricon.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:118238046593:ios:62bc4f3c1d8fe9add0a080</string>
+	<key>DATABASE_URL</key>
+	<string>https://flutter-paricon.firebaseio.com</string>
+</dict>
+</plist>

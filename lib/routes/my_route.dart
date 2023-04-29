@@ -6,7 +6,7 @@ import '../ui/dashboard_page.dart';
 import '../ui/splash_page.dart';
 import '../ui/login_page.dart';
 //import '../ui/room_page.dart';
-//import '../ui/tournament_page.dart';
+import '../ui/tournament_page.dart';
 part 'my_route.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page,Route')
@@ -32,7 +32,7 @@ class MyRouter extends _$MyRouter {
               page: GameRoute.page,
               transitionsBuilder: TransitionsBuilders.slideBottom,
             ),*/
-            //AutoRoute(page: TournamentRoute.page)
+            AutoRoute(page: TournamentRoute.page)
           ],
         )
       ];

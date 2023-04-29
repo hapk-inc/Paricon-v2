@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:animations/animations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 import 'package:flutter/material.dart';
@@ -8,9 +9,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:random_avatar/random_avatar.dart';
 
+import '../../logic/auth.dart';
+import '../../logic/tournament_datastore.dart';
 import '../../logic/user_datastore.dart';
 import '../../model/my_user.dart';
 import '../../my_widgets/my_list_tile.dart';
+import '../../my_widgets/today_leaderboard_list_view.dart';
+import '../../routes/my_route.dart';
 
 class DashboardP extends ConsumerWidget {
   const DashboardP({Key? key}) : super(key: key);
@@ -18,6 +23,16 @@ class DashboardP extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final MyUser myUser = ref.watch(myUserProvider).value!;
+
+    ref.listen(
+      tScoresOnChangeProvider.select((value) => value.value),
+      (previous, next) {
+        if (next != null) {
+          ref.read(tScoreListProvider.notifier).addItem(next);
+        }
+      },
+    );
+
     return LayoutBuilder(
       builder: (_, p1) => Column(
         children: [
@@ -59,13 +74,17 @@ class DashboardP extends ConsumerWidget {
                   ),
                   Expanded(
                     flex: 8,
-                    child: Column(
-                      children: const [
-                        Space20(),
-                        _PlayTournamentButton(),
-                        Space20(),
-                        _DashboardSubHeader(title: "Today's Leaderboard")
-                      ],
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: const [
+                          Space20(),
+                          _PlayTournamentButton(),
+                          Space20(),
+                          _DashboardSubHeader(title: "Today's Leaderboard"),
+                          Space10(),
+                          TodayLeaderBoardListView(),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -94,11 +113,34 @@ class _MyProfileOpenContainer extends StatelessWidget {
           ),
           height: 150.h,
           padding: EdgeInsets.only(right: 8.w),
-          child: FadeInRight(
-            child: MyListTile(
-              leading: RandomAvatar(myUser.avatar, trBackground: true),
-              title: "Welcome ${myUser.name}",
-            ),
+          child: Stack(
+            children: [
+              FadeInRight(
+                child: MyListTile(
+                  leading: RandomAvatar(myUser.avatar, trBackground: true),
+                  title: "Welcome ${myUser.name}",
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: FadeIn(
+                  delay: const Duration(seconds: 3),
+                  child: Consumer(
+                    builder: (context, ref, child) => TextButton(
+                      onPressed: () => ref.read(signOutProvider),
+                      style: const ButtonStyle(
+                        padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                      ),
+                      child: const Text(
+                        "LOG OUT",
+                        style: TextStyle(fontSize: 12, color: Colors.white24),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
           ),
         ),
         middleColor: Colors.deepPurpleAccent.shade200,
@@ -113,8 +155,7 @@ class _PlayTournamentButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ElevatedButton(
       onPressed: () {
-        //ref.invalidate(tournamentNotifierProvider);
-        //context.router.push(const TournamentRoute());
+        context.router.push(const TournamentRoute());
       },
       style: ButtonStyle(
         padding: const MaterialStatePropertyAll(EdgeInsets.zero),
@@ -142,7 +183,7 @@ class _PlayTournamentButton extends ConsumerWidget {
           ],
           isRepeatingAnimation: true,
           onTap: () {
-            //context.router.push(const TournamentRoute());
+            context.router.push(const TournamentRoute());
           },
         ),
       ),

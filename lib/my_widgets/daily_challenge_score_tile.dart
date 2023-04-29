@@ -95,11 +95,12 @@ class DailyChallengeScoreTile extends StatelessWidget {
                         flex: 3,
                         child: FractionallySizedBox(
                           widthFactor: 1,
-                          heightFactor: subtitle == null ? 0.35 : 0.5,
+                          heightFactor: subtitle != null ? 0.5 : 0.4,
                           child: FittedBox(
                             alignment: Alignment.centerLeft,
                             child: AutoSizeText(
                               name,
+                              textAlign: TextAlign.center,
                               style: const TextStyle(
                                   fontFamily: 'Poppins',
                                   color: Colors.deepPurple),

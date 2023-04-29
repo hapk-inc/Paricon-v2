@@ -1,6 +1,7 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:paricon/ui/dashboard/dashboard_w.dart';
 import '../logic/s_size.dart';
 
 import '../my_widgets/app_bar.dart';
@@ -21,15 +22,11 @@ class DashboardPage extends ConsumerWidget {
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            child: sSize == ScreenSize.phone || sSize == ScreenSize.tab
-                ? const DashboardP()
-                : const Center(
-                    child: Text(
-                      "Currently in Development Stage",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  )),
+          duration: const Duration(milliseconds: 500),
+          child: sSize == ScreenSize.phone || sSize == ScreenSize.tab
+              ? const DashboardP()
+              : const DashboardW(),
+        ),
       ),
     );
   }

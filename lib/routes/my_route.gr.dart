@@ -21,6 +21,12 @@ abstract class _$MyRouter extends RootStackRouter {
         child: const SplashPage(),
       );
     },
+    TournamentRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TournamentPage(),
+      );
+    },
     LoginRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -52,6 +58,20 @@ class SplashRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SplashRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TournamentPage]
+class TournamentRoute extends PageRouteInfo<void> {
+  const TournamentRoute({List<PageRouteInfo>? children})
+      : super(
+          TournamentRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TournamentRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
