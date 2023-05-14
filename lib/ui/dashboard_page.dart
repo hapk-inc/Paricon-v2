@@ -226,7 +226,7 @@ class DashboardDrawer extends ConsumerWidget {
                             text: "sharpest.",
                             style: TextStyle(
                               color: Colors.deepPurple.shade50,
-                              fontSize: 24,
+                              fontSize: 20,
                             ),
                           )
                         ],
@@ -235,8 +235,8 @@ class DashboardDrawer extends ConsumerWidget {
                         color: Colors.deepPurple.shade300,
                         fontWeight: FontWeight.w100,
                       ),
-                      maxFontSize: 12,
-                      minFontSize: 9,
+                      maxFontSize: 10,
+                      minFontSize: 8,
                       maxLines: 4,
                     ),
                   ),

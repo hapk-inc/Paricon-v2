@@ -1,12 +1,9 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mock_data/mock_data.dart';
 import 'package:paricon/logic/auth.dart';
-import 'package:random_avatar/random_avatar.dart';
 
 import '../../my_widgets/my_list_tile.dart';
 import '../../my_widgets/my_logo.dart';
@@ -54,14 +51,14 @@ class LoginP extends ConsumerWidget {
                     alignment: Alignment.centerLeft,
                     padding:
                         EdgeInsets.symmetric(horizontal: p1.maxWidth * 0.075),
-                    child: FadeIn(
+                    /* child: FadeIn(
                       delay: const Duration(seconds: 3),
                       child: AutoSizeText.rich(
                         TextSpan(
                           children: [
                             const TextSpan(
-                              text: "Gather your wit and "
-                                  "join me in a friendly competition to"
+                              text: "Gather your wit and \n\n"
+                                  "join me in a friendly competition to\n\n"
                                   " determine who among us is the ",
                             ),
                             TextSpan(
@@ -76,27 +73,31 @@ class LoginP extends ConsumerWidget {
                           color: Colors.deepPurple.shade300,
                           fontWeight: FontWeight.w100,
                         ),
-                        maxFontSize: 14,
-                        minFontSize: 12,
+                        maxFontSize: 10,
+                        minFontSize: 9,
                         maxLines: 4,
                       ),
-                    ),
+                    ),*/
                   ),
                 ),
               ),
             ),
             Positioned(
-              width: 180.w,
-              left: 15.w,
+              width: 150.w,
+              right: 15.w,
               height: 60.h,
-              bottom: 240.h,
+              bottom: 20.h,
+              // bottom: 240.h,
               child: FadeIn(
                 delay: const Duration(milliseconds: 3500),
-                child: ElevatedButton(
+                child: OutlinedButton(
                   style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll(Colors.deepPurple.shade700),
-                  ),
+                      side: MaterialStatePropertyAll(
+                    BorderSide(color: Colors.deepPurple.shade200, width: 0.5),
+                  )
+                      //backgroundColor:
+                      //    MaterialStatePropertyAll(Colors.deepPurple.shade700),
+                      ),
                   onPressed: () => ref.read(anonymousProvider("")),
                   /*onPressed: () => showModal(
                     context: context,
@@ -105,12 +106,19 @@ class LoginP extends ConsumerWidget {
                       child: _SignInDialog(),
                     ),
                   ),*/
-                  child: const AutoSizeText(
-                    "Start Game",
-                    style: TextStyle(fontWeight: FontWeight.w700),
-                    maxLines: 1,
-                    minFontSize: 9,
-                    maxFontSize: 18,
+                  child: Container(
+                    padding: EdgeInsets.all(4.0),
+                    child: AutoSizeText(
+                      "Start Game",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontFamily: 'Poppins',
+                        color: Colors.deepPurple.shade100,
+                      ),
+                      maxFontSize: 14,
+                      minFontSize: 10,
+                      maxLines: 1,
+                    ),
                   ),
                 ),
               ),

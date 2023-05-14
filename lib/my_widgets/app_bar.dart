@@ -52,7 +52,9 @@ AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
               ? 4.0
               : 900.h / 360.w > 1.7
                   ? 8.0
-                  : 16.0),
+                  : 900.h / 360.h < 1.6
+                      ? 16
+                      : 24.0),
           child: FadeIn(
             delay: const Duration(seconds: 1),
             child: const MyLogo(),
