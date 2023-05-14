@@ -66,30 +66,33 @@ class Auth {
   User? get currentUser => _auth.currentUser;
 
   Future signInAnonymous({String name = "Guest"}) {
-    final String avatar = ref.read(pickAvatarProvider);
-    //final String avatar = mockString();
+    //final String avatar = ref.read(pickAvatarProvider);
+    final String avatar = mockString();
 
-    return _auth.signInAnonymously().then((userCred) {
-      return ref
-          .read(fireStoreProvider)
-          .collection('users')
-          .doc(userCred.user!.uid)
-          .set(
-        {
-          ...MyUser(
-            name: name,
-            id: mockInteger(11111111, 99999999),
-            isActive: true,
-            avatar: avatar.isNotEmpty ? avatar : mockString(),
-            isHuman: true,
-          ).toJson(),
-          ...MyDuration(currentTime: DateTime.now()).toJson()
-        },
-      );
-    }, onError: (e, s) {
-      print(e);
-      print(s);
-    }) /*.whenComplete(() => _auth.currentUser!.updateDisplayName(name))*/;
+    return _auth.signInAnonymously().then(
+      (userCred) {
+        return ref
+            .read(fireStoreProvider)
+            .collection('users')
+            .doc(userCred.user!.uid)
+            .set(
+          {
+            ...MyUser(
+              name: "User#${mockInteger(100000, 999999)}",
+              id: mockInteger(11111111, 99999999),
+              isActive: true,
+              avatar: avatar.isNotEmpty ? avatar : mockString(),
+              isHuman: true,
+            ).toJson(),
+            ...MyDuration(currentTime: DateTime.now()).toJson()
+          },
+        );
+      },
+      onError: (e, s) {
+        print(e);
+        print(s);
+      },
+    ) /*.whenComplete(() => _auth.currentUser!.updateDisplayName(name))*/;
   }
 
   Future get signOut async {
@@ -103,6 +106,12 @@ class Auth {
             .collection('users')
             .doc(user.uid)
             .delete();
+        await ref
+            .read(fireStoreProvider)
+            .collection('tournament')
+            .where('userId', isEqualTo: user.uid)
+            .get()
+            .then((value) {});
         // await batchDelete();
         await _auth.currentUser!
             .delete()

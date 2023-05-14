@@ -11,28 +11,54 @@ import '../logic/user_datastore.dart';
 import 'my_list_tile.dart';
 import 'my_logo.dart';
 
-AppBar myAppBar(ScreenSize size, {double? leadingWidth}) {
+AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
   switch (size) {
     case ScreenSize.phone:
       return AppBar(
+        //leading: Container(),
+        //key: ValueKey(value),
         toolbarHeight: 100.h,
-        leading: Container(),
-        leadingWidth: 0.w,
-        centerTitle: true,
-        backgroundColor: Colors.deepPurpleAccent.shade700,
-        title: SizedBox(width: 270.w, child: const MyLogo()),
-        /*actions: [
-          Consumer(
-            builder: (__, ref, _) {
-              return IconButton(
-                onPressed: () {
-                  ref.read(signOutProvider);
-                },
-                icon: Icon(Icons.exit_to_app),
+        //leadingWidth: 60,
+        /*leading: Padding(
+          padding: const EdgeInsets.only(left: 8.0),
+          child: Consumer(
+            builder: (context, ref, child) {
+              final myUserAsync = ref.watch(myUserProvider);
+              return AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                child: myUserAsync.when(
+                  data: (data) => InkWell(
+                    onTap: () => Scaffold.of(context).openDrawer(),
+                    child: CircleAvatar(
+                      radius: 24,
+                      backgroundColor: Colors.deepPurple.shade50,
+                      child: RandomAvatar(data.avatar, trBackground: true),
+                    ),
+                  ),
+                  error: (error, stackTrace) => Container(),
+                  loading: () => Container(),
+                ),
               );
             },
-          )
-        ],*/
+          ),
+        ),*/
+        leading: Container(),
+        leadingWidth: 0,
+        centerTitle: true,
+        backgroundColor: Colors.deepPurpleAccent.shade700,
+        title: AnimatedPadding(
+          duration: const Duration(milliseconds: 500),
+          padding: EdgeInsets.all(900.h / 360.w > 2
+              ? 4.0
+              : 900.h / 360.w > 1.7
+                  ? 8.0
+                  : 16.0),
+          child: FadeIn(
+            delay: const Duration(seconds: 1),
+            child: const MyLogo(),
+          ),
+        ),
+        elevation: 8,
       );
 
     case ScreenSize.tab:

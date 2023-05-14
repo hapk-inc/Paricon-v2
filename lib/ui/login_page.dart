@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../logic/s_size.dart';
 import 'login/login_p.dart';
+import 'login/login_t.dart';
+import 'login/login_w.dart';
 //import 'login/login_p.dart';
 //import 'login/login_w.dart';
 
@@ -15,16 +17,16 @@ class LoginPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sSize = ref.watch(sizeProvider);
     return Scaffold(
-      backgroundColor: Colors.deepPurple,
+      backgroundColor: Colors.deepPurple.shade50,
       resizeToAvoidBottomInset: false,
       body: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500),
-          child: sSize == ScreenSize.phone || sSize == ScreenSize.tab
-              ? const LoginP()
-              : Text("Login PC")
-          /*? const LoginP()
-            : const LoginW(),*/
-          ),
+        duration: const Duration(milliseconds: 500),
+        child: sSize == ScreenSize.phone
+            ? const LoginP()
+            : sSize == ScreenSize.tab
+                ? const LoginT()
+                : const LoginW(),
+      ),
     );
   }
 }

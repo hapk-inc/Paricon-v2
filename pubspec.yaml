@@ -43,7 +43,7 @@ dependencies:
   firebase_dynamic_links: ^5.1.1
   firebase_database: ^10.1.1
 
-  google_sign_in: ^6.1.0
+  # google_sign_in: ^6.1.0
 
   flutter_riverpod: ^2.3.6
 
@@ -99,8 +99,16 @@ dev_dependencies:
   auto_route_generator:
   build_runner:
 
+  carousel_slider: ^4.2.1
+
   freezed: ^2.3.2
   json_serializable: ^6.6.1
+
+  # introduction_screen: ^3.1.8
+
+  dots_indicator:
+
+  toggle_switch: ^2.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -157,6 +165,9 @@ flutter:
     - family: Orbitron
       fonts:
         - asset: fonts/Orbitron-Regular.ttf
+    - family: BrunoAceSC
+      fonts:
+        - asset: fonts/BrunoAceSC-Regular.ttf
 
   #
   # For details regarding fonts from package dependencies,

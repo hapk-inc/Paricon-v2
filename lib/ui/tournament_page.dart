@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../logic/s_size.dart';
+import '../my_widgets/app_bar.dart';
 import '../my_widgets/my_logo.dart';
 import 'tournament/tournament_p.dart';
 
@@ -18,8 +19,8 @@ class TournamentPage extends ConsumerWidget {
     return ProviderScope(
       child: Scaffold(
         backgroundColor: Colors.deepPurple.shade100,
-        //appBar: myAppBar(sSize),
-        appBar: AppBar(
+        appBar: myAppBar(sSize, context, leadingWidth: 0),
+        /* appBar: AppBar(
           toolbarHeight: 90.h,
           titleSpacing: 0,
           //leading: Container(),
@@ -27,7 +28,7 @@ class TournamentPage extends ConsumerWidget {
           elevation: 8,
           backgroundColor: Colors.deepPurpleAccent.shade700,
           title: SizedBox(width: 270.w, child: const MyLogo()),
-        ),
+        ),*/
         body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
           child: sSize == ScreenSize.phone

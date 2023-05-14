@@ -31,7 +31,8 @@ final tScoresOnChangeProvider = StreamProvider<TScore>(
 
 final Provider<List<TScore>> todayTScoreProvider = Provider<List<TScore>>(
   (ref) {
-    final tScores = ref.watch(tScoreListProvider);
+    final List<TScore> tScores = ref.watch(tScoreListProvider);
+    print("tScores ${tScores.length}");
     return tScores.where(
       (x) {
         final now = DateFormat.yMMMd().format(DateTime.now());
@@ -45,6 +46,7 @@ final Provider<List<TScore>> todayUniqueTScoreProvider = Provider<List<TScore>>(
   (ref) {
     final List<TScore> todayTScores = List.from(ref.watch(todayTScoreProvider));
     todayTScores.sort((a, b) => a.tDuration!.compareTo(b.tDuration!));
+    print("todayTScores ${todayTScores.length}");
 
     List<TScore> uniqueTodayTScores = [];
     for (var t in todayTScores) {

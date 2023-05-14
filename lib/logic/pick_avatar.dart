@@ -11,3 +11,10 @@ class PickAvatar extends StateNotifier<String> {
 
 final randomAvatarProvider =
     Provider<List<String>>((_) => List.generate(5, (_) => mockString(8)));
+
+final dotNotifier = StateNotifierProvider<DotValueNotifier, double>(
+    (ref) => DotValueNotifier());
+
+class DotValueNotifier extends StateNotifier<double> {
+  DotValueNotifier() : super(0);
+}
