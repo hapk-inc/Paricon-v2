@@ -61,6 +61,10 @@ dependencies:
 
   animated_text_kit: ^4.2.2
 
+  floating_bottom_navigation_bar: ^1.5.2
+
+  badges: ^3.1.1
+
   intl:
 
   animations: ^2.0.7

@@ -26,6 +26,245 @@ class DashboardP extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+              Container(
+                width: 360.w,
+                padding: const EdgeInsets.all(8.0),
+                color: Colors.deepPurpleAccent.shade700,
+                height: 180.h,
+                child: LayoutBuilder(
+                  builder: (_, p1) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    //textDirection: TextDirection.ltr,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        //color: Colors.white70,
+                        padding: EdgeInsets.symmetric(
+                            vertical: p1.maxHeight * 0.015),
+                        height: p1.maxHeight * 0.25,
+                        width: p1.maxWidth * 0.9,
+                        child: Text(
+                          "24 players played today",
+                          style: TextStyle(
+                            color: Colors.deepPurple.shade200,
+                            fontSize: p1.maxHeight * 0.125,
+                            //fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        //color: Colors.white70,
+                        height: p1.maxHeight * 0.1,
+                        width: p1.maxWidth * 0.9,
+                        child: FittedBox(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "${myRandomName()}, ${myRandomName()} and ${myRandomName()} were currently playing",
+                            style: TextStyle(
+                              color: Colors.deepPurple.shade200,
+                              //fontSize: 12,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      const PlayTournamentButton(),
+                      const Space20(),
+                    ],
+                  ),
+                ),
+              ),
+              const Space10(),
+              const DashboardSubHeader(title: "Players Online"),
+              //SizedBox(height: 6.h),
+              Container(
+                height: 120.h,
+                //color: Colors.red,
+                alignment: Alignment.center,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  padding:
+                      const EdgeInsets.only(left: 2.0, top: 4.0, bottom: 4.0),
+                  children: List.generate(
+                      7,
+                      (index) => AspectRatio(
+                            aspectRatio: 1,
+                            child: Container(
+                              //color: Colors.green.shade100,
+                              margin: const EdgeInsets.only(right: 2.0),
+                              alignment: Alignment.center,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    flex: 5,
+                                    child: FractionallySizedBox(
+                                      widthFactor: 1,
+                                      heightFactor: 1,
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.deepPurple,
+                                        child: RandomAvatar(
+                                          mockString(),
+                                          width: 72.h,
+                                          trBackground: true,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Flexible(
+                                    flex: 2,
+                                    child: FractionallySizedBox(
+                                      widthFactor: 0.9,
+                                      heightFactor: 0.6,
+                                      child: FittedBox(
+                                        child: Text(
+                                          myRandomName(),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )),
+                ),
+              ),
+              Container(
+                height: 115.w,
+                //color: Colors.deepPurple,
+                padding: EdgeInsets.only(
+                  left: 9.w,
+                  top: 9.h,
+                ),
+                alignment: Alignment.centerLeft,
+                child: AutoSizeText.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                          text: "Today\n",
+                          style: TextStyle(
+                            fontSize: 36,
+                            //fontWeight: FontWeight.w300,
+                          )),
+                      TextSpan(
+                        text: "Tournament",
+                        style: TextStyle(
+                            //fontWeight: FontWeight.normal,
+                            ),
+                      ),
+                    ],
+                  ),
+                  style: TextStyle(
+                    color: Colors.deepPurpleAccent.shade200,
+                    fontFamily: 'Poppins',
+                    fontSize: 72,
+                    fontWeight: FontWeight.bold,
+                    // fontWeight: FontWeight.w100,
+                  ),
+                  minFontSize: 12,
+                  maxFontSize: 72,
+                  maxLines: 4,
+                ),
+              ),
+              Container(
+                height: 15.w,
+                padding: EdgeInsets.only(
+                  right: 12.w,
+                ),
+                alignment: Alignment.centerRight,
+                child: FittedBox(
+                    child: AutoSizeText(
+                  "Ends at 9 pm IST",
+                  style: TextStyle(color: Colors.deepPurple),
+                )),
+              ),
+              Space10(),
+            ] +
+            List.generate(
+              4,
+              (index) => Container(
+                height: 40.h,
+                width: 320.w,
+                margin: EdgeInsets.only(bottom: 4.h),
+                padding: EdgeInsets.only(top: 2.0, bottom: 2.0, right: 6.0),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                        color: Colors.deepPurple.shade200, width: 0.2),
+                  ),
+                ),
+                //color: Colors.red,
+                child: Row(
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 1,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "# ${index + 1}",
+                          style: const TextStyle(fontSize: 10),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 9.w),
+                    AspectRatio(
+                      aspectRatio: 1,
+                      child: CircleAvatar(
+                        child: RandomAvatar(mockString()),
+                      ),
+                    ),
+                    SizedBox(width: 15.w),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: 100.w,
+                      child: AutoSizeText(
+                        myRandomName(),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.deepPurpleAccent),
+                        maxFontSize: 12,
+                        minFontSize: 6,
+                        maxLines: 1,
+                      ),
+                    ),
+                    const Spacer(),
+                    Expanded(
+                      child: FractionallySizedBox(
+                        //heightFactor: 0.6,
+                        widthFactor: 0.8,
+                        child: FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child: Text(
+                            "01: ${mockInteger(10, 55)}",
+                            style: TextStyle(
+                              fontFamily: 'Orbitron',
+                              //fontWeight: FontWeight.bold,
+                              color: Colors.deepPurpleAccent,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+      ),
+    );
+  }
+}
+
+class DashboardP2 extends ConsumerWidget {
+  const DashboardP2({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(
       tScoresOnChangeProvider.select((value) => value.value),
       (previous, next) {
@@ -608,7 +847,7 @@ class DashboardSubHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 28.h,
+      height: 24.h,
       padding: EdgeInsets.only(left: 8.w),
       alignment: Alignment.centerLeft,
       child: FittedBox(

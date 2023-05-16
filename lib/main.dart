@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -28,6 +29,7 @@ Future<void> main() async {
       options: DefaultFirebaseOptions.currentPlatform(info.appName));
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instanceFor(app: app);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
   //final FirebaseAnalytics analytics = FirebaseAnalytics.instanceFor(app: app);
   final FirebaseFirestore fireStore = FirebaseFirestore.instanceFor(app: app);
   final FirebaseDatabase database = FirebaseDatabase.instanceFor(app: app);
