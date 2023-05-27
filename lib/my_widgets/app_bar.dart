@@ -15,8 +15,6 @@ AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
   switch (size) {
     case ScreenSize.phone:
       return AppBar(
-        //leading: Container(),
-        //key: ValueKey(value),
         toolbarHeight: 100.h,
         //leadingWidth: 60,
         /*leading: Padding(
@@ -45,7 +43,7 @@ AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
         leading: Container(),
         leadingWidth: 0,
         centerTitle: true,
-        backgroundColor: Colors.deepPurpleAccent.shade700,
+        backgroundColor: const Color(0xff724cf9),
         title: AnimatedPadding(
           duration: const Duration(milliseconds: 500),
           padding: EdgeInsets.all(900.h / 360.w > 2

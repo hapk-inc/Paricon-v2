@@ -1,838 +1,636 @@
-import 'package:animate_do/animate_do.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-
+import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mock_data/mock_data.dart';
-import '../../my_widgets/my_names.dart';
+import 'package:paricon/logic/auth.dart';
+import 'package:paricon/my_widgets/daily_challenge_score_tile.dart';
 import 'package:random_avatar/random_avatar.dart';
-
-import '../../logic/auth.dart';
-import '../../logic/s_size.dart';
-import '../../logic/tournament_datastore.dart';
-import '../../logic/user_datastore.dart';
-import '../../model/my_user.dart';
 import '../../my_widgets/my_list_tile.dart';
-import '../../my_widgets/today_leaderboard_list_view.dart';
-import '../../my_widgets/today_list_view.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+import '../../my_widgets/my_names.dart';
 import '../../routes/my_route.dart';
 
-class DashboardP extends ConsumerWidget {
+class DashboardP extends StatelessWidget {
   const DashboardP({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return SingleChildScrollView(
-      child: Column(
+  Widget build(BuildContext context) {
+    return SlidingUpPanel(
+      body: Column(
         children: [
-              Container(
-                width: 360.w,
-                padding: const EdgeInsets.all(8.0),
-                color: Colors.deepPurpleAccent.shade700,
-                height: 180.h,
-                child: LayoutBuilder(
-                  builder: (_, p1) => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    //textDirection: TextDirection.ltr,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        //color: Colors.white70,
-                        padding: EdgeInsets.symmetric(
-                            vertical: p1.maxHeight * 0.015),
-                        height: p1.maxHeight * 0.25,
-                        width: p1.maxWidth * 0.9,
-                        child: Text(
-                          "24 players played today",
-                          style: TextStyle(
-                            color: Colors.deepPurple.shade200,
-                            fontSize: p1.maxHeight * 0.125,
-                            //fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        //color: Colors.white70,
-                        height: p1.maxHeight * 0.1,
-                        width: p1.maxWidth * 0.9,
-                        child: FittedBox(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            "${myRandomName()}, ${myRandomName()} and ${myRandomName()} were currently playing",
-                            style: TextStyle(
-                              color: Colors.deepPurple.shade200,
-                              //fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      const PlayTournamentButton(),
-                      const Space20(),
-                    ],
-                  ),
-                ),
-              ),
-              const Space10(),
-              const DashboardSubHeader(title: "Players Online"),
-              //SizedBox(height: 6.h),
-              Container(
-                height: 120.h,
-                //color: Colors.red,
-                alignment: Alignment.center,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  padding:
-                      const EdgeInsets.only(left: 2.0, top: 4.0, bottom: 4.0),
-                  children: List.generate(
-                      7,
-                      (index) => AspectRatio(
-                            aspectRatio: 1,
-                            child: Container(
-                              //color: Colors.green.shade100,
-                              margin: const EdgeInsets.only(right: 2.0),
-                              alignment: Alignment.center,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Flexible(
-                                    flex: 5,
-                                    child: FractionallySizedBox(
-                                      widthFactor: 1,
-                                      heightFactor: 1,
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.deepPurple,
-                                        child: RandomAvatar(
-                                          mockString(),
-                                          width: 72.h,
-                                          trBackground: true,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 2),
-                                  Flexible(
-                                    flex: 2,
-                                    child: FractionallySizedBox(
-                                      widthFactor: 0.9,
-                                      heightFactor: 0.6,
-                                      child: FittedBox(
-                                        child: Text(
-                                          myRandomName(),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )),
-                ),
-              ),
-              Container(
-                height: 115.w,
-                //color: Colors.deepPurple,
-                padding: EdgeInsets.only(
-                  left: 9.w,
-                  top: 9.h,
-                ),
-                alignment: Alignment.centerLeft,
-                child: AutoSizeText.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                          text: "Today\n",
-                          style: TextStyle(
-                            fontSize: 36,
-                            //fontWeight: FontWeight.w300,
-                          )),
-                      TextSpan(
-                        text: "Tournament",
-                        style: TextStyle(
-                            //fontWeight: FontWeight.normal,
-                            ),
-                      ),
-                    ],
-                  ),
-                  style: TextStyle(
-                    color: Colors.deepPurpleAccent.shade200,
-                    fontFamily: 'Poppins',
-                    fontSize: 72,
-                    fontWeight: FontWeight.bold,
-                    // fontWeight: FontWeight.w100,
-                  ),
-                  minFontSize: 12,
-                  maxFontSize: 72,
-                  maxLines: 4,
-                ),
-              ),
-              Container(
-                height: 15.w,
-                padding: EdgeInsets.only(
-                  right: 12.w,
-                ),
-                alignment: Alignment.centerRight,
-                child: FittedBox(
-                    child: AutoSizeText(
-                  "Ends at 9 pm IST",
-                  style: TextStyle(color: Colors.deepPurple),
-                )),
-              ),
-              Space10(),
-            ] +
-            List.generate(
-              4,
-              (index) => Container(
-                height: 40.h,
-                width: 320.w,
-                margin: EdgeInsets.only(bottom: 4.h),
-                padding: EdgeInsets.only(top: 2.0, bottom: 2.0, right: 6.0),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                        color: Colors.deepPurple.shade200, width: 0.2),
-                  ),
-                ),
-                //color: Colors.red,
-                child: Row(
-                  children: [
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "# ${index + 1}",
-                          style: const TextStyle(fontSize: 10),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 9.w),
-                    AspectRatio(
-                      aspectRatio: 1,
-                      child: CircleAvatar(
-                        child: RandomAvatar(mockString()),
-                      ),
-                    ),
-                    SizedBox(width: 15.w),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      width: 100.w,
-                      child: AutoSizeText(
-                        myRandomName(),
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.deepPurpleAccent),
-                        maxFontSize: 12,
-                        minFontSize: 6,
-                        maxLines: 1,
-                      ),
-                    ),
-                    const Spacer(),
-                    Expanded(
-                      child: FractionallySizedBox(
-                        //heightFactor: 0.6,
-                        widthFactor: 0.8,
-                        child: FittedBox(
-                          fit: BoxFit.fitWidth,
-                          child: Text(
-                            "01: ${mockInteger(10, 55)}",
-                            style: TextStyle(
-                              fontFamily: 'Orbitron',
-                              //fontWeight: FontWeight.bold,
-                              color: Colors.deepPurpleAccent,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-      ),
-    );
-  }
-}
-
-class DashboardP2 extends ConsumerWidget {
-  const DashboardP2({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(
-      tScoresOnChangeProvider.select((value) => value.value),
-      (previous, next) {
-        if (next != null) {
-          ref.read(tScoreListProvider.notifier).addItem(next);
-        }
-      },
-    );
-    return Center(
-      child: Column(
-        children: [
-          const Space20(),
-          const PlayTournamentButton(),
-          const Space10(),
-          Expanded(
-            child: DefaultTabController(
-              length: 2,
-              child: Column(
-                children: [
-                  Flexible(
-                    child: TabBar(
-                      tabs: ["Today Scoreboard", "All time record"]
-                          .map(
-                            (e) => Tab(
-                              child: AutoSizeText(
-                                e,
-                                maxLines: 1,
-                                minFontSize: 12,
-                                maxFontSize: 15,
-                              ),
-                              //text: e,
-                            ),
-                          )
-                          .toList(),
-                      labelStyle: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 18.h,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      onTap: (int page) {
-                        if (page == 1) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: AutoSizeText(
-                                "Will be coming in the next release",
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                      unselectedLabelColor: Colors.indigo.shade200,
-                      labelColor: Colors.deepPurple.shade400,
-                      indicatorColor: Colors.deepPurple.shade400,
-                    ),
-                  ),
-                  Flexible(
-                    flex: 8,
-                    child: FadeIn(child: TodayListView()),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const Space10(),
-          const DashboardSubHeader(title: 'Available Players'),
-          const Space10(),
-          SizedBox(height: 120.h, child: const AvailablePlayersList()),
-        ],
-      ),
-    );
-  }
-}
-
-class DashboardP1 extends ConsumerWidget {
-  const DashboardP1({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final MyUser myUser = ref.watch(myUserProvider).value!;
-
-    ref.listen(
-      tScoresOnChangeProvider.select((value) => value.value),
-      (previous, next) {
-        if (next != null) {
-          ref.read(tScoreListProvider.notifier).addItem(next);
-        }
-      },
-    );
-
-    return LayoutBuilder(
-      builder: (_, p1) => Column(
-        children: [
-          //_MyProfileOpenContainer(myUser: myUser),
-          Expanded(
-            flex: 12,
-            child: DefaultTabController(
-              length: 2,
-              child: Column(
-                children: [
-                  /* Flexible(
-                    child: TabBar(
-                      tabs: ["Tournament", "Friendly Match"]
-                          .map((e) => Tab(text: e))
-                          .toList(),
-                      labelStyle: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: p1.maxHeight * 0.0225,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      onTap: (int page) {
-                        if (page == 1) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: AutoSizeText(
-                                "Will be coming in the next release",
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                      },
-                      unselectedLabelColor: Colors.deepPurple.shade100,
-                      labelColor: Colors.deepPurple.shade400,
-                      indicatorColor: Colors.deepPurple.shade400,
-                    ),
-                  ),*/
-                  Expanded(
-                    flex: 7,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: const [
-                          Space20(),
-                          PlayTournamentButton(),
-                          Space20(),
-                          DashboardSubHeader(title: "Today's Leaderboard"),
-                          Space10(),
-                          TodayLeaderBoardListView(),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          // const Space20(),
-          const DashboardSubHeader(title: "Available Players"),
-          const Space20(),
           SizedBox(
-            height: 90.h,
-            child: const AvailablePlayersList(),
+            height: 800.h,
+            child: const _DashboardBody(),
           ),
+        ],
+      ),
+      panel: Container(),
+      minHeight: 0,
+    );
+  }
+}
+
+class _DashboardBody extends StatelessWidget {
+  const _DashboardBody();
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 3,
+      child: Column(
+        children: [
+          const Space10(),
+          Container(
+            height: 60.h,
+            alignment: Alignment.centerLeft,
+            child: ButtonsTabBar(
+              backgroundColor: const Color(0xff1f2232),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
+              labelStyle: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 16.h,
+                color: const Color(0xfffde8e9),
+              ),
+              unselectedBackgroundColor: const Color(0xffe3bac6),
+              unselectedLabelStyle: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 16.h,
+                color: const Color(0xffbc9ec1),
+              ),
+              tabs: const [
+                Tab(text: "Daily Tournament"),
+                Tab(text: "Statistics"),
+                Tab(text: "You"),
+              ],
+            ),
+          ),
+          const Space10(),
+          const Expanded(
+            child: TabBarView(
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                _DailyTournament(),
+                _Statistics(),
+                _MyBio(),
+              ],
+            ),
+          )
         ],
       ),
     );
   }
 }
 
-class AvailablePlayersList extends ConsumerWidget {
-  const AvailablePlayersList({Key? key}) : super(key: key);
+class _MyBio extends StatelessWidget {
+  const _MyBio();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ListView(
-      scrollDirection: Axis.horizontal,
-      children: List.generate(
-          5,
-          (index) => AspectRatio(
-                aspectRatio: 0.8,
-                child: LayoutBuilder(
-                  builder: (p0, p1) => Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: p1.maxWidth * 0.3,
-                      ),
-                      Flexible(
-                        child: AutoSizeText(
-                          myRandomName(),
-                          maxLines: 1,
-                          minFontSize: 9,
-                          maxFontSize: 12,
-                        ),
-                      ),
-                      Flexible(
-                        child: AutoSizeText(
-                          myRandomName(),
-                          maxLines: 1,
-                          minFontSize: 6,
-                          maxFontSize: 9,
-                        ),
-                      ),
-                    ],
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Column(
+        children: [
+          Container(
+            height: 150.h,
+            decoration: BoxDecoration(
+                color: const Color(0xff463F3A),
+                borderRadius: BorderRadius.circular(8.w)),
+            child: MyListTile(
+              leading: RandomAvatar(mockString(), trBackground: true),
+              title: myRandomName(option: 'female'),
+              subtitle: mockInteger(100000, 999999).toString(),
+            ),
+          ),
+          Container(
+            height: 60.h,
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            //color: Colors.red,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AutoSizeText(
+                  "Email",
+                  style: TextStyle(fontSize: 9),
+                ),
+                AutoSizeText(
+                  mockString(6) + "@gmail.com",
+                  style: TextStyle(fontSize: 9),
+                ),
+              ],
+            ),
+          ),
+          Space20(),
+          Container(
+            height: 50.h,
+            width: 300.w,
+            child: Consumer(
+              builder: (context, ref, child) => OutlinedButton(
+                onPressed: () => ref.read(signOutProvider),
+                style: ButtonStyle(
+                  side: MaterialStatePropertyAll(
+                    BorderSide(
+                      color: Colors.red,
+                      width: 0.5,
+                    ),
                   ),
                 ),
-              )),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: FittedBox(
+                    child: Text(
+                      "LOG OUT",
+                      style: TextStyle(fontSize: 24, fontFamily: 'LilitaOne'),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
 
-class AvailablePlayersList2 extends ConsumerWidget {
-  const AvailablePlayersList2({Key? key}) : super(key: key);
+class _Statistics extends StatelessWidget {
+  const _Statistics();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final MyUser? myUser = ref.watch(myUserProvider).value;
-    return myUser == null
-        ? Container()
-        : ListView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.all(4.0),
-            children: <Widget>[
-                  SizedBox(
-                    width: 90,
-                    // color: Colors.primaries[mockInteger(0, Colors.primaries.length - 1)],
-                    child: Column(
-                      children: [
-                        Flexible(
-                          flex: 3,
-                          child: FractionallySizedBox(
-                            widthFactor: 0.95,
-                            heightFactor: 0.95,
-                            child: Container(
-                              // color: Colors.brown,
-                              child: RandomAvatar(myUser.avatar),
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          child: FractionallySizedBox(
-                            heightFactor: 0.75,
-                            widthFactor: 1,
-                            child: FittedBox(
-                              child: AutoSizeText(
-                                myUser.name,
-                                style: TextStyle(),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          child: FractionallySizedBox(
-                            heightFactor: 0.5,
-                            child: FittedBox(
-                              child: AutoSizeText(
-                                myRandomName(),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ] +
-                List.generate(
-                  8,
-                  (index) => SizedBox(
-                    width: 75,
-                    // color: Colors.primaries[mockInteger(0, Colors.primaries.length - 1)],
-                    child: Column(
-                      children: [
-                        Flexible(
-                          flex: 3,
-                          child: FractionallySizedBox(
-                            widthFactor: 0.95,
-                            heightFactor: 0.95,
-                            child: Container(
-                              // color: Colors.brown,
-                              child: RandomAvatar(mockString()),
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          child: FractionallySizedBox(
-                            heightFactor: 0.75,
-                            widthFactor: 1,
-                            child: FittedBox(
-                              child: AutoSizeText(myRandomName()),
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          child: FractionallySizedBox(
-                            heightFactor: 0.5,
-                            child: FittedBox(
-                              child: AutoSizeText(
-                                myRandomName(),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: const [
+          /*const TitleX(a: "Best Record Overall"),
+          SizedBox(
+            height: (290).h,
+            child: ListView(
+              children: List.generate(
+                4,
+                (index) => SizedBox(
+                  height: 70.h,
+                  child: DailyChallengeScoreTile(),
                 ),
-          );
+              ),
+            ),
+          ),
+          const Space10(),*/
+          TitleX(a: "Trophies"),
+          //Space10(),
+          TrophyDataTable(),
+          TitleX(a: "Best Record"),
+          Space10(),
+          BestRecord(index: 0),
+          Space10(),
+          _BestRecordList(),
+        ],
+      ),
+    );
   }
 }
 
-class AvailablePlayersList1 extends ConsumerWidget {
-  const AvailablePlayersList1({super.key});
+class _BestRecordList extends StatelessWidget {
+  const _BestRecordList();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final MyUser? myUser = ref.watch(myUserProvider).value;
-    if (myUser == null) {
-      return Container();
-    } else {
-      return ListView(
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.only(left: 9.w),
-        children: <Widget>[
-              InkWell(
-                onTap: () => Scaffold.of(context).openDrawer(),
-                child: Container(
-                  width: 60.w,
-                  margin: EdgeInsets.only(right: 9.w),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Colors.deepPurpleAccent.shade700,
-                        child: RandomAvatar(myUser.avatar, trBackground: true),
-                      ),
-                      Flexible(
-                        child: AutoSizeText(
-                          myUser.name,
-                          style: const TextStyle(fontWeight: FontWeight.w700),
-                          minFontSize: 6,
-                          maxFontSize: 9,
-                          maxLines: 2,
-                        ),
-                      ),
-                      Flexible(
-                        child: Text(
-                          ["Active", "Idle", "Playing"][0],
-                          style: TextStyle(
-                              fontSize: 9, color: Colors.green.shade700),
-                        ),
-                      ),
-                      const Space10()
-                    ],
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView.separated(
+          itemBuilder: (_, index) => BestRecord(index: index + 1),
+          separatorBuilder: (context, index) => SizedBox(height: 5.h),
+          itemCount: 10),
+    );
+  }
+}
+
+class BestRecord extends StatelessWidget {
+  final int index;
+  const BestRecord({super.key, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: index == 0 ? 90.h : 70.h,
+      decoration: BoxDecoration(
+        color: index == 0 ? const Color(0xfff8c537) : null,
+        //fontColor: #362C28
+        borderRadius: BorderRadius.circular(8.w),
+      ),
+      child: index != 0
+          ? const Padding(
+              padding: EdgeInsets.only(right: 15.0),
+              child: DailyChallengeScoreTile(),
+            )
+          : MyListTile(
+              leading: RandomAvatar(
+                mockString(),
+                trBackground: true,
+              ),
+              title: myRandomName(),
+            ),
+    );
+  }
+}
+
+class DummyListTile extends StatelessWidget {
+  const DummyListTile({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (_, p1) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Flexible(
+            child: Stack(
+              children: [
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 500),
+                  height: p1.maxHeight,
+                  left: -p1.maxWidth * 0.05,
+                  bottom: -p1.maxHeight * 0.075,
+                  width: p1.maxWidth * 0.4,
+                  child: CircleAvatar(
+                    radius: p1.maxHeight,
+                    backgroundColor: Colors.transparent,
+                    child: RandomAvatar(mockString(), trBackground: true),
                   ),
                 ),
-              )
-            ] +
-            List.generate(
-              6,
-              (index) => SizedBox(
-                width: 75.w,
-                //margin: EdgeInsets.only(right: 24.w),
-                child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.deepPurpleAccent.shade100,
-                      child: RandomAvatar(mockString(), trBackground: true),
+              ],
+            ),
+          ),
+          Flexible(
+            flex: 2,
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              minVerticalPadding: 0,
+              title: Container(
+                height: 35.h,
+                //color: Colors.red,
+                alignment: Alignment.centerLeft,
+                child: FittedBox(
+                  child: AutoSizeText(
+                    myRandomName(),
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      color: Colors.white60, fontSize: 72,
+                      //decorationThickness: 40,
                     ),
-                    Flexible(
-                      child: FractionallySizedBox(
-                        widthFactor: 0.5,
-                        heightFactor: 1,
+                  ),
+                ),
+              ),
+              /* subtitle: Container(
+                        height: 20.h,
+                        //color: Colors.amber,
+                        alignment: Alignment.centerLeft,
                         child: FittedBox(
                           child: AutoSizeText(
                             myRandomName(),
                             style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black54,
+                              color: Colors.white70,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w100,
                             ),
-                            minFontSize: 6,
-                            maxFontSize: 9,
-                            maxLines: 2,
                           ),
                         ),
-                      ),
-                    ),
-                    Flexible(
-                      child: Text(
-                        ["Active", "Idle", "Playing"][mockInteger(0, 2)],
-                        style: const TextStyle(
-                          fontSize: 9, color: Colors.black54,
-                          //color: Colors.green,
-                        ),
-                      ),
-                    ),
-                    const Space10()
-                  ],
-                ),
-              ),
+                      ),*/
             ),
-      );
-    }
+          )
+        ],
+      ),
+    );
   }
 }
 
-class _MyProfileOpenContainer extends StatelessWidget {
-  const _MyProfileOpenContainer({required this.myUser});
-
-  final MyUser myUser;
+class TrophyDataTable extends StatelessWidget {
+  const TrophyDataTable({super.key});
 
   @override
-  Widget build(BuildContext context) => OpenContainer(
-        closedShape:
-            const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-        closedBuilder: (context, action) => Container(
-          decoration: const BoxDecoration(
-            color: Colors.amber,
-            borderRadius: BorderRadius.zero,
+  Widget build(BuildContext context) {
+    return Container(
+      height: 300.h,
+      padding: const EdgeInsets.only(left: 8.0),
+      alignment: Alignment.topLeft,
+      child: DataTable(
+        columns: const [
+          DataColumn(
+            label: Text(
+              'Name',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-          height: 120.h,
-          padding: EdgeInsets.only(right: 8.w),
-          child: Stack(
-            children: [
-              FadeInRight(
-                child: LayoutBuilder(
-                  builder: (_, p1) => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Flexible(
-                        child: Stack(
+          DataColumn(
+            label: Text(
+              'Gold',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                  fontSize: 10),
+            ),
+          ),
+          DataColumn(
+            label: Text(
+              'Silver',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                  fontSize: 10),
+            ),
+          ),
+          DataColumn(
+            label: Text(
+              'Bronze',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                  fontSize: 10),
+            ),
+          ),
+        ],
+        rows: List.generate(
+            6,
+            (index) => DataRow(
+                  cells: [
+                    DataCell(
+                      SizedBox(
+                        width: 150.w,
+                        height: 24.h,
+                        // color: Colors.green,
+                        child: Row(
                           children: [
-                            AnimatedPositioned(
-                              duration: const Duration(milliseconds: 500),
-                              height: p1.maxHeight,
-                              left: -p1.maxWidth * 0.05,
-                              bottom: -p1.maxHeight * 0.075,
-                              width: p1.maxWidth * 0.4,
-                              child: CircleAvatar(
-                                radius: p1.maxHeight,
-                                backgroundColor: Colors.transparent,
-                                child: RandomAvatar(
-                                  myUser.avatar,
-                                  trBackground: true,
+                            AspectRatio(
+                              aspectRatio: 1,
+                              child: RandomAvatar(mockString()),
+                            ),
+                            //SizedBox(width: 10.w),
+                            Expanded(
+                              flex: 2,
+                              child: FractionallySizedBox(
+                                heightFactor: 0.9,
+                                widthFactor: 0.8,
+                                child: FittedBox(
+                                  alignment: Alignment.centerLeft,
+                                  child: AutoSizeText(myRandomName()),
                                 ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      Flexible(
-                        flex: 2,
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          minVerticalPadding: 0,
-                          title: Container(
-                            height: 50.h,
-                            //color: Colors.red,
-                            alignment: Alignment.centerLeft,
-                            child: FittedBox(
-                              child: AutoSizeText.rich(
-                                TextSpan(
-                                  children: [
-                                    const TextSpan(
-                                        text: "Hi ",
-                                        style: TextStyle(fontSize: 36)),
-                                    TextSpan(text: myUser.name),
-                                  ],
-                                ),
-                                style: const TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: Colors.deepPurple, fontSize: 72,
-                                  //decorationThickness: 40,
-                                ),
-                              ),
-                            ),
-                          ),
-                          subtitle: Container(
-                            height: 20.h,
-                            //color: Colors.amber,
-                            alignment: Alignment.centerLeft,
-                            child: const FittedBox(
-                              child: AutoSizeText(
-                                "Hope you had a great day",
-                                style: TextStyle(
-                                  color: Colors.deepPurple,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w100,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: FadeIn(
-                  delay: const Duration(seconds: 3),
-                  child: Consumer(
-                    builder: (context, ref, child) => TextButton(
-                      onPressed: () => ref.read(signOutProvider),
-                      style: const ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.zero),
-                      ),
-                      child: const Text(
-                        "LOG OUT",
-                        style: TextStyle(
-                          fontSize: 9,
-                          color: Colors.black54,
+                    ),
+                    DataCell(
+                      SizedBox(
+                        width: 60.w,
+                        height: 20.h,
+                        // color: Colors.red,
+                        child: FittedBox(
+                          alignment: Alignment.centerLeft,
+                          child: Text(mockInteger(1, 40).toString()),
                         ),
                       ),
                     ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-        middleColor: Colors.deepPurpleAccent.shade200,
-        openBuilder: (_, __) => Container(),
-      );
+                    DataCell(
+                      SizedBox(
+                        width: 60.w,
+                        height: 20.h,
+                        // color: Colors.red,
+                        child: FittedBox(
+                          alignment: Alignment.centerLeft,
+                          child: Text(mockInteger(1, 40).toString()),
+                        ),
+                      ),
+                    ),
+                    DataCell(
+                      SizedBox(
+                        width: 60.w,
+                        height: 20.h,
+                        // color: Colors.red,
+                        child: FittedBox(
+                          alignment: Alignment.centerLeft,
+                          child: Text(mockInteger(1, 40).toString()),
+                        ),
+                      ),
+                    ),
+                  ],
+                )),
+        dataRowHeight: 40.h,
+        headingRowHeight: 45.h,
+        columnSpacing: 0.w,
+        checkboxHorizontalMargin: 0,
+        horizontalMargin: 0,
+      ),
+    );
+  }
 }
 
-class PlayTournamentButton extends ConsumerWidget {
-  const PlayTournamentButton({super.key});
+TextSpan randomTournamentText(int value) {
+  final int a = mockInteger(0, 2);
+  //const int a = 1;
+  switch (a) {
+    case 0:
+      return TextSpan(
+        children: [
+          TextSpan(text: value.toString()),
+          TextSpan(
+            text: "\ngames played so far",
+            style: TextStyle(fontSize: 24.sp),
+          ),
+        ],
+        style: TextStyle(
+          fontSize: 32.sp,
+          color: const Color(0xfffde8e9),
+          fontFamily: 'LilitaOne',
+        ),
+      );
+    case 1:
+      return TextSpan(
+        children: [
+          const TextSpan(text: "Users have logged\n"),
+          TextSpan(
+            text: "\n$value",
+            style: const TextStyle(fontSize: 24),
+          ),
+          const TextSpan(text: " games played until now"),
+        ],
+        style: const TextStyle(
+          fontSize: 16,
+          height: 0.7,
+          color: Color(0xfffde8e9),
+          fontFamily: 'LilitaOne',
+        ),
+      );
+    case 2:
+      return TextSpan(
+        children: [
+          const TextSpan(text: "As of now,"),
+          TextSpan(
+            text: " $value",
+            style: const TextStyle(fontSize: 32),
+          ),
+          const TextSpan(
+              text: " games have been\ncompleted in the tournament."),
+        ],
+        style: const TextStyle(
+          fontSize: 16,
+          height: 1.2,
+          // height: 0.7,
+          color: Color(0xfffde8e9),
+          fontFamily: 'LilitaOne',
+        ),
+      );
+    default:
+      return const TextSpan(
+        children: [
+          TextSpan(text: "No Text"),
+        ],
+      );
+  }
+}
+
+class _DailyTournament extends StatelessWidget {
+  const _DailyTournament();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final ScreenSize sSize = ref.read(sizeProvider);
-    return FadeInRight(
-      delay: const Duration(seconds: 2),
-      child: ElevatedButton(
-        onPressed: () {
-          context.router.push(const TournamentRoute());
-        },
-        style: ButtonStyle(
-          padding: const MaterialStatePropertyAll(EdgeInsets.zero),
-          backgroundColor: MaterialStatePropertyAll(
-            Colors.deepPurpleAccent.shade200,
-          ),
-        ),
-        child: Container(
-          width: sSize == ScreenSize.phone || sSize == ScreenSize.tab
-              ? 320.w
-              : 360.w,
-          height: 60.h,
-          alignment: Alignment.center,
-          child: AnimatedTextKit(
-            repeatForever: true,
-            animatedTexts: [
-              ColorizeAnimatedText(
-                'Play Tournament',
-                textStyle: TextStyle(
-                  fontSize: 20.h,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white70,
-                ),
-                colors: Colors.primaries.map((e) => e.shade100).toList(),
-                speed: const Duration(seconds: 3),
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const _OverallGames(),
+            const Space10(),
+            const TitleX(a: "Recently Played"),
+            SizedBox(height: 120.h, child: const _AvailablePlayerList()),
+            const _TodayPlayerList(),
+            Container(
+              height: 120.h,
+              decoration: BoxDecoration(
+                color: const Color(0xff75dbcd),
+                borderRadius: BorderRadius.circular(8.w),
               ),
-            ],
-            isRepeatingAnimation: true,
-            onTap: () {
-              context.router.push(const TournamentRoute());
-            },
+              child: MyListTile(
+                  //210124
+                  title: 'Congrats ${myRandomName()}!  ',
+                  subtitle: 'for winning the yesterday tournament',
+                  leading: RandomAvatar(mockString(), trBackground: true)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/*"Praveen, congratulations on your victory in yesterday's tournament!"
+"Congratulations, Praveen, for emerging as the winner in the tournament held yesterday!"
+"Well done, Praveen, for winning the tournament yesterday!"
+"Praveen, congratulations on your triumphant performance in yesterday's tournament!"
+"Congratulations to Praveen for securing the victory in yesterday's tournament!"
+"Praveen, you did it! Congratulations on winning the tournament yesterday!"
+"Congratulations, Praveen, for your outstanding achievement in yesterday's tournament!"
+"Praveen, your victory in yesterday's tournament deserves congratulations!"
+"Congratulations to Praveen for coming out on top in yesterday's tournament!"
+"Praveen, well played! Congratulations on winning yesterday's tournament!"*/
+class _TodayPlayerList extends StatelessWidget {
+  const _TodayPlayerList();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 320.h,
+      child: ListView(
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          ...List.generate(
+            3,
+            <Widget>(index) => SizedBox(
+              height: 72.h,
+              child: const DailyChallengeScoreTile(),
+            ),
+          ),
+          ...[
+            Container(
+              decoration: BoxDecoration(
+                color: const Color(0xff724cf9),
+                borderRadius: BorderRadius.circular(4.w),
+              ),
+              height: 80.h,
+              child: const DailyChallengeScoreTile(),
+            )
+          ]
+        ],
+      ),
+    );
+  }
+}
+
+class _OverallGames extends StatelessWidget {
+  const _OverallGames();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 180.h,
+      decoration: BoxDecoration(
+        color: const Color(0xffe54f6d),
+        borderRadius: BorderRadius.circular(8.w),
+      ),
+      child: LayoutBuilder(
+        builder: (_, p1) => Stack(
+          children: [
+            Positioned(
+              width: p1.maxWidth,
+              top: p1.maxHeight * 0.15,
+              left: p1.maxWidth * 0.05,
+              height: p1.maxHeight * 0.4,
+              child: AutoSizeText.rich(
+                randomTournamentText(mockInteger(20, 100)),
+              ),
+            ),
+            Positioned(
+              height: p1.maxHeight * 0.25,
+              bottom: p1.maxHeight * 0.1,
+              right: p1.maxWidth * 0.05,
+              width: 180,
+              child: const _PlayButton(),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PlayButton extends StatelessWidget {
+  const _PlayButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        context.router.push(const TournamentRoute());
+      },
+      style: const ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll(Color(0xff0d1821)),
+      ),
+      child: const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: FittedBox(
+          child: Text(
+            "Play Tournament",
+            style: TextStyle(
+              fontFamily: 'LilitaOne',
+              color: Color(0xfffde8e9),
+            ),
           ),
         ),
       ),
@@ -840,28 +638,77 @@ class PlayTournamentButton extends ConsumerWidget {
   }
 }
 
-class DashboardSubHeader extends StatelessWidget {
-  final String title;
-  const DashboardSubHeader({super.key, required this.title});
+class TitleX extends StatelessWidget {
+  final String a;
+  const TitleX({required this.a, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 24.h,
-      padding: EdgeInsets.only(left: 8.w),
+      height: 40.h,
       alignment: Alignment.centerLeft,
+      padding: EdgeInsets.symmetric(vertical: 5.h),
       child: FittedBox(
-        alignment: Alignment.centerLeft,
+        fit: BoxFit.fitHeight,
         child: AutoSizeText(
-          title,
+          a,
           style: const TextStyle(
-            color: Colors.deepPurpleAccent,
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-          ),
+              color: Color(0xff3b1f2b), fontFamily: 'LilitaOne'),
         ),
       ),
+    );
+  }
+}
+
+class _AvailablePlayerList extends StatelessWidget {
+  const _AvailablePlayerList();
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+      children: List.generate(
+          7,
+          (index) => AspectRatio(
+                aspectRatio: 0.95,
+                child: Container(
+                  //color: Colors.green.shade100,
+                  //margin: const EdgeInsets.only(right: 2.0),
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        flex: 5,
+                        child: FractionallySizedBox(
+                          widthFactor: 1,
+                          heightFactor: 1,
+                          child: CircleAvatar(
+                            backgroundColor: const Color(0xff724cf9),
+                            child: RandomAvatar(
+                              mockString(),
+                              width: 72.h,
+                              trBackground: true,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      Flexible(
+                        flex: 2,
+                        child: FractionallySizedBox(
+                          widthFactor: 0.9,
+                          heightFactor: 0.6,
+                          child: FittedBox(
+                            child: Text(myRandomName()),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )),
     );
   }
 }

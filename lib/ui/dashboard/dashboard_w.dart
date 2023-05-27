@@ -10,7 +10,7 @@ import 'package:random_avatar/random_avatar.dart';
 
 import '../../my_widgets/my_list_tile.dart';
 import '../../my_widgets/today_leaderboard_list_view.dart';
-import 'dashboard_p.dart';
+import 'dashboard_p1.dart';
 
 class DashboardW extends ConsumerWidget {
   const DashboardW({Key? key}) : super(key: key);

@@ -11,9 +11,6 @@ import '../logic/auth.dart';
 import '../logic/tournament_datastore.dart';
 import '../logic/user_datastore.dart';
 import '../model/t_score.dart';
-import 'daily_challenge_score_tile.dart';
-import 'elapsed_time_text.dart';
-import 'my_list_tile.dart';
 
 class TodayLeaderBoardListView extends ConsumerWidget {
   const TodayLeaderBoardListView({Key? key}) : super(key: key);
@@ -192,14 +189,14 @@ class TodayLeaderBoardListView1 extends ConsumerWidget {
                                   milliseconds: mockInteger(500, 1000)),
                               child: SizedBox(
                                 height: 80.h,
-                                child: DailyChallengeScoreTile(
+                                /*DailyChallengeScoreTile(
                                   timeStamp: DateFormat.jm()
                                       .format(e.playedAt ?? DateTime.now()),
                                   avatarString: data.avatar,
                                   subtitle: mockString(),
                                   name: myId == e.userId! ? "You" : data.name,
                                   duration: e.tDuration!,
-                                ),
+                                )*/
                               ),
                             );
                           },

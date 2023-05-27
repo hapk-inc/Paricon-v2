@@ -1,10 +1,15 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+//import 'package:im_stepper/stepper.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/my_widgets/my_logo.dart';
 
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:random_avatar/random_avatar.dart';
@@ -18,14 +23,550 @@ import '../../my_widgets/my_list_tile.dart';
 import '../../my_widgets/my_names.dart';
 import '../../my_widgets/tournament_grid.dart';
 
-class TournamentP extends ConsumerStatefulWidget {
+class TournamentP extends StatelessWidget {
   const TournamentP({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Container(
+        color: const Color(0xffFDE8E9),
+        //constraints: BoxConstraints.expand(),
+        child: Column(
+          children: [
+            Container(
+              color: const Color(0xff724cf9),
+              height: 90.h,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Expanded(
+                    child: FractionallySizedBox(
+                      widthFactor: 0.9,
+                      heightFactor: 1,
+                      child: MyLogo(),
+                    ),
+                  ),
+                  AspectRatio(
+                    aspectRatio: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: RandomAvatar(mockString()),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 60.h,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AspectRatio(
+                    aspectRatio: 1,
+                    child: ColorFiltered(
+                      colorFilter: ColorFilter.mode(
+                        Colors.deepPurple.shade50,
+                        BlendMode.modulate,
+                      ),
+                      child: Lottie.asset('assets/timer.json'),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 2.0),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      mockInteger(100, 600).toString(),
+                      style: TextStyle(
+                          fontFamily: 'LilitaOne', color: Color(0xff724cf9)),
+                    ),
+                  ),
+                  Container(
+                    width: 200.w,
+                    padding: EdgeInsets.only(left: 20.w),
+                    child: const LinearProgressIndicator(),
+                  ),
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: CircleAvatar(
+                            backgroundColor: Color(0xff1f2232),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(4.0),
+                          child: const TrophyRank(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(10.sp),
+                child: TournamentGrid(),
+              ),
+            ),
+            Container(
+              height: 45.h,
+              color: Colors.red,
+            )
+            /*SizedBox(
+              height: 100.h,
+              child: DotStepper(
+                indicatorDecoration: IndicatorDecoration(),
+                lineConnectorDecoration: LineConnectorDecoration(),
+                activeStep: 1,
+                dotCount: 6,
+                spacing: 40.w,
+                fixedDotDecoration: FixedDotDecoration(),
+              ),
+            )*/
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TournamentP3 extends StatelessWidget {
+  const TournamentP3({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Container(
+        color: const Color(0xffFFFADE),
+        //constraints: BoxConstraints.expand(),
+        child: Column(
+          children: [
+            Container(
+              height: 90.h,
+              color: Colors.deepPurple,
+              child: Row(
+                children: [
+                  const Flexible(child: MyLogo()),
+                  SizedBox(width: 10.w),
+                  AspectRatio(
+                    aspectRatio: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: RandomAvatar(mockString()),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Container(
+              height: 60.h,
+              color: Colors.deepPurple.shade700,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AspectRatio(
+                    aspectRatio: 1,
+                    child: ColorFiltered(
+                      colorFilter: ColorFilter.mode(
+                        Colors.deepPurple.shade50,
+                        BlendMode.modulate,
+                      ),
+                      child: Lottie.asset('assets/timer.json'),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 2.0),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      mockInteger(100, 600).toString(),
+                      style: TextStyle(
+                          fontFamily: 'LilitaOne',
+                          color: Colors.amber.shade300),
+                    ),
+                  ),
+                  Container(
+                    width: 200.w,
+                    padding: EdgeInsets.only(left: 20.w),
+                    child: const LinearProgressIndicator(),
+                  ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.all(4.0),
+                      child: const TrophyRank(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 100.h,
+              color: Colors.deepPurple.shade400,
+              child: const HighScoreList(),
+            ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.all(10.sp),
+                child: TournamentGrid(),
+              ),
+            ),
+            Container(
+              height: 60.h,
+              color: Colors.red,
+            )
+            /*   Expanded(
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(15.w),
+                    height: 420.w,
+                    child: const TournamentGrid(),
+                  ),
+                ],
+              ),
+            ),*/
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class HighScoreList extends StatelessWidget {
+  const HighScoreList({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      children: List.generate(
+          8,
+          (index) => AspectRatio(
+                aspectRatio: index == 1 ? 1 : 0.8,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      flex: 9,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AutoSizeText(
+                            mockInteger(100, 300).toString(),
+                            style: const TextStyle(
+                                fontFamily: 'LilitaOne', fontSize: 21),
+                          ),
+                          AutoSizeText(
+                            myRandomName(),
+                            maxLines: 1,
+                            style:
+                                TextStyle(fontFamily: 'Poppins', fontSize: 9),
+                            maxFontSize: 9,
+                            minFontSize: 6,
+                          ),
+                        ],
+                      ),
+                    ),
+                    VerticalDivider(
+                      thickness: 0.4,
+                      color: Colors.white54,
+                      indent: 8,
+                      endIndent: 8,
+                    )
+                  ],
+                ),
+              )),
+    );
+  }
+}
+
+class HighScoreList4 extends StatelessWidget {
+  const HighScoreList4({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 360.w,
+      padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
+      child: Stack(
+        children: [
+          Positioned.fill(
+            left: -270.w,
+            child: RotatedBox(
+              quarterTurns: -1,
+              child: ListWheelScrollView(
+                //diameterRatio: 0.1,
+                //diameterRatio: 1,
+                //overAndUnderCenterOpacity: 2,
+                //offAxisFraction: -2,
+                itemExtent: 90.w,
+                children: [
+                  Container(color: Colors.amber),
+                  Container(color: Colors.red),
+                  Container(color: Colors.blue),
+                  Container(color: Colors.green),
+                  Container(color: Colors.amber),
+                  Container(color: Colors.red),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class HighScoreList2 extends StatelessWidget {
+  const HighScoreList2({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        SizedBox(
+          width: 270.w,
+          child: MyListTile(
+            leading: CircleAvatar(
+              child: RandomAvatar(mockString()),
+            ),
+            title: "${myRandomName()} is in the lead",
+          ),
+        ),
+        Expanded(
+          child: Center(
+            child: Text(
+              mockInteger(100, 600).toString(),
+              style: TextStyle(
+                  fontFamily: 'LilitaOne',
+                  fontSize: 18,
+                  color: Colors.deepPurple.shade100),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class HighScoreList1 extends StatelessWidget {
+  const HighScoreList1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.all(2.0),
+      children: List.generate(
+        6,
+        (index) {
+          //final bool isChallengePlayer = index == 2;
+          return AspectRatio(
+            aspectRatio: 1,
+            child: AnimatedContainer(
+              duration: const Duration(minutes: 500),
+              decoration: BoxDecoration(
+                color: Colors.deepPurple.shade100,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              /* margin: EdgeInsets.only(
+                top: isChallengePlayer ? 4 : 0,
+                right: isChallengePlayer ? 4.0 : 1.0,
+                bottom: isChallengePlayer ? 4 : 0,
+              ),*/
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 4,
+                    child: Text(
+                      mockInteger(100, 222).toString(),
+                      style: TextStyle(
+                        fontFamily: 'LilitaOne',
+                        color: Colors.deepPurple.shade400,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        vertical: 2.0,
+                      ),
+                      child: FittedBox(
+                        child: AutoSizeText(
+                          myRandomName(),
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: Colors.deepPurple.shade300,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0,
+                        // vertical: 2.0,
+                      ),
+                      child: FittedBox(
+                        child: Text(
+                          Random().nextBool() ? "Today" : "Best Record",
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 24,
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+/*   const Space10(),
+            SizedBox(
+              height: 60,
+              child: Row(
+                children: [
+                  Container(
+                    color: const Color(0xffFFFADE),
+                    // height: 60.h,
+                    width: 240.w,
+                    //padding: const EdgeInsets.all(8.0),
+                    child:
+                        const FittedBox(fit: BoxFit.fitWidth, child: MyLogo()),
+                  ),
+                  const ColoredBox(color: Colors.orange, child: TrophyRank()),
+                  Flexible(
+                    child: FractionallySizedBox(
+                      heightFactor: 0.8,
+                      widthFactor: 0.8,
+                      child: RandomAvatar(mockString()),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            const Space10(),
+            Container(
+              height: 60.h,
+              color: Colors.deepPurple,
+              padding: const EdgeInsets.all(4.0),
+              child: Row(
+                children: [
+                  Container(
+                    //color: Colors.blue,
+                    child: Lottie.asset('assets/timer.json'),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "124",
+                      style: TextStyle(fontFamily: 'LilitaOne', fontSize: 14),
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  const Expanded(
+                    child: LinearProgressIndicator(),
+                  ),
+                  SizedBox(width: 10.w),
+                  const AspectRatio(
+                    aspectRatio: 1,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "124",
+                        style: TextStyle(fontFamily: 'LilitaOne', fontSize: 14),
+                      ),
+                    ),
+                  ),
+                  TrophyRank(),
+                  /*  Flexible(
+                      child: Container(
+                          //color: Colors.green,
+                          )),
+                  Flexible(
+                      child: Container(
+                          //color: Colors.red.shade50,
+                          )),
+                  Flexible(
+                      child: Container(
+                          //color: Colors.brown,
+                          )),*/
+                ],
+              ),
+            ),
+            /*Container(
+              height: 420.w,
+              //color: Colors.green,
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(8.0),
+              child: TournamentGrid(),
+            ),
+            if (900.h - 150.h - 400.w > 100)
+              Expanded(
+                child: Container(color: Colors.red.shade50),
+              )*/*/
+
+class TrophyRank extends StatelessWidget {
+  const TrophyRank({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 1,
+      //color: Colors.blue,
+      child: LayoutBuilder(
+        builder: (p0, p1) => Stack(
+          children: [
+            Lottie.asset(
+              'assets/shining_trophy.json',
+              options: LottieOptions(),
+            ),
+            Positioned(
+              left: p1.maxWidth * 0.375,
+              top: p1.maxHeight * 0.2,
+              child: Text(
+                "14",
+                style: TextStyle(
+                    fontSize: p1.maxWidth * 0.25,
+                    color: Color(0xff1f2232),
+                    fontFamily: 'LilitaOne'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TournamentP1 extends ConsumerStatefulWidget {
+  const TournamentP1({Key? key}) : super(key: key);
 
   @override
   ConsumerState createState() => _TournamentPState();
 }
 
-class _TournamentPState extends ConsumerState<TournamentP>
+class _TournamentPState extends ConsumerState<TournamentP1>
     with SingleTickerProviderStateMixin {
   late DateTime _initialTime;
   Duration _elapsed = Duration.zero;
@@ -230,7 +771,6 @@ class TickerIndicator extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     TScore? bestTodayScore;
-    late int? bestTodayScoreRank;
     final List<TScore> todayTScores = List.from(ref.watch(todayTScoreProvider));
 
     todayTScores.sort((a, b) => a.tDuration!.compareTo(b.tDuration!));
@@ -246,7 +786,6 @@ class TickerIndicator extends ConsumerWidget {
 
     bestTodayScore = uniqueTodayTScores.firstWhere((e) => e.userId! == myId,
         orElse: () => const TScore());
-    bestTodayScoreRank = uniqueTodayTScores.indexOf(bestTodayScore) + 1;
     if (bestTodayScore.tDuration == null) return Container();
     double percent =
         myTick.inMilliseconds / bestTodayScore.tDuration!.inMilliseconds;

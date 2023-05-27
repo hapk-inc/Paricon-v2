@@ -1,10 +1,8 @@
 import 'package:auto_route/annotations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mock_data/mock_data.dart';
 
 import '../logic/auth.dart';
 import '../logic/user_datastore.dart';
@@ -28,7 +26,7 @@ class DashboardPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: myAppBar(sSize, context),
-      backgroundColor: Colors.deepPurple.shade100,
+      backgroundColor: Color(0xfffde8e9),
       resizeToAvoidBottomInset: false,
       drawer: const DashboardDrawer(),
       body: SafeArea(
