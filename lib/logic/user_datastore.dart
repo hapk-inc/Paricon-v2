@@ -52,8 +52,9 @@ class UserDatastore {
   }
 
   Future<MyUser> myUser(String id) => userColl.doc(id).get().then(
-        (DocumentSnapshot documentSnapshot) {
+        (DocumentSnapshot documentSnapshot) async {
           Map map = documentSnapshot.data() as Map;
+          await Future.delayed(const Duration(seconds: 1));
           if (kDebugMode) {
             print("Future<MyUser> $map");
           }

@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
@@ -47,25 +48,27 @@ class _DashboardBody extends StatelessWidget {
           Container(
             height: 60.h,
             alignment: Alignment.centerLeft,
-            child: ButtonsTabBar(
-              backgroundColor: const Color(0xff1f2232),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
-              labelStyle: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 16.h,
-                color: const Color(0xfffde8e9),
+            child: FadeInRight(
+              child: ButtonsTabBar(
+                backgroundColor: const Color(0xff1f2232),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
+                labelStyle: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 16.h,
+                  color: const Color(0xfffde8e9),
+                ),
+                unselectedBackgroundColor: const Color(0xffe3bac6),
+                unselectedLabelStyle: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 16.h,
+                  color: const Color(0xffbc9ec1),
+                ),
+                tabs: const [
+                  Tab(text: "Daily Tournament"),
+                  Tab(text: "Statistics"),
+                  Tab(text: "You"),
+                ],
               ),
-              unselectedBackgroundColor: const Color(0xffe3bac6),
-              unselectedLabelStyle: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 16.h,
-                color: const Color(0xffbc9ec1),
-              ),
-              tabs: const [
-                Tab(text: "Daily Tournament"),
-                Tab(text: "Statistics"),
-                Tab(text: "You"),
-              ],
             ),
           ),
           const Space10(),
@@ -600,7 +603,7 @@ class _OverallGames extends StatelessWidget {
               height: p1.maxHeight * 0.25,
               bottom: p1.maxHeight * 0.1,
               right: p1.maxWidth * 0.05,
-              width: 180,
+              width: 150,
               child: const _PlayButton(),
             )
           ],

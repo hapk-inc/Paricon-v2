@@ -165,7 +165,7 @@ class TodayLeaderBoardListView1 extends ConsumerWidget {
     final List<TScore> todayUniqueTScores =
         ref.watch(todayUniqueTScoreProvider);
     final List<TScore> dateSortList = List.from(todayUniqueTScores);
-    print("26-->" + dateSortList.length.toString());
+    print("26-->${dateSortList.length}");
     dateSortList.sort((a, b) => b.playedAt!.compareTo(a.playedAt!));
 
     return Column(

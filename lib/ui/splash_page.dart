@@ -11,7 +11,8 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.deepPurple.shade700,
+      backgroundColor: Theme.of(context).canvasColor,
+      //backgroundColor: Colors.deepPurple.shade700,
       body: Center(
         child: FadeIn(
           delay: const Duration(milliseconds: 500),

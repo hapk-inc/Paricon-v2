@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mock_data/mock_data.dart';
 import 'package:paricon/logic/auth.dart';
 
 import '../../my_widgets/my_list_tile.dart';
@@ -13,113 +14,93 @@ class LoginP extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final int a = mockInteger(0, 1);
     return FadeIn(
-      child: AnimatedContainer(
-        duration: const Duration(seconds: 1),
+      delay: const Duration(milliseconds: 100),
+      child: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Colors.deepPurple.shade700,
-              Colors.deepPurple.shade700,
-              Colors.deepPurple.shade600,
-              Colors.deepPurple.shade300,
+              ...List.generate(2, (index) => const Color(0xff9467ff)),
+              ...List.generate(6, (index) => const Color(0xff724CF9)),
+              ...List.generate(2, (index) => const Color(0xff9467ff)),
             ],
           ),
         ),
         child: Stack(
           children: [
             Positioned(
-              top: 90.h,
-              height: 240.h,
-              width: 360.w,
-              child: LayoutBuilder(
-                builder: (_, p1) => ListTile(
-                  horizontalTitleGap: 0,
-                  contentPadding: EdgeInsets.zero,
-                  minLeadingWidth: 0,
-                  title: SizedBox(
-                    height: p1.maxHeight * 0.5,
-                    child: FadeInRight(
-                      delay: const Duration(seconds: 2),
-                      child: const MyLogo(),
+              width: a == 0 ? 270.w : 300.w,
+              height: 15.h,
+              top: 120.h,
+              left: 15.w,
+              child: FittedBox(
+                fit: BoxFit.fitWidth,
+                child: FadeInDown(
+                  delay: const Duration(seconds: 2),
+                  child: AutoSizeText(
+                    a == 0
+                        ? "Engage your mind,"
+                        : "Unlock your Mind's Potential",
+                    style: const TextStyle(
+                      fontFamily: 'LilitaOne',
+                      color: Color(0xff2b2d42),
                     ),
-                  ),
-                  subtitle: Container(
-                    height: p1.maxHeight * 0.5,
-                    alignment: Alignment.centerLeft,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: p1.maxWidth * 0.075),
-                    /* child: FadeIn(
-                      delay: const Duration(seconds: 3),
-                      child: AutoSizeText.rich(
-                        TextSpan(
-                          children: [
-                            const TextSpan(
-                              text: "Gather your wit and \n\n"
-                                  "join me in a friendly competition to\n\n"
-                                  " determine who among us is the ",
-                            ),
-                            TextSpan(
-                              text: "sharpest.",
-                              style: TextStyle(
-                                  color: Colors.deepPurple.shade50,
-                                  fontSize: 14),
-                            )
-                          ],
-                        ),
-                        style: TextStyle(
-                          color: Colors.deepPurple.shade300,
-                          fontWeight: FontWeight.w100,
-                        ),
-                        maxFontSize: 10,
-                        minFontSize: 9,
-                        maxLines: 4,
-                      ),
-                    ),*/
                   ),
                 ),
               ),
             ),
             Positioned(
-              width: 150.w,
+              width: a == 0 ? 180.w : 240.w,
+              height: 90.h,
+              top: 150.h,
+              left: 15.w,
+              child: FittedBox(
+                alignment: Alignment.centerLeft,
+                fit: BoxFit.contain,
+                child: FadeInDown(
+                  delay: const Duration(seconds: 1),
+                  child: AutoSizeText(
+                    a == 0
+                        ? "Embrace the puzzle"
+                        : "Step into the Puzzle Universe",
+                    style: TextStyle(
+                      fontFamily: 'LilitaOne',
+                      fontWeight: FontWeight.w300,
+                      color: Color(0xfffde8e9),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              width: 360.w,
+              height: 180.h,
+              top: 240.h,
+              left: -10.w,
+              child: FittedBox(
+                alignment: Alignment.centerLeft,
+                fit: BoxFit.fitWidth,
+                child: FadeInRight(
+                  delay: const Duration(seconds: 3),
+                  child: const MyLogo(),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 15.w,
               right: 15.w,
               height: 60.h,
-              bottom: 20.h,
+              bottom: 240.h,
               // bottom: 240.h,
               child: FadeIn(
                 delay: const Duration(milliseconds: 3500),
-                child: OutlinedButton(
-                  style: ButtonStyle(
-                      side: MaterialStatePropertyAll(
-                    BorderSide(color: Colors.deepPurple.shade200, width: 0.5),
-                  )
-                      //backgroundColor:
-                      //    MaterialStatePropertyAll(Colors.deepPurple.shade700),
-                      ),
-                  onPressed: () => ref.read(anonymousProvider("")),
-                  /*onPressed: () => showModal(
-                    context: context,
-                    builder: (context) => const Dialog(
-                      elevation: 4,
-                      child: _SignInDialog(),
-                    ),
-                  ),*/
-                  child: Container(
-                    padding: EdgeInsets.all(4.0),
-                    child: AutoSizeText(
-                      "Start Game",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w300,
-                        fontFamily: 'Poppins',
-                        color: Colors.deepPurple.shade100,
-                      ),
-                      maxFontSize: 14,
-                      minFontSize: 10,
-                      maxLines: 1,
-                    ),
-                  ),
+                child: ElevatedButton(
+                  onLongPress: () => ref.read(anonymousProvider("")),
+                  onPressed: () {},
+                  child: const Text("Start Game"),
                 ),
               ),
             )
@@ -131,7 +112,7 @@ class LoginP extends ConsumerWidget {
 }
 
 class _SignInDialog extends StatelessWidget {
-  const _SignInDialog({super.key});
+  const _SignInDialog();
 
   @override
   Widget build(BuildContext context) {
