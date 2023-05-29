@@ -11,14 +11,12 @@ class DailyChallengeScoreTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         padding: EdgeInsets.symmetric(horizontal: 2.sp),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           // color: Colors.indigo.shade50,
           border: Border(
             bottom: BorderSide(
               width: 0.25,
-              color: Colors
-                  .primaries[mockInteger(0, Colors.primaries.length - 1)]
-                  .shade400,
+              color: Color(0xffbc9ec1),
             ),
           ),
         ),

@@ -93,6 +93,20 @@ dependencies:
 
   auto_route: ^6.2.0
 
+  carousel_slider: ^4.2.1
+
+  fl_chart: ^0.62.0
+
+  animated_digit: ^3.2.1
+
+  icons_flutter: ^0.0.4
+
+  # introduction_screen: ^3.1.8
+
+  dots_indicator:
+
+  toggle_switch: ^2.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -107,21 +121,13 @@ dev_dependencies:
   auto_route_generator:
   build_runner:
 
-  carousel_slider: ^4.2.1
 
-  fl_chart: ^0.62.0
 
   freezed: ^2.3.2
   json_serializable: ^6.6.1
-  animated_digit: ^3.2.1
 
-  icons_flutter: ^0.0.4
 
-  # introduction_screen: ^3.1.8
 
-  dots_indicator:
-
-  toggle_switch: ^2.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -141,6 +147,7 @@ flutter:
     - assets/sand-clock.json
     - assets/trophy.json
     - assets/shining_trophy.json
+    - assets/joystick.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:
