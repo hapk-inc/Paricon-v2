@@ -19,7 +19,7 @@ final myUserProvider = FutureProvider.autoDispose<MyUser>(
   },
 );
 
-final xUserProvider = FutureProvider.autoDispose.family<MyUser, String>(
+final xUserProvider = FutureProvider.family<MyUser, String>(
   (ref, id) {
     final datastore = ref.read(userDatastoreProvider);
     return datastore.myUser(id);
@@ -54,7 +54,7 @@ class UserDatastore {
   Future<MyUser> myUser(String id) => userColl.doc(id).get().then(
         (DocumentSnapshot documentSnapshot) async {
           Map map = documentSnapshot.data() as Map;
-          await Future.delayed(const Duration(seconds: 1));
+          await Future.delayed(const Duration(milliseconds: 4000));
           if (kDebugMode) {
             print("Future<MyUser> $map");
           }

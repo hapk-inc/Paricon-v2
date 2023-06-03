@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:paricon/my_widgets/daily_challenge_score_tile.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../my_widgets/my_names.dart';
 import 'package:random_avatar/random_avatar.dart';
@@ -232,9 +231,10 @@ class BestRecord extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.w),
       ),
       child: index != 0
-          ? const Padding(
-              padding: EdgeInsets.only(right: 15.0),
-              child: DailyChallengeScoreTile(),
+          ? Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              //child: DailyChallengeScoreTile(),
+              child: Container(),
             )
           : MyListTile(
               leading: RandomAvatar(
@@ -564,7 +564,8 @@ class _TodayPlayerList extends StatelessWidget {
             3,
             <Widget>(index) => SizedBox(
               height: 72.h,
-              child: const DailyChallengeScoreTile(),
+              //child: const DailyChallengeScoreTile(),
+              child: Container(),
             ),
           ),
           ...[
@@ -574,7 +575,8 @@ class _TodayPlayerList extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4.w),
               ),
               height: 80.h,
-              child: const DailyChallengeScoreTile(),
+              //child: const DailyChallengeScoreTile(),
+              child: Container(),
             )
           ]
         ],
@@ -848,7 +850,8 @@ class DashboardP5 extends StatelessWidget {
                               (index) => SizedBox(
                                 height: 80.h,
                                 width: 300.w,
-                                child: const DailyChallengeScoreTile(),
+                                //child: const DailyChallengeScoreTile(),
+                                child: Container(),
                               ),
                             ),
                           ),
@@ -864,7 +867,8 @@ class DashboardP5 extends StatelessWidget {
                         12,
                         (index) => SizedBox(
                           height: 80.h,
-                          child: DailyChallengeScoreTile(),
+                          //child: DailyChallengeScoreTile(),
+                          child: Container(),
                         ),
                       ),
                     ),

@@ -148,6 +148,8 @@ flutter:
     - assets/trophy.json
     - assets/shining_trophy.json
     - assets/joystick.json
+    - assets/joystick_green.json
+    - assets/waving_hand.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

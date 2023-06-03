@@ -1,160 +1,206 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mock_data/mock_data.dart';
-import 'package:paricon/my_widgets/my_logo.dart';
-import 'package:paricon/my_widgets/tournament_grid.dart';
+import '../../logic/tournament_datastore.dart';
+import '../../logic/tournament_notifier.dart';
+import '../../logic/user_datastore.dart';
+import '../../my_widgets/tournament_grid.dart';
+import '../../ui/tournament/tournament_p1.dart';
+import 'package:random_avatar/random_avatar.dart';
 
-class TournamentP extends StatelessWidget {
+class TournamentP extends ConsumerStatefulWidget {
   const TournamentP({Key? key}) : super(key: key);
 
   @override
+  ConsumerState createState() => _TournamentPState();
+}
+
+class _TournamentPState extends ConsumerState<TournamentP>
+    with SingleTickerProviderStateMixin {
+  late DateTime _initialTime;
+  Duration _elapsed = Duration.zero;
+  late final Ticker _ticker;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _initialTime = DateTime.now();
+    _ticker = createTicker((elapsed) {
+      final now = DateTime.now();
+      setState(() {
+        _elapsed = now.difference(_initialTime);
+      });
+    });
+    _ticker.start();
+  }
+
+  @override
+  void dispose() {
+    _ticker.dispose();
+    ref.invalidate(tournamentNotifierProvider);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container();
+    ref.listen<bool>(
+      tournamentNotifierProvider.select((value) => value.allFound),
+      (previous, flag) {
+        if (flag && previous != flag) {
+          print("Updating Tournament Score");
+          ref.read(updateTournamentScoreProvider(_elapsed));
+          //ref.invalidate(tournamentNotifierProvider);
+          context.router.pop();
+        }
+      },
+    );
+
+    return SafeArea(
+      child: Column(
+        children: [
+          _TournamentHeader(myTick: _elapsed),
+          const Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: TournamentGrid(),
+            ),
+          ),
+          SizedBox(height: 50.h),
+        ],
+      ),
+    );
   }
 }
 
-class TournamentP2 extends ConsumerWidget {
-  const TournamentP2({Key? key}) : super(key: key);
+/*class TournamentP extends ConsumerWidget {
+  const TournamentP({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
-      child: Container(
-        child: Column(
-          children: [
-            Container(
-              height: 180.h,
-              color: const Color(0xff724cf9),
-              child: Stack(
+      child: Column(
+        children: [
+          const _TournamentHeader(),
+          const Expanded(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: TournamentGrid(),
+            ),
+          ),
+          SizedBox(height: 50.h),
+        ],
+      ),
+    );
+  }
+}*/
+
+class _TournamentHeader extends ConsumerWidget {
+  final Duration myTick;
+  const _TournamentHeader({required this.myTick});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final myUser = ref.watch(myUserProvider).value;
+    final String xDuration =
+        ((myTick.inMinutes * 60) + (myTick.inSeconds)).toString();
+
+    return Container(
+      height: 100.h,
+      margin: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        color: const Color(0xff9c0d38),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        child: myUser == null
+            ? Container()
+            : Stack(
                 children: [
                   Positioned(
-                    left: 8,
-                    top: 20,
-                    width: 20,
-                    height: 20,
-                    child: InkWell(
-                      onTap: () => context.router.pop(),
-                      child: const Icon(Icons.chevron_left),
-                    ),
-                  ),
-                  Positioned(
-                    right: 27,
-                    top: 50,
-                    child: Text(
-                      "Daily Tournament",
-                      style: TextStyle(
-                          fontSize: 8,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xfffde8e9)),
-                    ),
-                  ),
-                  const Positioned(
-                    right: 12,
-                    top: 8,
-                    width: 200,
-                    height: 40,
-                    child: MyLogo(),
-                  ),
-                  /* Positioned(
-                      right: 10,
-                      top: 5,
-                      width: 45,
-                      height: 45,
-                      child: RandomAvatar(mockString())),
-                */
-                  Positioned(
-                    left: 10,
-                    bottom: 10,
-                    width: 150,
-                    height: 50,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 36,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: 45,
-
-                                //color: Colors.teal,
-                                child: FittedBox(
-                                  fit: BoxFit.fitWidth,
-                                  child: Text(
-                                    mockInteger(80, 200).toString(),
-                                    style: const TextStyle(
-                                      fontFamily: 'BrunoAceSC',
-                                      color: Color(0xffbc9ec1),
+                    bottom: 0,
+                    height: 100.h,
+                    width: 350.w,
+                    child: LayoutBuilder(
+                      builder: (_, p1) => Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Flexible(
+                            child: Stack(
+                              children: [
+                                AnimatedPositioned(
+                                  duration: const Duration(milliseconds: 500),
+                                  height: p1.maxHeight,
+                                  left: -p1.maxWidth * 0.05,
+                                  bottom: -p1.maxHeight * 0.075,
+                                  width: p1.maxWidth * 0.4,
+                                  child: CircleAvatar(
+                                    radius: p1.maxHeight,
+                                    backgroundColor: Colors.transparent,
+                                    child: RandomAvatar(
+                                      myUser.avatar,
+                                      trBackground: true,
                                     ),
                                   ),
                                 ),
-                              ),
-                              Align(
-                                alignment: Alignment.bottomRight,
-                                child: Text(
-                                  "Rank : ${mockInteger(1, 5)}",
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xffe3bac6),
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              )
-                              //TrophyRank(),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        LinearProgressIndicator(minHeight: 4)
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    right: 10,
-                    bottom: 10,
-                    width: 60,
-                    height: 40,
-                    child: Container(
-                      //color: Colors.orange,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            "Best Record",
-                            style: TextStyle(fontSize: 9),
-                          ),
-                          Expanded(
-                            child: FittedBox(
-                              fit: BoxFit.fitWidth,
-                              child: Text(
-                                mockInteger(100, 200).toString(),
-                                style: const TextStyle(fontFamily: 'LilitaOne'),
-                              ),
+                              ],
                             ),
                           ),
+                          Flexible(
+                            flex: 2,
+                            child: Padding(
+                              padding: EdgeInsets.only(right: 16.w),
+                              child: ListTile(
+                                contentPadding: EdgeInsets.only(top: 20.h),
+                                minVerticalPadding: 0,
+                                title: Container(
+                                  height: 20.h,
+                                  //color: Colors.red,
+                                  alignment: Alignment.centerLeft,
+                                  child: const FittedBox(
+                                    child: AutoSizeText(
+                                      "The timer has commenced",
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        color: Colors.white60, fontSize: 72,
+                                        //decorationThickness: 40,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                subtitle: Container(
+                                  height: 60.h,
+                                  //color: Colors.amber,
+                                  alignment: Alignment.centerLeft,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      AutoSizeText(
+                                        xDuration,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'BrunoAceSC',
+                                          fontWeight: FontWeight.w100,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                trailing: const TrophyRank(),
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-            const Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: TournamentGrid(),
-              ),
-            ),
-            Container(
-              height: 70.h,
-              color: Colors.red,
-            )
-          ],
-        ),
       ),
     );
   }

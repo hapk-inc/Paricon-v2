@@ -9,7 +9,6 @@ import 'package:mock_data/mock_data.dart';
 import '../model/my_duration.dart';
 import '../model/my_user.dart';
 import 'firebase_init.dart';
-import 'pick_avatar.dart';
 
 final firebaseUserProvider = Provider.autoDispose<User>(
   (ref) {
@@ -100,7 +99,7 @@ class Auth {
       User? user = _auth.currentUser;
       bool? isAnonymous = user!.isAnonymous;
       await _auth.signOut();
-      if (isAnonymous) {
+      /*if (isAnonymous) {
         await ref
             .read(fireStoreProvider)
             .collection('users')
@@ -119,7 +118,7 @@ class Auth {
               () => print("User Deleted"),
             )
             .catchError((e, s) => print(e));
-      }
+      }*/
     }
   }
 

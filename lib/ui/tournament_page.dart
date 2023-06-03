@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../logic/s_size.dart';
+import '../my_widgets/app_bar.dart';
 import 'tournament/tournament_p.dart';
 
 @RoutePage()
@@ -16,7 +17,7 @@ class TournamentPage extends ConsumerWidget {
     return ProviderScope(
       child: Scaffold(
         //  backgroundColor: const Color(0xff6926BD),
-        //appBar: myAppBar(sSize, context, leadingWidth: 0),
+        appBar: myAppBar(sSize, context, leadingWidth: 0),
         body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
           child: sSize == ScreenSize.phone

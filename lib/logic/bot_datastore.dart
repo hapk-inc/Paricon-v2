@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/my_widgets/my_names.dart';
 
 import '../model/my_duration.dart';
 import '../model/my_user.dart';
@@ -75,7 +76,7 @@ class BotDatastore {
 
     userColl.doc(botId).set({
       ...MyUser(
-              name: mockName(),
+              name: myRandomName(option: "female"),
               controlledBy: [uid],
               controllerCount: 1,
               id: id,
