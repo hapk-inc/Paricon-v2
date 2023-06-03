@@ -2,10 +2,11 @@ import 'package:auto_route/auto_route.dart';
 
 import '../my_widgets/app_stack.dart';
 import '../ui/dashboard_page.dart';
-//import '../ui/game_page.dart';
+
 import '../ui/splash_page.dart';
+import '../ui/app_update_page.dart';
 import '../ui/login_page.dart';
-//import '../ui/room_page.dart';
+
 import '../ui/tournament_page.dart';
 part 'my_route.gr.dart';
 
@@ -19,6 +20,7 @@ class MyRouter extends _$MyRouter {
           transitionsBuilder: TransitionsBuilders.fadeIn,
         ),*/
         AutoRoute(page: SplashRoute.page),
+        AutoRoute(page: AppUpdateRoute.page),
         AutoRoute(
           page: AppStackRoute.page,
           children: [

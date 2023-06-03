@@ -22,6 +22,7 @@ import '../../my_widgets/elapsed_time_text.dart';
 import '../../my_widgets/my_list_tile.dart';
 import '../../my_widgets/my_names.dart';
 import '../../my_widgets/tournament_grid.dart';
+import '../../my_widgets/trophy_rank.dart';
 
 class TournamentP9 extends StatelessWidget {
   const TournamentP9({Key? key}) : super(key: key);
@@ -664,43 +665,6 @@ class TournamentP2 extends ConsumerWidget {
               height: 70.h,
               color: Colors.red,
             )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class TrophyRank extends StatelessWidget {
-  const TrophyRank({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
-      //color: Colors.blue,
-      child: LayoutBuilder(
-        builder: (p0, p1) => Stack(
-          children: [
-            Center(
-              child: Lottie.asset(
-                'assets/shining_trophy.json',
-                options: LottieOptions(),
-              ),
-            ),
-            Positioned(
-              left: p1.maxWidth * 0.375,
-              top: p1.maxHeight * 0.2,
-              child: Center(
-                child: Text(
-                  "14",
-                  style: TextStyle(
-                      fontSize: p1.maxWidth * 0.25,
-                      color: Color(0xff1f2232),
-                      fontFamily: 'LilitaOne'),
-                ),
-              ),
-            ),
           ],
         ),
       ),

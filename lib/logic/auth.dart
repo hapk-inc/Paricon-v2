@@ -34,6 +34,14 @@ final AutoDisposeFutureProvider signOutProvider =
   },
 );
 
+final AutoDisposeFutureProviderFamily updateNameProvider =
+    FutureProvider.autoDispose.family<void, String>(
+  (ref, name) async {
+    final auth = ref.read(authProvider);
+    return auth.updateName(name);
+  },
+);
+
 final AutoDisposeFutureProviderFamily anonymousProvider =
     FutureProvider.autoDispose.family<void, String>(
   (ref, name) async {
@@ -120,6 +128,16 @@ class Auth {
             .catchError((e, s) => print(e));
       }*/
     }
+  }
+
+  Future updateName(String name) async {
+    _auth.currentUser!.updateDisplayName(name);
+
+    return ref
+        .read(fireStoreProvider)
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .update({'name': name});
   }
 
   Future batchDelete() {

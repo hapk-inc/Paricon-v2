@@ -9,12 +9,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/ui/dashboard/dashboard_p1.dart';
 import '../../logic/auth.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../logic/tournament_datastore.dart';
 import '../../logic/user_datastore.dart';
+import '../../model/my_user.dart';
 import '../../model/t_score.dart';
 import '../../my_widgets/daily_challenge_score_tile.dart';
 import '../../my_widgets/my_list_tile.dart';
@@ -59,7 +61,7 @@ class _DashboardBody extends ConsumerWidget {
           Container(
             height: 60.h,
             alignment: Alignment.centerLeft,
-            child: FadeInRight(child: const DashboardTab()),
+            child: FadeInRight(child: const _DashboardTab()),
           ),
           const Space10(),
           const Expanded(
@@ -78,31 +80,33 @@ class _DashboardBody extends ConsumerWidget {
   }
 }
 
-class DashboardTab extends StatelessWidget {
-  const DashboardTab({super.key});
+class _DashboardTab extends ConsumerWidget {
+  const _DashboardTab();
 
   @override
-  Widget build(BuildContext context) => ButtonsTabBar(
-        radius: 6.w,
-        backgroundColor: const Color(0xff1f2232),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
-        labelStyle: TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 16.h,
-          color: const Color(0xfffde8e9),
-        ),
-        unselectedBackgroundColor: const Color(0xffe3bac6),
-        unselectedLabelStyle: TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 16.h,
-          color: const Color(0xffbc9ec1),
-        ),
-        tabs: const [
-          Tab(text: "Daily Tournament"),
-          //Tab(text: "Statistics"),
-          Tab(text: "You"),
-        ],
-      );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final MyUser? myUser = ref.watch(myUserProvider).value;
+    return ButtonsTabBar(
+      radius: 6.w,
+      backgroundColor: const Color(0xff1f2232),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
+      labelStyle: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: 16.h,
+        color: const Color(0xfffde8e9),
+      ),
+      unselectedBackgroundColor: const Color(0xffe3bac6),
+      unselectedLabelStyle: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: 16.h,
+        color: const Color(0xffbc9ec1),
+      ),
+      tabs: [
+        const Tab(text: "Daily Tournament"),
+        Tab(text: myUser == null ? "You" : myUser.name),
+      ],
+    );
+  }
 }
 
 class _DailyTournament extends ConsumerWidget {
@@ -114,7 +118,7 @@ class _DailyTournament extends ConsumerWidget {
         ref.watch(todayUniqueTScoreProvider);
     return Column(
       children: [
-        const Space10(),
+        //const Space10(),
         SizedBox(
           //color: Colors.red,
           height: 180.h,
@@ -172,7 +176,7 @@ class _FirstPlayerTournament extends StatelessWidget {
                     "securing a straightforward win."
                 : "Seize the opportunity to claim a simple victory in today's tournament",
             style: TextStyle(
-              fontSize: 21,
+              fontSize: 20,
               fontFamily: 'LilitaOne',
               color: const Color(0xff307473),
               height: 2.5.h,
@@ -201,8 +205,20 @@ class _TodayPlayerList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final List<TScore> todayUniqueTScores =
         ref.watch(todayUniqueTScoreProvider);
+    final MyUser? _myUser = ref.watch(myUserProvider).value;
     todayUniqueTScores.sort((a, b) => a.tDuration!.compareTo(b.tDuration!));
     final User user = ref.watch(firebaseUserProvider);
+    int _take = 4;
+    TScore? _myTScore;
+    bool showExtra = false;
+    if (todayUniqueTScores.any((element) => element.userId == user.uid)) {
+      _myTScore = todayUniqueTScores
+          .firstWhere((element) => element.userId == user.uid);
+      if (!(todayUniqueTScores.indexOf(_myTScore) < 3)) {
+        showExtra = true;
+        _take = 3;
+      }
+    }
     return SizedBox(
       height: 320.h,
       child: ListView(
@@ -210,13 +226,19 @@ class _TodayPlayerList extends ConsumerWidget {
         physics: const NeverScrollableScrollPhysics(),
         children: [
           ...List.of(todayUniqueTScores
-              .take(3)
+              .take(_take)
               .map((e) => ref.watch(xUserProvider(e.userId!)).when(
                     data: (data) => FadeInRight(
                       delay: Duration(
                           milliseconds:
                               (200 * (mockInteger(1, 4) + 1)).toInt()),
-                      child: SizedBox(
+                      child: Container(
+                        decoration: user.uid == e.userId!
+                            ? BoxDecoration(
+                                color: const Color(0xffe3b8c6),
+                                borderRadius: BorderRadius.circular(4.w),
+                              )
+                            : null,
                         height: 75.h,
                         child: DailyChallengeScoreTile(
                             rank: todayUniqueTScores.indexOf(e) + 1,
@@ -226,7 +248,22 @@ class _TodayPlayerList extends ConsumerWidget {
                     ),
                     error: (error, stackTrace) => Container(),
                     loading: () => Container(),
-                  )))
+                  ))),
+          if (showExtra && _myUser != null)
+            FadeInRight(
+              delay: Duration(
+                  milliseconds:
+                      (200 * (todayUniqueTScores.indexOf(_myTScore!) + 1))
+                          .toInt()),
+              child: SizedBox(
+                height: 75.h,
+                child: DailyChallengeScoreTile(
+                  rank: todayUniqueTScores.indexOf(_myTScore) + 1,
+                  myUser: _myUser,
+                  tDuration: _myTScore.tDuration!,
+                ),
+              ),
+            )
           /*...List.generate(
             mockInteger(1, 3),
             <Widget>(index) => FadeInRight(
@@ -264,7 +301,7 @@ class _AvailablePlayerList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final List<TScore> todayUniqueTScores =
         ref.watch(todayUniqueTScoreProvider);
-    todayUniqueTScores.sort((a, b) => a.playedAt!.compareTo(b.playedAt!));
+    todayUniqueTScores.sort((a, b) => b.playedAt!.compareTo(a.playedAt!));
     return ListView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
@@ -277,7 +314,8 @@ class _AvailablePlayerList extends ConsumerWidget {
             child: ref
                 .watch(xUserProvider(todayUniqueTScores[index].userId!))
                 .when(
-                  data: (myUser) => FadeInRight(
+                  data: (myUser) => FadeIn(
+                    delay: Duration(seconds: index),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -347,6 +385,9 @@ class _PlayButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final jun1 = DateTime(2023, 6, 1);
+    final Duration diff = DateTime.now().difference(jun1);
+    //print(diff.inDays);
     return ElevatedButton(
       onPressed: () {
         context.router.push(const TournamentRoute());
@@ -354,12 +395,13 @@ class _PlayButton extends StatelessWidget {
       style: const ButtonStyle(
         backgroundColor: MaterialStatePropertyAll(Color(0xff0d1821)),
       ),
-      child: const Padding(
-        padding: EdgeInsets.all(8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: FittedBox(
           child: Text(
-            "Play Tournament",
-            style: TextStyle(fontFamily: 'LilitaOne', color: Color(0xfffde8e9)),
+            "Play Tournament  T#${diff.inDays}",
+            style: const TextStyle(
+                fontFamily: 'LilitaOne', color: Color(0xfffde8e9)),
           ),
         ),
       ),
@@ -367,11 +409,12 @@ class _PlayButton extends StatelessWidget {
   }
 }
 
-class _OverallGames extends StatelessWidget {
+class _OverallGames extends ConsumerWidget {
   const _OverallGames();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final int? tCount = ref.watch(tCountProvider).value;
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xffe54f6d),
@@ -384,9 +427,12 @@ class _OverallGames extends StatelessWidget {
               width: p1.maxWidth * 0.9,
               top: p1.maxHeight * 0.15,
               left: p1.maxWidth * 0.05,
-              height: p1.maxHeight * 0.4,
-              child: AutoSizeText.rich(
-                _randomTournamentText(mockInteger(20, 100)),
+              height: p1.maxHeight * 0.45,
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: AutoSizeText.rich(
+                  _randomTournamentText(tCount ?? 0),
+                ),
               ),
             ),
             Positioned(
@@ -514,14 +560,17 @@ class _Statistics extends ConsumerWidget {
   }
 }
 
+final TextEditingController _nameController = TextEditingController();
+
 class _MyBio extends ConsumerWidget {
   const _MyBio({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final myUser = ref.watch(myUserProvider).value;
+    final User user = ref.watch(firebaseUserProvider);
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(4.0),
       child: Column(
         children: [
           FadeInRight(
@@ -563,7 +612,7 @@ class _MyBio extends ConsumerWidget {
                               contentPadding: EdgeInsets.zero,
                               minVerticalPadding: 0,
                               title: Container(
-                                height: 50.h,
+                                height: 45.h,
                                 //color: Colors.red,
                                 alignment: Alignment.centerLeft,
                                 child: FittedBox(
@@ -599,7 +648,194 @@ class _MyBio extends ConsumerWidget {
                     ),
             ),
           ),
-          SizedBox(
+          ExpansionTile(
+            initiallyExpanded: user.displayName == null,
+            title: TitleX(
+                a: user.displayName == null
+                    ? "Complete your Bio"
+                    : "Edit Name"),
+            subtitle: Text(
+              user.displayName == null
+                  ? "I hope you don't want your name to be treated as a mere number like a prisoner."
+                  : "Customize your name in a fancy style.",
+              style: TextStyle(
+                  fontSize: user.displayName == null ? 6 : 9,
+                  fontWeight:
+                      user.displayName == null ? null : FontWeight.w100),
+            ),
+            children: [
+              Container(
+                height: 80.h,
+                margin: EdgeInsets.only(bottom: 24.h),
+                padding: EdgeInsets.only(top: 8.h, left: 24.w, right: 24.w),
+                child: SizedBox(
+                  // width: 320.h,
+                  child: TextFormField(
+                    controller: _nameController,
+                    onTap: () {},
+                    enabled: true,
+                    validator: (value) {},
+                    //controller: _nameController,
+                    style: TextStyle(
+                      fontFamily: 'LilitaOne',
+                      //fontSize: p1.maxHeight * 0.04,
+                      color: Colors.deepPurple.shade700,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    cursorColor: Colors.deepPurple.shade200,
+                    decoration: InputDecoration(
+                      //filled: true,
+                      //fillColor: Colors.white60,
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        borderSide: const BorderSide(
+                            color: Colors.deepPurple, width: 0.5),
+                      ),
+                      labelText: 'Enter your Name',
+
+                      labelStyle: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 18.h,
+                        fontWeight: FontWeight.w100,
+                        color: Colors.deepPurple.shade400,
+                      ),
+                      errorStyle: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 9,
+                        color: Colors.red.shade400,
+                      ),
+                      //icon: Icon(Icons.pin, size: 24),
+                      iconColor: Colors.deepPurple,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        borderSide: const BorderSide(color: Colors.green),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        borderSide:
+                            BorderSide(color: Colors.deepPurple.shade100),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        borderSide: BorderSide(
+                          color: Colors.red.shade100,
+                          width: .1,
+                        ),
+                      ),
+                      suffix: InkWell(
+                        onTap: _nameController.text.isEmpty
+                            ? null
+                            : () => ref
+                                .read(updateNameProvider(_nameController.text)
+                                    .future)
+                                .whenComplete(() =>
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        backgroundColor: Color(0xff1f2232),
+                                        content: AutoSizeText(
+                                          "Relaunch the app "
+                                          "and discover your fresh name.",
+                                          style:
+                                              TextStyle(fontFamily: 'Poppins'),
+                                          maxLines: 1,
+                                          minFontSize: 6,
+                                          maxFontSize: 12,
+                                        ),
+                                      ),
+                                    )),
+                        /* style: ButtonStyle(
+                          padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                        ),*/
+                        child: const Text(
+                          "Save",
+                          style: TextStyle(
+                              color: Colors.green,
+                              fontFamily: 'LilitaOne',
+                              fontSize: 14),
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(4),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: .75,
+                        ),
+                      ),
+                      enabled: true,
+                    ),
+                    onFieldSubmitted: (value) async {
+                      ref.read(updateNameProvider(value).future);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          backgroundColor: Color(0xff1f2232),
+                          content: AutoSizeText(
+                            "Relaunch the app "
+                            "and discover your fresh name.",
+                            style: TextStyle(fontFamily: 'Poppins'),
+                            maxLines: 1,
+                            minFontSize: 6,
+                            maxFontSize: 12,
+                          ),
+                        ),
+                      );
+                      // ref.invalidate(myUserProvider);
+                    },
+                  ),
+                ),
+              ),
+              /*SizedBox(
+                height: 30.h,
+                width: 320.w,
+                child: TitleX(a: "Continue with which account"),
+              ),
+              ButtonBar(
+                children: [
+                  ElevatedButton(
+                      onPressed: () {},
+                      child: Container(
+                        width: 90,
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.phone, size: 12),
+                            SizedBox(width: 10.w),
+                            const Text(
+                              "PHONE",
+                              style: TextStyle(
+                                  fontFamily: 'Poppins', fontSize: 10),
+                            ),
+                          ],
+                        ),
+                      )),
+                  ElevatedButton(
+                      onPressed: () {},
+                      child: Container(
+                        width: 90,
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.phone, size: 12),
+                            SizedBox(width: 10.w),
+                            const Text(
+                              "PHONE",
+                              style: TextStyle(
+                                  fontFamily: 'Poppins', fontSize: 10),
+                            ),
+                          ],
+                        ),
+                      )),
+                ],
+              )*/
+              /* Container(
+                height: 80.h,
+                margin: EdgeInsets.only(bottom: 24.h),
+                padding: EdgeInsets.only(top: 8.h),
+              ),*/
+            ],
+          ),
+          /*  SizedBox(
             height: 90.h,
             child: Row(
               children: [
@@ -765,16 +1001,55 @@ class _MyBio extends ConsumerWidget {
               ],
             ),
           ),
-          const _TitleX(a: "Tournament History"),
+          const _TitleX(a: "Tournament History"),*/
           const Spacer(),
           Container(
             height: 60.h,
             alignment: Alignment.centerRight,
             child: TextButton(
-              onPressed: () => ref.read(signOutProvider),
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                    content: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Flexible(
+                          flex: 6,
+                          child: AutoSizeText(
+                            "All deleted, as you're anonymous",
+                            style: TextStyle(fontFamily: 'Poppins'),
+                            maxLines: 1,
+                            maxFontSize: 10,
+                            minFontSize: 6,
+                          ),
+                        ),
+                        SizedBox(width: 10.w),
+                        Flexible(
+                          flex: 2,
+                          child: InkWell(
+                            onTap: () => ref.read(signOutProvider),
+                            child: const AutoSizeText(
+                              "Yes Proceed",
+                              minFontSize: 6,
+                              maxFontSize: 12,
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: Colors.teal,
+                              ),
+                              maxLines: 1,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+                //ref.read(signOutProvider);
+              },
               child: const Text(
                 "Log out",
-                style: TextStyle(color: Color(0xffA76D60), fontSize: 20),
+                style: TextStyle(color: Color(0xffA76D60), fontSize: 16),
               ),
             ),
           )

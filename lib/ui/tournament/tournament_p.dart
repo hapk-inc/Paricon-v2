@@ -1,14 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:paricon/logic/auth.dart';
 import '../../logic/tournament_datastore.dart';
 import '../../logic/tournament_notifier.dart';
 import '../../logic/user_datastore.dart';
 import '../../my_widgets/tournament_grid.dart';
-import '../../ui/tournament/tournament_p1.dart';
+import '../../my_widgets/trophy_rank.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 class TournamentP extends ConsumerStatefulWidget {
@@ -104,6 +106,7 @@ class _TournamentHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final User user = ref.watch(firebaseUserProvider);
     final myUser = ref.watch(myUserProvider).value;
     final String xDuration =
         ((myTick.inMinutes * 60) + (myTick.inSeconds)).toString();
@@ -161,10 +164,10 @@ class _TournamentHeader extends ConsumerWidget {
                                   height: 20.h,
                                   //color: Colors.red,
                                   alignment: Alignment.centerLeft,
-                                  child: const FittedBox(
+                                  child: FittedBox(
                                     child: AutoSizeText(
-                                      "The timer has commenced",
-                                      style: TextStyle(
+                                      "Timer has commenced ${user.displayName ?? ""}",
+                                      style: const TextStyle(
                                         fontFamily: 'Poppins',
                                         color: Colors.white60, fontSize: 72,
                                         //decorationThickness: 40,

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:mock_data/mock_data.dart';
@@ -26,6 +27,13 @@ final tScoresOnChangeProvider = StreamProvider<TScore>(
   (ref) {
     final datastore = ref.read(tournamentDatastoreProvider);
     return datastore.tScoreOnChange;
+  },
+);
+
+final tCountProvider = StreamProvider<int>(
+  (ref) {
+    final datastore = ref.read(tournamentDatastoreProvider);
+    return datastore.tCount;
   },
 );
 
@@ -59,6 +67,24 @@ final Provider<List<TScore>> todayUniqueTScoreProvider = Provider<List<TScore>>(
   },
 );
 
+final Provider<List<TScore>> bestRecordTScoreProvider = Provider<List<TScore>>(
+  (ref) {
+    return [];
+    /*final List<TScore> todayTScores = List.from(ref.watch(todayTScoreProvider));
+    todayTScores.sort((a, b) => a.tDuration!.compareTo(b.tDuration!));
+    print("todayTScores ${todayTScores.length}");
+
+    List<TScore> uniqueTodayTScores = [];
+    for (var t in todayTScores) {
+      if (!uniqueTodayTScores.any((element) => element.userId == t.userId)) {
+        uniqueTodayTScores.add(t);
+      }
+    }
+
+    return uniqueTodayTScores;*/
+  },
+);
+
 class TournamentDatastore {
   final Ref ref;
 
@@ -85,6 +111,20 @@ class TournamentDatastore {
         },
       );
 
+  Stream<int> get tCount {
+    late BehaviorSubject<int> behaviorSubject;
+    behaviorSubject = BehaviorSubject(
+      onListen: () =>
+          ref.read(databaseProvider).ref().child('tCount').onValue.listen(
+        (event) {
+          int a = event.snapshot.value as int;
+          behaviorSubject.add(a);
+        },
+      ),
+    );
+    return behaviorSubject.stream;
+  }
+
   Stream<TScore> get tScoreOnChange {
     late BehaviorSubject<TScore> behaviorSubject;
     behaviorSubject = BehaviorSubject(
@@ -104,6 +144,11 @@ class TournamentDatastore {
 
   Future updateTournamentScore(Duration duration) async {
     final String id = ref.read(firebaseUserProvider).uid;
+    ref
+        .read(databaseProvider)
+        .ref()
+        .child('tCount')
+        .set(ServerValue.increment(1));
     return tourColl.doc(mockString()).set(
           TScore(
                   tDuration: duration,

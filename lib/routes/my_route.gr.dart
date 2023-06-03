@@ -33,6 +33,12 @@ abstract class _$MyRouter extends RootStackRouter {
         child: const LoginPage(),
       );
     },
+    AppUpdateRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AppUpdatePage(),
+      );
+    },
     DashboardRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -86,6 +92,20 @@ class LoginRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'LoginRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [AppUpdatePage]
+class AppUpdateRoute extends PageRouteInfo<void> {
+  const AppUpdateRoute({List<PageRouteInfo>? children})
+      : super(
+          AppUpdateRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AppUpdateRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

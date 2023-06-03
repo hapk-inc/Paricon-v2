@@ -98,8 +98,8 @@ class LoginP extends ConsumerWidget {
               child: FadeIn(
                 delay: const Duration(milliseconds: 3500),
                 child: ElevatedButton(
-                  onLongPress: () => ref.read(anonymousProvider("")),
-                  onPressed: () {},
+                  onPressed: () => ref.read(anonymousProvider("")),
+                  //onPressed: () {},
                   child: const Text("Start Game"),
                 ),
               ),
