@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:rxdart/rxdart.dart';
 
@@ -155,5 +157,30 @@ class Auth {
 
       return batch.commit();
     });
+  }
+
+  Future get signInWithGoogle async {
+    final credential = await googleCredentials;
+    if (credential == null) return;
+    await _auth.signInWithCredential(credential);
+  }
+
+  Future<AuthCredential?> get googleCredentials async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    try {
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser!.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      return credential;
+    } on PlatformException catch (e) {
+      throw e;
+    }
   }
 }

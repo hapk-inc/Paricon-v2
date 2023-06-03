@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'firebase_option.dart';
@@ -118,7 +119,15 @@ class MyApp extends ConsumerWidget {
             theme: appTheme,
             routerDelegate: AutoRouterDelegate.declarative(
               _myRoute,
-              routes: (handler) => [whichPage],
+              routes: (handler) => [
+                ref.watch(inAppUpdateProvider).maybeWhen(
+                      data: (data) => data.updateAvailability ==
+                              UpdateAvailability.updateAvailable
+                          ? const AppUpdateRoute()
+                          : whichPage,
+                      orElse: () => whichPage,
+                    )
+              ],
             ),
           ),
         );
@@ -126,3 +135,9 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
+
+/* final PageRouteInfo _isAppUpdate = ref.watch(inAppUpdateProvider).whenData(
+        (value) =>
+            value.updateAvailability == UpdateAvailability.updateAvailable
+                ? const AppUpdateRoute()
+                : AppUpdateRoute());*/

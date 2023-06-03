@@ -51,6 +51,7 @@ final AutoDisposeFutureProvider<PackageInfo> packageInfoProvider =
   (_) => PackageInfo.fromPlatform(),
 );
 
-final inAppUpdateProvider = FutureProvider.autoDispose<AppUpdateInfo>(
+final AutoDisposeFutureProvider<AppUpdateInfo> inAppUpdateProvider =
+    FutureProvider.autoDispose<AppUpdateInfo>(
   (_) async => InAppUpdate.checkForUpdate(),
 );
