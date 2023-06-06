@@ -15,31 +15,7 @@ AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
   switch (size) {
     case ScreenSize.phone:
       return AppBar(
-        toolbarHeight: 100.h,
-        //leadingWidth: 60,
-        /*leading: Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Consumer(
-            builder: (context, ref, child) {
-              final myUserAsync = ref.watch(myUserProvider);
-              return AnimatedSwitcher(
-                duration: const Duration(milliseconds: 500),
-                child: myUserAsync.when(
-                  data: (data) => InkWell(
-                    onTap: () => Scaffold.of(context).openDrawer(),
-                    child: CircleAvatar(
-                      radius: 24,
-                      backgroundColor: Colors.deepPurple.shade50,
-                      child: RandomAvatar(data.avatar, trBackground: true),
-                    ),
-                  ),
-                  error: (error, stackTrace) => Container(),
-                  loading: () => Container(),
-                ),
-              );
-            },
-          ),
-        ),*/
+        toolbarHeight: 95.h,
         leading: Container(),
         leadingWidth: 0,
         centerTitle: true,
@@ -47,7 +23,7 @@ AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
         title: AnimatedPadding(
           duration: const Duration(milliseconds: 500),
           padding: EdgeInsets.all(900.h / 360.w > 2
-              ? 4.0
+              ? 6.0
               : 900.h / 360.w > 1.7
                   ? 8.0
                   : 900.h / 360.h < 1.6

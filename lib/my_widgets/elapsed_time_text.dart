@@ -9,10 +9,10 @@ class ElapsedTimeTextBasic extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final hundreds = (elapsed.inMilliseconds / 10) % 100;
+    //final hundreds = (elapsed.inMilliseconds / 10) % 100;
     final seconds = elapsed.inSeconds % 60;
     final minutes = elapsed.inMinutes % 60;
-    final hundredsStr = hundreds.toStringAsFixed(0).padLeft(2, '0');
+    //final hundredsStr = hundreds.toStringAsFixed(0).padLeft(2, '0');
     final secondsStr = seconds.toString().padLeft(2, '0');
     final minutesStr = minutes.toString().padLeft(2, '0');
 

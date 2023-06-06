@@ -15,6 +15,12 @@ abstract class _$MyRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    ErrorRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ErrorPage(),
+      );
+    },
     SplashRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -52,6 +58,20 @@ abstract class _$MyRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [ErrorPage]
+class ErrorRoute extends PageRouteInfo<void> {
+  const ErrorRoute({List<PageRouteInfo>? children})
+      : super(
+          ErrorRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ErrorRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

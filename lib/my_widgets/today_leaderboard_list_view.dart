@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:random_avatar/random_avatar.dart';
 
-import '../logic/auth.dart';
 import '../logic/tournament_datastore.dart';
 import '../logic/user_datastore.dart';
 import '../model/t_score.dart';
@@ -160,7 +159,7 @@ class TodayLeaderBoardListView1 extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //final List<TScore> todayScores = ref.watch(todayTScoreProvider);
-    final String myId = ref.read(firebaseUserProvider).uid;
+    //final String myId = ref.read(firebaseUserProvider).uid;
     //final List<TScore> yesterdayScores = ref.read(yesterdayScoreProvider);
     final List<TScore> todayUniqueTScores =
         ref.watch(todayUniqueTScoreProvider);

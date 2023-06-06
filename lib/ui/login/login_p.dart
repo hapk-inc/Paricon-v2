@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -66,7 +67,7 @@ class LoginP extends ConsumerWidget {
                     a == 0
                         ? "Embrace the puzzle"
                         : "Step into the Puzzle Universe",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'LilitaOne',
                       fontWeight: FontWeight.w300,
                       color: Color(0xfffde8e9),
@@ -78,8 +79,8 @@ class LoginP extends ConsumerWidget {
             Positioned(
               width: 360.w,
               height: 180.h,
-              top: 240.h,
-              left: -10.w,
+              top: 210.h,
+              left: 0.w,
               child: FittedBox(
                 alignment: Alignment.centerLeft,
                 fit: BoxFit.fitWidth,
@@ -90,16 +91,23 @@ class LoginP extends ConsumerWidget {
               ),
             ),
             Positioned(
-              left: 15.w,
-              right: 15.w,
+              left: 24.w,
+              right: 24.w,
               height: 60.h,
               bottom: 240.h,
               // bottom: 240.h,
               child: FadeIn(
                 delay: const Duration(milliseconds: 3500),
                 child: ElevatedButton(
-                  onPressed: () => ref.read(anonymousProvider("")),
-                  //onPressed: () {},
+                  /*onPressed: () => ref.read(gSignProvider.future).catchError(
+                    (e, s) {
+                      if (kDebugMode) {
+                        print(e);
+                      }
+                      ref.read(anonymousProvider);
+                    },
+                  ),*/
+                  onPressed: () => ref.read(anonymousProvider),
                   child: const Text("Start Game"),
                 ),
               ),
@@ -169,7 +177,7 @@ class _SignInDialog extends StatelessWidget {
               child: TextFormField(
                 onTap: () {},
                 enabled: true,
-                validator: (value) {},
+                //validator: (value) {},
                 //controller: _nameController,
                 style: TextStyle(
                   fontFamily: 'Poppins',

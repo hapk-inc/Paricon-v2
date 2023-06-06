@@ -18,7 +18,9 @@ class TScoreList extends StateNotifier<List<TScore>> {
 }
 
 final Provider<TournamentDatastore> tournamentDatastoreProvider =
-    Provider<TournamentDatastore>((ref) => TournamentDatastore(ref));
+    Provider<TournamentDatastore>(
+  (ref) => TournamentDatastore(ref),
+);
 
 final tScoreListProvider =
     StateNotifierProvider<TScoreList, List<TScore>>((ref) => TScoreList());
@@ -97,7 +99,8 @@ class TournamentDatastore {
     tourColl = firebaseFirestore.collection('tournament');
   }
 
-  Future<List<TScore>> get tScores => tourColl.get().then(
+/*  Future<List<TScore>> get tScores =>
+      tourColl.orderBy('playedAt', descending: true).limit(50).get().then(
         (QuerySnapshot snapshot) {
           return List.from(
             snapshot.docs.map(
@@ -109,7 +112,7 @@ class TournamentDatastore {
             ),
           );
         },
-      );
+      );*/
 
   Stream<int> get tCount {
     late BehaviorSubject<int> behaviorSubject;
@@ -157,6 +160,8 @@ class TournamentDatastore {
               .toJson(),
         );
   }
+
+  //Stream<TScore> get todayTScore
 }
 
 final updateTournamentScoreProvider =

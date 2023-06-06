@@ -57,42 +57,40 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final PageRouteInfo whichPage = ref.watch(authUserProvider).when(
-      data: (aUser) {
-        if (aUser == null) return const LoginRoute();
+          data: (aUser) {
+            if (aUser == null) return const LoginRoute();
 
-        debugPrint(aUser.toString());
+            debugPrint(aUser.toString());
 
-        final myUserAsync = ref.watch(myUserProvider);
+            final myUserAsync = ref.watch(myUserProvider);
 
-        return myUserAsync.when(
-          data: (data) {
-            ref.read(updateDurationProvider);
-            ref.read(updateBotProvider);
+            return myUserAsync.when(
+              data: (_) {
+                ref.read(updateDurationProvider);
+                ref.read(updateBotProvider);
 
-            return const DashboardRoute();
+                return const DashboardRoute();
+              },
+              error: (error, stackTrace) {
+                if (kDebugMode) {
+                  print("76 - $error");
+                }
+                ref.read(signOutProvider);
+                return const ErrorRoute();
+              },
+              loading: () => const SplashRoute(),
+            );
           },
           error: (error, stackTrace) {
-            print(error);
-            ref.read(signOutProvider);
-            return const SplashRoute();
+            if (kDebugMode) {
+              print("86- $error");
+              print("87- $stackTrace");
+            }
+
+            return const ErrorRoute();
           },
           loading: () => const SplashRoute(),
         );
-
-        //ref.read(updateDurationProvider);
-        //ref.read(updateBotProvider);
-        //return const DashboardRoute();
-      },
-      error: (error, stackTrace) {
-        if (kDebugMode) {
-          print(error);
-        }
-        return const SplashRoute();
-      },
-      loading: () {
-        return const SplashRoute();
-      },
-    );
 
     return ScreenUtilInit(
       designSize: const Size(360, 900),
@@ -120,13 +118,16 @@ class MyApp extends ConsumerWidget {
             routerDelegate: AutoRouterDelegate.declarative(
               _myRoute,
               routes: (handler) => [
-                ref.watch(inAppUpdateProvider).maybeWhen(
-                      data: (data) => data.updateAvailability ==
-                              UpdateAvailability.updateAvailable
-                          ? const AppUpdateRoute()
-                          : whichPage,
-                      orElse: () => whichPage,
-                    )
+                whichPage
+                /* kDebugMode
+                    ? whichPage
+                    : ref.watch(inAppUpdateProvider).maybeWhen(
+                          data: (data) => data.updateAvailability ==
+                                  UpdateAvailability.updateAvailable
+                              ? const AppUpdateRoute()
+                              : whichPage,
+                          orElse: () => whichPage,
+                        )*/
               ],
             ),
           ),
@@ -135,9 +136,3 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
-
-/* final PageRouteInfo _isAppUpdate = ref.watch(inAppUpdateProvider).whenData(
-        (value) =>
-            value.updateAvailability == UpdateAvailability.updateAvailable
-                ? const AppUpdateRoute()
-                : AppUpdateRoute());*/

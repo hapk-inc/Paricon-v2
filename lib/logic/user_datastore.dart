@@ -13,7 +13,6 @@ final Provider<UserDatastore> userDatastoreProvider =
 final myUserProvider = FutureProvider.autoDispose<MyUser>(
   (ref) {
     final user = ref.read(firebaseUserProvider);
-    // final user = "";
     final datastore = ref.read(userDatastoreProvider);
     return datastore.myUser(user.uid);
   },
@@ -37,18 +36,14 @@ class UserDatastore {
   final Ref ref;
 
   late CollectionReference userColl;
-  late CollectionReference tourColl;
+
   late FirebaseFirestore firebaseFirestore;
   late String? userId;
 
   UserDatastore(this.ref) {
     firebaseFirestore = ref.read(fireStoreProvider);
     userColl = firebaseFirestore.collection('users');
-    //tourColl = firebaseFirestore.collection('tournament');
-    //userId = ref.read(freakUserStateNotifier.notifier).state?.uid;
-
-    //final now = DateFormat.yMMMd().format(DateTime.now());
-    //todayColl = firebaseFirestore.collection(now);
+    userId = ref.read(firebaseUserProvider).uid;
   }
 
   Future<MyUser> myUser(String id) => userColl.doc(id).get().then(
@@ -91,4 +86,41 @@ class UserDatastore {
       },
     );
   }
+
+  Future<Map<String, MyUser>> get recentUsers =>
+      userColl.orderBy('currentTime', descending: true).limit(50).get().then(
+        (QuerySnapshot snapshot) {
+          /*return List.from(
+            snapshot.docs.map(
+              (e) {
+                Map map = e.data() as Map;
+                Map<String, dynamic> json = Map<String, dynamic>.from(map);
+                return TScore.fromJson(json);
+              },
+            ),
+          );*/
+          if (snapshot.docs.isEmpty) return {};
+          List<String> keys = [];
+          List<MyUser> values = [];
+          for (var e in snapshot.docs) {
+            if (e.id != userId) {
+              Map map = e.data() as Map;
+              Map<String, dynamic> json = Map<String, dynamic>.from(map);
+              MyUser user = MyUser.fromJson(json);
+              keys.add(e.id);
+              values.add(user);
+            }
+          }
+
+          return Map.fromIterables(keys, values);
+        },
+      );
 }
+
+final AutoDisposeFutureProvider<Map<String, MyUser>> recentUserProvider =
+    FutureProvider.autoDispose<Map<String, MyUser>>(
+  (ref) {
+    final datastore = ref.read(userDatastoreProvider);
+    return datastore.recentUsers;
+  },
+);

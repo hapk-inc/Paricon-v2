@@ -18,3 +18,11 @@ final dotNotifier = StateNotifierProvider<DotValueNotifier, double>(
 class DotValueNotifier extends StateNotifier<double> {
   DotValueNotifier() : super(0);
 }
+/*
+final initLoginNotifier = StateNotifierProvider<InitLoginNotifier, bool>(
+  (_) => InitLoginNotifier(),
+);
+
+class InitLoginNotifier extends StateNotifier<bool> {
+  InitLoginNotifier() : super(false);
+}*/

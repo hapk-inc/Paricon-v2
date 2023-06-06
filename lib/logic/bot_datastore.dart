@@ -32,7 +32,9 @@ class BotDatastore {
         .then(
       (QuerySnapshot snapshot) async {
         if (snapshot.docs.isEmpty) {
-          print("Creating New Bot");
+          if (kDebugMode) {
+            print("Creating New Bot");
+          }
           try {
             String? pendingUser = await checkControllerCount;
             if (pendingUser == null) {
@@ -46,7 +48,9 @@ class BotDatastore {
               );
             }
           } catch (e) {
-            print(e);
+            if (kDebugMode) {
+              print(e);
+            }
           }
         } else {
           final String botId = snapshot.docs[0].id;

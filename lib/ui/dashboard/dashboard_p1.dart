@@ -1350,7 +1350,7 @@ class PlayTournamentButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ScreenSize sSize = ref.read(sizeProvider);
+    //final ScreenSize sSize = ref.read(sizeProvider);
     return FadeInRight(
       delay: const Duration(seconds: 2),
       child: OutlinedButton(
