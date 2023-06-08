@@ -108,7 +108,7 @@ class _DashboardBody extends ConsumerWidget {
               scrollDirection: Axis.horizontal,
             ),
             items: [
-              _OverallGames(),
+              const _OverallGames(),
               Container(
                 decoration: BoxDecoration(
                   color: const Color(0xff8c1c13),
@@ -187,8 +187,8 @@ class _DashboardBody extends ConsumerWidget {
                         ),
                       ),
               ),
-              Container(color: Colors.green),
-              Container(color: Colors.blue),
+              //Container(color: Colors.green),
+              //Container(color: Colors.blue),
             ],
             /*items: [4]
                 .map((e) => InkWell(
@@ -214,7 +214,7 @@ class _DashboardBody extends ConsumerWidget {
         const Space10(),
         Expanded(
             child: DefaultTabController(
-          length: 4,
+          length: 3,
           child: Column(
             children: [
               Align(
@@ -239,22 +239,22 @@ class _DashboardBody extends ConsumerWidget {
                     const Tab(text: "Daily Tournament"),
                     Tab(text: myUser!.name),
                     const Tab(text: "Best Record"),
-                    const Tab(text: "Game Archive"),
+                    //const Tab(text: "Game Archive"),
                     //Tab(text: myUser == null ? "You" : myUser.name),
                   ],
                 ),
               ),
-              Expanded(
+              const Expanded(
                 child: TabBarView(
                   children: [
-                    const Column(
+                    Column(
                       children: [
                         _DailyTournament(),
                       ],
                     ),
-                    const _MyBio(),
+                    _MyBio(),
                     _BestRecord(),
-                    Container(),
+                    //Container(),
                   ],
                 ),
               ),
@@ -291,7 +291,7 @@ class _BestRecord extends ConsumerWidget {
                     height: 36.h,
                     child: const _TitleX(a: "Best Record"),
                   ),
-                  Space10(),
+                  const Space10(),
                   ...List.of(
                     bestTScores.take(10).map(
                           (e) => Container(
@@ -562,97 +562,14 @@ class _MyBio extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /*  FadeInRight(
-            child: Container(
-              height: 100.h,
-              margin:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-              decoration: BoxDecoration(
-                color: const Color(0xff8c1c13),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: myUser == null
-                  ? Container()
-                  : LayoutBuilder(
-                      builder: (_, p1) => Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Flexible(
-                            child: Stack(
-                              children: [
-                                AnimatedPositioned(
-                                  duration: const Duration(milliseconds: 500),
-                                  height: p1.maxHeight,
-                                  left: -p1.maxWidth * 0.05,
-                                  bottom: -p1.maxHeight * 0.075,
-                                  width: p1.maxWidth * 0.4,
-                                  child: CircleAvatar(
-                                    radius: p1.maxHeight,
-                                    backgroundColor: Colors.transparent,
-                                    child: RandomAvatar(myUser.avatar,
-                                        trBackground: true),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Flexible(
-                            flex: 2,
-                            child: ListTile(
-                              contentPadding: EdgeInsets.zero,
-                              minVerticalPadding: 0,
-                              title: Container(
-                                height: 45.h,
-                                //color: Colors.red,
-                                alignment: Alignment.centerLeft,
-                                child: FittedBox(
-                                  child: AutoSizeText(
-                                    myUser.name,
-                                    style: const TextStyle(
-                                      fontFamily: 'Poppins',
-                                      color: Color(0xfffde8e9),
-                                      fontSize: 72,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              subtitle: Container(
-                                height: 15.h,
-                                //color: Colors.amber,
-                                alignment: Alignment.centerLeft,
-                                child: FittedBox(
-                                  child: AutoSizeText(
-                                    "ID: ${myUser.id}",
-                                    style: const TextStyle(
-                                      color: Color(0xffbf4342),
-                                      fontFamily: 'BrunoAceSC',
-                                      fontWeight: FontWeight.w100,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-            ),
-          ),*/
-
-          /*ExpansionTileCard(
-            contentPadding: EdgeInsets.symmetric(horizontal: 8.w),
-            title: Text("Complete Bio"),
-            //subtitle: Text("Complete Bio"),
-            borderRadius: BorderRadius.circular(4.w),
-          ),*/
-          /* ExpansionTile(
+          ExpansionTile(
             initiallyExpanded: user.displayName == null,
             title: _TitleX(
                 a: user.displayName == null
                     ? "Complete your Bio"
                     : "Edit Name"),
             tilePadding: EdgeInsets.symmetric(horizontal: 15.w),
-            */ /* subtitle: Text(
+            subtitle: Text(
               user.displayName == null
                   ? "I hope you don't want your name to be treated as a mere number like a prisoner."
                   : "Customize your name in a fancy style.",
@@ -660,7 +577,7 @@ class _MyBio extends ConsumerWidget {
                   fontSize: user.displayName == null ? 6 : 9,
                   fontWeight:
                       user.displayName == null ? null : FontWeight.w100),
-            ),*/ /*
+            ),
             children: [
               Container(
                 height: 72.h,
@@ -741,9 +658,9 @@ class _MyBio extends ConsumerWidget {
                                         ),
                                       ),
                                     )),
-                        */ /* style: ButtonStyle(
+                        /*  style: ButtonStyle(
                           padding: MaterialStatePropertyAll(EdgeInsets.zero),
-                        ),*/ /*
+                        ),*/
                         child: const Text(
                           "Save",
                           style: TextStyle(
@@ -782,7 +699,7 @@ class _MyBio extends ConsumerWidget {
                 ),
               ),
             ],
-          ),*/
+          ),
           const Spacer(),
           Container(
             padding: const EdgeInsets.only(left: 16.0),
@@ -832,7 +749,7 @@ class _DailyTournament extends StatelessWidget {
                   fontSize: 14),
             ),
           ),
-          Space10(),
+          const Space10(),
           const _TodayPlayerList(),
         ],
       ),
