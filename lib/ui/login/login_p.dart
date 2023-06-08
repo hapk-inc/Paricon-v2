@@ -99,15 +99,15 @@ class LoginP extends ConsumerWidget {
               child: FadeIn(
                 delay: const Duration(milliseconds: 3500),
                 child: ElevatedButton(
-                  /*onPressed: () => ref.read(gSignProvider.future).catchError(
+                  onPressed: () => ref.read(gSignProvider.future).catchError(
                     (e, s) {
                       if (kDebugMode) {
                         print(e);
                       }
                       ref.read(anonymousProvider);
                     },
-                  ),*/
-                  onPressed: () => ref.read(anonymousProvider),
+                  ),
+                  //onPressed: () => ref.read(anonymousProvider),
                   child: const Text("Start Game"),
                 ),
               ),

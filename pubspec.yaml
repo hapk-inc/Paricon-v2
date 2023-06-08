@@ -107,6 +107,8 @@ dependencies:
 
   dots_indicator:
 
+  expansion_tile_card: ^3.0.0
+
   toggle_switch: ^2.1.0
 
 dev_dependencies:

@@ -71,19 +71,17 @@ final Provider<List<TScore>> todayUniqueTScoreProvider = Provider<List<TScore>>(
 
 final Provider<List<TScore>> bestRecordTScoreProvider = Provider<List<TScore>>(
   (ref) {
-    return [];
-    /*final List<TScore> todayTScores = List.from(ref.watch(todayTScoreProvider));
-    todayTScores.sort((a, b) => a.tDuration!.compareTo(b.tDuration!));
-    print("todayTScores ${todayTScores.length}");
+    final List<TScore> tScores = List.from(ref.watch(tScoreListProvider));
+    print("75 - $tScores");
+    tScores.sort((a, b) => a.tDuration!.compareTo(b.tDuration!));
 
-    List<TScore> uniqueTodayTScores = [];
-    for (var t in todayTScores) {
-      if (!uniqueTodayTScores.any((element) => element.userId == t.userId)) {
-        uniqueTodayTScores.add(t);
+    List<TScore> bestTScores = [];
+    for (var t in tScores) {
+      if (!bestTScores.any((element) => element.userId == t.userId)) {
+        bestTScores.add(t);
       }
     }
-
-    return uniqueTodayTScores;*/
+    return bestTScores;
   },
 );
 

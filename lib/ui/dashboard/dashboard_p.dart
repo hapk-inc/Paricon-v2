@@ -88,7 +88,7 @@ class _DashboardBody extends ConsumerWidget {
           ),
         ),
         SizedBox(
-          height: 120.h,
+          height: 135.h,
           width: 360.w,
           //color: Colors.red,
           child: CarouselSlider(
@@ -97,20 +97,104 @@ class _DashboardBody extends ConsumerWidget {
 
               enableInfiniteScroll: true,
 
-              autoPlay: true,
-              autoPlayInterval: const Duration(seconds: 10),
-              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              //autoPlay: true,
+              //autoPlayInterval: const Duration(seconds: 10),
+              //autoPlayAnimationDuration: const Duration(milliseconds: 800),
               autoPlayCurve: Curves.fastOutSlowIn,
               enlargeCenterPage: true,
-              enlargeFactor: 0.2, disableCenter: true,
+              enlargeFactor: 0.2,
+              disableCenter: true,
               //onPageChanged: callbackFunction,
               scrollDirection: Axis.horizontal,
             ),
-            items: [1]
+            items: [
+              _OverallGames(),
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xff8c1c13),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: myUser == null
+                    ? Container()
+                    : LayoutBuilder(
+                        builder: (_, p1) => Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Flexible(
+                              child: Stack(
+                                children: [
+                                  AnimatedPositioned(
+                                    duration: const Duration(milliseconds: 500),
+                                    height: p1.maxHeight,
+                                    left: -p1.maxWidth * 0.05,
+                                    bottom: -p1.maxHeight * 0.075,
+                                    width: p1.maxWidth * 0.4,
+                                    child: CircleAvatar(
+                                      radius: p1.maxHeight,
+                                      backgroundColor: Colors.transparent,
+                                      child: RandomAvatar(myUser.avatar,
+                                          trBackground: true),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Flexible(
+                              flex: 2,
+                              child: ListTile(
+                                contentPadding: EdgeInsets.only(right: 24.w),
+                                minVerticalPadding: 0,
+                                title: Container(
+                                  height: 36.h,
+                                  margin: EdgeInsets.only(bottom: 4.h),
+                                  //color: Colors.red,
+                                  alignment: Alignment.centerLeft,
+                                  child: FittedBox(
+                                    child: AutoSizeText.rich(
+                                      TextSpan(
+                                        children: [
+                                          TextSpan(text: myUser.name),
+                                        ],
+                                      ),
+                                      style: const TextStyle(
+                                        fontFamily: 'LilitaOne',
+                                        fontWeight: FontWeight.bold,
+                                        color: Color(0xfffde8e9),
+                                        fontSize: 48,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                subtitle: Container(
+                                  height: 15.h,
+                                  //color: Colors.amber,
+                                  alignment: Alignment.centerLeft,
+                                  child: FittedBox(
+                                    child: AutoSizeText(
+                                      "ID: ${myUser.id}",
+                                      style: const TextStyle(
+                                        color: Color(0xffbf4342),
+                                        fontFamily: 'BrunoAceSC',
+                                        fontWeight: FontWeight.w100,
+                                        letterSpacing: 1,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+              ),
+              Container(color: Colors.green),
+              Container(color: Colors.blue),
+            ],
+            /*items: [4]
                 .map((e) => InkWell(
                     onTap: () => context.router.push(const TournamentRoute()),
                     child: Container(color: Colors.amber)))
-                .toList(),
+                .toList(),*/
             /*items: [1, 2, 3, 4, 5].map((i) {
               return Builder(
                 builder: (BuildContext context) {
@@ -163,9 +247,13 @@ class _DashboardBody extends ConsumerWidget {
               Expanded(
                 child: TabBarView(
                   children: [
-                    const _DailyTournament(),
+                    const Column(
+                      children: [
+                        _DailyTournament(),
+                      ],
+                    ),
                     const _MyBio(),
-                    Container(),
+                    _BestRecord(),
                     Container(),
                   ],
                 ),
@@ -178,7 +266,289 @@ class _DashboardBody extends ConsumerWidget {
   }
 }
 
+class _BestRecord extends ConsumerWidget {
+  const _BestRecord();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final User user = ref.watch(firebaseUserProvider);
+    final MyUser? myUser = ref.watch(myUserProvider).value;
+    final List<TScore> bestTScores =
+        List.from(ref.watch(bestRecordTScoreProvider));
+    final Map<String, MyUser> mUser = ref.watch(recentUserProvider).value ?? {};
+
+    print("BestScore");
+    print(bestTScores);
+    return Container(
+        child: mUser.isEmpty || myUser == null
+            ? Container()
+            : ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                // physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  const Space10(),
+                  SizedBox(
+                    height: 36.h,
+                    child: const _TitleX(a: "Best Record"),
+                  ),
+                  Space10(),
+                  ...List.of(
+                    bestTScores.take(10).map(
+                          (e) => Container(
+                            decoration: user.uid == e.userId!
+                                ? BoxDecoration(
+                                    color: const Color(0xffe3b8c6),
+                                    borderRadius: BorderRadius.circular(4.w),
+                                  )
+                                : null,
+                            height: 66.h,
+                            child: DailyChallengeScoreTile(
+                                rank: bestTScores.indexOf(e) + 1,
+                                myUser: e.userId == user.uid
+                                    ? myUser
+                                    : mUser.putIfAbsent(
+                                        e.userId!,
+                                        () => ref
+                                            .watch(xUserProvider(e.userId!))
+                                            .maybeWhen(
+                                              data: (data) => data,
+                                              orElse: () => MyUser(
+                                                name: "Nothing",
+                                                id: mockInteger(111, 99999),
+                                                avatar: mockString(),
+                                                isActive: true,
+                                                isHuman: true,
+                                              ),
+                                            )),
+                                tDuration: e.tDuration!),
+                          ),
+                        ),
+                  )
+                  /*ExpansionTile(
+                    title: SizedBox(
+                      height: 36.h,
+                      child: const _TitleX(a: "Gold League"),
+                    ),
+                    tilePadding: EdgeInsets.zero,
+
+                    */ /*subtitle: const Text(
+                      "Top 3 players",
+                      style: TextStyle(fontSize: 9),
+                    ),*/ /*
+                    children: [
+                      ...List.of(
+                        bestTScores.take(4).map(
+                              (e) => Container(
+                                decoration: user.uid == e.userId!
+                                    ? BoxDecoration(
+                                        color: const Color(0xffe3b8c6),
+                                        borderRadius:
+                                            BorderRadius.circular(4.w),
+                                      )
+                                    : null,
+                                height: 66.h,
+                                child: DailyChallengeScoreTile(
+                                    rank: bestTScores.indexOf(e) + 1,
+                                    myUser: e.userId == user.uid
+                                        ? myUser
+                                        : mUser.putIfAbsent(
+                                            e.userId!,
+                                            () => ref
+                                                .watch(xUserProvider(e.userId!))
+                                                .maybeWhen(
+                                                  data: (data) => data,
+                                                  orElse: () => MyUser(
+                                                    name: "Nothing",
+                                                    id: mockInteger(111, 99999),
+                                                    avatar: mockString(),
+                                                    isActive: true,
+                                                    isHuman: true,
+                                                  ),
+                                                )),
+                                    tDuration: e.tDuration!),
+                              ),
+                            ),
+                      )
+                    ],
+                  ),
+                  ExpansionTile(
+                    title: SizedBox(
+                      height: 36.h,
+                      child: const _TitleX(a: "Gold League"),
+                    ),
+                    tilePadding: EdgeInsets.zero,
+                    children: [
+                      ...List.of(
+                        bestTScores.take(7).map(
+                              (e) => Container(
+                                decoration: user.uid == e.userId!
+                                    ? BoxDecoration(
+                                        color: const Color(0xffe3b8c6),
+                                        borderRadius:
+                                            BorderRadius.circular(4.w),
+                                      )
+                                    : null,
+                                height: 60.h,
+                                child: DailyChallengeScoreTile(
+                                    rank: bestTScores.indexOf(e) + 1,
+                                    myUser: e.userId == user.uid
+                                        ? myUser
+                                        : mUser.putIfAbsent(
+                                            e.userId!,
+                                            () => ref
+                                                .watch(xUserProvider(e.userId!))
+                                                .maybeWhen(
+                                                  data: (data) => data,
+                                                  orElse: () => MyUser(
+                                                    name: "Nothing",
+                                                    id: mockInteger(111, 99999),
+                                                    avatar: mockString(),
+                                                    isActive: true,
+                                                    isHuman: true,
+                                                  ),
+                                                )),
+                                    tDuration: e.tDuration!),
+                              ),
+                            ),
+                      )
+                    ],
+                  ),*/
+                ],
+              ));
+  }
+}
+
 final TextEditingController _nameController = TextEditingController();
+
+class _OverallGames extends ConsumerWidget {
+  const _OverallGames();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final int? tCount = ref.watch(tCountProvider).value;
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xffe54f6d),
+        borderRadius: BorderRadius.circular(6),
+      ),
+      child: LayoutBuilder(
+        builder: (_, p1) => Stack(
+          children: [
+            Positioned(
+              width: p1.maxWidth * 0.9,
+              top: p1.maxHeight * 0.05,
+              left: p1.maxWidth * 0.05,
+              height: p1.maxHeight * 0.6,
+              child: Container(
+                //color: Colors.teal,
+                alignment: Alignment.centerLeft,
+                child: AutoSizeText.rich(
+                  _randomTournamentText(tCount ?? 0),
+                  maxLines: 2,
+                ),
+              ),
+            ),
+            Positioned(
+              height: p1.maxHeight * 0.29,
+              bottom: p1.maxHeight * 0.075,
+              right: p1.maxWidth * 0.075,
+              width: 120,
+              child: const _PlayButton(),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PlayButton extends StatelessWidget {
+  const _PlayButton();
+
+  @override
+  Widget build(BuildContext context) => ElevatedButton(
+        onPressed: () {
+          context.router.push(const TournamentRoute());
+        },
+        style: const ButtonStyle(
+          backgroundColor: MaterialStatePropertyAll(Color(0xff0d1821)),
+        ),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 2.0),
+          child: Text(
+            "Play Tournament",
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 10,
+              color: Color(0xfffde8e9),
+            ),
+          ),
+        ),
+      );
+}
+
+TextSpan _randomTournamentText(int value) {
+  final int a = mockInteger(0, 2);
+  //const int a = 0;
+  switch (a) {
+    case 0:
+      return TextSpan(
+        children: [
+          TextSpan(text: value.toString()),
+          TextSpan(
+            text: " games played so far",
+            style: TextStyle(fontSize: 15.w),
+          ),
+        ],
+        style: TextStyle(
+          fontSize: 24.w,
+          color: const Color(0xfffde8e9),
+          fontFamily: 'LilitaOne',
+        ),
+      );
+    case 1:
+      return TextSpan(
+        children: [
+          const TextSpan(text: "Users have logged"),
+          TextSpan(
+            text: " $value",
+            style: TextStyle(fontSize: 24.w),
+          ),
+          const TextSpan(text: " games played until now"),
+        ],
+        style: TextStyle(
+          fontSize: 15.w,
+          height: 1.5,
+          color: const Color(0xfffde8e9),
+          fontFamily: 'LilitaOne',
+        ),
+      );
+    case 2:
+      return TextSpan(
+        children: [
+          const TextSpan(text: "As of now,"),
+          TextSpan(
+            text: " $value",
+            style: TextStyle(fontSize: 24.w),
+          ),
+          const TextSpan(text: " games have been completed in the tournament."),
+        ],
+        style: TextStyle(
+          fontSize: 15.w,
+          height: 1.2,
+          // height: 0.7,
+          color: const Color(0xfffde8e9),
+          fontFamily: 'LilitaOne',
+        ),
+      );
+    default:
+      return const TextSpan(
+        children: [
+          TextSpan(text: "No Text"),
+        ],
+      );
+  }
+}
 
 class _MyBio extends ConsumerWidget {
   const _MyBio();
@@ -188,11 +558,11 @@ class _MyBio extends ConsumerWidget {
     final myUser = ref.watch(myUserProvider).value;
     final User user = ref.watch(firebaseUserProvider);
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0),
+      padding: const EdgeInsets.only(bottom: 16.0, left: 4.0, right: 4.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          FadeInRight(
+          /*  FadeInRight(
             child: Container(
               height: 100.h,
               margin:
@@ -267,14 +637,22 @@ class _MyBio extends ConsumerWidget {
                       ),
                     ),
             ),
-          ),
-          ExpansionTile(
+          ),*/
+
+          /*ExpansionTileCard(
+            contentPadding: EdgeInsets.symmetric(horizontal: 8.w),
+            title: Text("Complete Bio"),
+            //subtitle: Text("Complete Bio"),
+            borderRadius: BorderRadius.circular(4.w),
+          ),*/
+          /* ExpansionTile(
             initiallyExpanded: user.displayName == null,
             title: _TitleX(
                 a: user.displayName == null
                     ? "Complete your Bio"
                     : "Edit Name"),
-            subtitle: Text(
+            tilePadding: EdgeInsets.symmetric(horizontal: 15.w),
+            */ /* subtitle: Text(
               user.displayName == null
                   ? "I hope you don't want your name to be treated as a mere number like a prisoner."
                   : "Customize your name in a fancy style.",
@@ -282,11 +660,11 @@ class _MyBio extends ConsumerWidget {
                   fontSize: user.displayName == null ? 6 : 9,
                   fontWeight:
                       user.displayName == null ? null : FontWeight.w100),
-            ),
+            ),*/ /*
             children: [
               Container(
-                height: 80.h,
-                margin: EdgeInsets.only(bottom: 24.h),
+                height: 72.h,
+                margin: EdgeInsets.only(bottom: 15.h),
                 padding: EdgeInsets.only(top: 8.h, left: 24.w, right: 24.w),
                 child: SizedBox(
                   // width: 320.h,
@@ -363,9 +741,9 @@ class _MyBio extends ConsumerWidget {
                                         ),
                                       ),
                                     )),
-                        /* style: ButtonStyle(
+                        */ /* style: ButtonStyle(
                           padding: MaterialStatePropertyAll(EdgeInsets.zero),
-                        ),*/
+                        ),*/ /*
                         child: const Text(
                           "Save",
                           style: TextStyle(
@@ -404,7 +782,7 @@ class _MyBio extends ConsumerWidget {
                 ),
               ),
             ],
-          ),
+          ),*/
           const Spacer(),
           Container(
             padding: const EdgeInsets.only(left: 16.0),
@@ -435,7 +813,7 @@ class _DailyTournament extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: AutoSizeText.rich(
               TextSpan(
                 children: [
@@ -454,7 +832,7 @@ class _DailyTournament extends StatelessWidget {
                   fontSize: 14),
             ),
           ),
-          SizedBox(height: 6.h),
+          Space10(),
           const _TodayPlayerList(),
         ],
       ),
@@ -627,7 +1005,7 @@ class _RecentPlayerListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => AspectRatio(
-        aspectRatio: 0.95,
+        aspectRatio: 0.85,
         child: Align(
           alignment: Alignment.center,
           child: FadeIn(
