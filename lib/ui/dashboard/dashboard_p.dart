@@ -190,25 +190,6 @@ class _DashboardBody extends ConsumerWidget {
               //Container(color: Colors.green),
               //Container(color: Colors.blue),
             ],
-            /*items: [4]
-                .map((e) => InkWell(
-                    onTap: () => context.router.push(const TournamentRoute()),
-                    child: Container(color: Colors.amber)))
-                .toList(),*/
-            /*items: [1, 2, 3, 4, 5].map((i) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(horizontal: 1.0),
-                      decoration: BoxDecoration(color: Colors.amber),
-                      child: Text(
-                        'text $i',
-                        style: TextStyle(fontSize: 16.0),
-                      ));
-                },
-              );
-            }).toList(),*/
           ),
         ),
         const Space10(),
