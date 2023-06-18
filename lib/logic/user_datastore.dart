@@ -18,6 +18,16 @@ final myUserProvider = FutureProvider.autoDispose<MyUser>(
   },
 );
 
+final StreamProvider<DateTime> todayDateTimeProvider = StreamProvider<DateTime>(
+  (_) async* {
+    // DateTime currentTime = DateTime.now();
+    while (true) {
+      await Future.delayed(const Duration(seconds: 1));
+      yield DateTime.now();
+    }
+  },
+);
+
 final xUserProvider = FutureProvider.family<MyUser, String>(
   (ref, id) {
     final datastore = ref.read(userDatastoreProvider);

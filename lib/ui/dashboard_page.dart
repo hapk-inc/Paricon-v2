@@ -28,7 +28,7 @@ class DashboardPage extends ConsumerWidget {
       appBar: myAppBar(sSize, context),
       backgroundColor: const Color(0xfffde8e9),
       resizeToAvoidBottomInset: false,
-      drawer: const DashboardDrawer(),
+      //drawer: const DashboardDrawer(),
       body: SafeArea(
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
