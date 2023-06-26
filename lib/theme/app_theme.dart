@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 ThemeData get appTheme => ThemeData(
       primarySwatch: Colors.indigo,
@@ -13,13 +14,12 @@ ThemeData get appTheme => ThemeData(
         style: ButtonStyle(
           backgroundColor: const MaterialStatePropertyAll(Color(0xff333232)),
           textStyle: MaterialStateProperty.all(
-            const TextStyle(fontSize: 18, fontFamily: 'LilitaOne'),
+            TextStyle(fontSize: 12.sp, fontFamily: 'Poppins'),
           ),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(3.w)),
           ),
-          padding: MaterialStateProperty.all(const EdgeInsets.all(4.0)),
-          elevation: MaterialStateProperty.all(4),
+          elevation: MaterialStateProperty.all(6.w),
         ),
       ),
       textButtonTheme: TextButtonThemeData(

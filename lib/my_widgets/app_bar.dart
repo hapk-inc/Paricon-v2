@@ -1,8 +1,10 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mock_data/mock_data.dart';
+import '../my_widgets/my_names.dart';
 
 import 'package:random_avatar/random_avatar.dart';
 
@@ -15,26 +17,68 @@ AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
   switch (size) {
     case ScreenSize.phone:
       return AppBar(
-        toolbarHeight: 95.h,
-        leading: Container(),
-        leadingWidth: 0,
-        centerTitle: true,
-        backgroundColor: const Color(0xff724cf9),
-        title: AnimatedPadding(
-          duration: const Duration(milliseconds: 500),
-          padding: EdgeInsets.all(900.h / 360.w > 2
-              ? 6.0
-              : 900.h / 360.w > 1.7
-                  ? 8.0
-                  : 900.h / 360.h < 1.6
-                      ? 16.0
-                      : 32.0),
-          child: FadeInDown(
-            delay: const Duration(seconds: 1),
-            child: const MyLogo(),
+        elevation: 4,
+        backgroundColor: Colors.deepPurpleAccent.shade700,
+        flexibleSpace: const Opacity(opacity: 0.1, child: MyLogo()),
+        leading: Padding(
+          padding: EdgeInsets.only(left: 9.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 36.h,
+                child: AutoSizeText(
+                  myRandomName(),
+                  style: const TextStyle(
+                      color: Color(0xfffde8e9),
+                      //fontWeight: FontWeight.w100,
+                      fontFamily: 'Poppins'),
+                  maxFontSize: 15,
+                  minFontSize: 9,
+                  maxLines: 1,
+                ),
+              ),
+              SizedBox(height: 3.h),
+              SizedBox(
+                height: 18.h,
+                child: const AutoSizeText(
+                  "Hope you have a great day",
+                  style: TextStyle(
+                    color: Color(0xfffde8e9),
+                    fontWeight: FontWeight.w100,
+                  ),
+                  maxFontSize: 9,
+                  minFontSize: 6,
+                  maxLines: 1,
+                ),
+              ),
+            ],
           ),
         ),
-        elevation: 8,
+        leadingWidth: 240.w,
+        toolbarHeight: 95.h,
+        titleSpacing: 0,
+        title: SizedBox(
+          //color: Colors.blue,
+          width: 81.w,
+          height: 96.h,
+          child: Stack(
+            children: [
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 500),
+                bottom: -10.h,
+                left: 10.w,
+                height: 105.h,
+                width: 90.w,
+                child: RandomAvatar(
+                  mockString(),
+                  trBackground: true,
+                ),
+              ),
+            ],
+          ),
+        ),
       );
 
     case ScreenSize.tab:
@@ -124,3 +168,26 @@ AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
       );
   }
 }
+
+AppBar phone1 = AppBar(
+  toolbarHeight: 95.h,
+  leading: Container(),
+  leadingWidth: 0,
+  centerTitle: true,
+  backgroundColor: const Color(0xff724cf9),
+  title: AnimatedPadding(
+    duration: const Duration(milliseconds: 500),
+    padding: EdgeInsets.all(900.h / 360.w > 2
+        ? 6.0
+        : 900.h / 360.w > 1.7
+            ? 8.0
+            : 900.h / 360.h < 1.6
+                ? 16.0
+                : 32.0),
+    child: FadeInDown(
+      delay: const Duration(seconds: 1),
+      child: const MyLogo(),
+    ),
+  ),
+  elevation: 8,
+);
