@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +12,7 @@ import 'package:random_avatar/random_avatar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../my_widgets/my_list_tile.dart';
+import '../../routes/my_route.dart';
 
 class DashboardP extends ConsumerStatefulWidget {
   const DashboardP({Key? key}) : super(key: key);
@@ -29,7 +31,8 @@ class _DashboardPState extends ConsumerState<DashboardP> {
     return SlidingUpPanel(
       panel: const _MyPanel(),
       // collapsed: const _CollapsedScore(),
-      minHeight: 90.h /*+ 81.h*/,
+      //  minHeight: 90.h /*+ 81.h*/,
+      minHeight: 0.h,
       maxHeight: 510.h,
       borderRadius: BorderRadius.vertical(top: Radius.circular(9.w)),
       body: Column(
@@ -51,8 +54,8 @@ class _MyPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xff846c5b),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(9.w)),
+        color: const Color(0xffc62e65),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(6.w)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,13 +65,15 @@ class _MyPanel extends StatelessWidget {
             child: Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.all(12),
+              margin: EdgeInsets.only(bottom: 6.w),
               child: LayoutBuilder(
                 builder: (_, p1) => ListTile(
                   dense: true,
                   contentPadding: EdgeInsets.zero,
                   minVerticalPadding: 0,
                   trailing: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () =>
+                        context.router.push(const TournamentRoute()),
                     child: const Text("Play Tournament"),
                   ),
                   title: Container(
@@ -111,83 +116,87 @@ class _MyPanel extends StatelessWidget {
           ),
           Flexible(
             flex: 4,
-            child: ListView(
-              children: List.generate(
-                9,
-                (index) => AnimatedContainer(
-                  duration: const Duration(milliseconds: 500),
-                  height: 75.h,
-                  margin: EdgeInsets.symmetric(vertical: 4.5.h),
-                  alignment: Alignment.center,
-                  color: index.isEven ? Colors.brown : null,
-                  padding: const EdgeInsets.all(4),
-                  child: Row(
-                    children: [
-                      SizedBox(width: 6.w),
-                      Container(
-                        width: 24.w,
-                        height: 24.w,
-                        decoration: BoxDecoration(
-                          color: const Color(0xffF5E960),
-                          borderRadius: BorderRadius.circular(6.w),
-                        ),
-                        padding: EdgeInsets.all(3.w),
-                        child: FittedBox(
-                          child: Text(
-                            "${index + 1}",
-                            style: const TextStyle(fontFamily: 'LilitaOne'),
+            child: ColoredBox(
+              color: const Color(0xff846c5b),
+              child: ListView(
+                children: List.generate(
+                  9,
+                  (index) => AnimatedContainer(
+                    duration: const Duration(milliseconds: 500),
+                    height: 84.h,
+                    //margin: EdgeInsets.symmetric(vertical: 4.5.h),
+                    alignment: Alignment.center,
+                    color:
+                        index.isEven ? Colors.brown : const Color(0xff846c5b),
+                    padding: const EdgeInsets.all(4),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 6.w),
+                        Container(
+                          width: 24.w,
+                          height: 24.w,
+                          decoration: BoxDecoration(
+                            color: const Color(0xffF5E960),
+                            borderRadius: BorderRadius.circular(6.w),
+                          ),
+                          padding: EdgeInsets.all(3.w),
+                          child: FittedBox(
+                            child: Text(
+                              "${index + 1}",
+                              style: const TextStyle(fontFamily: 'LilitaOne'),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(width: 18.w),
-                      CircleAvatar(
-                        radius: 18,
-                        backgroundColor: const Color(0xff724cf9),
-                        child: RandomAvatar(mockString(), trBackground: true),
-                      ),
-                      SizedBox(width: 21.w),
-                      SizedBox(
-                        width: 90.w,
-                        child: ListTile(
-                          contentPadding: EdgeInsets.zero,
-                          minVerticalPadding: 0,
-                          dense: true,
-                          title: Container(
-                            height: 18.h,
-                            margin: EdgeInsets.only(bottom: 6.h),
-                            //color: Colors.red,
-                            alignment: Alignment.centerLeft,
-                            child: FittedBox(
-                              child: AutoSizeText(
-                                "${myRandomName()} ${myRandomName()}",
-                                style: const TextStyle(
-                                  fontFamily: 'Poppins',
-                                  //fontWeight: FontWeight.w100,
-                                  color: Color(0xfffde8e9),
-                                  fontSize: 72,
-                                  //decorationThickness: 40,
+                        SizedBox(width: 18.w),
+                        CircleAvatar(
+                          radius: 18,
+                          backgroundColor: const Color(0xff724cf9),
+                          child: RandomAvatar(mockString(), trBackground: true),
+                        ),
+                        SizedBox(width: 21.w),
+                        SizedBox(
+                          width: 90.w,
+                          child: ListTile(
+                            contentPadding: EdgeInsets.zero,
+                            minVerticalPadding: 0,
+                            dense: true,
+                            title: Container(
+                              height: 18.h,
+                              margin: EdgeInsets.only(bottom: 6.h),
+                              //color: Colors.red,
+                              alignment: Alignment.centerLeft,
+                              child: FittedBox(
+                                child: AutoSizeText(
+                                  "${myRandomName()} ${myRandomName()}",
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    //fontWeight: FontWeight.w100,
+                                    color: Color(0xfffde8e9),
+                                    fontSize: 72,
+                                    //decorationThickness: 40,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            subtitle: Container(
+                              height: 24.h,
+                              //color: Colors.amber,
+                              alignment: Alignment.centerLeft,
+                              child: FittedBox(
+                                child: AutoSizeText(
+                                  "0${mockInteger(0, 9)}: ${mockInteger(10, 59)}",
+                                  style: const TextStyle(
+                                    color: Color(0xfffde8e9),
+                                    fontFamily: 'BrunoAceSC',
+                                    fontWeight: FontWeight.w100,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                          subtitle: Container(
-                            height: 24.h,
-                            //color: Colors.amber,
-                            alignment: Alignment.centerLeft,
-                            child: FittedBox(
-                              child: AutoSizeText(
-                                "0${mockInteger(0, 9)}: ${mockInteger(10, 59)}",
-                                style: const TextStyle(
-                                  color: Color(0xfffde8e9),
-                                  fontFamily: 'BrunoAceSC',
-                                  fontWeight: FontWeight.w100,
-                                ),
-                              ),
-                            ),
-                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -198,243 +207,6 @@ class _MyPanel extends StatelessWidget {
     );
   }
 }
-
-/*Flexible(
-              flex: 13,
-              child: ListView(
-                children: [
-                  Container(
-                    color: Colors.red,
-                    height: 72.h,
-                    child: MyListTile(
-                        leading:
-                            RandomAvatar(mockString(), trBackground: true)),
-                  ),
-                  Container(
-                    color: Colors.amber,
-                    height: 72.h,
-                    child: DailyChallengeScoreTile(
-                      rank: 1,
-                      myUser: MyUser(
-                          name: myRandomName(),
-                          id: mockInteger(1, 10),
-                          avatar: mockString(),
-                          isActive: true,
-                          isHuman: true),
-                      tDuration: Duration(seconds: 112),
-                    ),
-                  ),
-                  Container(
-                    height: 75.h,
-                    color: Colors.blue,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 2.sp),
-                      decoration: const BoxDecoration(
-                        // color: Colors.indigo.shade50,
-                        border: Border(
-                          bottom: BorderSide(
-                            width: 0.25,
-                            color: Color(0xffbc9ec1),
-                          ),
-                        ),
-                      ),
-                      //height: 900.h * 0.1,
-                      child: LayoutBuilder(
-                        builder: (p0, p1) => Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Flexible(
-                              flex: 2,
-                              child: FractionallySizedBox(
-                                widthFactor: 0.8,
-                                heightFactor: 0.5,
-                                child: Container(
-                                  padding: EdgeInsets.all(6.sp),
-                                  alignment: Alignment.center,
-                                  child: FittedBox(
-                                    child: AutoSizeText.rich(
-                                      TextSpan(
-                                        children: [
-                                          const TextSpan(
-                                              text: "#",
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.deepPurple)),
-                                          TextSpan(text: "22"),
-                                        ],
-                                      ),
-                                      style: const TextStyle(
-                                        fontFamily: 'LilitaOne',
-                                        //fontWeight: FontWeight.w100,
-                                        color: Colors.black54,
-                                        letterSpacing: 1,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 2,
-                              child: FractionallySizedBox(
-                                widthFactor: 1,
-                                heightFactor: 1,
-                                child: Container(
-                                  padding: EdgeInsets.all(2.sp),
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors
-                                        .primaries[mockInteger(
-                                            0, Colors.primaries.length - 1)]
-                                        .shade100,
-                                    child: RandomAvatar(
-                                      mockString(),
-                                      trBackground: true,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 6,
-                              child: Container(
-                                alignment: Alignment.centerLeft,
-                                padding: EdgeInsets.only(
-                                    left: 8.sp, top: 1.sp, bottom: 1.sp),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Flexible(
-                                      flex: 3,
-                                      child: FractionallySizedBox(
-                                        widthFactor: 1,
-                                        heightFactor: 0.5,
-                                        child: FittedBox(
-                                          alignment: Alignment.centerLeft,
-                                          child: AutoSizeText(
-                                            myRandomName(),
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.deepPurple,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    // if (subtitle != null && !subtitle!.isNotEmpty)
-
-                                    Flexible(
-                                      flex: 1,
-                                      child: FractionallySizedBox(
-                                        widthFactor: 1,
-                                        heightFactor: 0.8,
-                                        child: FittedBox(
-                                          alignment: Alignment.centerLeft,
-                                          child: AutoSizeText(
-                                            "ID: ${mockInteger(111111, 999999)}",
-                                            style: const TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w100,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 3,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Flexible(
-                                    flex: 4,
-                                    child: FractionallySizedBox(
-                                      widthFactor: 0.75,
-                                      heightFactor: 0.55,
-                                      child: FittedBox(
-                                        alignment: Alignment.centerRight,
-                                        child: AutoSizeText(
-                                          "02:34:342",
-                                          style: const TextStyle(
-                                            fontFamily: 'BrunoAceSC',
-                                            color: Colors.deepPurple,
-                                          ),
-                                        ),
-                                        /* child: AutoSizeText.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: duration.inMinutes
-                                      .toString()
-                                      .padLeft(2, '0'),
-                                  style:
-                                      TextStyle(color: durationColor?.shade300),
-                                ),
-                                TextSpan(
-                                  text:
-                                      ": ${"${duration.inSeconds % 60}".padLeft(2, '0')}",
-                                  style: TextStyle(
-                                    color: durationColor?.shade700,
-                                    //fontSize: 2.sp,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            style: const TextStyle(fontFamily: 'Orbitron'),
-                          ),*/
-                                      ),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    flex: 2,
-                                    child: FractionallySizedBox(
-                                      widthFactor: 0.75,
-                                      heightFactor: 0.55,
-                                      child: FittedBox(
-                                        alignment: Alignment.centerRight,
-                                        child: AutoSizeText(
-                                          (111).toString(),
-                                          style: const TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontWeight: FontWeight.w100,
-                                              color: Colors.black,
-                                              letterSpacing: 1),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 72.h,
-                    color: Colors.orange,
-                    child: ListTile(
-                      tileColor: Colors.green,
-                      dense: true,
-                      title: AutoSizeText(
-                        myRandomName(),
-                        style: TextStyle(fontFamily: 'Poppins', fontSize: 9),
-                      ),
-                      subtitle: AutoSizeText(
-                        "0${mockInteger(1, 5)}",
-                        style: TextStyle(fontFamily: 'BrunoAceSC'),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            )*/
 
 class _CollapsedScore extends StatelessWidget {
   const _CollapsedScore();
@@ -538,21 +310,19 @@ class _Dashboard extends StatelessWidget {
         children: [
           AnimatedContainer(
             duration: const Duration(milliseconds: 500),
-            width: 70.w,
+            width: 69.w,
             color: const Color(0xffe3bac6),
             child: const _VerticalPlayerList(),
           ),
           Expanded(
             child: Container(
-              //constraints: BoxConstraints.expand(),
-              //color: Colors.orange,
               alignment: Alignment.topLeft,
               padding: const EdgeInsets.all(4),
               child: SingleChildScrollView(
                 child: StaggeredGrid.count(
                   crossAxisCount: 4,
-                  mainAxisSpacing: 4,
-                  crossAxisSpacing: 4,
+                  mainAxisSpacing: 3.w,
+                  crossAxisSpacing: 3.h,
                   children: [
                     StaggeredGridTile.count(
                       crossAxisCellCount: 2,
@@ -583,7 +353,7 @@ class _Dashboard extends StatelessWidget {
                                         backgroundColor:
                                             const Color(0xff1B998B),
                                         child: CircleAvatar(
-                                          radius: p1.maxWidth * 0.12,
+                                          radius: p1.maxWidth * 0.1275,
                                           backgroundColor:
                                               const Color(0xff1F2232),
                                           child: RandomAvatar(
@@ -608,10 +378,10 @@ class _Dashboard extends StatelessWidget {
                                   "have joined today",
                                   minFontSize: 6,
                                   wrapWords: true,
-                                  maxFontSize: 10,
+                                  maxFontSize: 9,
                                   style: TextStyle(
                                     fontFamily: 'Poppins',
-                                    color: Color(0xfffde8e9),
+                                    color: const Color(0xfffde8e9),
                                     fontWeight: FontWeight.normal,
                                     height: 2.75.h,
                                   ),
@@ -627,7 +397,7 @@ class _Dashboard extends StatelessWidget {
                       mainAxisCellCount: 1,
                       child: Container(
                         decoration: BoxDecoration(
-                          color: const Color(0xffF865B0),
+                          // color: const Color(0xffF865B0),
                           borderRadius: BorderRadius.circular(6.w),
                         ),
                         padding: EdgeInsets.all(3.w),
@@ -644,8 +414,8 @@ class _Dashboard extends StatelessWidget {
                                 "Tournament ends at",
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.normal,
-                                  color: Color(0xfffde8e9),
+                                  fontWeight: FontWeight.w100,
+                                  color: Color(0xffbc9ec1),
                                 ),
                               ),
                             ),
@@ -671,7 +441,7 @@ class _Dashboard extends StatelessWidget {
                                   fontFamily: 'BrunoAceSC',
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 0.5.w,
-                                  color: const Color(0xfffde8e9),
+                                  color: const Color(0xffbc9ec1),
                                 ),
                               ),
                             ),
@@ -683,10 +453,153 @@ class _Dashboard extends StatelessWidget {
                       crossAxisCellCount: 2,
                       mainAxisCellCount: 1,
                       child: Container(
-                        padding: EdgeInsets.all(6.w),
+                        //padding: EdgeInsets.all(6.w),
                         decoration: BoxDecoration(
-                          color: const Color(0xffC97C5D),
-                          borderRadius: BorderRadius.circular(6.w),
+                          color: const Color(0xff433E0E),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(6.w),
+                            topRight: Radius.circular(6.w),
+                            bottomRight: Radius.circular(6.w),
+                          ),
+                        ),
+                        child: LayoutBuilder(
+                          builder: (_, p1) => Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Flexible(
+                                flex: 2,
+                                child: Stack(
+                                  children: [
+                                    AnimatedPositioned(
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      height: p1.maxHeight * 1.1,
+                                      left: -p1.maxWidth * 0.225,
+                                      bottom: -p1.maxHeight * 0.1,
+                                      width: p1.maxWidth * 0.5,
+                                      child: CircleAvatar(
+                                        radius: p1.maxHeight,
+                                        backgroundColor: Colors.transparent,
+                                        child: RandomAvatar(mockString(),
+                                            trBackground: true),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Flexible(
+                                flex: 6,
+                                child: Center(
+                                  child: ListTile(
+                                    contentPadding: EdgeInsets.only(right: 9.w),
+                                    minVerticalPadding: 0,
+                                    dense: true,
+                                    title: Container(
+                                      height: 27.h,
+                                      alignment: Alignment.centerLeft,
+                                      child: FittedBox(
+                                        child: AutoSizeText.rich(
+                                          TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                  text: "0${mockInteger(1, 7)}:"
+                                                      "${mockInteger(10, 59)}"),
+                                            ],
+                                          ),
+                                          style: const TextStyle(
+                                            fontFamily: 'BrunoAceSC',
+                                            color: Color(0xfffde8e9),
+                                            fontSize: 72,
+                                            //decorationThickness: 40,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    subtitle: Container(
+                                      height: 18.h,
+                                      margin: EdgeInsets.only(top: 5.h),
+                                      alignment: Alignment.centerLeft,
+                                      child: FittedBox(
+                                        child: AutoSizeText.rich(
+                                          TextSpan(
+                                            children: [
+                                              TextSpan(text: myRandomName()),
+                                            ],
+                                          ),
+                                          style: const TextStyle(
+                                            fontFamily: 'Poppins',
+                                            color: Color(0xfffde8e9),
+                                            fontSize: 72,
+                                            fontWeight: FontWeight.w100,
+                                            //decorationThickness: 40,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    StaggeredGridTile.count(
+                      crossAxisCellCount: 4,
+                      mainAxisCellCount: 1,
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: const Color(0xffc62e65),
+                            borderRadius: BorderRadius.circular(6.w)),
+                        child: LayoutBuilder(
+                          builder: (_, p1) => ListTile(
+                            dense: true,
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 10.w),
+                            minVerticalPadding: 0,
+                            trailing: ElevatedButton(
+                              onPressed: () =>
+                                  context.router.push(const TournamentRoute()),
+                              child: const Text("Play Tournament"),
+                            ),
+                            isThreeLine: true,
+                            title: Container(
+                              height: 42.h,
+                              //margin: EdgeInsets.only(bottom: 6.h),
+                              //color: Colors.red,
+                              alignment: Alignment.centerLeft,
+                              child: FittedBox(
+                                child: AutoSizeText(
+                                  "Daily Tournament",
+                                  style: TextStyle(
+                                    fontFamily: 'LilitaOne',
+                                    fontWeight: FontWeight.normal,
+                                    color: const Color(0xfffde8e9),
+                                    fontSize: 72,
+                                    //height: 2.5.h,
+                                    letterSpacing: 1.w,
+                                    //decorationThickness: 40,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            subtitle: Container(
+                              height: 15.h,
+                              //color: Colors.amber,
+                              alignment: Alignment.centerLeft,
+                              child: FittedBox(
+                                child: AutoSizeText(
+                                  "Tournament No. ${mockInteger(10, 99)}",
+                                  style: const TextStyle(
+                                    color: Color(0xfffde8e9),
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w100,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
@@ -695,8 +608,77 @@ class _Dashboard extends StatelessWidget {
                       mainAxisCellCount: 3,
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Color(0xffF24236),
-                            borderRadius: BorderRadius.circular(6.w)),
+                            borderRadius: BorderRadius.circular(6.w),
+                            color: Color(0xff1f2232)),
+                        padding: EdgeInsets.all(8.0),
+                        child: DataTable(
+                          columns: [
+                            DataColumn(
+                              label: Container(
+                                width: 120.w,
+                                child: Text("Name"),
+                              ),
+                            ),
+                            DataColumn(
+                              label: Container(
+                                width: 90.w,
+                                child: Text("Time Taken"),
+                              ),
+                            ),
+                          ],
+                          columnSpacing: 0,
+                          headingRowHeight: 45.h,
+                          dataRowMinHeight: 42.h,
+                          dataRowMaxHeight: 51.h,
+                          horizontalMargin: 0,
+                          checkboxHorizontalMargin: 0,
+                          dataTextStyle: const TextStyle(
+                              fontFamily: 'Poppins', fontSize: 10),
+                          headingTextStyle: const TextStyle(
+                              fontFamily: 'AbrilFatface', fontSize: 9),
+                          rows: List.generate(
+                            3,
+                            (index) => DataRow(
+                              cells: [
+                                DataCell(
+                                  SizedBox(
+                                    width: 108.w,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Flexible(
+                                          child: AutoSizeText(
+                                            myRandomName(),
+                                            maxLines: 1,
+                                            maxFontSize: 15,
+                                            minFontSize: 6,
+                                          ),
+                                        ),
+                                        Flexible(
+                                          child: CircleAvatar(
+                                            backgroundColor:
+                                                const Color(0xff724cf9),
+                                            radius: 12,
+                                            child: RandomAvatar(mockString(),
+                                                trBackground: true),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                DataCell(
+                                  Text(
+                                    "0${mockInteger(1, 7)} : ${mockInteger(10, 59)}",
+                                    style: const TextStyle(
+                                        fontFamily: 'BrunoAceSC'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     StaggeredGridTile.count(
@@ -707,11 +689,6 @@ class _Dashboard extends StatelessWidget {
                             color: Color(0xff433E0E),
                             borderRadius: BorderRadius.circular(6.w)),
                       ),
-                    ),
-                    const StaggeredGridTile.count(
-                      crossAxisCellCount: 3,
-                      mainAxisCellCount: 3,
-                      child: Tile(index: 5),
                     ),
                   ],
                 ),
