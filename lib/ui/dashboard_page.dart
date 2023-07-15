@@ -25,8 +25,8 @@ class DashboardPage extends ConsumerWidget {
     final sSize = ref.read(sizeProvider);
 
     return Scaffold(
-      appBar: myAppBar(sSize, context),
-      backgroundColor: const Color(0xfffde8e9),
+      //appBar: myAppBar(sSize, context),
+      backgroundColor: const Color(0xfffbf9ff),
       resizeToAvoidBottomInset: false,
       //drawer: const DashboardDrawer(),
       body: SafeArea(

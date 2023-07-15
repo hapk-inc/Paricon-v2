@@ -22,38 +22,49 @@ AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
         flexibleSpace: const Opacity(opacity: 0.1, child: MyLogo()),
         leading: Padding(
           padding: EdgeInsets.only(left: 9.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                height: 36.h,
-                child: AutoSizeText(
-                  myRandomName(),
-                  style: const TextStyle(
-                      color: Color(0xfffde8e9),
-                      //fontWeight: FontWeight.w100,
-                      fontFamily: 'Poppins'),
-                  maxFontSize: 15,
-                  minFontSize: 9,
-                  maxLines: 1,
-                ),
-              ),
-              SizedBox(height: 3.h),
-              SizedBox(
-                height: 18.h,
-                child: const AutoSizeText(
-                  "Hope you have a great day",
-                  style: TextStyle(
-                    color: Color(0xfffde8e9),
-                    fontWeight: FontWeight.w100,
+          child: LayoutBuilder(
+            builder: (context, p1) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  flex: 2,
+                  child: SizedBox(
+                    height: p1.maxHeight * 0.35,
+                    child: FittedBox(
+                      child: AutoSizeText(
+                        myRandomName(),
+                        style: const TextStyle(
+                            color: Color(0xfffde8e9),
+                            //fontWeight: FontWeight.w100,
+                            fontFamily: 'Poppins'),
+                        maxFontSize: 15,
+                        minFontSize: 9,
+                        maxLines: 1,
+                      ),
+                    ),
                   ),
-                  maxFontSize: 9,
-                  minFontSize: 6,
-                  maxLines: 1,
                 ),
-              ),
-            ],
+                SizedBox(height: 3.h),
+                Flexible(
+                  child: SizedBox(
+                    height: p1.maxHeight * 0.175,
+                    child: const FittedBox(
+                      child: AutoSizeText(
+                        "Hope you have a great day",
+                        style: TextStyle(
+                          color: Color(0xfffde8e9),
+                          fontWeight: FontWeight.w100,
+                        ),
+                        maxFontSize: 9,
+                        minFontSize: 6,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         leadingWidth: 240.w,
@@ -67,9 +78,9 @@ AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
             children: [
               AnimatedPositioned(
                 duration: const Duration(milliseconds: 500),
-                bottom: -10.h,
-                left: 10.w,
-                height: 105.h,
+                bottom: -6.h,
+                left: 0.w,
+                height: 90.h,
                 width: 90.w,
                 child: RandomAvatar(
                   mockString(),
