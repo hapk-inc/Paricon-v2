@@ -32,9 +32,11 @@ class DashboardPage extends ConsumerWidget {
       body: SafeArea(
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
-          child: sSize == ScreenSize.phone || sSize == ScreenSize.tab
+          child: sSize == ScreenSize.phone
               ? const DashboardP()
-              : const DashboardW(),
+              : sSize == ScreenSize.pc || sSize == ScreenSize.tv
+                  ? const DashboardW()
+                  : Container(),
         ),
       ),
     );

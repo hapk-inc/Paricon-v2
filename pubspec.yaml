@@ -66,7 +66,7 @@ dependencies:
   animated_text_kit: ^4.2.2
 
   #toggle_switch: ^2.1.0
-  #group_button: ^5.3.0
+  group_button: ^5.3.0
 
   buttons_tabbar: ^1.3.6
   badges: ^3.1.1
@@ -104,6 +104,8 @@ dependencies:
   icons_flutter: ^0.0.4
 
   flutter_staggered_grid_view: ^0.6.2
+
+  awesome_bookmark_icon_button: ^0.0.2
 
   # introduction_screen: ^3.1.8
 
