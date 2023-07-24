@@ -42,8 +42,6 @@ class _DashboardBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final User firebaseUser = ref.read(firebaseUserProvider);
-
     ref.listen(
       tScoresOnChangeProvider.select((value) => value.value),
       (previous, next) {

@@ -283,7 +283,7 @@ class _CollapsedScore extends StatelessWidget {
                     width: 135.w,
                     child: ElevatedButton(
                       onPressed: () {},
-                      style: ButtonStyle(
+                      style: const ButtonStyle(
                           padding: MaterialStatePropertyAll(EdgeInsets.zero)),
                       child: const AutoSizeText(
                         "Play Tournament",
@@ -629,8 +629,8 @@ class _Dashboard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             //textDirection: Te,
                             children: [
-                              Flexible(
-                                child: const AutoSizeText(
+                              const Flexible(
+                                child: AutoSizeText(
                                   "Best Scores",
                                   style: TextStyle(
                                       color: Color(0xfffde8e9),
@@ -655,7 +655,7 @@ class _Dashboard extends StatelessWidget {
                                         label: Container(
                                           alignment: Alignment.centerRight,
                                           width: 60.w,
-                                          child: Text("Time Taken"),
+                                          child: const Text("Time Taken"),
                                         ),
                                       ),
                                     ],
@@ -734,7 +734,7 @@ class _Dashboard extends StatelessWidget {
                       mainAxisCellCount: 2,
                       child: Container(
                         decoration: BoxDecoration(
-                            color: Color(0xff433E0E),
+                            color: const Color(0xff433E0E),
                             borderRadius: BorderRadius.circular(6.w)),
                       ),
                     ),
@@ -976,7 +976,7 @@ class _RecentPlayerList extends StatelessWidget {
                         child: Center(
                           child: CircleAvatar(
                             radius: 24,
-                            backgroundColor: Color(0xff724cf9),
+                            backgroundColor: const Color(0xff724cf9),
                             child:
                                 RandomAvatar(mockString(), trBackground: true),
                           ),

@@ -16,8 +16,10 @@ class TournamentPage extends ConsumerWidget {
 
     return ProviderScope(
       child: Scaffold(
+        //backgroundColor: const Color(0xffFFFFFC),
+        backgroundColor: const Color(0xffF2F7F2),
         //  backgroundColor: const Color(0xff6926BD),
-        appBar: myAppBar(sSize, context, leadingWidth: 0),
+        //appBar: myAppBar(sSize, context, leadingWidth: 0),
         body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
           child: sSize == ScreenSize.phone

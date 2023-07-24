@@ -353,7 +353,6 @@ class _AnotherListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isLeft = mockInteger(0, 1) == 0;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
       height: 51,
@@ -463,56 +462,50 @@ class _MyExpansionList3 extends StatelessWidget {
             children: [
               Flexible(
                   flex: 3,
-                  child: Container(
-                    //color: Colors.green,
-                    child: Row(
-                      children: [
-                        AspectRatio(
-                          aspectRatio: 1,
-                          child: Container(
-                            //color: Colors.blue,
-                            padding: const EdgeInsets.all(8),
-                            child: RandomAvatar(mockString()),
-                          ),
+                  child: Row(
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 1,
+                        child: Container(
+                          //color: Colors.blue,
+                          padding: const EdgeInsets.all(8),
+                          child: RandomAvatar(mockString()),
                         ),
-                        SizedBox(width: 10.w),
-                        SizedBox(
-                          width: 180.w,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Row(
-                                children: [
-                                  AutoSizeText(
-                                    myRandomName(),
-                                    minFontSize: 9,
-                                    maxFontSize: 12,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  AutoSizeText(
-                                    mockInteger(111111, 999999).toString(),
-                                    minFontSize: 6,
-                                    maxFontSize: 8,
-                                  ),
-                                  Container(
-                                    child: const Text(
-                                      "First",
-                                      style: TextStyle(fontSize: 9),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                      ),
+                      SizedBox(width: 10.w),
+                      SizedBox(
+                        width: 180.w,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                              children: [
+                                AutoSizeText(
+                                  myRandomName(),
+                                  minFontSize: 9,
+                                  maxFontSize: 12,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                AutoSizeText(
+                                  mockInteger(111111, 999999).toString(),
+                                  minFontSize: 6,
+                                  maxFontSize: 8,
+                                ),
+                                const Text(
+                                  "First",
+                                  style: TextStyle(fontSize: 9),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   )),
               Flexible(flex: 3, child: Container()),
             ],

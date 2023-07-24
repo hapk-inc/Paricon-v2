@@ -537,7 +537,6 @@ class _MyBio extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final myUser = ref.watch(myUserProvider).value;
     final User user = ref.watch(firebaseUserProvider);
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0, left: 4.0, right: 4.0),

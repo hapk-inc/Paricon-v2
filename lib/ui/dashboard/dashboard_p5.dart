@@ -544,7 +544,6 @@ class _AnotherListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isLeft = mockInteger(0, 1) == 0;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
       height: 51,

@@ -13,7 +13,6 @@ import '../ui/dashboard/dashboard_w.dart';
 import 'package:random_avatar/random_avatar.dart';
 import '../logic/s_size.dart';
 
-import '../my_widgets/app_bar.dart';
 import 'dashboard/dashboard_p.dart';
 
 @RoutePage()

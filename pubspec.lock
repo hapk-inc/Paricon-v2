@@ -1000,6 +1000,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.8"
+  responsive_grid:
+    dependency: "direct main"
+    description:
+      name: responsive_grid
+      sha256: "972753b0519f56211f1f987e7675b38e3291c81073ac2d4933b599edda87d78f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.1"
   responsive_grid_list:
     dependency: "direct main"
     description:

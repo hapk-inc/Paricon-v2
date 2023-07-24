@@ -18,7 +18,8 @@ AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
     case ScreenSize.phone:
       return AppBar(
         elevation: 4,
-        backgroundColor: Colors.deepPurpleAccent.shade700,
+        //backgroundColor: Colors.deepPurpleAccent.shade700,
+        backgroundColor: const Color(0xff724cf9),
         flexibleSpace: const Opacity(opacity: 0.1, child: MyLogo()),
         leading: Padding(
           padding: EdgeInsets.only(left: 9.w),
@@ -30,11 +31,11 @@ AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
                 Flexible(
                   flex: 2,
                   child: SizedBox(
-                    height: p1.maxHeight * 0.35,
-                    child: FittedBox(
+                    height: p1.maxHeight * 0.325,
+                    child: const FittedBox(
                       child: AutoSizeText(
-                        myRandomName(),
-                        style: const TextStyle(
+                        "Playing Daily Tournament",
+                        style: TextStyle(
                             color: Color(0xfffde8e9),
                             //fontWeight: FontWeight.w100,
                             fontFamily: 'Poppins'),
@@ -51,7 +52,7 @@ AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
                     height: p1.maxHeight * 0.175,
                     child: const FittedBox(
                       child: AutoSizeText(
-                        "Hope you have a great day",
+                        "For the first time",
                         style: TextStyle(
                           color: Color(0xfffde8e9),
                           fontWeight: FontWeight.w100,

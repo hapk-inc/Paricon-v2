@@ -51,9 +51,7 @@ class _Dashboard extends ConsumerWidget {
 }
 
 class _DState extends StatelessWidget {
-  const _DState({
-    super.key,
-  });
+  const _DState();
 
   @override
   Widget build(BuildContext context) {
@@ -115,12 +113,12 @@ class __DState extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: "${mockInteger(10, 1000)}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'LilitaOne',
                         fontSize: 27,
                       ),
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: " games played so far",
                       style: TextStyle(
                         fontFamily: 'Poppins',
@@ -525,9 +523,7 @@ class _MyTournamentTimer extends StatelessWidget {
 }
 
 class _MyPlayButton extends StatelessWidget {
-  const _MyPlayButton({
-    super.key,
-  });
+  const _MyPlayButton();
 
   @override
   Widget build(BuildContext context) {
@@ -671,9 +667,7 @@ class _XXY extends StatelessWidget {
 }
 
 class _HowManyNewPlayers extends StatelessWidget {
-  const _HowManyNewPlayers({
-    super.key,
-  });
+  const _HowManyNewPlayers();
 
   @override
   Widget build(BuildContext context) {
