@@ -6,7 +6,6 @@ import 'package:mock_data/mock_data.dart';
 import 'package:paricon/my_widgets/tournament_grid_revised.dart';
 import 'package:random_avatar/random_avatar.dart';
 
-import '../../my_widgets/my_logo.dart';
 import '../../my_widgets/my_names.dart';
 
 class TournamentP extends StatelessWidget {
@@ -54,13 +53,11 @@ class TournamentP extends StatelessWidget {
             title: _ToHeader(),
           ),
         ),
-        SliverToBoxAdapter(
-          child: SizedBox(height: 15.h),
-        ),
+        SliverToBoxAdapter(child: SizedBox(height: 15.h)),
         SliverToBoxAdapter(
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 3.w),
-            height: 450.sp,
+            height: 441.sp,
             child: const TournamentGridRevised(),
           ),
         ),
@@ -226,94 +223,126 @@ class TournamentP extends StatelessWidget {
 }
 
 class _ToHeader extends StatelessWidget {
-  const _ToHeader({
-    super.key,
-  });
+  const _ToHeader();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      //color: Colors.red,
-      height: 39.h,
-      margin: EdgeInsets.symmetric(horizontal: 9.w),
+      height: 51.h,
+      margin: EdgeInsets.only(bottom: 9.h),
       child: Column(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(6.w),
-            child: LinearProgressIndicator(
-              minHeight: 6.h,
-              value: 0.75,
-            ),
-          ),
-          SizedBox(height: 3.h),
-          Expanded(
-            child: Row(
+          Container(
+            height: 12.h,
+            margin: EdgeInsets.symmetric(horizontal: 9.w),
+            child: Stack(
               children: [
-                AspectRatio(
-                  aspectRatio: 1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 0.21.w,
-                      ),
-                      borderRadius: BorderRadius.circular(1.w),
-                    ),
-                    child: LayoutBuilder(
-                      builder: (context, p1) => Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        //crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "0${mockInteger(1, 5)}",
-                            style: TextStyle(
-                              fontSize: p1.maxWidth * 0.54,
-                              color: Colors.white,
-                              fontFamily: 'LilitaOne',
-                            ),
-                          ),
-                          Text(
-                            "Minutes",
-                            style: TextStyle(
-                              fontSize: p1.maxWidth * 0.15,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w100,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(9.w),
+                  child: LinearProgressIndicator(
+                    minHeight: 12.h,
+                    value: 0.75,
                   ),
                 ),
-                //SizedBox(width: 3.w),
-                AspectRatio(
-                  aspectRatio: 1,
-                  child: LayoutBuilder(
-                    builder: (context, p1) => Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                Positioned(
+                  right: 6.w,
+                  top: 1.5.h,
+                  height: 9.h,
+                  child: FittedBox(
+                    child: Text(
+                      mockInteger(10, 72).toString(),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          SizedBox(height: 6.h),
+          Expanded(
+            child: Container(
+              //color: Colors.cyan,
+              margin: EdgeInsets.only(left: 9.w, right: 6.w),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 24.w,
+                    child: Column(
                       //crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "${mockInteger(10, 59)}",
-                          style: TextStyle(
-                            fontSize: p1.maxWidth * 0.54,
-                            color: Colors.white,
-                            fontFamily: 'LilitaOne',
+                        Flexible(
+                          flex: 4,
+                          child: FractionallySizedBox(
+                            heightFactor: 1,
+                            widthFactor: 1,
+                            child: FittedBox(
+                              child: Text(
+                                "0${mockInteger(1, 9)}",
+                                style: const TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
-                        Text(
-                          "Seconds",
-                          style: TextStyle(
-                            fontSize: p1.maxWidth * 0.15,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w100,
+                        SizedBox(height: 3.h),
+                        const Flexible(
+                          child: FittedBox(
+                            child: Text(
+                              "Minutes",
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w100),
+                            ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
-                ),
-              ],
+                  VerticalDivider(
+                    width: 12.w,
+                    endIndent: 6.h,
+                    indent: 6.h,
+                    thickness: 1.w,
+                    color: Colors.white70,
+                  ),
+                  SizedBox(
+                    width: 24.w,
+                    child: Column(
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          flex: 4,
+                          child: FractionallySizedBox(
+                            heightFactor: 1,
+                            widthFactor: 1,
+                            child: FittedBox(
+                              child: Text(
+                                "${mockInteger(10, 59)}",
+                                style: const TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 3.h),
+                        const Flexible(
+                          child: FittedBox(
+                            child: Text(
+                              "Seconds",
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w100),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           )
         ],
