@@ -117,30 +117,30 @@ class _MyBio extends StatelessWidget {
           Container(
             height: 60.h,
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             //color: Colors.red,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AutoSizeText(
+                const AutoSizeText(
                   "Email",
                   style: TextStyle(fontSize: 9),
                 ),
                 AutoSizeText(
                   mockString(6) + "@gmail.com",
-                  style: TextStyle(fontSize: 9),
+                  style: const TextStyle(fontSize: 9),
                 ),
               ],
             ),
           ),
-          Space20(),
+          const Space20(),
           Container(
             height: 50.h,
             width: 300.w,
             child: Consumer(
               builder: (context, ref, child) => OutlinedButton(
                 onPressed: () => ref.read(signOutProvider),
-                style: ButtonStyle(
+                style: const ButtonStyle(
                   side: MaterialStatePropertyAll(
                     BorderSide(
                       color: Colors.red,
@@ -173,8 +173,8 @@ class _Statistics extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: const [
+      child: const Column(
+        children: [
           /*const TitleX(a: "Best Record Overall"),
           SizedBox(
             height: (290).h,
@@ -788,8 +788,8 @@ class DashboardP5 extends StatelessWidget {
                                       fit: BoxFit.fitWidth,
                                       child: Text(
                                         mockInteger(50, 500).toString(),
-                                        style:
-                                            TextStyle(fontFamily: 'BrunoAceSC'),
+                                        style: const TextStyle(
+                                            fontFamily: 'BrunoAceSC'),
                                       ),
                                     ),
                                   ),
@@ -829,7 +829,7 @@ class DashboardP5 extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Space10(),
+                        const Space10(),
                         /*const Space10(),
                         const DashboardSubHeader(title: "Tournament Played"),
                         const Space10(),
@@ -840,7 +840,7 @@ class DashboardP5 extends StatelessWidget {
                           alignment: Alignment.center,
                           child: const AvailablePlayerList(),
                         ),
-                        Space10(),
+                        const Space10(),
                         //const Space20(),
                         Expanded(
                           child: ListView(
@@ -880,7 +880,7 @@ class DashboardP5 extends StatelessWidget {
                         Container(
                           height: 160.h,
                           decoration: BoxDecoration(
-                              color: Color(0xffbc9ec1),
+                              color: const Color(0xffbc9ec1),
                               borderRadius: BorderRadius.circular(8.0)),
                           margin: EdgeInsets.all(8.sp),
                           child: MyListTile(
@@ -982,7 +982,7 @@ LineChartData mainData() {
           FlSpot(11, 4),
         ],
         isCurved: true,
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: Colors.primaries,
         ),
         barWidth: 5,
@@ -1361,7 +1361,7 @@ class PlayTournamentButton extends ConsumerWidget {
           shape: MaterialStatePropertyAll(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
           ),
-          side: MaterialStatePropertyAll(
+          side: const MaterialStatePropertyAll(
             BorderSide(
               color: Colors.white54,
               width: 0.5,

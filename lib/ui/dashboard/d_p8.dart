@@ -666,7 +666,7 @@ class _BestRecordList6 extends StatelessWidget {
               ),
             ),
           ),
-          Space10(),
+          const Space10(),
           Expanded(
             child: ListView(
               children: List.generate(
