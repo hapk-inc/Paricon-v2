@@ -28,6 +28,7 @@ class TournamentP extends StatelessWidget {
               Icons.chevron_left,
               size: 30.sp,
             ),
+            splashRadius: 36.sp,
           ),
           elevation: 8,
           centerTitle: false,

@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../logic/auth.dart';
 import '../logic/user_datastore.dart';
+import '../my_widgets/app_bar.dart';
 import '../my_widgets/my_list_tile.dart';
 import '../my_widgets/my_logo.dart';
 import '../my_widgets/my_names.dart';
@@ -24,10 +25,11 @@ class DashboardPage extends ConsumerWidget {
     final sSize = ref.read(sizeProvider);
 
     return Scaffold(
-      //appBar: myAppBar(sSize, context),
+      appBar: sSize == ScreenSize.pc || sSize == ScreenSize.tv
+          ? myAppBar(sSize, context)
+          : null,
       backgroundColor: const Color(0xfffbf9ff),
       resizeToAvoidBottomInset: false,
-      //drawer: const DashboardDrawer(),
       body: SafeArea(
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
