@@ -2,7 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:buttons_tabbar/buttons_tabbar.dart';
-import 'package:expansion_tile_card/expansion_tile_card.dart';
+//import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -181,9 +181,7 @@ class _Dashboard extends ConsumerWidget {
 }
 
 class _XXY extends StatelessWidget {
-  const _XXY({
-    super.key,
-  });
+  const _XXY();
 
   @override
   Widget build(BuildContext context) {
@@ -347,9 +345,7 @@ class _MyExpansionList extends StatelessWidget {
 }
 
 class _AnotherListTile extends StatelessWidget {
-  const _AnotherListTile({
-    super.key,
-  });
+  const _AnotherListTile();
 
   @override
   Widget build(BuildContext context) {
@@ -584,19 +580,17 @@ class _MyExpansionList2 extends StatelessWidget {
 }
 
 class _MyExpansionList1 extends StatelessWidget {
-  const _MyExpansionList1({
-    super.key,
-  });
+  const _MyExpansionList1();
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       padding: const EdgeInsets.all(6),
       children: List.generate(
-          5,
-          (index) => Container(
-                margin: const EdgeInsets.symmetric(vertical: 2.0),
-                child: ExpansionTileCard(
+        5,
+        (index) => Container(
+          margin: const EdgeInsets.symmetric(vertical: 2.0),
+          /* child: ExpansionTileCard(
                   borderRadius: BorderRadius.circular(3.0),
                   contentPadding: const EdgeInsets.only(right: 16.0, left: 8.0),
                   expandedColor: const Color(0xffe3b8c6),
@@ -616,10 +610,10 @@ class _MyExpansionList1 extends StatelessWidget {
                     maxLines: 1,
                     style: const TextStyle(fontFamily: 'Poppins', fontSize: 15),
                   ),
-                  /*subtitle: Text(
+                  */ /*subtitle: Text(
                     mockInteger(100000, 999999).toString(),
                     style: const TextStyle(fontFamily: 'Poppins', fontSize: 6),
-                  ),*/
+                  ),*/ /*
                   trailing: AutoSizeText(
                     "1:${mockInteger(10, 59)}:34",
                     style: const TextStyle(
@@ -749,8 +743,9 @@ class _MyExpansionList1 extends StatelessWidget {
                       ),
                     )
                   ],
-                ),
-              )),
+                ),*/
+        ),
+      ),
     );
   }
 }
