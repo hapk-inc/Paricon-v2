@@ -25,7 +25,9 @@ class DashboardPage extends ConsumerWidget {
     final sSize = ref.read(sizeProvider);
 
     return Scaffold(
-      appBar: sSize == ScreenSize.pc || sSize == ScreenSize.tv
+      appBar: sSize == ScreenSize.pc ||
+              sSize == ScreenSize.tv ||
+              sSize == ScreenSize.tab
           ? myAppBar(sSize, context)
           : null,
       backgroundColor: const Color(0xfffbf9ff),

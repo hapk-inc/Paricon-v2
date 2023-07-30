@@ -48,9 +48,10 @@ class _DashboardPState extends ConsumerState<DashboardP>
       child: SlidingUpPanel(
         controller: _panelController,
         minHeight: 0,
+        maxHeight: 480.h,
         body: const _DashboardP(),
         panel: Container(
-          color: Colors.blue,
+          color: const Color(0xff6845E2),
         ),
       ),
     );
@@ -134,7 +135,7 @@ class _DashboardP extends StatelessWidget {
               child: const Text(
                 "Click here to play tournament",
                 style: TextStyle(
-                  fontFamily: 'Montserrat',
+                  fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -169,25 +170,102 @@ class _PickAvatarTile extends StatelessWidget {
   const _PickAvatarTile();
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 165.h,
-      margin: EdgeInsets.symmetric(horizontal: 9.w, vertical: 15.h),
-      decoration: BoxDecoration(
-        color: const Color(0xffF5E0A1),
-        borderRadius: BorderRadius.circular(6.w),
-      ),
-      padding: EdgeInsets.all(6.w),
-      /*child: LayoutBuilder(
-        builder: (context, p1) => Stack(
-          children: [
-            Text("Share the code and"),
-            Text("Get your own avatar"),
-          ],
+  Widget build(BuildContext context) => Container(
+        height: 150.h,
+        margin: EdgeInsets.symmetric(horizontal: 9.w, vertical: 9.h),
+        decoration: BoxDecoration(
+          color: const Color(0xffF5E0A1),
+          borderRadius: BorderRadius.circular(6.w),
         ),
-      ),*/
-    );
-  }
+        padding: EdgeInsets.all(6.w),
+        child: LayoutBuilder(
+          builder: (context, p1) => Stack(
+            children: [
+              Positioned(
+                width: p1.maxWidth * 0.3,
+                height: p1.maxHeight * 0.75,
+                bottom: -p1.maxWidth * 0.0275,
+                right: 0,
+                child: RandomAvatar(
+                  mockString(),
+                  width: p1.maxWidth * 0.25,
+                  trBackground: true,
+                  colorFilter: const ColorFilter.mode(
+                    Color(0xffC57B57),
+                    BlendMode.srcATop,
+                  ),
+                ),
+              ),
+              Positioned(
+                height: p1.maxHeight * 0.125,
+                width: p1.maxWidth,
+                left: p1.maxWidth * 0.05,
+                top: p1.maxHeight * 0.175,
+                child: const FittedBox(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Share the code and",
+                    style: TextStyle(
+                        fontFamily: 'Cabin',
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xff1E2D2F)),
+                  ),
+                ),
+              ),
+              Positioned(
+                height: p1.maxHeight * 0.35,
+                width: p1.maxWidth * 0.9,
+                top: p1.maxHeight * 0.3,
+                left: p1.maxWidth * 0.01,
+                child: const FittedBox(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Get your unique avatar",
+                    style: TextStyle(
+                      fontFamily: 'Cabin',
+                      color: Color(0xff041F1E),
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                height: p1.maxHeight * 0.2,
+                width: p1.maxWidth,
+                top: p1.maxHeight * 0.8,
+                child: Row(
+                  children: [
+                    const AspectRatio(
+                      aspectRatio: 1,
+                      child: FittedBox(
+                        child: Icon(
+                          Icons.share,
+                          color: Color(0xff484139),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: p1.maxWidth * 0.05),
+                    const Flexible(
+                      child: FractionallySizedBox(
+                        heightFactor: 0.75,
+                        child: FittedBox(
+                          child: Text(
+                            "Click here to enter code",
+                            style: TextStyle(
+                              color: Color(0xff725443),
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
 }
 
 class _PlayWithFriendTile extends StatelessWidget {
@@ -204,9 +282,11 @@ class _PlayWithFriendTile extends StatelessWidget {
       ),
       padding: EdgeInsets.all(6.w),
       child: LayoutBuilder(
-        builder: (context, p1) => Row(
+        builder: (_, p1) => Row(
           children: [
-            Flexible(child: Lottie.asset('assets/friends_joystick.json')),
+            Flexible(
+              child: Lottie.asset('assets/friends_joystick.json'),
+            ),
             SizedBox(width: 15.w),
             Flexible(
               child: FractionallySizedBox(
@@ -309,8 +389,8 @@ class _GenVTile extends StatelessWidget {
                     fit: StackFit.passthrough,
                     children: [
                       Positioned(
-                        top: -p1.maxHeight * 0.01,
-                        left: p1.maxWidth * 0.025,
+                        top: p1.maxHeight * 0.1,
+                        left: p1.maxWidth * 0.075,
                         child: Text(
                           "${mockInteger(1, 8)}",
                           textAlign: TextAlign.center,

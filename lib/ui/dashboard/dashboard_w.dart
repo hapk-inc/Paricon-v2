@@ -2,11 +2,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:paricon/logic/auth.dart';
 import 'package:paricon/my_widgets/my_names.dart';
 import 'package:random_avatar/random_avatar.dart';
+import 'package:responsive_grid/responsive_grid.dart';
 
 import '../../my_widgets/my_list_tile.dart';
 import '../../my_widgets/today_leaderboard_list_view.dart';
@@ -36,85 +38,122 @@ class DashboardW extends ConsumerWidget {
               )
             ],
           ),
-        )
+        ),
+        const Expanded(child: __DashboardW()),
       ],
     );
   }
 }
 
-class DashboardW1 extends ConsumerWidget {
-  const DashboardW1({Key? key}) : super(key: key);
+class __DashboardW extends StatelessWidget {
+  const __DashboardW({
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => Container(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const Space10(),
-              SizedBox(
-                height: 140.h,
-                //color: Colors.teal,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: List.generate(
-                      6,
-                      (index) => SizedBox(
-                            width: 120.h,
-                            //color: Colors.red,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Flexible(
-                                  flex: 6,
-                                  child: CircleAvatar(
-                                    radius: 45.h,
-                                    child: RandomAvatar(mockString()),
-                                  ),
-                                ),
-                                const Space10(),
-                                Flexible(
-                                  flex: 2,
-                                  child: AutoSizeText(
-                                    myRandomName(),
-                                    style: const TextStyle(fontSize: 10),
-                                    maxFontSize: 12,
-                                    minFontSize: 9,
-                                    maxLines: 1,
-                                  ),
-                                ),
-                                Flexible(
-                                  flex: 2,
-                                  child: AutoSizeText(
-                                    myRandomName(),
-                                    style: const TextStyle(fontSize: 10),
-                                    maxFontSize: 12,
-                                    minFontSize: 9,
-                                    maxLines: 1,
-                                  ),
-                                )
-                              ],
-                            ),
-                          )),
-                ),
-              ),
-              const Space20(),
-              Row(
-                children: [
-                  SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        DashboardSubHeader(title: "Today's Leaderboard"),
-                        Space20(),
-                        TodayLeaderBoardListView(),
-                        PlayTournamentButton()
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.topLeft,
+      padding: EdgeInsets.all(3.w),
+      /*child: SingleChildScrollView(
+        child: StaggeredGrid.count(
+          crossAxisCount: 20,
+          mainAxisSpacing: 6.h,
+          crossAxisSpacing: 3.w,
+          children: [
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 2,
+              child: ColoredBox(color: Colors.pink),
+            ),
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 10,
+              mainAxisCellCount: 12,
+              child: ColoredBox(color: Colors.pink),
+            ),
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 10,
+              mainAxisCellCount: 3,
+              child: ColoredBox(color: Colors.pink),
+            ),
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 10,
+              mainAxisCellCount: 3,
+              child: ColoredBox(color: Colors.pink),
+            ),
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 10,
+              mainAxisCellCount: 3,
+              child: ColoredBox(color: Colors.pink),
+            ),
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 10,
+              mainAxisCellCount: 3,
+              child: ColoredBox(color: Colors.pink),
+            ),
+          ],
         ),
-      );
+      ),*/
+      child: ResponsiveGridRow(
+        children: [
+          ResponsiveGridCol(
+            xs: 6,
+            //md: 12,
+            //xl: 20,
+            //lg: 80,
+            //Horizontal sm: 3,
+            child: Container(
+              height: 200,
+              alignment: Alignment(0, 0),
+              color: Colors.purple,
+              child: Text("lg : 12"),
+            ),
+          ),
+          ResponsiveGridCol(
+            xs: 6,
+            //sm: 2,
+
+            //lg: 22,
+            //md: 3,
+            child: Container(
+              height: 100,
+              alignment: const Alignment(0, 0),
+              color: Colors.green,
+              child: const Text("xs : 6 \r\nmd : 3"),
+            ),
+          ),
+          ResponsiveGridCol(
+            xs: 6,
+            //md: 3,
+            child: Container(
+              height: 100,
+              alignment: Alignment(0, 0),
+              color: Colors.orange,
+              child: Text("xs : 6 \r\nmd : 3"),
+            ),
+          ),
+          ResponsiveGridCol(
+            xs: 6,
+            md: 3,
+            child: Container(
+              height: 100,
+              alignment: Alignment(0, 0),
+              color: Colors.red,
+              child: Text("xs : 6 \r\nmd : 3"),
+            ),
+          ),
+          ResponsiveGridCol(
+            xs: 6,
+            md: 3,
+            child: Container(
+              height: 100,
+              alignment: Alignment(0, 0),
+              color: Colors.blue,
+              child: Text("xs : 6 \r\nmd : 3"),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

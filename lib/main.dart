@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:responsive_grid/responsive_grid.dart';
 
 import 'firebase_option.dart';
 import 'logic/auth.dart';
@@ -26,6 +27,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final PackageInfo info = await PackageInfo.fromPlatform();
 
+  ResponsiveGridBreakpoints.value = ResponsiveGridBreakpoints(
+    xs: 600,
+    sm: 905,
+    md: 1240,
+    lg: 1440,
+  );
   final FirebaseApp app = await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform(info.appName));
 
