@@ -34,7 +34,7 @@ ThemeData get appTheme => ThemeData(
         ),
       ),
       appBarTheme: const AppBarTheme(backgroundColor: Color(0xff724cf9)),
-      scaffoldBackgroundColor: const Color(0xfffde8e9),
+      scaffoldBackgroundColor: const Color(0xfffbf9ff),
       listTileTheme: const ListTileThemeData(),
     );
 

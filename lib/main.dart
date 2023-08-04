@@ -109,17 +109,20 @@ class MyApp extends ConsumerWidget {
         }
         return ProviderScope(
           overrides: [
-            sizeProvider.overrideWithValue(x > 1.5
+            sizeProvider.overrideWithValue(x > 2
                 ? ScreenSize.phone
-                : x > 1
+                : x > 1.5
                     ? ScreenSize.tab
-                    : x > 0.6
-                        ? ScreenSize.pc
-                        : x > 0.4
-                            ? ScreenSize.tv
-                            : ScreenSize.tooSmall)
+                    : x > 1.2
+                        ? ScreenSize.iPad
+                        : x > 0.6
+                            ? ScreenSize.pc
+                            : x > 0.4
+                                ? ScreenSize.tv
+                                : ScreenSize.tooSmall)
           ],
           child: MaterialApp.router(
+            debugShowCheckedModeBanner: false,
             routeInformationParser: _myRoute.defaultRouteParser(),
             theme: appTheme,
             routerDelegate: AutoRouterDelegate.declarative(

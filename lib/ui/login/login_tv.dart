@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
-class LoginW extends StatelessWidget {
-  const LoginW({super.key});
+class LoginTV extends StatelessWidget {
+  const LoginTV({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 9.h),
+          padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 9.h),
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
@@ -25,8 +25,8 @@ class LoginW extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                width: 180.w,
-                padding: EdgeInsets.symmetric(horizontal: 1.5.w),
+                width: 240.w,
+                padding: EdgeInsets.symmetric(horizontal: 6.w),
                 //color: Colors.green,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -40,7 +40,7 @@ class LoginW extends StatelessWidget {
                             text: "Engage and Unlock "
                                 "your Mind's Potential\n",
                             style: TextStyle(
-                              fontSize: 12.w,
+                              fontSize: 7.5.w,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w900,
                               height: 1.5,
@@ -53,7 +53,7 @@ class LoginW extends StatelessWidget {
                             style: TextStyle(
                               fontFamily: 'Cabin',
                               fontWeight: FontWeight.w100,
-                              fontSize: 7.5.w,
+                              fontSize: 4.5.w,
                               height: 1.8,
                             ),
                           )
@@ -70,7 +70,7 @@ class LoginW extends StatelessWidget {
                         style: ButtonStyle(
                           shape: MaterialStatePropertyAll(
                             RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(2.1.sp),
+                              borderRadius: BorderRadius.circular(1.5.sp),
                             ),
                           ),
                         ),

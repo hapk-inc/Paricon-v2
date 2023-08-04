@@ -169,6 +169,8 @@ AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
 
     case ScreenSize.tab:
       return appbarTab;
+    case ScreenSize.iPad:
+      return appbarTab;
 
     case ScreenSize.pc:
       return appbarWeb;

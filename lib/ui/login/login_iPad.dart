@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
-class LoginP extends StatelessWidget {
-  const LoginP({super.key});
+class LoginIpad extends StatelessWidget {
+  const LoginIpad({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 9.w),
+      padding: EdgeInsets.only(left: 9.w, right: 9.w),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -23,7 +23,6 @@ class LoginP extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               margin: EdgeInsets.symmetric(vertical: 15.h),
@@ -34,10 +33,10 @@ class LoginP extends StatelessWidget {
                       text: "Engage and Unlock "
                           "your Mind's Potential\n",
                       style: TextStyle(
-                        fontSize: 21.sp,
+                        fontSize: 16.5.sp,
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w900,
-                        height: 1.8,
+                        height: 1.5,
                       ),
                     ),
                     TextSpan(
@@ -45,8 +44,8 @@ class LoginP extends StatelessWidget {
                           "seize victory in competitive tournaments.",
                       style: TextStyle(
                         fontFamily: 'Cabin',
-                        fontSize: 15.sp,
-                        height: 1.8,
+                        fontSize: 9.sp,
+                        height: 2.1,
                       ),
                     )
                   ],
@@ -55,23 +54,24 @@ class LoginP extends StatelessWidget {
             ),
             Container(
               //height: 90.h,
-              margin: EdgeInsets.symmetric(vertical: 15.h),
+              margin: EdgeInsets.symmetric(vertical: 12.h),
               alignment: Alignment.centerLeft,
               child: ElevatedButton(
                 onPressed: () {},
-                child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 9.h, horizontal: 12.w),
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 9.h, horizontal: 3.w),
                   child: Text(
-                    "Get started",
-                    style: TextStyle(fontSize: 13.5.sp),
+                    "Let's Get started",
+                    style: TextStyle(fontSize: 7.5.sp),
                   ),
                 ),
               ),
             ),
             AspectRatio(
-              aspectRatio: 1,
+              aspectRatio: 1.5,
               child: Lottie.asset(
                 'assets/jigsaw_green.json',
+                alignment: Alignment.centerLeft,
                 repeat: false,
               ),
             ),
@@ -83,7 +83,7 @@ class LoginP extends StatelessWidget {
                     "Already have an account?",
                     style: TextStyle(
                       fontFamily: 'Cabin',
-                      fontSize: 13.5.sp,
+                      fontSize: 10.5.sp,
                       color: const Color(0xff232528),
                     ),
                   ),
@@ -97,8 +97,8 @@ class LoginP extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'Cabin',
                         fontWeight: FontWeight.w900,
-                        color: const Color(0xffA52422),
-                        fontSize: 12.sp,
+                        color: Color(0xffA52422),
+                        fontSize: 10.5.sp,
                       ),
                     ),
                   ),
