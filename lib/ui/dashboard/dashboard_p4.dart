@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:buttons_tabbar/buttons_tabbar.dart';
+//import 'package:buttons_tabbar/buttons_tabbar.dart';
 //import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +94,7 @@ class _Dashboard extends ConsumerWidget {
                   height: 50.h,
                   //color: Colors.amber,
                   alignment: Alignment.centerLeft,
-                  child: ButtonsTabBar(
+                  /*    child: ButtonsTabBar(
                     height: 50.h,
                     radius: 4.w,
                     backgroundColor: const Color(0xff1f2232),
@@ -115,7 +115,7 @@ class _Dashboard extends ConsumerWidget {
                       Tab(text: "Daily Tournament"),
                       Tab(text: "Best Record"),
                     ],
-                  ),
+                  ),*/
                 ),
                 Expanded(
                   child: TabBarView(

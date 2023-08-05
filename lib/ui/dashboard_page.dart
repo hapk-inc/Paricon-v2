@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:mock_data/mock_data.dart';
 
 import '../logic/auth.dart';
 import '../logic/user_datastore.dart';
@@ -25,11 +26,26 @@ class DashboardPage extends ConsumerWidget {
     final sSize = ref.read(sizeProvider);
 
     return Scaffold(
-      appBar: sSize == ScreenSize.pc ||
+      appBar: AppBar(
+        toolbarHeight: 90.h,
+        leading: const MyLogo(),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 15.w),
+            child: CircleAvatar(
+              radius: 24.sp,
+              backgroundColor: const Color(0xffEFB7FF),
+              child: RandomAvatar(mockString(), trBackground: true),
+            ),
+          )
+        ],
+        leadingWidth: 240.w,
+      ),
+      /*appBar: sSize == ScreenSize.pc ||
               sSize == ScreenSize.tv ||
               sSize == ScreenSize.tab
           ? myAppBar(sSize, context)
-          : null,
+          : null,*/
       backgroundColor: const Color(0xfffbf9ff),
       resizeToAvoidBottomInset: false,
       body: SafeArea(

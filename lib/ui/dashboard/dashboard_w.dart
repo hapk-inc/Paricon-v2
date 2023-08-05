@@ -1,18 +1,9 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:mock_data/mock_data.dart';
 import 'package:paricon/logic/auth.dart';
-import 'package:paricon/my_widgets/my_names.dart';
-import 'package:random_avatar/random_avatar.dart';
 import 'package:responsive_grid/responsive_grid.dart';
-
-import '../../my_widgets/my_list_tile.dart';
-import '../../my_widgets/today_leaderboard_list_view.dart';
-import 'dashboard_p1.dart';
 
 class DashboardW extends ConsumerWidget {
   const DashboardW({Key? key}) : super(key: key);

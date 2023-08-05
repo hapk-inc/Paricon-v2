@@ -1,7 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+
+import '../../logic/auth.dart';
 
 class LoginP extends StatelessWidget {
   const LoginP({super.key});
@@ -57,13 +61,23 @@ class LoginP extends StatelessWidget {
               //height: 90.h,
               margin: EdgeInsets.symmetric(vertical: 15.h),
               alignment: Alignment.centerLeft,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 9.h, horizontal: 12.w),
-                  child: Text(
-                    "Get started",
-                    style: TextStyle(fontSize: 13.5.sp),
+              child: Consumer(
+                builder: (_, ref, __) => ElevatedButton(
+                  onPressed: () => ref.read(gSignProvider.future).catchError(
+                    (e, s) {
+                      if (kDebugMode) {
+                        print(e);
+                      }
+                      ref.read(anonymousProvider);
+                    },
+                  ),
+                  child: Container(
+                    margin:
+                        EdgeInsets.symmetric(vertical: 9.h, horizontal: 12.w),
+                    child: Text(
+                      "Get started",
+                      style: TextStyle(fontSize: 13.5.sp),
+                    ),
                   ),
                 ),
               ),

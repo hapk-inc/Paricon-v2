@@ -1,11 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:introduction_screen/introduction_screen.dart';
-
-import '../../logic/auth.dart';
-import '../../my_widgets/my_logo.dart';
+//import 'package:introduction_screen/introduction_screen.dart';
 
 class LoginP extends StatelessWidget {
   const LoginP({super.key});
@@ -26,7 +21,7 @@ class LoginP extends StatelessWidget {
           ],
         ),
       ),
-      child: IntroductionScreen(
+      /*    child: IntroductionScreen(
         pages: [
           introPageModel(),
           PageViewModel(
@@ -64,11 +59,11 @@ class LoginP extends StatelessWidget {
         onDone: () {
           // On button pressed
         },
-      ),
+      ),*/
     );
   }
 
-  PageViewModel introPageModel() => PageViewModel(
+  /* PageViewModel introPageModel() => PageViewModel(
         bodyWidget: Container(
           height: 135.h,
           //color: Colors.teal,
@@ -125,14 +120,14 @@ class LoginP extends StatelessWidget {
           margin: EdgeInsets.symmetric(horizontal: 9.w),
           child: Column(
             children: [
-              /* Container(
+              */ /* Container(
                 height: 24.h,
                 margin: EdgeInsets.only(bottom: 30.h),
                 color: Colors.amber,
                 child: DotsIndicator(
                   dotsCount: 2,
                 ),
-              ),*/
+              ),*/ /*
               const Spacer(),
               Expanded(
                 child: SizedBox(
@@ -225,5 +220,5 @@ class LoginP extends StatelessWidget {
           footerPadding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 6.h),
           bodyPadding: EdgeInsets.symmetric(horizontal: 15.w),
         ),
-      );
+      );*/
 }

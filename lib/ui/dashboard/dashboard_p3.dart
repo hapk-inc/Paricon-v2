@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:buttons_tabbar/buttons_tabbar.dart';
+//import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -201,7 +201,7 @@ class _DashboardBody extends ConsumerWidget {
             children: [
               Align(
                 alignment: Alignment.centerLeft,
-                child: ButtonsTabBar(
+                /*   child: ButtonsTabBar(
                   height: 50.h,
                   radius: 4.w,
                   backgroundColor: const Color(0xff1f2232),
@@ -224,7 +224,7 @@ class _DashboardBody extends ConsumerWidget {
                     //const Tab(text: "Game Archive"),
                     //Tab(text: myUser == null ? "You" : myUser.name),
                   ],
-                ),
+                ),*/
               ),
               const Expanded(
                 child: TabBarView(

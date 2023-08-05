@@ -1,12 +1,8 @@
-import 'dart:math';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:paricon/my_widgets/trophy_rank.dart';
 import 'package:random_avatar/random_avatar.dart';
-import 'package:responsive_grid/responsive_grid.dart';
 
 import '../../my_widgets/my_names.dart';
 import '../../my_widgets/tournament_grid_revised.dart';

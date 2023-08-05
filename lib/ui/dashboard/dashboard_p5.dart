@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:buttons_tabbar/buttons_tabbar.dart';
+//import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -774,7 +774,7 @@ class _MyButtonTabBar extends StatelessWidget {
       height: 50.h,
       //color: Colors.amber,
       alignment: Alignment.centerLeft,
-      child: ButtonsTabBar(
+      /*child: ButtonsTabBar(
         height: 50.h,
         radius: 4.w,
         backgroundColor: const Color(0xff1f2232),
@@ -794,7 +794,7 @@ class _MyButtonTabBar extends StatelessWidget {
           Tab(text: "Daily Tournament"),
           Tab(text: "Best Record"),
         ],
-      ),
+      ),*/
     );
   }
 }

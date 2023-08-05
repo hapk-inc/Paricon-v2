@@ -3,7 +3,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:buttons_tabbar/buttons_tabbar.dart';
+//import 'package:buttons_tabbar/buttons_tabbar.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -54,7 +54,7 @@ class _DashboardBody extends StatelessWidget {
           Container(
             height: 60.h,
             alignment: Alignment.centerLeft,
-            child: FadeInRight(
+            /*   child: FadeInRight(
               child: ButtonsTabBar(
                 backgroundColor: const Color(0xff1f2232),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -75,7 +75,7 @@ class _DashboardBody extends StatelessWidget {
                   Tab(text: "You"),
                 ],
               ),
-            ),
+            ),*/
           ),
           const Space10(),
           const Expanded(
@@ -738,7 +738,7 @@ class DashboardP5 extends StatelessWidget {
             const Space10(),
             SizedBox(
               height: 60.h,
-              child: ButtonsTabBar(
+              /* child: ButtonsTabBar(
                 backgroundColor: const Color(0xff1f2232),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
                 labelStyle: TextStyle(
@@ -757,7 +757,7 @@ class DashboardP5 extends StatelessWidget {
                   Tab(text: "Top 10"),
                   Tab(text: "You"),
                 ],
-              ),
+              ),*/
             ),
             const Space10(),
             SizedBox(

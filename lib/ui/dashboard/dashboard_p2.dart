@@ -1,7 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:buttons_tabbar/buttons_tabbar.dart';
+//import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +84,8 @@ class _DashboardTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final MyUser? myUser = ref.watch(myUserProvider).value;
-    return ButtonsTabBar(
+    return Container();
+    /*return ButtonsTabBar(
       radius: 6.w,
       backgroundColor: const Color(0xff1f2232),
       contentPadding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -103,7 +104,7 @@ class _DashboardTab extends ConsumerWidget {
         const Tab(text: "Daily Tournament"),
         Tab(text: myUser == null ? "You" : myUser.name),
       ],
-    );
+    );*/
   }
 }
 
