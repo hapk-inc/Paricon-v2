@@ -9,7 +9,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:paricon/ui/dashboard/dashboard_p1.dart';
 import '../../logic/auth.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -646,7 +645,7 @@ class _MyBio extends ConsumerWidget {
                     ),
             ),
           ),
-          ExpansionTile(
+          /*   ExpansionTile(
             initiallyExpanded: user.displayName == null,
             title: TitleX(
                 a: user.displayName == null
@@ -741,9 +740,9 @@ class _MyBio extends ConsumerWidget {
                                         ),
                                       ),
                                     )),
-                        /* style: ButtonStyle(
+                        */ /* style: ButtonStyle(
                           padding: MaterialStatePropertyAll(EdgeInsets.zero),
-                        ),*/
+                        ),*/ /*
                         child: const Text(
                           "Save",
                           style: TextStyle(
@@ -781,7 +780,7 @@ class _MyBio extends ConsumerWidget {
                   ),
                 ),
               ),
-              /*SizedBox(
+              */ /*SizedBox(
                 height: 30.h,
                 width: 320.w,
                 child: TitleX(a: "Continue with which account"),
@@ -825,14 +824,14 @@ class _MyBio extends ConsumerWidget {
                         ),
                       )),
                 ],
-              )*/
-              /* Container(
+              )*/ /*
+              */ /* Container(
                 height: 80.h,
                 margin: EdgeInsets.only(bottom: 24.h),
                 padding: EdgeInsets.only(top: 8.h),
-              ),*/
+              ),*/ /*
             ],
-          ),
+          ),*/
           /*  SizedBox(
             height: 90.h,
             child: Row(

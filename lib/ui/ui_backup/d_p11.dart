@@ -302,9 +302,10 @@ class _PlayTournamentCarouselTile1 extends StatelessWidget {
                             "Start Now",
                             maxLines: 1,
                             style: TextStyle(
-                                color: const Color(0xff177E89),
-                                fontFamily: 'Poppins',
-                                fontSize: 12.sp),
+                              color: const Color(0xff177E89),
+                              fontFamily: 'Poppins',
+                              fontSize: 12.sp,
+                            ),
                           ),
                         ),
                       ),

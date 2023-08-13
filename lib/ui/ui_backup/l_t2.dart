@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'login_p.dart';
+import '../login/login_p.dart';
 
 class LoginT extends ConsumerWidget {
   const LoginT({super.key});

@@ -128,7 +128,8 @@ class MyApp extends ConsumerWidget {
             routerDelegate: AutoRouterDelegate.declarative(
               _myRoute,
               routes: (handler) => [
-                whichPage
+                DashboardRoute()
+                //whichPage
                 /* kDebugMode
                     ? whichPage
                     : ref.watch(inAppUpdateProvider).maybeWhen(
