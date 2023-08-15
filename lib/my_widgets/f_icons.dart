@@ -33,7 +33,8 @@ const List<IconData> fIcons = [
   /*FontAwesomeIcons.android,*/
   FontAwesomeIcons.flask, FontAwesomeIcons.compass,
   /*FontAwesomeIcons.shopify,*/ FontAwesomeIcons.handshakeSimple,
-  FontAwesomeIcons.snowflake, FontAwesomeIcons.palette,
+  //FontAwesomeIcons.snowflake,
+  FontAwesomeIcons.palette,
   FontAwesomeIcons.binoculars, FontAwesomeIcons.users, FontAwesomeIcons.gamepad,
   FontAwesomeIcons.feather, FontAwesomeIcons.link, FontAwesomeIcons.fish,
   FontAwesomeIcons.bug,

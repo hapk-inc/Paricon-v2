@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/routes/my_route.dart';
 import '../../logic/s_size.dart';
 
 class DashboardCarousel extends ConsumerWidget {
@@ -27,11 +29,12 @@ class DashboardCarousel extends ConsumerWidget {
             builder: (_, p1) => Stack(
               children: [
                 Positioned(
-                    right: 0,
-                    top: 6.h,
-                    width: p1.maxWidth * 0.36,
-                    height: p1.maxHeight,
-                    child: Lottie.asset('assets/tournament_trophies.json')),
+                  right: 0,
+                  top: 6.h,
+                  width: p1.maxWidth * 0.36,
+                  height: p1.maxHeight,
+                  child: Lottie.asset('assets/tournament_trophies.json'),
+                ),
                 Positioned(
                   // top: -9.h,
                   width: p1.maxWidth,
@@ -81,6 +84,8 @@ class DashboardCarousel extends ConsumerWidget {
                                     child: InkWell(
                                       onTap: () {
                                         //print("Icon press");
+                                        context.router
+                                            .push(const TournamentRoute());
                                       },
                                       child: Icon(
                                         Icons.arrow_right_alt,
@@ -119,16 +124,13 @@ class DashboardCarousel extends ConsumerWidget {
             ),
           ),
         ),
-        /*Container(
-          color: Colors.blue,
-          margin: EdgeInsets.symmetric(vertical: 4.5.h),
-        ),*/
         const _PlayWithFriendTile(),
       ],
       options: CarouselOptions(
         enableInfiniteScroll: false,
         enlargeCenterPage: true,
         enlargeFactor: 0.24,
+        padEnds: false,
         // disableCenter: true,
         viewportFraction:
             sSize == ScreenSize.phone || sSize == ScreenSize.tab ? 0.81 : 0.9,

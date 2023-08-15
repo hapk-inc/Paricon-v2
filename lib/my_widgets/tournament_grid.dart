@@ -72,12 +72,22 @@ class TournamentGridTile extends ConsumerWidget {
               ? Color(tournamentNotifier.icons[index].color!)
               : tournamentNotifier.icons[index].isFound
                   ? [
-                      const Color(0xff0075c4),
-                      const Color(0xffefa00b),
-                      const Color(0xff963484),
-                      const Color(0xff591f0a),
+                      const Color(0xff6E44FF),
+                      const Color(0xff6E44FF),
+                      const Color(0xff6E44FF),
+                      const Color(0xff6E44FF),
+                      // const Color(0xff0075c4),
+                      // const Color(0xffefa00b),
+                      // const Color(0xff963484),
+                      // const Color(0xff591f0a),
                     ][mockInteger(0, 3)]
-                  : const Color(0xff1f2232),
+                  //: const Color(0xff1f2232),
+                  : [
+                      const Color(0xffe1d8d2),
+                      const Color(0xffc4edeb),
+                      const Color(0xffffe6c7),
+                      const Color(0xffa7daf5),
+                    ][mockInteger(0, 3)],
           margin: EdgeInsets.zero,
           elevation: Random().nextBool() ? 4 : 0,
           shape: RoundedRectangleBorder(
@@ -107,15 +117,19 @@ class TournamentGridTile extends ConsumerWidget {
                           right: p1.maxWidth * 0.25,
                         ),
                         child: FittedBox(
-                            fit: BoxFit.fitHeight,
-                            child: Icon(
-                              IconData(
-                                tournamentNotifier.icons[index].iconCode,
-                                fontFamily: 'FontAwesomeSolid',
-                                fontPackage: 'font_awesome_flutter',
-                              ),
-                              color: const Color(0xfffde8e9),
-                            )),
+                          fit: BoxFit.fitHeight,
+                          child: Icon(
+                            IconData(
+                              tournamentNotifier.icons[index].iconCode,
+                              fontFamily: 'FontAwesomeSolid',
+                              fontPackage: 'font_awesome_flutter',
+                            ),
+                            //   color: const Color(0xfffde8e9),
+                            color: tournamentNotifier.icons[index].isFound
+                                ? const Color(0xfffdfcfd)
+                                : const Color(0xff36393B),
+                          ),
+                        ),
                       ),
               ),
             ),

@@ -63,6 +63,8 @@ dependencies:
 
   percent_indicator: ^4.2.3
 
+  shared_preferences: ^2.2.0
+
   animated_text_kit: ^4.2.2
 
   #toggle_switch: ^2.1.0

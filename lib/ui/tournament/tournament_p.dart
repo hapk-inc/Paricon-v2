@@ -1,348 +1,469 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:paricon/my_widgets/tournament_grid_revised.dart';
-import 'package:random_avatar/random_avatar.dart';
 
-import '../../my_widgets/my_names.dart';
+import '../../my_widgets/tournament_grid.dart';
 
 class TournamentP extends StatelessWidget {
   const TournamentP({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      //physics: const NeverScrollableScrollPhysics(),
-      slivers: [
-        SliverAppBar(
-          pinned: true,
-          expandedHeight: 180.h,
-          collapsedHeight: 90.h,
-          toolbarHeight: 81.h,
-          leadingWidth: 30.w,
-          leading: IconButton(
-            onPressed: () => context.router.pop(),
-            icon: Icon(
-              Icons.chevron_left,
-              size: 30.sp,
-            ),
-            splashRadius: 36.sp,
-          ),
-          elevation: 8,
-          centerTitle: false,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(15.w),
-              bottomRight: Radius.circular(15.w),
+    return SingleChildScrollView(
+      child: StaggeredGrid.count(
+        crossAxisCount: 20,
+        mainAxisSpacing: 9.h,
+        children: [
+          StaggeredGridTile.count(
+            crossAxisCellCount: 20,
+            mainAxisCellCount: 5.4,
+            child: Container(
+              alignment: Alignment.center,
+              child: const ShowIconDone(),
             ),
           ),
-          title: SizedBox(
-            width: 150.w,
-            //color: Colors.green,
-            child: const FittedBox(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Daily Tournament",
-                maxLines: 1,
-                style: TextStyle(fontFamily: 'Montserrat'),
-              ),
-            ),
-          ),
-          flexibleSpace: const FlexibleSpaceBar(
-            title: _ToHeader(),
-          ),
-        ),
-        SliverToBoxAdapter(child: SizedBox(height: 15.h)),
-        SliverToBoxAdapter(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 3.w),
-            height: 441.sp,
-            child: const TournamentGridRevised(),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Container(
-            height: 135.h,
-            width: 360.w,
-            color: const Color(0xffceeddb),
-            child: LayoutBuilder(
-              builder: (_, p1) => DataTable(
-                columnSpacing: 0,
-                horizontalMargin: p1.maxWidth * 0.025,
-                checkboxHorizontalMargin: 0,
-                headingRowHeight: 36.h,
-                dataRowMaxHeight: 45.h,
-                dataRowMinHeight: 21.h,
-                headingTextStyle: TextStyle(
-                  fontFamily: 'Poppins',
-                  color: const Color(0xff85baa1),
-                  fontSize: p1.maxWidth * 0.04,
-                ),
-                dataTextStyle: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: p1.maxWidth * 0.035,
-                  color: const Color(0xff2a0c4e),
-                ),
-                columns: [
-                  DataColumn(
-                    label: SizedBox(
-                      //color: Colors.red,
-                      width: p1.maxWidth * 0.275,
-                      child: const Text('NAME', textAlign: TextAlign.center),
+          StaggeredGridTile.count(
+            crossAxisCellCount: 20,
+            mainAxisCellCount: 27,
+            child: Card(
+              margin: EdgeInsets.symmetric(horizontal: 15.w),
+              color: const Color(0xffF2F7F2),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(7.5.w)),
+              // alignment: Alignment.center,
+              child: Column(
+                children: [
+                  const Flexible(
+                    flex: 3,
+                    child: ShowTimerIndicator(),
+                  ),
+                  Expanded(
+                    flex: 16,
+                    child: Padding(
+                      padding: EdgeInsets.all(15.sp),
+                      child: const TournamentGrid(),
                     ),
                   ),
-                  DataColumn(
-                    label: SizedBox(
-                      //color: Colors.blue,
-                      width: p1.maxWidth * 0.125,
-                      child: const Text(
-                        'RANK',
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                  DataColumn(
-                    label: SizedBox(
-                      width: p1.maxWidth * 0.25,
-                      //color: Colors.amber,
-                      child: const FittedBox(
-                        child: AutoSizeText(
-                          'SUBMITTED ON',
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ),
-                  DataColumn(
-                    label: SizedBox(
-                      width: p1.maxWidth * 0.2,
-                      //color: Colors.indigo,
-                      child: const AutoSizeText(
-                        'TIME',
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ],
-                rows: [
-                  ...List.generate(
-                    2,
-                    (index) => DataRow(
-                      cells: [
-                        DataCell(
-                          SizedBox(
-                            width: p1.maxWidth * 0.275,
-                            child: Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: p1.maxWidth * 0.04,
-                                  child: RandomAvatar(mockString()),
-                                ),
-                                SizedBox(width: 6.w),
-                                Expanded(
-                                  child: Text(
-                                    myRandomName(),
-                                    maxLines: 1,
-                                    style: const TextStyle(
-                                      fontFamily: 'Cabin',
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        DataCell(
-                          Container(
-                            alignment: Alignment.center,
-                            width: p1.maxWidth * 0.125,
-                            child: Text(
-                              "#${mockInteger(1, 10)}",
-                              style: const TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xff9e2b25),
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataCell(
-                          Container(
-                            width: p1.maxWidth * 0.25,
-                            alignment: Alignment.center,
-                            child: Text(
-                              "July 22, 12:30 PM",
-                              maxLines: 1,
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: p1.maxWidth * 0.03,
-                                fontWeight: FontWeight.w300,
-                              ),
-                            ),
-                          ),
-                        ),
-                        DataCell(
-                          Container(
-                            width: p1.maxWidth * 0.2,
-                            alignment: Alignment.centerRight,
-                            child: FittedBox(
-                              child: AutoSizeText.rich(
-                                TextSpan(
-                                  children: [
-                                    TextSpan(
-                                        text:
-                                            "0${mockInteger(1, 5)}:${mockInteger(10, 59)}"),
-                                    TextSpan(
-                                        text: ":${mockInteger(100, 599)}",
-                                        style: TextStyle(
-                                            fontSize: p1.maxWidth * 0.02)),
-                                  ],
-                                ),
-                                style: const TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xff280c4e),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
+                  const Spacer(),
                 ],
               ),
             ),
           ),
-        )
-      ],
+          StaggeredGridTile.count(
+            crossAxisCellCount: 9,
+            mainAxisCellCount: 3.6,
+            child: Container(
+              margin: EdgeInsets.only(left: 15.w, top: 12.h, bottom: 12.h),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4.5.w),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: SizedBox(
+                    child: Text(
+                      "End Timer",
+                      style: TextStyle(fontSize: 13.5.w),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          StaggeredGridTile.count(
+            crossAxisCellCount: 20,
+            mainAxisCellCount: 4.5,
+            child: Container(
+              // color: Colors.amber.shade50,
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.symmetric(horizontal: 15.w),
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                minVerticalPadding: 0,
+                dense: true,
+                title: SizedBox(
+                  height: 24.h,
+                  child: FittedBox(
+                    fit: BoxFit.fitHeight,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Your previous rank",
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
 
-class _ToHeader extends StatelessWidget {
-  const _ToHeader();
+class TournamentT extends StatelessWidget {
+  const TournamentT({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: StaggeredGrid.count(
+        crossAxisCount: 20,
+        mainAxisSpacing: 9.h,
+        children: [
+          StaggeredGridTile.count(
+            crossAxisCellCount: 20,
+            mainAxisCellCount: 4.5,
+            child: Container(
+              alignment: Alignment.center,
+              child: const ShowIconDone(),
+            ),
+          ),
+          StaggeredGridTile.count(
+            crossAxisCellCount: 20,
+            mainAxisCellCount: 25.2,
+            child: Card(
+              margin: EdgeInsets.symmetric(horizontal: 15.w),
+              color: const Color(0xffF2F7F2),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(7.5.w)),
+              // alignment: Alignment.center,
+              child: Column(
+                children: [
+                  const Flexible(
+                    flex: 3,
+                    child: ShowTimerIndicator(),
+                  ),
+                  Expanded(
+                    flex: 16,
+                    child: Padding(
+                      padding: EdgeInsets.all(15.sp),
+                      child: const TournamentGrid(),
+                    ),
+                  ),
+                  const Spacer(),
+                ],
+              ),
+            ),
+          ),
+          StaggeredGridTile.count(
+            crossAxisCellCount: 8,
+            mainAxisCellCount: 3.3,
+            child: Container(
+              margin: EdgeInsets.only(left: 15.w, top: 12.h, bottom: 12.h),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4.5.w),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: SizedBox(
+                    child: Text(
+                      "End Timer",
+                      style: TextStyle(fontSize: 13.5.w),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          StaggeredGridTile.count(
+            crossAxisCellCount: 20,
+            mainAxisCellCount: 4.5,
+            child: Container(
+              // color: Colors.amber.shade50,
+              alignment: Alignment.topLeft,
+              margin: EdgeInsets.symmetric(horizontal: 15.w),
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                minVerticalPadding: 0,
+                dense: true,
+                title: SizedBox(
+                  height: 24.h,
+                  child: FittedBox(
+                    fit: BoxFit.fitHeight,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Your previous rank",
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class ShowTimerIndicator2 extends StatelessWidget {
+  const ShowTimerIndicator2({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 51.h,
-      margin: EdgeInsets.only(bottom: 9.h),
-      child: Column(
+      color: Colors.blue,
+      alignment: Alignment.centerLeft,
+      child: LayoutBuilder(
+        builder: (_, p1) => Row(
+          //crossAxisAlignment: CrossAxisAlignment.start,
+          //mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Flexible(
+              child: Container(
+                color: Colors.amber,
+                child: Icon(
+                  Icons.timer,
+                  size: 24.sp,
+                ),
+              ),
+            ),
+            Flexible(
+              flex: 3,
+              child: Container(),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ShowTimerIndicator extends StatelessWidget {
+  const ShowTimerIndicator({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (_, p1) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            height: 12.h,
-            margin: EdgeInsets.symmetric(horizontal: 9.w),
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(9.w),
-                  child: LinearProgressIndicator(
-                    minHeight: 12.h,
-                    value: 0.75,
+          Flexible(
+            child: FractionallySizedBox(
+              widthFactor: 1,
+              child: Container(
+                //color: Colors.pink,
+                // width: p1.maxWidth * 0.3,
+                height: p1.maxHeight * 0.45,
+                padding: EdgeInsets.symmetric(horizontal: 6.w),
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      const TextSpan(text: " "),
+                      WidgetSpan(
+                        child: Icon(Icons.timer, size: 21.sp),
+                      ),
+                      const TextSpan(text: " "),
+                      TextSpan(text: "${mockInteger(1, 10)}".padLeft(2, '0')),
+                      const TextSpan(text: ":"),
+                      TextSpan(text: "${mockInteger(1, 59)}".padLeft(2, '0')),
+                    ],
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w900,
+                      fontSize: 18.w,
+                      color: Colors.red,
+                    ),
                   ),
                 ),
-                Positioned(
-                  right: 6.w,
-                  top: 1.5.h,
-                  height: 9.h,
-                  child: FittedBox(
-                    child: Text(
-                      mockInteger(10, 72).toString(),
-                    ),
-                  ),
-                )
-              ],
+              ),
             ),
           ),
-          SizedBox(height: 6.h),
-          Expanded(
-            child: Container(
-              //color: Colors.cyan,
-              margin: EdgeInsets.only(left: 9.w, right: 6.w),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 24.w,
-                    child: Column(
-                      //crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Flexible(
-                          flex: 4,
-                          child: FractionallySizedBox(
-                            heightFactor: 1,
-                            widthFactor: 1,
-                            child: FittedBox(
-                              child: Text(
-                                "0${mockInteger(1, 9)}",
-                                style: const TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 3.h),
-                        const Flexible(
-                          child: FittedBox(
-                            child: Text(
-                              "Minutes",
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w100),
-                            ),
-                          ),
-                        ),
-                      ],
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 7.5.w),
+            margin: EdgeInsets.symmetric(vertical: 7.5.h),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(3.w),
+              child: LinearProgressIndicator(
+                backgroundColor: Colors.grey.shade300,
+                value: mockInteger(1, 100) * 0.01,
+                minHeight: 4.5.h,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class ShowTimerIndicator3 extends StatelessWidget {
+  const ShowTimerIndicator3({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      //color: Colors.red,
+      alignment: Alignment.centerLeft,
+      child: LayoutBuilder(
+        builder: (_, p1) => Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              // color: Colors.pink,
+              width: p1.maxWidth * 0.3,
+              margin: EdgeInsets.only(right: 6.w),
+              alignment: Alignment.centerLeft,
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    const TextSpan(text: " "),
+                    WidgetSpan(
+                      child: Icon(Icons.timer, size: 21.sp),
+                    ),
+                    const TextSpan(text: " "),
+                    TextSpan(text: "${mockInteger(1, 10)}".padLeft(2, '0')),
+                    const TextSpan(text: ":"),
+                    TextSpan(text: "${mockInteger(1, 59)}".padLeft(2, '0')),
+                  ],
+                  style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w900,
+                      fontSize: 18.w,
+                      color: Colors.red),
+                ),
+              ),
+            ),
+            //SizedBox(width: 15.w),
+            Expanded(
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                minVerticalPadding: 0,
+                minLeadingWidth: 0.w,
+                /* leading: RichText(
+                  text: TextSpan(
+                    children: [
+                      const TextSpan(text: " "),
+                      WidgetSpan(
+                        child: Icon(Icons.timer, size: 21.sp),
+                      ),
+                      TextSpan(text: " ${mockInteger(1, 10)}".padLeft(2, '0')),
+                      TextSpan(text: ": "),
+                      TextSpan(text: "${mockInteger(1, 59)}".padLeft(2, '0')),
+                    ],
+                    style: const TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w900,
                     ),
                   ),
-                  VerticalDivider(
-                    width: 12.w,
-                    endIndent: 6.h,
-                    indent: 6.h,
-                    thickness: 1.w,
-                    color: Colors.white70,
-                  ),
-                  SizedBox(
-                    width: 24.w,
-                    child: Column(
-                      // crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Flexible(
-                          flex: 4,
-                          child: FractionallySizedBox(
-                            heightFactor: 1,
-                            widthFactor: 1,
-                            child: FittedBox(
-                              child: Text(
-                                "${mockInteger(10, 59)}",
-                                style: const TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 3.h),
-                        const Flexible(
-                          child: FittedBox(
-                            child: Text(
-                              "Seconds",
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w100),
-                            ),
-                          ),
-                        ),
-                      ],
+                ),*/
+                titleTextStyle: const TextStyle(color: Colors.red),
+                subtitleTextStyle: const TextStyle(color: Colors.red),
+                title: Container(
+                  height: 27.h,
+                  margin: EdgeInsets.only(bottom: 3.h),
+
+                  //color: Colors.red,
+                  alignment: Alignment.centerLeft,
+                  child: FittedBox(
+                    child: AutoSizeText(
+                      "Try to complete below ${mockInteger(1, 5)}:${mockInteger(11, 59)}",
+                      style: const TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontWeight: FontWeight.w700,
+                        color: Colors.red,
+                        fontSize: 72,
+                        //decorationThickness: 40,
+                      ),
                     ),
                   ),
-                ],
+                ),
+                subtitle: Container(
+                  height: 12.h,
+                  //color: Colors.amber,
+                  alignment: Alignment.centerLeft,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(3.w),
+                    child: LinearProgressIndicator(
+                      backgroundColor: Colors.grey.shade300,
+                      value: mockInteger(1, 100) * 0.01,
+                      minHeight: 4.5.h,
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ShowIconDone extends StatelessWidget {
+  const ShowIconDone({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (_, p1) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Flexible(
+            child: Text("${mockInteger(1, 36).toString().padLeft(2, '0')} / 36",
+                style: TextStyle(
+                  fontSize: p1.maxWidth * 0.066,
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.bold,
+                  shadows: const <Shadow>[
+                    Shadow(
+                      offset: Offset(1.0, 1.0),
+                      blurRadius: 3.0,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                  ],
+                )),
+          ),
+          Flexible(
+            flex: 2,
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              minVerticalPadding: 0,
+              title: Container(
+                height: p1.maxHeight * 0.36,
+                margin: EdgeInsets.symmetric(vertical: 4.5.h),
+                //color: Colors.red,
+                alignment: Alignment.centerLeft,
+                child: const FittedBox(
+                  fit: BoxFit.fitHeight,
+                  child: Text(
+                    "Open Challenge",
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white60,
+                      fontSize: 72,
+                      //decorationThickness: 40,
+                    ),
+                  ),
+                ),
+              ),
+              subtitle: Container(
+                height: p1.maxHeight * 0.15,
+                //color: Colors.amber,
+                alignment: Alignment.centerLeft,
+                child: FittedBox(
+                  child: Text(
+                    "${mockInteger(1, 50)} users have played this challenge",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Cabin',
+                      fontSize: 72,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
               ),
             ),
           )
