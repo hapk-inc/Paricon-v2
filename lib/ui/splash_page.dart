@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
 import '../my_widgets/my_logo.dart';
@@ -13,14 +14,18 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).canvasColor,
-      //backgroundColor: Colors.deepPurple.shade700,
       body: Stack(
         children: [
           Center(
-            child: FadeIn(
-              delay: const Duration(milliseconds: 500),
-              duration: const Duration(seconds: 1),
-              child: const MyLogo(),
+            heightFactor: 2.4,
+            // widthFactor: 0.9,
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: FadeIn(
+                delay: const Duration(milliseconds: 500),
+                duration: const Duration(seconds: 1),
+                child: const MyLogo(),
+              ),
             ),
           ),
           Align(

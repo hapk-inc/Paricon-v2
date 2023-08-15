@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../theme/login_theme.dart';
 import '../login/login_p.dart';
 
 class LoginT extends ConsumerWidget {
@@ -29,7 +30,7 @@ class LoginT extends ConsumerWidget {
         children: [
           Flexible(
             flex: aRatio > 1.5 ? 7 : 3,
-            child: const LoginP(),
+            child: LoginP(theme: LoginTheme()),
           ),
           //Spacer()
         ],

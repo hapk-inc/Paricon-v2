@@ -15,7 +15,10 @@ part 'my_route.gr.dart';
 class MyRouter extends _$MyRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: LoginRoute.page),
+        CustomRoute(
+          page: LoginRoute.page,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+        ),
         /*CustomRoute(
           page: LoginRoute.page,
           transitionsBuilder: TransitionsBuilders.fadeIn,

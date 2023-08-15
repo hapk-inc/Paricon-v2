@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../logic/s_size.dart';
+import '../my_widgets/my_logo.dart';
+import '../theme/login_theme.dart';
 import 'login/login_p.dart';
 import 'login/login_t.dart';
 import 'login/login_tv.dart';
@@ -22,9 +24,17 @@ class LoginPage extends ConsumerWidget {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         //backgroundColor: const Color(0xffFBF9FF),
-        toolbarHeight: sSize == ScreenSize.phone ? 90.h : 90.h,
+        //toolbarHeight: sSize == ScreenSize.phone ? 90.h : 90.h,
+        toolbarHeight: 900.h * 0.1,
         elevation: 1.2,
-        centerTitle: false,
+        //centerTitle: false,
+        leadingWidth: 0,
+
+        title: AnimatedContainer(
+          duration: const Duration(milliseconds: 500),
+          width: sSize == ScreenSize.phone ? 270.w : 240.w,
+          child: const MyLogo(),
+        ),
 
         //leadingWidth: 270.w,
         /*title: Container(
@@ -55,7 +65,18 @@ class LoginPage extends ConsumerWidget {
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
           child: sSize == ScreenSize.phone
-              ? const LoginP()
+              ? LoginP(
+                  theme: LoginTheme(
+                    title: const Color(0xffaa5042),
+                    subTitle: const Color(0xff753742),
+                    already: const Color(0xff009ddc),
+                    useExisting: const Color(0xffff1053),
+                    //roundHighlight: const Color(0xff753742),
+                    roundHighlight: const Color(0xff3e4d4a),
+                    //roundBg: const Color(0xffaa5042),
+                    roundBg: const Color(0xffDBDFE6),
+                  ),
+                )
               : sSize == ScreenSize.tab
                   ? const LoginT()
                   : sSize == ScreenSize.iPad

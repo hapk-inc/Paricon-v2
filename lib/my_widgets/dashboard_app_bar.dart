@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:random_avatar/random_avatar.dart';
 
+import '../logic/auth.dart';
 import '../logic/s_size.dart';
 import 'my_logo.dart';
 
@@ -64,9 +66,14 @@ AppBar dashboardAppBar(ScreenSize size) {
         toolbarHeight: 90.h,
         leading: const MyLogo(),
         actions: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 9.w),
-            child: const Icon(Icons.notifications),
+          Consumer(
+            builder: (_, ref, __) => Container(
+              margin: EdgeInsets.symmetric(horizontal: 9.w),
+              child: InkWell(
+                onTap: () => ref.read(signOutProvider),
+                child: const Icon(Icons.notifications),
+              ),
+            ),
           ),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 9.w),
