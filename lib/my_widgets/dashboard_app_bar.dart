@@ -12,7 +12,7 @@ AppBar dashboardAppBar(ScreenSize size) {
   switch (size) {
     case ScreenSize.phone:
       return AppBar(
-        toolbarHeight: 84.h,
+        toolbarHeight: 90.h,
         leading: const MyLogo(),
         actions: [
           Container(
@@ -62,8 +62,8 @@ AppBar dashboardAppBar(ScreenSize size) {
       );
     case ScreenSize.pc:
       return AppBar(
-        leadingWidth: 210,
-        toolbarHeight: 90.h,
+        leadingWidth: 225,
+        toolbarHeight: 105.h,
         leading: const MyLogo(),
         actions: [
           Consumer(
@@ -84,7 +84,7 @@ AppBar dashboardAppBar(ScreenSize size) {
       );
     case ScreenSize.tv:
       return AppBar(
-        leadingWidth: 90.w,
+        leadingWidth: 90.h,
         leading: const MyLogo(),
       );
     case ScreenSize.tooSmall:

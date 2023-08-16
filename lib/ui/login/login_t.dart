@@ -3,14 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../theme/login_theme.dart';
+import 'l_alreadyExisting.dart';
+import 'l_button.dart';
+import 'l_dots.dart';
+import 'l_form.dart';
+import 'l_title.dart';
+
 class LoginT extends StatelessWidget {
-  const LoginT({super.key});
+  final LoginTheme theme;
+  const LoginT({super.key, required this.theme});
+
+  // const LoginT({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 9.w),
-      decoration: const BoxDecoration(
+      /*  decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -20,14 +30,18 @@ class LoginT extends StatelessWidget {
             Color(0xffE2DAF2),
           ],
         ),
-      ),
+      ),*/
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
+              height: 165.h,
               margin: EdgeInsets.symmetric(vertical: 15.h),
-              child: AutoSizeText.rich(
+              alignment: Alignment.centerLeft,
+              //child: LoginTitle(theme: theme),
+              child: const LoginForm(hintSize: 12),
+              /*   child: AutoSizeText.rich(
                 TextSpan(
                   children: [
                     TextSpan(
@@ -51,32 +65,37 @@ class LoginT extends StatelessWidget {
                     )
                   ],
                 ),
-              ),
+              ),*/
             ),
             Container(
               //height: 90.h,
-              margin: EdgeInsets.symmetric(vertical: 15.h),
+              margin: EdgeInsets.symmetric(vertical: 12.h),
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
               alignment: Alignment.centerLeft,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Container(
-                  margin:
-                      EdgeInsets.symmetric(vertical: 9.h, horizontal: 10.5.w),
-                  child: Text(
-                    "Get started",
-                    style: TextStyle(fontSize: 11.1.sp),
-                  ),
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  LButton(),
+                  /*ElevatedButton(
+                    onPressed: () {},
+                    child: Container(
+                      margin:
+                          EdgeInsets.symmetric(vertical: 9.h, horizontal: 9.w),
+                      child: Text(
+                        "Get started",
+                        style: TextStyle(fontSize: 11.1.sp),
+                      ),
+                    ),
+                  ),*/
+                  LDots(theme: theme)
+                ],
               ),
             ),
             AspectRatio(
               aspectRatio: 1.2,
-              child: Lottie.asset(
-                'assets/jigsaw_green.json',
-                repeat: false,
-              ),
+              child: Lottie.asset('assets/jigsaw_green.json', repeat: false),
             ),
-            Container(
+            /*    Container(
               margin: EdgeInsets.symmetric(vertical: 15.h),
               child: Row(
                 children: [
@@ -105,7 +124,8 @@ class LoginT extends StatelessWidget {
                   ),
                 ],
               ),
-            )
+            )*/
+            LAlreadyExisting(theme: theme)
           ],
         ),
       ),

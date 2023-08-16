@@ -4,8 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../logic/s_size.dart';
+import '../my_widgets/dashboard_app_bar.dart';
 import '../my_widgets/my_logo.dart';
 import '../theme/login_theme.dart';
+import 'login/login_iPad.dart';
 import 'login/login_p.dart';
 import 'login/login_t.dart';
 import 'login/login_tv.dart';
@@ -20,9 +22,19 @@ class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sSize = ref.watch(sizeProvider);
+    final LoginTheme _theme = LoginTheme(
+      title: const Color(0xffaa5042),
+      subTitle: const Color(0xff753742),
+      already: const Color(0xff009ddc),
+      useExisting: const Color(0xffff1053),
+      //roundHighlight: const Color(0xff753742),
+      roundHighlight: const Color(0xff3e4d4a),
+      //roundBg: const Color(0xffaa5042),
+      roundBg: const Color(0xffDBDFE6),
+    );
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
+      /* appBar: AppBar(
         //backgroundColor: const Color(0xffFBF9FF),
         //toolbarHeight: sSize == ScreenSize.phone ? 90.h : 90.h,
         toolbarHeight: 900.h * 0.1,
@@ -37,21 +49,21 @@ class LoginPage extends ConsumerWidget {
         ),
 
         //leadingWidth: 270.w,
-        /*title: Container(
+        */ /*title: Container(
           width: 360.w,
 
           alignment: Alignment.centerLeft,
           // alignment: Alignment(-1.2, 0),
           child: const MyLogo(),
-        ),*/
-        /*leading: IconButton(
+        ),*/ /*
+        */ /*leading: IconButton(
           onPressed: () {},
           icon: const Icon(
             Icons.menu,
             color: Colors.black,
           ),
-        ),*/
-        /*actions: [
+        ),*/ /*
+        */ /*actions: [
           IconButton(
             onPressed: () {},
             icon: const Icon(
@@ -59,30 +71,20 @@ class LoginPage extends ConsumerWidget {
               color: Colors.black,
             ),
           ),
-        ],*/
-      ),
+        ],*/ /*
+      ),*/
+      appBar: dashboardAppBar(sSize),
       body: SafeArea(
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
           child: sSize == ScreenSize.phone
-              ? LoginP(
-                  theme: LoginTheme(
-                    title: const Color(0xffaa5042),
-                    subTitle: const Color(0xff753742),
-                    already: const Color(0xff009ddc),
-                    useExisting: const Color(0xffff1053),
-                    //roundHighlight: const Color(0xff753742),
-                    roundHighlight: const Color(0xff3e4d4a),
-                    //roundBg: const Color(0xffaa5042),
-                    roundBg: const Color(0xffDBDFE6),
-                  ),
-                )
+              ? LoginP(theme: _theme)
               : sSize == ScreenSize.tab
-                  ? const LoginT()
+                  ? LoginT(theme: _theme)
                   : sSize == ScreenSize.iPad
-                      ? const LoginW()
+                      ? LoginIpad(theme: _theme)
                       : sSize == ScreenSize.pc
-                          ? const LoginW()
+                          ? LoginW(theme: _theme)
                           : const LoginTV(),
         ),
       ),
