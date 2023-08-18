@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../theme/login_theme.dart';
+import 'login_theme.dart';
 import 'l_alreadyExisting.dart';
 import 'l_button.dart';
 import 'l_dots.dart';

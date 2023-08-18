@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../logic/s_size.dart';
 import '../my_widgets/dashboard_app_bar.dart';
 import '../my_widgets/my_logo.dart';
-import '../theme/login_theme.dart';
+import 'login/login_theme.dart';
 import 'login/login_iPad.dart';
 import 'login/login_p.dart';
 import 'login/login_t.dart';

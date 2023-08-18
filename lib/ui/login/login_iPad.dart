@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:paricon/ui/login/l_title.dart';
 
-import '../../theme/login_theme.dart';
+import 'login_theme.dart';
 import 'l_alreadyExisting.dart';
 import 'l_button.dart';
 import 'l_dots.dart';

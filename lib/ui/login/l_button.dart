@@ -19,7 +19,8 @@ class LButton extends StatelessWidget {
                     ),*/
       onPressed: () {},
       style: ButtonStyle(
-        backgroundColor: MaterialStatePropertyAll(Color(0xff3e4d4a)),
+        backgroundColor: const MaterialStatePropertyAll(Color(0xff3e4d4a)),
+        padding: MaterialStatePropertyAll(EdgeInsets.zero),
         shape: MaterialStatePropertyAll(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(3.h)),
         ),

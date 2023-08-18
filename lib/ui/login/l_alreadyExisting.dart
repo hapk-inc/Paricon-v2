@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../theme/login_theme.dart';
+import 'login_theme.dart';
 
 class LAlreadyExisting extends StatelessWidget {
   const LAlreadyExisting({super.key, required this.theme, this.txtSize = 12});
@@ -12,7 +12,8 @@ class LAlreadyExisting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 15.h),
+      margin: EdgeInsets.only(top: 15.h),
+      alignment: Alignment.centerRight,
       child: Row(
         children: [
           Text(

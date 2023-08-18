@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../theme/login_theme.dart';
+import 'login_theme.dart';
 import 'l_alreadyExisting.dart';
 import 'l_button.dart';
 import 'l_dots.dart';
@@ -69,13 +69,13 @@ class LoginT extends StatelessWidget {
             ),
             Container(
               //height: 90.h,
-              margin: EdgeInsets.symmetric(vertical: 12.h),
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              margin: EdgeInsets.only(top: 15.h),
+              padding: EdgeInsets.symmetric(horizontal: 3.w),
               alignment: Alignment.centerLeft,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  LButton(),
+                  const LButton(txtSize: 9.6),
                   /*ElevatedButton(
                     onPressed: () {},
                     child: Container(

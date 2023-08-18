@@ -167,6 +167,7 @@ flutter:
     - assets/app_update.json
     - assets/error_404.json
     - assets/friends_joystick.json
+    - assets/profile_mobile.json
     - assets/tournament_trophies.json
 
   # To add assets to your application, add an assets section, like this:
