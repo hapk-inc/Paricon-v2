@@ -30,7 +30,8 @@ class LoginT extends ConsumerWidget {
         children: [
           Flexible(
             flex: aRatio > 1.5 ? 7 : 3,
-            child: LoginP(theme: LoginTheme()),
+            child: Container(),
+            // child: LoginP(theme: LoginTheme()),
           ),
           //Spacer()
         ],

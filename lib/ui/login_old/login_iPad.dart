@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:paricon/ui/login/l_title.dart';
+//import 'package:paricon/ui/login/l_title.dart';
 
 import 'login_theme.dart';
 import 'l_alreadyExisting.dart';

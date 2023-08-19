@@ -1,115 +1,143 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import 'login_theme.dart';
-import 'l_alreadyExisting.dart';
+import '../../logic/dot_notifier.dart';
+import '../../logic/s_size.dart';
+import 'already_existing.dart';
+import 'dot_indicator.dart';
+import 'engage_and_unlock.dart';
 import 'l_button.dart';
-import 'l_dots.dart';
-import 'l_form.dart';
-import 'l_title.dart';
+import 'name_dob.dart';
 
-final TextEditingController _nameController = TextEditingController();
+class LoginP extends ConsumerStatefulWidget {
+  const LoginP({super.key});
 
-class LoginP extends StatelessWidget {
-  final LoginTheme theme;
-  const LoginP({super.key, required this.theme});
+  @override
+  ConsumerState createState() => _LoginPState();
+}
+
+class _LoginPState extends ConsumerState<LoginP>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(
+      vsync: this,
+      length: 2,
+    );
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SlidingUpPanel(
-      maxHeight: 210.h,
-      backdropOpacity: 0.75,
-      backdropEnabled: true,
-      minHeight: 0,
-      panel: Column(
+    ref.listen(dotNotifierProvider, (previous, next) {
+      debugPrint(next.toString());
+      _tabController.animateTo(next);
+    });
+    final sSize = ref.read(sizeProvider);
+    final isTab = sSize == ScreenSize.iPad;
+    final isPhone = sSize == ScreenSize.phone;
+    //final dot = ref.watch(dotNotifierProvider);
+    return DefaultTabController(
+      length: 2,
+      child: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 6.h),
         children: [
-          SizedBox(
-            height: 150.h,
-            child: LoginForm1(),
+          AnimatedContainer(
+            height: isTab
+                ? 180.h
+                : isPhone
+                    ? 156.h
+                    : 165.h,
+            alignment: Alignment.topCenter,
+            padding: EdgeInsets.only(left: 7.5.w),
+            duration: const Duration(milliseconds: 500),
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                const EngageAndUnlock(),
+                NameDOB(
+                    hintSize: isTab
+                        ? 9
+                        : isPhone
+                            ? 12
+                            : 9.6),
+              ],
+            ),
           ),
-        ],
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 9.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          //mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              height: 150.h,
-              // color: Colors.red,
-              margin: EdgeInsets.symmetric(vertical: 15.h),
-              // padding: EdgeInsets.only(left: 15.w),
-              alignment: Alignment.centerLeft,
-              child: LoginTitle(theme: theme),
-              //child: const LoginForm(hintSize: 12),
-            ),
-            Container(
-              //height: 90.h,
-              margin: EdgeInsets.only(top: 15.h),
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              alignment: Alignment.centerLeft,
-              child: Consumer(
-                builder: (_, ref, __) => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const LButton(hMargin: 18, txtSize: 12),
-                    /*   ElevatedButton(
-                      */ /* onPressed: () => ref.read(gSignProvider.future).catchError(
-                        (e, s) {
-                          if (kDebugMode) {
-                            print(e);
-                          }
-                          ref.read(anonymousProvider);
-                        },
-                      ),*/ /*
-                      onPressed: () {},
-                      style: const ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(Color(0xff3e4d4a)),
-                      ),
-                      child: Container(
-                        margin: EdgeInsets.symmetric(
-                          vertical: 9.h,
-                          horizontal: 15.w,
-                        ),
-                        child: Text(
-                          "Get started",
-                          style: TextStyle(fontSize: 13.5.sp),
-                        ),
-                      ),
-                    ),*/
-                    //SizedBox(width: 120.w),
-                    LDots(theme: theme),
-                  ],
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            margin: EdgeInsets.symmetric(vertical: 15.h),
+            padding: EdgeInsets.only(left: 12.w, right: 24.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                LoginButton(
+                  txtSize: isTab
+                      ? 8.4
+                      : !isPhone
+                          ? 9.9
+                          : 12,
+                  hMargin: isTab
+                      ? 6
+                      : !isPhone
+                          ? 8.1
+                          : 9,
                 ),
+                LoginDots(
+                  bigR: isTab ? 8.1 : 12,
+                  smallR: isTab ? 7.2 : 9.6,
+                  space: isTab ? 8.4 : 9,
+                ),
+              ],
+            ),
+          ),
+          AnimatedContainer(
+            margin: EdgeInsets.symmetric(vertical: 4.5.h),
+            duration: const Duration(seconds: 5),
+            alignment: Alignment.center,
+            child: AspectRatio(
+              aspectRatio: isTab
+                  ? 1
+                  : isPhone
+                      ? 1
+                      : 1.2,
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  FadeIn(
+                    child: Lottie.asset(
+                      'assets/jigsaw_green.json',
+                      repeat: true,
+                    ),
+                  ),
+                  FadeIn(
+                    child: Lottie.asset(
+                      'assets/profile_mobile.json',
+                      repeat: true,
+                    ),
+                  )
+                ],
               ),
             ),
-            AspectRatio(
-              aspectRatio: 0.9,
-              child: Lottie.asset(
-                'assets/profile_mobile.json',
-                // 'assets/jigsaw_green.json',
-                repeat: true,
-              ),
-            ),
-            LAlreadyExisting(theme: theme, txtSize: 13.5)
-          ],
-        ),
+          ),
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            margin: EdgeInsets.only(top: 15.h),
+            child: AlreadyExisting(txtSize: isTab ? 10.5 : null),
+          )
+        ],
       ),
     );
   }
 }
-
-/*gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xffFBF9FF),
-            Color(0xffFBF8FF),
-            Color(0xffE2DAF2),
-          ],
-        ),*/

@@ -8,7 +8,7 @@ class LoginTheme {
   final Color roundBg;
   final Color roundHighlight;
 
-  const LoginTheme(
+  LoginTheme(
       {this.title = Colors.black,
       this.subTitle = Colors.black,
       this.already = Colors.black,
@@ -16,14 +16,3 @@ class LoginTheme {
       this.roundBg = Colors.grey,
       this.roundHighlight = Colors.black});
 }
-
-const LoginTheme lTheme = LoginTheme(
-  title: Color(0xffaa5042),
-  subTitle: Color(0xff753742),
-  already: Color(0xff009ddc),
-  useExisting: Color(0xffff1053),
-  //roundHighlight: const Color(0xff753742),
-  roundHighlight: Color(0xff3e4d4a),
-  //roundBg: const Color(0xffaa5042),
-  roundBg: Color(0xffDBDFE6),
-);

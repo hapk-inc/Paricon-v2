@@ -6,14 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../logic/s_size.dart';
 import '../my_widgets/dashboard_app_bar.dart';
 import '../my_widgets/my_logo.dart';
-import 'login/login_theme.dart';
-import 'login/login_iPad.dart';
 import 'login/login_p.dart';
-import 'login/login_t.dart';
-import 'login/login_tv.dart';
-import 'login/login_w.dart';
-//import 'login/login_p.dart';
-//import 'login/login_w.dart';
+import 'login/login_pad.dart';
+import 'login/login_web.dart';
 
 @RoutePage()
 class LoginPage extends ConsumerWidget {
@@ -22,72 +17,125 @@ class LoginPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sSize = ref.watch(sizeProvider);
-    final LoginTheme _theme = LoginTheme(
-      title: const Color(0xffaa5042),
-      subTitle: const Color(0xff753742),
-      already: const Color(0xff009ddc),
-      useExisting: const Color(0xffff1053),
-      //roundHighlight: const Color(0xff753742),
-      roundHighlight: const Color(0xff3e4d4a),
-      //roundBg: const Color(0xffaa5042),
-      roundBg: const Color(0xffDBDFE6),
-    );
+    final isPhoneTab = sSize == ScreenSize.phone || sSize == ScreenSize.tab;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      /* appBar: AppBar(
-        //backgroundColor: const Color(0xffFBF9FF),
-        //toolbarHeight: sSize == ScreenSize.phone ? 90.h : 90.h,
-        toolbarHeight: 900.h * 0.1,
-        elevation: 1.2,
-        //centerTitle: false,
-        leadingWidth: 0,
-
-        title: AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
-          width: sSize == ScreenSize.phone ? 270.w : 240.w,
-          child: const MyLogo(),
-        ),
-
-        //leadingWidth: 270.w,
-        */ /*title: Container(
-          width: 360.w,
-
-          alignment: Alignment.centerLeft,
-          // alignment: Alignment(-1.2, 0),
-          child: const MyLogo(),
-        ),*/ /*
-        */ /*leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.menu,
-            color: Colors.black,
-          ),
-        ),*/ /*
-        */ /*actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.menu,
-              color: Colors.black,
-            ),
-          ),
-        ],*/ /*
-      ),*/
-      appBar: dashboardAppBar(sSize),
+      backgroundColor: !isPhoneTab ? const Color(0xff724cf9) : null,
+      appBar: isPhoneTab
+          ? AppBar(
+              toolbarHeight: 84.h,
+              leadingWidth: leadingWidthSize(sSize),
+              leading: const MyLogo(),
+            )
+          : null,
       body: SafeArea(
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
-          child: sSize == ScreenSize.phone
-              ? LoginP(theme: _theme)
-              : sSize == ScreenSize.tab
-                  ? LoginT(theme: _theme)
-                  : sSize == ScreenSize.iPad
-                      ? LoginIpad(theme: _theme)
-                      : sSize == ScreenSize.pc
-                          ? LoginW(theme: _theme)
-                          : const LoginTV(),
+          child: sSize == ScreenSize.phone || sSize == ScreenSize.tab
+              ? const LoginP()
+              : sSize == ScreenSize.iPad
+                  ? const LoginPad()
+                  : sSize == ScreenSize.pc || sSize == ScreenSize.tv
+                      ? const LoginWeb()
+                      : const Placeholder(),
         ),
       ),
     );
   }
+
+  double leadingWidthSize(ScreenSize sSize) => sSize == ScreenSize.phone
+      ? 210.w
+      : sSize == ScreenSize.tab
+          ? 180.w
+          : sSize == ScreenSize.iPad
+              ? 150.w
+              : sSize == ScreenSize.pc || sSize == ScreenSize.tv
+                  ? 198
+                  : 0;
 }
+
+/*AppBar dashboardAppBar(ScreenSize size) {
+  switch (size) {
+    case ScreenSize.phone:
+      return AppBar(
+        toolbarHeight: 90.h,
+        leading: const MyLogo(),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 15.w),
+            child: CircleAvatar(
+              radius: 21.sp,
+              backgroundColor: const Color(0xffEFB7FF),
+              child: RandomAvatar(mockString(), trBackground: true),
+            ),
+          )
+        ],
+        leadingWidth: 210.w,
+      );
+
+    case ScreenSize.tab:
+      return AppBar(
+        //backgroundColor: Colors.green,
+        toolbarHeight: 90.h,
+        leading: const MyLogo(),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 15.w),
+            child: CircleAvatar(
+              radius: 18.sp,
+              backgroundColor: const Color(0xffEFB7FF),
+              child: RandomAvatar(mockString(), trBackground: true),
+            ),
+          )
+        ],
+        leadingWidth: 180.w,
+      );
+    case ScreenSize.iPad:
+      return AppBar(
+        toolbarHeight: 90.h,
+        leading: const MyLogo(),
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 15.w),
+            child: CircleAvatar(
+              radius: 18.sp,
+              backgroundColor: const Color(0xffEFB7FF),
+              child: RandomAvatar(mockString(), trBackground: true),
+            ),
+          )
+        ],
+        leadingWidth: 150.w,
+      );
+    case ScreenSize.pc:
+      return AppBar(
+        leadingWidth: 225,
+        toolbarHeight: 105.h,
+        leading: const MyLogo(),
+        actions: [
+          Consumer(
+            builder: (_, ref, __) => Container(
+              margin: EdgeInsets.symmetric(horizontal: 9.w),
+              child: InkWell(
+                onTap: () => ref.read(signOutProvider),
+                child: const Icon(Icons.notifications),
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 9.w),
+            child: const Icon(Icons.info),
+          ),
+        ],
+        actionsIconTheme: const IconThemeData(size: 21),
+      );
+    case ScreenSize.tv:
+      return AppBar(
+        leadingWidth: 90.h,
+        leading: const MyLogo(),
+      );
+    case ScreenSize.tooSmall:
+      return AppBar(
+        toolbarHeight: 100.h,
+      );
+  }
+}*/
