@@ -169,6 +169,7 @@ flutter:
     - assets/friends_joystick.json
     - assets/profile_mobile.json
     - assets/tournament_trophies.json
+    - assets/gLogo.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

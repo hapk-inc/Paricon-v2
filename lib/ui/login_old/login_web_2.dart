@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:paricon/logic/s_size.dart';
 
 import '../../logic/dot_notifier.dart';
-import '../../logic/s_size.dart';
-import 'dot_indicator.dart';
-import 'engage_and_unlock.dart';
-import 'l_button.dart';
-import 'login_p.dart';
-import 'name_dob.dart';
+
+import '../login/dot_indicator.dart';
+import '../login/engage_and_unlock.dart';
+import '../login/l_button.dart';
+import '../login/name_dob.dart';
 
 class LoginWeb extends ConsumerWidget {
   const LoginWeb({super.key});
@@ -21,29 +21,39 @@ class LoginWeb extends ConsumerWidget {
     final double ar = 900.h / 360.w;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
-      color: isTV ? Colors.indigo : Colors.red,
+      color: isTV ? Colors.indigo : const Color(0xff724cf9),
       alignment: Alignment.center,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        width: ar > 0.9
+            ? 240.w
+            : isTV
+                ? 240.w
+                : 300.w,
+        height: ar > 0.9 ? 810.h : 540.h,
+        child: Card(
+          elevation: 9,
+          child: AnimatedPadding(
+            padding: EdgeInsets.symmetric(horizontal: isTV ? 4.5.w : 3.w),
+            duration: const Duration(milliseconds: 200),
+            child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                child: ar > 0.9 ? Container() : const _LoginW()),
+          ),
+        ),
+      ),
     );
   }
 }
 
-class MWeb extends StatelessWidget {
-  const MWeb({super.key});
+class _LoginW extends ConsumerStatefulWidget {
+  const _LoginW();
 
   @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
+  ConsumerState createState() => __LoginWState();
 }
 
-class _LoginWeb extends ConsumerStatefulWidget {
-  const _LoginWeb({super.key});
-
-  @override
-  ConsumerState createState() => __LoginWebState();
-}
-
-class __LoginWebState extends ConsumerState<_LoginWeb>
+class __LoginWState extends ConsumerState<_LoginW>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -64,23 +74,18 @@ class __LoginWebState extends ConsumerState<_LoginWeb>
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(
-      dotNotifierProvider,
-      (previous, next) {
-        debugPrint(next.toString());
-        _tabController.animateTo(next);
-      },
-    );
+    ref.listen(dotNotifierProvider, (previous, next) {
+      debugPrint(next.toString());
+      _tabController.animateTo(next);
+    });
     final sSize = ref.read(sizeProvider);
-
+    print(sSize);
     final isTV = sSize == ScreenSize.tv;
-
     return Row(
       children: [
         Flexible(
-          flex: 3,
+          flex: 4,
           child: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Flexible(
                 flex: 3,
@@ -92,8 +97,8 @@ class __LoginWebState extends ConsumerState<_LoginWeb>
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.all(4.5.sp),
                       child: EngageAndUnlock(
-                        tFontSize: isTV ? 7.5 : 9,
-                        subFontSize: isTV ? 4.5 : 5.4,
+                        tFontSize: isTV ? 7.5 : 9.75,
+                        subFontSize: isTV ? 4.5 : 6,
                       ),
                     ),
                     const NameDOB()
@@ -109,14 +114,14 @@ class __LoginWebState extends ConsumerState<_LoginWeb>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       LoginButton(
-                        txtSize: isTV ? 3.6 : 4.5,
-                        hMargin: isTV ? 1.2 : 0.3,
+                        txtSize: isTV ? 3 : 4.8,
+                        hMargin: isTV ? 1.2 : 0.6,
                         borderRadius: isTV ? 1.2 : 1.5,
                       ),
                       LoginDot(
-                        bigR: isTV ? 4.2 : 4.8,
-                        smallR: isTV ? 3.3 : 3.15,
-                        space: isTV ? 3.6 : 2.4,
+                        bigR: isTV ? 4.5 : 5.4,
+                        smallR: isTV ? 3 : 3.6,
+                        space: isTV ? 3.6 : 3,
                       ),
                     ],
                   ),
@@ -125,11 +130,16 @@ class __LoginWebState extends ConsumerState<_LoginWeb>
             ],
           ),
         ),
+        VerticalDivider(
+          indent: 15.h,
+          endIndent: 15.h,
+          color: const Color(0xff724cf9).withOpacity(0.3),
+        ),
         Flexible(
           flex: 3,
           child: FractionallySizedBox(
-            heightFactor: 0.9,
-            widthFactor: 0.99,
+            widthFactor: isTV ? 0.9 : 1,
+            heightFactor: isTV ? 0.9 : 1,
             child: Container(
               // color: Colors.green,
               alignment: Alignment.center,

@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../logic/s_size.dart';
-import '../my_widgets/dashboard_app_bar.dart';
 import '../my_widgets/my_logo.dart';
+import '../theme/my_color.dart';
 import 'login/login_p.dart';
 import 'login/login_pad.dart';
 import 'login/login_web.dart';
@@ -20,12 +20,14 @@ class LoginPage extends ConsumerWidget {
     final isPhoneTab = sSize == ScreenSize.phone || sSize == ScreenSize.tab;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: !isPhoneTab ? const Color(0xff724cf9) : null,
+      backgroundColor: !isPhoneTab ? majorelleBlue : null,
       appBar: isPhoneTab
           ? AppBar(
+              backgroundColor: sSize == ScreenSize.tab ? sunGlow : null,
               toolbarHeight: 84.h,
               leadingWidth: leadingWidthSize(sSize),
               leading: const MyLogo(),
+              elevation: 9,
             )
           : null,
       body: SafeArea(
@@ -46,7 +48,7 @@ class LoginPage extends ConsumerWidget {
   double leadingWidthSize(ScreenSize sSize) => sSize == ScreenSize.phone
       ? 210.w
       : sSize == ScreenSize.tab
-          ? 180.w
+          ? 195.w
           : sSize == ScreenSize.iPad
               ? 150.w
               : sSize == ScreenSize.pc || sSize == ScreenSize.tv

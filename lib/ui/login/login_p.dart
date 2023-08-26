@@ -1,16 +1,12 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../logic/dot_notifier.dart';
 import '../../logic/s_size.dart';
+import '../../theme/my_color.dart';
 import 'already_existing.dart';
-import 'dot_indicator.dart';
 import 'engage_and_unlock.dart';
-import 'l_button.dart';
-import 'name_dob.dart';
 
 class LoginP extends ConsumerStatefulWidget {
   const LoginP({super.key});
@@ -19,124 +15,173 @@ class LoginP extends ConsumerStatefulWidget {
   ConsumerState createState() => _LoginPState();
 }
 
-class _LoginPState extends ConsumerState<LoginP>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(
-      vsync: this,
-      length: 2,
-    );
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
+class _LoginPState extends ConsumerState<LoginP> {
   @override
   Widget build(BuildContext context) {
-    ref.listen(dotNotifierProvider, (previous, next) {
-      debugPrint(next.toString());
-      _tabController.animateTo(next);
-    });
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          height: 240.h,
+          color: gunMetal,
+          alignment: Alignment.centerLeft,
+          child: LayoutBuilder(
+            builder: (_, p1) => Stack(
+              children: [
+                Positioned(
+                  right: -p1.maxWidth * 0.1,
+                  top: p1.maxHeight * 0.1,
+                  bottom: p1.maxHeight * 0.1,
+                  width: p1.maxWidth * 0.45,
+                  child: Lottie.asset(
+                    'assets/profile_mobile.json',
+                    repeat: true,
+                  ),
+                ),
+                Positioned(
+                  left: p1.maxWidth * 0.03,
+                  width: p1.maxWidth * 0.6,
+                  top: p1.maxHeight * 0.15,
+                  bottom: p1.maxHeight * 0.06,
+                  child: const Align(
+                    alignment: Alignment.centerLeft,
+                    child: EngageAndUnlock(tFontSize: 18, subFontSize: 12),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const LoginRegister(),
+      ],
+    );
+  }
+}
+
+class LoginRegister extends ConsumerWidget {
+  const LoginRegister({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final sSize = ref.read(sizeProvider);
-    final isTab = sSize == ScreenSize.iPad;
-    final isPhone = sSize == ScreenSize.phone;
-    //final dot = ref.watch(dotNotifierProvider);
-    return DefaultTabController(
-      length: 2,
-      child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 6.h),
-        children: [
-          AnimatedContainer(
-            height: isTab
-                ? 180.h
-                : isPhone
-                    ? 156.h
-                    : 165.h,
-            alignment: Alignment.topCenter,
-            padding: EdgeInsets.only(left: 7.5.w),
-            duration: const Duration(milliseconds: 500),
-            child: TabBarView(
-              controller: _tabController,
-              children: [
-                const EngageAndUnlock(),
-                NameDOB(
-                    hintSize: isTab
-                        ? 9
-                        : isPhone
-                            ? 12
-                            : 9.6),
-              ],
-            ),
-          ),
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            margin: EdgeInsets.symmetric(vertical: 15.h),
-            padding: EdgeInsets.only(left: 12.w, right: 24.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                LoginButton(
-                  txtSize: isTab
-                      ? 8.4
-                      : !isPhone
-                          ? 9.9
-                          : 12,
-                  hMargin: isTab
-                      ? 6
-                      : !isPhone
-                          ? 8.1
-                          : 9,
+    return LayoutBuilder(
+      builder: (_, p1) => Container(
+        padding: EdgeInsets.symmetric(
+            horizontal: p1.maxWidth * 0.03, vertical: 15.h),
+        child: Column(
+          children: [
+            Container(
+              height: 60.h,
+              margin: EdgeInsets.only(bottom: 15.h, right: 15.w),
+              child: TextFormField(
+                enabled: true,
+                expands: true,
+                maxLines: null,
+                style: TextStyle(
+                  fontSize: 15.r,
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w600,
+                  color: gunMetal,
                 ),
-                LoginDots(
-                  bigR: isTab ? 8.1 : 12,
-                  smallR: isTab ? 7.2 : 9.6,
-                  space: isTab ? 8.4 : 9,
-                ),
-              ],
-            ),
-          ),
-          AnimatedContainer(
-            margin: EdgeInsets.symmetric(vertical: 4.5.h),
-            duration: const Duration(seconds: 5),
-            alignment: Alignment.center,
-            child: AspectRatio(
-              aspectRatio: isTab
-                  ? 1
-                  : isPhone
-                      ? 1
-                      : 1.2,
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  FadeIn(
-                    child: Lottie.asset(
-                      'assets/jigsaw_green.json',
-                      repeat: true,
+                decoration: InputDecoration(
+                  suffix: InkWell(
+                    onTap: () {},
+                    child: Text(
+                      "LOGIN NOW",
+                      style: TextStyle(
+                        fontSize: 15.r,
+                        fontFamily: 'Poppins',
+                        color: pistachio,
+                      ),
                     ),
                   ),
-                  FadeIn(
-                    child: Lottie.asset(
-                      'assets/profile_mobile.json',
-                      repeat: true,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(6.r),
+                    borderSide: BorderSide(
+                      color: spaceCadet,
+                      width: 0.6.r,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: frenchGray, width: 0.6.r),
+                    borderRadius: BorderRadius.circular(6.r),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: barnRed),
+                    borderRadius: BorderRadius.circular(6.r),
+                  ),
+                  labelText: 'Enter your Email',
+                  labelStyle: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 15.r,
+                    fontWeight: FontWeight.normal,
+                    color: frenchGray,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 15.h),
+              child: Row(
+                children: [
+                  Text(
+                    "Or Login with",
+                    style: TextStyle(
+                      color: blackOlive,
+                      fontSize: 14.r,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  Expanded(
+                    child: Divider(
+                      indent: 15.w,
+                      endIndent: 30.w,
+                      color: frenchGray,
+                      thickness: 0.6.r,
                     ),
                   )
                 ],
               ),
             ),
-          ),
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            margin: EdgeInsets.only(top: 15.h),
-            child: AlreadyExisting(txtSize: isTab ? 10.5 : null),
-          )
-        ],
+            Container(
+              width: 360.w,
+              margin: EdgeInsets.symmetric(vertical: 15.h),
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              alignment: Alignment.centerLeft,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                //alignment: WrapAlignment.end,
+                children: [
+                  //Text("or Sign in with"),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: const Color(0xffDDDBE0),
+                        borderRadius: BorderRadius.circular(9.r)),
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(12.r),
+                    constraints: BoxConstraints.tight(Size.square(54.r)),
+                    child: Image.asset('assets/gLogo.png'),
+                  ),
+                  if (sSize == ScreenSize.tab || sSize == ScreenSize.iPad)
+                    const Expanded(
+                      child: Align(
+                          alignment: Alignment.centerRight,
+                          child: AlreadyExisting()),
+                    )
+                ],
+              ),
+            ),
+            if (sSize == ScreenSize.phone)
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 15.h),
+                alignment: Alignment.centerLeft,
+                child: const AlreadyExisting(),
+              )
+          ],
+        ),
       ),
     );
   }

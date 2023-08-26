@@ -16,10 +16,12 @@ class LoginPad extends StatelessWidget {
         duration: const Duration(milliseconds: 500),
         child: Card(
           elevation: 6,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.w)),
-          child: LayoutBuilder(
-            builder: (context, constraints) => LoginP(),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(9.r),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(9.r),
+            child: const LoginP(),
           ),
         ),
       ),
