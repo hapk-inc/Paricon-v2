@@ -10,7 +10,7 @@ import 'package:mock_data/mock_data.dart';
 import 'package:paricon/my_widgets/trophy_rank.dart';
 import 'package:paricon/routes/my_route.dart';
 
-import 'package:awesome_bookmark_icon_button/awesome_bookmark_icon_button.dart';
+//import 'package:awesome_bookmark_icon_button/awesome_bookmark_icon_button.dart';
 
 import '../../my_widgets/my_list_tile.dart';
 import '../../my_widgets/my_logo.dart';
@@ -548,11 +548,12 @@ class _TopWinnerPlayerTile extends StatelessWidget {
               Positioned(
                 top: -p1.maxWidth * 0.075,
                 right: 0,
-                child: BookMarkIconButton(
+                child: Container(),
+                /* child: BookMarkIconButton(
                   isSaved: true,
                   onPressed: () {},
                   padding: EdgeInsets.zero,
-                ),
+                ),*/
               ),
               Positioned(
                 top: -p1.maxWidth * 0.02,

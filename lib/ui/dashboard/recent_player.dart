@@ -5,9 +5,10 @@ import 'package:mock_data/mock_data.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 import '../../my_widgets/my_names.dart';
+import '../../theme/my_color.dart';
 
-class RecentPlayers extends StatelessWidget {
-  const RecentPlayers({super.key});
+class RecentPlayer extends StatelessWidget {
+  const RecentPlayer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,19 +17,19 @@ class RecentPlayers extends StatelessWidget {
       padding: EdgeInsets.only(left: 3.w, top: 3.h),
       children: List.generate(
         10,
-        (index) => const _RecentPlayerTile(),
+        (index) => const RecentPlayerTile(),
       ),
     );
   }
 }
 
-class _RecentPlayerTile extends StatelessWidget {
-  const _RecentPlayerTile();
+class RecentPlayerTile extends StatelessWidget {
+  const RecentPlayerTile();
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 0.925,
+      aspectRatio: 0.93,
       child: LayoutBuilder(
         builder: (_, p1) => Column(
           children: [
@@ -38,10 +39,10 @@ class _RecentPlayerTile extends StatelessWidget {
                 children: [
                   Positioned(
                     width: p1.maxWidth,
-                    height: p1.maxHeight * 0.7,
+                    height: p1.maxHeight * 0.72,
                     bottom: p1.maxWidth * 0.05,
                     child: const CircleAvatar(
-                      backgroundColor: Color(0xff724cf9),
+                      backgroundColor: iris,
                     ),
                   ),
                   Positioned(
@@ -55,10 +56,10 @@ class _RecentPlayerTile extends StatelessWidget {
             ),
             Flexible(
               child: FractionallySizedBox(
-                heightFactor: 0.85,
+                heightFactor: 0.87,
                 widthFactor: 1,
                 child: FittedBox(
-                  child: AutoSizeText(
+                  child: Text(
                     myRandomName(),
                     style: const TextStyle(
                       fontWeight: FontWeight.normal,

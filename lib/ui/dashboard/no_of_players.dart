@@ -9,9 +9,9 @@ class NoOfPlayers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(3.sp),
+      padding: EdgeInsets.all(3.r),
       //color: Colors.green,
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.center,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -25,14 +25,14 @@ class NoOfPlayers extends StatelessWidget {
                     TextSpan(
                       text: "${mockInteger(10, 100)}",
                       style: TextStyle(
-                        fontSize: 30.sp,
+                        fontSize: 30.r,
                         color: const Color(0xff942911),
                       ),
                     ),
                     TextSpan(
                       text: " ${mockInteger(10, 50)}%",
                       style: TextStyle(
-                        fontSize: 12.sp,
+                        fontSize: 12.r,
                         color: const Color(0xff9D8420),
                       ),
                     ),
@@ -45,13 +45,13 @@ class NoOfPlayers extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 3.h),
+          //SizedBox(height: 1.5.h),
           Flexible(
             child: FittedBox(
               child: Text(
                 "Overall Players",
                 style: TextStyle(
-                  fontSize: 9.sp,
+                  fontSize: 9.r,
                   color: const Color(0xff1A1B25),
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w900,

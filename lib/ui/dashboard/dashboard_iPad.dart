@@ -8,7 +8,7 @@ import 'dashboard_carousel.dart';
 import 'dashboard_title_x.dart';
 import 'everyone_friends.dart';
 import 'no_of_players.dart';
-import 'recent_players.dart';
+import 'recent_player.dart';
 
 class DashboardIpad extends StatelessWidget {
   const DashboardIpad({super.key});
@@ -66,7 +66,7 @@ class DashboardIpad extends StatelessWidget {
           StaggeredGridTile.count(
               crossAxisCellCount: 20,
               mainAxisCellCount: 3.0,
-              child: RecentPlayers())
+              child: RecentPlayer())
         ],
       ),
     );

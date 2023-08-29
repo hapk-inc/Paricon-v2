@@ -35,3 +35,24 @@ const Color ebony = Color(0xff59594A);
 const Color beaver = Color(0xffA18276);
 
 const Color sealBrown = Color(0xff582B11);
+
+const Color babyPowder = Color(0xffFDFFFC);
+
+const Color russianViolet = Color(0xff34113F);
+
+const Color battleshipGray = Color(0xff868784);
+
+const Color gray = Color(0xff7F7979);
+
+const Color timberWolf = Color(0xffD0D0D0);
+
+const Color richBlack = Color(0xff0E1116);
+
+const Color mintCream = Color(0xffE5F3ED);
+const Color crayola = Color(0xffEF2D56);
+
+const Color chocolateCosmos = Color(0xff5E0B15);
+
+const Color bronze = Color(0xffBC8034);
+
+const Color iris = Color(0xff5f39c6);

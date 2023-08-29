@@ -45,7 +45,7 @@ dependencies:
   firebase_database: ^10.2.4
 
   google_sign_in: ^6.1.4
-  googleapis: ^11.2.0
+  # googleapis: ^11.2.0
 
   flutter_riverpod: ^2.3.6
 
@@ -104,19 +104,21 @@ dependencies:
 
   fl_chart: ^0.62.0
 
+  pinput: ^3.0.1
+
   animated_digit: ^3.2.1
 
   icons_flutter: ^0.0.4
 
   flutter_staggered_grid_view: ^0.6.2
 
-  awesome_bookmark_icon_button: ^0.0.2
+  # awesome_bookmark_icon_button: ^0.0.2
 
   # introduction_screen: ^3.1.8
 
   dots_indicator:
 
-  expansion_tile_card: ^3.0.0
+  # expansion_tile_card: ^3.0.0
 
   toggle_switch: ^2.1.0
 

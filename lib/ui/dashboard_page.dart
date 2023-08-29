@@ -3,6 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:paricon/theme/my_color.dart';
 
 import '../logic/auth.dart';
 import '../logic/user_datastore.dart';
@@ -28,8 +29,8 @@ class DashboardPage extends ConsumerWidget {
     final sSize = ref.read(sizeProvider);
 
     return Scaffold(
-      appBar: dashboardAppBar(sSize),
-      backgroundColor: const Color(0xfffbf9ff),
+      //appBar: dashboardAppBar(sSize),
+      backgroundColor: ghostWhite,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: AnimatedSwitcher(

@@ -1,20 +1,22 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../logic/panel_controller.dart';
 import '../../theme/my_color.dart';
 
-class AlreadyExisting extends StatelessWidget {
-  const AlreadyExisting({super.key, this.txtSize = 13.5});
+class AlreadyExisting extends ConsumerWidget {
+  const AlreadyExisting({super.key, this.txtSize = 14});
 
   final double txtSize;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final panelController = ref.watch(panelProvider);
     return LayoutBuilder(
       builder: (_, p1) => AnimatedDefaultTextStyle(
         style: TextStyle(
-          fontFamily: 'Poppins',
+          fontFamily: 'Cabin',
           fontSize: txtSize.r,
           color: beaver,
         ),
@@ -27,6 +29,11 @@ class AlreadyExisting extends StatelessWidget {
             InkWell(
               onTap: () {
                 print("Log In");
+                if (!panelController.isPanelOpen) {
+                  panelController.open();
+                } else {
+                  panelController.close();
+                }
               },
               child: const Text(
                 "Register",

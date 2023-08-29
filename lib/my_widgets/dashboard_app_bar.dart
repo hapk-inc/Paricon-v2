@@ -12,15 +12,20 @@ AppBar dashboardAppBar(ScreenSize size) {
   switch (size) {
     case ScreenSize.phone:
       return AppBar(
-        toolbarHeight: 90.h,
+        toolbarHeight: 84.h,
         leading: const MyLogo(),
         actions: [
-          Container(
-            margin: EdgeInsets.only(right: 15.w),
-            child: CircleAvatar(
-              radius: 21.sp,
-              backgroundColor: const Color(0xffEFB7FF),
-              child: RandomAvatar(mockString(), trBackground: true),
+          Consumer(
+            builder: (context, ref, child) => Container(
+              margin: EdgeInsets.only(right: 15.w),
+              child: InkWell(
+                onTap: () => ref.read(signOutProvider),
+                child: CircleAvatar(
+                  radius: 21.sp,
+                  backgroundColor: const Color(0xffEFB7FF),
+                  child: RandomAvatar(mockString(), trBackground: true),
+                ),
+              ),
             ),
           )
         ],
@@ -30,7 +35,7 @@ AppBar dashboardAppBar(ScreenSize size) {
     case ScreenSize.tab:
       return AppBar(
         //backgroundColor: Colors.green,
-        toolbarHeight: 90.h,
+        toolbarHeight: 84.h,
         leading: const MyLogo(),
         actions: [
           Container(

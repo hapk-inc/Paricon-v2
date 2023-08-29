@@ -16,21 +16,23 @@ ThemeData get appTheme => ThemeData(
         style: ButtonStyle(
           backgroundColor: const MaterialStatePropertyAll(Color(0xff333232)),
           textStyle: MaterialStateProperty.all(
-            TextStyle(fontSize: 15.r, fontFamily: 'Poppins'),
+            TextStyle(fontSize: 14.r, fontFamily: 'Poppins'),
           ),
+          fixedSize: MaterialStatePropertyAll(Size(126.w, 42.h)),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(3.w)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.r)),
           ),
-          elevation: MaterialStateProperty.all(6.w),
+          elevation: MaterialStateProperty.all(6),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: ButtonStyle(
           textStyle: MaterialStateProperty.all(
             TextStyle(
-              fontSize: 24.r,
-              fontFamily: 'LilitaOne',
-              color: Colors.indigo.shade700,
+              fontSize: 16.r,
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.w900,
+              color: spaceCadet,
             ),
           ),
         ),

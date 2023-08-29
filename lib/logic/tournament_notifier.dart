@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/theme/my_color.dart';
+import 'package:paricon/ui/tournament/g_icons.dart';
 
 import '../model/local_icon.dart';
 import '../my_widgets/f_icons.dart';
@@ -15,7 +17,8 @@ class TournamentNotifier extends ChangeNotifier {
   bool _allFound = false;
 
   TournamentNotifier() {
-    List<IconData> x = List.from(fIcons);
+    //List<IconData> x = List.from(fIcons);
+    List<IconData> x = List.from(gIcons);
     x.shuffle();
     List<IconData> y = List.from(x.take(36));
     List<IconData> z = y + y;
@@ -50,15 +53,15 @@ class TournamentNotifier extends ChangeNotifier {
         () {
           Iterable<LocalIcon> x = _icons.where((element) => element.isCheck);
           if (x.every((e) => x.first.iconCode == e.iconCode)) {
-            var _iColor = [
+            /* var _iColor = [
               const Color(0xff0075c4),
               const Color(0xffefa00b),
               const Color(0xff963484),
               const Color(0xff591f0a),
-            ][mockInteger(0, 3)];
+            ][mockInteger(0, 3)];*/
             for (var e in x) {
               _icons[e.iconNo] = e.copyWith(
-                  isCheck: false, isFound: true, color: _iColor.value);
+                  isCheck: false, isFound: true, color: majorelleBlue.value);
             }
             allFound = _icons.every((element) => element.isFound);
           } else {

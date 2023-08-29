@@ -9,53 +9,26 @@ class EveryoneFriends extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sSize = ref.watch(sizeProvider);
-    bool isPhoneTab = sSize == ScreenSize.phone || sSize == ScreenSize.tab;
-
+    final sSize = ref.read(sizeProvider);
+    final bool isTab = sSize == ScreenSize.tab;
     return Container(
-      //color: Colors.blue,
       alignment: Alignment.centerLeft,
-      //padding: EdgeInsets.all(4.5.sp),
-      child: GroupButton(
-        buttons: const [
-          "EveryOne",
-          "My Friends",
-          //"My Friends",
-        ],
-        options: GroupButtonOptions(
-          buttonHeight: sSize == ScreenSize.phone ? 27.h : 30.h,
-          buttonWidth: sSize == ScreenSize.phone
-              ? 75.w
-              : isPhoneTab
-                  ? 60.w
-                  : 51.w,
-          spacing: 9.w,
-          runSpacing: 9.h,
-          elevation: 3,
-          unselectedColor: const Color(0xffedf2f4),
-          selectedColor: const Color(0xffa72608),
-          crossGroupAlignment: CrossGroupAlignment.start,
-          selectedTextStyle: TextStyle(
-            fontSize: sSize == ScreenSize.phone
-                ? 9.w
-                : isPhoneTab
-                    ? 7.8.w
-                    : 6.w,
-            color: const Color(0xffedf2f4),
-            fontFamily: 'Poppins',
-            //fontWeight: FontWeight.w100,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: GroupButton(
+          options: GroupButtonOptions(
+            direction: Axis.horizontal,
+            crossGroupAlignment: CrossGroupAlignment.start,
+            borderRadius: BorderRadius.circular(6.r),
+            buttonWidth: isTab ? 84.w : 84.w,
+            unselectedTextStyle: TextStyle(fontSize: isTab ? 13.5.r : 12.6.r),
+            selectedTextStyle: TextStyle(fontSize: isTab ? 13.5.r : 12.6.r),
+            textPadding: EdgeInsets.symmetric(horizontal: 9.w),
+            buttonHeight: 36.h,
+            spacing: 6.w,
+            elevation: 3,
           ),
-          unselectedTextStyle: TextStyle(
-            fontSize: sSize == ScreenSize.phone
-                ? 9.w
-                : isPhoneTab
-                    ? 7.8.w
-                    : 6.w,
-            color: const Color(0xff2D2327),
-            fontFamily: 'Poppins',
-            //fontWeight: FontWeight.w100,
-          ),
-          borderRadius: BorderRadius.circular(3.sp),
+          buttons: const ["EveryOne", "My Friends"],
         ),
       ),
     );

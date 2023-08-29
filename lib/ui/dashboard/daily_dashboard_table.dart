@@ -5,11 +5,109 @@ import 'package:mock_data/mock_data.dart';
 import 'package:random_avatar/random_avatar.dart';
 import '../../logic/s_size.dart';
 import '../../my_widgets/my_names.dart';
+import '../../theme/my_color.dart';
 
-List<String> hText = ["Name", "Rank", "Played On", "Duration"];
+const List<String> _hText = ["Name", "Rank", "Played On", "Duration"];
+List<num> _hSize = [34, 15, 30, 26];
 
 class DailyDashboardTable extends ConsumerWidget {
   const DailyDashboardTable({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      color: mintCream,
+      alignment: Alignment.center,
+      margin: EdgeInsets.all(3.r),
+      padding: EdgeInsets.all(3.r),
+      child: LayoutBuilder(
+        builder: (_, p1) {
+          return DataTable(
+            horizontalMargin: 0,
+            columnSpacing: 0,
+            dividerThickness: .9.h,
+            dataRowHeight: p1.maxHeight * 0.144,
+            headingRowHeight: p1.maxHeight * 0.12,
+            headingTextStyle: TextStyle(
+              fontSize: 13.5.r,
+              color: crayola,
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.w600,
+            ),
+            dataTextStyle: TextStyle(
+              fontSize: 12.r,
+              color: Colors.blue,
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.w600,
+            ),
+            columns: [
+              ...List.generate(
+                4,
+                (index) => DataColumn(
+                  label: Container(
+                    width: p1.maxWidth * (0.01 * _hSize[index]),
+                    padding: EdgeInsets.only(right: 15.w),
+                    alignment: Alignment.centerLeft,
+                    child: Text(_hText[index]),
+                  ),
+                ),
+              )
+            ],
+            rows: List.generate(6, (index) {
+              List<String> dataText = [
+                myRandomName(),
+                "${mockInteger(1, 11)}",
+                mockInteger(0, 1) == 0
+                    ? "Today ${mockInteger(10, 18)}:${mockInteger(10, 59)}"
+                    : "Yesterday",
+                "${mockInteger(1, 5)}:${mockInteger(10, 59)}"
+              ];
+              return DataRow(
+                cells: List.generate(
+                  4,
+                  (index) => index == 0
+                      ? DataCell(
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 14.r,
+                                child: RandomAvatar(mockString()),
+                              ),
+                              SizedBox(width: p1.maxWidth * 0.024),
+                              Text(
+                                dataText[index],
+                                style: const TextStyle(color: chocolateCosmos),
+                              ),
+                            ],
+                          ),
+                        )
+                      : DataCell(
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              dataText[index],
+                              style: TextStyle(
+                                  color: index == 1
+                                      ? crayola
+                                      : index == 2
+                                          ? bronze
+                                          : darkPurple,
+                                  fontSize: index == 3 ? 14.4.r : null),
+                            ),
+                          ),
+                        ),
+                ),
+              );
+            }),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class DailyDashboardTable1 extends ConsumerWidget {
+  const DailyDashboardTable1({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,7 +128,7 @@ class DailyDashboardTable extends ConsumerWidget {
         color: Color(0xffE5F3ED),
       ),
       child: LayoutBuilder(
-        builder: (context, p1) => DataTable(
+        builder: (_, p1) => DataTable(
           horizontalMargin: 0,
           columnSpacing: 0,
           dataRowHeight:
@@ -54,7 +152,7 @@ class DailyDashboardTable extends ConsumerWidget {
                   padding: EdgeInsets.only(
                       right: sSize == ScreenSize.phone ? 15.w : 12.w),
                   alignment: Alignment.centerLeft,
-                  child: Text(hText[index]),
+                  child: Text(_hText[index]),
                 ),
               ),
             )
