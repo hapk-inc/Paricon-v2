@@ -67,18 +67,22 @@ class DailyDashboardTable extends ConsumerWidget {
                   4,
                   (index) => index == 0
                       ? DataCell(
-                          Row(
-                            children: [
-                              CircleAvatar(
-                                radius: 14.r,
-                                child: RandomAvatar(mockString()),
-                              ),
-                              SizedBox(width: p1.maxWidth * 0.024),
-                              Text(
-                                dataText[index],
-                                style: const TextStyle(color: chocolateCosmos),
-                              ),
-                            ],
+                          Padding(
+                            padding: EdgeInsets.only(left: p1.maxWidth * 0.009),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 14.r,
+                                  child: RandomAvatar(mockString()),
+                                ),
+                                SizedBox(width: p1.maxWidth * 0.024),
+                                Text(
+                                  dataText[index],
+                                  style:
+                                      const TextStyle(color: chocolateCosmos),
+                                ),
+                              ],
+                            ),
                           ),
                         )
                       : DataCell(

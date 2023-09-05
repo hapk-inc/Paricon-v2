@@ -9,10 +9,10 @@ import '../../logic/auth.dart';
 import '../../my_widgets/my_logo.dart';
 import '../../routes/my_route.dart';
 import '../../theme/my_color.dart';
-import 'daily_dashboard_table.dart';
-import 'everyone_friends.dart';
-import 'no_of_players.dart';
-import 'recent_player.dart';
+import '../dashboard/daily_dashboard_table.dart';
+import '../dashboard/everyone_friends.dart';
+import '../dashboard/no_of_players.dart';
+import '../dashboard/recent_player.dart';
 
 class DashboardP extends ConsumerWidget {
   const DashboardP({super.key});
@@ -101,10 +101,36 @@ class DashboardP extends ConsumerWidget {
                 ),
                 StaggeredGridTile.count(
                   crossAxisCellCount: 20,
-                  mainAxisCellCount: 7.2,
+                  mainAxisCellCount: 1.5,
+                  child: Container(),
+                ),
+                StaggeredGridTile.count(
+                  crossAxisCellCount: 20,
+                  mainAxisCellCount: 6,
                   child: Container(
-                      //color: Colors.indigo,
-                      ),
+                    color: Colors.indigo,
+                  ),
+                ),
+                StaggeredGridTile.count(
+                  crossAxisCellCount: 7,
+                  mainAxisCellCount: 6,
+                  child: Container(
+                    color: Colors.red,
+                  ),
+                ),
+                StaggeredGridTile.count(
+                  crossAxisCellCount: 6,
+                  mainAxisCellCount: 6,
+                  child: Container(
+                    color: Colors.red,
+                  ),
+                ),
+                StaggeredGridTile.count(
+                  crossAxisCellCount: 7,
+                  mainAxisCellCount: 6,
+                  child: Container(
+                    color: Colors.red,
+                  ),
                 ),
                 StaggeredGridTile.count(
                   crossAxisCellCount: 20,

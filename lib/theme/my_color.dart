@@ -10,6 +10,18 @@ const Color sunGlow = Color(0xffFFC857);
 
 const Color darkCyan = Color(0xff118da4);
 
+const Color cadetGray = Color(0xff7A9E9F);
+
+const Color raisinBlack = Color(0xff2F242C);
+
+const Color teaRed = Color(0xffEEB4B3);
+
+const Color tiffanyBlue = Color(0xff75DDDD);
+
+const Color hunyadiYellow = Color(0xffFBB13C);
+
+const Color citron = Color(0xffE0C879);
+
 const Color barnRed = Color(0xff6F1A07);
 
 const Color gunMetal = Color(0xff30343F);
@@ -56,3 +68,9 @@ const Color chocolateCosmos = Color(0xff5E0B15);
 const Color bronze = Color(0xffBC8034);
 
 const Color iris = Color(0xff5f39c6);
+
+const Color olivine = Color(0xff8BB174);
+const Color pacificCyan = Color(0xff06AED5);
+const Color scarlet = Color(0xffFF331F);
+
+const Color platinum = Color(0xffE1DFE6);
