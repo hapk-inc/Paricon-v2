@@ -16,27 +16,13 @@ class TournamentPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sSize = ref.read(sizeProvider);
 
-    return ProviderScope(
-      child: Scaffold(
-        //backgroundColor: const Color(0xffFFFFFC),
-        backgroundColor: iris,
-        //appBar: dashboardAppBar(sSize),
-        //  backgroundColor: const Color(0xff6926BD),
-        //appBar: myAppBar(sSize, context, leadingWidth: 0),
-        body: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500),
-          child: sSize == ScreenSize.phone ? const TournamentP() : Container(),
-        ),
+    return Scaffold(
+      backgroundColor: iris,
+      appBar: buildAppBar(sSize),
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        child: sSize == ScreenSize.phone ? const TournamentP() : TournamentP(),
       ),
     );
   }
 }
-
-/*class TournamentT extends StatelessWidget {
-  const TournamentT({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}*/

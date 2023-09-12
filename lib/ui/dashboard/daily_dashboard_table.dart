@@ -8,25 +8,28 @@ import '../../my_widgets/my_names.dart';
 import '../../theme/my_color.dart';
 
 const List<String> _hText = ["Name", "Rank", "Played On", "Duration"];
-List<num> _hSize = [34, 15, 30, 26];
 
 class DailyDashboardTable extends ConsumerWidget {
   const DailyDashboardTable({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final sSize = ref.read(sizeProvider);
+    final bool isTab = sSize == ScreenSize.tab;
+    List<num> _hSize = [isTab ? 29 : 34, 14, 28, 26];
     return Container(
       color: mintCream,
       alignment: Alignment.center,
-      margin: EdgeInsets.all(3.r),
-      padding: EdgeInsets.all(3.r),
+      margin: EdgeInsets.all(1.5.r),
+      // padding: EdgeInsets.symmetric(horizontal: 3.r),
       child: LayoutBuilder(
         builder: (_, p1) {
           return DataTable(
-            horizontalMargin: 0,
+            horizontalMargin: 6.r,
             columnSpacing: 0,
             dividerThickness: .9.h,
-            dataRowHeight: p1.maxHeight * 0.144,
+            dataRowMinHeight: p1.maxHeight * 0.14,
+            dataRowMaxHeight: p1.maxHeight * 0.141,
             headingRowHeight: p1.maxHeight * 0.12,
             headingTextStyle: TextStyle(
               fontSize: 13.5.r,
@@ -48,7 +51,10 @@ class DailyDashboardTable extends ConsumerWidget {
                     width: p1.maxWidth * (0.01 * _hSize[index]),
                     padding: EdgeInsets.only(right: 15.w),
                     alignment: Alignment.centerLeft,
-                    child: Text(_hText[index]),
+                    child: Text(
+                      _hText[index],
+                      style: TextStyle(fontSize: 13.5.r),
+                    ),
                   ),
                 ),
               )
@@ -67,8 +73,9 @@ class DailyDashboardTable extends ConsumerWidget {
                   4,
                   (index) => index == 0
                       ? DataCell(
-                          Padding(
-                            padding: EdgeInsets.only(left: p1.maxWidth * 0.009),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            // padding: EdgeInsets.only(left: p1.maxWidth * 0.009),
                             child: Row(
                               children: [
                                 CircleAvatar(
@@ -76,10 +83,16 @@ class DailyDashboardTable extends ConsumerWidget {
                                   child: RandomAvatar(mockString()),
                                 ),
                                 SizedBox(width: p1.maxWidth * 0.024),
-                                Text(
-                                  dataText[index],
-                                  style:
-                                      const TextStyle(color: chocolateCosmos),
+                                Expanded(
+                                  child: Text(
+                                    dataText[index],
+                                    style: TextStyle(
+                                      fontSize: isTab ? 13.r : 12.r,
+                                      color: chocolateCosmos,
+                                      fontFamily: 'Montserrat',
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -91,12 +104,14 @@ class DailyDashboardTable extends ConsumerWidget {
                             child: Text(
                               dataText[index],
                               style: TextStyle(
-                                  color: index == 1
-                                      ? crayola
-                                      : index == 2
-                                          ? bronze
-                                          : darkPurple,
-                                  fontSize: index == 3 ? 14.4.r : null),
+                                fontSize: isTab ? 13.5.r : 12.r,
+                                color: index == 1
+                                    ? crayola
+                                    : index == 2
+                                        ? bronze
+                                        : darkPurple,
+                                // fontSize: index == 3 ? 14.4.r : null,
+                              ),
                             ),
                           ),
                         ),

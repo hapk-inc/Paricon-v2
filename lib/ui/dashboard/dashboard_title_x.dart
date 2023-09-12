@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class DashboardTitleX extends StatelessWidget {
-  const DashboardTitleX({
-    super.key,
-  });
+import '../../logic/s_size.dart';
+
+class DashboardTitleX extends ConsumerWidget {
+  final String t;
+  const DashboardTitleX(this.t, {super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      //color: Colors.red,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sSize = ref.read(sizeProvider);
+    final bool isTab = sSize == ScreenSize.tab;
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 500),
       alignment: Alignment.centerLeft,
-      padding: EdgeInsets.symmetric(horizontal: 3.w),
+      padding: EdgeInsets.symmetric(horizontal: 15.r),
       child: Text(
-        "Recent Players",
-        style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w900,
-            fontSize: 10.8.w),
+        t,
+        style: TextStyle(fontSize: isTab ? 14.r : 16.r),
       ),
     );
   }

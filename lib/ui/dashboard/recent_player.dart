@@ -41,9 +41,7 @@ class RecentPlayerTile extends StatelessWidget {
                     width: p1.maxWidth,
                     height: p1.maxHeight * 0.72,
                     bottom: p1.maxWidth * 0.05,
-                    child: const CircleAvatar(
-                      backgroundColor: iris,
-                    ),
+                    child: const CircleAvatar(backgroundColor: iris),
                   ),
                   Positioned(
                     bottom: p1.maxWidth * 0.075,
@@ -63,7 +61,8 @@ class RecentPlayerTile extends StatelessWidget {
                     myRandomName(),
                     style: const TextStyle(
                       fontWeight: FontWeight.normal,
-                      color: Color(0xff1f2232),
+                      fontFamily: 'Poppins',
+                      color: spaceCadet,
                     ),
                   ),
                 ),

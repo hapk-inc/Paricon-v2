@@ -74,3 +74,18 @@ const Color pacificCyan = Color(0xff06AED5);
 const Color scarlet = Color(0xffFF331F);
 
 const Color platinum = Color(0xffE1DFE6);
+
+const Color bitterSweet = Color(0xffff5154);
+
+const Color jasmine = Color(0xfff2cd6B);
+
+const Color azure = Color(0xffd3e6ec);
+
+const Color turquoise = Color(0xff5DD9C1);
+const Color coyote = Color(0xff7A542E);
+const Color pear = Color(0xffC3D350);
+const Color salmon = Color(0xffE88873);
+
+const Color mintCream2 = Color(0xffF2F7F2);
+
+const Color myWhite = Color(0xfffdfcfd);

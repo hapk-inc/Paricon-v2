@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/logic/s_size.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
 
 import '../logic/tournament_notifier.dart';
+import '../theme/my_color.dart';
 
 class TournamentGrid extends ConsumerWidget {
   const TournamentGrid({Key? key}) : super(key: key);
@@ -16,33 +18,39 @@ class TournamentGrid extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tournamentNotifier = ref.read(tournamentNotifierProvider);
     int count = tournamentNotifier.icons.length;
-
+    final sSize = ref.read(sizeProvider);
+    final isPhone = sSize == ScreenSize.phone;
     //print(360.w / 9.5);
 
     return LayoutBuilder(
-      builder: (p0, p1) {
-        double exHeight = p1.maxHeight;
+      builder: (_, __) {
+        /*double exHeight = p1.maxHeight;
         double gridSize = p1.maxWidth / 8;
         int row = exHeight ~/ gridSize;
-        print("RowCount $row");
+        print("RowCount $row");*/
         List<Widget> tiles = [
-          if (!(row - 9).isNegative)
-            ...List.generate(8 * (row - 9), (index) => Container()),
+          // if (!(row - 9).isNegative)
+          //   ...List.generate(8 * (row - 9), (index) => Container()),
           ...List.generate(
             count,
             (index) => TournamentGridTile(index: index),
           )
         ];
         tiles.shuffle();
-        return ResponsiveGridList(
-          minItemWidth: 1.w, minItemsPerRow: 7,
-          horizontalGridSpacing: 6.w,
-          verticalGridSpacing: 6.h,
-          horizontalGridMargin: 0,
-          verticalGridMargin: 0,
-          maxItemsPerRow: 8,
-          //minItemsPerRow: 5,
-          children: tiles,
+        return Center(
+          child: ResponsiveGridList(
+            listViewBuilderOptions:
+                ListViewBuilderOptions(physics: NeverScrollableScrollPhysics()),
+            minItemWidth: 1.w, minItemsPerRow: 7,
+            horizontalGridSpacing: 6.w,
+            verticalGridSpacing: 6.h,
+            horizontalGridMargin: 0,
+            verticalGridMargin: 0,
+            maxItemsPerRow: isPhone ? 8 : 9,
+
+            //minItemsPerRow: 5,
+            children: tiles,
+          ),
         );
       },
     );
@@ -55,6 +63,8 @@ class TournamentGridTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final sSize = ref.read(sizeProvider);
+    final bool isPhone = sSize == ScreenSize.phone;
     final tournamentNotifier = ref.watch(tournamentNotifierProvider);
 
     return AspectRatio(
@@ -71,7 +81,8 @@ class TournamentGridTile extends ConsumerWidget {
           color: tournamentNotifier.icons[index].color != null
               ? Color(tournamentNotifier.icons[index].color!)
               : tournamentNotifier.icons[index].isFound
-                  ? [
+                  ? const Color(
+                      0xff6E44FF) /*[
                       const Color(0xff6E44FF),
                       const Color(0xff6E44FF),
                       const Color(0xff6E44FF),
@@ -80,7 +91,7 @@ class TournamentGridTile extends ConsumerWidget {
                       // const Color(0xffefa00b),
                       // const Color(0xff963484),
                       // const Color(0xff591f0a),
-                    ][mockInteger(0, 3)]
+                    ][mockInteger(0, 3)]*/
                   //: const Color(0xff1f2232),
                   : [
                       const Color(0xffe1d8d2),
@@ -110,16 +121,17 @@ class TournamentGridTile extends ConsumerWidget {
                 child: !tournamentNotifier.icons[index].checkFound()
                     ? null
                     : Icon(
-                        IconData(tournamentNotifier.icons[index].iconCode,
-                            fontFamily: 'MaterialIcons'
-                            //fontFamily: 'FontAwesomeSolid',
-                            //fontPackage: 'font_awesome_flutter',
-                            ),
-                        size: 24.r,
+                        IconData(
+                          tournamentNotifier.icons[index].iconCode,
+                          fontFamily: 'MaterialIcons',
+                          //fontFamily: 'FontAwesomeSolid',
+                          //fontPackage: 'font_awesome_flutter',
+                        ),
+                        size: isPhone ? 24.r : 25.4.r,
                         //   color: const Color(0xfffde8e9),
                         color: tournamentNotifier.icons[index].isFound
-                            ? const Color(0xfffdfcfd)
-                            : const Color(0xff36393B),
+                            ? myWhite
+                            : chocolateCosmos,
                       ),
               ),
             ),

@@ -35,7 +35,7 @@ class DashboardIpad extends StatelessWidget {
           StaggeredGridTile.count(
             crossAxisCellCount: 11,
             mainAxisCellCount: 4.5,
-            child: DashboardCarousel(),
+            child: DashboardCarousel1(),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 9,
@@ -47,7 +47,7 @@ class DashboardIpad extends StatelessWidget {
             mainAxisCellCount: 0.9,
             child: FittedBox(
               alignment: Alignment.centerLeft,
-              child: DashboardTitleX(),
+              child: DashboardTitleX("sdf"),
             ),
           ),
           StaggeredGridTile.count(
@@ -60,7 +60,7 @@ class DashboardIpad extends StatelessWidget {
             mainAxisCellCount: 0.9,
             child: FittedBox(
               alignment: Alignment.centerLeft,
-              child: DashboardTitleX(),
+              child: DashboardTitleX("sdfsdf"),
             ),
           ),
           StaggeredGridTile.count(

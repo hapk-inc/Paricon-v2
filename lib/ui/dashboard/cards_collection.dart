@@ -1,10 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mock_data/mock_data.dart';
+import '../../logic/s_size.dart';
 import 'package:random_avatar/random_avatar.dart';
 
-class CardsCollection extends StatelessWidget {
-  const CardsCollection({super.key});
+import '../../theme/my_color.dart';
+
+class CardCollection extends ConsumerWidget {
+  const CardCollection({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    List<Color> xRandom = [turquoise, pear, hunyadiYellow, salmon];
+    xRandom.shuffle();
+
+    final sSize = ref.read(sizeProvider);
+    final bool isTab = sSize == ScreenSize.tab;
+
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      padding: EdgeInsets.only(left: 4.5.r),
+      children: List.generate(
+        9,
+        (index) => AnimatedContainer(
+          duration: const Duration(milliseconds: 100),
+          width: isTab ? 90.r : 84.r,
+          margin: EdgeInsets.symmetric(horizontal: 3.w),
+          decoration: BoxDecoration(
+            color: xRandom[index % 4],
+            borderRadius: BorderRadius.circular(4.5.r),
+          ),
+          child: Stack(
+            children: [
+              AnimatedPositioned(
+                  duration: const Duration(milliseconds: 500),
+                  left: isTab ? -39.r : -45.r,
+                  bottom: -9.h,
+                  width: 108.r,
+                  height: 108.r,
+                  child: RandomAvatar(mockString(), trBackground: true)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CardsCollection1 extends StatelessWidget {
+  const CardsCollection1({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,13 +1,11 @@
-import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:random_avatar/random_avatar.dart';
 
 import '../../logic/s_size.dart';
-import '../../my_widgets/my_logo.dart';
 import '../../my_widgets/tournament_grid.dart';
 import '../../theme/my_color.dart';
 
@@ -19,89 +17,144 @@ class TournamentP extends ConsumerWidget {
     final sSize = ref.read(sizeProvider);
     final bool isTab = sSize == ScreenSize.tab;
     return SafeArea(
-      child: CustomScrollView(
-        // padding: EdgeInsets.symmetric(vertical: 15.h),
-        slivers: [
-          SliverAppBar(
-            pinned: true,
-            expandedHeight: isTab ? 201.h : 180.h,
-            leading: const MyLogo(),
-            collapsedHeight: 90.h,
-            toolbarHeight: 90.h,
-            leadingWidth: isTab ? 165.w : 210.w,
-            flexibleSpace:
-                const FlexibleSpaceBar(background: __PlayTournament()),
-            actions: [
-              Container(
-                margin: EdgeInsets.only(right: 30.r),
-                child: IconButton(
-                  onPressed: () => context.router.pop(),
-                  icon: Icon(
-                    Icons.close,
-                    size: 24.r,
-                  ),
-                  splashRadius: 24.r,
-                ),
-              )
-            ],
-            title: CircleAvatar(
-              radius: 30.r,
-              backgroundColor: gunMetal,
-              child: RandomAvatar(mockString(), trBackground: true),
+      child: SingleChildScrollView(
+        child: StaggeredGrid.count(
+          crossAxisCount: 20,
+          children: [
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 3,
+              child: SizedBox(),
             ),
-            titleSpacing: 15.w,
-            elevation: 9,
-            centerTitle: false,
-          ),
-          SliverToBoxAdapter(child: SizedBox(height: 30.h)),
-          SliverToBoxAdapter(
-            child: StaggeredGrid.count(
-              crossAxisCount: 20,
-              children: [
-                StaggeredGridTile.count(
-                  crossAxisCellCount: 20,
-                  mainAxisCellCount: 27,
-                  child: Card(
-                    margin: EdgeInsets.symmetric(horizontal: 18.r),
-                    color: const Color(0xffF2F7F2),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7.5.r),
+            StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: isTab ? 21 : 27,
+              child: Card(
+                margin: EdgeInsets.symmetric(horizontal: 18.r),
+                color: mintCream2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(7.5.r),
+                ),
+                // alignment: Alignment.center,
+                child: Column(
+                  children: [
+                    const Flexible(
+                      flex: 3,
+                      child: ShowTimerIndicator(),
                     ),
-                    // alignment: Alignment.center,
-                    child: Column(
-                      children: [
-                        const Flexible(
-                          flex: 3,
-                          child: ShowTimerIndicator(),
+                    Expanded(
+                      flex: 16,
+                      child: Padding(
+                        padding: EdgeInsets.all(15.sp),
+                        child: const TournamentGrid(),
+                      ),
+                    ),
+                    const Spacer(),
+                  ],
+                ),
+              ),
+            ),
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 0.75,
+              child: SizedBox(),
+            ),
+            StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 9,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: AutoSizeText.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "    Choose a",
+                        style: TextStyle(
+                          fontSize: 18.r,
+                          color: azure,
+                          fontWeight: FontWeight.w100,
+                          fontFamily: [
+                            'Cabin',
+                            'Poppins',
+                            'Montserrat'
+                          ][mockInteger(0, 2)],
                         ),
-                        Expanded(
-                          flex: 16,
-                          child: Padding(
-                            padding: EdgeInsets.all(15.sp),
-                            child: const TournamentGrid(),
-                          ),
+                      ),
+                      TextSpan(
+                        text: " block to tap,",
+                        style: TextStyle(
+                          fontSize: 18.r,
+                          fontFamily: [
+                            'Cabin',
+                            'Poppins',
+                            'Montserrat'
+                          ][mockInteger(0, 2)],
+                          fontWeight: FontWeight.w100,
                         ),
-                        const Spacer(),
-                      ],
+                      ),
+                      TextSpan(
+                        text: " remember it and then",
+                        style: TextStyle(
+                          fontSize: 14.r,
+                          color: azure,
+                          fontFamily: [
+                            'Cabin',
+                            'Poppins',
+                            'Montserrat'
+                          ][mockInteger(0, 2)],
+                          fontWeight: FontWeight.w100,
+                        ),
+                      ),
+                      TextSpan(
+                        text: " click the next block ",
+                        style: TextStyle(
+                          fontSize: 24.r,
+                          fontFamily: ['Cabin', 'Poppins'][mockInteger(0, 1)],
+                          color: azure,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      TextSpan(
+                        text: "to find its match",
+                        style: TextStyle(
+                          fontSize: 15.r,
+                          height: 1.8,
+                          color: azure,
+                          fontWeight: FontWeight.w100,
+                          fontFamily: [
+                            'Cabin',
+                            'Poppins',
+                            'Montserrat'
+                          ][mockInteger(0, 2)],
+                        ),
+                      )
+                    ],
+                    style: TextStyle(
+                      fontSize: 30.r,
+                      height: 1.8,
+                      fontFamily: 'Montserrat',
+                      color: azure,
+                      //fontWeight: FontWeight.w900,
                     ),
                   ),
+                  maxLines: 3,
                 ),
-              ],
-            ),
-          ),
-          SliverToBoxAdapter(child: SizedBox(height: 15.h)),
-          SliverToBoxAdapter(child: SizedBox(height: 240.h)),
-        ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
 }
 
-class ShowTimerIndicator extends StatelessWidget {
+class ShowTimerIndicator extends ConsumerWidget {
   const ShowTimerIndicator({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sSize = ref.read(sizeProvider);
+    final isPhone = sSize == ScreenSize.phone;
     return LayoutBuilder(
       builder: (_, p1) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,7 +173,7 @@ class ShowTimerIndicator extends StatelessWidget {
                       // const TextSpan(text: " "),
                       WidgetSpan(child: SizedBox(width: 7.5.w)),
                       WidgetSpan(
-                        child: Icon(Icons.timer, size: 21.r),
+                        child: Icon(Icons.timer, size: 24.r),
                       ),
                       WidgetSpan(child: SizedBox(width: 4.5.w)),
                       TextSpan(text: "${mockInteger(1, 10)}".padLeft(2, '0')),
@@ -130,8 +183,8 @@ class ShowTimerIndicator extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.w900,
-                      fontSize: 18.r,
-                      color: Colors.red,
+                      fontSize: isPhone ? 18.r : 18.r,
+                      color: barnRed,
                     ),
                   ),
                 ),

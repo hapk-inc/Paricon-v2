@@ -35,14 +35,14 @@ class DashboardP extends StatelessWidget {
               StaggeredGridTile.count(
                 crossAxisCellCount: 20,
                 mainAxisCellCount: 7.2,
-                child: DashboardCarousel(),
+                child: DashboardCarousel1(),
               ),
               StaggeredGridTile.count(
                 crossAxisCellCount: 20,
                 mainAxisCellCount: 1.5,
                 child: FittedBox(
                   alignment: Alignment.centerLeft,
-                  child: DashboardTitleX(),
+                  child: DashboardTitleX("asdfasdf"),
                 ),
               ),
               StaggeredGridTile.count(
@@ -53,14 +53,14 @@ class DashboardP extends StatelessWidget {
               StaggeredGridTile.count(
                 crossAxisCellCount: 20,
                 mainAxisCellCount: 9,
-                child: CardsCollection(),
+                child: CardsCollection1(),
               ),
               StaggeredGridTile.count(
                 crossAxisCellCount: 20,
                 mainAxisCellCount: 1.5,
                 child: FittedBox(
                   alignment: Alignment.centerLeft,
-                  child: DashboardTitleX(),
+                  child: DashboardTitleX("vadfvadfv"),
                 ),
               ),
               StaggeredGridTile.count(

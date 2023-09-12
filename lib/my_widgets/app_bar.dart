@@ -1,19 +1,244 @@
-import 'package:animate_do/animate_do.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mock_data/mock_data.dart';
-import '../my_widgets/my_names.dart';
 
 import 'package:random_avatar/random_avatar.dart';
 
 import '../logic/s_size.dart';
-import '../logic/user_datastore.dart';
-import 'my_list_tile.dart';
+import '../theme/my_color.dart';
 import 'my_logo.dart';
 
-AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
+AppBar buildAppBar(ScreenSize sSize) {
+  switch (sSize) {
+    case ScreenSize.phone:
+      return AppBar(
+        backgroundColor: darkCyan,
+        toolbarHeight: 88.5.h,
+        leading: Container(
+          margin: EdgeInsets.only(left: 9.r),
+          child: const MyLogo(),
+        ),
+        leadingWidth: 255.r,
+        elevation: 9,
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 9.r),
+            child: CircleAvatar(
+              radius: 27.r,
+              child: CircleAvatar(
+                radius: 24.r,
+                child: RandomAvatar(mockString()),
+              ),
+            ),
+          ),
+        ],
+      );
+    case ScreenSize.tab:
+      return AppBar(
+        toolbarHeight: 90.h,
+        leading: Container(
+          margin: EdgeInsets.only(left: 9.r),
+          child: const MyLogo(),
+        ),
+        leadingWidth: 255.r,
+        elevation: 9,
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 15.r),
+            child: CircleAvatar(
+              radius: 27.r,
+              child: CircleAvatar(
+                radius: 24.r,
+                child: RandomAvatar(mockString()),
+              ),
+            ),
+          ),
+        ],
+      );
+    case ScreenSize.iPad:
+      return AppBar(
+        toolbarHeight: 105.h,
+        titleSpacing: 9.r,
+        leading: Container(
+          margin: EdgeInsets.only(left: 9.r),
+          child: const MyLogo(),
+        ),
+        leadingWidth: 281.r,
+        centerTitle: false,
+        elevation: 9,
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 45.r),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                FontAwesomeIcons.bell,
+                color: lavenderBush,
+                size: 27.r,
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(right: 15.r),
+            child: CircleAvatar(
+              radius: 30.r,
+              child: CircleAvatar(
+                radius: 27.r,
+                child: RandomAvatar(mockString()),
+              ),
+            ),
+          ),
+        ],
+      );
+    case ScreenSize.pc:
+      return AppBar(
+        toolbarHeight: 105.h,
+        titleSpacing: 9.w,
+        leading: Container(
+          margin: EdgeInsets.only(left: 15.r),
+          child: const MyLogo(),
+        ),
+        leadingWidth: 300.r,
+        centerTitle: false,
+        title: Container(
+          height: 105.h,
+          // color: spaceCadet,
+          alignment: Alignment.centerLeft,
+          child: Row(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                child: TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "CREATE GAME",
+                    style: TextStyle(
+                      color: lavenderBush,
+                      fontSize: 16.r,
+                    ),
+                    maxLines: 2,
+                  ),
+                ),
+              ),
+              VerticalDivider(
+                width: 45.r,
+                color: lavenderBush,
+                endIndent: 24.r,
+                indent: 24.r,
+              ),
+              Flexible(
+                child: TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "ENTER ROOM CODE",
+                    maxLines: 2,
+                    style: TextStyle(color: lavenderBush, fontSize: 16.r),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        elevation: 9,
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 30.r),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                FontAwesomeIcons.bell,
+                color: lavenderBush,
+                size: 30.r,
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(right: 30.r),
+            child: CircleAvatar(
+              radius: 30.r,
+              child: CircleAvatar(
+                radius: 27.r,
+                child: RandomAvatar(mockString()),
+              ),
+            ),
+          ),
+        ],
+      );
+    case ScreenSize.tv:
+      return AppBar(
+        toolbarHeight: 105.h,
+        leading: Container(
+          margin: EdgeInsets.only(left: 15.r),
+          child: const MyLogo(),
+        ),
+        titleSpacing: 60.r,
+        centerTitle: false,
+        title: Container(
+          width: 120.w,
+          height: 96.h,
+          //color: barnRed,
+          alignment: Alignment.centerLeft,
+          child: Row(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                onPressed: () {},
+                child: const Text(
+                  "CREATE GAME",
+                  style: TextStyle(color: lavenderBush),
+                ),
+              ),
+              VerticalDivider(
+                width: 60.r,
+                color: lavenderBush,
+                endIndent: 24.r,
+                indent: 24.r,
+              ),
+              TextButton(
+                onPressed: () {},
+                child: const Text(
+                  "ENTER ROOM CODE",
+                  style: TextStyle(color: lavenderBush),
+                ),
+              ),
+            ],
+          ),
+        ),
+        leadingWidth: 300.r,
+        elevation: 9,
+        actions: [
+          Container(
+            margin: EdgeInsets.only(right: 30.r),
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                FontAwesomeIcons.bell,
+                color: lavenderBush,
+                size: 30.r,
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(right: 30.r),
+            child: CircleAvatar(
+              radius: 30.r,
+              child: CircleAvatar(
+                radius: 27.r,
+                child: RandomAvatar(mockString()),
+              ),
+            ),
+          ),
+        ],
+      );
+    case ScreenSize.tooSmall:
+      return AppBar();
+    default:
+      return AppBar();
+  }
+}
+
+/*AppBar myAppBar(ScreenSize size, BuildContext context, {double? leadingWidth}) {
   var appbarTab = AppBar(
     toolbarHeight: 120.h,
     backgroundColor: Colors.deepPurpleAccent.shade700,
@@ -207,4 +432,4 @@ AppBar phone1 = AppBar(
     ),
   ),
   elevation: 8,
-);
+);*/

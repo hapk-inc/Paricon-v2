@@ -8,9 +8,90 @@ import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:paricon/routes/my_route.dart';
 import '../../logic/s_size.dart';
+import '../../theme/my_color.dart';
 
 class DashboardCarousel extends ConsumerWidget {
   const DashboardCarousel({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final sSize = ref.read(sizeProvider);
+    final isTab = sSize == ScreenSize.tab;
+    return LayoutBuilder(
+      builder: (_, p1) => CarouselSlider(
+        items: [
+          Card(
+            color: russianViolet,
+            elevation: 9,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(7.5.r),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ListTile(
+                  dense: true,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 18.r),
+                  title: AutoSizeText(
+                    "Engage and Unlock your Mind's Potential",
+                    maxLines: 2,
+                    style: TextStyle(fontSize: 18.r),
+                  ),
+                  //isThreeLine: true,
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(height: p1.maxHeight * 0.03),
+                      Text(
+                        "Challenge yourself in the Puzzle Universe and "
+                        "seize victory in competitive tournaments.",
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w100,
+                          fontSize: 14.r,
+                          height: 2.4,
+                          color: bitterSweet,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 15.w),
+                  child: OutlinedButton(
+                    onPressed: () =>
+                        context.router.push(const TournamentRoute()),
+                    child: Text(
+                      "Play Now",
+                      style: TextStyle(color: lavenderBush, fontSize: 12.r),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Card(
+            color: russianViolet,
+            child: Center(child: Text("A")),
+          ),
+        ],
+        options: CarouselOptions(
+          height: p1.maxHeight,
+          viewportFraction: isTab ? 0.6 : 0.75,
+          enlargeFactor: 0.21,
+          enableInfiniteScroll: false,
+          padEnds: false,
+          enlargeCenterPage: true,
+        ),
+      ),
+    );
+  }
+}
+
+class DashboardCarousel1 extends ConsumerWidget {
+  const DashboardCarousel1({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
