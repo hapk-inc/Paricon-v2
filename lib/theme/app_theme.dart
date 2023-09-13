@@ -12,7 +12,7 @@ ThemeData appTheme(ScreenSize sSize) => ThemeData(
         bodyLarge: TextStyle(fontFamily: 'Poppins', fontSize: 18.r),
         bodyMedium: TextStyle(
           fontFamily: 'Montserrat',
-          fontSize: 16.r,
+          fontSize: 9.r,
           color: raisinBlack,
           fontWeight: FontWeight.w700,
         ),

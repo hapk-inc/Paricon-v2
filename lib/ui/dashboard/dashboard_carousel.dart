@@ -33,7 +33,7 @@ class DashboardCarousel extends ConsumerWidget {
                 ListTile(
                   dense: true,
                   contentPadding: EdgeInsets.symmetric(horizontal: 18.r),
-                  title: AutoSizeText(
+                  title: Text(
                     "Engage and Unlock your Mind's Potential",
                     maxLines: 2,
                     style: TextStyle(fontSize: 18.r),
@@ -52,7 +52,7 @@ class DashboardCarousel extends ConsumerWidget {
                           fontWeight: FontWeight.w100,
                           fontSize: 14.r,
                           height: 2.4,
-                          color: bitterSweet,
+                          color: lavenderBush,
                         ),
                       ),
                     ],
@@ -73,13 +73,13 @@ class DashboardCarousel extends ConsumerWidget {
             ),
           ),
           const Card(
-            color: russianViolet,
+            color: darkStateGray,
             child: Center(child: Text("A")),
           ),
         ],
         options: CarouselOptions(
           height: p1.maxHeight,
-          viewportFraction: isTab ? 0.6 : 0.75,
+          viewportFraction: isTab ? 0.6 : 0.69,
           enlargeFactor: 0.21,
           enableInfiniteScroll: false,
           padEnds: false,

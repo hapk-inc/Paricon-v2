@@ -19,7 +19,7 @@ class DashboardP extends StatelessWidget {
           children: const [
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: 2.4,
+              mainAxisCellCount: 2.1,
               child: DashboardTitleX("Tournament"),
             ),
             StaggeredGridTile.count(
@@ -29,27 +29,27 @@ class DashboardP extends StatelessWidget {
             ),
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: 2.4,
+              mainAxisCellCount: 2.1,
               child: DashboardTitleX("Recently Played"),
             ),
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: 16.5,
+              mainAxisCellCount: 15,
               child: DailyDashboardTable(),
             ),
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: 2.4,
+              mainAxisCellCount: 2.1,
               child: DashboardTitleX("Recently Joined"),
             ),
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: 4.2,
+              mainAxisCellCount: 4.35,
               child: RecentPlayer(),
             ),
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: 3,
+              mainAxisCellCount: 2.1,
               child: DashboardTitleX("My Card Collection"),
             ),
             StaggeredGridTile.count(

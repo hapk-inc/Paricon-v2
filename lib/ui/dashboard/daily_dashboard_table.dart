@@ -16,7 +16,7 @@ class DailyDashboardTable extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sSize = ref.read(sizeProvider);
     final bool isTab = sSize == ScreenSize.tab;
-    List<num> _hSize = [isTab ? 29 : 34, 14, 28, 26];
+    List<num> hSize = [isTab ? 35 : 34, 14, 26, 25];
     return Container(
       color: mintCream,
       alignment: Alignment.center,
@@ -48,7 +48,7 @@ class DailyDashboardTable extends ConsumerWidget {
                 4,
                 (index) => DataColumn(
                   label: Container(
-                    width: p1.maxWidth * (0.01 * _hSize[index]),
+                    width: p1.maxWidth * (0.01 * hSize[index]),
                     padding: EdgeInsets.only(right: 15.w),
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -62,7 +62,7 @@ class DailyDashboardTable extends ConsumerWidget {
             rows: List.generate(6, (index) {
               List<String> dataText = [
                 myRandomName(),
-                "${mockInteger(1, 11)}",
+                "# ${mockInteger(1, 100)}",
                 mockInteger(0, 1) == 0
                     ? "Today ${mockInteger(10, 18)}:${mockInteger(10, 59)}"
                     : "Yesterday",
@@ -87,10 +87,10 @@ class DailyDashboardTable extends ConsumerWidget {
                                   child: Text(
                                     dataText[index],
                                     style: TextStyle(
-                                      fontSize: isTab ? 13.r : 12.r,
+                                      fontSize: isTab ? 12.r : 10.5.r,
                                       color: chocolateCosmos,
                                       fontFamily: 'Montserrat',
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ),
@@ -98,23 +98,55 @@ class DailyDashboardTable extends ConsumerWidget {
                             ),
                           ),
                         )
-                      : DataCell(
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              dataText[index],
-                              style: TextStyle(
-                                fontSize: isTab ? 13.5.r : 12.r,
-                                color: index == 1
-                                    ? crayola
-                                    : index == 2
-                                        ? bronze
-                                        : darkPurple,
-                                // fontSize: index == 3 ? 14.4.r : null,
+                      : index == 3
+                          ? DataCell(RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text:
+                                        "0${mockInteger(1, 5)}:${mockInteger(10, 59)}",
+                                    style: TextStyle(
+                                        fontSize: sSize == ScreenSize.phone
+                                            ? 13.5.r
+                                            : 15.r),
+                                  ),
+                                  TextSpan(
+                                    text: ": ${mockInteger(100, 500)}",
+                                    style: TextStyle(
+                                        fontSize: sSize == ScreenSize.phone
+                                            ? 10.2.r
+                                            : 10.2.r),
+                                  )
+                                ],
+                                style: const TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  color: coyote,
+                                  //color: txtColor[i],
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ))
+                          : DataCell(
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  dataText[index],
+                                  style: TextStyle(
+                                    fontSize: isTab
+                                        ? index == 1
+                                            ? 13.5.r
+                                            : 12.r
+                                        : 11.1.r,
+                                    color: index == 1
+                                        ? crayola
+                                        : index == 2
+                                            ? bronze
+                                            : darkPurple,
+                                    // fontSize: index == 3 ? 14.4.r : null,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
                 ),
               );
             }),

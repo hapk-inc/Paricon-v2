@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../logic/s_size.dart';
+import '../../theme/my_color.dart';
 
 class DashboardTitleX extends ConsumerWidget {
   final String t;
@@ -18,7 +19,7 @@ class DashboardTitleX extends ConsumerWidget {
       padding: EdgeInsets.symmetric(horizontal: 15.r),
       child: Text(
         t,
-        style: TextStyle(fontSize: isTab ? 14.r : 16.r),
+        style: TextStyle(fontSize: 14.r, color: battleshipGray),
       ),
     );
   }

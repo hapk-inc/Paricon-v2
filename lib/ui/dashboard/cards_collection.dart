@@ -25,7 +25,7 @@ class CardCollection extends ConsumerWidget {
         9,
         (index) => AnimatedContainer(
           duration: const Duration(milliseconds: 100),
-          width: isTab ? 90.r : 84.r,
+          width: isTab ? 90.r : 81.r,
           margin: EdgeInsets.symmetric(horizontal: 3.w),
           decoration: BoxDecoration(
             color: xRandom[index % 4],
@@ -37,8 +37,8 @@ class CardCollection extends ConsumerWidget {
                   duration: const Duration(milliseconds: 500),
                   left: isTab ? -39.r : -45.r,
                   bottom: -9.h,
-                  width: 108.r,
-                  height: 108.r,
+                  width: 105.r,
+                  height: 105.r,
                   child: RandomAvatar(mockString(), trBackground: true)),
             ],
           ),
