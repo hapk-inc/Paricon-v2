@@ -15,22 +15,28 @@ class TournamentP extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final sSize = ref.read(sizeProvider);
+    final bool isPhone = sSize == ScreenSize.phone;
     final bool isTab = sSize == ScreenSize.tab;
+    final bool isPad = sSize == ScreenSize.iPad;
     return SafeArea(
       child: SingleChildScrollView(
         child: StaggeredGrid.count(
           crossAxisCount: 20,
           children: [
-            const StaggeredGridTile.count(
+            StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: 3,
-              child: SizedBox(),
+              mainAxisCellCount: isPhone ? 3 : 1.5,
+              child: const SizedBox(),
             ),
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: isTab ? 21 : 27,
+              mainAxisCellCount: isPad
+                  ? 14.4
+                  : isTab
+                      ? 21
+                      : 27,
               child: Card(
-                margin: EdgeInsets.symmetric(horizontal: 18.r),
+                margin: EdgeInsets.symmetric(horizontal: isPad ? 30.r : 18.r),
                 color: mintCream2,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(7.5.r),

@@ -16,6 +16,7 @@ class DailyDashboardTable extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sSize = ref.read(sizeProvider);
     final bool isTab = sSize == ScreenSize.tab;
+    final bool isPad = sSize == ScreenSize.iPad;
     List<num> hSize = [isTab ? 35 : 34, 14, 26, 25];
     return Container(
       color: mintCream,
@@ -28,8 +29,10 @@ class DailyDashboardTable extends ConsumerWidget {
             horizontalMargin: 6.r,
             columnSpacing: 0,
             dividerThickness: .9.h,
-            dataRowMinHeight: p1.maxHeight * 0.14,
-            dataRowMaxHeight: p1.maxHeight * 0.141,
+            // dataRowMinHeight: p1.maxHeight * 0.14,
+            dataRowMinHeight: 24.r,
+            dataRowMaxHeight: 45.r,
+            //  dataRowMaxHeight: p1.maxHeight * 0.141,
             headingRowHeight: p1.maxHeight * 0.12,
             headingTextStyle: TextStyle(
               fontSize: 13.5.r,
@@ -59,7 +62,7 @@ class DailyDashboardTable extends ConsumerWidget {
                 ),
               )
             ],
-            rows: List.generate(6, (index) {
+            rows: List.generate(isPad ? 7 : 6, (index) {
               List<String> dataText = [
                 myRandomName(),
                 "# ${mockInteger(1, 100)}",
@@ -75,7 +78,9 @@ class DailyDashboardTable extends ConsumerWidget {
                       ? DataCell(
                           Container(
                             alignment: Alignment.centerLeft,
-                            // padding: EdgeInsets.only(left: p1.maxWidth * 0.009),
+                            //color: ghostWhite,
+                            padding:
+                                EdgeInsets.only(right: p1.maxWidth * 0.009),
                             child: Row(
                               children: [
                                 CircleAvatar(
@@ -87,10 +92,17 @@ class DailyDashboardTable extends ConsumerWidget {
                                   child: Text(
                                     dataText[index],
                                     style: TextStyle(
-                                      fontSize: isTab ? 12.r : 10.5.r,
-                                      color: chocolateCosmos,
-                                      fontFamily: 'Montserrat',
-                                      fontWeight: FontWeight.w500,
+                                      fontSize: isPad
+                                          ? 11.1.r
+                                          : isTab
+                                              ? 12.r
+                                              : 10.5.r,
+                                      color: spaceCadet,
+                                      fontFamily:
+                                          isPad ? 'Poppins' : 'Montserrat',
+                                      fontWeight: isPad
+                                          ? FontWeight.normal
+                                          : FontWeight.w600,
                                     ),
                                   ),
                                 ),

@@ -20,6 +20,7 @@ class TournamentGrid extends ConsumerWidget {
     int count = tournamentNotifier.icons.length;
     final sSize = ref.read(sizeProvider);
     final isPhone = sSize == ScreenSize.phone;
+    final isPad = sSize == ScreenSize.iPad;
     //print(360.w / 9.5);
 
     return LayoutBuilder(
@@ -46,7 +47,11 @@ class TournamentGrid extends ConsumerWidget {
             verticalGridSpacing: 6.h,
             horizontalGridMargin: 0,
             verticalGridMargin: 0,
-            maxItemsPerRow: isPhone ? 8 : 9,
+            maxItemsPerRow: isPad
+                ? 11
+                : isPhone
+                    ? 8
+                    : 9,
 
             //minItemsPerRow: 5,
             children: tiles,

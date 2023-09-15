@@ -17,53 +17,53 @@ class DashboardT extends StatelessWidget {
       padding: EdgeInsets.all(6.r),
       child: StaggeredGrid.count(
         crossAxisCount: 20,
-        children: const [
-          StaggeredGridTile.count(
+        children: [
+          const StaggeredGridTile.count(
             crossAxisCellCount: 20,
-            mainAxisCellCount: 1.5,
+            mainAxisCellCount: 1.8,
             child: DashboardTitleX("Tournament"),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 20,
-            mainAxisCellCount: 15,
-            child: DashboardCarousel(),
+            mainAxisCellCount: 900.h / 360.w > 1.61 ? 10.8 : 9.6,
+            child: const DashboardCarousel(),
           ),
-          StaggeredGridTile.count(
+          const StaggeredGridTile.count(
             crossAxisCellCount: 20,
-            mainAxisCellCount: 1.5,
+            mainAxisCellCount: 1.8,
             child: DashboardTitleX("Recently Played"),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 20,
-            mainAxisCellCount: 13.2,
-            child: DailyDashboardTable(),
+            mainAxisCellCount: 900.h / 360.w > 1.61 ? 13.2 : 12,
+            child: const DailyDashboardTable(),
           ),
-          StaggeredGridTile.count(
+          const StaggeredGridTile.count(
             crossAxisCellCount: 20,
             mainAxisCellCount: 1.8,
             child: DashboardTitleX("Recently Joined"),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 20,
-            mainAxisCellCount: 3.3,
+            mainAxisCellCount: 900.h / 360.w > 1.61 ? 3.3 : 3.0,
             child: RecentPlayer(),
           ),
-          StaggeredGridTile.count(
+          const StaggeredGridTile.count(
             crossAxisCellCount: 20,
             mainAxisCellCount: 0.3,
             child: SizedBox(),
           ),
-          StaggeredGridTile.count(
+          const StaggeredGridTile.count(
             crossAxisCellCount: 20,
             mainAxisCellCount: 1.8,
             child: DashboardTitleX("My Card Collection"),
           ),
-          StaggeredGridTile.count(
+          const StaggeredGridTile.count(
             crossAxisCellCount: 20,
             mainAxisCellCount: 5.1,
             child: CardCollection(),
           ),
-          StaggeredGridTile.count(
+          const StaggeredGridTile.count(
             crossAxisCellCount: 20,
             mainAxisCellCount: 2.4,
             child: SizedBox(),

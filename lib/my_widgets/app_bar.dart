@@ -36,7 +36,7 @@ AppBar buildAppBar(ScreenSize sSize) {
       );
     case ScreenSize.tab:
       return AppBar(
-        toolbarHeight: 90.h,
+        toolbarHeight: 87.h,
         leading: Container(
           margin: EdgeInsets.only(left: 9.r),
           child: const MyLogo(),

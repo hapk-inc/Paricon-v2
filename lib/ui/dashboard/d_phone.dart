@@ -24,7 +24,7 @@ class DashboardP extends StatelessWidget {
             ),
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: 18,
+              mainAxisCellCount: 16,
               child: DashboardCarousel(),
             ),
             StaggeredGridTile.count(
@@ -34,7 +34,7 @@ class DashboardP extends StatelessWidget {
             ),
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: 15,
+              mainAxisCellCount: 16,
               child: DailyDashboardTable(),
             ),
             StaggeredGridTile.count(
@@ -44,7 +44,7 @@ class DashboardP extends StatelessWidget {
             ),
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: 4.35,
+              mainAxisCellCount: 4.02,
               child: RecentPlayer(),
             ),
             StaggeredGridTile.count(

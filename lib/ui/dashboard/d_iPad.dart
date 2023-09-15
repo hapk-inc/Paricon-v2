@@ -1,6 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import '../../routes/my_route.dart';
+import '../../theme/my_color.dart';
 
 import 'cards_collection.dart';
 import 'daily_dashboard_table.dart';
@@ -12,6 +15,87 @@ import 'recent_player.dart';
 
 class DashboardIpad extends StatelessWidget {
   const DashboardIpad({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: EdgeInsets.symmetric(horizontal: 7.5.r, vertical: 10.h),
+      child: StaggeredGrid.count(
+        crossAxisCount: 20,
+        mainAxisSpacing: 9.r,
+        children: [
+          StaggeredGridTile.count(
+            crossAxisCellCount: 20,
+            mainAxisCellCount: 4.5,
+            child: Container(
+              decoration: BoxDecoration(
+                color: russianViolet,
+                borderRadius: BorderRadius.circular(7.5.r),
+              ),
+              alignment: Alignment.centerLeft,
+              child: ListTile(
+                dense: true,
+                contentPadding: EdgeInsets.symmetric(horizontal: 18.r),
+                title: Text(
+                  "Engage and Unlock your Mind's Potential",
+                  maxLines: 2,
+                  style: TextStyle(fontSize: 18.r),
+                ),
+                //isThreeLine: true,
+                subtitle: Text(
+                  "Challenge yourself in the Puzzle Universe and "
+                  "seize victory in competitive tournaments.",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w100,
+                    fontSize: 12.r,
+                    height: 2.1,
+                    color: lavenderBush,
+                  ),
+                ),
+                trailing: OutlinedButton(
+                  onPressed: () => context.router.push(const TournamentRoute()),
+                  child: Text(
+                    "Play Now",
+                    style: TextStyle(color: lavenderBush, fontSize: 12.r),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          StaggeredGridTile.count(
+            crossAxisCellCount: 20,
+            mainAxisCellCount: 1.2,
+            child: DashboardTitleX("Tournament"),
+          ),
+          StaggeredGridTile.count(
+            crossAxisCellCount: 900.h / 360.w > 1.4 ? 16 : 16,
+            mainAxisCellCount: 12,
+            child: const DailyDashboardTable(),
+          ),
+          StaggeredGridTile.count(
+            crossAxisCellCount: 900.h / 360.w > 1.4 ? 4 : 4,
+            mainAxisCellCount: 12,
+            child: const SizedBox(),
+          ),
+          const StaggeredGridTile.count(
+            crossAxisCellCount: 20,
+            mainAxisCellCount: 1.2,
+            child: DashboardTitleX("Recently Joined"),
+          ),
+          StaggeredGridTile.count(
+            crossAxisCellCount: 20,
+            mainAxisCellCount: 900.h / 360.w > 1.4 ? 3 : 3,
+            child: RecentPlayer(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DashboardIpad1 extends StatelessWidget {
+  const DashboardIpad1({super.key});
 
   @override
   Widget build(BuildContext context) {

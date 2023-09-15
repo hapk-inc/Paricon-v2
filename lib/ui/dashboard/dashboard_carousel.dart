@@ -50,7 +50,7 @@ class DashboardCarousel extends ConsumerWidget {
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w100,
-                          fontSize: 14.r,
+                          fontSize: 12.r,
                           height: 2.4,
                           color: lavenderBush,
                         ),
@@ -58,14 +58,16 @@ class DashboardCarousel extends ConsumerWidget {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(left: 15.w),
-                  child: OutlinedButton(
-                    onPressed: () =>
-                        context.router.push(const TournamentRoute()),
-                    child: Text(
-                      "Play Now",
-                      style: TextStyle(color: lavenderBush, fontSize: 12.r),
+                Flexible(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 15.w),
+                    child: OutlinedButton(
+                      onPressed: () =>
+                          context.router.push(const TournamentRoute()),
+                      child: Text(
+                        "Play Now",
+                        style: TextStyle(color: lavenderBush, fontSize: 12.r),
+                      ),
                     ),
                   ),
                 ),
@@ -79,7 +81,7 @@ class DashboardCarousel extends ConsumerWidget {
         ],
         options: CarouselOptions(
           height: p1.maxHeight,
-          viewportFraction: isTab ? 0.6 : 0.69,
+          viewportFraction: isTab ? 0.75 : 0.69,
           enlargeFactor: 0.21,
           enableInfiniteScroll: false,
           padEnds: false,
