@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
 import '../../routes/my_route.dart';
 import '../../theme/my_color.dart';
-
 import 'cards_collection.dart';
 import 'daily_dashboard_table.dart';
 import 'dashboard_carousel.dart';
@@ -15,6 +16,96 @@ import 'recent_player.dart';
 
 class DashboardIpad extends StatelessWidget {
   const DashboardIpad({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // color: Colors.green,
+      alignment: Alignment.topCenter,
+      padding: EdgeInsets.all(9.r),
+      child: SingleChildScrollView(
+        child: StaggeredGrid.count(
+          crossAxisCount: 10,
+          mainAxisSpacing: 12.r,
+          crossAxisSpacing: 9.r,
+          children: [
+            StaggeredGridTile.count(
+              crossAxisCellCount: 1,
+              mainAxisCellCount: 13.2,
+              child: Tile(index: 0),
+            ),
+            StaggeredGridTile.count(
+              crossAxisCellCount: 7,
+              mainAxisCellCount: 2.1,
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: russianViolet,
+                  borderRadius: BorderRadius.circular(9.r),
+                ),
+                padding: EdgeInsets.all(3.r),
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 15.r),
+                  title: AutoSizeText(
+                    "Engage and Unlock your Mind's Potential",
+                    maxLines: 2,
+                    style: TextStyle(fontSize: 18.r),
+                  ),
+                  trailing: OutlinedButton(
+                    onPressed: () =>
+                        context.router.push(const TournamentRoute()),
+                    child: Text(
+                      "Play Now",
+                      style: TextStyle(color: lavenderBush, fontSize: 15.r),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 2,
+              mainAxisCellCount: 2.1,
+              child: Tile(index: 0),
+            ),
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 5,
+              mainAxisCellCount: 0.9,
+              child: Tile(index: 0),
+            ),
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 4,
+              mainAxisCellCount: 0.9,
+              child: Tile(index: 0),
+            ),
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 9,
+              mainAxisCellCount: 1.5,
+              child: RecentPlayer(),
+            ),
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 9,
+              mainAxisCellCount: 7.2,
+              child: DailyDashboardTable(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Tile extends StatelessWidget {
+  final int index;
+  const Tile({super.key, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(color: Colors.grey);
+  }
+}
+
+class DashboardIpad1 extends StatelessWidget {
+  const DashboardIpad1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +154,7 @@ class DashboardIpad extends StatelessWidget {
               ),
             ),
           ),
-          StaggeredGridTile.count(
+          const StaggeredGridTile.count(
             crossAxisCellCount: 20,
             mainAxisCellCount: 1.2,
             child: DashboardTitleX("Tournament"),
@@ -86,7 +177,7 @@ class DashboardIpad extends StatelessWidget {
           StaggeredGridTile.count(
             crossAxisCellCount: 20,
             mainAxisCellCount: 900.h / 360.w > 1.4 ? 3 : 3,
-            child: RecentPlayer(),
+            child: const RecentPlayer(),
           ),
         ],
       ),
@@ -94,8 +185,8 @@ class DashboardIpad extends StatelessWidget {
   }
 }
 
-class DashboardIpad1 extends StatelessWidget {
-  const DashboardIpad1({super.key});
+class DashboardIpad2 extends StatelessWidget {
+  const DashboardIpad2({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -3,11 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:random_avatar/random_avatar.dart';
+
 import '../../logic/s_size.dart';
 import '../../my_widgets/my_names.dart';
 import '../../theme/my_color.dart';
 
-const List<String> _hText = ["Name", "Rank", "Played On", "Duration"];
+const List<String> _hText = ["Name", "Rank", "Played On", "Current Time"];
+const List<String> _hText1 = [
+  "Name",
+  "Rank",
+  "Played On",
+  "Current Time",
+  "Best Time"
+];
 
 class DailyDashboardTable extends ConsumerWidget {
   const DailyDashboardTable({super.key});
@@ -18,6 +26,7 @@ class DailyDashboardTable extends ConsumerWidget {
     final bool isTab = sSize == ScreenSize.tab;
     final bool isPad = sSize == ScreenSize.iPad;
     List<num> hSize = [isTab ? 35 : 34, 14, 26, 25];
+    List<num> hSize1 = [27, 14, 21, 18, 16];
     return Container(
       color: mintCream,
       alignment: Alignment.center,
@@ -48,32 +57,34 @@ class DailyDashboardTable extends ConsumerWidget {
             ),
             columns: [
               ...List.generate(
-                4,
+                isPad ? _hText1.length : 4,
                 (index) => DataColumn(
                   label: Container(
-                    width: p1.maxWidth * (0.01 * hSize[index]),
+                    width: p1.maxWidth *
+                        (0.01 * (isPad ? hSize1[index] : hSize[index])),
                     padding: EdgeInsets.only(right: 15.w),
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      _hText[index],
+                      isPad ? _hText1[index] : _hText[index],
                       style: TextStyle(fontSize: 13.5.r),
                     ),
                   ),
                 ),
               )
             ],
-            rows: List.generate(isPad ? 7 : 6, (index) {
+            rows: List.generate(isPad ? 8 : 7, (index) {
               List<String> dataText = [
                 myRandomName(),
                 "# ${mockInteger(1, 100)}",
                 mockInteger(0, 1) == 0
                     ? "Today ${mockInteger(10, 18)}:${mockInteger(10, 59)}"
                     : "Yesterday",
-                "${mockInteger(1, 5)}:${mockInteger(10, 59)}"
+                "${mockInteger(1, 5)}:${mockInteger(10, 59)}",
+                if (isPad) "${mockInteger(1, 5)}:${mockInteger(10, 59)}",
               ];
               return DataRow(
                 cells: List.generate(
-                  4,
+                  isPad ? 5 : 4,
                   (index) => index == 0
                       ? DataCell(
                           Container(
@@ -93,13 +104,13 @@ class DailyDashboardTable extends ConsumerWidget {
                                     dataText[index],
                                     style: TextStyle(
                                       fontSize: isPad
-                                          ? 11.1.r
+                                          ? 13.2.r
                                           : isTab
                                               ? 12.r
                                               : 10.5.r,
                                       color: spaceCadet,
                                       fontFamily:
-                                          isPad ? 'Poppins' : 'Montserrat',
+                                          isPad ? 'Montserrat' : 'Montserrat',
                                       fontWeight: isPad
                                           ? FontWeight.normal
                                           : FontWeight.w600,
@@ -110,7 +121,7 @@ class DailyDashboardTable extends ConsumerWidget {
                             ),
                           ),
                         )
-                      : index == 3
+                      : index == 3 || index == 4
                           ? DataCell(RichText(
                               text: TextSpan(
                                 children: [

@@ -105,7 +105,7 @@ class TournamentGridTile extends ConsumerWidget {
                       const Color(0xffa7daf5),
                     ][mockInteger(0, 3)],
           margin: EdgeInsets.zero,
-          elevation: 6,
+           elevation: 0.9,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4.5.r),
           ),

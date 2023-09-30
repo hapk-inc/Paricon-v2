@@ -53,7 +53,7 @@ ThemeData appTheme(ScreenSize sSize) => ThemeData(
             ),
           ),
           side: MaterialStatePropertyAll(
-            BorderSide(color: jasmine, width: 0.45.r),
+            BorderSide(color: jasmine, width: 1.2.r),
           ),
           textStyle: MaterialStatePropertyAll(
             TextStyle(
