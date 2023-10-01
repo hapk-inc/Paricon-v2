@@ -3,51 +3,53 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:in_app_update/in_app_update.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'firebase_option.dart';
 import 'logic/auth.dart';
-import 'logic/bot_datastore.dart';
 import 'logic/firebase_init.dart';
+import 'logic/remote_values.dart';
 import 'logic/s_size.dart';
 import 'logic/user_datastore.dart';
-import 'routes/my_route.dart';
-import 'theme/app_theme.dart';
-
-//void main() => runApp(const M1());
+import 'router/my_route.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   final PackageInfo info = await PackageInfo.fromPlatform();
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
-  /*ResponsiveGridBreakpoints.value = ResponsiveGridBreakpoints(
-    xs: 600,
-    sm: 905,
-    md: 1240,
-    lg: 1440,
-  );*/
   final FirebaseApp app = await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform(info.appName));
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instanceFor(app: app);
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-  //final FirebaseAnalytics analytics = FirebaseAnalytics.instanceFor(app: app);
   final FirebaseFirestore fireStore = FirebaseFirestore.instanceFor(app: app);
   final FirebaseDatabase database = FirebaseDatabase.instanceFor(app: app);
 
+  final FirebaseRemoteConfig remoteConfig =
+      FirebaseRemoteConfig.instanceFor(app: app);
+  await remoteConfig.setConfigSettings(
+    RemoteConfigSettings(
+      fetchTimeout: const Duration(minutes: 1),
+      minimumFetchInterval: const Duration(seconds: 10),
+    ),
+  );
+  await remoteConfig.fetchAndActivate();
   runApp(
     ProviderScope(
       overrides: [
         firebaseAppProvider.overrideWithValue(app),
         firebaseAuthProvider.overrideWithValue(firebaseAuth),
-        //analyticsProvider.overrideWithValue(analytics),
         fireStoreProvider.overrideWithValue(fireStore),
         databaseProvider.overrideWithValue(database),
+        remoteConfigProvider.overrideWithValue(remoteConfig),
       ],
       child: const MyApp(),
     ),
@@ -57,7 +59,7 @@ Future<void> main() async {
 final _myRoute = MyRouter();
 
 class MyApp extends ConsumerWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -72,14 +74,11 @@ class MyApp extends ConsumerWidget {
             return myUserAsync.when(
               data: (_) {
                 ref.read(updateDurationProvider);
-                ref.read(updateBotProvider);
-
+                // ref.read(updateBotProvider);
                 return const DashboardRoute();
               },
               error: (error, stackTrace) {
-                if (kDebugMode) {
-                  print("76 - $error");
-                }
+                debugPrint("76 - $error");
                 ref.read(signOutProvider);
                 return const ErrorRoute();
               },
@@ -87,24 +86,22 @@ class MyApp extends ConsumerWidget {
             );
           },
           error: (error, stackTrace) {
-            if (kDebugMode) {
-              print("86- $error");
-              print("87- $stackTrace");
-            }
-
+            debugPrint("86- $error");
+            debugPrint("87- $stackTrace");
             return const ErrorRoute();
           },
           loading: () => const SplashRoute(),
         );
-
+    final showApp = ref.watch(showAppProvider);
+    debugPrint("showAppProvider $showApp");
     return ScreenUtilInit(
       designSize: const Size(360, 900),
       useInheritedMediaQuery: true,
       builder: (_, __) {
         final double x = 900.h / 360.w;
-        if (kDebugMode) {
-          print("ScreenRatio $x");
-        }
+
+        debugPrint("ScreenRatio $x");
+
         final ScreenSize sSize = x > 2
             ? ScreenSize.phone
             : x > 1.5
@@ -116,30 +113,28 @@ class MyApp extends ConsumerWidget {
                         : x > 0.4
                             ? ScreenSize.tv
                             : ScreenSize.tooSmall;
+
         return ProviderScope(
-          overrides: [sizeProvider.overrideWithValue(sSize)],
+          overrides: [
+            sizeProvider.overrideWithValue(sSize),
+          ],
           child: MaterialApp.router(
-            debugShowCheckedModeBanner: false,
             routeInformationParser: _myRoute.defaultRouteParser(),
-            theme: appTheme(sSize),
             routerDelegate: AutoRouterDelegate.declarative(
               _myRoute,
-              routes: (handler) => [
-                //SplashRoute()
-                //const TournamentRoute()
-                //const DashboardRoute()
-                //LoginRoute()
-                whichPage
-                /* kDebugMode
-                    ? whichPage
-                    : ref.watch(inAppUpdateProvider).maybeWhen(
-                          data: (data) => data.updateAvailability ==
-                                  UpdateAvailability.updateAvailable
-                              ? const AppUpdateRoute()
-                              : whichPage,
-                          orElse: () => whichPage,
-                        )*/
-              ],
+              routes: (handler) => !showApp
+                  ? [const MaintenanceRoute()]
+                  : [
+                      kDebugMode
+                          ? whichPage
+                          : ref.watch(inAppUpdateProvider).maybeWhen(
+                                data: (data) => data.updateAvailability ==
+                                        UpdateAvailability.updateAvailable
+                                    ? const AppUpdateRoute()
+                                    : whichPage,
+                                orElse: () => whichPage,
+                              )
+                    ],
             ),
           ),
         );

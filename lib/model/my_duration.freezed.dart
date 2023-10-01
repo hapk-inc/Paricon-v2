@@ -68,22 +68,22 @@ class _$MyDurationCopyWithImpl<$Res, $Val extends MyDuration>
 }
 
 /// @nodoc
-abstract class _$$_MyDurationCopyWith<$Res>
+abstract class _$$MyDurationImplCopyWith<$Res>
     implements $MyDurationCopyWith<$Res> {
-  factory _$$_MyDurationCopyWith(
-          _$_MyDuration value, $Res Function(_$_MyDuration) then) =
-      __$$_MyDurationCopyWithImpl<$Res>;
+  factory _$$MyDurationImplCopyWith(
+          _$MyDurationImpl value, $Res Function(_$MyDurationImpl) then) =
+      __$$MyDurationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({DateTime? lastOpened, DateTime currentTime});
 }
 
 /// @nodoc
-class __$$_MyDurationCopyWithImpl<$Res>
-    extends _$MyDurationCopyWithImpl<$Res, _$_MyDuration>
-    implements _$$_MyDurationCopyWith<$Res> {
-  __$$_MyDurationCopyWithImpl(
-      _$_MyDuration _value, $Res Function(_$_MyDuration) _then)
+class __$$MyDurationImplCopyWithImpl<$Res>
+    extends _$MyDurationCopyWithImpl<$Res, _$MyDurationImpl>
+    implements _$$MyDurationImplCopyWith<$Res> {
+  __$$MyDurationImplCopyWithImpl(
+      _$MyDurationImpl _value, $Res Function(_$MyDurationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ class __$$_MyDurationCopyWithImpl<$Res>
     Object? lastOpened = freezed,
     Object? currentTime = null,
   }) {
-    return _then(_$_MyDuration(
+    return _then(_$MyDurationImpl(
       lastOpened: freezed == lastOpened
           ? _value.lastOpened
           : lastOpened // ignore: cast_nullable_to_non_nullable
@@ -107,11 +107,11 @@ class __$$_MyDurationCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MyDuration with DiagnosticableTreeMixin implements _MyDuration {
-  const _$_MyDuration({this.lastOpened, required this.currentTime});
+class _$MyDurationImpl with DiagnosticableTreeMixin implements _MyDuration {
+  const _$MyDurationImpl({this.lastOpened, required this.currentTime});
 
-  factory _$_MyDuration.fromJson(Map<String, dynamic> json) =>
-      _$$_MyDurationFromJson(json);
+  factory _$MyDurationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MyDurationImplFromJson(json);
 
   @override
   final DateTime? lastOpened;
@@ -136,7 +136,7 @@ class _$_MyDuration with DiagnosticableTreeMixin implements _MyDuration {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MyDuration &&
+            other is _$MyDurationImpl &&
             (identical(other.lastOpened, lastOpened) ||
                 other.lastOpened == lastOpened) &&
             (identical(other.currentTime, currentTime) ||
@@ -150,12 +150,12 @@ class _$_MyDuration with DiagnosticableTreeMixin implements _MyDuration {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MyDurationCopyWith<_$_MyDuration> get copyWith =>
-      __$$_MyDurationCopyWithImpl<_$_MyDuration>(this, _$identity);
+  _$$MyDurationImplCopyWith<_$MyDurationImpl> get copyWith =>
+      __$$MyDurationImplCopyWithImpl<_$MyDurationImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MyDurationToJson(
+    return _$$MyDurationImplToJson(
       this,
     );
   }
@@ -164,10 +164,10 @@ class _$_MyDuration with DiagnosticableTreeMixin implements _MyDuration {
 abstract class _MyDuration implements MyDuration {
   const factory _MyDuration(
       {final DateTime? lastOpened,
-      required final DateTime currentTime}) = _$_MyDuration;
+      required final DateTime currentTime}) = _$MyDurationImpl;
 
   factory _MyDuration.fromJson(Map<String, dynamic> json) =
-      _$_MyDuration.fromJson;
+      _$MyDurationImpl.fromJson;
 
   @override
   DateTime? get lastOpened;
@@ -175,6 +175,6 @@ abstract class _MyDuration implements MyDuration {
   DateTime get currentTime;
   @override
   @JsonKey(ignore: true)
-  _$$_MyDurationCopyWith<_$_MyDuration> get copyWith =>
+  _$$MyDurationImplCopyWith<_$MyDurationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

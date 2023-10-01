@@ -85,7 +85,3 @@ const Color turquoise = Color(0xff5DD9C1);
 const Color coyote = Color(0xff7A542E);
 const Color pear = Color(0xffC3D350);
 const Color salmon = Color(0xffE88873);
-
-const Color mintCream2 = Color(0xffF2F7F2);
-
-const Color myWhite = Color(0xfffdfcfd);

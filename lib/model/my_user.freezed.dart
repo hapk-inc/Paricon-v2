@@ -110,9 +110,10 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
 }
 
 /// @nodoc
-abstract class _$$_MyUserCopyWith<$Res> implements $MyUserCopyWith<$Res> {
-  factory _$$_MyUserCopyWith(_$_MyUser value, $Res Function(_$_MyUser) then) =
-      __$$_MyUserCopyWithImpl<$Res>;
+abstract class _$$MyUserImplCopyWith<$Res> implements $MyUserCopyWith<$Res> {
+  factory _$$MyUserImplCopyWith(
+          _$MyUserImpl value, $Res Function(_$MyUserImpl) then) =
+      __$$MyUserImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -127,10 +128,11 @@ abstract class _$$_MyUserCopyWith<$Res> implements $MyUserCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_MyUserCopyWithImpl<$Res>
-    extends _$MyUserCopyWithImpl<$Res, _$_MyUser>
-    implements _$$_MyUserCopyWith<$Res> {
-  __$$_MyUserCopyWithImpl(_$_MyUser _value, $Res Function(_$_MyUser) _then)
+class __$$MyUserImplCopyWithImpl<$Res>
+    extends _$MyUserCopyWithImpl<$Res, _$MyUserImpl>
+    implements _$$MyUserImplCopyWith<$Res> {
+  __$$MyUserImplCopyWithImpl(
+      _$MyUserImpl _value, $Res Function(_$MyUserImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -145,7 +147,7 @@ class __$$_MyUserCopyWithImpl<$Res>
     Object? controllerCount = freezed,
     Object? controlledBy = freezed,
   }) {
-    return _then(_$_MyUser(
+    return _then(_$MyUserImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -184,8 +186,8 @@ class __$$_MyUserCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_MyUser with DiagnosticableTreeMixin implements _MyUser {
-  const _$_MyUser(
+class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
+  const _$MyUserImpl(
       {required this.name,
       required this.id,
       required this.avatar,
@@ -196,8 +198,8 @@ class _$_MyUser with DiagnosticableTreeMixin implements _MyUser {
       final List<String>? controlledBy})
       : _controlledBy = controlledBy;
 
-  factory _$_MyUser.fromJson(Map<String, dynamic> json) =>
-      _$$_MyUserFromJson(json);
+  factory _$MyUserImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MyUserImplFromJson(json);
 
   @override
   final String name;
@@ -247,7 +249,7 @@ class _$_MyUser with DiagnosticableTreeMixin implements _MyUser {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MyUser &&
+            other is _$MyUserImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
@@ -277,12 +279,12 @@ class _$_MyUser with DiagnosticableTreeMixin implements _MyUser {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MyUserCopyWith<_$_MyUser> get copyWith =>
-      __$$_MyUserCopyWithImpl<_$_MyUser>(this, _$identity);
+  _$$MyUserImplCopyWith<_$MyUserImpl> get copyWith =>
+      __$$MyUserImplCopyWithImpl<_$MyUserImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_MyUserToJson(
+    return _$$MyUserImplToJson(
       this,
     );
   }
@@ -297,9 +299,9 @@ abstract class _MyUser implements MyUser {
       final String? playing,
       required final bool isHuman,
       final num? controllerCount,
-      final List<String>? controlledBy}) = _$_MyUser;
+      final List<String>? controlledBy}) = _$MyUserImpl;
 
-  factory _MyUser.fromJson(Map<String, dynamic> json) = _$_MyUser.fromJson;
+  factory _MyUser.fromJson(Map<String, dynamic> json) = _$MyUserImpl.fromJson;
 
   @override
   String get name;
@@ -319,6 +321,6 @@ abstract class _MyUser implements MyUser {
   List<String>? get controlledBy;
   @override
   @JsonKey(ignore: true)
-  _$$_MyUserCopyWith<_$_MyUser> get copyWith =>
+  _$$MyUserImplCopyWith<_$MyUserImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

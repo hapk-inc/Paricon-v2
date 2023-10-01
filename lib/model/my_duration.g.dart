@@ -6,15 +6,15 @@ part of 'my_duration.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_MyDuration _$$_MyDurationFromJson(Map<String, dynamic> json) =>
-    _$_MyDuration(
+_$MyDurationImpl _$$MyDurationImplFromJson(Map<String, dynamic> json) =>
+    _$MyDurationImpl(
       lastOpened: json['lastOpened'] == null
           ? null
           : DateTime.parse(json['lastOpened'] as String),
       currentTime: DateTime.parse(json['currentTime'] as String),
     );
 
-Map<String, dynamic> _$$_MyDurationToJson(_$_MyDuration instance) =>
+Map<String, dynamic> _$$MyDurationImplToJson(_$MyDurationImpl instance) =>
     <String, dynamic>{
       'lastOpened': instance.lastOpened?.toIso8601String(),
       'currentTime': instance.currentTime.toIso8601String(),

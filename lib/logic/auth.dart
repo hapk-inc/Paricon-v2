@@ -4,10 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
-import 'package:rxdart/rxdart.dart';
-
 import 'package:mock_data/mock_data.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../model/my_duration.dart';
 import '../model/my_user.dart';
@@ -104,7 +102,7 @@ class Auth {
                 "User#${mockInteger(100000, 999999)}",
             id: mockInteger(11111111, 99999999),
             isActive: true,
-            avatar: mockString(8),
+            avatar: "o",
             isHuman: true,
           ).toJson(),
           ...MyDuration(currentTime: DateTime.now()).toJson()
@@ -112,7 +110,7 @@ class Auth {
       );
 
   Future get signOut async {
-    print("Signout ${_auth.currentUser!.uid}");
+    debugPrint("Signing Off ${_auth.currentUser!.uid}");
     await userColl.doc(_auth.currentUser!.uid).update({'isActive': false});
     return _auth.signOut();
   }
@@ -145,9 +143,7 @@ class Auth {
     return _auth.signInWithCredential(credential).then(
       (userCred) => createUser(userCred),
       onError: (e, s) {
-        if (kDebugMode) {
-          print(e);
-        }
+        debugPrint(e);
       },
     );
   }
@@ -170,25 +166,4 @@ class Auth {
       rethrow;
     }
   }
-
-/*if (isAnonymous) {
-        await ref
-            .read(fireStoreProvider)
-            .collection('users')
-            .doc(user.uid)
-            .delete();
-        await ref
-            .read(fireStoreProvider)
-            .collection('tournament')
-            .where('userId', isEqualTo: user.uid)
-            .get()
-            .then((value) {});
-        // await batchDelete();
-        await _auth.currentUser!
-            .delete()
-            .whenComplete(
-              () => print("User Deleted"),
-            )
-            .catchError((e, s) => print(e));
-      }*/
 }
