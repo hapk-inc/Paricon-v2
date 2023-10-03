@@ -1,5 +1,6 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'my_duration.freezed.dart';
 part 'my_duration.g.dart';
 
@@ -7,6 +8,7 @@ part 'my_duration.g.dart';
 class MyDuration with _$MyDuration {
   const factory MyDuration({
     DateTime? lastOpened,
+    DateTime? lastGamePlayed,
     required DateTime currentTime,
   }) = _MyDuration;
 

@@ -43,3 +43,5 @@ class MyRouter extends _$MyRouter {
 //gradle signingreport
 
 //flutter build appbundle --flavor prod --no-tree-shake-icons
+
+//dart run build_runner build

@@ -5,6 +5,7 @@ import 'firebase_init.dart';
 final showAppProvider = Provider<bool>(
   (ref) {
     final remoteConfig = ref.watch(remoteConfigProvider);
+
     final bool showApp = remoteConfig.getBool('showApp');
     return showApp;
   },

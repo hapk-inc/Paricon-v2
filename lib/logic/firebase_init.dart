@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -57,3 +58,6 @@ final AutoDisposeFutureProvider<AppUpdateInfo> inAppUpdateProvider =
     FutureProvider.autoDispose<AppUpdateInfo>(
   (_) async => InAppUpdate.checkForUpdate(),
 );
+
+final StreamProvider<ConnectivityResult> internetConnectionProvider =
+    StreamProvider((_) => Connectivity().onConnectivityChanged);

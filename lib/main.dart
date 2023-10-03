@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -41,7 +42,8 @@ Future<void> main() async {
       minimumFetchInterval: const Duration(seconds: 10),
     ),
   );
-  await remoteConfig.fetchAndActivate();
+  if (kIsWeb) remoteConfig.fetchAndActivate();
+
   runApp(
     ProviderScope(
       overrides: [
@@ -63,6 +65,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final netConnection = ref.watch(internetConnectionProvider);
     final PageRouteInfo whichPage = ref.watch(authUserProvider).when(
           data: (aUser) {
             if (aUser == null) return const LoginRoute();
@@ -77,23 +80,24 @@ class MyApp extends ConsumerWidget {
                 // ref.read(updateBotProvider);
                 return const DashboardRoute();
               },
-              error: (error, stackTrace) {
-                debugPrint("76 - $error");
-                ref.read(signOutProvider);
-                return const ErrorRoute();
-              },
+              error: (error, stackTrace) => const ErrorRoute(),
               loading: () => const SplashRoute(),
             );
           },
-          error: (error, stackTrace) {
-            debugPrint("86- $error");
-            debugPrint("87- $stackTrace");
-            return const ErrorRoute();
-          },
+          error: (error, stackTrace) => const ErrorRoute(),
           loading: () => const SplashRoute(),
         );
-    final showApp = ref.watch(showAppProvider);
-    debugPrint("showAppProvider $showApp");
+
+    ref.listen(
+      internetConnectionProvider.select((value) => value.value),
+      (previous, next) {
+        final remoteConfig = ref.read(remoteConfigProvider);
+        if (next != ConnectivityResult.none) {
+          remoteConfig.fetchAndActivate();
+        }
+      },
+    );
+
     return ScreenUtilInit(
       designSize: const Size(360, 900),
       useInheritedMediaQuery: true,
@@ -122,19 +126,57 @@ class MyApp extends ConsumerWidget {
             routeInformationParser: _myRoute.defaultRouteParser(),
             routerDelegate: AutoRouterDelegate.declarative(
               _myRoute,
-              routes: (handler) => !showApp
-                  ? [const MaintenanceRoute()]
-                  : [
-                      kDebugMode
-                          ? whichPage
-                          : ref.watch(inAppUpdateProvider).maybeWhen(
-                                data: (data) => data.updateAvailability ==
-                                        UpdateAvailability.updateAvailable
-                                    ? const AppUpdateRoute()
-                                    : whichPage,
-                                orElse: () => whichPage,
-                              )
-                    ],
+              routes: (handler) {
+                if (kIsWeb) {
+                  final showApp = ref.watch(showAppProvider);
+                  debugPrint("showAppProvider $showApp");
+
+                  return !showApp
+                      ? [const MaintenanceRoute()]
+                      : [
+                          kDebugMode
+                              ? whichPage
+                              : ref.watch(inAppUpdateProvider).maybeWhen(
+                                    data: (data) => data.updateAvailability ==
+                                            UpdateAvailability.updateAvailable
+                                        ? const AppUpdateRoute()
+                                        : whichPage,
+                                    orElse: () => whichPage,
+                                  )
+                        ];
+                }
+                return netConnection.when(
+                  loading: () => [const SplashRoute()],
+                  error: (e, s) {
+                    debugPrint(e.toString());
+                    return [ErrorRoute()];
+                  },
+                  data: (net) {
+                    debugPrint("NetConnection $net");
+
+                    final bool noNet = net == ConnectivityResult.none;
+
+                    if (noNet) return [const ErrorRoute()];
+
+                    final showApp = ref.watch(showAppProvider);
+                    debugPrint("showAppProvider $showApp");
+
+                    return showApp
+                        ? [const MaintenanceRoute()]
+                        : [
+                            kDebugMode
+                                ? whichPage
+                                : ref.watch(inAppUpdateProvider).maybeWhen(
+                                      data: (data) => data.updateAvailability ==
+                                              UpdateAvailability.updateAvailable
+                                          ? const AppUpdateRoute()
+                                          : whichPage,
+                                      orElse: () => whichPage,
+                                    )
+                          ];
+                  },
+                );
+              },
             ),
           ),
         );

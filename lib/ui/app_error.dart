@@ -21,7 +21,7 @@ class ErrorPage extends StatelessWidget {
             Text(
               "Sorry for the inconvenience",
               style: TextStyle(
-                fontFamily: 'Cabin',
+                fontFamily: 'Poppins',
                 fontSize: 18.r,
               ),
             )

@@ -85,3 +85,35 @@ const Color turquoise = Color(0xff5DD9C1);
 const Color coyote = Color(0xff7A542E);
 const Color pear = Color(0xffC3D350);
 const Color salmon = Color(0xffE88873);
+
+const Color ivory = Color(0xfff6f7eb);
+
+const Color pictonBlue = Color(0xff00a7e1);
+
+const Color darkPastelGreen = Color(0xff0cca4a);
+
+const Color hookerGreen = Color(0xff5a716a);
+
+const Color straw = Color(0xffd0dc80);
+
+const Color jet = Color(0xff363537);
+
+const Color imperialRed = Color(0xfff03a47);
+
+const Color redWood = Color(0xffaf5b5b);
+
+const Color cafeNoir = Color(0xff4c2e05);
+
+const Color cream = Color(0xffe6ebc0);
+
+const Color onyx = Color(0xff303633);
+
+const Color darkGreen = Color(0xff093824);
+
+const Color beige = Color(0xfff1f2e0);
+
+const Color jasper = Color(0xffbf4e30);
+
+const Color magnolia = Color(0xfff7f4ff);
+
+const Color springGreen = Color(0xff5efc8d);

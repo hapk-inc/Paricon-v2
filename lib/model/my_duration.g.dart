@@ -11,11 +11,15 @@ _$MyDurationImpl _$$MyDurationImplFromJson(Map<String, dynamic> json) =>
       lastOpened: json['lastOpened'] == null
           ? null
           : DateTime.parse(json['lastOpened'] as String),
+      lastGamePlayed: json['lastGamePlayed'] == null
+          ? null
+          : DateTime.parse(json['lastGamePlayed'] as String),
       currentTime: DateTime.parse(json['currentTime'] as String),
     );
 
 Map<String, dynamic> _$$MyDurationImplToJson(_$MyDurationImpl instance) =>
     <String, dynamic>{
       'lastOpened': instance.lastOpened?.toIso8601String(),
+      'lastGamePlayed': instance.lastGamePlayed?.toIso8601String(),
       'currentTime': instance.currentTime.toIso8601String(),
     };

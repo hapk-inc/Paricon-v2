@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../theme/my_color.dart';
+
 class LoginOptionButton extends StatelessWidget {
   const LoginOptionButton(
       {super.key, required this.lChild, required this.optionBtnPressed});
@@ -12,12 +14,14 @@ class LoginOptionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: const Color(0xffDDDBE0),
-          borderRadius: BorderRadius.circular(6.r)),
+        //color: pictonBlue,
+        borderRadius: BorderRadius.circular(7.5.r),
+        border: Border.all(color: pictonBlue, width: 1.r),
+      ),
       alignment: Alignment.center,
-      padding: EdgeInsets.all(12.r),
+      padding: EdgeInsets.all(10.5.r),
       constraints: BoxConstraints.tight(
-        Size.square(45.r),
+        Size.square(48.r),
       ),
       child: InkWell(
         onTap: optionBtnPressed,
@@ -85,3 +89,18 @@ class LoginTextField extends StatelessWidget {
     );
   }
 }
+
+SnackBar buildLoginSnackBar() => SnackBar(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(1.5.r)),
+      ),
+      padding: EdgeInsets.symmetric(vertical: 18.r, horizontal: 15.r),
+      content: Text(
+        "Creating an anonymous user",
+        style: TextStyle(
+          fontFamily: 'Poppins',
+          fontSize: 16.r,
+          fontWeight: FontWeight.w300,
+        ),
+      ),
+    );

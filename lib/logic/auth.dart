@@ -102,7 +102,7 @@ class Auth {
                 "User#${mockInteger(100000, 999999)}",
             id: mockInteger(11111111, 99999999),
             isActive: true,
-            avatar: "o",
+            avatar: "",
             isHuman: true,
           ).toJson(),
           ...MyDuration(currentTime: DateTime.now()).toJson()

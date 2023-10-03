@@ -21,6 +21,7 @@ MyDuration _$MyDurationFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$MyDuration {
   DateTime? get lastOpened => throw _privateConstructorUsedError;
+  DateTime? get lastGamePlayed => throw _privateConstructorUsedError;
   DateTime get currentTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +36,8 @@ abstract class $MyDurationCopyWith<$Res> {
           MyDuration value, $Res Function(MyDuration) then) =
       _$MyDurationCopyWithImpl<$Res, MyDuration>;
   @useResult
-  $Res call({DateTime? lastOpened, DateTime currentTime});
+  $Res call(
+      {DateTime? lastOpened, DateTime? lastGamePlayed, DateTime currentTime});
 }
 
 /// @nodoc
@@ -52,12 +54,17 @@ class _$MyDurationCopyWithImpl<$Res, $Val extends MyDuration>
   @override
   $Res call({
     Object? lastOpened = freezed,
+    Object? lastGamePlayed = freezed,
     Object? currentTime = null,
   }) {
     return _then(_value.copyWith(
       lastOpened: freezed == lastOpened
           ? _value.lastOpened
           : lastOpened // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      lastGamePlayed: freezed == lastGamePlayed
+          ? _value.lastGamePlayed
+          : lastGamePlayed // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       currentTime: null == currentTime
           ? _value.currentTime
@@ -75,7 +82,8 @@ abstract class _$$MyDurationImplCopyWith<$Res>
       __$$MyDurationImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DateTime? lastOpened, DateTime currentTime});
+  $Res call(
+      {DateTime? lastOpened, DateTime? lastGamePlayed, DateTime currentTime});
 }
 
 /// @nodoc
@@ -90,12 +98,17 @@ class __$$MyDurationImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? lastOpened = freezed,
+    Object? lastGamePlayed = freezed,
     Object? currentTime = null,
   }) {
     return _then(_$MyDurationImpl(
       lastOpened: freezed == lastOpened
           ? _value.lastOpened
           : lastOpened // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      lastGamePlayed: freezed == lastGamePlayed
+          ? _value.lastGamePlayed
+          : lastGamePlayed // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       currentTime: null == currentTime
           ? _value.currentTime
@@ -108,7 +121,8 @@ class __$$MyDurationImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$MyDurationImpl with DiagnosticableTreeMixin implements _MyDuration {
-  const _$MyDurationImpl({this.lastOpened, required this.currentTime});
+  const _$MyDurationImpl(
+      {this.lastOpened, this.lastGamePlayed, required this.currentTime});
 
   factory _$MyDurationImpl.fromJson(Map<String, dynamic> json) =>
       _$$MyDurationImplFromJson(json);
@@ -116,11 +130,13 @@ class _$MyDurationImpl with DiagnosticableTreeMixin implements _MyDuration {
   @override
   final DateTime? lastOpened;
   @override
+  final DateTime? lastGamePlayed;
+  @override
   final DateTime currentTime;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MyDuration(lastOpened: $lastOpened, currentTime: $currentTime)';
+    return 'MyDuration(lastOpened: $lastOpened, lastGamePlayed: $lastGamePlayed, currentTime: $currentTime)';
   }
 
   @override
@@ -129,6 +145,7 @@ class _$MyDurationImpl with DiagnosticableTreeMixin implements _MyDuration {
     properties
       ..add(DiagnosticsProperty('type', 'MyDuration'))
       ..add(DiagnosticsProperty('lastOpened', lastOpened))
+      ..add(DiagnosticsProperty('lastGamePlayed', lastGamePlayed))
       ..add(DiagnosticsProperty('currentTime', currentTime));
   }
 
@@ -139,13 +156,16 @@ class _$MyDurationImpl with DiagnosticableTreeMixin implements _MyDuration {
             other is _$MyDurationImpl &&
             (identical(other.lastOpened, lastOpened) ||
                 other.lastOpened == lastOpened) &&
+            (identical(other.lastGamePlayed, lastGamePlayed) ||
+                other.lastGamePlayed == lastGamePlayed) &&
             (identical(other.currentTime, currentTime) ||
                 other.currentTime == currentTime));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, lastOpened, currentTime);
+  int get hashCode =>
+      Object.hash(runtimeType, lastOpened, lastGamePlayed, currentTime);
 
   @JsonKey(ignore: true)
   @override
@@ -164,6 +184,7 @@ class _$MyDurationImpl with DiagnosticableTreeMixin implements _MyDuration {
 abstract class _MyDuration implements MyDuration {
   const factory _MyDuration(
       {final DateTime? lastOpened,
+      final DateTime? lastGamePlayed,
       required final DateTime currentTime}) = _$MyDurationImpl;
 
   factory _MyDuration.fromJson(Map<String, dynamic> json) =
@@ -171,6 +192,8 @@ abstract class _MyDuration implements MyDuration {
 
   @override
   DateTime? get lastOpened;
+  @override
+  DateTime? get lastGamePlayed;
   @override
   DateTime get currentTime;
   @override
