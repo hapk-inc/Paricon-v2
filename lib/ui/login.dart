@@ -80,6 +80,7 @@ class LoginPage extends StatelessWidget {
                             .then((value) {})
                             .catchError(
                           (e, s) {
+                            debugPrint(e.toString());
                             debugPrintStack(stackTrace: s);
                             if (kDebugMode) {
                               ref.read(anonymousProvider);
@@ -88,7 +89,7 @@ class LoginPage extends StatelessWidget {
                         ).whenComplete(
                           () {
                             if (_panelController.isPanelOpen) {
-                              _panelController.close();
+                              // _panelController.close();
                             }
                           },
                         );

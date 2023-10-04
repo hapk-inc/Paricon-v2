@@ -1,6 +1,8 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,7 +38,7 @@ class DashboardPage extends ConsumerWidget {
           padding: EdgeInsets.all(9.r),
           child: AnimatedSwitcher(
             duration: const Duration(milliseconds: 500),
-            child: !inWork.isNotEmpty
+            child: inWork.isNotEmpty && !kDebugMode
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -121,48 +123,51 @@ class FirstTimeUser extends StatelessWidget {
       color: magnolia,
       padding: EdgeInsets.all(7.5.r),
       alignment: Alignment.centerLeft,
-      child: AutoSizeText.rich(
-        TextSpan(
-          children: [
-            TextSpan(
-              text: "You have logged in "
-                  "successfully.\n",
-              style: TextStyle(
-                fontSize: 30.r,
-                height: 1.8,
-                wordSpacing: 1.r,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w800,
-                color: russianViolet,
+      child: FadeInRight(
+        child: AutoSizeText.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: "You have Logged in "
+                    "successfully.\n",
+                style: TextStyle(
+                  fontSize: 30.r,
+                  height: 1.5,
+                  letterSpacing: 0,
+                  //wordSpacing: 1.r,
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w600,
+                  color: darkGreen,
+                ),
               ),
-            ),
-            TextSpan(
-              text: "It's time to",
-              style: TextStyle(
-                fontSize: 15.r,
-                fontWeight: FontWeight.w700,
-                color: battleshipGray,
+              TextSpan(
+                text: "It's time to",
+                style: TextStyle(
+                  fontSize: 15.r,
+                  fontWeight: FontWeight.w700,
+                  color: battleshipGray,
+                ),
               ),
-            ),
-            TextSpan(
-              text: " play your first game.",
-              style: const TextStyle(
-                color: darkPastelGreen,
-                fontWeight: FontWeight.w700,
+              TextSpan(
+                text: " play your first game.",
+                style: const TextStyle(
+                  color: darkPastelGreen,
+                  fontWeight: FontWeight.w700,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    context.router.push(const TournamentRoute());
+                  },
               ),
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  context.router.push(const TournamentRoute());
-                },
-            ),
-          ],
-          style: TextStyle(
-              fontFamily: "Poppins",
-              color: spaceCadet,
-              fontSize: 18.r,
-              height: 2.1),
+            ],
+            style: TextStyle(
+                fontFamily: "Poppins",
+                color: spaceCadet,
+                fontSize: 18.r,
+                height: 2.1),
+          ),
+          maxLines: 3,
         ),
-        maxLines: 3,
       ),
     );
   }

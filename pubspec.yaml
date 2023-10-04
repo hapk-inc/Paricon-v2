@@ -240,3 +240,5 @@ flutter:
   # Key password -  Kababa2005
 
   # flutter build appbundle --flavor prod --no-tree-shake-icons
+
+  # ./gradlew signingReport

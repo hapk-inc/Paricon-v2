@@ -22,7 +22,8 @@ import 'logic/user_datastore.dart';
 import 'router/my_route.dart';
 
 Future<void> main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  //WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   final PackageInfo info = await PackageInfo.fromPlatform();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
@@ -149,7 +150,7 @@ class MyApp extends ConsumerWidget {
                   loading: () => [const SplashRoute()],
                   error: (e, s) {
                     debugPrint(e.toString());
-                    return [ErrorRoute()];
+                    return [const ErrorRoute()];
                   },
                   data: (net) {
                     debugPrint("NetConnection $net");
