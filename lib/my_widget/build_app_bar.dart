@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:random_avatar/random_avatar.dart';
 
-import '../logic/auth.dart';
+import '../../logic/dashboard_provider.dart';
 import '../logic/s_size.dart';
 import '../logic/user_datastore.dart';
 import '../model/my_user.dart';
@@ -29,7 +29,7 @@ AppBar buildAppBar(ScreenSize sSize, BuildContext context) {
           Consumer(
             builder: (_, ref, __) {
               final MyUser? myUser = ref.watch(myUserProvider).value;
-
+              final panelController = ref.read(dashboardPanelProvider);
               return AnimatedSwitcher(
                 duration: const Duration(milliseconds: 500),
                 child: myUser == null
@@ -42,7 +42,13 @@ AppBar buildAppBar(ScreenSize sSize, BuildContext context) {
                         padding:
                             EdgeInsets.all(myUser.avatar.isEmpty ? 3.r : 0.r),
                         child: InkWell(
-                          onTap: () => ref.read(signOutProvider),
+                          onTap: () {
+                            if (!panelController.isPanelOpen) {
+                              panelController.open();
+                            } else {
+                              panelController.close();
+                            }
+                          },
                           child: myUser.avatar.isEmpty
                               ? Lottie.asset(
                                   Random().nextBool()

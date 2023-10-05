@@ -132,7 +132,7 @@ class MyApp extends ConsumerWidget {
                   final showApp = ref.watch(showAppProvider);
                   debugPrint("showAppProvider $showApp");
 
-                  return !showApp
+                  return !showApp && !kDebugMode
                       ? [const MaintenanceRoute()]
                       : [
                           kDebugMode
@@ -162,7 +162,7 @@ class MyApp extends ConsumerWidget {
                     final showApp = ref.watch(showAppProvider);
                     debugPrint("showAppProvider $showApp");
 
-                    return showApp
+                    return showApp && !kDebugMode
                         ? [const MaintenanceRoute()]
                         : [
                             kDebugMode

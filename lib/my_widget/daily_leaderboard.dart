@@ -64,7 +64,11 @@ class DailyLeaderBoard extends StatelessWidget {
                         Expanded(
                           child: AutoSizeText(
                             myRandomName(),
-                            style: TextStyle(fontSize: 13.5.r, color: onyx),
+                            style: TextStyle(
+                              fontSize: 13.5.r,
+                              color: onyx,
+                              fontFamily: "Montserrat",
+                            ),
                             minFontSize: 9,
                             maxFontSize: 15,
                             stepGranularity: 3,
@@ -81,6 +85,7 @@ class DailyLeaderBoard extends StatelessWidget {
                     style: TextStyle(
                         fontFamily: 'Montserrat',
                         fontSize: 15.r,
+                        fontStyle: FontStyle.italic,
                         fontWeight: FontWeight.w700,
                         color: imperialRed,
                         letterSpacing: 0.3.r),
@@ -88,7 +93,7 @@ class DailyLeaderBoard extends StatelessWidget {
                 ),
                 DataCell(
                   Text(
-                    "Yesterday, 14:45",
+                    "Yesterday, ${mockInteger(1, 23).toString().padLeft(2, '0')}:45",
                     style: TextStyle(
                         fontSize: 12.r,
                         fontWeight: FontWeight.w300,
@@ -99,8 +104,8 @@ class DailyLeaderBoard extends StatelessWidget {
                 DataCell(
                   RichText(
                     text: TextSpan(
-                      text: "${mockInteger(1, 5).toString().padLeft(2, '0')} :"
-                          " ${mockInteger(1, 59).toString().padLeft(2, '0')} ",
+                      text: "${mockInteger(1, 5).toString().padLeft(2, '0')}:"
+                          "${mockInteger(1, 59).toString().padLeft(2, '0')} ",
                       children: [
                         TextSpan(
                           text: "${mockInteger(100, 599)}",
@@ -112,7 +117,7 @@ class DailyLeaderBoard extends StatelessWidget {
                       ],
                       style: TextStyle(
                         fontFamily: 'Montserrat',
-                        fontStyle: FontStyle.italic,
+                        // fontStyle: FontStyle.italic,
                         color: cafeNoir,
                         fontSize: 16.5.r,
                       ),
