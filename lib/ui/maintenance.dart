@@ -42,7 +42,7 @@ class MaintenancePage extends ConsumerWidget {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                       fontFamily: 'Poppins',
-                      color: gray,
+                      color: jasper,
                       fontWeight: FontWeight.w700,
                       fontSize: isPhone ? 36.r : 27.r),
                 ),
@@ -56,7 +56,7 @@ class MaintenancePage extends ConsumerWidget {
                     fontFamily: 'Cabin',
                     height: 3,
                     fontSize: 15.r,
-                    color: Colors.grey,
+                    color: cafeNoir,
                   ),
                 ),
               ),

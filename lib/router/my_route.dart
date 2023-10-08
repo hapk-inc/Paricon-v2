@@ -6,6 +6,7 @@ import '../ui/app_update.dart';
 import '../ui/dashboard.dart';
 import '../ui/login.dart';
 import '../ui/maintenance.dart';
+import '../ui/no_net.dart';
 import '../ui/splash.dart';
 import '../ui/tournament.dart';
 
@@ -21,6 +22,7 @@ class MyRouter extends _$MyRouter {
         ),
         AutoRoute(page: SplashRoute.page),
         AutoRoute(page: MaintenanceRoute.page),
+        AutoRoute(page: NoNetRoute.page),
         AutoRoute(page: ErrorRoute.page),
         AutoRoute(page: AppUpdateRoute.page),
         AutoRoute(

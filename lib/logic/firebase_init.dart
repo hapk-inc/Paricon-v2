@@ -65,3 +65,13 @@ final AutoDisposeFutureProvider<AppUpdateInfo> inAppUpdateProvider =
 
 final StreamProvider<ConnectivityResult> internetConnectionProvider =
     StreamProvider((_) => Connectivity().onConnectivityChanged);
+
+final FutureProvider<ConnectivityResult> checkNetProvider =
+    FutureProvider((_) => Connectivity().checkConnectivity());
+
+final FutureProvider<bool> ensureInitialisedProvider = FutureProvider<bool>(
+  (ref) {
+    final rConfig = ref.read(remoteConfigProvider);
+    return rConfig.fetchAndActivate();
+  },
+);

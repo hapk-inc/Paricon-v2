@@ -51,6 +51,12 @@ abstract class _$MyRouter extends RootStackRouter {
         child: const MaintenancePage(),
       );
     },
+    NoNetRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const NoNetPage(),
+      );
+    },
     SplashRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -146,6 +152,20 @@ class MaintenanceRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'MaintenanceRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [NoNetPage]
+class NoNetRoute extends PageRouteInfo<void> {
+  const NoNetRoute({List<PageRouteInfo>? children})
+      : super(
+          NoNetRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'NoNetRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -687,7 +687,7 @@ PODS:
     - Firebase/Database (~> 10.15.0)
     - firebase_core
     - FlutterMacOS
-  - firebase_remote_config (4.2.6):
+  - firebase_remote_config (4.2.7):
     - Firebase/CoreOnly (~> 10.15.0)
     - Firebase/RemoteConfig (~> 10.15.0)
     - firebase_core
@@ -976,7 +976,7 @@ SPEC CHECKSUMS:
   firebase_core: 4d1711af1e10f9907f468e04f995c59f60bdc710
   firebase_crashlytics: 3b0ea69959fef6606149524ad3b93539c197a801
   firebase_database: 91dc3745bb4cc40267acd2372b761bfac0144d96
-  firebase_remote_config: 97ed9bcfdd73b9bef94bc7e83b7bb71777e99482
+  firebase_remote_config: e49b4d962a14e4500ec7da75c6ea7ff1e09c051e
   FirebaseABTesting: 7fa3bca17f79ac433301d20d5cd33401f7738dca
   FirebaseAnalytics: 47cef43728f81a839cf1306576bdd77ffa2eac7e
   FirebaseAppCheckInterop: a8c555b1c2db1d9445e6c3a08a848167ddb7eb51

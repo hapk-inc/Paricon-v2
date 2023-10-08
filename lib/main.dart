@@ -48,7 +48,7 @@ Future<void> main() async {
       minimumFetchInterval: const Duration(seconds: 10),
     ),
   );
-  if (kIsWeb) remoteConfig.fetchAndActivate();
+  await remoteConfig.fetchAndActivate();
 
   runApp(
     ProviderScope(
@@ -72,43 +72,64 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final netConnection = ref.watch(internetConnectionProvider);
-    final PageRouteInfo whichPage = ref.watch(authUserProvider).when(
-          data: (aUser) {
-            if (aUser == null) return const LoginRoute();
+    final checkNet = ref.watch(checkNetProvider);
 
-            debugPrint(aUser.toString());
+    final showApp = ref.read(showAppProvider);
 
-            final myUserAsync = ref.watch(myUserProvider);
+    final PageRouteInfo whichPage = showApp
+        ? const MaintenanceRoute()
+        : ref.watch(authUserProvider).when(
+              data: (aUser) {
+                if (aUser == null) return const LoginRoute();
 
-            return myUserAsync.when(
-              data: (_) {
-                ref.read(updateDurationProvider);
-                // ref.read(updateBotProvider);
-                return const DashboardRoute();
+                debugPrint(aUser.toString());
+
+                final myUserAsync = ref.watch(myUserProvider);
+
+                return myUserAsync.when(
+                  data: (_) {
+                    ref.read(updateDurationProvider);
+                    return const DashboardRoute();
+                  },
+                  error: (error, stackTrace) {
+                    debugPrint(error.toString());
+                    return const ErrorRoute();
+                  },
+                  loading: () => const SplashRoute(),
+                );
               },
               error: (error, stackTrace) {
-                debugPrint(error.toString());
                 return const ErrorRoute();
               },
               loading: () => const SplashRoute(),
             );
-          },
-          error: (error, stackTrace) {
-            return const ErrorRoute();
-          },
-          loading: () => const SplashRoute(),
-        );
 
-    ref.listen(
-      internetConnectionProvider.select((value) => value.value),
+    /*final PageRouteInfo rCheckPageRoute =
+        ref.watch(ensureInitialisedProvider).when(
+            data: (x) {
+              debugPrint("RemoteConfig initialised $x");
+              if (x) {
+                return whichPage;
+              } else {
+                return const ErrorRoute();
+              }
+            },
+            error: (e, s) {
+              debugPrint("rCheck $e");
+              debugPrintStack(stackTrace: s);
+              return const ErrorRoute();
+            },
+            loading: () => const SplashRoute());*/
+
+    /* ref.listen(
+      checkNetProvider.select((value) => value.value),
       (previous, next) {
         final remoteConfig = ref.read(remoteConfigProvider);
         if (next != ConnectivityResult.none) {
           remoteConfig.fetchAndActivate();
         }
       },
-    );
+    );*/
 
     return ScreenUtilInit(
       designSize: const Size(360, 900),
@@ -118,17 +139,7 @@ class MyApp extends ConsumerWidget {
 
         debugPrint("ScreenRatio $x");
 
-        final ScreenSize sSize = x > 2
-            ? ScreenSize.phone
-            : x > 1.5
-                ? ScreenSize.tab
-                : x > 1.2
-                    ? ScreenSize.iPad
-                    : x > 0.6
-                        ? ScreenSize.pc
-                        : x > 0.4
-                            ? ScreenSize.tv
-                            : ScreenSize.tooSmall;
+        final ScreenSize sSize = _changeScreenSize(x);
 
         return ProviderScope(
           overrides: [
@@ -139,7 +150,37 @@ class MyApp extends ConsumerWidget {
             routerDelegate: AutoRouterDelegate.declarative(
               _myRoute,
               routes: (handler) {
-                if (kIsWeb) {
+                return checkNet.when(
+                  data: (x) {
+                    if (x == ConnectivityResult.none) {
+                      return [const NoNetRoute()];
+                    } else {
+                      if (kDebugMode) {
+                        return [whichPage];
+                      } else {
+                        return ref.watch(inAppUpdateProvider).when(
+                              data: (data) => data.updateAvailability ==
+                                      UpdateAvailability.updateAvailable
+                                  ? [const AppUpdateRoute()]
+                                  : [whichPage],
+                              loading: () => [const SplashRoute()],
+                              error: (e, s) {
+                                debugPrint(e.toString());
+                                return [const ErrorRoute()];
+                              },
+                            );
+                      }
+                    }
+                  },
+                  error: (e, s) {
+                    debugPrint(e.toString());
+                    return [const ErrorRoute()];
+                  },
+                  loading: () => [const SplashRoute()],
+                );
+                //return [const ErrorRoute()];
+
+                /*if (kIsWeb) {
                   final showApp = ref.watch(showAppProvider);
                   debugPrint("showAppProvider $showApp");
 
@@ -187,7 +228,7 @@ class MyApp extends ConsumerWidget {
                                     )
                           ];
                   },
-                );
+                );*/
               },
             ),
           ),
@@ -195,4 +236,18 @@ class MyApp extends ConsumerWidget {
       },
     );
   }
+}
+
+ScreenSize _changeScreenSize(double x) {
+  return x > 2
+      ? ScreenSize.phone
+      : x > 1.5
+          ? ScreenSize.tab
+          : x > 1.2
+              ? ScreenSize.iPad
+              : x > 0.6
+                  ? ScreenSize.pc
+                  : x > 0.4
+                      ? ScreenSize.tv
+                      : ScreenSize.tooSmall;
 }

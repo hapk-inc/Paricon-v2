@@ -139,3 +139,6 @@ const Color uranianBlue = Color(0xffbfe7fc);
 const Color xantHous = Color(0xffffc759);
 const Color rosePompadour = Color(0xffff7b9c);
 const Color walnutBrown = Color(0xff58504a);
+
+const Color linen = Color(0xfff9ebe0);
+const Color mayaBlue = Color(0xff66c3ff);

@@ -11,7 +11,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:pinput/pinput.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -292,7 +291,7 @@ class DashboardP extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final String inWork = ref.watch(inWorkProvider);
-    final MyUser? myUser = ref.watch(myUserProvider).value;
+    //final MyUser? myUser = ref.watch(myUserProvider).value;
     final User fUser = ref.watch(firebaseUserProvider);
 
     List<Color> xRandom = [turquoise, pear, hunyadiYellow, salmon];
@@ -395,13 +394,14 @@ class DashboardPState extends StatelessWidget {
                               TextSpan(
                                 text: "Play Online\n",
                                 style: TextStyle(
-                                    fontSize: 27.r,
-                                    height: 1.8,
-                                    color: azure,
-                                    fontFamily: 'Montserrat'),
+                                  fontSize: 27.r,
+                                  height: 1.8,
+                                  color: azure,
+                                  fontFamily: 'Montserrat',
+                                ),
                               ),
                               TextSpan(
-                                text: "Friends and family",
+                                text: "Compete and Connect",
                                 style: TextStyle(
                                     fontSize: 12.r,
                                     height: 2.1,
@@ -434,11 +434,39 @@ class DashboardPState extends StatelessWidget {
             mainAxisCellCount: 9.9,
             child: Container(
               decoration: BoxDecoration(
-                  color: barnRed, borderRadius: BorderRadius.circular(15.r)),
-              child: const Column(
+                color: barnRed,
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              padding: EdgeInsets.all(7.5.r),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(child: Pinput(length: 3)),
-                  Flexible(child: Pinput(length: 3)),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Enter Room code\n",
+                          style: TextStyle(
+                            fontSize: 27.r,
+                            height: 1.8,
+                            color: linen,
+                            fontFamily: 'Montserrat',
+                          ),
+                        ),
+                        TextSpan(
+                          text: "Get Started...",
+                          style: TextStyle(
+                            fontSize: 12.r,
+                            height: 2.1,
+                            color: beaver,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                  // Flexible(child: Pinput(length: 3)),
+                  // Flexible(child: Pinput(length: 3)),
                 ],
               ),
             ),
@@ -536,9 +564,9 @@ class TopPlayerList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: [
           Container(
-            width: 210.w,
+            width: 180.w,
             alignment: Alignment.centerLeft,
-            padding: EdgeInsets.only(left: 9.r),
+            padding: EdgeInsets.only(left: 15.r),
             margin: EdgeInsets.only(right: 15.r, top: 7.5.r, bottom: 7.5.r),
             decoration: BoxDecoration(
                 color: onyx, borderRadius: BorderRadius.circular(6.r)),
@@ -556,12 +584,12 @@ class TopPlayerList extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: "Top winning players for this year",
+                    text: "Leaders of the Pack",
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       color: Colors.white54,
                       fontSize: 13.5.r,
-                      height: 1.8,
+                      height: 2.4,
                     ),
                   )
                 ],
