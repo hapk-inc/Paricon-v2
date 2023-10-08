@@ -43,6 +43,7 @@ dependencies:
   firebase_crashlytics: ^3.3.6
   firebase_dynamic_links: ^5.3.6
   firebase_database: ^10.2.6
+  firebase_analytics: ^10.5.1
 
   google_sign_in: ^6.1.5
   # googleapis: ^11.2.0

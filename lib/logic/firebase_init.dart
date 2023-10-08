@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -20,6 +21,9 @@ final firebaseAuthProvider = Provider<FirebaseAuth>(
 final databaseProvider = Provider<FirebaseDatabase>(
   (_) => throw UnimplementedError(),
 );
+
+final analyticsProvider =
+    Provider<FirebaseAnalytics>((_) => throw UnimplementedError());
 
 final remoteConfigProvider =
     Provider<FirebaseRemoteConfig>((ref) => throw UnimplementedError());

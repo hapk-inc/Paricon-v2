@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -29,11 +30,15 @@ Future<void> main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
   final FirebaseApp app = await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform(info.appName));
+    options: DefaultFirebaseOptions.currentPlatform(info.appName),
+  );
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instanceFor(app: app);
   final FirebaseFirestore fireStore = FirebaseFirestore.instanceFor(app: app);
   final FirebaseDatabase database = FirebaseDatabase.instanceFor(app: app);
+
+  final FirebaseAnalytics firebaseAnalytics =
+      FirebaseAnalytics.instanceFor(app: app);
 
   final FirebaseRemoteConfig remoteConfig =
       FirebaseRemoteConfig.instanceFor(app: app);
@@ -50,6 +55,7 @@ Future<void> main() async {
       overrides: [
         firebaseAppProvider.overrideWithValue(app),
         firebaseAuthProvider.overrideWithValue(firebaseAuth),
+        analyticsProvider.overrideWithValue(firebaseAnalytics),
         fireStoreProvider.overrideWithValue(fireStore),
         databaseProvider.overrideWithValue(database),
         remoteConfigProvider.overrideWithValue(remoteConfig),
@@ -81,11 +87,16 @@ class MyApp extends ConsumerWidget {
                 // ref.read(updateBotProvider);
                 return const DashboardRoute();
               },
-              error: (error, stackTrace) => const ErrorRoute(),
+              error: (error, stackTrace) {
+                debugPrint(error.toString());
+                return const ErrorRoute();
+              },
               loading: () => const SplashRoute(),
             );
           },
-          error: (error, stackTrace) => const ErrorRoute(),
+          error: (error, stackTrace) {
+            return const ErrorRoute();
+          },
           loading: () => const SplashRoute(),
         );
 

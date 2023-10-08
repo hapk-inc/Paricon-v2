@@ -202,7 +202,7 @@ class __$$MyUserImplCopyWithImpl<$Res>
 class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
   const _$MyUserImpl(
       {required this.name,
-      required this.rName,
+      this.rName = "",
       required this.id,
       required this.avatar,
       required this.isActive,
@@ -218,6 +218,7 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
   @override
   final String name;
   @override
+  @JsonKey()
   final String rName;
   @override
   final num id;
@@ -312,7 +313,7 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
 abstract class _MyUser implements MyUser {
   const factory _MyUser(
       {required final String name,
-      required final String rName,
+      final String rName,
       required final num id,
       required final String avatar,
       required final bool isActive,
