@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 import '../logic/my_names.dart';
 import '../theme/my_color.dart';
@@ -58,8 +59,15 @@ class DailyLeaderBoard extends StatelessWidget {
                     child: Row(
                       children: [
                         if (mockInteger(0, 1) == 0) ...[
-                          CircleAvatar(radius: 12.r),
-                          SizedBox(width: 9.r),
+                          CircleAvatar(
+                            radius: 12.r,
+                            backgroundColor: richBlack,
+                            child: RandomAvatar(
+                              mockString(),
+                              trBackground: true,
+                            ),
+                          ),
+                          SizedBox(width: 4.8.r),
                         ],
                         Expanded(
                           child: AutoSizeText(
@@ -67,11 +75,12 @@ class DailyLeaderBoard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 13.5.r,
                               color: onyx,
-                              fontFamily: "Montserrat",
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w500,
                             ),
                             minFontSize: 9,
-                            maxFontSize: 15,
-                            stepGranularity: 3,
+                            maxFontSize: 13.5,
+                            stepGranularity: 1.5,
                             maxLines: 1,
                           ),
                         ),

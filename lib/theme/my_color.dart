@@ -117,3 +117,25 @@ const Color jasper = Color(0xffbf4e30);
 const Color magnolia = Color(0xfff7f4ff);
 
 const Color springGreen = Color(0xff5efc8d);
+
+const Color oxfordBlue = Color(0xff011936);
+
+const Color night = Color(0xff000f08);
+
+const Color teaGreen = Color(0xffD8F4CB);
+const Color peach = Color(0xffFFCF9F);
+const Color periwinkle = Color(0xffB7B2DC);
+const Color lavenderPink = Color(0xffFFBCD9);
+
+const Color myBoxWhite = Color(0xfffefdff);
+
+const Color lapisLazuli = Color(0xff336699);
+const Color pear1 = Color(0xffc2e812);
+const Color bitterSweet1 = Color(0xffef6461);
+const Color orangePeel = Color(0xffffa62b);
+
+const Color aquamarine = Color(0xff93efd8);
+const Color uranianBlue = Color(0xffbfe7fc);
+const Color xantHous = Color(0xffffc759);
+const Color rosePompadour = Color(0xffff7b9c);
+const Color walnutBrown = Color(0xff58504a);

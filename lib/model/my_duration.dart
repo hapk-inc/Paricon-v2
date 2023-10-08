@@ -9,6 +9,7 @@ class MyDuration with _$MyDuration {
   const factory MyDuration({
     DateTime? lastOpened,
     DateTime? lastGamePlayed,
+    String? appVersion,
     required DateTime currentTime,
   }) = _MyDuration;
 

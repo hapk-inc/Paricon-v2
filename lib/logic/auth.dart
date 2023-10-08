@@ -100,6 +100,8 @@ class Auth {
           ...MyUser(
             name: userCred.user!.displayName ??
                 "User#${mockInteger(100000, 999999)}",
+            rName: userCred.user!.displayName ??
+                "User#${mockInteger(100000, 999999)}",
             id: mockInteger(11111111, 99999999),
             isActive: true,
             avatar: "",

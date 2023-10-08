@@ -8,6 +8,7 @@ part of 'my_user.dart';
 
 _$MyUserImpl _$$MyUserImplFromJson(Map<String, dynamic> json) => _$MyUserImpl(
       name: json['name'] as String,
+      rName: json['rName'] as String,
       id: json['id'] as num,
       avatar: json['avatar'] as String,
       isActive: json['isActive'] as bool,
@@ -22,6 +23,7 @@ _$MyUserImpl _$$MyUserImplFromJson(Map<String, dynamic> json) => _$MyUserImpl(
 Map<String, dynamic> _$$MyUserImplToJson(_$MyUserImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
+      'rName': instance.rName,
       'id': instance.id,
       'avatar': instance.avatar,
       'isActive': instance.isActive,

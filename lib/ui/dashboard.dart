@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:confetti/confetti.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -34,6 +35,10 @@ class DashboardPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ScreenSize sSize = ref.read(sizeProvider);
     final MyUser? myUser = ref.watch(myUserProvider).value;
+
+    List<Color> xRandom = [turquoise, pear, hunyadiYellow, salmon];
+    xRandom.shuffle();
+
     return Scaffold(
       appBar: buildAppBar(sSize, context),
       backgroundColor: ghostWhite,
@@ -45,70 +50,231 @@ class DashboardPage extends ConsumerWidget {
             padding: EdgeInsets.only(top: 24.r, left: 15.r, right: 15.r),
             child: StaggeredGrid.count(
               crossAxisCount: 20,
+              mainAxisSpacing: 0,
+              crossAxisSpacing: 0,
               children: [
+                StaggeredGridTile.count(
+                  crossAxisCellCount: 15,
+                  mainAxisCellCount: 2.1,
+                  child: Container(
+                    // color: Colors.red,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      myUser!.name,
+                      style:
+                          TextStyle(fontSize: 21.r, fontFamily: 'Montserrat'),
+                    ),
+                  ),
+                ),
+                StaggeredGridTile.count(
+                  crossAxisCellCount: 15,
+                  mainAxisCellCount: 1.2,
+                  child: Container(
+                    //color: Colors.yellow,
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.symmetric(horizontal: 1.5.r),
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "${myUser.id}",
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                          const TextSpan(text: "    "),
+                          TextSpan(
+                            text: "${mockInteger(1, 30)} July,2023",
+                            style: const TextStyle(color: darkPastelGreen),
+                          ),
+                        ],
+                        style: TextStyle(
+                          fontSize: 10.8.r,
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w400,
+                          color: russianViolet,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                StaggeredGridTile.count(
+                  crossAxisCellCount: 5,
+                  mainAxisCellCount: 4.5,
+                  child: Container(
+                    color: Colors.teal,
+                    padding: EdgeInsets.all(1.2.r),
+                    child: const CircleAvatar(),
+                  ),
+                ),
+                StaggeredGridTile.count(
+                  crossAxisCellCount: 15,
+                  mainAxisCellCount: 1.8,
+                  child: Container(
+                    //color: Colors.indigo.shade50,
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      //mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.heart_broken_rounded,
+                          size: 24.r,
+                        ),
+                        SizedBox(width: 4.5.r),
+                        Text(
+                          "${mockInteger(1, 300)} liked your profile",
+                          style: TextStyle(
+                            fontFamily: 'Cabin',
+                            fontSize: 13.5.r,
+                            color: ebony,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                StaggeredGridTile.count(
+                  crossAxisCellCount: 20,
+                  mainAxisCellCount: 7.5,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 15.r),
+                    decoration: BoxDecoration(
+                      color: mintCream,
+                      borderRadius: BorderRadius.circular(9.r),
+                    ),
+                    padding: EdgeInsets.all(7.5.r),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          mockInteger(0, 1) == 0
+                              ? "Receive new avatars by sharing the code and instructing them to enter it."
+                              : "Obtain updated avatars through code sharing and inviting them to enter it",
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w300,
+                            fontSize: 15.r,
+                            color: coyote,
+                            height: 2.1,
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.all(3.r),
+                            //  alignment: Alignment.bottomLeft,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                AutoSizeText(
+                                  mockString(6).toUpperCase(),
+                                  style: TextStyle(
+                                    fontSize: 30.r,
+                                    letterSpacing: 0.3.r,
+                                    color: oxfordBlue,
+                                    fontFamily: 'Montserrat',
+                                  ),
+                                ),
+
+                                Container(
+                                  margin: EdgeInsets.only(
+                                    left: 4.5.r,
+                                    bottom: 4.5.r,
+                                  ),
+                                  child: InkWell(
+                                    onTap: () {},
+                                    child: Icon(Icons.share, size: 15.r),
+                                  ),
+                                ),
+                                const Spacer(),
+                                //bronze
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                StaggeredGridTile.count(
+                  crossAxisCellCount: 20,
+                  mainAxisCellCount: 9,
+                  child: Container(
+                    margin: EdgeInsets.only(top: 15.r),
+                    //color: Colors.amber.shade50,
+                  ),
+                ),
                 StaggeredGridTile.count(
                   crossAxisCellCount: 20,
                   mainAxisCellCount: 3,
                   child: Container(
-                    //color: barnRed,
+                    color: beige,
+                    margin: EdgeInsets.symmetric(vertical: 7.5.r),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 7.5.r, vertical: 2.1.r),
                     alignment: Alignment.centerLeft,
-                    child: ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: AutoSizeText(
-                        myUser == null ? "No name" : myRandomName(),
-                        style: TextStyle(
-                          fontFamily: 'Cabin',
-                          fontSize: 24.r,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      trailing: CircleAvatar(
-                        radius: 30.r,
-                        child: Text(
-                          "US",
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w200,
-                            letterSpacing: 1.r,
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 120.w,
+                          child: Text(
+                            "Best Score",
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.normal,
+                                color: russianViolet,
+                                fontSize: 15.r),
                           ),
                         ),
-                      ),
+                        //SizedBox(width: 15.r),
+                        RichText(
+                          text: TextSpan(
+                            text:
+                                "${mockInteger(1, 5).toString().padLeft(2, '0')}:"
+                                "${mockInteger(1, 59).toString().padLeft(2, '0')} ",
+                            children: [
+                              TextSpan(
+                                text: "${mockInteger(100, 599)}",
+                                style: TextStyle(
+                                  fontSize: 12.r,
+                                  color: beaver,
+                                ),
+                              )
+                            ],
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              // fontStyle: FontStyle.italic,
+                              color: cafeNoir,
+                              fontSize: 16.5.r,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
                 StaggeredGridTile.count(
                   crossAxisCellCount: 20,
-                  mainAxisCellCount: 1.2,
+                  mainAxisCellCount: 2.4,
                   child: Container(
-                    //color: barnRed,
+                    color: beige,
+                    padding: EdgeInsets.symmetric(horizontal: 7.5.r),
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      myUser == null ? "No ID" : " ${myUser.id}",
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.r,
-                        color: barnRed,
+                    child: InkWell(
+                      onTap: () {
+                        ref.read(signOutProvider);
+                      },
+                      child: Text(
+                        "Log out",
+                        style:
+                            TextStyle(fontSize: 18.r, fontFamily: 'Montserrat'),
                       ),
                     ),
                   ),
-                ),
-                const StaggeredGridTile.count(
-                  crossAxisCellCount: 20,
-                  mainAxisCellCount: 0.75,
-                  child: SizedBox(),
-                ),
-                StaggeredGridTile.count(
-                    crossAxisCellCount: 20,
-                    mainAxisCellCount: 8.1,
-                    child: Container(
-                      color: tiffanyBlue,
-                    ))
+                )
               ],
             ),
           ),
         ),
-        backdropColor: majorelleBlue,
+        backdropColor: richBlack,
         backdropEnabled: true,
         backdropOpacity: 0.9,
         borderRadius: BorderRadius.vertical(top: Radius.circular(30.r)),
@@ -193,14 +359,14 @@ class DashboardPState extends StatelessWidget {
             mainAxisCellCount: 19.2,
             child: DailyLeaderBoard(),
           ),
-          StaggeredGridTile.count(
+          const StaggeredGridTile.count(
             crossAxisCellCount: 20,
             mainAxisCellCount: 0.9,
             child: SizedBox(),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 20,
-            mainAxisCellCount: 8.1,
+            mainAxisCellCount: 8.4,
             child: TopPlayerList(xRandom: xRandom),
             //child: CardCollection(),
           ),
@@ -305,7 +471,7 @@ class DashboardPState extends StatelessWidget {
           ),
           const StaggeredGridTile.count(
             crossAxisCellCount: 20,
-            mainAxisCellCount: 5.1,
+            mainAxisCellCount: 4.8,
             child: RecentPlayer(),
           ),
           const StaggeredGridTile.count(
@@ -459,50 +625,73 @@ class FirstTimeUser extends StatelessWidget {
       color: magnolia,
       padding: EdgeInsets.all(7.5.r),
       alignment: Alignment.centerLeft,
-      child: FadeInRight(
-        child: AutoSizeText.rich(
-          TextSpan(
-            children: [
-              TextSpan(
-                text: "You have Logged in successfully.\n",
-                style: TextStyle(
-                  fontSize: 30.r,
-                  height: 1.8,
-                  letterSpacing: 0,
-                  //wordSpacing: 1.r,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w600,
-                  color: darkGreen,
-                ),
-              ),
-              TextSpan(
-                text: "It's time to",
-                style: TextStyle(
-                  fontSize: 15.r,
-                  fontWeight: FontWeight.w700,
-                  color: battleshipGray,
-                ),
-              ),
-              TextSpan(
-                text: " play your first game.",
-                style: const TextStyle(
-                  color: darkPastelGreen,
-                  fontWeight: FontWeight.w700,
-                ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    context.router.push(const TournamentRoute());
-                  },
-              ),
-            ],
-            style: TextStyle(
-                fontFamily: "Poppins",
-                color: spaceCadet,
-                fontSize: 18.r,
-                height: 2.1),
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: ConfettiWidget(
+              confettiController: ConfettiController(),
+              blastDirectionality: BlastDirectionality
+                  .explosive, // don't specify a direction, blast randomly
+              shouldLoop:
+                  true, // start again as soon as the animation is finished
+              colors: const [
+                Colors.green,
+                Colors.blue,
+                Colors.pink,
+                Colors.orange,
+                Colors.purple
+              ], // manually specify the colors to be used
+              //createParticlePath: drawStar, // define a custom shape/path.
+            ),
           ),
-          maxLines: 3,
-        ),
+          FadeInRight(
+            duration: const Duration(milliseconds: 500),
+            child: AutoSizeText.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: "You have Logged in successfully.\n",
+                    style: TextStyle(
+                      fontSize: 30.r,
+                      height: 1.8,
+                      letterSpacing: 0,
+                      //wordSpacing: 1.r,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w600,
+                      color: darkGreen,
+                    ),
+                  ),
+                  TextSpan(
+                    text: "It's time to",
+                    style: TextStyle(
+                      fontSize: 15.r,
+                      fontWeight: FontWeight.w700,
+                      color: battleshipGray,
+                    ),
+                  ),
+                  TextSpan(
+                    text: " play your first game.",
+                    style: const TextStyle(
+                      color: darkPastelGreen,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        context.router.push(const TournamentRoute());
+                      },
+                  ),
+                ],
+                style: TextStyle(
+                    fontFamily: "Poppins",
+                    color: spaceCadet,
+                    fontSize: 18.r,
+                    height: 2.1),
+              ),
+              maxLines: 3,
+            ),
+          ),
+        ],
       ),
     );
   }

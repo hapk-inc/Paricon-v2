@@ -1,5 +1,6 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'my_user.freezed.dart';
 part 'my_user.g.dart';
 
@@ -7,6 +8,7 @@ part 'my_user.g.dart';
 class MyUser with _$MyUser {
   const factory MyUser(
       {required String name,
+      required String rName,
       required num id,
       required String avatar,
       required bool isActive,

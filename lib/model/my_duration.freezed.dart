@@ -22,6 +22,7 @@ MyDuration _$MyDurationFromJson(Map<String, dynamic> json) {
 mixin _$MyDuration {
   DateTime? get lastOpened => throw _privateConstructorUsedError;
   DateTime? get lastGamePlayed => throw _privateConstructorUsedError;
+  String? get appVersion => throw _privateConstructorUsedError;
   DateTime get currentTime => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,7 +38,10 @@ abstract class $MyDurationCopyWith<$Res> {
       _$MyDurationCopyWithImpl<$Res, MyDuration>;
   @useResult
   $Res call(
-      {DateTime? lastOpened, DateTime? lastGamePlayed, DateTime currentTime});
+      {DateTime? lastOpened,
+      DateTime? lastGamePlayed,
+      String? appVersion,
+      DateTime currentTime});
 }
 
 /// @nodoc
@@ -55,6 +59,7 @@ class _$MyDurationCopyWithImpl<$Res, $Val extends MyDuration>
   $Res call({
     Object? lastOpened = freezed,
     Object? lastGamePlayed = freezed,
+    Object? appVersion = freezed,
     Object? currentTime = null,
   }) {
     return _then(_value.copyWith(
@@ -66,6 +71,10 @@ class _$MyDurationCopyWithImpl<$Res, $Val extends MyDuration>
           ? _value.lastGamePlayed
           : lastGamePlayed // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      appVersion: freezed == appVersion
+          ? _value.appVersion
+          : appVersion // ignore: cast_nullable_to_non_nullable
+              as String?,
       currentTime: null == currentTime
           ? _value.currentTime
           : currentTime // ignore: cast_nullable_to_non_nullable
@@ -83,7 +92,10 @@ abstract class _$$MyDurationImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {DateTime? lastOpened, DateTime? lastGamePlayed, DateTime currentTime});
+      {DateTime? lastOpened,
+      DateTime? lastGamePlayed,
+      String? appVersion,
+      DateTime currentTime});
 }
 
 /// @nodoc
@@ -99,6 +111,7 @@ class __$$MyDurationImplCopyWithImpl<$Res>
   $Res call({
     Object? lastOpened = freezed,
     Object? lastGamePlayed = freezed,
+    Object? appVersion = freezed,
     Object? currentTime = null,
   }) {
     return _then(_$MyDurationImpl(
@@ -110,6 +123,10 @@ class __$$MyDurationImplCopyWithImpl<$Res>
           ? _value.lastGamePlayed
           : lastGamePlayed // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      appVersion: freezed == appVersion
+          ? _value.appVersion
+          : appVersion // ignore: cast_nullable_to_non_nullable
+              as String?,
       currentTime: null == currentTime
           ? _value.currentTime
           : currentTime // ignore: cast_nullable_to_non_nullable
@@ -122,7 +139,10 @@ class __$$MyDurationImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$MyDurationImpl with DiagnosticableTreeMixin implements _MyDuration {
   const _$MyDurationImpl(
-      {this.lastOpened, this.lastGamePlayed, required this.currentTime});
+      {this.lastOpened,
+      this.lastGamePlayed,
+      this.appVersion,
+      required this.currentTime});
 
   factory _$MyDurationImpl.fromJson(Map<String, dynamic> json) =>
       _$$MyDurationImplFromJson(json);
@@ -132,11 +152,13 @@ class _$MyDurationImpl with DiagnosticableTreeMixin implements _MyDuration {
   @override
   final DateTime? lastGamePlayed;
   @override
+  final String? appVersion;
+  @override
   final DateTime currentTime;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MyDuration(lastOpened: $lastOpened, lastGamePlayed: $lastGamePlayed, currentTime: $currentTime)';
+    return 'MyDuration(lastOpened: $lastOpened, lastGamePlayed: $lastGamePlayed, appVersion: $appVersion, currentTime: $currentTime)';
   }
 
   @override
@@ -146,6 +168,7 @@ class _$MyDurationImpl with DiagnosticableTreeMixin implements _MyDuration {
       ..add(DiagnosticsProperty('type', 'MyDuration'))
       ..add(DiagnosticsProperty('lastOpened', lastOpened))
       ..add(DiagnosticsProperty('lastGamePlayed', lastGamePlayed))
+      ..add(DiagnosticsProperty('appVersion', appVersion))
       ..add(DiagnosticsProperty('currentTime', currentTime));
   }
 
@@ -158,14 +181,16 @@ class _$MyDurationImpl with DiagnosticableTreeMixin implements _MyDuration {
                 other.lastOpened == lastOpened) &&
             (identical(other.lastGamePlayed, lastGamePlayed) ||
                 other.lastGamePlayed == lastGamePlayed) &&
+            (identical(other.appVersion, appVersion) ||
+                other.appVersion == appVersion) &&
             (identical(other.currentTime, currentTime) ||
                 other.currentTime == currentTime));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, lastOpened, lastGamePlayed, currentTime);
+  int get hashCode => Object.hash(
+      runtimeType, lastOpened, lastGamePlayed, appVersion, currentTime);
 
   @JsonKey(ignore: true)
   @override
@@ -185,6 +210,7 @@ abstract class _MyDuration implements MyDuration {
   const factory _MyDuration(
       {final DateTime? lastOpened,
       final DateTime? lastGamePlayed,
+      final String? appVersion,
       required final DateTime currentTime}) = _$MyDurationImpl;
 
   factory _MyDuration.fromJson(Map<String, dynamic> json) =
@@ -194,6 +220,8 @@ abstract class _MyDuration implements MyDuration {
   DateTime? get lastOpened;
   @override
   DateTime? get lastGamePlayed;
+  @override
+  String? get appVersion;
   @override
   DateTime get currentTime;
   @override

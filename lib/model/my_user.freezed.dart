@@ -21,6 +21,7 @@ MyUser _$MyUserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$MyUser {
   String get name => throw _privateConstructorUsedError;
+  String get rName => throw _privateConstructorUsedError;
   num get id => throw _privateConstructorUsedError;
   String get avatar => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
@@ -41,6 +42,7 @@ abstract class $MyUserCopyWith<$Res> {
   @useResult
   $Res call(
       {String name,
+      String rName,
       num id,
       String avatar,
       bool isActive,
@@ -64,6 +66,7 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
   @override
   $Res call({
     Object? name = null,
+    Object? rName = null,
     Object? id = null,
     Object? avatar = null,
     Object? isActive = null,
@@ -76,6 +79,10 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      rName: null == rName
+          ? _value.rName
+          : rName // ignore: cast_nullable_to_non_nullable
               as String,
       id: null == id
           ? _value.id
@@ -118,6 +125,7 @@ abstract class _$$MyUserImplCopyWith<$Res> implements $MyUserCopyWith<$Res> {
   @useResult
   $Res call(
       {String name,
+      String rName,
       num id,
       String avatar,
       bool isActive,
@@ -139,6 +147,7 @@ class __$$MyUserImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
+    Object? rName = null,
     Object? id = null,
     Object? avatar = null,
     Object? isActive = null,
@@ -151,6 +160,10 @@ class __$$MyUserImplCopyWithImpl<$Res>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      rName: null == rName
+          ? _value.rName
+          : rName // ignore: cast_nullable_to_non_nullable
               as String,
       id: null == id
           ? _value.id
@@ -189,6 +202,7 @@ class __$$MyUserImplCopyWithImpl<$Res>
 class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
   const _$MyUserImpl(
       {required this.name,
+      required this.rName,
       required this.id,
       required this.avatar,
       required this.isActive,
@@ -203,6 +217,8 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
 
   @override
   final String name;
+  @override
+  final String rName;
   @override
   final num id;
   @override
@@ -227,7 +243,7 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MyUser(name: $name, id: $id, avatar: $avatar, isActive: $isActive, playing: $playing, isHuman: $isHuman, controllerCount: $controllerCount, controlledBy: $controlledBy)';
+    return 'MyUser(name: $name, rName: $rName, id: $id, avatar: $avatar, isActive: $isActive, playing: $playing, isHuman: $isHuman, controllerCount: $controllerCount, controlledBy: $controlledBy)';
   }
 
   @override
@@ -236,6 +252,7 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
     properties
       ..add(DiagnosticsProperty('type', 'MyUser'))
       ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('rName', rName))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('avatar', avatar))
       ..add(DiagnosticsProperty('isActive', isActive))
@@ -251,6 +268,7 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
         (other.runtimeType == runtimeType &&
             other is _$MyUserImpl &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.rName, rName) || other.rName == rName) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.isActive, isActive) ||
@@ -268,6 +286,7 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
   int get hashCode => Object.hash(
       runtimeType,
       name,
+      rName,
       id,
       avatar,
       isActive,
@@ -293,6 +312,7 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
 abstract class _MyUser implements MyUser {
   const factory _MyUser(
       {required final String name,
+      required final String rName,
       required final num id,
       required final String avatar,
       required final bool isActive,
@@ -305,6 +325,8 @@ abstract class _MyUser implements MyUser {
 
   @override
   String get name;
+  @override
+  String get rName;
   @override
   num get id;
   @override
