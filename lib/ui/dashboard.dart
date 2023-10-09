@@ -374,8 +374,9 @@ class DashboardPState extends StatelessWidget {
             mainAxisCellCount: 15,
             child: Container(
               decoration: BoxDecoration(
-                  color: russianViolet,
-                  borderRadius: BorderRadius.circular(9.r)),
+                color: russianViolet,
+                borderRadius: BorderRadius.circular(9.r),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -419,9 +420,7 @@ class DashboardPState extends StatelessWidget {
                     child: FractionallySizedBox(
                       heightFactor: 1,
                       widthFactor: 1,
-                      child: Lottie.asset(
-                        'lottie/friends-playing.json',
-                      ),
+                      child: Lottie.asset('lottie/friends-playing.json'),
                     ),
                   ),
                 ],
@@ -435,7 +434,7 @@ class DashboardPState extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 color: barnRed,
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(9.r),
               ),
               padding: EdgeInsets.all(7.5.r),
               child: Column(
@@ -475,7 +474,36 @@ class DashboardPState extends StatelessWidget {
           StaggeredGridTile.count(
             crossAxisCellCount: 10,
             mainAxisCellCount: 5,
-            child: Container(color: pictonBlue),
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: pictonBlue,
+                borderRadius: BorderRadius.circular(9.r),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "How to play",
+                    style: TextStyle(
+                      fontSize: 27.r,
+                      height: 1.8,
+                      color: ghostWhite,
+                      fontFamily: 'Montserrat',
+                    ),
+                  ),
+                  Text(
+                    "Learn the Basics",
+                    style: TextStyle(
+                      fontSize: 12.r,
+                      height: 2.1,
+                      color: azure,
+                      fontFamily: 'Poppins',
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
           StaggeredGridTile.count(
             crossAxisCellCount: 20,

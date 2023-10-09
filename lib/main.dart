@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
@@ -40,6 +41,9 @@ Future<void> main() async {
   final FirebaseAnalytics firebaseAnalytics =
       FirebaseAnalytics.instanceFor(app: app);
 
+  final FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.instance;
+  //firebaseCrashlytics.app = app;
+
   final FirebaseRemoteConfig remoteConfig =
       FirebaseRemoteConfig.instanceFor(app: app);
   await remoteConfig.setConfigSettings(
@@ -48,7 +52,28 @@ Future<void> main() async {
       minimumFetchInterval: const Duration(seconds: 10),
     ),
   );
-  await remoteConfig.fetchAndActivate();
+
+  final Connectivity connectivity = Connectivity();
+  final iNet = await connectivity.checkConnectivity();
+
+  if (iNet != ConnectivityResult.none) {
+    debugPrint("Initialising Remote Config");
+    await remoteConfig.fetchAndActivate();
+  }
+
+  await firebaseCrashlytics.setCrashlyticsCollectionEnabled(!kDebugMode);
+
+  //const fatalError = true;
+  // Non-async exceptions
+  FlutterError.onError = (errorDetails) {
+    firebaseCrashlytics.recordFlutterFatalError(errorDetails);
+  };
+
+  // Async exceptions
+  PlatformDispatcher.instance.onError = (error, stack) {
+    firebaseCrashlytics.recordError(error, stack, fatal: true);
+    return true;
+  };
 
   runApp(
     ProviderScope(
@@ -59,6 +84,10 @@ Future<void> main() async {
         fireStoreProvider.overrideWithValue(fireStore),
         databaseProvider.overrideWithValue(database),
         remoteConfigProvider.overrideWithValue(remoteConfig),
+        internetConnectionProvider
+            .overrideWith((ref) => connectivity.onConnectivityChanged),
+        checkNetProvider
+            .overrideWith((ref) => connectivity.checkConnectivity()),
       ],
       child: const MyApp(),
     ),
@@ -121,15 +150,21 @@ class MyApp extends ConsumerWidget {
             },
             loading: () => const SplashRoute());*/
 
-    /* ref.listen(
-      checkNetProvider.select((value) => value.value),
+    ref.listen(
+      internetConnectionProvider.select((value) => value.value),
       (previous, next) {
         final remoteConfig = ref.read(remoteConfigProvider);
-        if (next != ConnectivityResult.none) {
+        /*if(next!=ConnectivityResult.none){
+          remoteConfig.fetchAndActivate();
+        }*/
+        if (previous == null &&
+            next != ConnectivityResult.none &&
+            next != null) {
+          debugPrint("Initialising Remote Config");
           remoteConfig.fetchAndActivate();
         }
       },
-    );*/
+    );
 
     return ScreenUtilInit(
       designSize: const Size(360, 900),

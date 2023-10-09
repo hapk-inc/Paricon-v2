@@ -21,7 +21,7 @@ const List<IconData> gIcons = [
   //Text 3
   Icons.text_fields,
   Icons.cut,
-  Icons.abc,
+  //Icons.abc,
 
   // 1
   Icons.security,
@@ -36,19 +36,19 @@ const List<IconData> gIcons = [
   Icons.cable,
   Icons.access_alarm,
   Icons.one_x_mobiledata,
-  Icons.lte_mobiledata,
+  // Icons.lte_mobiledata,
 
   //search 10
   Icons.chair,
   Icons.podcasts,
   Icons.coffee,
   Icons.shower,
-  Icons.yard,
+  //Icons.yard,
   Icons.light,
   Icons.flatware,
   Icons.coffee_maker,
   Icons.blender,
-  Icons.bedroom_baby,
+  //Icons.bedroom_baby,
 
   //Places 18
   Icons.storefront,
@@ -68,7 +68,7 @@ const List<IconData> gIcons = [
   Icons.wash,
   Icons.fire_extinguisher,
   Icons.iron,
-  Icons.escalator,
+  //Icons.escalator,
 
   //Notification
   Icons.sync,
@@ -92,6 +92,6 @@ const List<IconData> gIcons = [
   Icons.two_wheeler,
   Icons.sailing,
   Icons.museum,
-  Icons.atm,
+  //Icons.atm,
   Icons.sos,
 ];

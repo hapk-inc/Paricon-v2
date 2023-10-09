@@ -6,18 +6,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
 
-import '../logic/s_size.dart';
+import '../logic/tournament_listener.dart';
+import '../model/local_icon.dart';
 import '../theme/my_color.dart';
-import 'g_icons.dart';
 
 class TournamentGrid extends ConsumerWidget {
   const TournamentGrid({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sSize = ref.read(sizeProvider);
+    // final sSize = ref.read(sizeProvider);
 
-    List<Widget> tiles = [
+    final tListener = ref.read(tournamentListenerNotifier);
+
+    /*List<Widget> tiles = [
       // if (!(row - 9).isNegative)
       //   ...List.generate(8 * (row - 9), (index) => Container()),
       ...List.generate(
@@ -25,7 +27,12 @@ class TournamentGrid extends ConsumerWidget {
         //count,
         (index) => TournamentGridTile(index: index),
       )
-    ];
+    ];*/
+    List<Widget> tiles = List.from(
+      tListener.icons.map(
+        (e) => TournamentGridTile(localIcon: e),
+      ),
+    );
     tiles.shuffle();
     return Center(
       child: ResponsiveGridList(
@@ -46,42 +53,36 @@ class TournamentGrid extends ConsumerWidget {
 }
 
 class TournamentGridTile extends ConsumerWidget {
-  final int index;
-  const TournamentGridTile({required this.index, Key? key}) : super(key: key);
+  final LocalIcon localIcon;
+  const TournamentGridTile({required this.localIcon, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sSize = ref.read(sizeProvider);
-    final bool isPhone = sSize == ScreenSize.phone;
+    //final sSize = ref.read(sizeProvider);
+    //final bool isPhone = sSize == ScreenSize.phone;
     //final tournamentNotifier = ref.watch(tournamentNotifierProvider);
-
-    final showIcon = Random().nextBool();
+    final tListener = ref.watch(tournamentListenerNotifier);
+    final xIcon = ref.watch(tournamentListenerNotifier).icons[localIcon.iconNo];
+    final showIcon = xIcon.checkFound;
 
     return AspectRatio(
       aspectRatio: 1,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 500),
         transform: Matrix4.rotationZ(
-          (!Random().nextBool()
-                  ? (Random.secure().nextBool() ? -pi : pi)
-                  : -pi) /
-              (Random().nextBool() ? 60 : 45),
+          (!showIcon ? (Random.secure().nextBool() ? -pi : pi) : -pi) /
+              (showIcon ? 60 : 45),
         ),
-        /*transform: Matrix4.rotationZ(
-          (!tournamentNotifier.icons[index].checkFound()
-                  ? (Random.secure().nextBool() ? -pi : pi)
-                  : -pi) /
-              (tournamentNotifier.icons[index].checkFound() ? 60 : 45),
-        ),*/
         child: Card(
-          color: showIcon
+          color: xIcon.isFound
               ? majorelleBlue
               : [
                   ...[aquamarine, uranianBlue],
-                  // ...[aquamarine, uranianBlue],
-                  ...[rosePompadour, xantHous],
-                  ...[rosePompadour, xantHous],
-                ][mockInteger(0, 5)],
+                  ...[aquamarine, uranianBlue],
+                  ...[xantHous],
+                  //...[rosePompadour, xantHous],
+                ][mockInteger(0, 4)],
           //: [teaGreen, peach, lavenderPink][mockInteger(0, 2)],
           //: [lapisLazuli, pear, bitterSweet, orangePeel][mockInteger(0, 3)],
           margin: EdgeInsets.zero,
@@ -90,14 +91,34 @@ class TournamentGridTile extends ConsumerWidget {
             borderRadius: BorderRadius.circular(4.5.r),
           ),
           child: InkWell(
+            onTap: tListener.inWait || xIcon.checkFound
+                ? null
+                : () {
+                    debugPrint(xIcon.iconCode.toString());
+                    debugPrint(xIcon.iconNo.toString());
+                    debugPrint(xIcon.toString());
+                    tListener.iconClick(xIcon);
+                  },
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 500),
-              child: showIcon
-                  ? Icon(gIcons[mockInteger(0, gIcons.length - 1)],
-                      size: 24.r, color: ghostWhite)
-                  : Random().nextBool()
-                      ? Icon(gIcons[mockInteger(0, gIcons.length - 1)],
-                          size: 24.r, color: richBlack)
+              child: xIcon.isFound
+                  ? Icon(
+                      IconData(
+                        xIcon.iconCode,
+                        fontFamily: 'MaterialIcons',
+                      ),
+                      size: 24.r,
+                      color: ghostWhite,
+                    )
+                  : xIcon.isCheck
+                      ? Icon(
+                          IconData(
+                            xIcon.iconCode,
+                            fontFamily: 'MaterialIcons',
+                          ),
+                          size: 24.r,
+                          color: coyote,
+                        )
                       : Container(),
             ),
           ),

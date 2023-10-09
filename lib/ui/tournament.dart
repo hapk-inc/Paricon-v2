@@ -1,3 +1,4 @@
+import 'package:animated_digit/animated_digit.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,7 @@ class TournamentPage extends ConsumerWidget {
                 ),
                 StaggeredGridTile.count(
                   crossAxisCellCount: 20,
-                  mainAxisCellCount: 9,
+                  mainAxisCellCount: 15,
                   child: Container(
                     padding:
                         EdgeInsets.symmetric(horizontal: 18.r, vertical: 15.r),
@@ -130,9 +131,36 @@ class ShowTimerIndicator extends ConsumerWidget {
                       children: [
                         WidgetSpan(child: Icon(Icons.timer, size: 24.r)),
                         WidgetSpan(child: SizedBox(width: 4.5.r)),
-                        TextSpan(text: "${mockInteger(1, 10)}".padLeft(2, '0')),
-                        const TextSpan(text: " : "),
-                        TextSpan(text: "${mockInteger(1, 59)}".padLeft(2, '0')),
+                        //TextSpan(text: "${mockInteger(1, 10)}".padLeft(2, '0')),
+                        WidgetSpan(
+                          child: AnimatedDigitWidget(
+                            value: 02,
+                            prefix: "0",
+                            suffix: " : ",
+                            textStyle: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w900,
+                              fontSize: 18.r,
+                              color: barnRed,
+                            ),
+                          ),
+                        ),
+                        WidgetSpan(
+                          child: AnimatedDigitWidget(
+                            value: mockInteger(0, 59),
+                            prefix: mockInteger(0, 1) == 0 ? "0" : "",
+                            //separateLength: 2,
+                            // fractionDigits: 2,
+                            textStyle: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w900,
+                              fontSize: 18.r,
+                              color: barnRed,
+                            ),
+                          ),
+                        ),
+                        // const TextSpan(text: " : "),
+                        //  TextSpan(text: "${mockInteger(1, 59)}".padLeft(2, '0')),
                       ],
                       style: TextStyle(
                         fontFamily: 'Montserrat',
