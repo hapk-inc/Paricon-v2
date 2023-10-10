@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -61,7 +62,9 @@ Future<void> main() async {
     await remoteConfig.fetchAndActivate();
   }
 
-  await firebaseCrashlytics.setCrashlyticsCollectionEnabled(!kDebugMode);
+  if (!kIsWeb) {
+    await firebaseCrashlytics.setCrashlyticsCollectionEnabled(!kDebugMode);
+  }
 
   //const fatalError = true;
   // Non-async exceptions
@@ -76,20 +79,23 @@ Future<void> main() async {
   };
 
   runApp(
-    ProviderScope(
-      overrides: [
-        firebaseAppProvider.overrideWithValue(app),
-        firebaseAuthProvider.overrideWithValue(firebaseAuth),
-        analyticsProvider.overrideWithValue(firebaseAnalytics),
-        fireStoreProvider.overrideWithValue(fireStore),
-        databaseProvider.overrideWithValue(database),
-        remoteConfigProvider.overrideWithValue(remoteConfig),
-        internetConnectionProvider
-            .overrideWith((ref) => connectivity.onConnectivityChanged),
-        checkNetProvider
-            .overrideWith((ref) => connectivity.checkConnectivity()),
-      ],
-      child: const MyApp(),
+    DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (_) => ProviderScope(
+        overrides: [
+          firebaseAppProvider.overrideWithValue(app),
+          firebaseAuthProvider.overrideWithValue(firebaseAuth),
+          analyticsProvider.overrideWithValue(firebaseAnalytics),
+          fireStoreProvider.overrideWithValue(fireStore),
+          databaseProvider.overrideWithValue(database),
+          remoteConfigProvider.overrideWithValue(remoteConfig),
+          internetConnectionProvider
+              .overrideWith((ref) => connectivity.onConnectivityChanged),
+          checkNetProvider
+              .overrideWith((ref) => connectivity.checkConnectivity()),
+        ],
+        child: const MyApp(),
+      ),
     ),
   );
 }
@@ -182,6 +188,9 @@ class MyApp extends ConsumerWidget {
           ],
           child: MaterialApp.router(
             routeInformationParser: _myRoute.defaultRouteParser(),
+            useInheritedMediaQuery: true,
+            locale: DevicePreview.locale(context),
+            builder: DevicePreview.appBuilder,
             routerDelegate: AutoRouterDelegate.declarative(
               _myRoute,
               routes: (handler) {
