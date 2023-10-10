@@ -234,6 +234,9 @@ flutter:
           weight: 600
         - asset: fonts/Cabin-Bold.ttf
           weight: 700
+    - family: DelaGothic
+      fonts:
+        - asset: fonts/DelaGothicOne-Regular.ttf
 
   #
   # For details regarding fonts from package dependencies,

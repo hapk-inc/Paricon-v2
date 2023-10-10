@@ -142,3 +142,12 @@ const Color walnutBrown = Color(0xff58504a);
 
 const Color linen = Color(0xfff9ebe0);
 const Color mayaBlue = Color(0xff66c3ff);
+
+const Color skyBlue = Color(0xff78c0e0);
+const Color federalBlue = Color(0xff0e0e52);
+
+const Color coralPink = Color(0xfff3938c);
+const Color melon = Color(0xffedaf97);
+const Color yellowGreen = Color(0xffb0db43);
+
+const Color mistyRose = Color(0xfffae1df);
