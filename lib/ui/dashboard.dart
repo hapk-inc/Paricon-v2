@@ -69,9 +69,10 @@ class DashboardP extends ConsumerWidget {
     xRandom.shuffle();
 
     return SafeArea(
+      bottom: false,
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 500),
-        child: inWork.isNotEmpty && !kDebugMode
+        child: (inWork.isNotEmpty && !kDebugMode)
             ? DashboardWorkInProgress(inWork: inWork)
             // :  DashboardPState(fUser: fUser, xRandom: xRandom),
             : const DashboardBodyState(),
@@ -224,15 +225,47 @@ class DashboardBodyState extends StatelessWidget {
               ),
             ),
           ),
-          const StaggeredGridTile.count(
+          StaggeredGridTile.count(
             crossAxisCellCount: 11,
             mainAxisCellCount: 7.2,
-            child: ColoredBox(color: darkGreen),
+            child: Container(
+              margin: EdgeInsets.all(3.6.r),
+              child: ElevatedButton(
+                style: dashboardElevatedButtonStyle(darkGreen),
+                onPressed: () {},
+                child: Padding(
+                  padding: EdgeInsets.all(9.r),
+                  child: AutoSizeText.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Enter Room Code\n",
+                          style: TextStyle(
+                            fontSize: 24.r,
+                            height: 1.8,
+                            color: azure,
+                            fontFamily: 'Montserrat',
+                          ),
+                        ),
+                        TextSpan(
+                          text: "Use the room code to enter",
+                          style: TextStyle(
+                              fontSize: 12.r,
+                              height: 2.4,
+                              color: gray,
+                              fontFamily: 'Poppins'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
           const StaggeredGridTile.count(
             crossAxisCellCount: 11,
             mainAxisCellCount: 4.8,
-            child: ColoredBox(color: pear1),
+            child: ColoredBox(color: federalBlue),
           ),
           const StaggeredGridTile.count(
             crossAxisCellCount: 20,
@@ -502,32 +535,36 @@ class DashboardWorkInProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        AutoSizeText(
-          inWork,
-          wrapWords: false,
-          style: TextStyle(
-            fontSize: 60.r,
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w700,
-            color: cadetGray,
+    return Padding(
+      padding: EdgeInsets.all(7.5.r),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AutoSizeText(
+            inWork,
+            wrapWords: false,
+            style: TextStyle(
+              fontSize: 60.r,
+              fontFamily: 'DelaGothic',
+              fontWeight: FontWeight.w700,
+              color: cadetGray,
+            ),
           ),
-        ),
-        SizedBox(height: 9.r),
-        Text(
-          "Appreciate your patience",
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 18.r,
-            fontWeight: FontWeight.w200,
-            color: gunMetal,
-            letterSpacing: .3.r,
+          SizedBox(height: 9.r),
+          Text(
+            "Appreciate your patience",
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 18.r,
+              fontWeight: FontWeight.normal,
+              color: gunMetal,
+              height: 2.1,
+              letterSpacing: .3.r,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -1097,3 +1134,16 @@ class BottomSlidingUser extends ConsumerWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     )*/
+
+/*
+* Certainly, here are five variations of the message for first-time users in your app:
+
+"Hello, new user! You've unlocked a fresh avatar. Simply click here to set it as your profile picture."
+
+"Welcome, newcomer! Congratulations on earning a new avatar. To make it your profile picture, just click here."
+
+"Hey there, first-time user! You've got a brand-new avatar waiting. Click here to give it a spin as your profile pic."
+
+"Greetings, newbie! A shiny new avatar is yours to claim. To make it your profile image, click right here."
+
+"Hello to our newest user! You've earned a cool new avatar. To use it as your profile picture, just click here."*/
