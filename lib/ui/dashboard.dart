@@ -173,7 +173,7 @@ class DashboardBodyState extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.all(3.6.r),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () => context.router.push(const TournamentRoute()),
                 style: dashboardElevatedButtonStyle(russianViolet),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,7 +195,7 @@ class DashboardBodyState extends StatelessWidget {
                                     fontSize: 21.r,
                                     height: 1.8,
                                     color: azure,
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'DelaGothic',
                                   ),
                                 ),
                                 TextSpan(
@@ -203,7 +203,7 @@ class DashboardBodyState extends StatelessWidget {
                                   style: TextStyle(
                                       fontSize: 12.r,
                                       height: 2.4,
-                                      color: gray,
+                                      color: azure,
                                       fontFamily: 'Poppins'),
                                 ),
                               ],
@@ -225,34 +225,35 @@ class DashboardBodyState extends StatelessWidget {
               ),
             ),
           ),
-          StaggeredGridTile.count(
+          /* StaggeredGridTile.count(
             crossAxisCellCount: 11,
-            mainAxisCellCount: 7.2,
+            mainAxisCellCount: 6,
             child: Container(
               margin: EdgeInsets.all(3.6.r),
               child: ElevatedButton(
                 style: dashboardElevatedButtonStyle(darkGreen),
                 onPressed: () {},
                 child: Padding(
-                  padding: EdgeInsets.all(9.r),
+                  padding: EdgeInsets.all(12.r),
                   child: AutoSizeText.rich(
                     TextSpan(
                       children: [
                         TextSpan(
                           text: "Enter Room Code\n",
                           style: TextStyle(
-                            fontSize: 24.r,
+                            fontSize: 18.r,
                             height: 1.8,
                             color: azure,
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'DelaGothic',
                           ),
                         ),
                         TextSpan(
                           text: "Use the room code to enter",
                           style: TextStyle(
                               fontSize: 12.r,
-                              height: 2.4,
-                              color: gray,
+                              height: 2.7,
+                              color: azure,
+                              fontWeight: FontWeight.w300,
                               fontFamily: 'Poppins'),
                         ),
                       ],
@@ -261,16 +262,114 @@ class DashboardBodyState extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          const StaggeredGridTile.count(
+          ),*/
+          /*  StaggeredGridTile.count(
             crossAxisCellCount: 11,
-            mainAxisCellCount: 4.8,
-            child: ColoredBox(color: federalBlue),
+            mainAxisCellCount: 5.1,
+            child: Container(
+              margin: EdgeInsets.all(3.6.r),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: dashboardElevatedButtonStyle(federalBlue),
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.all(12.r),
+                  child: AutoSizeText.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "How to Play\n",
+                          style: TextStyle(
+                            fontSize: 21.r,
+                            height: 1.8,
+                            color: azure,
+                            fontFamily: 'DelaGothic',
+                          ),
+                        ),
+                        TextSpan(
+                          text: "Use the room code to enter",
+                          style: TextStyle(
+                              fontSize: 12.r,
+                              height: 2.4,
+                              color: gray,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'Poppins'),
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+              ),
+            ),
+          ),*/
+          const StaggeredGridTile.count(
+            crossAxisCellCount: 20,
+            mainAxisCellCount: 0.3,
+            child: SizedBox(),
+          ),
+          StaggeredGridTile.count(
+            crossAxisCellCount: 20,
+            mainAxisCellCount: 9,
+            child: ElevatedButton(
+              onPressed: () {},
+              style: dashboardElevatedButtonStyle(darkGreen, r: 0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    flex: 7,
+                    child: FractionallySizedBox(
+                      heightFactor: 1,
+                      widthFactor: 1,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 12.r),
+                        alignment: Alignment.centerLeft,
+                        child: AutoSizeText.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Profile Customization\n",
+                                style: TextStyle(
+                                  fontSize: 24.r,
+                                  height: 2.1,
+                                  color: azure,
+                                  fontFamily: 'DelaGothic',
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    "Open your profile and complete your bio.",
+                                style: TextStyle(
+                                    fontSize: 12.r,
+                                    height: 3,
+                                    color: azure,
+                                    fontWeight: FontWeight.w300,
+                                    fontFamily: 'Poppins'),
+                              ),
+                            ],
+                          ),
+                          maxLines: 3,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 5,
+                    child: FractionallySizedBox(
+                      heightFactor: 1,
+                      widthFactor: 1,
+                      child: Lottie.asset('lottie/profile-settings.json'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
           const StaggeredGridTile.count(
             crossAxisCellCount: 20,
-            mainAxisCellCount: 7.2,
-            child: ColoredBox(color: pictonBlue),
+            mainAxisCellCount: 0.3,
+            child: SizedBox(),
           ),
           const StaggeredGridTile.count(
             crossAxisCellCount: 20,
@@ -288,12 +387,13 @@ class DashboardBodyState extends StatelessWidget {
   }
 }
 
-ButtonStyle dashboardElevatedButtonStyle(Color btnColor) => ButtonStyle(
+ButtonStyle dashboardElevatedButtonStyle(Color btnColor, {double? r}) =>
+    ButtonStyle(
       backgroundColor: MaterialStatePropertyAll(btnColor),
       padding: const MaterialStatePropertyAll(EdgeInsets.zero),
       shape: MaterialStatePropertyAll(
         RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(7.5.r),
+          borderRadius: BorderRadius.circular(r ?? 7.5.r),
         ),
       ),
     );
@@ -436,7 +536,7 @@ class DashboardPState extends StatelessWidget {
                             fontSize: 27.r,
                             height: 1.8,
                             color: linen,
-                            fontFamily: 'Montserrat',
+                            fontFamily: 'DelaGothic',
                           ),
                         ),
                         TextSpan(

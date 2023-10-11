@@ -9,7 +9,6 @@ import 'package:mock_data/mock_data.dart';
 
 import '../../theme/my_color.dart';
 import '../logic/s_size.dart';
-import '../my_widget/build_app_bar.dart';
 import '../my_widget/tournament_grid.dart';
 
 @RoutePage()
@@ -20,86 +19,96 @@ class TournamentPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sSize = ref.read(sizeProvider);
     return Scaffold(
-      appBar: buildAppBar(sSize, context),
-      body: SafeArea(
-        child: ColoredBox(
-          color: majorelleBlue,
-          child: SingleChildScrollView(
-            child: StaggeredGrid.count(
-              crossAxisCount: 20,
-              children: [
-                const StaggeredGridTile.count(
-                  crossAxisCellCount: 20,
-                  mainAxisCellCount: 3,
-                  child: SizedBox(),
-                ),
-                StaggeredGridTile.count(
-                  crossAxisCellCount: 20,
-                  mainAxisCellCount: 27,
-                  child: Card(
-                    color: ghostWhite,
-                    margin: EdgeInsets.symmetric(horizontal: 18.r),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7.5.r),
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: ghostWhite,
-                        borderRadius: BorderRadius.circular(7.5.r),
+      // appBar: buildAppBar(sSize, context),
+      body: sSize != ScreenSize.phone
+          ? Container()
+          : SafeArea(
+              top: false,
+              bottom: false,
+              child: ColoredBox(
+                color: majorelleBlue,
+                child: SingleChildScrollView(
+                  child: StaggeredGrid.count(
+                    crossAxisCount: 20,
+                    children: [
+                      const StaggeredGridTile.count(
+                        crossAxisCellCount: 20,
+                        mainAxisCellCount: 4.5,
+                        child: SizedBox(),
                       ),
-                      child: Column(
-                        children: [
-                          const Flexible(
-                            flex: 3,
-                            child: ShowTimerIndicator(),
+                      StaggeredGridTile.count(
+                        crossAxisCellCount: 20,
+                        mainAxisCellCount: 30,
+                        child: Card(
+                          color: ghostWhite,
+                          margin: EdgeInsets.symmetric(horizontal: 15.r),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(7.5.r),
                           ),
-                          Expanded(
-                            flex: 16,
-                            child: AnimatedContainer(
-                              duration: const Duration(milliseconds: 500),
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.all(10.5.r),
-                              child: const TournamentGrid(),
+                          child: Container(
+                            padding: EdgeInsets.all(4.5.r),
+                            child: Column(
+                              children: [
+                                const Flexible(
+                                  flex: 1,
+                                  child: ShowTimerIndicator(),
+                                ),
+                                Expanded(
+                                  flex: 7,
+                                  child: FractionallySizedBox(
+                                    heightFactor: 1,
+                                    widthFactor: 1,
+                                    child: AnimatedContainer(
+                                      //color: coyote,
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      // alignment: Alignment.topCenter,
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 7.5.r,
+                                      ),
+                                      child: const TournamentGrid(),
+                                    ),
+                                  ),
+                                ),
+                                const Spacer(),
+                              ],
                             ),
                           ),
-                          const Spacer(),
-                        ],
+                        ),
                       ),
-                    ),
+                      StaggeredGridTile.count(
+                        crossAxisCellCount: 20,
+                        mainAxisCellCount: 15,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 18.r, vertical: 15.r),
+                          child: DefaultTextStyle(
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              color: azure,
+                              height: 1.5,
+                              fontSize: 24.r,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            child: AnimatedTextKit(
+                              animatedTexts: [
+                                FadeAnimatedText(
+                                    'Press any block to start the game'),
+                                //FadeAnimatedText('do it RIGHT!!'),
+                                //FadeAnimatedText('do it RIGHT NOW!!!'),
+                              ],
+                              //repeatForever: true,
+                              totalRepeatCount: 2,
+                              stopPauseOnTap: true,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                StaggeredGridTile.count(
-                  crossAxisCellCount: 20,
-                  mainAxisCellCount: 15,
-                  child: Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 18.r, vertical: 15.r),
-                    child: DefaultTextStyle(
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: azure,
-                        height: 1.5,
-                        fontSize: 24.r,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      child: AnimatedTextKit(
-                        animatedTexts: [
-                          FadeAnimatedText('Press any block to start the game'),
-                          //FadeAnimatedText('do it RIGHT!!'),
-                          //FadeAnimatedText('do it RIGHT NOW!!!'),
-                        ],
-                        //repeatForever: true,
-                        totalRepeatCount: 2,
-                        stopPauseOnTap: true,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }
@@ -118,7 +127,7 @@ class ShowTimerIndicator extends ConsumerWidget {
         Flexible(
           child: FractionallySizedBox(
             widthFactor: 1,
-            heightFactor: 0.6,
+            heightFactor: 1,
             child: Container(
               //  height: p1.maxHeight * 0.45,
               padding: EdgeInsets.symmetric(horizontal: 15.r),
@@ -131,7 +140,6 @@ class ShowTimerIndicator extends ConsumerWidget {
                       children: [
                         WidgetSpan(child: Icon(Icons.timer, size: 24.r)),
                         WidgetSpan(child: SizedBox(width: 4.5.r)),
-                        //TextSpan(text: "${mockInteger(1, 10)}".padLeft(2, '0')),
                         WidgetSpan(
                           child: AnimatedDigitWidget(
                             value: 02,
@@ -159,8 +167,6 @@ class ShowTimerIndicator extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        // const TextSpan(text: " : "),
-                        //  TextSpan(text: "${mockInteger(1, 59)}".padLeft(2, '0')),
                       ],
                       style: TextStyle(
                         fontFamily: 'Montserrat',
@@ -174,11 +180,7 @@ class ShowTimerIndicator extends ConsumerWidget {
                     onTap: () {
                       context.router.pop();
                     },
-                    child: Icon(
-                      Icons.close,
-                      size: 21.r,
-                      color: barnRed,
-                    ),
+                    child: Icon(Icons.close, size: 21.r, color: barnRed),
                   )
                 ],
               ),

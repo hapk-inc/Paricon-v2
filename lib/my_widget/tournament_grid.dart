@@ -34,20 +34,18 @@ class TournamentGrid extends ConsumerWidget {
       ),
     );
     tiles.shuffle();
-    return Center(
-      child: ResponsiveGridList(
-        listViewBuilderOptions: ListViewBuilderOptions(
-          physics: const NeverScrollableScrollPhysics(),
-        ),
-        minItemWidth: 1.w,
-        minItemsPerRow: 7,
-        horizontalGridSpacing: 6.w,
-        verticalGridSpacing: 6.h,
-        horizontalGridMargin: 0,
-        verticalGridMargin: 0,
-        maxItemsPerRow: 8,
-        children: tiles,
+    return ResponsiveGridList(
+      listViewBuilderOptions: ListViewBuilderOptions(
+        physics: const NeverScrollableScrollPhysics(),
       ),
+      minItemWidth: 1.w,
+      minItemsPerRow: 7,
+      horizontalGridSpacing: 6.w,
+      verticalGridSpacing: 9.h,
+      horizontalGridMargin: 0,
+      verticalGridMargin: 0,
+      maxItemsPerRow: 8,
+      children: tiles,
     );
   }
 }
