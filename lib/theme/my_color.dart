@@ -165,3 +165,10 @@ const Color sunset = Color(0xfff9c784);
 const Color mindaro = Color(0xfffffd98);
 const Color apricot = Color(0xfffcc8b2);
 const Color xWhite = Color(0xfff8fcff);
+
+const Color wenge = Color(0xff56494c);
+const Color lime = Color(0xffcafe48);
+const Color deepSkyBlue = Color(0xff3abeff);
+
+const Color emerald = Color(0xff26c485);
+const Color magenta = Color(0xffa13d63);

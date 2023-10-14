@@ -22,7 +22,7 @@ class PlayOnlineButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Flexible(
-              flex: 3,
+              flex: 5,
               child: FractionallySizedBox(
                 heightFactor: 1,
                 widthFactor: 1,
@@ -33,7 +33,7 @@ class PlayOnlineButton extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: "Play Online\n",
+                          text: "Play with Friends\n",
                           style: TextStyle(
                             fontSize: 21.r,
                             height: 1.8,
@@ -44,10 +44,12 @@ class PlayOnlineButton extends StatelessWidget {
                         TextSpan(
                           text: "Compete and Connect",
                           style: TextStyle(
-                              fontSize: 12.r,
-                              height: 2.4,
-                              color: azure,
-                              fontFamily: 'Poppins'),
+                            fontSize: 12.r,
+                            height: 2.4,
+                            color: azure,
+                            fontWeight: FontWeight.w300,
+                            fontFamily: 'Poppins',
+                          ),
                         ),
                       ],
                     ),
