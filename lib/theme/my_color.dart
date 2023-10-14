@@ -151,3 +151,17 @@ const Color melon = Color(0xffedaf97);
 const Color yellowGreen = Color(0xffb0db43);
 
 const Color mistyRose = Color(0xfffae1df);
+
+const Color officeGreen = Color(0xff3f7d20);
+const Color tyrianPurple = Color(0xff6a0136);
+const Color oldGold = Color(0xffbfab25);
+
+const Color whiteSmoke = Color(0xfff1f1ef);
+const Color caribbeanCurrent = Color(0xff306b6d);
+const Color keppel = Color(0xff58c4aa);
+const Color columbiaBlue = Color(0xffc2e2fb);
+const Color silver = Color(0xffbfb9ac);
+const Color sunset = Color(0xfff9c784);
+const Color mindaro = Color(0xfffffd98);
+const Color apricot = Color(0xfffcc8b2);
+const Color xWhite = Color(0xfff8fcff);

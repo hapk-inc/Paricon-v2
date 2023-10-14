@@ -20,11 +20,13 @@ import '../../logic/user_datastore.dart';
 import '../../theme/my_color.dart';
 import '../logic/auth.dart';
 import '../logic/dashboard_provider.dart';
-import '../logic/my_names.dart';
 import '../logic/remote_values.dart';
 import '../model/my_user.dart';
 import '../my_widget/daily_leaderboard.dart';
 import '../router/my_route.dart';
+import 'dashboard_widget/d_play_online.dart';
+import 'dashboard_widget/d_recent_player.dart';
+import 'dashboard_widget/d_welcome.dart';
 
 @RoutePage()
 class DashboardPage extends ConsumerWidget {
@@ -91,71 +93,19 @@ class DashboardBodyState extends StatelessWidget {
         crossAxisCount: 20,
         mainAxisSpacing: 1.r,
         crossAxisSpacing: 1.r,
-        // axisDirection: AxisDirection.up,
         children: [
-          StaggeredGridTile.count(
+          const StaggeredGridTile.count(
             crossAxisCellCount: 20,
             mainAxisCellCount: 9,
-            child: Container(
-              decoration: BoxDecoration(
-                color: majorelleBlue,
-                borderRadius: BorderRadius.circular(7.5.r),
-              ),
-              margin: EdgeInsets.all(9.r),
-              padding: EdgeInsets.all(15.r),
-              alignment: Alignment.centerLeft,
-              child: AutoSizeText.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: "Welcome ${myRandomName()}\n",
-                      style: TextStyle(
-                        fontSize: 27.r,
-                        fontFamily: 'DelaGothic',
-                        fontWeight: FontWeight.w700,
-                        color: mistyRose,
-                      ),
-                    ),
-                    const TextSpan(
-                      text: "You've earned a cool new avatar. "
-                          "To use it as your profile picture, just ",
-                      style: TextStyle(color: coralPink),
-                    ),
-                    const TextSpan(
-                      text: "click here.",
-                      style: TextStyle(color: yellowGreen),
-                    )
-                  ],
-                  style: TextStyle(
-                    height: 2.1,
-                    fontSize: 15.r,
-                    color: barnRed,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-                maxLines: 3,
-              ),
-            ),
+            child: DWelcome(),
           ),
+          buildStaggeredSpace,
           const StaggeredGridTile.count(
             crossAxisCellCount: 20,
-            mainAxisCellCount: 0.15,
-            child: SizedBox(),
+            mainAxisCellCount: 4.2,
+            child: RecentPlayer(),
           ),
-          StaggeredGridTile.count(
-            crossAxisCellCount: 20,
-            mainAxisCellCount: 4.74,
-            child: Container(
-              padding: EdgeInsets.all(4.5.r),
-              //color: coyote,
-              child: const RecentPlayer(),
-            ),
-          ),
-          const StaggeredGridTile.count(
-            crossAxisCellCount: 20,
-            mainAxisCellCount: 0.3,
-            child: SizedBox(),
-          ),
+          buildStaggeredSpace,
           StaggeredGridTile.count(
             crossAxisCellCount: 20,
             mainAxisCellCount: 15.6,
@@ -167,214 +117,24 @@ class DashboardBodyState extends StatelessWidget {
               ),
             ),
           ),
-          StaggeredGridTile.count(
+          buildStaggeredSpace,
+          buildStaggeredSpace,
+          const StaggeredGridTile.count(
             crossAxisCellCount: 9,
             mainAxisCellCount: 12,
-            child: Container(
-              margin: EdgeInsets.all(3.6.r),
-              child: ElevatedButton(
-                onPressed: () => context.router.push(const TournamentRoute()),
-                style: dashboardElevatedButtonStyle(russianViolet),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Flexible(
-                      flex: 3,
-                      child: FractionallySizedBox(
-                        heightFactor: 1,
-                        widthFactor: 1,
-                        child: Container(
-                          padding: EdgeInsets.all(10.5.r),
-                          alignment: Alignment.centerLeft,
-                          child: RichText(
-                            text: TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: "Play Online\n",
-                                  style: TextStyle(
-                                    fontSize: 21.r,
-                                    height: 1.8,
-                                    color: azure,
-                                    fontFamily: 'DelaGothic',
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: "Compete and Connect",
-                                  style: TextStyle(
-                                      fontSize: 12.r,
-                                      height: 2.4,
-                                      color: azure,
-                                      fontFamily: 'Poppins'),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 5,
-                      child: FractionallySizedBox(
-                        heightFactor: 1,
-                        widthFactor: 1,
-                        child: Lottie.asset('lottie/friends-playing.json'),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            child: PlayOnlineButton(),
           ),
-          /* StaggeredGridTile.count(
+          const StaggeredGridTile.count(
             crossAxisCellCount: 11,
-            mainAxisCellCount: 6,
-            child: Container(
-              margin: EdgeInsets.all(3.6.r),
-              child: ElevatedButton(
-                style: dashboardElevatedButtonStyle(darkGreen),
-                onPressed: () {},
-                child: Padding(
-                  padding: EdgeInsets.all(12.r),
-                  child: AutoSizeText.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "Enter Room Code\n",
-                          style: TextStyle(
-                            fontSize: 18.r,
-                            height: 1.8,
-                            color: azure,
-                            fontFamily: 'DelaGothic',
-                          ),
-                        ),
-                        TextSpan(
-                          text: "Use the room code to enter",
-                          style: TextStyle(
-                              fontSize: 12.r,
-                              height: 2.7,
-                              color: azure,
-                              fontWeight: FontWeight.w300,
-                              fontFamily: 'Poppins'),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),*/
-          /*  StaggeredGridTile.count(
-            crossAxisCellCount: 11,
-            mainAxisCellCount: 5.1,
-            child: Container(
-              margin: EdgeInsets.all(3.6.r),
-              child: ElevatedButton(
-                onPressed: () {},
-                style: dashboardElevatedButtonStyle(federalBlue),
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.all(12.r),
-                  child: AutoSizeText.rich(
-                    TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "How to Play\n",
-                          style: TextStyle(
-                            fontSize: 21.r,
-                            height: 1.8,
-                            color: azure,
-                            fontFamily: 'DelaGothic',
-                          ),
-                        ),
-                        TextSpan(
-                          text: "Use the room code to enter",
-                          style: TextStyle(
-                              fontSize: 12.r,
-                              height: 2.4,
-                              color: gray,
-                              fontWeight: FontWeight.w300,
-                              fontFamily: 'Poppins'),
-                        ),
-                      ],
-                    ),
-                    textAlign: TextAlign.start,
-                  ),
-                ),
-              ),
-            ),
-          ),*/
+            mainAxisCellCount: 12,
+            child: PlayWithStranger(),
+          ),
+          buildStaggeredSpace,
+          buildStaggeredSpace,
           const StaggeredGridTile.count(
             crossAxisCellCount: 20,
-            mainAxisCellCount: 0.3,
-            child: SizedBox(),
-          ),
-          StaggeredGridTile.count(
-            crossAxisCellCount: 20,
-            mainAxisCellCount: 9,
-            child: ElevatedButton(
-              onPressed: () {},
-              style: dashboardElevatedButtonStyle(darkGreen, r: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Flexible(
-                    flex: 7,
-                    child: FractionallySizedBox(
-                      heightFactor: 1,
-                      widthFactor: 1,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 12.r),
-                        alignment: Alignment.centerLeft,
-                        child: AutoSizeText.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: "Profile Customization\n",
-                                style: TextStyle(
-                                  fontSize: 24.r,
-                                  height: 2.1,
-                                  color: azure,
-                                  fontFamily: 'DelaGothic',
-                                ),
-                              ),
-                              TextSpan(
-                                text:
-                                    "Open your profile and complete your bio.",
-                                style: TextStyle(
-                                    fontSize: 12.r,
-                                    height: 3,
-                                    color: azure,
-                                    fontWeight: FontWeight.w300,
-                                    fontFamily: 'Poppins'),
-                              ),
-                            ],
-                          ),
-                          maxLines: 3,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 5,
-                    child: FractionallySizedBox(
-                      heightFactor: 1,
-                      widthFactor: 1,
-                      child: Lottie.asset('lottie/profile-settings.json'),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const StaggeredGridTile.count(
-            crossAxisCellCount: 20,
-            mainAxisCellCount: 0.3,
-            child: SizedBox(),
-          ),
-          const StaggeredGridTile.count(
-            crossAxisCellCount: 20,
-            mainAxisCellCount: 4.5,
-            child: ColoredBox(color: jasmine),
+            mainAxisCellCount: 7.5,
+            child: ColoredBox(color: majorelleBlue),
           ),
           const StaggeredGridTile.count(
             crossAxisCellCount: 20,
@@ -385,18 +145,15 @@ class DashboardBodyState extends StatelessWidget {
       ),
     );
   }
-}
 
-ButtonStyle dashboardElevatedButtonStyle(Color btnColor, {double? r}) =>
-    ButtonStyle(
-      backgroundColor: MaterialStatePropertyAll(btnColor),
-      padding: const MaterialStatePropertyAll(EdgeInsets.zero),
-      shape: MaterialStatePropertyAll(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(r ?? 7.5.r),
-        ),
-      ),
+  StaggeredGridTile get buildStaggeredSpace {
+    return const StaggeredGridTile.count(
+      crossAxisCellCount: 20,
+      mainAxisCellCount: 0.15,
+      child: SizedBox(),
     );
+  }
+}
 
 class DashboardPState extends StatelessWidget {
   const DashboardPState({
@@ -839,90 +596,6 @@ class FirstTimeUser extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class RecentPlayer extends StatelessWidget {
-  const RecentPlayer({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.horizontal,
-      padding: EdgeInsets.only(left: 3.w),
-      children: List.generate(
-        10,
-        (index) => const RecentPlayerTile(),
-      ),
-    );
-  }
-}
-
-class RecentPlayerTile extends StatelessWidget {
-  const RecentPlayerTile({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 0.93,
-      child: LayoutBuilder(
-        builder: (_, p1) {
-          final showAvatar = mockInteger(0, 1) == 0;
-          return Column(
-            children: [
-              Flexible(
-                flex: 4,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      width: p1.maxWidth,
-                      height: p1.maxHeight * 0.72,
-                      bottom: p1.maxWidth * 0.05,
-                      child: const CircleAvatar(backgroundColor: majorelleBlue),
-                    ),
-                    if (showAvatar)
-                      Positioned(
-                        bottom: p1.maxWidth * 0.075,
-                        height: p1.maxHeight * 0.8,
-                        width: p1.maxWidth,
-                        child: RandomAvatar(mockString(), trBackground: true),
-                      )
-                    else
-                      Center(
-                        child: Text(
-                          mockString(2).toUpperCase(),
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 21.r,
-                            color: melon,
-                          ),
-                        ),
-                      )
-                  ],
-                ),
-              ),
-              Flexible(
-                child: FractionallySizedBox(
-                  heightFactor: 0.87,
-                  widthFactor: 1,
-                  child: FittedBox(
-                    child: Text(
-                      myRandomName(),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontFamily: 'Poppins',
-                        color: spaceCadet,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
       ),
     );
   }
