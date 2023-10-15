@@ -1,10 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../router/my_route.dart';
 import '../../theme/my_color.dart';
 import 'd_elevated_button_style.dart';
 
@@ -16,42 +14,33 @@ class PlayOnlineButton extends StatelessWidget {
     return Container(
       margin: EdgeInsets.all(3.6.r),
       child: ElevatedButton(
-        onPressed: () => context.router.push(const TournamentRoute()),
-        style: dashboardElevatedButtonStyle(russianViolet),
+        //onPressed: () => context.router.push(const TournamentRoute()),
+        onPressed: () {},
+        style: dashboardElevatedButtonStyle(darkPurple),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Flexible(
-              flex: 5,
+              flex: 4,
               child: FractionallySizedBox(
                 heightFactor: 1,
                 widthFactor: 1,
                 child: Container(
                   padding: EdgeInsets.all(10.5.r),
                   alignment: Alignment.centerLeft,
-                  child: RichText(
-                    text: TextSpan(
+                  child: AutoSizeText.rich(
+                    TextSpan(
                       children: [
                         TextSpan(
-                          text: "Play with Friends\n",
+                          text: "Play with\nFriends\n",
                           style: TextStyle(
-                            fontSize: 21.r,
+                            fontSize: 30.r,
                             height: 1.8,
-                            color: azure,
                             fontFamily: 'DelaGothic',
                           ),
                         ),
-                        TextSpan(
-                          text: "Compete and Connect",
-                          style: TextStyle(
-                            fontSize: 12.r,
-                            height: 2.4,
-                            color: azure,
-                            fontWeight: FontWeight.w300,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
                       ],
+                      style: const TextStyle(color: persianOrange),
                     ),
                   ),
                 ),
@@ -121,7 +110,7 @@ class PlayWithStranger extends StatelessWidget {
                     TextSpan(
                       children: [
                         TextSpan(
-                          text: "Play with Strangers\n",
+                          text: "Play Sudden Match\n",
                           style: TextStyle(
                             fontSize: 21.r,
                             height: 1.8,

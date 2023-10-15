@@ -172,3 +172,13 @@ const Color deepSkyBlue = Color(0xff3abeff);
 
 const Color emerald = Color(0xff26c485);
 const Color magenta = Color(0xffa13d63);
+
+const Color persianOrange = Color(0xffe08e45);
+
+const Color mountbattenPink = Color(0xff90708c);
+const Color pigmentGreen = Color(0xff00af54);
+const Color pakistanGreen = Color(0xff134611);
+
+const Color rosePink = Color(0xffe365c1);
+const Color cerise = Color(0xffe63462);
+const Color amaranthPurple = Color(0xffa4243b);
