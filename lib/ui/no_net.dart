@@ -33,7 +33,9 @@ class NoNetPage extends ConsumerWidget {
             child: FadeIn(
               delay: const Duration(seconds: 3),
               child: AspectRatio(
-                  aspectRatio: 1, child: Lottie.asset('lottie/no_net.json')),
+                aspectRatio: 1,
+                child: Lottie.asset('lottie/no_net.json'),
+              ),
             ),
           ),
           Expanded(

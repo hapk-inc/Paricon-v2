@@ -10,10 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:paricon/logic/firebase_init.dart';
-import 'package:paricon/logic/my_names.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../logic/s_size.dart';
@@ -21,8 +18,10 @@ import '../../logic/user_datastore.dart';
 import '../../theme/my_color.dart';
 import '../logic/auth.dart';
 import '../logic/dashboard_provider.dart';
+import '../logic/firebase_init.dart';
 import '../logic/remote_values.dart';
 import '../model/my_user.dart';
+import '../my_widget/short_leaderboard.dart';
 import '../router/my_route.dart';
 import 'dashboard_widget/d_play_online.dart';
 import 'dashboard_widget/d_recent_player.dart';
@@ -50,10 +49,14 @@ class DashboardPage extends ConsumerWidget {
           debugPrint("40-connection-$next");
           bool noNet = next == ConnectivityResult.none;
           if (noNet) {
-            if (!dPanelController.isPanelOpen) {
+            if (dPanelController.isPanelClosed) {
               dPanelController.open();
             }
-          } else {}
+          } else {
+            if (dPanelController.isPanelOpen) {
+              dPanelController.close();
+            }
+          }
         }
       },
     );
@@ -185,17 +188,24 @@ class DashboardBodyState extends ConsumerWidget {
                                 ),
                               ),
                               TextSpan(
-                                text: "challenge?",
+                                text: "challenge",
                                 style: TextStyle(
                                   color: pakistanGreen,
                                   fontFamily: 'Montserrat',
-                                  fontSize: 18.r,
+                                  fontSize: 15.6.r,
                                   decoration: TextDecoration.underline,
                                   decorationThickness: 1.2,
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () => context.router
                                       .push(const TournamentRoute()),
+                              ),
+                              const TextSpan(
+                                text: "?",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  height: 3,
+                                ),
                               )
                             ],
                             style: TextStyle(
@@ -231,108 +241,7 @@ class DashboardBodyState extends ConsumerWidget {
                         Expanded(
                           child: Padding(
                             padding: EdgeInsets.only(right: 6.r),
-                            child: LayoutBuilder(
-                              builder: (_, p) => DataTable(
-                                horizontalMargin: 0,
-                                columnSpacing: 3.w,
-                                headingRowHeight: p.maxHeight * 0.15,
-                                dataRowMinHeight: p.maxHeight * 0.21,
-                                dataRowMaxHeight: p.maxHeight * 0.21,
-                                // headingRowColor:
-                                //     const MaterialStatePropertyAll(Colors.green),
-                                headingTextStyle: TextStyle(
-                                  fontSize: 12.r,
-                                  fontFamily: 'DelaGothic',
-                                  color: spaceCadet,
-                                ),
-                                dataTextStyle: TextStyle(
-                                  fontSize: 15.r,
-                                  color: richBlack,
-                                  fontFamily: 'Poppins',
-                                ),
-                                columns: [
-                                  DataColumn(
-                                    label: SizedBox(
-                                      // color: deepSkyBlue,
-                                      width: p.maxWidth * 0.18,
-                                      child: const Text("Rank"),
-                                    ),
-                                  ),
-                                  DataColumn(
-                                    label: SizedBox(
-                                      width: p.maxWidth * 0.45,
-                                      //color: deepSkyBlue,
-                                      child: const Text("Name"),
-                                    ),
-                                  ),
-                                  DataColumn(
-                                    label: SizedBox(
-                                      width: p.maxWidth * 0.36,
-                                      //color: deepSkyBlue,
-                                      child: const Text("Duration"),
-                                    ),
-                                  ),
-                                ],
-                                rows: [
-                                  ...List.generate(
-                                      4,
-                                      (index) => DataRow(
-                                            cells: [
-                                              DataCell(
-                                                Container(
-                                                  width: p.maxWidth * 0.18,
-                                                  margin: EdgeInsets.only(
-                                                    left: p.maxWidth * 0.03,
-                                                  ),
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Text(
-                                                    "${"${mockInteger(1, 30)}".padLeft(2, '0')}.",
-                                                    style: TextStyle(
-                                                        fontFamily: 'Poppins',
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                        fontSize: 14.r),
-                                                  ),
-                                                ),
-                                              ),
-                                              DataCell(
-                                                Container(
-                                                  width: p.maxWidth * 0.45,
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: AutoSizeText(
-                                                    myRandomName(),
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      fontSize: 14.r,
-                                                    ),
-                                                    maxLines: 1,
-                                                  ),
-                                                ),
-                                              ),
-                                              DataCell(
-                                                SizedBox(
-                                                  width: p.maxWidth * 0.36,
-                                                  child: Text(
-                                                    "${mockInteger(1, 9)}"
-                                                            .padLeft(2, '0') +
-                                                        " : " +
-                                                        "${mockInteger(1, 59)}"
-                                                            .padLeft(2, '0'),
-                                                    style: TextStyle(
-                                                      fontFamily: 'Montserrat',
-                                                      fontSize: 15.r,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ))
-                                ],
-                              ),
-                            ),
+                            child: const ShortLeaderBoard(),
                           ),
                         )
                       ],
@@ -371,7 +280,7 @@ class DashboardBodyState extends ConsumerWidget {
           ),
           buildStaggeredSpace,
           buildStaggeredSpace,
-          StaggeredGridTile.count(
+          /*  StaggeredGridTile.count(
             crossAxisCellCount: 20,
             mainAxisCellCount: 9,
             child: Container(
@@ -384,7 +293,7 @@ class DashboardBodyState extends ConsumerWidget {
               child: LayoutBuilder(
                 builder: (_, p) => Stack(
                   children: [
-                    Positioned(
+                    */ /* Positioned(
                       top: -p.maxWidth * 0.015,
                       left: -p.maxWidth * 0.12,
                       width: p.maxWidth * 0.54,
@@ -396,9 +305,9 @@ class DashboardBodyState extends ConsumerWidget {
                           repeat: true,
                         ),
                       ),
-                    ),
+                    ),*/ /*
                     Positioned(
-                      width: p.maxWidth * 0.65,
+                      width: p.maxWidth * 0.9,
                       height: p.maxHeight * 0.75,
                       right: 0,
                       top: p.maxHeight * 0.0012,
@@ -467,12 +376,43 @@ class DashboardBodyState extends ConsumerWidget {
             ),
           ),
           buildStaggeredSpace,
-          buildStaggeredSpace,
-          const StaggeredGridTile.count(
+          buildStaggeredSpace,*/
+          /* StaggeredGridTile.count(
             crossAxisCellCount: 20,
-            mainAxisCellCount: 20,
-            child: ColoredBox(color: blackOlive),
-          )
+            mainAxisCellCount: 9,
+            child: Container(
+              padding: EdgeInsets.all(3.r),
+              color: blackOlive,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flexible(
+                    flex: 4,
+                    child: Image.asset(
+                      'images/pi.png',
+                      alignment: Alignment.centerLeft,
+                    ),
+                  ),
+                  Flexible(
+                    child: FittedBox(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 15.r, vertical: 7.5.r),
+                        child: Text(
+                          "App Version: ",
+                          style: TextStyle(
+                            fontSize: 15.r,
+                            fontFamily: 'Poppins',
+                            color: ghostWhite,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          )*/
         ],
       ),
     );
