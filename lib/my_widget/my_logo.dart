@@ -5,7 +5,7 @@ class MyLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Image.asset(
-        'images/pi.png',
+        'images/pi2.png',
         fit: BoxFit.fitWidth,
         width: 360,
       );

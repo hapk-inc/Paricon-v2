@@ -1,16 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../theme/my_color.dart';
 import 'd_elevated_button_style.dart';
 
-class PlayOnlineButton extends StatelessWidget {
+class PlayOnlineButton extends ConsumerWidget {
   const PlayOnlineButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       margin: EdgeInsets.all(3.6.r),
       child: ElevatedButton(

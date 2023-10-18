@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -39,7 +40,71 @@ class DashboardPage extends ConsumerWidget {
     List<Color> xRandom = [turquoise, pear, hunyadiYellow, salmon];
     xRandom.shuffle();
 
-    final dPanelController = ref.watch(dashboardPanelProvider);
+    final Widget panelWidget = ref.watch(internetConnectionProvider).when(
+        data: (connectionResult) => connectionResult == ConnectivityResult.none
+            ? Padding(
+                padding: EdgeInsets.all(3.r),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Flexible(
+                      flex: 3,
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: Lottie.asset('lottie/no_net.json'),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: ListTile(
+                        isThreeLine: true,
+                        title: Text(
+                          "No Internet now!",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            color: gray,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 24.r,
+                          ),
+                        ),
+                        subtitle: RichText(
+                          text: TextSpan(
+                            text:
+                                "Once you're connected to the internet, simply\n",
+                            children: [
+                              TextSpan(
+                                text: "click here",
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => ref.refresh(checkNetProvider),
+                                style: const TextStyle(
+                                  color: darkPastelGreen,
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const TextSpan(text: " to initiate the app."),
+                            ],
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              height: 1.8,
+                              fontSize: 15.r,
+                              fontWeight: FontWeight.w300,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            : Container(),
+        error: (_, __) => Container(),
+        loading: () => Container());
+
+    final PanelController dPanelController = ref.watch(dashboardPanelProvider);
 
     ref.listen(
       internetConnectionProvider.select((value) => value.value),
@@ -67,7 +132,7 @@ class DashboardPage extends ConsumerWidget {
       appBar: AppBar(toolbarHeight: 1.h, backgroundColor: majorelleBlue),
       body: SlidingUpPanel(
         controller: dPanelController,
-        panel: Container(),
+        panel: panelWidget,
         backdropColor: richBlack,
         backdropEnabled: true,
         backdropOpacity: 0.9,
@@ -273,13 +338,34 @@ class DashboardBodyState extends ConsumerWidget {
           ),
           buildStaggeredSpace,
           buildStaggeredSpace,
-          const StaggeredGridTile.count(
+          StaggeredGridTile.count(
             crossAxisCellCount: 20,
             mainAxisCellCount: 6,
-            child: ColoredBox(color: majorelleBlue),
+            child: Container(
+              color: majorelleBlue,
+              padding: EdgeInsets.all(4.5.r),
+              alignment: Alignment.topLeft,
+              child: Wrap(
+                children: [
+                  TextButton(
+                    onPressed: () => ref.read(signOutProvider),
+                    child: Text(
+                      "LOGOUT",
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: ghostWhite,
+                        fontSize: 18.r,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
           ),
           buildStaggeredSpace,
           buildStaggeredSpace,
+
           /*  StaggeredGridTile.count(
             crossAxisCellCount: 20,
             mainAxisCellCount: 9,
