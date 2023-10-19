@@ -249,7 +249,7 @@ class DashboardBodyState extends ConsumerWidget {
                                 text: "Are you ready for the ",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  height: 3,
+                                  height: 2.1,
                                 ),
                               ),
                               TextSpan(
@@ -338,30 +338,10 @@ class DashboardBodyState extends ConsumerWidget {
           ),
           buildStaggeredSpace,
           buildStaggeredSpace,
-          StaggeredGridTile.count(
+          const StaggeredGridTile.count(
             crossAxisCellCount: 20,
             mainAxisCellCount: 6,
-            child: Container(
-              color: majorelleBlue,
-              padding: EdgeInsets.all(4.5.r),
-              alignment: Alignment.topLeft,
-              child: Wrap(
-                children: [
-                  TextButton(
-                    onPressed: () => ref.read(signOutProvider),
-                    child: Text(
-                      "LOGOUT",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: ghostWhite,
-                        fontSize: 18.r,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
+            child: DashboardFooter(),
           ),
           buildStaggeredSpace,
           buildStaggeredSpace,
@@ -509,6 +489,48 @@ class DashboardBodyState extends ConsumerWidget {
       crossAxisCellCount: 20,
       mainAxisCellCount: 0.15,
       child: SizedBox(),
+    );
+  }
+}
+
+class DashboardFooter extends ConsumerWidget {
+  const DashboardFooter({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String appVersion = ref.watch(packageInfoProvider).when(
+          data: (x) => x.version,
+          error: (_, __) => "Error",
+          loading: () => "0.0.0",
+        );
+    return Container(
+      color: majorelleBlue,
+      padding: EdgeInsets.only(left: 4.5.r, top: 9.r),
+      alignment: Alignment.topLeft,
+      child: Wrap(
+        children: [
+          TextButton(
+            onPressed: () => ref.read(signOutProvider),
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  const TextSpan(text: "App Version v"),
+                  TextSpan(
+                      text: appVersion, style: TextStyle(letterSpacing: 1.5.r)),
+                ],
+              ),
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                color: ghostWhite,
+                fontSize: 15.r,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
