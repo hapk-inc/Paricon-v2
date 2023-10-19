@@ -58,7 +58,7 @@ Future<void> main() async {
   final iNet = await connectivity.checkConnectivity();
 
   if (iNet != ConnectivityResult.none) {
-    debugPrint("Initialising Remote Config");
+    debugPrint("Initialising Remote Config for connectivity $iNet");
     await remoteConfig.fetchAndActivate();
   }
 
