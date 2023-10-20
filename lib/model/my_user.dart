@@ -15,6 +15,7 @@ class MyUser with _$MyUser {
       String? playing,
       required bool isHuman,
       num? controllerCount,
+      DateTime? createdAt,
       List<String>? controlledBy}) = _MyUser;
 
   factory MyUser.fromJson(Map<String, dynamic> json) => _$MyUserFromJson(json);

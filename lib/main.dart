@@ -123,7 +123,8 @@ class MyApp extends ConsumerWidget {
 
                 return myUserAsync.when(
                   data: (_) {
-                    ref.read(updateDurationProvider);
+                    debugPrint("Getting MyUser Details");
+                    // ref.read(updateDurationProvider);
                     return const DashboardRoute();
                   },
                   error: (error, stackTrace) {

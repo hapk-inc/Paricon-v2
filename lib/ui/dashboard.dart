@@ -15,13 +15,11 @@ import 'package:mock_data/mock_data.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../logic/s_size.dart';
-import '../../logic/user_datastore.dart';
 import '../../theme/my_color.dart';
 import '../logic/auth.dart';
 import '../logic/dashboard_provider.dart';
 import '../logic/firebase_init.dart';
 import '../logic/remote_values.dart';
-import '../model/my_user.dart';
 import '../my_widget/short_leaderboard.dart';
 import '../router/my_route.dart';
 import 'dashboard_widget/d_play_online.dart';
@@ -35,71 +33,13 @@ class DashboardPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ScreenSize sSize = ref.read(sizeProvider);
-    final MyUser? myUser = ref.watch(myUserProvider).value;
 
     List<Color> xRandom = [turquoise, pear, hunyadiYellow, salmon];
     xRandom.shuffle();
 
     final Widget panelWidget = ref.watch(internetConnectionProvider).when(
         data: (connectionResult) => connectionResult == ConnectivityResult.none
-            ? Padding(
-                padding: EdgeInsets.all(3.r),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      flex: 3,
-                      child: AspectRatio(
-                        aspectRatio: 1,
-                        child: Lottie.asset('lottie/no_net.json'),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: ListTile(
-                        isThreeLine: true,
-                        title: Text(
-                          "No Internet now!",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: gray,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 24.r,
-                          ),
-                        ),
-                        subtitle: RichText(
-                          text: TextSpan(
-                            text:
-                                "Once you're connected to the internet, simply\n",
-                            children: [
-                              TextSpan(
-                                text: "click here",
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () => ref.refresh(checkNetProvider),
-                                style: const TextStyle(
-                                  color: darkPastelGreen,
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              const TextSpan(text: " to initiate the app."),
-                            ],
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              height: 1.8,
-                              fontSize: 15.r,
-                              fontWeight: FontWeight.w300,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              )
+            ? const NoInternetPanel()
             : Container(),
         error: (_, __) => Container(),
         loading: () => Container());
@@ -129,10 +69,12 @@ class DashboardPage extends ConsumerWidget {
     return Scaffold(
       // appBar: buildAppBar(sSize, context),
       backgroundColor: ghostWhite,
+      drawer: const Drawer(),
       appBar: AppBar(toolbarHeight: 1.h, backgroundColor: majorelleBlue),
       body: SlidingUpPanel(
         controller: dPanelController,
         panel: panelWidget,
+        isDraggable: false,
         backdropColor: richBlack,
         backdropEnabled: true,
         backdropOpacity: 0.9,
@@ -140,6 +82,74 @@ class DashboardPage extends ConsumerWidget {
         minHeight: 00.h,
         maxHeight: 300.h,
         body: sSize == ScreenSize.phone ? const DashboardP() : Container(),
+      ),
+    );
+  }
+}
+
+class NoInternetPanel extends ConsumerWidget {
+  const NoInternetPanel({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: EdgeInsets.all(3.r),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Flexible(
+            flex: 3,
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: Lottie.asset('lottie/no_net.json'),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Center(
+              child: ListTile(
+                isThreeLine: true,
+                title: Text(
+                  "No Internet now!",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: gray,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 24.r,
+                  ),
+                ),
+                subtitle: RichText(
+                  text: TextSpan(
+                    text: "Once you're connected to the internet, simply\n",
+                    children: [
+                      TextSpan(
+                        text: "click here",
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () => ref.refresh(checkNetProvider),
+                        style: const TextStyle(
+                          color: darkPastelGreen,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const TextSpan(
+                          text: " to initiate the app, once internet is on."),
+                    ],
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      height: 1.8,
+                      fontSize: 13.5.r,
+                      fontWeight: FontWeight.w300,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -516,16 +526,18 @@ class DashboardFooter extends ConsumerWidget {
             child: Text.rich(
               TextSpan(
                 children: [
-                  const TextSpan(text: "App Version v"),
+                  const TextSpan(text: "App Version v "),
                   TextSpan(
-                      text: appVersion, style: TextStyle(letterSpacing: 1.5.r)),
+                    text: appVersion,
+                    style: TextStyle(letterSpacing: 1.5.r, fontSize: 18.r),
+                  ),
                 ],
               ),
               style: TextStyle(
-                fontFamily: 'Poppins',
-                color: ghostWhite,
+                fontFamily: 'Montserrat',
+                color: battleshipGray,
                 fontSize: 15.r,
-                fontWeight: FontWeight.w300,
+                fontWeight: FontWeight.w200,
               ),
             ),
           )

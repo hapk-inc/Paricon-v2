@@ -11,9 +11,12 @@ final Provider<UserDatastore> userDatastoreProvider =
     Provider<UserDatastore>((ref) => UserDatastore(ref));
 
 final myUserProvider = FutureProvider.autoDispose<MyUser>(
-  (ref) {
+  (ref) async {
     final user = ref.read(firebaseUserProvider);
     final datastore = ref.read(userDatastoreProvider);
+    await ref.read(updateDurationProvider.future).catchError((e, s) {
+      debugPrintStack(stackTrace: s);
+    });
     return datastore.myUser(user.uid);
   },
 );
@@ -70,21 +73,25 @@ class UserDatastore {
 
   Future get updateDuration async {
     final String id = ref.read(firebaseUserProvider).uid;
-    DocumentReference<MyDuration> documentReference = userColl
-        .doc(id)
-        .withConverter(
-          fromFirestore: (snapshot, _) => MyDuration.fromJson(snapshot.data()!),
-          toFirestore: (value, _) => value.toJson(),
-        );
+    DocumentReference<MyDuration> documentReference =
+        userColl.doc(id).withConverter(
+              fromFirestore: (snapshot, SnapshotOptions? snapshotOption) {
+                return MyDuration.fromJson(snapshot.data()!);
+              },
+              toFirestore: (value, _) => value.toJson(),
+            );
 
     return await firebaseFirestore.runTransaction(
       (transaction) async {
         DocumentSnapshot<MyDuration> snapshot =
             await transaction.get<MyDuration>(documentReference);
         if (snapshot.data() == null) {
+          debugPrint("New User Adding CurrentTIme");
           transaction.update(documentReference,
               MyDuration(currentTime: DateTime.now()).toJson());
         } else {
+          debugPrint(snapshot.data().toString());
+          debugPrint("Existing User Updating LastOpened");
           transaction.update(
             documentReference,
             MyDuration(

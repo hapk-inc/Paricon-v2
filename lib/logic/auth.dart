@@ -94,22 +94,26 @@ class Auth {
         },
       );
 
-  Future createUser(UserCredential userCred) async =>
-      userColl.doc(userCred.user!.uid).set(
-        {
-          ...MyUser(
-            name: userCred.user!.displayName ??
-                "User#${mockInteger(100000, 999999)}",
-            rName: userCred.user!.displayName ??
-                "User#${mockInteger(100000, 999999)}",
-            id: mockInteger(11111111, 99999999),
-            isActive: true,
-            avatar: "",
-            isHuman: true,
-          ).toJson(),
-          ...MyDuration(currentTime: DateTime.now()).toJson()
-        },
-      );
+  Future createUser(UserCredential userCred) async {
+    final fUser = userCred.user;
+    final String xName =
+        fUser!.displayName ?? "User#${mockInteger(100000, 999999)}";
+    final DateTime createdAt = fUser.metadata.creationTime ?? DateTime.now();
+    return userColl.doc(userCred.user!.uid).set(
+      {
+        ...MyUser(
+          name: xName,
+          rName: xName,
+          id: mockInteger(11111111, 99999999),
+          isActive: true,
+          avatar: "",
+          isHuman: true,
+          createdAt: createdAt,
+        ).toJson(),
+        ...MyDuration(currentTime: createdAt).toJson()
+      },
+    );
+  }
 
   Future get signOut async {
     debugPrint("Signing Off ${_auth.currentUser!.uid}");

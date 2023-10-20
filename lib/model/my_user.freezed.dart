@@ -28,6 +28,7 @@ mixin _$MyUser {
   String? get playing => throw _privateConstructorUsedError;
   bool get isHuman => throw _privateConstructorUsedError;
   num? get controllerCount => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
   List<String>? get controlledBy => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -49,6 +50,7 @@ abstract class $MyUserCopyWith<$Res> {
       String? playing,
       bool isHuman,
       num? controllerCount,
+      DateTime? createdAt,
       List<String>? controlledBy});
 }
 
@@ -73,6 +75,7 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
     Object? playing = freezed,
     Object? isHuman = null,
     Object? controllerCount = freezed,
+    Object? createdAt = freezed,
     Object? controlledBy = freezed,
   }) {
     return _then(_value.copyWith(
@@ -108,6 +111,10 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
           ? _value.controllerCount
           : controllerCount // ignore: cast_nullable_to_non_nullable
               as num?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       controlledBy: freezed == controlledBy
           ? _value.controlledBy
           : controlledBy // ignore: cast_nullable_to_non_nullable
@@ -132,6 +139,7 @@ abstract class _$$MyUserImplCopyWith<$Res> implements $MyUserCopyWith<$Res> {
       String? playing,
       bool isHuman,
       num? controllerCount,
+      DateTime? createdAt,
       List<String>? controlledBy});
 }
 
@@ -154,6 +162,7 @@ class __$$MyUserImplCopyWithImpl<$Res>
     Object? playing = freezed,
     Object? isHuman = null,
     Object? controllerCount = freezed,
+    Object? createdAt = freezed,
     Object? controlledBy = freezed,
   }) {
     return _then(_$MyUserImpl(
@@ -189,6 +198,10 @@ class __$$MyUserImplCopyWithImpl<$Res>
           ? _value.controllerCount
           : controllerCount // ignore: cast_nullable_to_non_nullable
               as num?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       controlledBy: freezed == controlledBy
           ? _value._controlledBy
           : controlledBy // ignore: cast_nullable_to_non_nullable
@@ -209,6 +222,7 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
       this.playing,
       required this.isHuman,
       this.controllerCount,
+      this.createdAt,
       final List<String>? controlledBy})
       : _controlledBy = controlledBy;
 
@@ -232,6 +246,8 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
   final bool isHuman;
   @override
   final num? controllerCount;
+  @override
+  final DateTime? createdAt;
   final List<String>? _controlledBy;
   @override
   List<String>? get controlledBy {
@@ -244,7 +260,7 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MyUser(name: $name, rName: $rName, id: $id, avatar: $avatar, isActive: $isActive, playing: $playing, isHuman: $isHuman, controllerCount: $controllerCount, controlledBy: $controlledBy)';
+    return 'MyUser(name: $name, rName: $rName, id: $id, avatar: $avatar, isActive: $isActive, playing: $playing, isHuman: $isHuman, controllerCount: $controllerCount, createdAt: $createdAt, controlledBy: $controlledBy)';
   }
 
   @override
@@ -260,6 +276,7 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
       ..add(DiagnosticsProperty('playing', playing))
       ..add(DiagnosticsProperty('isHuman', isHuman))
       ..add(DiagnosticsProperty('controllerCount', controllerCount))
+      ..add(DiagnosticsProperty('createdAt', createdAt))
       ..add(DiagnosticsProperty('controlledBy', controlledBy));
   }
 
@@ -278,6 +295,8 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
             (identical(other.isHuman, isHuman) || other.isHuman == isHuman) &&
             (identical(other.controllerCount, controllerCount) ||
                 other.controllerCount == controllerCount) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
             const DeepCollectionEquality()
                 .equals(other._controlledBy, _controlledBy));
   }
@@ -294,6 +313,7 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
       playing,
       isHuman,
       controllerCount,
+      createdAt,
       const DeepCollectionEquality().hash(_controlledBy));
 
   @JsonKey(ignore: true)
@@ -320,6 +340,7 @@ abstract class _MyUser implements MyUser {
       final String? playing,
       required final bool isHuman,
       final num? controllerCount,
+      final DateTime? createdAt,
       final List<String>? controlledBy}) = _$MyUserImpl;
 
   factory _MyUser.fromJson(Map<String, dynamic> json) = _$MyUserImpl.fromJson;
@@ -340,6 +361,8 @@ abstract class _MyUser implements MyUser {
   bool get isHuman;
   @override
   num? get controllerCount;
+  @override
+  DateTime? get createdAt;
   @override
   List<String>? get controlledBy;
   @override

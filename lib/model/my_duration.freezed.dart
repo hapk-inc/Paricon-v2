@@ -137,12 +137,13 @@ class __$$MyDurationImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$MyDurationImpl with DiagnosticableTreeMixin implements _MyDuration {
+class _$MyDurationImpl extends _MyDuration with DiagnosticableTreeMixin {
   const _$MyDurationImpl(
       {this.lastOpened,
       this.lastGamePlayed,
       this.appVersion,
-      required this.currentTime});
+      required this.currentTime})
+      : super._();
 
   factory _$MyDurationImpl.fromJson(Map<String, dynamic> json) =>
       _$$MyDurationImplFromJson(json);
@@ -206,12 +207,13 @@ class _$MyDurationImpl with DiagnosticableTreeMixin implements _MyDuration {
   }
 }
 
-abstract class _MyDuration implements MyDuration {
+abstract class _MyDuration extends MyDuration {
   const factory _MyDuration(
       {final DateTime? lastOpened,
       final DateTime? lastGamePlayed,
       final String? appVersion,
       required final DateTime currentTime}) = _$MyDurationImpl;
+  const _MyDuration._() : super._();
 
   factory _MyDuration.fromJson(Map<String, dynamic> json) =
       _$MyDurationImpl.fromJson;

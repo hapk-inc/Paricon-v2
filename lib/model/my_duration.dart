@@ -6,6 +6,8 @@ part 'my_duration.g.dart';
 
 @freezed
 class MyDuration with _$MyDuration {
+  const MyDuration._();
+
   const factory MyDuration({
     DateTime? lastOpened,
     DateTime? lastGamePlayed,
@@ -15,4 +17,9 @@ class MyDuration with _$MyDuration {
 
   factory MyDuration.fromJson(Map<String, dynamic> json) =>
       _$MyDurationFromJson(json);
+
+  bool get isCurrentTimeSameTime {
+    final now = DateTime.now();
+    return now.difference(currentTime) < const Duration(seconds: 1);
+  }
 }
