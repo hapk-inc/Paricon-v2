@@ -1,4 +1,4 @@
-import 'package:animated_digit/animated_digit.dart';
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -50,11 +50,11 @@ class TournamentPage extends ConsumerWidget {
                             child: Column(
                               children: [
                                 const Flexible(
-                                  flex: 1,
+                                  flex: 2,
                                   child: ShowTimerIndicator(),
                                 ),
                                 Expanded(
-                                  flex: 7,
+                                  flex: 11,
                                   child: FractionallySizedBox(
                                     heightFactor: 1,
                                     widthFactor: 1,
@@ -62,10 +62,8 @@ class TournamentPage extends ConsumerWidget {
                                       //color: coyote,
                                       duration:
                                           const Duration(milliseconds: 500),
-                                      // alignment: Alignment.topCenter,
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 7.5.r,
-                                      ),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 9.r),
                                       child: const TournamentGrid(),
                                     ),
                                   ),
@@ -81,7 +79,9 @@ class TournamentPage extends ConsumerWidget {
                         mainAxisCellCount: 15,
                         child: Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal: 18.r, vertical: 15.r),
+                            horizontal: 18.r,
+                            vertical: 15.r,
+                          ),
                           child: DefaultTextStyle(
                             style: TextStyle(
                               fontFamily: 'Poppins',
@@ -93,7 +93,8 @@ class TournamentPage extends ConsumerWidget {
                             child: AnimatedTextKit(
                               animatedTexts: [
                                 FadeAnimatedText(
-                                    'Press any block to start the game'),
+                                  'Press any block ' 'to start the game',
+                                ),
                                 //FadeAnimatedText('do it RIGHT!!'),
                                 //FadeAnimatedText('do it RIGHT NOW!!!'),
                               ],
@@ -118,6 +119,69 @@ class ShowTimerIndicator extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    return ListTile(
+      contentPadding: EdgeInsets.symmetric(horizontal: 7.5.r),
+      title: SizedBox(
+        height: 60.h,
+        child: ListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Container(
+            alignment: Alignment.centerLeft,
+            child: Row(
+              children: [
+                Icon(Icons.timer, size: 24.r, color: gunMetal),
+                SizedBox.square(dimension: 7.5.r),
+                AnimatedFlipCounter(
+                  value: mockInteger(0, 10),
+                  suffix: " : ",
+                  wholeDigits: 2,
+                  textStyle: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w900,
+                    fontSize: 18.r,
+                    color: barnRed,
+                    letterSpacing: 0.12.r,
+                  ),
+                ),
+                SizedBox.square(dimension: 1.5.r),
+                AnimatedFlipCounter(
+                  value: mockInteger(0, 59),
+                  wholeDigits: 2,
+                  textStyle: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w900,
+                    fontSize: 18.r,
+                    color: barnRed,
+                    letterSpacing: 0.12.r,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          trailing: InkWell(
+            onTap: () => context.router.pop(),
+            child: Icon(Icons.close, size: 21.r),
+          ),
+        ),
+      ),
+      subtitle: ClipRRect(
+        borderRadius: BorderRadius.circular(3.r),
+        child: LinearProgressIndicator(
+          backgroundColor: Colors.grey.shade300,
+          color: majorelleBlue,
+          value: .9,
+          minHeight: 6.r,
+        ),
+      ),
+    );
+  }
+}
+
+/*class ShowTimerIndicator1 extends ConsumerWidget {
+  const ShowTimerIndicator1({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final sSize = ref.read(sizeProvider);
 
     return Column(
@@ -138,7 +202,9 @@ class ShowTimerIndicator extends ConsumerWidget {
                   RichText(
                     text: TextSpan(
                       children: [
-                        WidgetSpan(child: Icon(Icons.timer, size: 24.r)),
+                        WidgetSpan(child: Icon(Icons.timer, size: 24.r))
+                        */
+/*WidgetSpan(child: Icon(Icons.timer, size: 24.r)),
                         WidgetSpan(child: SizedBox(width: 4.5.r)),
                         WidgetSpan(
                           child: AnimatedDigitWidget(
@@ -166,7 +232,8 @@ class ShowTimerIndicator extends ConsumerWidget {
                               color: barnRed,
                             ),
                           ),
-                        ),
+                        ),*/
+/*
                       ],
                       style: TextStyle(
                         fontFamily: 'Montserrat',
@@ -189,7 +256,7 @@ class ShowTimerIndicator extends ConsumerWidget {
         ),
         Container(
           padding: EdgeInsets.symmetric(horizontal: 7.5.w),
-          margin: EdgeInsets.symmetric(vertical: 7.5.h),
+          margin: EdgeInsets.symmetric(vertical: 4.5.h),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(3.w),
             child: LinearProgressIndicator(
@@ -202,4 +269,4 @@ class ShowTimerIndicator extends ConsumerWidget {
       ],
     );
   }
-}
+}*/

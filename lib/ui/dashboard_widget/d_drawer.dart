@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flip_card/flip_card.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,14 +33,27 @@ class DDrawer extends ConsumerWidget {
                   child: ListTile(
                     contentPadding: EdgeInsets.symmetric(horizontal: 7.5.r),
                     // tileColor: Colors.red,
-                    title: AutoSizeText(
-                      myUser.name,
-                      style: TextStyle(
-                        fontSize: 27.r,
-                        fontFamily: 'DelaGothic',
-                        fontWeight: FontWeight.w700,
-                        color: mistyRose,
-                      ),
+                    title: Row(
+                      children: [
+                        AutoSizeText(
+                          myUser.name,
+                          style: TextStyle(
+                            fontSize: 27.r,
+                            fontFamily: 'DelaGothic',
+                            fontWeight: FontWeight.w700,
+                            color: mistyRose,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          splashRadius: 30.r,
+                          icon: Icon(
+                            Icons.edit,
+                            size: 24.r,
+                            color: spaceCadet,
+                          ),
+                        )
+                      ],
                     ),
                     subtitle: Container(
                       margin: EdgeInsets.only(top: 9.r),
@@ -54,39 +68,89 @@ class DDrawer extends ConsumerWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 15.h),
                 Container(
-                  height: 450.h,
-                  color: deepSkyBlue.withOpacity(0.12),
+                  height: 105.h,
+                  margin: EdgeInsets.symmetric(vertical: 15.h),
                   child: const MyCardCollection(),
                 ),
                 Container(
-                  height: 90.h,
+                  height: 135.h,
                   alignment: Alignment.centerLeft,
                   child: ListTile(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 4.5.r),
+                    contentPadding: EdgeInsets.only(left: 10.5.r, right: 4.5.r),
                     // tileColor: Colors.red,
                     subtitleTextStyle: TextStyle(
-                        fontSize: 27.r,
-                        height: 2.1,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 3.r),
+                      fontSize: 30.r,
+                      height: 2.1,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 2.4.r,
+                    ),
 
-                    subtitle: AutoSizeText(
-                      mockString(6).toUpperCase(),
-                      style: const TextStyle(color: mistyRose),
+                    subtitle: SizedBox(
+                      height: 60.h,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AutoSizeText(
+                            mockString(6, 'A'),
+                            style: const TextStyle(color: mistyRose),
+                          ),
+                          SizedBox.square(dimension: 10.5.r),
+                          Icon(
+                            Icons.share,
+                            size: 18.r,
+                            color: magnolia,
+                          ),
+                        ],
+                      ),
                     ),
 
                     titleTextStyle: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 12.r,
-                      height: 1.8,
-                      color: mistyRose,
+                      height: 2.1,
+                      color: magnolia,
                     ),
                     title: const Text(
                       "If you want more cards, "
                       "invite your friends to use the code below",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10.5.r, right: 4.5.r),
+                  // tileColor: Colors.red,
+
+                  child: AutoSizeText.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(text: "or "),
+                        TextSpan(
+                          text: "Click here",
+                          recognizer: TapGestureRecognizer()..onTap = () {},
+                          style: TextStyle(
+                            fontSize: 18.r,
+                            decoration: TextDecoration.underline,
+                            decorationThickness: 1.2,
+                          ),
+                        ),
+                        const TextSpan(
+                          text: "  to enter a code and"
+                              " offer new avatars to your friends.",
+                          style: TextStyle(fontFamily: 'Poppins'),
+                        )
+                      ],
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 12.r,
+                        height: 2.4,
+                        color: pear1,
+                      ),
                     ),
                   ),
                 ),
@@ -173,9 +237,10 @@ class DrawerAvatarFlipCard extends StatelessWidget {
       front: aCard.id.isEmpty
           ? Container()
           : FadeIn(
-              child: Padding(
-                padding: EdgeInsets.all(9.r),
-                child: RandomAvatar(aCard.id),
+              child: Stack(
+                children: [
+                  Center(child: RandomAvatar(aCard.id, width: 72.r)),
+                ],
               ),
             ),
     );

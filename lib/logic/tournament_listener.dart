@@ -13,6 +13,7 @@ class TournamentListener extends ChangeNotifier {
   late bool _alreadyClicked;
   late bool _inWait;
   late bool _allFound;
+
   late Duration _tDuration;
 
   TournamentListener() {

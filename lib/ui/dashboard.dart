@@ -70,11 +70,10 @@ class DashboardPage extends ConsumerWidget {
     return Scaffold(
       // appBar: buildAppBar(sSize, context),
       backgroundColor: ghostWhite,
-      drawer: Drawer(
+      drawer: const Drawer(
         backgroundColor: majorelleBlue,
-        child: Padding(
-          padding: EdgeInsets.only(top: 30.h),
-          child: const DDrawer(),
+        child: SafeArea(
+          child: DDrawer(),
         ),
       ),
       appBar: AppBar(toolbarHeight: 1.h, backgroundColor: majorelleBlue),
@@ -288,7 +287,8 @@ class DashboardBodyState extends ConsumerWidget {
                                   fontWeight: FontWeight.w400,
                                   height: 3,
                                 ),
-                              )
+                              ),
+                              const TextSpan(text: " Click here")
                             ],
                             style: TextStyle(
                               fontFamily: 'Poppins',

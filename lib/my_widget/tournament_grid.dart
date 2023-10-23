@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,19 +16,8 @@ class TournamentGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final sSize = ref.read(sizeProvider);
-
     final tListener = ref.read(tournamentListenerNotifier);
 
-    /*List<Widget> tiles = [
-      // if (!(row - 9).isNegative)
-      //   ...List.generate(8 * (row - 9), (index) => Container()),
-      ...List.generate(
-        72,
-        //count,
-        (index) => TournamentGridTile(index: index),
-      )
-    ];*/
     List<Widget> tiles = List.from(
       tListener.icons.map(
         (e) => TournamentGridTile(localIcon: e),
@@ -66,58 +56,61 @@ class TournamentGridTile extends ConsumerWidget {
 
     return AspectRatio(
       aspectRatio: 1,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
-        transform: Matrix4.rotationZ(
-          (!showIcon ? (Random.secure().nextBool() ? -pi : pi) : -pi) /
-              (showIcon ? 60 : 45),
-        ),
-        child: Card(
-          color: xIcon.isFound
-              ? majorelleBlue
-              : [
-                  ...[aquamarine, uranianBlue],
-                  ...[aquamarine, uranianBlue],
-                  ...[xantHous],
-                  //...[rosePompadour, xantHous],
-                ][mockInteger(0, 4)],
-          //: [teaGreen, peach, lavenderPink][mockInteger(0, 2)],
-          //: [lapisLazuli, pear, bitterSweet, orangePeel][mockInteger(0, 3)],
-          margin: EdgeInsets.zero,
-          elevation: 3,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4.5.r),
+      child: FadeIn(
+        delay: Duration(milliseconds: xIcon.iconNo * 20),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 500),
+          transform: Matrix4.rotationZ(
+            (!showIcon ? (Random.secure().nextBool() ? -pi : pi) : -pi) /
+                (showIcon ? 60 : 45),
           ),
-          child: InkWell(
-            onTap: tListener.inWait || xIcon.checkFound
-                ? null
-                : () {
-                    debugPrint(xIcon.iconCode.toString());
-                    debugPrint(xIcon.iconNo.toString());
-                    debugPrint(xIcon.toString());
-                    tListener.iconClick(xIcon);
-                  },
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
-              child: xIcon.isFound
-                  ? Icon(
-                      IconData(
-                        xIcon.iconCode,
-                        fontFamily: 'MaterialIcons',
-                      ),
-                      size: 24.r,
-                      color: ghostWhite,
-                    )
-                  : xIcon.isCheck
-                      ? Icon(
-                          IconData(
-                            xIcon.iconCode,
-                            fontFamily: 'MaterialIcons',
-                          ),
-                          size: 24.r,
-                          color: coyote,
-                        )
-                      : Container(),
+          child: Card(
+            color: xIcon.isFound
+                ? majorelleBlue
+                : [
+                    ...[aquamarine, uranianBlue],
+                    ...[aquamarine, uranianBlue],
+                    ...[xantHous],
+                    //...[rosePompadour, xantHous],
+                  ][mockInteger(0, 4)],
+            //: [teaGreen, peach, lavenderPink][mockInteger(0, 2)],
+            //: [lapisLazuli, pear, bitterSweet, orangePeel][mockInteger(0, 3)],
+            margin: EdgeInsets.zero,
+            elevation: 3,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4.5.r),
+            ),
+            child: InkWell(
+              onTap: tListener.inWait || xIcon.checkFound
+                  ? null
+                  : () {
+                      debugPrint(xIcon.iconCode.toString());
+                      debugPrint(xIcon.iconNo.toString());
+                      debugPrint(xIcon.toString());
+                      tListener.iconClick(xIcon);
+                    },
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                child: xIcon.isFound
+                    ? Icon(
+                        IconData(
+                          xIcon.iconCode,
+                          fontFamily: 'MaterialIcons',
+                        ),
+                        size: 24.r,
+                        color: ghostWhite,
+                      )
+                    : xIcon.isCheck
+                        ? Icon(
+                            IconData(
+                              xIcon.iconCode,
+                              fontFamily: 'MaterialIcons',
+                            ),
+                            size: 24.r,
+                            color: coyote,
+                          )
+                        : Container(),
+              ),
             ),
           ),
         ),
