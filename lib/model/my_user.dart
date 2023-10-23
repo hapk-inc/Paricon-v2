@@ -6,17 +6,19 @@ part 'my_user.g.dart';
 
 @freezed
 class MyUser with _$MyUser {
-  const factory MyUser(
-      {required String name,
-      @Default("") String rName,
-      required num id,
-      required String avatar,
-      required bool isActive,
-      String? playing,
-      required bool isHuman,
-      num? controllerCount,
-      DateTime? createdAt,
-      List<String>? controlledBy}) = _MyUser;
+  const factory MyUser({
+    required String name,
+    @Default("") String rName,
+    required num id,
+    required String avatar,
+    required bool isActive,
+    String? playing,
+    required bool isHuman,
+    //num? controllerCount,
+    DateTime? createdAt,
+    @Default([]) List<String> myCards,
+    //List<String>? controlledBy,
+  }) = _MyUser;
 
   factory MyUser.fromJson(Map<String, dynamic> json) => _$MyUserFromJson(json);
 }

@@ -47,3 +47,5 @@ class MyRouter extends _$MyRouter {
 //flutter build appbundle --flavor prod --no-tree-shake-icons
 
 //dart run build_runner build
+
+//dart run build_runner build --delete-conflicting-outputs

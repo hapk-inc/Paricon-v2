@@ -116,7 +116,7 @@ class MyApp extends ConsumerWidget {
         : ref.watch(authUserProvider).when(
               data: (aUser) {
                 if (aUser == null) return const LoginRoute();
-
+                debugPrint("AuthUser True");
                 debugPrint(aUser.toString());
 
                 final myUserAsync = ref.watch(myUserProvider);
@@ -140,30 +140,11 @@ class MyApp extends ConsumerWidget {
               loading: () => const SplashRoute(),
             );
 
-    /*final PageRouteInfo rCheckPageRoute =
-        ref.watch(ensureInitialisedProvider).when(
-            data: (x) {
-              debugPrint("RemoteConfig initialised $x");
-              if (x) {
-                return whichPage;
-              } else {
-                return const ErrorRoute();
-              }
-            },
-            error: (e, s) {
-              debugPrint("rCheck $e");
-              debugPrintStack(stackTrace: s);
-              return const ErrorRoute();
-            },
-            loading: () => const SplashRoute());*/
-
     ref.listen(
       internetConnectionProvider.select((value) => value.value),
       (previous, next) {
         final remoteConfig = ref.read(remoteConfigProvider);
-        /*if(next!=ConnectivityResult.none){
-          remoteConfig.fetchAndActivate();
-        }*/
+
         if (previous == null &&
             next != ConnectivityResult.none &&
             next != null) {
@@ -197,6 +178,7 @@ class MyApp extends ConsumerWidget {
               routes: (handler) {
                 return checkNet.when(
                   data: (x) {
+                    debugPrint("checkNet Data $x");
                     if (x == ConnectivityResult.none) {
                       return [const NoNetRoute()];
                     } else {

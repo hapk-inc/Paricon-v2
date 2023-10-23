@@ -22,6 +22,7 @@ import '../logic/firebase_init.dart';
 import '../logic/remote_values.dart';
 import '../my_widget/short_leaderboard.dart';
 import '../router/my_route.dart';
+import 'dashboard_widget/d_drawer.dart';
 import 'dashboard_widget/d_play_online.dart';
 import 'dashboard_widget/d_recent_player.dart';
 import 'dashboard_widget/d_welcome.dart';
@@ -69,7 +70,13 @@ class DashboardPage extends ConsumerWidget {
     return Scaffold(
       // appBar: buildAppBar(sSize, context),
       backgroundColor: ghostWhite,
-      drawer: const Drawer(),
+      drawer: Drawer(
+        backgroundColor: majorelleBlue,
+        child: Padding(
+          padding: EdgeInsets.only(top: 30.h),
+          child: const DDrawer(),
+        ),
+      ),
       appBar: AppBar(toolbarHeight: 1.h, backgroundColor: majorelleBlue),
       body: SlidingUpPanel(
         controller: dPanelController,
@@ -247,7 +254,7 @@ class DashboardBodyState extends ConsumerWidget {
                                           rotateOut: false),
                                     )
                                     .toList(),
-                            totalRepeatCount: 9,
+                            totalRepeatCount: 1,
                             //repeatForever: true,
                           ),
                         ),
@@ -355,140 +362,6 @@ class DashboardBodyState extends ConsumerWidget {
           ),
           buildStaggeredSpace,
           buildStaggeredSpace,
-
-          /*  StaggeredGridTile.count(
-            crossAxisCellCount: 20,
-            mainAxisCellCount: 9,
-            child: Container(
-              decoration: BoxDecoration(
-                color: jasper,
-                borderRadius: BorderRadius.circular(7.5.r),
-              ),
-              margin: EdgeInsets.symmetric(horizontal: 4.5.r),
-              padding: EdgeInsets.symmetric(horizontal: 7.5.r, vertical: 4.5.r),
-              child: LayoutBuilder(
-                builder: (_, p) => Stack(
-                  children: [
-                    */ /* Positioned(
-                      top: -p.maxWidth * 0.015,
-                      left: -p.maxWidth * 0.12,
-                      width: p.maxWidth * 0.54,
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Lottie.asset(
-                          'lottie/b_female_01.json',
-                          height: p.maxHeight,
-                          repeat: true,
-                        ),
-                      ),
-                    ),*/ /*
-                    Positioned(
-                      width: p.maxWidth * 0.9,
-                      height: p.maxHeight * 0.75,
-                      right: 0,
-                      top: p.maxHeight * 0.0012,
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: AutoSizeText.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: "Discover New Profile Designs\n",
-                                style: TextStyle(
-                                  fontSize: 20.1.r,
-                                  fontFamily: 'DelaGothic',
-                                  height: 1.8,
-                                  color: xWhite,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              TextSpan(
-                                text: "Find a new look that suits your style.",
-                                style: TextStyle(
-                                  fontSize: 12.r,
-                                  fontFamily: 'Poppins',
-                                  height: 2.4,
-                                  color: xWhite,
-                                  fontWeight: FontWeight.w200,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      height: p.maxHeight * 0.18,
-                      width: p.maxWidth * 0.66,
-                      right: 0,
-                      bottom: p.maxHeight * 0.045,
-                      child: Container(
-                        alignment: Alignment.centerLeft,
-                        child: OutlinedButton(
-                          onPressed: () {},
-                          style: const ButtonStyle(
-                            side: MaterialStatePropertyAll(
-                              BorderSide(
-                                color: lime,
-                                width: 0.6,
-                              ),
-                            ),
-                          ),
-                          child: Text(
-                            "Check now",
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: xWhite,
-                              fontWeight: FontWeight.w300,
-                              fontSize: 12.r,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          buildStaggeredSpace,
-          buildStaggeredSpace,*/
-          /* StaggeredGridTile.count(
-            crossAxisCellCount: 20,
-            mainAxisCellCount: 9,
-            child: Container(
-              padding: EdgeInsets.all(3.r),
-              color: blackOlive,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Flexible(
-                    flex: 4,
-                    child: Image.asset(
-                      'images/pi.png',
-                      alignment: Alignment.centerLeft,
-                    ),
-                  ),
-                  Flexible(
-                    child: FittedBox(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 15.r, vertical: 7.5.r),
-                        child: Text(
-                          "App Version: ",
-                          style: TextStyle(
-                            fontSize: 15.r,
-                            fontFamily: 'Poppins',
-                            color: ghostWhite,
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          )*/
         ],
       ),
     );
@@ -504,9 +377,7 @@ class DashboardBodyState extends ConsumerWidget {
 }
 
 class DashboardFooter extends ConsumerWidget {
-  const DashboardFooter({
-    super.key,
-  });
+  const DashboardFooter({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

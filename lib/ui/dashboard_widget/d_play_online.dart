@@ -52,7 +52,10 @@ class PlayOnlineButton extends ConsumerWidget {
               child: FractionallySizedBox(
                 heightFactor: 1,
                 widthFactor: 1,
-                child: Lottie.asset('lottie/friends-playing.json'),
+                child: Lottie.asset(
+                  'lottie/friends-playing.json',
+                  repeat: false,
+                ),
               ),
             ),
           ],

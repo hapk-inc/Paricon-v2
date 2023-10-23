@@ -26,10 +26,10 @@ mixin _$MyUser {
   String get avatar => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
   String? get playing => throw _privateConstructorUsedError;
-  bool get isHuman => throw _privateConstructorUsedError;
-  num? get controllerCount => throw _privateConstructorUsedError;
+  bool get isHuman =>
+      throw _privateConstructorUsedError; //num? controllerCount,
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  List<String>? get controlledBy => throw _privateConstructorUsedError;
+  List<String> get myCards => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,9 +49,8 @@ abstract class $MyUserCopyWith<$Res> {
       bool isActive,
       String? playing,
       bool isHuman,
-      num? controllerCount,
       DateTime? createdAt,
-      List<String>? controlledBy});
+      List<String> myCards});
 }
 
 /// @nodoc
@@ -74,9 +73,8 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
     Object? isActive = null,
     Object? playing = freezed,
     Object? isHuman = null,
-    Object? controllerCount = freezed,
     Object? createdAt = freezed,
-    Object? controlledBy = freezed,
+    Object? myCards = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -107,18 +105,14 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
           ? _value.isHuman
           : isHuman // ignore: cast_nullable_to_non_nullable
               as bool,
-      controllerCount: freezed == controllerCount
-          ? _value.controllerCount
-          : controllerCount // ignore: cast_nullable_to_non_nullable
-              as num?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      controlledBy: freezed == controlledBy
-          ? _value.controlledBy
-          : controlledBy // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+      myCards: null == myCards
+          ? _value.myCards
+          : myCards // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -138,9 +132,8 @@ abstract class _$$MyUserImplCopyWith<$Res> implements $MyUserCopyWith<$Res> {
       bool isActive,
       String? playing,
       bool isHuman,
-      num? controllerCount,
       DateTime? createdAt,
-      List<String>? controlledBy});
+      List<String> myCards});
 }
 
 /// @nodoc
@@ -161,9 +154,8 @@ class __$$MyUserImplCopyWithImpl<$Res>
     Object? isActive = null,
     Object? playing = freezed,
     Object? isHuman = null,
-    Object? controllerCount = freezed,
     Object? createdAt = freezed,
-    Object? controlledBy = freezed,
+    Object? myCards = null,
   }) {
     return _then(_$MyUserImpl(
       name: null == name
@@ -194,18 +186,14 @@ class __$$MyUserImplCopyWithImpl<$Res>
           ? _value.isHuman
           : isHuman // ignore: cast_nullable_to_non_nullable
               as bool,
-      controllerCount: freezed == controllerCount
-          ? _value.controllerCount
-          : controllerCount // ignore: cast_nullable_to_non_nullable
-              as num?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      controlledBy: freezed == controlledBy
-          ? _value._controlledBy
-          : controlledBy // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+      myCards: null == myCards
+          ? _value._myCards
+          : myCards // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -221,10 +209,9 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
       required this.isActive,
       this.playing,
       required this.isHuman,
-      this.controllerCount,
       this.createdAt,
-      final List<String>? controlledBy})
-      : _controlledBy = controlledBy;
+      final List<String> myCards = const []})
+      : _myCards = myCards;
 
   factory _$MyUserImpl.fromJson(Map<String, dynamic> json) =>
       _$$MyUserImplFromJson(json);
@@ -244,23 +231,21 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
   final String? playing;
   @override
   final bool isHuman;
-  @override
-  final num? controllerCount;
+//num? controllerCount,
   @override
   final DateTime? createdAt;
-  final List<String>? _controlledBy;
+  final List<String> _myCards;
   @override
-  List<String>? get controlledBy {
-    final value = _controlledBy;
-    if (value == null) return null;
-    if (_controlledBy is EqualUnmodifiableListView) return _controlledBy;
+  @JsonKey()
+  List<String> get myCards {
+    if (_myCards is EqualUnmodifiableListView) return _myCards;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_myCards);
   }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MyUser(name: $name, rName: $rName, id: $id, avatar: $avatar, isActive: $isActive, playing: $playing, isHuman: $isHuman, controllerCount: $controllerCount, createdAt: $createdAt, controlledBy: $controlledBy)';
+    return 'MyUser(name: $name, rName: $rName, id: $id, avatar: $avatar, isActive: $isActive, playing: $playing, isHuman: $isHuman, createdAt: $createdAt, myCards: $myCards)';
   }
 
   @override
@@ -275,9 +260,8 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
       ..add(DiagnosticsProperty('isActive', isActive))
       ..add(DiagnosticsProperty('playing', playing))
       ..add(DiagnosticsProperty('isHuman', isHuman))
-      ..add(DiagnosticsProperty('controllerCount', controllerCount))
       ..add(DiagnosticsProperty('createdAt', createdAt))
-      ..add(DiagnosticsProperty('controlledBy', controlledBy));
+      ..add(DiagnosticsProperty('myCards', myCards));
   }
 
   @override
@@ -293,12 +277,9 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
                 other.isActive == isActive) &&
             (identical(other.playing, playing) || other.playing == playing) &&
             (identical(other.isHuman, isHuman) || other.isHuman == isHuman) &&
-            (identical(other.controllerCount, controllerCount) ||
-                other.controllerCount == controllerCount) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            const DeepCollectionEquality()
-                .equals(other._controlledBy, _controlledBy));
+            const DeepCollectionEquality().equals(other._myCards, _myCards));
   }
 
   @JsonKey(ignore: true)
@@ -312,9 +293,8 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
       isActive,
       playing,
       isHuman,
-      controllerCount,
       createdAt,
-      const DeepCollectionEquality().hash(_controlledBy));
+      const DeepCollectionEquality().hash(_myCards));
 
   @JsonKey(ignore: true)
   @override
@@ -339,9 +319,8 @@ abstract class _MyUser implements MyUser {
       required final bool isActive,
       final String? playing,
       required final bool isHuman,
-      final num? controllerCount,
       final DateTime? createdAt,
-      final List<String>? controlledBy}) = _$MyUserImpl;
+      final List<String> myCards}) = _$MyUserImpl;
 
   factory _MyUser.fromJson(Map<String, dynamic> json) = _$MyUserImpl.fromJson;
 
@@ -359,12 +338,10 @@ abstract class _MyUser implements MyUser {
   String? get playing;
   @override
   bool get isHuman;
-  @override
-  num? get controllerCount;
-  @override
+  @override //num? controllerCount,
   DateTime? get createdAt;
   @override
-  List<String>? get controlledBy;
+  List<String> get myCards;
   @override
   @JsonKey(ignore: true)
   _$$MyUserImplCopyWith<_$MyUserImpl> get copyWith =>

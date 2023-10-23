@@ -7,6 +7,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../model/avatar_card.dart';
 import '../model/my_duration.dart';
 import '../model/my_user.dart';
 import 'firebase_init.dart';
@@ -99,7 +100,7 @@ class Auth {
     final String xName =
         fUser!.displayName ?? "User#${mockInteger(100000, 999999)}";
     final DateTime createdAt = fUser.metadata.creationTime ?? DateTime.now();
-    return userColl.doc(userCred.user!.uid).set(
+    await userColl.doc(userCred.user!.uid).set(
       {
         ...MyUser(
           name: xName,
@@ -113,6 +114,12 @@ class Auth {
         ...MyDuration(currentTime: createdAt).toJson()
       },
     );
+    return userColl.doc(userCred.user!.uid).collection('avatar').add(
+          AvatarCard(
+            createdAt: createdAt,
+            createdBy: userCred.user!.uid,
+          ).toJson(),
+        );
   }
 
   Future get signOut async {
@@ -126,7 +133,7 @@ class Auth {
     return userColl.doc(_auth.currentUser!.uid).update({'name': name});
   }
 
-  Future batchDelete() {
+/*  Future batchDelete() {
     WriteBatch batch = ref.read(fireStoreProvider).batch();
     final String id = ref.read(firebaseUserProvider).uid;
     return ref
@@ -141,7 +148,7 @@ class Auth {
 
       return batch.commit();
     });
-  }
+  }*/
 
   Future get signInWithGoogle async {
     final credential = await googleCredentials;

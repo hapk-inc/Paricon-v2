@@ -14,13 +14,13 @@ _$MyUserImpl _$$MyUserImplFromJson(Map<String, dynamic> json) => _$MyUserImpl(
       isActive: json['isActive'] as bool,
       playing: json['playing'] as String?,
       isHuman: json['isHuman'] as bool,
-      controllerCount: json['controllerCount'] as num?,
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
-      controlledBy: (json['controlledBy'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+      myCards: (json['myCards'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$MyUserImplToJson(_$MyUserImpl instance) =>
@@ -32,7 +32,6 @@ Map<String, dynamic> _$$MyUserImplToJson(_$MyUserImpl instance) =>
       'isActive': instance.isActive,
       'playing': instance.playing,
       'isHuman': instance.isHuman,
-      'controllerCount': instance.controllerCount,
       'createdAt': instance.createdAt?.toIso8601String(),
-      'controlledBy': instance.controlledBy,
+      'myCards': instance.myCards,
     };

@@ -2648,7 +2648,7 @@ const List<String> maleName = [
   //"Yugank",
   //"Zevesh"
 ];
-const List<String> last_name = [
+const List<String> lastName = [
   "Acharya",
   "Agarwal",
   "Khatri",
@@ -2750,7 +2750,7 @@ const List<String> last_name = [
   "Naidu",
   "Modi"
 ];
-const List<String> female_name = [
+const List<String> femaleName = [
   "Amba",
   "Amber",
   "Ambika",
@@ -4302,11 +4302,11 @@ String myRandomName({String option = "Any"}) {
     case "male":
       return maleName[mockInteger(0, maleName.length - 1)];
     case "female":
-      return female_name[mockInteger(0, female_name.length - 1)];
+      return femaleName[mockInteger(0, femaleName.length - 1)];
     default:
       return [
         ...maleName,
-        ...female_name
-      ][mockInteger(0, maleName.length + female_name.length - 1)];
+        ...femaleName
+      ][mockInteger(0, maleName.length + femaleName.length - 1)];
   }
 }

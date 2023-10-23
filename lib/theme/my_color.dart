@@ -182,3 +182,5 @@ const Color pakistanGreen = Color(0xff134611);
 const Color rosePink = Color(0xffe365c1);
 const Color cerise = Color(0xffe63462);
 const Color amaranthPurple = Color(0xffa4243b);
+
+const Color umber = Color(0xff554640);
