@@ -16,7 +16,7 @@ class TournamentGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tListener = ref.read(tournamentListenerNotifier);
+    final tListener = ref.read(tournamentListenerNotifierProvider);
 
     List<Widget> tiles = List.from(
       tListener.icons.map(
@@ -50,8 +50,8 @@ class TournamentGridTile extends ConsumerWidget {
     //final sSize = ref.read(sizeProvider);
     //final bool isPhone = sSize == ScreenSize.phone;
     //final tournamentNotifier = ref.watch(tournamentNotifierProvider);
-    final tListener = ref.watch(tournamentListenerNotifier);
-    final xIcon = ref.watch(tournamentListenerNotifier).icons[localIcon.iconNo];
+    final tListener = ref.watch(tournamentListenerNotifierProvider);
+    final xIcon = tListener.icons[localIcon.iconNo];
     final showIcon = xIcon.checkFound;
 
     return AspectRatio(

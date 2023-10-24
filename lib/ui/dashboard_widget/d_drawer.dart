@@ -45,8 +45,10 @@ class DDrawer extends ConsumerWidget {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
-                          splashRadius: 30.r,
+                          onPressed: () {
+                            debugPrint("Edit Press");
+                          },
+                          splashRadius: 1.r,
                           icon: Icon(
                             Icons.edit,
                             size: 24.r,
@@ -62,7 +64,7 @@ class DDrawer extends ConsumerWidget {
                         style: TextStyle(
                           fontFamily: 'Cabin',
                           fontSize: 12.r,
-                          color: mistyRose,
+                          color: periwinkle,
                         ),
                       ),
                     ),
@@ -95,7 +97,8 @@ class DDrawer extends ConsumerWidget {
                         children: [
                           AutoSizeText(
                             mockString(6, 'A'),
-                            style: const TextStyle(color: mistyRose),
+                            style: const TextStyle(
+                                color: mistyRose, fontFamily: 'DelaGothic'),
                           ),
                           SizedBox.square(dimension: 10.5.r),
                           Icon(
