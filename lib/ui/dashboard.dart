@@ -311,15 +311,6 @@ class DashboardBodyState extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        /*  Text(
-                          "LeaderBoard",
-                          style: TextStyle(
-                            fontSize: 15.r,
-                            color: darkGreen,
-                            fontFamily: 'Montserrat',
-                          ),
-                        ),
-                        SizedBox(height: 15.r),*/
                         Expanded(
                           child: Padding(
                             padding: EdgeInsets.only(right: 6.r),
@@ -400,13 +391,17 @@ class DashboardFooter extends ConsumerWidget {
                   const TextSpan(text: "App Version v "),
                   TextSpan(
                     text: appVersion,
-                    style: TextStyle(letterSpacing: 1.5.r, fontSize: 18.r),
+                    style: TextStyle(
+                      letterSpacing: 1.5.r,
+                      fontSize: 18.r,
+                      color: oldRose,
+                    ),
                   ),
                 ],
               ),
               style: TextStyle(
                 fontFamily: 'Montserrat',
-                color: battleshipGray,
+                color: oldRose,
                 fontSize: 15.r,
                 fontWeight: FontWeight.w200,
               ),

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -51,7 +50,7 @@ class UserDatastore {
   final Ref ref;
 
   late CollectionReference userColl;
-  late DatabaseReference databaseReference;
+  //late DatabaseReference databaseReference;
 
   late FirebaseFirestore firebaseFirestore;
   late String? userId;
@@ -61,7 +60,7 @@ class UserDatastore {
     userColl = firebaseFirestore.collection('users');
     userId = ref.read(firebaseUserProvider).uid;
 
-    databaseReference = ref.read(databaseProvider).ref();
+    //databaseReference = ref.read(databaseProvider).ref();
   }
 
   Future<MyUser> myUser(String id) {
@@ -138,39 +137,7 @@ class UserDatastore {
       {'id': randomPickCard},
     );
   }
-
-  /*Future<List> get maleAvatar async {
-    debugPrint("128--");
-    return databaseReference.child('n_male').once().then(
-      (value) {
-        debugPrint(value.snapshot.children.toString());
-        return [];
-      },
-    ).onError((e, s) {
-      debugPrint(e.toString());
-      return [];
-    });
-  }*/
 }
-
-/*final FutureProvider setAvatarCardProvider = FutureProvider(
-  (ref) async {
-    return ref.read(maleAvatarsProvider).maybeWhen(
-        orElse: () => [],
-        data: (x) => x,
-        error: (e, s) {
-          debugPrint(e.toString());
-          return [];
-        });
-  },
-);*/
-
-/*final FutureProvider<List> maleAvatarsProvider = FutureProvider(
-  (ref) {
-    final datastore = ref.read(userDatastoreProvider);
-    return datastore.maleAvatar;
-  },
-);*/
 
 final AutoDisposeProvider<CollectionReference<MyUser>>
     recentUserCollectionReference = Provider.autoDispose(

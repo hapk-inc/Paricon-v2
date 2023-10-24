@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:paricon/logic/auth.dart';
+import 'package:paricon/model/t_score.dart';
 
 import '../../theme/my_color.dart';
 import '../logic/s_size.dart';
@@ -16,6 +18,28 @@ class TournamentPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final firebaseUser = ref.read(firebaseUserProvider);
+    final tournamentListener = ref.read(tournamentListenerNotifierProvider);
+    ref.listen(
+      tournamentListenerNotifierProvider
+          .select<bool>((value) => value.allFound),
+      (_, next) {
+        if (next) {
+          ref
+              .read(tournamentDatabaseProvider)
+              .updateTDuration(
+                TScore(
+                  userId: firebaseUser.uid,
+                  playedAt: DateTime.now(),
+                  tDuration: tournamentListener.stopwatch.elapsed,
+                ),
+              )
+              .whenComplete(
+                () => context.router.pop(),
+              );
+        }
+      },
+    );
     final sSize = ref.read(sizeProvider);
     return Scaffold(
       // appBar: buildAppBar(sSize, context),
@@ -181,7 +205,10 @@ class ShowTimerIndicator extends ConsumerWidget {
             ),
           ),
           trailing: InkWell(
-            onTap: () => context.router.pop(),
+            onTap: () {
+              ref.refresh(tournamentListenerNotifierProvider);
+              context.router.pop();
+            },
             child: Icon(Icons.close, size: 21.r),
           ),
         ),

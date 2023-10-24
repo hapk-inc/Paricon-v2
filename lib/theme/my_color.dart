@@ -184,3 +184,8 @@ const Color cerise = Color(0xffe63462);
 const Color amaranthPurple = Color(0xffa4243b);
 
 const Color umber = Color(0xff554640);
+
+const Color cardinal = Color(0xffc33149);
+const Color oldRose = Color(0xffbb8588);
+
+const Color caputMortuum = Color(0xff5a352a);

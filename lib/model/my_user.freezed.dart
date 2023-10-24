@@ -30,6 +30,7 @@ mixin _$MyUser {
       throw _privateConstructorUsedError; //num? controllerCount,
   DateTime? get createdAt => throw _privateConstructorUsedError;
   List<String> get myCards => throw _privateConstructorUsedError;
+  Duration? get bestDuration => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,7 +51,8 @@ abstract class $MyUserCopyWith<$Res> {
       String? playing,
       bool isHuman,
       DateTime? createdAt,
-      List<String> myCards});
+      List<String> myCards,
+      Duration? bestDuration});
 }
 
 /// @nodoc
@@ -75,6 +77,7 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
     Object? isHuman = null,
     Object? createdAt = freezed,
     Object? myCards = null,
+    Object? bestDuration = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -113,6 +116,10 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
           ? _value.myCards
           : myCards // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      bestDuration: freezed == bestDuration
+          ? _value.bestDuration
+          : bestDuration // ignore: cast_nullable_to_non_nullable
+              as Duration?,
     ) as $Val);
   }
 }
@@ -133,7 +140,8 @@ abstract class _$$MyUserImplCopyWith<$Res> implements $MyUserCopyWith<$Res> {
       String? playing,
       bool isHuman,
       DateTime? createdAt,
-      List<String> myCards});
+      List<String> myCards,
+      Duration? bestDuration});
 }
 
 /// @nodoc
@@ -156,6 +164,7 @@ class __$$MyUserImplCopyWithImpl<$Res>
     Object? isHuman = null,
     Object? createdAt = freezed,
     Object? myCards = null,
+    Object? bestDuration = freezed,
   }) {
     return _then(_$MyUserImpl(
       name: null == name
@@ -194,6 +203,10 @@ class __$$MyUserImplCopyWithImpl<$Res>
           ? _value._myCards
           : myCards // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      bestDuration: freezed == bestDuration
+          ? _value.bestDuration
+          : bestDuration // ignore: cast_nullable_to_non_nullable
+              as Duration?,
     ));
   }
 }
@@ -210,7 +223,8 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
       this.playing,
       required this.isHuman,
       this.createdAt,
-      final List<String> myCards = const []})
+      final List<String> myCards = const [],
+      this.bestDuration})
       : _myCards = myCards;
 
   factory _$MyUserImpl.fromJson(Map<String, dynamic> json) =>
@@ -244,8 +258,11 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
   }
 
   @override
+  final Duration? bestDuration;
+
+  @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MyUser(name: $name, rName: $rName, id: $id, avatar: $avatar, isActive: $isActive, playing: $playing, isHuman: $isHuman, createdAt: $createdAt, myCards: $myCards)';
+    return 'MyUser(name: $name, rName: $rName, id: $id, avatar: $avatar, isActive: $isActive, playing: $playing, isHuman: $isHuman, createdAt: $createdAt, myCards: $myCards, bestDuration: $bestDuration)';
   }
 
   @override
@@ -261,7 +278,8 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
       ..add(DiagnosticsProperty('playing', playing))
       ..add(DiagnosticsProperty('isHuman', isHuman))
       ..add(DiagnosticsProperty('createdAt', createdAt))
-      ..add(DiagnosticsProperty('myCards', myCards));
+      ..add(DiagnosticsProperty('myCards', myCards))
+      ..add(DiagnosticsProperty('bestDuration', bestDuration));
   }
 
   @override
@@ -279,7 +297,9 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
             (identical(other.isHuman, isHuman) || other.isHuman == isHuman) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            const DeepCollectionEquality().equals(other._myCards, _myCards));
+            const DeepCollectionEquality().equals(other._myCards, _myCards) &&
+            (identical(other.bestDuration, bestDuration) ||
+                other.bestDuration == bestDuration));
   }
 
   @JsonKey(ignore: true)
@@ -294,7 +314,8 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
       playing,
       isHuman,
       createdAt,
-      const DeepCollectionEquality().hash(_myCards));
+      const DeepCollectionEquality().hash(_myCards),
+      bestDuration);
 
   @JsonKey(ignore: true)
   @override
@@ -320,7 +341,8 @@ abstract class _MyUser implements MyUser {
       final String? playing,
       required final bool isHuman,
       final DateTime? createdAt,
-      final List<String> myCards}) = _$MyUserImpl;
+      final List<String> myCards,
+      final Duration? bestDuration}) = _$MyUserImpl;
 
   factory _MyUser.fromJson(Map<String, dynamic> json) = _$MyUserImpl.fromJson;
 
@@ -342,6 +364,8 @@ abstract class _MyUser implements MyUser {
   DateTime? get createdAt;
   @override
   List<String> get myCards;
+  @override
+  Duration? get bestDuration;
   @override
   @JsonKey(ignore: true)
   _$$MyUserImplCopyWith<_$MyUserImpl> get copyWith =>

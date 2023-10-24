@@ -90,9 +90,9 @@ class RecentPlayerTile extends StatelessWidget {
                     child: Text(
                       toBeginningOfSentenceCase(myUser.name) ?? "",
                       style: const TextStyle(
-                        fontWeight: FontWeight.normal,
+                        fontWeight: FontWeight.w200,
                         fontFamily: 'Poppins',
-                        color: spaceCadet,
+                        color: richBlack,
                       ),
                     ),
                   ),

@@ -17,6 +17,7 @@ class MyUser with _$MyUser {
     //num? controllerCount,
     DateTime? createdAt,
     @Default([]) List<String> myCards,
+    Duration? bestDuration,
     //List<String>? controlledBy,
   }) = _MyUser;
 

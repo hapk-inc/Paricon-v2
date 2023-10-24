@@ -56,17 +56,16 @@ final AutoDisposeFutureProviderFamily<void, String> setCardAvatarProvider =
     final MyUser myUser = await ref.read(myUserProvider.future);
 
     final List<String> myCards = myUser.myCards;
-    debugPrint("56--${myCards.length}");
 
     final List<String> allCards =
         await ref.read(avatarCollectionProvider.future);
-    debugPrint("57--$allCards");
+
     final List<String> remainingCards =
         allCards.toSet().difference(myCards.toSet()).toList();
-    debugPrint("58--$remainingCards");
+
     final String randomPickCard =
         remainingCards[mockInteger(0, remainingCards.length - 1)];
-    debugPrint("59--$randomPickCard");
+
     final datastore = ref.read(userDatastoreProvider);
     return datastore.setNewCardCollection(docID, randomPickCard);
   },

@@ -1,119 +1,146 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mock_data/mock_data.dart';
 
-import '../logic/my_names.dart';
+import '../logic/user_datastore.dart';
+import '../model/my_user.dart';
 import '../theme/my_color.dart';
 
-class ShortLeaderBoard extends StatelessWidget {
+class ShortLeaderBoard extends ConsumerWidget {
   const ShortLeaderBoard({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (_, p) => DataTable(
-        horizontalMargin: 0,
-        columnSpacing: 3.w,
-        headingRowHeight: p.maxHeight * 0.15,
-        dataRowMinHeight: p.maxHeight * 0.21,
-        dataRowMaxHeight: p.maxHeight * 0.21,
-        // headingRowColor:
-        //     const MaterialStatePropertyAll(Colors.green),
-        headingTextStyle: TextStyle(
-          fontSize: 12.r,
-          fontFamily: 'DelaGothic',
-          color: spaceCadet,
-        ),
-        dataTextStyle: TextStyle(
-          fontSize: 15.r,
-          color: richBlack,
-          fontFamily: 'Poppins',
-        ),
-        columns: [
-          DataColumn(
-            label: SizedBox(
-              // color: deepSkyBlue,
-              width: p.maxWidth * 0.18,
-              child: const Text("Rank"),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final MyUser myUser = ref.read(myUserProvider).value!;
+    return FirestoreQueryBuilder(
+      query: ref
+          .read(recentUserCollectionReference)
+          .where('bestDuration', isNull: false)
+          .orderBy('bestDuration')
+          .limit(4),
+      builder: (_, snapshot, __) {
+        debugPrint("Check Tournament DataTable");
+        debugPrint("Checking Snapshot Length ${snapshot.docs.length}");
+        return LayoutBuilder(
+          builder: (_, p) => DataTable(
+            horizontalMargin: 0,
+            columnSpacing: 3.w,
+            headingRowHeight: p.maxHeight * 0.15,
+            dataRowMinHeight: p.maxHeight * 0.21,
+            dataRowMaxHeight: p.maxHeight * 0.21,
+            // headingRowColor:
+            //     const MaterialStatePropertyAll(Colors.green),
+            headingTextStyle: TextStyle(
+              fontSize: 12.r,
+              fontFamily: 'DelaGothic',
+              color: spaceCadet,
             ),
-          ),
-          DataColumn(
-            label: SizedBox(
-              width: p.maxWidth * 0.45,
-              //color: deepSkyBlue,
-              child: const Text("Name"),
+            dataTextStyle: TextStyle(
+              fontSize: 15.r,
+              color: richBlack,
+              fontFamily: 'Poppins',
             ),
-          ),
-          DataColumn(
-            label: SizedBox(
-              width: p.maxWidth * 0.36,
-              //color: deepSkyBlue,
-              child: const Text("Duration"),
-            ),
-          ),
-        ],
-        rows: [
-          ...List.generate(
-            4,
-            (index) => DataRow(
-              cells: [
-                DataCell(
-                  Container(
-                    width: p.maxWidth * 0.18,
-                    margin: EdgeInsets.only(left: p.maxWidth * 0.03),
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "${"${mockInteger(1, 30)}".padLeft(2, '0')}.",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14.r,
-                      ),
-                    ),
-                  ),
+            columns: [
+              DataColumn(
+                label: SizedBox(
+                  // color: deepSkyBlue,
+                  width: p.maxWidth * 0.18,
+                  child: const Text("Rank"),
                 ),
-                DataCell(
-                  Container(
-                    width: p.maxWidth * 0.45,
-                    alignment: Alignment.centerLeft,
-                    child: AutoSizeText(
-                      myRandomName(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14.r,
-                      ),
-                      maxLines: 1,
-                    ),
-                  ),
+              ),
+              DataColumn(
+                label: SizedBox(
+                  width: p.maxWidth * 0.45,
+                  //color: deepSkyBlue,
+                  child: const Text("Name"),
                 ),
-                DataCell(
-                  SizedBox(
-                    width: p.maxWidth * 0.36,
-                    child: AutoSizeText.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(
-                              text:
-                                  "${"${mockInteger(1, 9)}".padLeft(2, '0')} : ${"${mockInteger(1, 59)}".padLeft(2, '0')}"),
-                          TextSpan(
-                            text: " ${mockInteger(100, 500)}",
+              ),
+              DataColumn(
+                label: SizedBox(
+                  width: p.maxWidth * 0.36,
+                  //color: deepSkyBlue,
+                  child: const Text("Duration"),
+                ),
+              ),
+            ],
+            rows: [
+              ...List.generate(
+                snapshot.docs.length,
+                (index) {
+                  final String userId = snapshot.docs[index].id;
+                  final MyUser xUser = snapshot.docs[index].data();
+                  return DataRow(
+                    cells: [
+                      DataCell(
+                        Container(
+                          width: p.maxWidth * 0.18,
+                          margin: EdgeInsets.only(left: p.maxWidth * 0.03),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "${"${index + 1}".padLeft(2, '0')}.",
                             style: TextStyle(
-                              fontSize: 10.8.r,
-                              color: battleshipGray,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14.r,
+                              color: cardinal,
                             ),
-                          )
-                        ],
-                        style: const TextStyle(fontFamily: 'Montserrat'),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
+                      DataCell(
+                        Container(
+                          width: p.maxWidth * 0.45,
+                          alignment: Alignment.centerLeft,
+                          child: AutoSizeText(
+                            xUser.name,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w300,
+                                fontSize: 10.5.r,
+                                color: hookerGreen,
+                                fontFamily: 'Montserrat'),
+                            maxLines: 1,
+                          ),
+                        ),
+                      ),
+                      DataCell(
+                        SizedBox(
+                          width: p.maxWidth * 0.36,
+                          child: AutoSizeText.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text:
+                                      "${xUser.bestDuration!.inMinutes.toString().padLeft(2, '0').padLeft(2, '0')}"
+                                      " : ${"${xUser.bestDuration!.inSeconds}".padLeft(2, '0')}",
+                                  style: const TextStyle(color: caputMortuum),
+                                ),
+                                TextSpan(
+                                  text:
+                                      " ${xUser.bestDuration!.inMilliseconds ~/ 100}",
+                                  style: TextStyle(
+                                    fontSize: 10.8.r,
+                                    color: oldRose,
+                                  ),
+                                )
+                              ],
+                              style: const TextStyle(
+                                fontFamily: 'Montserrat',
+                                color: darkPurple,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 }
