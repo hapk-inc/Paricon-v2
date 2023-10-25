@@ -189,3 +189,6 @@ const Color cardinal = Color(0xffc33149);
 const Color oldRose = Color(0xffbb8588);
 
 const Color caputMortuum = Color(0xff5a352a);
+
+const Color puce = Color(0xffb88c9e);
+const Color tropicalIndigo = Color(0xffa399f3);

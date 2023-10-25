@@ -1,9 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../logic/auth.dart';
 import '../logic/user_datastore.dart';
 import '../model/my_user.dart';
 import '../theme/my_color.dart';
@@ -13,6 +15,7 @@ class ShortLeaderBoard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final User firebaseUser = ref.read(firebaseUserProvider);
     final MyUser myUser = ref.read(myUserProvider).value!;
     return FirestoreQueryBuilder(
       query: ref
@@ -67,11 +70,13 @@ class ShortLeaderBoard extends ConsumerWidget {
             ],
             rows: [
               ...List.generate(
-                snapshot.docs.length,
+                snapshot.docs.length < 5 ? snapshot.docs.length : 4,
                 (index) {
                   final String userId = snapshot.docs[index].id;
                   final MyUser xUser = snapshot.docs[index].data();
                   return DataRow(
+                    color: MaterialStatePropertyAll(
+                        firebaseUser.uid == userId ? columbiaBlue : null),
                     cells: [
                       DataCell(
                         Container(

@@ -5,6 +5,7 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:random_avatar/random_avatar.dart';
 
@@ -54,10 +55,13 @@ class InAppAvatarDrawer extends ConsumerWidget {
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 7.5.r),
-                  child: Icon(
-                    Icons.edit,
-                    size: 24.r,
-                    color: whiteSmoke,
+                  child: InkWell(
+                    onTap: () {},
+                    child: Icon(
+                      Icons.edit,
+                      size: 24.r,
+                      color: whiteSmoke,
+                    ),
                   ),
                 )
               ],
@@ -69,7 +73,11 @@ class InAppAvatarDrawer extends ConsumerWidget {
             alignment: Alignment.centerLeft,
             child: const AutoSizeText(
               "Replace the in-app avatar with a new image",
-              style: TextStyle(color: whiteSmoke, fontFamily: 'Poppins'),
+              style: TextStyle(
+                color: whiteSmoke,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w300,
+              ),
               maxLines: 1,
               minFontSize: 6,
               maxFontSize: 15,
@@ -77,7 +85,8 @@ class InAppAvatarDrawer extends ConsumerWidget {
             ),
           ),
           SizedBox(height: 15.h),
-          Expanded(
+          SizedBox(
+            height: 420.h,
             child: FirestoreQueryBuilder<AvatarCard>(
               query: ref
                   .watch(avatarCardCollectionReference)
@@ -104,14 +113,86 @@ class InAppAvatarDrawer extends ConsumerWidget {
               ),
             ),
           ),
-          Container(
-            height: 180.h,
-            color: russianViolet,
+          const ShareAvatarCodeBox(),
+        ],
+      ),
+    );
+  }
+}
+
+class ShareAvatarCodeBox extends StatelessWidget {
+  const ShareAvatarCodeBox({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 180.h,
+      decoration: BoxDecoration(
+        color: russianViolet,
+        borderRadius: BorderRadius.circular(7.5.r),
+      ),
+      padding: EdgeInsets.all(7.5.r),
+      child: Column(
+        children: [
+          Text(
+            "If you want more cards, "
+            "invite your friends to use the code below",
+            style: TextStyle(
+              color: tropicalIndigo,
+              fontSize: 13.5.r,
+              height: 1.8,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w300,
+            ),
           ),
-          Container(
-            height: 60.h,
-            color: whiteSmoke,
-          )
+          SizedBox(height: 15.h),
+          Expanded(
+            child: Center(
+              child: Text(
+                mockString(6, 'A'),
+                style: TextStyle(
+                  color: columbiaBlue,
+                  fontFamily: 'DelaGothic',
+                  fontSize: 34.5.r,
+                  letterSpacing: 3.r,
+                ),
+              ),
+            ),
+          ),
+          Flexible(
+            child: ButtonBar(
+              buttonMinWidth: 15.w,
+              buttonPadding: EdgeInsets.symmetric(horizontal: 3.r),
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.share,
+                    size: 18.r,
+                    color: azure,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    FontAwesomeIcons.whatsapp,
+                    size: 21.r,
+                    color: pigmentGreen,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    FontAwesomeIcons.instagram,
+                    size: 21.r,
+                    color: Colors.pink,
+                  ),
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );

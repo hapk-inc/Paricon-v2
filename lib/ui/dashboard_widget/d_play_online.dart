@@ -53,6 +53,9 @@ class PlayOnlineButton extends ConsumerWidget {
                       ],
                       style: const TextStyle(color: persianOrange),
                     ),
+                    minFontSize: 10,
+                    maxFontSize: 30,
+                    stepGranularity: 2,
                   ),
                 ),
               ),
@@ -64,7 +67,7 @@ class PlayOnlineButton extends ConsumerWidget {
                 widthFactor: 1,
                 child: Lottie.asset(
                   'lottie/friends-playing.json',
-                  repeat: false,
+                  repeat: true,
                 ),
               ),
             ),
@@ -119,7 +122,7 @@ class PlayWithStranger extends StatelessWidget {
                 widthFactor: 1,
                 child: Lottie.asset(
                   'lottie/online-players.json',
-                  repeat: false,
+                  repeat: true,
                 ),
               ),
             ),

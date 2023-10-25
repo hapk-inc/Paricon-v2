@@ -171,7 +171,7 @@ final AutoDisposeProvider<CollectionReference<MyUser>>
 final AutoDisposeProvider<CollectionReference<AvatarCard>>
     avatarCardCollectionReference = Provider.autoDispose(
   (ref) {
-    final datastore = ref.read(userDatastoreProvider);
+    final datastore = ref.watch(userDatastoreProvider);
     return datastore.avatarCardCollection;
   },
 );

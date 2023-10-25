@@ -303,7 +303,7 @@ class DashboardBodyState extends ConsumerWidget {
                   Container(
                     decoration: BoxDecoration(
                       color: azure,
-                      borderRadius: BorderRadius.circular(7.5.r),
+                      borderRadius: BorderRadius.circular(4.5.r),
                     ),
                     padding: EdgeInsets.only(left: 9.r, top: 9.r),
                     constraints: const BoxConstraints.expand(),

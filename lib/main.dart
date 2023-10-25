@@ -116,8 +116,10 @@ class MyApp extends ConsumerWidget {
         : ref.watch(authUserProvider).when(
               data: (aUser) {
                 if (aUser == null) return const LoginRoute();
+
                 debugPrint("AuthUser True");
                 debugPrint(aUser.toString());
+                ref.refresh(avatarCardCollectionReference);
 
                 final myUserAsync = ref.watch(myUserProvider);
 
