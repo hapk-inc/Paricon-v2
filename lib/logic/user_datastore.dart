@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../model/avatar_card.dart';
 import '../model/my_duration.dart';
@@ -19,6 +20,13 @@ final myUserProvider = FutureProvider.autoDispose<MyUser>(
       debugPrintStack(stackTrace: s);
     });*/
     return datastore.myUser(user.uid);
+  },
+);
+
+final StreamProvider avatarIDProvider = StreamProvider<String>(
+  (ref) {
+    final datastore = ref.read(userDatastoreProvider);
+    return datastore.avatarID;
   },
 );
 
@@ -61,6 +69,19 @@ class UserDatastore {
     userId = ref.read(firebaseUserProvider).uid;
 
     //databaseReference = ref.read(databaseProvider).ref();
+  }
+
+  Stream<String> get avatarID {
+    late BehaviorSubject<String> behaviorSubject;
+    behaviorSubject = BehaviorSubject(
+      onListen: () => userColl.doc(userId).snapshots().listen(
+        (event) {
+          Map m = event.data() as Map;
+          behaviorSubject.add(m['avatar']);
+        },
+      ),
+    );
+    return behaviorSubject.stream;
   }
 
   Future<MyUser> myUser(String id) {

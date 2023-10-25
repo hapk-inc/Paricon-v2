@@ -16,7 +16,17 @@ class PlayOnlineButton extends ConsumerWidget {
       margin: EdgeInsets.all(3.6.r),
       child: ElevatedButton(
         //onPressed: () => context.router.push(const TournamentRoute()),
-        onPressed: () {},
+        onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Coming Soon",
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 15.r,
+              ),
+            ),
+          ),
+        ),
         style: dashboardElevatedButtonStyle(darkPurple),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +98,17 @@ class PlayWithStranger extends StatelessWidget {
           ),
         ),
         //style: dashboardElevatedButtonStyle(barnRed),
-        onPressed: () {},
+        onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Coming Soon",
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 15.r,
+              ),
+            ),
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

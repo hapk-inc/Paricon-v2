@@ -52,6 +52,7 @@ class TournamentPage extends ConsumerWidget {
                 color: majorelleBlue,
                 constraints: const BoxConstraints.expand(),
                 child: SingleChildScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
                   child: StaggeredGrid.count(
                     crossAxisCount: 20,
                     children: [
@@ -116,6 +117,11 @@ class TournamentPage extends ConsumerWidget {
                             ),
                           ),
                         ),
+                      ),
+                      const StaggeredGridTile.count(
+                        crossAxisCellCount: 20,
+                        mainAxisCellCount: 15,
+                        child: SizedBox(),
                       ),
                       /*StaggeredGridTile.count(
                         crossAxisCellCount: 20,
@@ -222,7 +228,7 @@ class ShowTimerIndicator extends ConsumerWidget {
             begin: 0,
             end: tournamentListener.balancePercentage,
           ),
-          builder: (context, value, _) => LinearProgressIndicator(
+          builder: (_, value, __) => LinearProgressIndicator(
             value: value,
             color: majorelleBlue,
             backgroundColor: periwinkle,

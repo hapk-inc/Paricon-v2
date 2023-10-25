@@ -70,11 +70,10 @@ class DashboardPage extends ConsumerWidget {
     return Scaffold(
       // appBar: buildAppBar(sSize, context),
       backgroundColor: ghostWhite,
-      drawer: const Drawer(
+      drawer: Drawer(
+        width: 270.w,
         backgroundColor: majorelleBlue,
-        child: SafeArea(
-          child: DDrawer(),
-        ),
+        child: const SafeArea(child: DDrawer()),
       ),
       appBar: AppBar(toolbarHeight: 1.h, backgroundColor: majorelleBlue),
       body: SlidingUpPanel(
