@@ -1,17 +1,12 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:lottie/lottie.dart';
-import 'package:mock_data/mock_data.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../logic/s_size.dart';
@@ -20,10 +15,10 @@ import '../logic/auth.dart';
 import '../logic/dashboard_provider.dart';
 import '../logic/firebase_init.dart';
 import '../logic/remote_values.dart';
-import '../my_widget/short_leaderboard.dart';
-import '../router/my_route.dart';
+import '../my_widget/no_internet_panel.dart';
+import '../theme/my_theme.dart';
+import 'dashboard_widget/d_carousel.dart';
 import 'dashboard_widget/d_drawer.dart';
-import 'dashboard_widget/d_play_online.dart';
 import 'dashboard_widget/d_recent_player.dart';
 import 'dashboard_widget/d_welcome.dart';
 
@@ -35,8 +30,9 @@ class DashboardPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ScreenSize sSize = ref.read(sizeProvider);
 
-    List<Color> xRandom = [turquoise, pear, hunyadiYellow, salmon];
-    xRandom.shuffle();
+    //List<Color> xRandom = [turquoise, pear, hunyadiYellow, salmon];
+    //xRandom.shuffle();
+    final SlidingPanelTheme pTheme = SlidingPanelTheme();
 
     final Widget panelWidget = ref.watch(internetConnectionProvider).when(
         data: (connectionResult) => connectionResult == ConnectivityResult.none
@@ -75,7 +71,7 @@ class DashboardPage extends ConsumerWidget {
         backgroundColor: majorelleBlue,
         child: const SafeArea(child: DDrawer()),
       ),
-      appBar: AppBar(toolbarHeight: 1.h, backgroundColor: majorelleBlue),
+      //appBar: AppBar(toolbarHeight: 1.h, backgroundColor: majorelleBlue),
       body: SlidingUpPanel(
         controller: dPanelController,
         panel: panelWidget,
@@ -83,78 +79,10 @@ class DashboardPage extends ConsumerWidget {
         backdropColor: richBlack,
         backdropEnabled: true,
         backdropOpacity: 0.9,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(15.r)),
-        minHeight: 00.h,
-        maxHeight: 300.h,
+        borderRadius: pTheme.slidingPanelRadius,
+        minHeight: 0,
+        maxHeight: pTheme.slidingPanelHeight,
         body: sSize == ScreenSize.phone ? const DashboardP() : Container(),
-      ),
-    );
-  }
-}
-
-class NoInternetPanel extends ConsumerWidget {
-  const NoInternetPanel({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: EdgeInsets.all(3.r),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Flexible(
-            flex: 3,
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: Lottie.asset('lottie/no_net.json'),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Center(
-              child: ListTile(
-                isThreeLine: true,
-                title: Text(
-                  "No Internet now!",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    color: gray,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 24.r,
-                  ),
-                ),
-                subtitle: RichText(
-                  text: TextSpan(
-                    text: "Once you're connected to the internet, simply\n",
-                    children: [
-                      TextSpan(
-                        text: "click here",
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => ref.refresh(checkNetProvider),
-                        style: const TextStyle(
-                          color: darkPastelGreen,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const TextSpan(
-                          text: " to initiate the app, once internet is on."),
-                    ],
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      height: 1.8,
-                      fontSize: 13.5.r,
-                      fontWeight: FontWeight.w300,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ),
-          )
-        ],
       ),
     );
   }
@@ -173,7 +101,7 @@ class DashboardP extends ConsumerWidget {
     xRandom.shuffle();
 
     return SafeArea(
-      bottom: false,
+      bottom: true,
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 500),
         child: (inWork.isNotEmpty && !kDebugMode)
@@ -189,170 +117,59 @@ class DashboardBodyState extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return SingleChildScrollView(
-      child: StaggeredGrid.count(
-        crossAxisCount: 20,
-        mainAxisSpacing: 1.r,
-        crossAxisSpacing: 1.r,
-        children: [
-          const StaggeredGridTile.count(
-            crossAxisCellCount: 20,
-            mainAxisCellCount: 9,
-            child: DWelcome(),
-          ),
-          buildStaggeredSpace,
-          const StaggeredGridTile.count(
-            crossAxisCellCount: 20,
-            mainAxisCellCount: 4.2,
-            child: RecentPlayer(),
-          ),
-          buildStaggeredSpace,
-          buildStaggeredSpace,
-          StaggeredGridTile.count(
-            crossAxisCellCount: 20,
-            mainAxisCellCount: 15,
-            child: Container(
-              //color: darkGreen,
-              padding: EdgeInsets.only(left: 12.w, right: 9.w),
-              child: CarouselSlider(
-                items: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: jasmine,
-                      borderRadius: BorderRadius.circular(7.5.r),
-                    ),
-                    // constraints: const BoxConstraints.expand(),
-                    margin: EdgeInsets.only(right: 9.r),
-                    padding: EdgeInsets.only(left: 9.r, top: 9.r, right: 9.r),
-                    child: Wrap(
-                      //runAlignment: WrapAlignment.center,
-                      runSpacing: .15.r,
-                      children: [
-                        Container(
-                          height: 45.h,
-                          alignment: Alignment.centerLeft,
-                          child: AnimatedTextKit(
-                            pause: const Duration(milliseconds: 300),
-                            animatedTexts:
-                                ["Exciting", "Engaging", "Challenging"]
-                                    .map(
-                                      (e) => RotateAnimatedText(e,
-                                          duration:
-                                              const Duration(milliseconds: 900),
-                                          alignment: Alignment.centerLeft,
-                                          textStyle: TextStyle(
-                                            fontFamily: 'DelaGothic',
-                                            fontSize: 30.r,
-                                            color: [
-                                              rosePink,
-                                              cerise,
-                                              amaranthPurple
-                                            ][mockInteger(0, 2)],
-                                          ),
-                                          rotateOut: false),
-                                    )
-                                    .toList(),
-                            totalRepeatCount: 1,
-                            //repeatForever: true,
-                          ),
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              const TextSpan(text: "puzzles await you. "),
-                              const TextSpan(
-                                text: "Are you ready for the ",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  height: 2.1,
-                                ),
-                              ),
-                              TextSpan(
-                                text: "challenge",
-                                style: TextStyle(
-                                  color: pakistanGreen,
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 15.6.r,
-                                  decoration: TextDecoration.underline,
-                                  decorationThickness: 1.2,
-                                ),
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () => context.router
-                                      .push(const TournamentRoute()),
-                              ),
-                              const TextSpan(
-                                text: "?",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  height: 3,
-                                ),
-                              ),
-                              const TextSpan(text: " Click here")
-                            ],
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: oxfordBlue,
-                              fontSize: 15.r,
-                              height: 2.4,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: azure,
-                      borderRadius: BorderRadius.circular(4.5.r),
-                    ),
-                    padding: EdgeInsets.only(left: 9.r, top: 9.r),
-                    constraints: const BoxConstraints.expand(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 6.r),
-                            child: const ShortLeaderBoard(),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-                options: CarouselOptions(
-                  padEnds: false,
-                  enableInfiniteScroll: false,
-                  viewportFraction: 0.72,
-                  aspectRatio: 1.5,
-                  enlargeCenterPage: true,
-                  enlargeFactor: 0.15,
-                ),
-              ),
+    return Align(
+      alignment: Alignment.topCenter,
+      child: SingleChildScrollView(
+        child: StaggeredGrid.count(
+          crossAxisCount: 20,
+          mainAxisSpacing: 1.r,
+          crossAxisSpacing: 1.r,
+          children: [
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 8.1,
+              child: DWelcome(),
             ),
-          ),
-          buildStaggeredSpace,
-          buildStaggeredSpace,
-          const StaggeredGridTile.count(
-            crossAxisCellCount: 9,
-            mainAxisCellCount: 12,
-            child: PlayOnlineButton(),
-          ),
-          const StaggeredGridTile.count(
-            crossAxisCellCount: 11,
-            mainAxisCellCount: 12,
-            child: PlayWithStranger(),
-          ),
-          buildStaggeredSpace,
-          buildStaggeredSpace,
-          const StaggeredGridTile.count(
-            crossAxisCellCount: 20,
-            mainAxisCellCount: 6,
-            child: DashboardFooter(),
-          ),
-          buildStaggeredSpace,
-          buildStaggeredSpace,
-        ],
+            buildStaggeredSpace,
+            buildStaggeredSpace,
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 4.8,
+              child: RecentPlayer(),
+            ),
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 15,
+              child: DashCarousel(),
+            ),
+            buildStaggeredSpace,
+            buildStaggeredSpace,
+            /*   const StaggeredGridTile.count(
+                crossAxisCellCount: 1,
+                mainAxisCellCount: 11.1,
+                child: SizedBox()),
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 8,
+              mainAxisCellCount: 11.1,
+              child: PlayOnlineButton(),
+            ),
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 10,
+              mainAxisCellCount: 11.1,
+              child: PlayWithStranger(),
+            ),
+         */
+            buildStaggeredSpace,
+            buildStaggeredSpace,
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 4.5,
+              child: DashboardFooter(),
+            ),
+            //buildStaggeredSpace,
+            //buildStaggeredSpace,
+          ],
+        ),
       ),
     );
   }

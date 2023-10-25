@@ -84,6 +84,49 @@ class UserDatastore {
     return behaviorSubject.stream;
   }
 
+  Future get updateDuration async {
+    final String id = ref.read(firebaseUserProvider).uid;
+
+    DocumentReference<MyDuration> documentReference =
+        userColl.doc(id).withConverter(
+              fromFirestore: (snapshot, SnapshotOptions? snapshotOption) {
+                return MyDuration.fromJson(snapshot.data()!);
+              },
+              toFirestore: (value, _) => value.toJson(),
+            );
+
+    MyDuration? myDuration = await userColl.doc(id).get().then(
+      (snapshot) {
+        try {
+          debugPrint("117--");
+          Map map = snapshot.data() as Map;
+          Map<String, dynamic> json = Map<String, dynamic>.from(map);
+          if (!json.containsKey('currentTime')) return null;
+          final r = MyDuration.fromJson(json);
+          return r;
+        } catch (e) {
+          debugPrint(e.toString());
+          return null;
+        }
+      },
+    );
+    final now = DateTime.now();
+    final String appVersion = await ref
+        .read(packageInfoProvider.future)
+        .then((value) => value.version);
+    if (myDuration == null) {
+      debugPrint("Updating currentTime");
+      await documentReference.update(
+          MyDuration(currentTime: now, appVersion: appVersion).toJson());
+    } else {
+      await documentReference.update(MyDuration(
+        currentTime: now,
+        appVersion: appVersion,
+        lastOpened: myDuration.currentTime,
+      ).toJson());
+    }
+  }
+
   Future<MyUser> myUser(String id) {
     debugPrint("Running myUser --68");
     return userColl.doc(id).get().then(
@@ -94,39 +137,6 @@ class UserDatastore {
         debugPrint("Future<MyUser> $map");
         Map<String, dynamic> json = Map<String, dynamic>.from(map);
         return MyUser.fromJson(json);
-      },
-    );
-  }
-
-  Future get updateDuration async {
-    final String id = ref.read(firebaseUserProvider).uid;
-    DocumentReference<MyDuration> documentReference =
-        userColl.doc(id).withConverter(
-              fromFirestore: (snapshot, SnapshotOptions? snapshotOption) {
-                return MyDuration.fromJson(snapshot.data()!);
-              },
-              toFirestore: (value, _) => value.toJson(),
-            );
-
-    return await firebaseFirestore.runTransaction(
-      (transaction) async {
-        DocumentSnapshot<MyDuration> snapshot =
-            await transaction.get<MyDuration>(documentReference);
-        if (snapshot.data() == null) {
-          debugPrint("New User Adding CurrentTIme");
-          transaction.update(documentReference,
-              MyDuration(currentTime: DateTime.now()).toJson());
-        } else {
-          debugPrint(snapshot.data().toString());
-          debugPrint("Existing User Updating LastOpened");
-          transaction.update(
-            documentReference,
-            MyDuration(
-                    currentTime: DateTime.now(),
-                    lastOpened: snapshot.data()!.currentTime)
-                .toJson(),
-          );
-        }
       },
     );
   }

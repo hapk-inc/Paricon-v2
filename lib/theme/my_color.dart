@@ -192,3 +192,6 @@ const Color caputMortuum = Color(0xff5a352a);
 
 const Color puce = Color(0xffb88c9e);
 const Color tropicalIndigo = Color(0xffa399f3);
+
+const Color lightOrange = Color(0xffF9DBBD);
+const Color lightSkyBlue = Color(0xff97D2FB);

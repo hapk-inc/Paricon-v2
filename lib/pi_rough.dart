@@ -1,3 +1,65 @@
+/*Future<void> get updateDuration async {
+    final String id = ref.read(firebaseUserProvider).uid;
+    MyDuration? myDuration = await userColl.doc(id).get().then((snapshot) {
+      try {
+        debugPrint("117--");
+        Map map = snapshot.data() as Map;
+        Map<String, dynamic> json = Map<String, dynamic>.from(map);
+        final r = MyDuration.fromJson(json);
+        return r;
+      } catch (e) {
+        debugPrint(e.toString());
+        return null;
+      }
+    });
+    if (myDuration == null) {
+      debugPrint("No Duration");
+    } else {
+      debugPrint("113--" + myDuration.toString());
+    }
+  }*/
+
+/*Future get updateDuration async {
+    final String id = ref.read(firebaseUserProvider).uid;
+    DocumentReference<MyDuration> documentReference =
+        userColl.doc(id).withConverter(
+              fromFirestore: (snapshot, SnapshotOptions? snapshotOption) {
+                return MyDuration.fromJson(snapshot.data()!);
+              },
+              toFirestore: (value, _) => value.toJson(),
+            );
+    return firebaseFirestore.runTransaction(
+      (transaction) async {
+        //DocumentSnapshot<MyDuration> snapshot =
+        //    await transaction.get<MyDuration>(documentReference);
+        //debugPrint("114-${snapshot.exists}");
+        return Future.value();
+      },
+    );
+  }*/
+
+/*return firebaseFirestore.runTransaction(
+      (transaction) async {
+        DocumentSnapshot<MyDuration> snapshot =
+            await transaction.get<MyDuration>(documentReference);
+        if (snapshot.data() == null) {
+          debugPrint("New User Adding CurrentTIme");
+          transaction.update(documentReference,
+              MyDuration(currentTime: DateTime.now()).toJson());
+        } else {
+          debugPrint(snapshot.data().toString());
+          debugPrint("Existing User Updating LastOpened");
+          transaction.update(
+            documentReference,
+            MyDuration(
+                    currentTime: DateTime.now(),
+                    lastOpened: snapshot.data()!.currentTime)
+                .toJson(),
+          );
+        }
+      },
+    );*/
+
 /*
 
 /*     WidgetSpan(

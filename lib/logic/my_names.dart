@@ -4310,3 +4310,5 @@ String myRandomName({String option = "Any"}) {
       ][mockInteger(0, maleName.length + femaleName.length - 1)];
   }
 }
+
+String get myLastName => lastName[mockInteger(0, lastName.length - 1)];

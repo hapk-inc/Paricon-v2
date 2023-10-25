@@ -23,6 +23,7 @@ import 'logic/remote_values.dart';
 import 'logic/s_size.dart';
 import 'logic/user_datastore.dart';
 import 'router/my_route.dart';
+import 'theme/my_theme.dart';
 
 Future<void> main() async {
   //WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +44,6 @@ Future<void> main() async {
       FirebaseAnalytics.instanceFor(app: app);
 
   final FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.instance;
-  //firebaseCrashlytics.app = app;
 
   final FirebaseRemoteConfig remoteConfig =
       FirebaseRemoteConfig.instanceFor(app: app);
@@ -119,14 +119,13 @@ class MyApp extends ConsumerWidget {
 
                 debugPrint("AuthUser True");
                 debugPrint(aUser.toString());
-                ref.refresh(avatarCardCollectionReference);
 
                 final myUserAsync = ref.watch(myUserProvider);
 
                 return myUserAsync.when(
                   data: (_) {
                     debugPrint("Getting MyUser Details");
-                    // ref.read(updateDurationProvider);
+                    ref.read(updateDurationProvider);
                     return const DashboardRoute();
                   },
                   error: (error, stackTrace) {
@@ -172,9 +171,10 @@ class MyApp extends ConsumerWidget {
           ],
           child: MaterialApp.router(
             routeInformationParser: _myRoute.defaultRouteParser(),
-            useInheritedMediaQuery: true,
+            //useInheritedMediaQuery: true,
             locale: DevicePreview.locale(context),
             builder: DevicePreview.appBuilder,
+            theme: buildThemeData,
             routerDelegate: AutoRouterDelegate.declarative(
               _myRoute,
               routes: (handler) {
@@ -207,57 +207,6 @@ class MyApp extends ConsumerWidget {
                   },
                   loading: () => [const SplashRoute()],
                 );
-                //return [const ErrorRoute()];
-
-                /*if (kIsWeb) {
-                  final showApp = ref.watch(showAppProvider);
-                  debugPrint("showAppProvider $showApp");
-
-                  return !showApp && !kDebugMode
-                      ? [const MaintenanceRoute()]
-                      : [
-                          kDebugMode
-                              ? whichPage
-                              : ref.watch(inAppUpdateProvider).maybeWhen(
-                                    data: (data) => data.updateAvailability ==
-                                            UpdateAvailability.updateAvailable
-                                        ? const AppUpdateRoute()
-                                        : whichPage,
-                                    orElse: () => whichPage,
-                                  )
-                        ];
-                }
-                return netConnection.when(
-                  loading: () => [const SplashRoute()],
-                  error: (e, s) {
-                    debugPrint(e.toString());
-                    return [const ErrorRoute()];
-                  },
-                  data: (net) {
-                    debugPrint("NetConnection $net");
-
-                    final bool noNet = net == ConnectivityResult.none;
-
-                    if (noNet) return [const ErrorRoute()];
-
-                    final showApp = ref.watch(showAppProvider);
-                    debugPrint("showAppProvider $showApp");
-
-                    return showApp && !kDebugMode
-                        ? [const MaintenanceRoute()]
-                        : [
-                            kDebugMode
-                                ? whichPage
-                                : ref.watch(inAppUpdateProvider).maybeWhen(
-                                      data: (data) => data.updateAvailability ==
-                                              UpdateAvailability.updateAvailable
-                                          ? const AppUpdateRoute()
-                                          : whichPage,
-                                      orElse: () => whichPage,
-                                    )
-                          ];
-                  },
-                );*/
               },
             ),
           ),

@@ -23,7 +23,7 @@ class DDrawer extends ConsumerWidget {
     final MyUser? myUser = ref.watch(myUserProvider).value;
     return AnimatedSwitcher(
       duration: const Duration(microseconds: 500),
-      child: myUser == null ? Container() : InAppAvatarDrawer(),
+      child: myUser == null ? Container() : const InAppAvatarDrawer(),
     );
   }
 }

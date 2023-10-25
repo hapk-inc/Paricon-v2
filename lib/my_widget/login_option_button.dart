@@ -14,15 +14,12 @@ class LoginOptionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        //color: pictonBlue,
         borderRadius: BorderRadius.circular(7.5.r),
         border: Border.all(color: pictonBlue, width: 1.r),
       ),
       alignment: Alignment.center,
       padding: EdgeInsets.all(10.5.r),
-      constraints: BoxConstraints.tight(
-        Size.square(48.r),
-      ),
+      constraints: BoxConstraints.tight(Size.square(48.r)),
       child: InkWell(
         onTap: optionBtnPressed,
         child: lChild,
