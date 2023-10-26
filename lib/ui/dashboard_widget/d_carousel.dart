@@ -20,7 +20,11 @@ class DashCarousel extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(left: 15.w),
       child: CarouselSlider(
-        items: const [DCarouselFirstSlide(), DCarouselSecondSlide()],
+        items: const [
+          DCarouselFirstSlide(),
+          DCarouselSecondSlide(),
+          DCarouselThirdSlide(),
+        ],
         options: CarouselOptions(
           padEnds: false,
           enableInfiniteScroll: false,
@@ -137,9 +141,9 @@ class DCarouselFirstSlide extends StatelessWidget {
                       ],
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: caputMortuum,
-                            fontSize: 15.r,
+                            fontSize: 14.4.r,
                             height: 2.1,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.normal,
                           ),
                     ),
                   ),
@@ -184,4 +188,19 @@ class DCarouselFirstSlide extends StatelessWidget {
           ],
         ),
       );
+}
+
+class DCarouselThirdSlide extends StatelessWidget {
+  const DCarouselThirdSlide({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(right: 7.5.w),
+      decoration: BoxDecoration(
+        color: lightOrange,
+        borderRadius: BorderRadius.circular(7.5.r),
+      ),
+    );
+  }
 }

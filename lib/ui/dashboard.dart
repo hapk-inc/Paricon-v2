@@ -131,7 +131,7 @@ class DashboardBodyState extends ConsumerWidget {
               child: DWelcome(),
             ),
             buildStaggeredSpace,
-            buildStaggeredSpace,
+            //   buildStaggeredSpace,
             const StaggeredGridTile.count(
               crossAxisCellCount: 20,
               mainAxisCellCount: 4.8,
@@ -159,13 +159,13 @@ class DashboardBodyState extends ConsumerWidget {
               child: PlayWithStranger(),
             ),
          */
-            buildStaggeredSpace,
-            buildStaggeredSpace,
-            const StaggeredGridTile.count(
+            //buildStaggeredSpace,
+            //buildStaggeredSpace,
+            /*const StaggeredGridTile.count(
               crossAxisCellCount: 20,
               mainAxisCellCount: 4.5,
               child: DashboardFooter(),
-            ),
+            ),*/
             //buildStaggeredSpace,
             //buildStaggeredSpace,
           ],

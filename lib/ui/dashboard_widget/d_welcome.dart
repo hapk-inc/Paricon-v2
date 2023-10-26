@@ -41,6 +41,7 @@ class DWelcome extends ConsumerWidget {
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: lightOrange,
                             fontSize: 24.r,
+                            //   height: 2.1,
                           ),
                       maxLines: 1,
                       minFontSize: 21,
