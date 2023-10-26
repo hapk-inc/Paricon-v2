@@ -4,3 +4,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 final Provider<PanelController> dashboardPanelProvider = Provider(
   (ref) => PanelController(),
 );
+
+final Provider<PanelController> tournamentPanelProvider = Provider(
+  (ref) => PanelController(),
+);

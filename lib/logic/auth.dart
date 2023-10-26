@@ -96,8 +96,8 @@ class Auth {
       );
 
   Future createUser(UserCredential userCred) async {
-    final fUser = userCred.user;
-    final String xName = fUser!.displayName ?? myRandomName();
+    final User fUser = userCred.user!;
+    final String xName = fUser.displayName ?? myRandomName();
     final DateTime createdAt = fUser.metadata.creationTime ?? DateTime.now();
     await userColl.doc(userCred.user!.uid).set(
       {

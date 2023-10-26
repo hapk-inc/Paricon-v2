@@ -18,17 +18,17 @@ class ShortLeaderBoard extends ConsumerWidget {
     final User firebaseUser = ref.read(firebaseUserProvider);
     final MyUser myUser = ref.read(myUserProvider).value!;
     return FirestoreQueryBuilder(
+      pageSize: 4,
       query: ref
           .read(recentUserCollectionReference)
           .where('bestDuration', isNull: false)
-          .orderBy('bestDuration')
-          .limit(4),
+          .orderBy('bestDuration'),
       builder: (_, snapshot, __) {
         debugPrint("Check Tournament DataTable");
         debugPrint("Checking Snapshot Length ${snapshot.docs.length}");
         return LayoutBuilder(
           builder: (_, p) => DataTable(
-            horizontalMargin: 0,
+            horizontalMargin: 6.w,
             columnSpacing: 3.w,
             headingRowHeight: p.maxHeight * 0.15,
             dataRowMinHeight: p.maxHeight * 0.21,
@@ -37,8 +37,9 @@ class ShortLeaderBoard extends ConsumerWidget {
             //     const MaterialStatePropertyAll(Colors.green),
             headingTextStyle: TextStyle(
               fontSize: 12.r,
-              fontFamily: 'DelaGothic',
-              color: spaceCadet,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w700,
+              color: giantsOrange,
             ),
             dataTextStyle: TextStyle(
               fontSize: 15.r,
@@ -49,13 +50,13 @@ class ShortLeaderBoard extends ConsumerWidget {
               DataColumn(
                 label: SizedBox(
                   // color: deepSkyBlue,
-                  width: p.maxWidth * 0.18,
+                  width: p.maxWidth * 0.15,
                   child: const Text("Rank"),
                 ),
               ),
               DataColumn(
                 label: SizedBox(
-                  width: p.maxWidth * 0.45,
+                  width: p.maxWidth * 0.39,
                   //color: deepSkyBlue,
                   child: const Text("Name"),
                 ),
@@ -74,13 +75,14 @@ class ShortLeaderBoard extends ConsumerWidget {
                 (index) {
                   final String userId = snapshot.docs[index].id;
                   final MyUser xUser = snapshot.docs[index].data();
+                  final isTScoreMine = firebaseUser.uid == userId;
                   return DataRow(
                     color: MaterialStatePropertyAll(
-                        firebaseUser.uid == userId ? columbiaBlue : null),
+                        isTScoreMine ? bitterSweet : null),
                     cells: [
                       DataCell(
                         Container(
-                          width: p.maxWidth * 0.18,
+                          width: p.maxWidth * 0.15,
                           margin: EdgeInsets.only(left: p.maxWidth * 0.03),
                           alignment: Alignment.centerLeft,
                           child: Text(
@@ -89,21 +91,21 @@ class ShortLeaderBoard extends ConsumerWidget {
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.w400,
                               fontSize: 14.r,
-                              color: cardinal,
+                              color: isTScoreMine ? lightOrange : cardinal,
                             ),
                           ),
                         ),
                       ),
                       DataCell(
                         Container(
-                          width: p.maxWidth * 0.45,
+                          width: p.maxWidth * 0.39,
                           alignment: Alignment.centerLeft,
                           child: AutoSizeText(
                             xUser.name,
                             style: TextStyle(
                                 fontWeight: FontWeight.w300,
                                 fontSize: 10.5.r,
-                                color: hookerGreen,
+                                color: isTScoreMine ? lightOrange : hookerGreen,
                                 fontFamily: 'Montserrat'),
                             maxLines: 1,
                           ),
@@ -119,20 +121,20 @@ class ShortLeaderBoard extends ConsumerWidget {
                                   text:
                                       "${xUser.bestDuration!.inMinutes.toString().padLeft(2, '0').padLeft(2, '0')}"
                                       " : ${"${xUser.bestDuration!.inSeconds}".padLeft(2, '0')}",
-                                  style: const TextStyle(color: caputMortuum),
                                 ),
                                 TextSpan(
                                   text:
                                       " ${xUser.bestDuration!.inMilliseconds ~/ 100}",
                                   style: TextStyle(
                                     fontSize: 10.8.r,
-                                    color: oldRose,
+                                    color: isTScoreMine ? lightOrange : oldRose,
                                   ),
                                 )
                               ],
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontFamily: 'Montserrat',
-                                color: darkPurple,
+                                color:
+                                    isTScoreMine ? lightOrange : caputMortuum,
                               ),
                             ),
                           ),
