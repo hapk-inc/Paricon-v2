@@ -11,10 +11,11 @@ ThemeData get buildThemeData => ThemeData(
           fontWeight: FontWeight.w700,
         ),
         bodyLarge: TextStyle(
-            fontSize: 12.r,
-            fontFamily: 'Poppins',
+            fontSize: 13.5.r,
+            fontFamily: 'Cabin',
             letterSpacing: 0.12.r,
-            fontWeight: FontWeight.w300),
+            height: 2.4,
+            fontWeight: FontWeight.w400),
       ),
     );
 

@@ -85,7 +85,7 @@ class DCarouselFirstSlide extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 54.h,
+                  height: 45.h,
                   width: double.maxFinite,
                   padding: EdgeInsets.symmetric(horizontal: 9.r),
                   alignment: Alignment.centerLeft,
@@ -135,14 +135,12 @@ class DCarouselFirstSlide extends StatelessWidget {
                           style: TextStyle(),
                         ),
                       ],
-                      style: TextStyle(
-                        height: 2.25,
-                        fontSize: 13.2.r,
-                        fontFamily: 'Poppins',
-                        letterSpacing: 0.03.r,
-                        fontWeight: FontWeight.w300,
-                        color: caputMortuum,
-                      ),
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: caputMortuum,
+                            fontSize: 15.r,
+                            height: 2.1,
+                            fontWeight: FontWeight.w500,
+                          ),
                     ),
                   ),
                 ),
@@ -175,7 +173,7 @@ class DCarouselFirstSlide extends StatelessWidget {
             ),
             Positioned(
               bottom: -45.r,
-              right: -75.r,
+              right: -73.5.r,
               height: 240.r,
               width: 240.r,
               child: Lottie.asset(
@@ -186,131 +184,4 @@ class DCarouselFirstSlide extends StatelessWidget {
           ],
         ),
       );
-}
-
-class DashCarousel1 extends StatelessWidget {
-  const DashCarousel1({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      //color: darkGreen,
-      padding: EdgeInsets.only(left: 12.w, right: 9.w),
-      child: CarouselSlider(
-        items: [
-          Container(
-            decoration: BoxDecoration(
-              color: jasmine,
-              borderRadius: BorderRadius.circular(7.5.r),
-            ),
-            // constraints: const BoxConstraints.expand(),
-            margin: EdgeInsets.only(right: 9.r),
-            padding: EdgeInsets.only(left: 9.r, top: 9.r, right: 9.r),
-            child: Wrap(
-              //runAlignment: WrapAlignment.center,
-              runSpacing: .15.r,
-              children: [
-                Container(
-                  height: 45.h,
-                  alignment: Alignment.centerLeft,
-                  child: AnimatedTextKit(
-                    pause: const Duration(milliseconds: 300),
-                    animatedTexts: ["Exciting", "Engaging", "Challenging"]
-                        .map(
-                          (e) => RotateAnimatedText(e,
-                              duration: const Duration(milliseconds: 900),
-                              alignment: Alignment.centerLeft,
-                              textStyle: TextStyle(
-                                fontFamily: 'DelaGothic',
-                                fontSize: 30.r,
-                                color: [
-                                  rosePink,
-                                  cerise,
-                                  amaranthPurple
-                                ][mockInteger(0, 2)],
-                              ),
-                              rotateOut: false),
-                        )
-                        .toList(),
-                    totalRepeatCount: 1,
-                    //repeatForever: true,
-                  ),
-                ),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      const TextSpan(text: "puzzles await you. "),
-                      const TextSpan(
-                        text: "Are you ready for the ",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          height: 2.1,
-                        ),
-                      ),
-                      TextSpan(
-                        text: "challenge",
-                        style: TextStyle(
-                          color: pakistanGreen,
-                          fontFamily: 'Montserrat',
-                          fontSize: 15.6.r,
-                          decoration: TextDecoration.underline,
-                          decorationThickness: 1.2,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () =>
-                              context.router.push(const TournamentRoute()),
-                      ),
-                      const TextSpan(
-                        text: "?",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          height: 3,
-                        ),
-                      ),
-                      const TextSpan(text: " Click here")
-                    ],
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: oxfordBlue,
-                      fontSize: 15.r,
-                      height: 2.4,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: azure,
-              borderRadius: BorderRadius.circular(4.5.r),
-            ),
-            padding: EdgeInsets.only(left: 9.r, top: 9.r),
-            constraints: const BoxConstraints.expand(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.only(right: 6.r),
-                    child: const ShortLeaderBoard(),
-                  ),
-                )
-              ],
-            ),
-          ),
-        ],
-        options: CarouselOptions(
-          padEnds: false,
-          enableInfiniteScroll: false,
-          viewportFraction: 0.6,
-          aspectRatio: 1.5,
-          enlargeCenterPage: true,
-          enlargeFactor: 0.15,
-        ),
-      ),
-    );
-  }
 }

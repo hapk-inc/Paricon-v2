@@ -85,15 +85,16 @@ class RecentPlayerTile extends StatelessWidget {
                     ],
                   ),
           ),
-          SizedBox.square(dimension: 4.5.r),
+          //SizedBox.square(dimension: 4.5.r),
           Expanded(
             child: AutoSizeText(
               toBeginningOfSentenceCase(myUser.name) ?? "",
               maxLines: 2,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(fontSize: 10.8.r),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    fontSize: 10.5.r,
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w300,
+                  ),
               maxFontSize: 12,
               minFontSize: 9,
               textAlign: TextAlign.center,

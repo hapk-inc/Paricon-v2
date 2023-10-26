@@ -120,7 +120,7 @@ class ShortLeaderBoard extends ConsumerWidget {
                                 TextSpan(
                                   text:
                                       "${xUser.bestDuration!.inMinutes.toString().padLeft(2, '0').padLeft(2, '0')}"
-                                      " : ${"${xUser.bestDuration!.inSeconds}".padLeft(2, '0')}",
+                                      ": ${"${xUser.bestDuration!.inSeconds}".padLeft(2, '0')}",
                                 ),
                                 TextSpan(
                                   text:

@@ -69,7 +69,7 @@ class DWelcome extends ConsumerWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodyLarge!
-                        .copyWith(color: lightOrange, height: 2.4),
+                        .copyWith(color: lightOrange),
                   ),
                 ),
               ),
@@ -159,7 +159,7 @@ String get newAvatarString {
     "You've earned a cool new avatar. "
         "To use it as your profile picture, just ",
     "To set it as your profile picture, simply ",
-    "Make it your profile picture with a single .",
-    "Just one click away from using it as your profile picture —"
+    "Make it your profile picture with a single ",
+    "Just one click away from using it as your profile picture — "
   ][mockInteger(0, 3)];
 }

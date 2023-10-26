@@ -52,7 +52,7 @@ class LoginPage extends StatelessWidget {
                     .titleLarge!
                     .copyWith(color: hookerGreen),
               ),
-              SizedBox(height: 9.h),
+              //SizedBox(height: 9.h),
               RichText(
                 text: TextSpan(
                   children: const [
