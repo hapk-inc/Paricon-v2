@@ -2,11 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:mock_data/mock_data.dart';
+import 'package:random_avatar/random_avatar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../logic/s_size.dart';
@@ -17,6 +20,7 @@ import '../logic/firebase_init.dart';
 import '../logic/remote_values.dart';
 import '../my_widget/no_internet_panel.dart';
 import '../theme/my_theme.dart';
+import 'dashboard_widget/d_card_collection.dart';
 import 'dashboard_widget/d_carousel.dart';
 import 'dashboard_widget/d_drawer.dart';
 import 'dashboard_widget/d_recent_player.dart';
@@ -71,6 +75,7 @@ class DashboardPage extends ConsumerWidget {
         backgroundColor: majorelleBlue,
         child: const SafeArea(child: DDrawer()),
       ),
+      drawerEnableOpenDragGesture: false,
       //appBar: AppBar(toolbarHeight: 1.h, backgroundColor: majorelleBlue),
       body: SlidingUpPanel(
         controller: dPanelController,
@@ -144,6 +149,89 @@ class DashboardBodyState extends ConsumerWidget {
             ),
             buildStaggeredSpace,
             buildStaggeredSpace,
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 8.4,
+              child: DCardCollection(),
+            ),
+            buildStaggeredSpace,
+            buildStaggeredSpace,
+            StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 10.8,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: crayola,
+                  borderRadius: BorderRadius.circular(15.r),
+                ),
+                margin: EdgeInsets.all(7.5.r),
+                padding: EdgeInsets.all(15.r),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 12.h),
+                      child: Text(
+                        "You got 2 avatars today..",
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          color: cream,
+                          fontSize: 15.r,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: List.generate(
+                            4,
+                            (index) => Container(
+                                  constraints: BoxConstraints.tight(
+                                    Size.square(120.r),
+                                  ),
+                                  margin:
+                                      EdgeInsets.symmetric(horizontal: 1.5.w),
+                                  child: FlipCard(
+                                    side: CardSide.FRONT,
+                                    front: Card(
+                                      color: cream,
+                                      child: Stack(
+                                        children: [
+                                          Positioned(
+                                            bottom: -10.8.r,
+                                            left: -10.8.r,
+                                            height: 120.r,
+                                            width: 120.r,
+                                            child: RandomAvatar(
+                                              mockString(),
+                                              trBackground: true,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    back: Card(
+                                      color: cream,
+                                      child: Center(
+                                        child: Text(
+                                          "Tap to view",
+                                          style: TextStyle(
+                                              fontSize: 18.r,
+                                              fontFamily: 'DelaGothic',
+                                              color: chocolateCosmos),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
             /*   const StaggeredGridTile.count(
                 crossAxisCellCount: 1,
                 mainAxisCellCount: 11.1,

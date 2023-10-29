@@ -98,59 +98,6 @@ class DWelcome extends ConsumerWidget {
   }
 }
 
-class DWelcome1 extends ConsumerWidget {
-  const DWelcome1({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final MyUser? myUser = ref.watch(myUserProvider).value;
-
-    return Container(
-      decoration: BoxDecoration(
-        color: majorelleBlue,
-        borderRadius: BorderRadius.circular(7.5.r),
-      ),
-      margin: EdgeInsets.all(9.r),
-      padding: EdgeInsets.all(15.r),
-      alignment: Alignment.centerLeft,
-      child: myUser == null
-          ? null
-          : AutoSizeText.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: "Welcome Naruto Uzumaki\n",
-                    style: TextStyle(
-                      fontSize: 27.r,
-                      fontFamily: 'DelaGothic',
-                      fontWeight: FontWeight.w700,
-                      color: mistyRose,
-                    ),
-                  ),
-                  TextSpan(
-                    text: newAvatarString,
-                    style: const TextStyle(color: coralPink),
-                  ),
-                  TextSpan(
-                    text: "click here.",
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () => Scaffold.of(context).openDrawer(),
-                    style: const TextStyle(color: yellowGreen),
-                  )
-                ],
-                style: TextStyle(
-                  height: 2.1,
-                  fontSize: 15.r,
-                  color: barnRed,
-                  fontFamily: 'Poppins',
-                ),
-              ),
-              maxLines: 3,
-            ),
-    );
-  }
-}
-
 String welcomeString(String s) {
   return ["Greetings, $s.", "Hey, $s!", "Hello, $s!"][mockInteger(0, 2)];
 }

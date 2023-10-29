@@ -59,7 +59,7 @@ class DCarouselSecondSlide extends StatelessWidget {
           ),
           Positioned(
             bottom: -45.r,
-            left: -165.r,
+            left: -162.r,
             height: 240.r,
             width: 240.r,
             child: Lottie.asset(
@@ -89,7 +89,7 @@ class DCarouselFirstSlide extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 45.h,
+                  height: 48.r,
                   width: double.maxFinite,
                   padding: EdgeInsets.symmetric(horizontal: 9.r),
                   alignment: Alignment.centerLeft,
@@ -120,7 +120,8 @@ class DCarouselFirstSlide extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 9.r),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 9.r, vertical: 1.5.r),
                   child: RichText(
                     text: TextSpan(
                       children: [
@@ -141,14 +142,15 @@ class DCarouselFirstSlide extends StatelessWidget {
                       ],
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: caputMortuum,
-                            fontSize: 14.4.r,
-                            height: 2.1,
+                            //fontSize: 13.8.r,
+                            fontFamily: 'Poppins',
+                            height: 2.4,
                             fontWeight: FontWeight.normal,
                           ),
                     ),
                   ),
                 ),
-                SizedBox(height: 15.h),
+                SizedBox(height: 18.h),
                 //  Spacer(),
                 Container(
                   margin: EdgeInsets.all(9.r),
@@ -177,7 +179,7 @@ class DCarouselFirstSlide extends StatelessWidget {
             ),
             Positioned(
               bottom: -45.r,
-              right: -73.5.r,
+              right: -75.r,
               height: 240.r,
               width: 240.r,
               child: Lottie.asset(

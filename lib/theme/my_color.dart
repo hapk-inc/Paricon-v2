@@ -196,3 +196,8 @@ const Color tropicalIndigo = Color(0xffa399f3);
 const Color lightOrange = Color(0xffF9DBBD);
 const Color lightSkyBlue = Color(0xff97D2FB);
 const Color giantsOrange = Color(0xfffe5d26);
+
+const Color darkSlateGray = Color(0xff254441);
+//const Color tiffanyBlue = Color(0xff80DED9);
+
+const Color eerieBlack = Color(0xff1b1b1e);
