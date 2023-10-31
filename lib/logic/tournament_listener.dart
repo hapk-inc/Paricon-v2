@@ -31,7 +31,7 @@ class TournamentListener extends ChangeNotifier {
   //late Duration _tDuration;
 
   TournamentListener() {
-    print("Running TournamentListener");
+    debugPrint("Running TournamentListener");
     _icons = _newIcons;
     _alreadyClicked = true;
     _stopwatch = Stopwatch();

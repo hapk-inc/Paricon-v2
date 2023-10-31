@@ -201,3 +201,15 @@ const Color darkSlateGray = Color(0xff254441);
 //const Color tiffanyBlue = Color(0xff80DED9);
 
 const Color eerieBlack = Color(0xff1b1b1e);
+
+const Color viridian = Color(0xff4d9078);
+const Color darkMossGreen = Color(0xff606c38);
+const Color dartMouthGreen = Color(0xff0b6e4f);
+const Color nyanza = Color(0xfff2fedc);
+
+const Color cinerous = Color(0xff886f68);
+const Color lavenderWeb = Color(0xfff5edf0);
+
+const Color lavenderBlush = Color(0xfff5edf0);
+
+const Color vanDyke = Color(0xff3d2c2e);

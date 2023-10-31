@@ -4,13 +4,152 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/model/my_duration.dart';
 
 import '../../logic/user_datastore.dart';
 import '../../model/my_user.dart';
+import '../../my_widget/login_option_button.dart';
 import '../../theme/my_color.dart';
 
 class DCardCollection extends ConsumerWidget {
   const DCardCollection({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final MyUser? myUser = ref.watch(myUserProvider).value;
+    final MyDuration? myDuration = ref.watch(myDurationProvider).value;
+
+    return Container(
+      color: lavenderBlush.withOpacity(0.12),
+      padding: EdgeInsets.symmetric(horizontal: 15.w),
+      child: Column(
+        //mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Get more Avatars",
+            style: TextStyle(
+              fontSize: 21.r,
+              height: 2.1.r,
+              fontFamily: 'DelaGothic',
+              color: cinerous,
+            ),
+          ),
+          Text(
+            "Increase your avatar collection by encouraging your "
+            "friends and family to use the code above.",
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  height: 2.1.r,
+                  color: cinerous.withOpacity(0.75),
+                  letterSpacing: 0,
+                ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 21.r),
+            height: 51.r,
+            alignment: Alignment.centerLeft,
+            child: Row(
+              children: [
+                Container(
+                  width: 225.w,
+                  margin: EdgeInsets.only(right: 15.w),
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    color: lavenderWeb,
+                    borderRadius: BorderRadius.circular(7.5.r),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        myDuration == null
+                            ? "Hold on.."
+                            : myDuration.avatarCode!.toUpperCase(),
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          letterSpacing: 1.r,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15.r,
+                          color: vanDyke,
+                        ),
+                      ),
+                      Icon(
+                        Icons.copy,
+                        size: 21.r,
+                        color: cinerous,
+                      )
+                    ],
+                  ),
+                ),
+                LoginOptionButton(
+                  lChild: Icon(Icons.share, size: 21.r),
+                  optionBtnPressed: () {},
+                )
+              ],
+            ),
+          ),
+          Text(
+            [
+              "Gift your friends a new avatar",
+              "Update your friends' profiles with a new avatar."
+            ][0],
+            style: TextStyle(
+              fontSize: 21.r,
+              fontFamily: 'DelaGothic',
+              height: 1.8.r,
+              color: cinerous,
+            ),
+          ),
+          Text(
+            "You can also enter their code below and present them with new avatars.",
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  height: 2.1.r,
+                  color: cinerous.withOpacity(0.75),
+                  letterSpacing: 0,
+                ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 24.r),
+            height: 51.r,
+            alignment: Alignment.centerLeft,
+            child: Row(
+              children: [
+                Container(
+                  width: 300.w,
+                  margin: EdgeInsets.only(right: 15.w),
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  alignment: Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    color: lavenderWeb,
+                    borderRadius: BorderRadius.circular(7.5.r),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Enter the code",
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.w400,
+                          color: vanDyke.withOpacity(0.3),
+                        ),
+                      ),
+                      //Text("ENTER")
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DCardCollection1 extends ConsumerWidget {
+  const DCardCollection1({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -106,9 +245,9 @@ class DCardCollection extends ConsumerWidget {
             right: 0,
             top: -0.r,
             child: Text(
-              "View avatars",
+              "View all Avatars",
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    color: azure,
+                    color: gray,
                     fontFamily: 'Montserrat',
                     fontSize: 10.8.r,
                     fontWeight: FontWeight.w200,
@@ -119,17 +258,4 @@ class DCardCollection extends ConsumerWidget {
       ),
     );
   }
-}
-
-String welcomeString(String s) =>
-    ["Greetings, $s.", "Hey, $s!", "Hello, $s!"][mockInteger(0, 2)];
-
-String get newAvatarString {
-  return [
-    "You've earned a cool new avatar. "
-        "To use it as your profile picture, just ",
-    "To set it as your profile picture, simply ",
-    "Make it your profile picture with a single ",
-    "Just one click away from using it as your profile picture — "
-  ][mockInteger(0, 3)];
 }

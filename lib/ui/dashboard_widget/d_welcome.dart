@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 import '../../logic/user_datastore.dart';
 import '../../model/my_user.dart';
@@ -29,6 +30,41 @@ class DWelcome extends ConsumerWidget {
       padding: EdgeInsets.only(top: 15.r, left: 15.r, right: 15.r),
       child: Stack(
         children: [
+          Positioned(
+            right: -30.r,
+            bottom: -63.r,
+            height: 150.r,
+            width: 150.r,
+            child: SlideInUp(
+              delay: const Duration(seconds: 1),
+              child: myUser!.avatar.isEmpty
+                  ? FadeIn(
+                      delay: const Duration(seconds: 3),
+                      child: Lottie.asset(
+                        'lottie/b_male_01.json',
+                        repeat: true,
+                        //controller: const AlwaysStoppedAnimation<double>(1),
+                      ),
+                    )
+                  : SlideInUp(
+                      delay: const Duration(seconds: 3),
+                      child: FadeIn(
+                        child: Stack(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              radius: 48.r,
+                              child: RandomAvatar(
+                                myUser.avatar,
+                                trBackground: true,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+            ),
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -37,7 +73,7 @@ class DWelcome extends ConsumerWidget {
                   Expanded(
                     child: AutoSizeText(
                       welcomeString(
-                          toBeginningOfSentenceCase(myUser!.name) ?? ""),
+                          toBeginningOfSentenceCase(myUser.name) ?? ""),
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(
                             color: lightOrange,
                             fontSize: 24.r,
@@ -48,10 +84,13 @@ class DWelcome extends ConsumerWidget {
                       maxFontSize: 30,
                     ),
                   ),
-                  Icon(
-                    Icons.edit,
-                    size: 18.r,
-                    color: mistyRose,
+                  InkWell(
+                    onTap: () => Scaffold.of(context).openDrawer(),
+                    child: Icon(
+                      Icons.edit,
+                      size: 18.r,
+                      color: mistyRose,
+                    ),
                   )
                 ],
               ),
@@ -75,22 +114,6 @@ class DWelcome extends ConsumerWidget {
                 ),
               ),
             ],
-          ),
-          Positioned(
-            right: -30.r,
-            bottom: -60.r,
-            height: 150.r,
-            width: 150.r,
-            child: SlideInUp(
-              delay: const Duration(seconds: 1),
-              child: FadeIn(
-                delay: const Duration(milliseconds: 1500),
-                child: Lottie.asset(
-                  'lottie/b_male_01.json',
-                  controller: const AlwaysStoppedAnimation<double>(1),
-                ),
-              ),
-            ),
           )
         ],
       ),

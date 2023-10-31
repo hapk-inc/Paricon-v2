@@ -18,6 +18,7 @@ import '../logic/auth.dart';
 import '../logic/dashboard_provider.dart';
 import '../logic/firebase_init.dart';
 import '../logic/remote_values.dart';
+import '../my_widget/my_logo.dart';
 import '../my_widget/no_internet_panel.dart';
 import '../theme/my_theme.dart';
 import 'dashboard_widget/d_card_collection.dart';
@@ -102,11 +103,11 @@ class DashboardP extends ConsumerWidget {
     //final MyUser? myUser = ref.watch(myUserProvider).value;
     final User fUser = ref.watch(firebaseUserProvider);
 
-    List<Color> xRandom = [turquoise, pear, hunyadiYellow, salmon];
-    xRandom.shuffle();
+    //List<Color> xRandom = [turquoise, pear, hunyadiYellow, salmon];
+    //xRandom.shuffle();
 
     return SafeArea(
-      bottom: true,
+      bottom: false,
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 500),
         child: (inWork.isNotEmpty && !kDebugMode)
@@ -147,87 +148,32 @@ class DashboardBodyState extends ConsumerWidget {
               mainAxisCellCount: 15,
               child: DashCarousel(),
             ),
-            buildStaggeredSpace,
-            buildStaggeredSpace,
-            const StaggeredGridTile.count(
+            //  buildStaggeredSpace,
+            //  buildStaggeredSpace,
+            StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: 8.4,
+              mainAxisCellCount: 21.6.r,
               child: DCardCollection(),
             ),
             buildStaggeredSpace,
             buildStaggeredSpace,
-            StaggeredGridTile.count(
+            const StaggeredGridTile.count(
               crossAxisCellCount: 20,
               mainAxisCellCount: 10.8,
+              child: ShowTodayAvatars(),
+            ),
+            StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 15,
               child: Container(
-                decoration: BoxDecoration(
-                  color: crayola,
-                  borderRadius: BorderRadius.circular(15.r),
-                ),
-                margin: EdgeInsets.all(7.5.r),
-                padding: EdgeInsets.all(15.r),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 12.h),
-                      child: Text(
-                        "You got 2 avatars today..",
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          color: cream,
-                          fontSize: 15.r,
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: List.generate(
-                            4,
-                            (index) => Container(
-                                  constraints: BoxConstraints.tight(
-                                    Size.square(120.r),
-                                  ),
-                                  margin:
-                                      EdgeInsets.symmetric(horizontal: 1.5.w),
-                                  child: FlipCard(
-                                    side: CardSide.FRONT,
-                                    front: Card(
-                                      color: cream,
-                                      child: Stack(
-                                        children: [
-                                          Positioned(
-                                            bottom: -10.8.r,
-                                            left: -10.8.r,
-                                            height: 120.r,
-                                            width: 120.r,
-                                            child: RandomAvatar(
-                                              mockString(),
-                                              trBackground: true,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    back: Card(
-                                      color: cream,
-                                      child: Center(
-                                        child: Text(
-                                          "Tap to view",
-                                          style: TextStyle(
-                                              fontSize: 18.r,
-                                              fontFamily: 'DelaGothic',
-                                              color: chocolateCosmos),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                )),
-                      ),
-                    ),
-                  ],
+                padding: EdgeInsets.all(7.5.r),
+                alignment: Alignment.center,
+                child: Opacity(
+                  opacity: 0.75,
+                  child: InkWell(
+                    onTap: () => ref.read(signOutProvider),
+                    child: const MyLogo(),
+                  ),
                 ),
               ),
             ),
@@ -271,46 +217,86 @@ class DashboardBodyState extends ConsumerWidget {
   }
 }
 
-class DashboardFooter extends ConsumerWidget {
-  const DashboardFooter({super.key});
+class ShowTodayAvatars extends StatelessWidget {
+  const ShowTodayAvatars({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final String appVersion = ref.watch(packageInfoProvider).when(
-          data: (x) => x.version,
-          error: (_, __) => "Error",
-          loading: () => "0.0.0",
-        );
+  Widget build(BuildContext context) {
     return Container(
-      color: majorelleBlue,
-      padding: EdgeInsets.only(left: 4.5.r, top: 9.r),
-      alignment: Alignment.topLeft,
-      child: Wrap(
+      decoration: BoxDecoration(
+        color: crayola,
+        borderRadius: BorderRadius.circular(15.r),
+      ),
+      margin: EdgeInsets.all(7.5.r),
+      padding: EdgeInsets.all(15.r),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextButton(
-            onPressed: () => ref.read(signOutProvider),
-            child: Text.rich(
-              TextSpan(
-                children: [
-                  const TextSpan(text: "App Version v "),
-                  TextSpan(
-                    text: appVersion,
-                    style: TextStyle(
-                      letterSpacing: 1.5.r,
-                      fontSize: 18.r,
-                      color: oldRose,
-                    ),
-                  ),
-                ],
-              ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: 12.h),
+            child: Text(
+              "You got 2 avatars today..",
               style: TextStyle(
                 fontFamily: 'Montserrat',
-                color: oldRose,
+                color: nyanza,
                 fontSize: 15.r,
-                fontWeight: FontWeight.w200,
               ),
             ),
-          )
+          ),
+          Expanded(
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: List.generate(
+                4,
+                (index) => Container(
+                  constraints: BoxConstraints.tight(
+                    Size.square(120.r),
+                  ),
+                  margin: EdgeInsets.symmetric(horizontal: 1.5.w),
+                  child: FlipCard(
+                    side: CardSide.FRONT,
+                    front: Card(
+                      color: nyanza,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            bottom: -10.8.r,
+                            left: -10.8.r,
+                            height: 120.r,
+                            width: 120.r,
+                            child: RandomAvatar(
+                              mockString(),
+                              trBackground: true,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    back: Card(
+                      color: cream,
+                      child: Center(
+                        child: Text(
+                          "Tap to view",
+                          style: TextStyle(
+                            fontSize: 18.r,
+                            fontFamily: 'DelaGothic',
+                            color: [
+                              chocolateCosmos,
+                              viridian,
+                              darkMossGreen,
+                              dartMouthGreen,
+                              darkPurple
+                            ][mockInteger(0, 4)],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

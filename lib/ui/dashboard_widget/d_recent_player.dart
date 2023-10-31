@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +9,7 @@ import 'package:paricon/logic/my_names.dart';
 import 'package:paricon/model/my_user.dart';
 import 'package:random_avatar/random_avatar.dart';
 
+import '../../logic/auth.dart';
 import '../../logic/user_datastore.dart';
 import '../../theme/my_color.dart';
 
@@ -16,20 +18,22 @@ class RecentPlayer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final User firebaseUser = ref.read(firebaseUserProvider);
     final MyUser? myUser = ref.watch(myUserProvider).value;
     return myUser == null
         ? Container()
         : FirestoreListView<MyUser>(
             query: ref
                 .read(recentUserCollectionReference)
-                .where('id', isNotEqualTo: myUser.id)
-                .orderBy('id')
                 .orderBy('currentTime', descending: true)
-                .limit(10),
+                .limit(20),
             scrollDirection: Axis.horizontal,
             padding: EdgeInsets.only(left: 15.w),
-            reverse: true,
-            itemBuilder: (_, snapshot) => RecentPlayerTile(snapshot.data()),
+            //reverse: true,
+            itemBuilder: (_, snapshot) {
+              if (snapshot.id == firebaseUser.uid) return const SizedBox();
+              return RecentPlayerTile(snapshot.data());
+            },
           );
   }
 }

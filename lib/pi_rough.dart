@@ -1,3 +1,33 @@
+/*  SizedBox(height: 15.h),
+          SizedBox(
+            height: 420.h,
+            child: FirestoreQueryBuilder<AvatarCard>(
+              query: ref
+                  .watch(avatarCardCollectionReference)
+                  .orderBy('createdAt', descending: true)
+                  .limit(15),
+              builder: (_, snapshot, __) => GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                ),
+                padding: EdgeInsets.all(3.r),
+                itemCount: snapshot.docs.length,
+                itemBuilder: (_, index) {
+                  final String cardId = snapshot.docs[index].id;
+
+                  final AvatarCard aCard = snapshot.docs[index].data();
+                  return DrawerAvatarFlipCard(
+                    aCard,
+                    () async {
+                      debugPrint("onFlip");
+                      ref.read(setCardAvatarProvider(cardId));
+                    },
+                  );
+                },
+              ),
+            ),
+          ),*/
+
 /*Future<void> get updateDuration async {
     final String id = ref.read(firebaseUserProvider).uid;
     MyDuration? myDuration = await userColl.doc(id).get().then((snapshot) {

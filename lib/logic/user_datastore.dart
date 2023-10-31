@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mock_data/mock_data.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../model/avatar_card.dart';
@@ -16,10 +17,15 @@ final myUserProvider = FutureProvider.autoDispose<MyUser>(
   (ref) async {
     final user = ref.read(firebaseUserProvider);
     final datastore = ref.read(userDatastoreProvider);
-    /*await ref.read(updateDurationProvider.future).catchError((e, s) {
-      debugPrintStack(stackTrace: s);
-    });*/
     return datastore.myUser(user.uid);
+  },
+);
+
+final myDurationProvider = FutureProvider.autoDispose<MyDuration>(
+  (ref) async {
+    final user = ref.read(firebaseUserProvider);
+    final datastore = ref.read(userDatastoreProvider);
+    return datastore.myDuration(user.uid);
   },
 );
 
@@ -116,14 +122,20 @@ class UserDatastore {
         .then((value) => value.version);
     if (myDuration == null) {
       debugPrint("Updating currentTime");
-      await documentReference.update(
-          MyDuration(currentTime: now, appVersion: appVersion).toJson());
-    } else {
       await documentReference.update(MyDuration(
         currentTime: now,
         appVersion: appVersion,
-        lastOpened: myDuration.currentTime,
+        avatarCode: mockString(6, 'A'),
       ).toJson());
+    } else {
+      await documentReference.update(MyDuration(
+              currentTime: now,
+              appVersion: appVersion,
+              lastOpened: myDuration.currentTime,
+              avatarCode: now.day != myDuration.currentTime.day
+                  ? mockString(6, 'A')
+                  : myDuration.avatarCode)
+          .toJson());
     }
   }
 
@@ -137,6 +149,16 @@ class UserDatastore {
         debugPrint("Future<MyUser> $map");
         Map<String, dynamic> json = Map<String, dynamic>.from(map);
         return MyUser.fromJson(json);
+      },
+    );
+  }
+
+  Future<MyDuration> myDuration(String id) {
+    return userColl.doc(id).get().then(
+      (DocumentSnapshot documentSnapshot) {
+        Map map = documentSnapshot.data() as Map;
+        Map<String, dynamic> json = Map<String, dynamic>.from(map);
+        return MyDuration.fromJson(json);
       },
     );
   }

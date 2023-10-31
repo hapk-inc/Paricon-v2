@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/logic/auth.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 import '../../logic/card_avatar.dart';
@@ -23,34 +25,35 @@ class DDrawer extends ConsumerWidget {
     final MyUser? myUser = ref.watch(myUserProvider).value;
     return AnimatedSwitcher(
       duration: const Duration(microseconds: 500),
-      child: myUser == null ? Container() : const InAppAvatarDrawer(),
+      child: myUser == null ? Container() : const InAppDrawer(),
     );
   }
 }
 
-class InAppAvatarDrawer extends ConsumerWidget {
-  const InAppAvatarDrawer({super.key});
+class InAppDrawer extends ConsumerWidget {
+  const InAppDrawer({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final MyUser myUser = ref.read(myUserProvider).value!;
+    final User firebaseUser = ref.read(firebaseUserProvider);
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 7.5.r),
+      padding: EdgeInsets.only(left: 10.5.w, right: 4.5.w),
       child: Column(
         children: [
           Container(
-            height: 60.h,
+            height: 45.h,
             alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(bottom: 10.5.h),
             child: Row(
               children: [
                 Expanded(
                   child: AutoSizeText(
                     myUser.name,
-                    style: TextStyle(
-                      fontSize: 30.r,
-                      fontFamily: 'DelaGothic',
-                      color: whiteSmoke,
-                    ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(color: whiteSmoke),
                   ),
                 ),
                 Container(
@@ -59,7 +62,7 @@ class InAppAvatarDrawer extends ConsumerWidget {
                     onTap: () {},
                     child: Icon(
                       Icons.edit,
-                      size: 24.r,
+                      size: 21.r,
                       color: whiteSmoke,
                     ),
                   ),
@@ -68,20 +71,246 @@ class InAppAvatarDrawer extends ConsumerWidget {
             ),
           ),
           Container(
-            height: 30.h,
-            //  color: redWood,
             alignment: Alignment.centerLeft,
-            child: const AutoSizeText(
-              "Replace the in-app avatar with a new image",
-              style: TextStyle(
-                color: whiteSmoke,
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w300,
-              ),
-              maxLines: 1,
-              minFontSize: 6,
-              maxFontSize: 15,
-              stepGranularity: 1.5,
+            child: Wrap(
+              runSpacing: 9.h,
+              children: [
+                AutoSizeText(
+                  myUser.id.toString(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(color: whiteSmoke),
+                ),
+                Container(
+                  width: 0.75.r,
+                  height: 30.h,
+                  alignment: Alignment.bottomCenter,
+                  color: whiteSmoke,
+                  margin: EdgeInsets.symmetric(horizontal: 7.5.w),
+                ),
+                AutoSizeText(
+                  firebaseUser.email == null || firebaseUser.email!.isEmpty
+                      ? "${myUser.name}@gmail.com".toLowerCase()
+                      : firebaseUser.email!,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(color: whiteSmoke),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 15.h),
+          Divider(
+            color: azure,
+            thickness: 0.6.r,
+            indent: 7.5.w,
+            endIndent: 7.5.w,
+          ),
+          Container(
+            height: 30.h,
+            alignment: Alignment.center,
+            margin: EdgeInsets.symmetric(vertical: 15.h),
+            padding: EdgeInsets.only(right: 7.5.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Created on",
+                  style: TextStyle(
+                    color: azure,
+                    fontFamily: 'Poppins',
+                    fontSize: 13.5.r,
+                  ),
+                ),
+                Text(
+                  "31 October, 2023",
+                  style: TextStyle(
+                    color: cream,
+                    fontFamily: 'Poppins',
+                    fontSize: 15.r,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Divider(
+            color: azure,
+            thickness: 0.6.r,
+            indent: 7.5.w,
+            endIndent: 7.5.w,
+          ),
+          Container(
+            height: 30.h,
+            alignment: Alignment.center,
+            margin: EdgeInsets.symmetric(vertical: 15.h),
+            padding: EdgeInsets.only(right: 7.5.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Best Record",
+                  style: TextStyle(
+                    color: azure,
+                    fontFamily: 'Poppins',
+                    fontSize: 13.5.r,
+                  ),
+                ),
+                AutoSizeText.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text:
+                            "${myUser.bestDuration!.inMinutes.toString().padLeft(2, '0')}"
+                            ": ${"${myUser.bestDuration!.inSeconds}".padLeft(2, '0')}",
+                      ),
+                      TextSpan(
+                        text: " ${myUser.bestDuration!.inMilliseconds ~/ 100}",
+                        style: TextStyle(
+                          fontSize: 10.8.r,
+                          color: cream.withOpacity(0.6),
+                        ),
+                      )
+                    ],
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: cream,
+                      fontSize: 18.r,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Divider(
+            color: azure,
+            thickness: 0.6.r,
+            indent: 7.5.w,
+            endIndent: 7.5.w,
+          ),
+          Container(
+            height: 30.h,
+            alignment: Alignment.center,
+            margin: EdgeInsets.symmetric(vertical: 15.h),
+            padding: EdgeInsets.only(right: 7.5.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Your Rank",
+                  style: TextStyle(
+                    color: azure,
+                    fontFamily: 'Poppins',
+                    fontSize: 13.5.r,
+                  ),
+                ),
+                AutoSizeText.rich(
+                  TextSpan(
+                    text: "${mockInteger(1, 10)}".padLeft(2, '0'),
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: cream,
+                      fontSize: 18.r,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Divider(
+            color: azure,
+            thickness: 0.6.r,
+            indent: 7.5.w,
+            endIndent: 7.5.w,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class InAppAvatarDrawer1 extends ConsumerWidget {
+  const InAppAvatarDrawer1({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final MyUser myUser = ref.read(myUserProvider).value!;
+    final User firebaseUser = ref.read(firebaseUserProvider);
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 7.5.r),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Container(
+            height: 45.h,
+            alignment: Alignment.centerLeft,
+            margin: EdgeInsets.only(bottom: 10.5.h),
+            child: Row(
+              children: [
+                Expanded(
+                  child: AutoSizeText(
+                    myUser.name,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(color: whiteSmoke),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 7.5.r),
+                  child: InkWell(
+                    onTap: () {},
+                    child: Icon(
+                      Icons.edit,
+                      size: 21.r,
+                      color: whiteSmoke,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: Wrap(
+              children: [
+                AutoSizeText(
+                  myUser.id.toString(),
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: whiteSmoke,
+                      fontWeight: FontWeight.w300,
+                      fontFamily: 'Poppins'),
+                ),
+                Container(
+                  width: 0.9.r,
+                  height: 30.h,
+                  color: whiteSmoke,
+                  margin: EdgeInsets.symmetric(horizontal: 7.5.w),
+                ),
+                AutoSizeText(
+                  firebaseUser.email == null || firebaseUser.email!.isEmpty
+                      ? "${myUser.name}@gmail.com".toLowerCase()
+                      : firebaseUser.email!,
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: whiteSmoke,
+                      fontWeight: FontWeight.w300,
+                      fontFamily: 'Poppins'),
+                ),
+                Container(
+                  width: 0.9.r,
+                  height: 30.h,
+                  color: whiteSmoke,
+                  margin: EdgeInsets.symmetric(horizontal: 7.5.w),
+                ),
+                /* AutoSizeText(
+                  "Created at 30 October, 2023",
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      color: cream,
+                      fontWeight: FontWeight.w300,
+                      fontFamily: 'Poppins'),
+                ),*/
+              ],
             ),
           ),
           SizedBox(height: 15.h),
@@ -198,144 +427,6 @@ class ShareAvatarCodeBox extends StatelessWidget {
     );
   }
 }
-
-/*Column(
-      children: [
-        Container(
-          height: 90.h,
-          alignment: Alignment.centerLeft,
-          child: ListTile(
-            contentPadding: EdgeInsets.symmetric(horizontal: 7.5.r),
-            // tileColor: Colors.red,
-            title: Row(
-              children: [
-                AutoSizeText(
-                  myUser.name,
-                  style: TextStyle(
-                    fontSize: 27.r,
-                    fontFamily: 'DelaGothic',
-                    fontWeight: FontWeight.w700,
-                    color: mistyRose,
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    debugPrint("Edit Press");
-                  },
-                  splashRadius: 1.r,
-                  icon: Icon(
-                    Icons.edit,
-                    size: 24.r,
-                    color: spaceCadet,
-                  ),
-                )
-              ],
-            ),
-            subtitle: Container(
-              margin: EdgeInsets.only(top: 9.r),
-              child: AutoSizeText(
-                "Change the Paricon in-app icon",
-                style: TextStyle(
-                  fontFamily: 'Cabin',
-                  fontSize: 12.r,
-                  color: periwinkle,
-                ),
-              ),
-            ),
-          ),
-        ),
-        Container(
-          height: 105.h,
-          margin: EdgeInsets.symmetric(vertical: 15.h),
-          child: const MyCardCollection(),
-        ),
-        Container(
-          height: 135.h,
-          alignment: Alignment.centerLeft,
-          child: ListTile(
-            contentPadding: EdgeInsets.only(left: 10.5.r, right: 4.5.r),
-            // tileColor: Colors.red,
-            subtitleTextStyle: TextStyle(
-              fontSize: 30.r,
-              height: 2.1,
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w700,
-              letterSpacing: 2.4.r,
-            ),
-
-            subtitle: SizedBox(
-              height: 60.h,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AutoSizeText(
-                    mockString(6, 'A'),
-                    style: TextStyle(
-                      color: mistyRose,
-                      fontFamily: 'DelaGothic',
-                      fontSize: 45.r,
-                    ),
-                  ),
-                  SizedBox.square(dimension: 10.5.r),
-                  Icon(
-                    Icons.share,
-                    size: 18.r,
-                    color: magnolia,
-                  ),
-                ],
-              ),
-            ),
-
-            titleTextStyle: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 12.r,
-              height: 2.1,
-              color: magnolia,
-            ),
-            title: const Text(
-              "If you want more cards, "
-              "invite your friends to use the code below",
-              style: TextStyle(
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-          ),
-        ),
-        /*Padding(
-            padding: EdgeInsets.only(left: 10.5.r, right: 4.5.r),
-            // tileColor: Colors.red,
-
-            child: AutoSizeText.rich(
-              TextSpan(
-                children: [
-                  const TextSpan(text: "or "),
-                  TextSpan(
-                    text: "Click here",
-                    recognizer: TapGestureRecognizer()..onTap = () {},
-                    style: TextStyle(
-                      fontSize: 18.r,
-                      decoration: TextDecoration.underline,
-                      decorationThickness: 1.2,
-                    ),
-                  ),
-                  const TextSpan(
-                    text: "  to enter a code and"
-                        " offer new avatars to your friends.",
-                    style: TextStyle(fontFamily: 'Poppins'),
-                  )
-                ],
-                style: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontSize: 12.r,
-                  height: 2.4,
-                  color: pear1,
-                ),
-              ),
-            ),
-          ),*/
-      ],
-    )*/
 
 class MyCardCollection extends ConsumerWidget {
   const MyCardCollection({super.key});
