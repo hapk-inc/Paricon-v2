@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:rxdart/rxdart.dart';
 
 final firebaseAppProvider = Provider<FirebaseApp>(
   (_) => throw UnimplementedError(),
@@ -64,10 +65,31 @@ final AutoDisposeFutureProvider<AppUpdateInfo> inAppUpdateProvider =
 );
 
 final StreamProvider<ConnectivityResult> internetConnectionProvider =
-    StreamProvider((_) => Connectivity().onConnectivityChanged);
+    StreamProvider(
+  (_) {
+    BehaviorSubject<ConnectivityResult>? subject;
+    subject = BehaviorSubject(
+      onListen: () => Connectivity().onConnectivityChanged.listen(
+        (event) {
+          if (subject == null) {
+            subject!.add(event);
+          } else {
+            if (subject.value != event) {
+              subject.add(event);
+            }
+          }
+        },
+      ),
+    );
+    return subject.stream;
+  },
+);
 
-final FutureProvider<ConnectivityResult> checkNetProvider =
-    FutureProvider((_) => Connectivity().checkConnectivity());
+final FutureProvider<ConnectivityResult> checkNetProvider = FutureProvider(
+  (_) {
+    return Connectivity().checkConnectivity();
+  },
+);
 
 final FutureProvider<bool> ensureInitialisedProvider = FutureProvider<bool>(
   (ref) {

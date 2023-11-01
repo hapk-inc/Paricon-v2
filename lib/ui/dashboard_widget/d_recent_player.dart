@@ -10,7 +10,7 @@ import 'package:paricon/model/my_user.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 import '../../logic/auth.dart';
-import '../../logic/user_datastore.dart';
+import '../../logic/user_provider.dart';
 import '../../model/p_user.dart';
 import '../../theme/my_color.dart';
 
@@ -20,24 +20,30 @@ class RecentPlayer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final User firebaseUser = ref.read(firebaseUserProvider);
-    final MyUser? myUser = ref.watch(myUserProvider).value;
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 500),
-      child: myUser == null
-          ? Container()
-          : FirestoreListView<PUser>(
-              query: ref
-                  .read(recentUserCollectionReference)
-                  .orderBy('currentTime', descending: true)
-                  .limit(20),
-              scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.only(left: 15.w),
-              //reverse: true,
-              itemBuilder: (_, snapshot) {
-                if (snapshot.id == firebaseUser.uid) return const SizedBox();
-                return RecentPlayerTile(snapshot.data().myUser);
-              },
-            ),
+    final PUser? pUser = ref.watch(pUserMeProvider).value;
+    if (pUser == null) return Container();
+
+    return FirestoreListView<PUser>(
+      query: ref
+          .watch(recentUserCollectionReferenceProvider)
+          .orderBy('currentTime', descending: true)
+          .limit(20),
+      emptyBuilder: (_) => Center(
+        child: Text(
+          "No User Currently",
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                fontSize: 15.r,
+                color: gray,
+              ),
+        ),
+      ),
+      scrollDirection: Axis.horizontal,
+      padding: EdgeInsets.only(left: 15.w),
+      //reverse: true,
+      itemBuilder: (_, snapshot) {
+        if (snapshot.id == firebaseUser.uid) return const SizedBox();
+        return RecentPlayerTile(snapshot.data().myUser);
+      },
     );
   }
 }

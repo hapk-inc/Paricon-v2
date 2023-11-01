@@ -9,8 +9,9 @@ import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:random_avatar/random_avatar.dart';
 
-import '../../logic/user_datastore.dart';
+import '../../logic/user_provider.dart';
 import '../../model/my_user.dart';
+import '../../model/p_user.dart';
 import '../../my_widget/my_logo.dart';
 import '../../theme/my_color.dart';
 
@@ -19,7 +20,9 @@ class DWelcome extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final MyUser? myUser = ref.watch(myUserProvider).value;
+    final PUser? pUser = ref.watch(pUserMeProvider).value;
+    if (pUser == null) return Container();
+    final MyUser myUser = pUser.myUser;
 
     return FadeIn(
       child: AnimatedContainer(

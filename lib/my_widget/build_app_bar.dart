@@ -1,19 +1,4 @@
-import 'dart:math';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
-import 'package:random_avatar/random_avatar.dart';
-
-import '../../logic/dashboard_provider.dart';
-import '../logic/s_size.dart';
-import '../logic/user_datastore.dart';
-import '../model/my_user.dart';
-import '../theme/my_color.dart';
-import 'my_logo.dart';
-
-AppBar buildAppBar(ScreenSize sSize, BuildContext context) {
+/*AppBar buildAppBar(ScreenSize sSize, BuildContext context) {
   switch (sSize) {
     case ScreenSize.phone:
       return AppBar(
@@ -72,4 +57,4 @@ AppBar buildAppBar(ScreenSize sSize, BuildContext context) {
     default:
       return AppBar();
   }
-}
+}*/

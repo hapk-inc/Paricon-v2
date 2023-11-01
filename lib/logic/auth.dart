@@ -30,7 +30,7 @@ final authUserProvider = StreamProvider<User?>(
 
 final AutoDisposeFutureProvider signOutProvider =
     FutureProvider.autoDispose<void>(
-  (ref) async {
+  (ref) {
     final auth = ref.read(authProvider);
     return auth.signOut;
   },
@@ -69,7 +69,6 @@ class Auth {
   Auth(this.ref) {
     _auth = ref.read(firebaseAuthProvider);
     userColl = ref.read(fireStoreProvider).collection('users');
-    //userId = ref.read(firebaseUserProvider).uid;
   }
 
   Stream<User?> get authUser {
@@ -98,10 +97,10 @@ class Auth {
   Future createUser(UserCredential userCred) async {
     final User fUser = userCred.user!;
     final String xName = fUser.displayName ??
-        (mockInteger(0, 1) == 0
+        (mockInteger(0, 2) == 0
             ? "${myRandomName()} $myLastName"
             : myRandomName());
-    final DateTime createdAt = fUser.metadata.creationTime ?? DateTime.now();
+    final DateTime createdAt = DateTime.now();
     await userColl.doc(userCred.user!.uid).set(
       {
         ...MyUser(
@@ -113,7 +112,7 @@ class Auth {
           isHuman: true,
           createdAt: createdAt,
         ).toJson(),
-        //...MyDuration(currentTime: createdAt).toJson()
+        // ...MyDuration(currentTime: createdAt).toJson()
       },
     );
     return userColl.doc(userCred.user!.uid).collection('avatar').add(
@@ -134,23 +133,6 @@ class Auth {
     _auth.currentUser!.updateDisplayName(name);
     return userColl.doc(_auth.currentUser!.uid).update({'name': name});
   }
-
-/*  Future batchDelete() {
-    WriteBatch batch = ref.read(fireStoreProvider).batch();
-    final String id = ref.read(firebaseUserProvider).uid;
-    return ref
-        .read(fireStoreProvider)
-        .collection('tournament')
-        .where('userId', isEqualTo: id)
-        .get()
-        .then((querySnapshot) {
-      for (var document in querySnapshot.docs) {
-        batch.delete(document.reference);
-      }
-
-      return batch.commit();
-    });
-  }*/
 
   Future get signInWithGoogle async {
     final credential = await googleCredentials;

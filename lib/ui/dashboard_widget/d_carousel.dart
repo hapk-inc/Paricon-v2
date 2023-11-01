@@ -8,8 +8,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:paricon/logic/user_datastore.dart';
 
+import '../../logic/user_provider.dart';
 import '../../model/p_user.dart';
 import '../../my_widget/short_leaderboard.dart';
 import '../../router/my_route.dart';
@@ -76,15 +76,8 @@ class DCarouselFirstSlide extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final PUser? pUser = ref.watch(myPUserProvider).when(
-        data: (s) => s,
-        error: (e, s) {
-          debugPrint(e.toString());
-          debugPrintStack(stackTrace: s);
-          return null;
-        },
-        loading: () => null);
-    debugPrint("80--$pUser");
+    final PUser? pUser = ref.watch(pUserMeProvider).value;
+
     return Container(
       margin: EdgeInsets.only(right: 7.5.w),
       decoration: BoxDecoration(

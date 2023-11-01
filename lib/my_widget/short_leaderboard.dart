@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../logic/auth.dart';
-import '../logic/user_datastore.dart';
+import '../logic/user_provider.dart';
 import '../model/my_user.dart';
 import '../model/p_user.dart';
 import '../theme/my_color.dart';
@@ -21,15 +21,15 @@ class ShortLeaderBoard extends ConsumerWidget {
     return FirestoreQueryBuilder(
       pageSize: 50,
       query: ref
-          .read(recentUserCollectionReference)
+          .read(recentUserCollectionReferenceProvider)
           .where('bestDuration', isNull: false)
           .orderBy('bestDuration'),
       builder: (_, snapshot, __) {
         debugPrint("Has Data ${snapshot.hasData}");
         if (!snapshot.hasData) return Container();
 
-        debugPrint("Check Tournament DataTable");
-        debugPrint("Checking Snapshot Length ${snapshot.docs.length}");
+        debugPrint(
+            "Checking Tournament Snapshot Length ${snapshot.docs.length}");
 
         final int overallPlayers = snapshot.docs.length;
         final bool haveIPlayed =
@@ -40,6 +40,7 @@ class ShortLeaderBoard extends ConsumerWidget {
           myRank = snapshot.docs
               .indexWhere((element) => element.id == firebaseUser.uid);
         }
+        //List<QueryDocumentSnapshot<PUser>> showPlayers = [];
         List<QueryDocumentSnapshot<PUser>> showPlayers = overallPlayers <= 4
             ? snapshot.docs
             : !haveIPlayed

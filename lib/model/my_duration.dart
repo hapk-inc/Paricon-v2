@@ -23,4 +23,6 @@ class MyDuration with _$MyDuration {
     final now = DateTime.now();
     return now.difference(currentTime) < const Duration(seconds: 1);
   }
+
+  bool get onlyCurrentTime => lastOpened == null && appVersion == null;
 }

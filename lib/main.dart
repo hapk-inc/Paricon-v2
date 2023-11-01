@@ -21,7 +21,7 @@ import 'logic/auth.dart';
 import 'logic/firebase_init.dart';
 import 'logic/remote_values.dart';
 import 'logic/s_size.dart';
-import 'logic/user_datastore.dart';
+import 'logic/user_provider.dart';
 import 'router/my_route.dart';
 import 'theme/my_theme.dart';
 
@@ -119,26 +119,28 @@ class MyApp extends ConsumerWidget {
 
                 debugPrint("AuthUser True");
                 debugPrint(aUser.toString());
-
-                final myUserAsync = ref.watch(myUserProvider);
-
-                return myUserAsync.when(
-                  data: (_) {
-                    debugPrint("Getting MyUser Details");
-                    ref.read(updateDurationProvider);
+                ref.read(updateDurationProvider.future);
+                final myUser = ref.watch(pUserMeProvider);
+                return myUser.when(
+                  data: (d) {
+                    debugPrint("Getting MyUser Details $d");
                     return const DashboardRoute();
                   },
                   error: (error, stackTrace) {
                     debugPrint(error.toString());
                     return const ErrorRoute();
                   },
-                  loading: () => const SplashRoute(),
+                  loading: () {
+                    debugPrint("Loading --134");
+                    return const SplashRoute();
+                  },
                 );
               },
-              error: (error, stackTrace) {
-                return const ErrorRoute();
+              error: (error, stackTrace) => const ErrorRoute(),
+              loading: () {
+                ref.refresh(pUserMeProvider);
+                return const SplashRoute();
               },
-              loading: () => const SplashRoute(),
             );
 
     ref.listen(
@@ -177,37 +179,35 @@ class MyApp extends ConsumerWidget {
             theme: buildThemeData,
             routerDelegate: AutoRouterDelegate.declarative(
               _myRoute,
-              routes: (handler) {
-                return checkNet.when(
-                  data: (x) {
-                    debugPrint("checkNet Data $x");
-                    if (x == ConnectivityResult.none) {
-                      return [const NoNetRoute()];
+              routes: (handler) => checkNet.when(
+                data: (x) {
+                  debugPrint("checkNet Data $x");
+                  if (x == ConnectivityResult.none) {
+                    return [const NoNetRoute()];
+                  } else {
+                    if (kDebugMode) {
+                      return [whichPage];
                     } else {
-                      if (kDebugMode) {
-                        return [whichPage];
-                      } else {
-                        return ref.watch(inAppUpdateProvider).when(
-                              data: (data) => data.updateAvailability ==
-                                      UpdateAvailability.updateAvailable
-                                  ? [const AppUpdateRoute()]
-                                  : [whichPage],
-                              loading: () => [const SplashRoute()],
-                              error: (e, s) {
-                                debugPrint(e.toString());
-                                return [const ErrorRoute()];
-                              },
-                            );
-                      }
+                      return ref.watch(inAppUpdateProvider).when(
+                            data: (data) => data.updateAvailability ==
+                                    UpdateAvailability.updateAvailable
+                                ? [const AppUpdateRoute()]
+                                : [whichPage],
+                            loading: () => [const SplashRoute()],
+                            error: (e, s) {
+                              debugPrint(e.toString());
+                              return [const ErrorRoute()];
+                            },
+                          );
                     }
-                  },
-                  error: (e, s) {
-                    debugPrint(e.toString());
-                    return [const ErrorRoute()];
-                  },
-                  loading: () => [const SplashRoute()],
-                );
-              },
+                  }
+                },
+                error: (e, s) {
+                  debugPrint(e.toString());
+                  return [const ErrorRoute()];
+                },
+                loading: () => [const SplashRoute()],
+              ),
             ),
           ),
         );

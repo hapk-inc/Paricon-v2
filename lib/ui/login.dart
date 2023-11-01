@@ -96,12 +96,6 @@ class LoginButtonBar extends ConsumerWidget {
                   ref.read(anonymousProvider);
                 }
               },
-            ).whenComplete(
-              () {
-                if (_panelController.isPanelOpen) {
-                  // _panelController.close();
-                }
-              },
             );
         void guestClick() {
           if (_panelController.isPanelOpen) {

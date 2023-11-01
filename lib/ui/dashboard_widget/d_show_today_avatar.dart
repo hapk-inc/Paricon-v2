@@ -12,7 +12,7 @@ import 'package:mock_data/mock_data.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 import '../../logic/card_avatar.dart';
-import '../../logic/user_datastore.dart';
+import '../../logic/user_provider.dart';
 import '../../model/avatar_card.dart';
 import '../../theme/my_color.dart';
 
@@ -48,7 +48,7 @@ class ShowTodayAvatar extends ConsumerWidget {
             child: FirestoreListView(
               scrollDirection: Axis.horizontal,
               query: ref
-                  .watch(avatarCardCollectionReference)
+                  .watch(avatarCardCollectionReferenceProvider)
                   .orderBy('createdAt', descending: true),
               itemBuilder: (BuildContext context,
                   QueryDocumentSnapshot<AvatarCard> doc) {

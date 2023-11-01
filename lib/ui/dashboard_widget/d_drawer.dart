@@ -1,20 +1,14 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
-import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:paricon/logic/auth.dart';
-import 'package:random_avatar/random_avatar.dart';
 
-import '../../logic/card_avatar.dart';
-import '../../logic/user_datastore.dart';
-import '../../model/avatar_card.dart';
+import '../../logic/user_provider.dart';
 import '../../model/my_user.dart';
+import '../../model/p_user.dart';
 import '../../theme/my_color.dart';
 
 class DDrawer extends ConsumerWidget {
@@ -22,10 +16,10 @@ class DDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final MyUser? myUser = ref.watch(myUserProvider).value;
+    final PUser? pUser = ref.watch(pUserMeProvider).value;
     return AnimatedSwitcher(
       duration: const Duration(microseconds: 500),
-      child: myUser == null ? Container() : const InAppDrawer(),
+      child: pUser == null ? Container() : const InAppDrawer(),
     );
   }
 }
@@ -35,7 +29,8 @@ class InAppDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final MyUser myUser = ref.read(myUserProvider).value!;
+    final PUser pUser = ref.read(pUserMeProvider).value!;
+    final MyUser myUser = pUser.myUser;
     final User firebaseUser = ref.read(firebaseUserProvider);
     return Padding(
       padding: EdgeInsets.only(left: 10.5.w, right: 4.5.w),
@@ -230,7 +225,7 @@ class InAppDrawer extends ConsumerWidget {
   }
 }
 
-class InAppAvatarDrawer1 extends ConsumerWidget {
+/*class InAppAvatarDrawer1 extends ConsumerWidget {
   const InAppAvatarDrawer1({super.key});
 
   @override
@@ -303,13 +298,13 @@ class InAppAvatarDrawer1 extends ConsumerWidget {
                   color: whiteSmoke,
                   margin: EdgeInsets.symmetric(horizontal: 7.5.w),
                 ),
-                /* AutoSizeText(
+                */ /* AutoSizeText(
                   "Created at 30 October, 2023",
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       color: cream,
                       fontWeight: FontWeight.w300,
                       fontFamily: 'Poppins'),
-                ),*/
+                ),*/ /*
               ],
             ),
           ),
@@ -536,4 +531,4 @@ class DrawerAvatarFlipCard extends ConsumerWidget {
             ),
     );
   }
-}
+}*/

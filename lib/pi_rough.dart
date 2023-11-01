@@ -1,3 +1,80 @@
+/*final AutoDisposeProvider<CollectionReference<PUser>>
+    recentUserCollectionReference = Provider.autoDispose(
+  (ref) {
+    final datastore = ref.read(userDatastoreProvider);
+    return datastore.recentUserCollection;
+  },
+);
+
+final AutoDisposeProvider<CollectionReference<AvatarCard>>
+    avatarCardCollectionReference = Provider.autoDispose(
+  (ref) {
+    final datastore = ref.watch(userDatastoreProvider);
+    return datastore.avatarCardCollection;
+  },
+);
+
+
+final Provider<UserDatastore> userDatastoreProvider =
+    Provider<UserDatastore>((ref) => UserDatastore(ref));
+
+final myUserProvider = FutureProvider.autoDispose<MyUser>(
+  (ref) async {
+    final user = ref.read(firebaseUserProvider);
+    final datastore = ref.watch(userDatastoreProvider);
+    return datastore.myUser(user.uid);
+  },
+);
+
+final AutoDisposeFutureProvider<PUser> myPUserProvider =
+    FutureProvider.autoDispose<PUser>(
+  (ref) async {
+    final user = ref.read(firebaseUserProvider);
+    final datastore = ref.watch(userDatastoreProvider);
+    return datastore.myPUser(user.uid);
+  },
+);
+
+final AutoDisposeStreamProvider avatarIDProvider =
+    StreamProvider.autoDispose<String>(
+  (ref) {
+    final datastore = ref.watch(userDatastoreProvider);
+    return datastore.avatarID;
+  },
+);
+
+final StreamProvider<String?> avatarCodeProvider = StreamProvider<String?>(
+  (ref) {
+    final datastore = ref.watch(userDatastoreProvider);
+    return datastore.avatarCode;
+  },
+);
+
+final StreamProvider<DateTime> todayDateTimeProvider = StreamProvider<DateTime>(
+  (_) async* {
+    // DateTime currentTime = DateTime.now();
+    while (true) {
+      await Future.delayed(const Duration(seconds: 1));
+      yield DateTime.now();
+    }
+  },
+);
+
+final xUserProvider = FutureProvider.family<MyUser, String>(
+  (ref, id) {
+    final datastore = ref.read(userDatastoreProvider);
+    return datastore.myUser(id);
+  },
+);
+
+final updateDurationProvider = FutureProvider.autoDispose(
+  (ref) {
+    final datastore = ref.read(userDatastoreProvider);
+    return datastore.updateDuration;
+  },
+);
+*/
+
 /*  SizedBox(height: 15.h),
           SizedBox(
             height: 420.h,

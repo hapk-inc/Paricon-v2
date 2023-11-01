@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../logic/user_datastore.dart';
+import '../../logic/user_provider.dart';
+import '../../model/p_user.dart';
 import '../../my_widget/login_option_button.dart';
 import '../../theme/my_color.dart';
 
@@ -11,7 +12,9 @@ class DCardCollection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? avatarCode = ref.watch(avatarCodeProvider).value;
+    final PUser? pUser = ref.watch(pUserMeProvider).value;
+    if (pUser == null) return Container();
+    final String? avatarCode = pUser.myDuration.avatarCode;
 
     return Container(
       color: lavenderBlush.withOpacity(0.12),

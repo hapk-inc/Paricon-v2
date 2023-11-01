@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:paricon/logic/auth.dart';
-import 'package:paricon/model/t_score.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../theme/my_color.dart';
@@ -14,6 +13,7 @@ import '../logic/dashboard_provider.dart';
 import '../logic/firebase_init.dart';
 import '../logic/s_size.dart';
 import '../logic/tournament_listener.dart';
+import '../model/t_score.dart';
 import '../my_widget/no_internet_panel.dart';
 import '../my_widget/tournament_grid.dart';
 import '../theme/my_theme.dart';
