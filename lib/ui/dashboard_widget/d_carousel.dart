@@ -28,7 +28,7 @@ class DashCarousel extends StatelessWidget {
         options: CarouselOptions(
           padEnds: false,
           enableInfiniteScroll: false,
-          viewportFraction: 0.621,
+          viewportFraction: 0.624,
           aspectRatio: 1.5,
           enlargeCenterPage: true,
           enlargeFactor: 0.21,
@@ -39,9 +39,7 @@ class DashCarousel extends StatelessWidget {
 }
 
 class DCarouselSecondSlide extends StatelessWidget {
-  const DCarouselSecondSlide({
-    super.key,
-  });
+  const DCarouselSecondSlide({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,10 +60,7 @@ class DCarouselSecondSlide extends StatelessWidget {
             left: -162.r,
             height: 240.r,
             width: 240.r,
-            child: Lottie.asset(
-              'lottie/trophies.json',
-              repeat: false,
-            ),
+            child: Lottie.asset('lottie/trophies.json', repeat: false),
           ),
         ],
       ),
@@ -115,7 +110,6 @@ class DCarouselFirstSlide extends StatelessWidget {
                           ),
                         )
                         .toList(),
-                    //totalRepeatCount: 3,
                     repeatForever: true,
                   ),
                 ),
@@ -168,9 +162,10 @@ class DCarouselFirstSlide extends StatelessWidget {
                       child: Text(
                         "Play Now",
                         style: TextStyle(
-                            color: ghostWhite,
-                            fontFamily: 'Montserrat',
-                            fontSize: 13.5.r),
+                          color: ghostWhite,
+                          fontFamily: 'Montserrat',
+                          fontSize: 13.5.r,
+                        ),
                       ),
                     ),
                   ),
@@ -182,10 +177,7 @@ class DCarouselFirstSlide extends StatelessWidget {
               right: -75.r,
               height: 240.r,
               width: 240.r,
-              child: Lottie.asset(
-                'lottie/trophies.json',
-                repeat: false,
-              ),
+              child: Lottie.asset('lottie/trophies.json', repeat: false),
             )
           ],
         ),

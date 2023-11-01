@@ -7,6 +7,7 @@ import 'package:rxdart/rxdart.dart';
 import '../model/avatar_card.dart';
 import '../model/my_duration.dart';
 import '../model/my_user.dart';
+import '../model/p_user.dart';
 import 'auth.dart';
 import 'firebase_init.dart';
 
@@ -16,23 +17,31 @@ final Provider<UserDatastore> userDatastoreProvider =
 final myUserProvider = FutureProvider.autoDispose<MyUser>(
   (ref) async {
     final user = ref.read(firebaseUserProvider);
-    final datastore = ref.read(userDatastoreProvider);
+    final datastore = ref.watch(userDatastoreProvider);
     return datastore.myUser(user.uid);
   },
 );
 
-final myDurationProvider = FutureProvider.autoDispose<MyDuration>(
+/*final myDurationProvider = FutureProvider.autoDispose<MyDuration?>(
   (ref) async {
     final user = ref.read(firebaseUserProvider);
     final datastore = ref.read(userDatastoreProvider);
     return datastore.myDuration(user.uid);
   },
+);*/
+
+final AutoDisposeStreamProvider avatarIDProvider =
+    StreamProvider.autoDispose<String>(
+  (ref) {
+    final datastore = ref.watch(userDatastoreProvider);
+    return datastore.avatarID;
+  },
 );
 
-final StreamProvider avatarIDProvider = StreamProvider<String>(
+final StreamProvider<String?> avatarCodeProvider = StreamProvider<String?>(
   (ref) {
-    final datastore = ref.read(userDatastoreProvider);
-    return datastore.avatarID;
+    final datastore = ref.watch(userDatastoreProvider);
+    return datastore.avatarCode;
   },
 );
 
@@ -84,6 +93,19 @@ class UserDatastore {
         (event) {
           Map m = event.data() as Map;
           behaviorSubject.add(m['avatar']);
+        },
+      ),
+    );
+    return behaviorSubject.stream;
+  }
+
+  Stream<String> get avatarCode {
+    late BehaviorSubject<String> behaviorSubject;
+    behaviorSubject = BehaviorSubject(
+      onListen: () => userColl.doc(userId).snapshots().listen(
+        (event) {
+          Map m = event.data() as Map;
+          behaviorSubject.add(m['avatarCode']);
         },
       ),
     );
@@ -153,21 +175,25 @@ class UserDatastore {
     );
   }
 
-  Future<MyDuration> myDuration(String id) {
+  Future<MyDuration?> myDuration(String id) {
     return userColl.doc(id).get().then(
-      (DocumentSnapshot documentSnapshot) {
+      (DocumentSnapshot documentSnapshot) async {
+        if (!documentSnapshot.exists) return null;
         Map map = documentSnapshot.data() as Map;
+
         Map<String, dynamic> json = Map<String, dynamic>.from(map);
         return MyDuration.fromJson(json);
       },
     );
   }
 
-  CollectionReference<MyUser> get recentUserCollection {
+  CollectionReference<PUser> get recentUserCollection {
     final xUsers = userColl;
     return xUsers.withConverter(
-        fromFirestore: (snapshot, _) => MyUser.fromJson(snapshot.data()!),
-        toFirestore: (x, _) => x.toJson());
+      fromFirestore: (snapshot, _) => PUser(MyUser.fromJson(snapshot.data()!),
+          MyDuration.fromJson(snapshot.data()!)),
+      toFirestore: (x, _) => x.xtoJson,
+    );
   }
 
   CollectionReference<AvatarCard> get avatarCardCollection {
@@ -192,7 +218,7 @@ class UserDatastore {
   }
 }
 
-final AutoDisposeProvider<CollectionReference<MyUser>>
+final AutoDisposeProvider<CollectionReference<PUser>>
     recentUserCollectionReference = Provider.autoDispose(
   (ref) {
     final datastore = ref.read(userDatastoreProvider);

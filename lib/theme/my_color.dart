@@ -213,3 +213,5 @@ const Color lavenderWeb = Color(0xfff5edf0);
 const Color lavenderBlush = Color(0xfff5edf0);
 
 const Color vanDyke = Color(0xff3d2c2e);
+
+const Color coral = Color(0xffff784f);

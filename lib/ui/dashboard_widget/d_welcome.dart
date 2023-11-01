@@ -11,6 +11,7 @@ import 'package:random_avatar/random_avatar.dart';
 
 import '../../logic/user_datastore.dart';
 import '../../model/my_user.dart';
+import '../../my_widget/my_logo.dart';
 import '../../theme/my_color.dart';
 
 class DWelcome extends ConsumerWidget {
@@ -20,102 +21,105 @@ class DWelcome extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final MyUser? myUser = ref.watch(myUserProvider).value;
 
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 500),
-      decoration: BoxDecoration(
-        color: majorelleBlue,
-        borderRadius: BorderRadius.circular(7.5.r),
-      ),
-      margin: EdgeInsets.all(9.r),
-      padding: EdgeInsets.only(top: 15.r, left: 15.r, right: 15.r),
-      child: Stack(
-        children: [
-          Positioned(
-            right: -30.r,
-            bottom: -63.r,
-            height: 150.r,
-            width: 150.r,
-            child: SlideInUp(
-              delay: const Duration(seconds: 1),
-              child: myUser!.avatar.isEmpty
-                  ? FadeIn(
-                      delay: const Duration(seconds: 3),
-                      child: Lottie.asset(
-                        'lottie/b_male_01.json',
-                        repeat: true,
-                        //controller: const AlwaysStoppedAnimation<double>(1),
-                      ),
-                    )
-                  : SlideInUp(
-                      delay: const Duration(seconds: 3),
-                      child: FadeIn(
-                        child: Stack(
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: Colors.transparent,
-                              radius: 48.r,
-                              child: RandomAvatar(
-                                myUser.avatar,
-                                trBackground: true,
+    return FadeIn(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        decoration: BoxDecoration(
+          color: majorelleBlue,
+          borderRadius: BorderRadius.circular(7.5.r),
+        ),
+        margin: EdgeInsets.all(9.r),
+        padding: EdgeInsets.only(top: 15.r, left: 15.r, right: 15.r),
+        child: Stack(
+          children: [
+            const Center(child: Opacity(opacity: 0.12, child: MyLogo())),
+            Positioned(
+              right: -30.r,
+              bottom: -60.r,
+              height: 150.r,
+              width: 150.r,
+              child: SlideInUp(
+                delay: const Duration(seconds: 1),
+                child: myUser!.avatar.isEmpty
+                    ? FadeIn(
+                        delay: const Duration(seconds: 3),
+                        child: Lottie.asset(
+                          'lottie/b_male_01.json',
+                          repeat: true,
+                          //controller: const AlwaysStoppedAnimation<double>(1),
+                        ),
+                      )
+                    : SlideInUp(
+                        delay: const Duration(seconds: 3),
+                        child: FadeIn(
+                          child: Stack(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.transparent,
+                                radius: 48.r,
+                                child: RandomAvatar(
+                                  myUser.avatar,
+                                  trBackground: true,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: AutoSizeText(
-                      welcomeString(
-                          toBeginningOfSentenceCase(myUser.name) ?? ""),
-                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            color: lightOrange,
-                            fontSize: 24.r,
-                            //   height: 2.1,
-                          ),
-                      maxLines: 1,
-                      minFontSize: 21,
-                      maxFontSize: 30,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () => Scaffold.of(context).openDrawer(),
-                    child: Icon(
-                      Icons.edit,
-                      size: 18.r,
-                      color: mistyRose,
-                    ),
-                  )
-                ],
               ),
-              Expanded(
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(text: newAvatarString),
-                      TextSpan(
-                        text: "click here",
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => Scaffold.of(context).openDrawer(),
-                        style: const TextStyle(color: darkPastelGreen),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: AutoSizeText(
+                        welcomeString(
+                            toBeginningOfSentenceCase(myUser.name) ?? ""),
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              color: lightOrange,
+                              fontSize: 24.r,
+                              //   height: 2.1,
+                            ),
+                        maxLines: 1,
+                        minFontSize: 21,
+                        maxFontSize: 30,
                       ),
-                    ],
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: lightOrange),
+                    ),
+                    InkWell(
+                      onTap: () => Scaffold.of(context).openDrawer(),
+                      child: Icon(
+                        Icons.edit,
+                        size: 18.r,
+                        color: mistyRose,
+                      ),
+                    )
+                  ],
+                ),
+                Expanded(
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(text: newAvatarString),
+                        TextSpan(
+                          text: "click here",
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () => Scaffold.of(context).openDrawer(),
+                          style: const TextStyle(color: darkPastelGreen),
+                        ),
+                      ],
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: lightOrange),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          )
-        ],
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
