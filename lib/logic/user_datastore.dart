@@ -22,6 +22,15 @@ final myUserProvider = FutureProvider.autoDispose<MyUser>(
   },
 );
 
+final AutoDisposeFutureProvider<PUser> myPUserProvider =
+    FutureProvider.autoDispose<PUser>(
+  (ref) async {
+    final user = ref.read(firebaseUserProvider);
+    final datastore = ref.watch(userDatastoreProvider);
+    return datastore.myPUser(user.uid);
+  },
+);
+
 /*final myDurationProvider = FutureProvider.autoDispose<MyDuration?>(
   (ref) async {
     final user = ref.read(firebaseUserProvider);
@@ -104,8 +113,10 @@ class UserDatastore {
     behaviorSubject = BehaviorSubject(
       onListen: () => userColl.doc(userId).snapshots().listen(
         (event) {
-          Map m = event.data() as Map;
-          behaviorSubject.add(m['avatarCode']);
+          if (event.exists) {
+            Map m = event.data() as Map;
+            behaviorSubject.add(m['avatarCode']);
+          }
         },
       ),
     );
@@ -171,6 +182,20 @@ class UserDatastore {
         debugPrint("Future<MyUser> $map");
         Map<String, dynamic> json = Map<String, dynamic>.from(map);
         return MyUser.fromJson(json);
+      },
+    );
+  }
+
+  Future<PUser> myPUser(String id) {
+    debugPrint("Running myUser --68");
+    return userColl.doc(id).get().then(
+      (DocumentSnapshot documentSnapshot) async {
+        Map map = documentSnapshot.data() as Map;
+        await Future.delayed(const Duration(milliseconds: 4000));
+
+        debugPrint("Future<MyUser> $map");
+        Map<String, dynamic> json = Map<String, dynamic>.from(map);
+        return PUser(MyUser.fromJson(json), MyDuration.fromJson(json));
       },
     );
   }

@@ -44,7 +44,8 @@ class ShortLeaderBoard extends ConsumerWidget {
             ? snapshot.docs
             : !haveIPlayed
                 ? snapshot.docs.sublist(overallPlayers - 4, overallPlayers)
-                : snapshot.docs.sublist(myRank - 3, myRank + 1);
+                : snapshot.docs.sublist(myRank - 3 < 0 ? 0 : myRank - 3,
+                    myRank + 1 <= 4 ? 4 : myRank + 1);
 
         return LayoutBuilder(
           builder: (_, p) => ClipRRect(
@@ -103,7 +104,7 @@ class ShortLeaderBoard extends ConsumerWidget {
                             margin: EdgeInsets.only(left: p.maxWidth * 0.03),
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              "$playerRank".padLeft(2, '0'),
+                              "${playerRank + 1}".padLeft(2, '0'),
                               style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 fontWeight: FontWeight.w400,

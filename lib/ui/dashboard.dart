@@ -18,7 +18,6 @@ import '../my_widget/no_internet_panel.dart';
 import '../theme/my_theme.dart';
 import 'dashboard_widget/d_card_collection.dart';
 import 'dashboard_widget/d_carousel.dart';
-import 'dashboard_widget/d_drawer.dart';
 import 'dashboard_widget/d_recent_player.dart';
 import 'dashboard_widget/d_show_today_avatar.dart';
 import 'dashboard_widget/d_welcome.dart';
@@ -67,11 +66,11 @@ class DashboardPage extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: ghostWhite,
-      drawer: Drawer(
+      /*drawer: Drawer(
         width: 270.w,
         backgroundColor: majorelleBlue,
         child: const SafeArea(child: DDrawer()),
-      ),
+      ),*/
       drawerEnableOpenDragGesture: false,
       body: SlidingUpPanel(
         controller: dPanelController,

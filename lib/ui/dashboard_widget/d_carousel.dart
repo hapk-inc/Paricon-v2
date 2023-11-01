@@ -4,10 +4,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/logic/user_datastore.dart';
 
+import '../../model/p_user.dart';
 import '../../my_widget/short_leaderboard.dart';
 import '../../router/my_route.dart';
 import '../../theme/my_color.dart';
@@ -68,99 +71,121 @@ class DCarouselSecondSlide extends StatelessWidget {
   }
 }
 
-class DCarouselFirstSlide extends StatelessWidget {
+class DCarouselFirstSlide extends ConsumerWidget {
   const DCarouselFirstSlide({super.key});
 
   @override
-  Widget build(BuildContext context) => Container(
-        margin: EdgeInsets.only(right: 7.5.w),
-        decoration: BoxDecoration(
-          color: lightOrange,
-          borderRadius: BorderRadius.circular(7.5.r),
-        ),
-        child: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 48.r,
-                  width: double.maxFinite,
-                  padding: EdgeInsets.symmetric(horizontal: 9.r),
-                  alignment: Alignment.centerLeft,
-                  child: AnimatedTextKit(
-                    pause: const Duration(seconds: 9),
-                    animatedTexts: ["Exciting", "Engaging", "Challenging"]
-                        .map(
-                          (e) => RotateAnimatedText(
-                            e,
-                            duration: const Duration(milliseconds: 300),
-                            alignment: Alignment.centerLeft,
-                            textStyle: TextStyle(
-                              fontFamily: 'DelaGothic',
-                              fontWeight: FontWeight.w900,
-                              fontSize: e.length > 8 ? 27.r : 30.r,
-                              color: [
-                                bitterSweet,
-                                cerise,
-                                amaranthPurple
-                              ][mockInteger(0, 2)],
-                            ),
-                            rotateOut: false,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final PUser? pUser = ref.watch(myPUserProvider).when(
+        data: (s) => s,
+        error: (e, s) {
+          debugPrint(e.toString());
+          debugPrintStack(stackTrace: s);
+          return null;
+        },
+        loading: () => null);
+    debugPrint("80--$pUser");
+    return Container(
+      margin: EdgeInsets.only(right: 7.5.w),
+      decoration: BoxDecoration(
+        color: lightOrange,
+        borderRadius: BorderRadius.circular(7.5.r),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            bottom: -45.r,
+            right: -75.r,
+            height: 240.r,
+            width: 240.r,
+            child: Lottie.asset('lottie/trophies.json', repeat: false),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                height: 48.r,
+                width: double.maxFinite,
+                padding: EdgeInsets.symmetric(horizontal: 9.r),
+                alignment: Alignment.centerLeft,
+                child: AnimatedTextKit(
+                  pause: const Duration(seconds: 9),
+                  animatedTexts: ["Exciting", "Engaging", "Challenging"]
+                      .map(
+                        (e) => RotateAnimatedText(
+                          e,
+                          duration: const Duration(milliseconds: 300),
+                          alignment: Alignment.centerLeft,
+                          textStyle: TextStyle(
+                            fontFamily: 'DelaGothic',
+                            fontWeight: FontWeight.w900,
+                            fontSize: e.length > 8 ? 27.r : 30.r,
+                            color: [
+                              bitterSweet,
+                              cerise,
+                              amaranthPurple
+                            ][mockInteger(0, 2)],
                           ),
-                        )
-                        .toList(),
-                    repeatForever: true,
+                          rotateOut: false,
+                        ),
+                      )
+                      .toList(),
+                  repeatForever: true,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 9.r, vertical: 1.5.r),
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      const TextSpan(text: "puzzles await you. "),
+                      const TextSpan(
+                        text: "Are you ready for the ",
+                      ),
+                      TextSpan(
+                        text: "challenge",
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () =>
+                              context.router.push(const TournamentRoute()),
+                      ),
+                      const TextSpan(
+                        text: "?",
+                        style: TextStyle(),
+                      ),
+                    ],
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: caputMortuum,
+                          //fontSize: 13.8.r,
+                          fontFamily: 'Poppins',
+                          height: 2.4,
+                          fontWeight: FontWeight.normal,
+                        ),
                   ),
                 ),
-                Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 9.r, vertical: 1.5.r),
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        const TextSpan(text: "puzzles await you. "),
-                        const TextSpan(
-                          text: "Are you ready for the ",
+              ),
+              SizedBox(height: 18.h),
+              //  Spacer(),
+              Container(
+                margin: EdgeInsets.all(9.r),
+                child: FadeIn(
+                  delay: const Duration(seconds: 3),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        padding: MaterialStatePropertyAll(
+                          EdgeInsets.symmetric(horizontal: 12.r),
                         ),
-                        TextSpan(
-                          text: "challenge",
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () =>
-                                context.router.push(const TournamentRoute()),
-                        ),
-                        const TextSpan(
-                          text: "?",
-                          style: TextStyle(),
-                        ),
-                      ],
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: caputMortuum,
-                            //fontSize: 13.8.r,
-                            fontFamily: 'Poppins',
-                            height: 2.4,
-                            fontWeight: FontWeight.normal,
-                          ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 18.h),
-                //  Spacer(),
-                Container(
-                  margin: EdgeInsets.all(9.r),
-                  child: FadeIn(
-                    delay: const Duration(seconds: 3),
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                          padding: MaterialStatePropertyAll(
-                            EdgeInsets.symmetric(horizontal: 12.r),
-                          ),
-                          backgroundColor:
-                              const MaterialStatePropertyAll(bitterSweet)),
-                      onPressed: () =>
-                          context.router.push(const TournamentRoute()),
+                        backgroundColor:
+                            const MaterialStatePropertyAll(bitterSweet)),
+                    onPressed: () =>
+                        context.router.push(const TournamentRoute()),
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 500),
                       child: Text(
-                        "Play Now",
+                        pUser == null
+                            ? "Play Now"
+                            : pUser.myDuration.lastGamePlayed != null
+                                ? "Play Now"
+                                : "Play your first game",
                         style: TextStyle(
                           color: ghostWhite,
                           fontFamily: 'Montserrat',
@@ -169,19 +194,14 @@ class DCarouselFirstSlide extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
-              ],
-            ),
-            Positioned(
-              bottom: -45.r,
-              right: -75.r,
-              height: 240.r,
-              width: 240.r,
-              child: Lottie.asset('lottie/trophies.json', repeat: false),
-            )
-          ],
-        ),
-      );
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
 }
 
 class DCarouselThirdSlide extends StatelessWidget {
