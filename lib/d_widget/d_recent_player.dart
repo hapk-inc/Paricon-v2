@@ -25,9 +25,9 @@ class RecentPlayer extends ConsumerWidget {
             alignment: Alignment.centerLeft,
             child: FirestoreListView<PUser>(
               shrinkWrap: true,
-              query:
-                  ref.watch(recentUserCollectionReferenceProvider(myUser.id)),
-              //.limit(20),
+              query: ref.watch(
+                recentUserCollectionReferenceProvider(myUser.id),
+              ),
               emptyBuilder: (_) => Center(
                 child: Text(
                   "No User Currently",
@@ -53,7 +53,7 @@ class RecentPlayerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 75.w,
+      width: 72.w,
       //color: darkCyan,
       margin: EdgeInsets.symmetric(horizontal: 1.5.w),
       //constraints: const BoxConstraints.expand(),

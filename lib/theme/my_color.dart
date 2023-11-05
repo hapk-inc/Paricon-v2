@@ -29,6 +29,8 @@ const Color amaranthPurple = Color(0xffa4243b);
 
 //Carousel FSlide Text Color
 const Color caputMortuum = Color(0xff5a352a);
+//3rd slide leaderboard
+const Color charcoal = Color(0xff364652);
 
 //Short LeaderBoard Header
 const Color giantOrange = Color(0xfffe5d26);

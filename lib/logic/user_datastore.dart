@@ -152,121 +152,31 @@ class UserDatastore {
     );
     return subject.stream;
   }
-}
 
-/*  Stream<MyUser> get myUser {
-    late BehaviorSubject<MyUser> behaviorSubject;
-    behaviorSubject = BehaviorSubject<MyUser>(
-      onListen: () => userColl.doc(_id).snapshots().listen(
-        (documentSnapshot) {
-          if (documentSnapshot.exists) {
-            Map m = documentSnapshot.data() as Map;
-            Map<String, dynamic> json = Map<String, dynamic>.from(m);
-            MyUser myUser = MyUser.fromJson(json);
-            debugPrint(myUser.toString());
-            if (behaviorSubject.hasValue) {
-              if (behaviorSubject.value != myUser) {
-                behaviorSubject.add(myUser);
+  Stream<QueryDocumentSnapshot<PUser>> get firstRank {
+    late BehaviorSubject<QueryDocumentSnapshot<PUser>> subject;
+    subject = BehaviorSubject(
+      onListen: () => bestDurationColl
+          .where('bestDuration', isNull: false)
+          .orderBy('bestDuration')
+          .limit(1)
+          .snapshots()
+          .listen(
+        (QuerySnapshot<PUser> querySnapshot) {
+          if (querySnapshot.docs.isNotEmpty) {
+            if (subject.hasValue) {
+              final QueryDocumentSnapshot<PUser> x = querySnapshot.docs[0];
+              if (subject.value.id != x.id ||
+                  subject.value.data().bestDuration! != x.data().bestDuration) {
+                subject.add(x);
               }
             } else {
-              debugPrint("42--Has No Value");
-              behaviorSubject.add(myUser);
+              subject.add(querySnapshot.docs[0]);
             }
           }
         },
       ),
-      onCancel: () {
-        debugPrint("Setting isActive False");
-        userColl.doc(_id).update(
-          {"isActive": false},
-        );
-      },
     );
-    return behaviorSubject.stream;
+    return subject.stream;
   }
-
-
-  CollectionReference<PUser> get recentUserCollection {
-    final xUsers = userColl;
-    return xUsers.withConverter(
-      fromFirestore: (snapshot, _) {
-        return PUser(
-          MyUser.fromJson(snapshot.data()!),
-          MyDuration.fromJson(snapshot.data()!),
-        );
-      },
-      toFirestore: (x, _) => x.xtoJson,
-    );
-  }
-
-  Future newCard(String docId, String rPickCard) {
-    WriteBatch batch = FirebaseFirestore.instance.batch();
-
-    batch.update(
-      userColl.doc(_id),
-      {
-        'myCards': FieldValue.arrayUnion([rPickCard]),
-        'avatar': rPickCard,
-      },
-    );
-    batch.update(
-      userColl.doc(_id).collection('avatar').doc(docId),
-      {'id': rPickCard},
-    );
-    return batch.commit();
-  }
-
-  Future<bool> get appOpenedOrLoggedIn async {
-    await Future.delayed(const Duration(seconds: 4));
-    DocumentReference documentReference = userColl.doc(_id);
-    final appOpenedOrLoggedIn = await firebaseFirestore.runTransaction(
-      (transaction) async {
-        DocumentSnapshot snapshot = await transaction.get(documentReference);
-        if (snapshot.exists) {
-          final String appVersion = await _appVersion;
-          final DateTime now = DateTime.now();
-
-          Map map = snapshot.data() as Map;
-          bool isNewUser = !map.containsKey('currentTime');
-          if (isNewUser) {
-            transaction.update(
-              documentReference,
-              MyDuration(appVersion: appVersion, currentTime: now).toJson(),
-            );
-          } else {
-            Map<String, dynamic> json = Map<String, dynamic>.from(map);
-            MyDuration d = MyDuration.fromJson(json);
-            debugPrint("Existing CurrentTime");
-            bool nextDayOpen = now.day != d.currentTime.day;
-            Duration timeGap = now.difference(d.currentTime);
-            bool timeGapInMinute = timeGap > const Duration(minutes: 1);
-            if (timeGapInMinute || nextDayOpen) {
-              debugPrint("Existing LastOpened");
-              transaction.update(
-                documentReference,
-                MyDuration(
-                  currentTime: now,
-                  lastOpened: d.currentTime,
-                  appVersion: appVersion,
-                ).toJson(),
-              );
-            } else {
-              debugPrint(timeGap.toString());
-              debugPrint("Less than minute");
-            }
-            if (nextDayOpen) {
-              transaction.update(
-                documentReference,
-                {"avatarCode": mockString(6, 'A')},
-              );
-            }
-          }
-          return true;
-        } else {
-          debugPrint("No Transaction done");
-          return false;
-        }
-      },
-    );
-    return appOpenedOrLoggedIn;
-  }*/
+}

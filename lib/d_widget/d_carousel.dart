@@ -2,16 +2,20 @@ import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:paricon/logic/tournament_listener.dart';
 
+import '../logic/first_user.dart';
+import '../logic/tournament_listener.dart';
 import '../logic/user_provider.dart';
 import '../model/my_duration.dart';
+import '../model/p_user.dart';
 import '../router/my_route.dart';
 import '../theme/my_color.dart';
 import 'd_short_leaderboard.dart';
@@ -193,14 +197,88 @@ class DCarouselSecondSlide extends StatelessWidget {
   }
 }
 
-class DCarouselThirdSlide extends StatelessWidget {
+class DCarouselThirdSlide extends ConsumerWidget {
   const DCarouselThirdSlide({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final QueryDocumentSnapshot<PUser>? firstUser =
+        ref.watch(firstRankProvider).value;
+
     return OpenContainer(
+      tappable: false,
+      closedElevation: 0,
       closedBuilder: (BuildContext context, void Function() action) =>
-          CarouselContainer(mChild: Container()),
+          CarouselContainer(
+        mChild: Stack(
+          children: [
+            Positioned(
+              right: -36.r,
+              width: 210.r,
+              top: -18.r,
+              bottom: -18.r,
+              child: Lottie.asset(
+                'lottie/trophy.json',
+                fit: BoxFit.fitHeight,
+                repeat: false,
+              ),
+            ),
+            Positioned(
+              bottom: 15.r,
+              left: 15.r,
+              child: InkWell(
+                onTap: action,
+                child: Text(
+                  "View LeaderBoard",
+                  style: TextStyle(
+                    fontSize: 12.r,
+                    fontFamily: 'Montserrat',
+                    color: caputMortuum.withOpacity(0.6),
+                  ),
+                ),
+              ),
+            ),
+            if (firstUser != null)
+              Positioned(
+                top: 30.r,
+                left: 15.r,
+                child: AutoSizeText.rich(
+                  TextSpan(
+                    text: "1. ${firstUser.data().name}",
+                    children: [
+                      TextSpan(
+                          text: " #${firstUser.data().id}",
+                          style: TextStyle(
+                              fontSize: 12.r,
+                              color: oldRose,
+                              fontFamily: 'Montserrat'))
+                      /*TextSpan(
+                        text: onlyMMSS(firstUser.data().bestDuration!),
+                        style: TextStyle(
+                          fontSize: 21.r,
+                          //color: oldRose,
+                          fontFamily: 'Montserrat',
+                        ),
+                      ),
+                      TextSpan(
+                        text: "${onlyMilli(firstUser.data().bestDuration!)}",
+                        style: TextStyle(
+                          fontSize: 15.r,
+                          color: oldRose,
+                          fontFamily: 'Montserrat',
+                        ),
+                      )*/
+                    ],
+                  ),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(color: caputMortuum),
+                ),
+              ),
+          ],
+        ),
+      ),
       openBuilder:
           (BuildContext context, void Function({Object? returnValue}) action) =>
               InkWell(
@@ -218,14 +296,111 @@ class CarouselContainer extends StatelessWidget {
   const CarouselContainer({required this.mChild, super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(right: 7.5.w),
-      decoration: BoxDecoration(
-        color: lightOrange,
-        borderRadius: BorderRadius.circular(7.5.r),
-      ),
-      child: mChild,
-    );
-  }
+  Widget build(BuildContext context) => Container(
+        margin: EdgeInsets.only(right: 7.5.w),
+        constraints: const BoxConstraints.expand(),
+        decoration: BoxDecoration(
+          color: lightOrange,
+          borderRadius: BorderRadius.circular(7.5.r),
+        ),
+        child: mChild,
+      );
 }
+
+/*
+* ClipRRect(
+          borderRadius: BorderRadius.circular(12.r),
+          child: Container(
+            decoration: BoxDecoration(
+              color: caputMortuum,
+              borderRadius: BorderRadius.circular(7.5.r),
+            ),
+            child: Stack(
+              children: [
+                Center(
+                  child: Lottie.asset(
+                    'lottie/trophy.json',
+                    height: 120.r,
+                    width: 120.r,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Positioned(
+                  right: 15.r,
+                  top: 15.r,
+                  child: Text(
+                    "View LeaderBoard",
+                    style: TextStyle(
+                      fontSize: 12.r,
+                      fontFamily: 'Montserrat',
+                      color: charcoal.withOpacity(0.6),
+                    ),
+                  ),
+                ),
+                if (firstUser != null)
+                  Positioned(
+                    bottom: 0,
+                    height: 60.h,
+                    left: 0,
+                    right: 0,
+                    child: LayoutBuilder(
+                      builder: (_, constraint) {
+                        final double pW = constraint.maxWidth;
+                        return Container(
+                          decoration: BoxDecoration(
+                            border: Border.symmetric(
+                              horizontal:
+                                  BorderSide(color: lightOrange, width: 0.6.r),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: pW * 0.15,
+                                margin: EdgeInsets.only(left: pW * 0.03),
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  "01",
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 18.r,
+                                    color: lightOrange,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                width: pW * 0.39,
+                                alignment: Alignment.centerLeft,
+                                child: AutoSizeText(
+                                  firstUser.data().name,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 15.r,
+                                    color: lightOrange,
+                                    fontFamily: 'Montserrat',
+                                  ),
+                                  maxLines: 1,
+                                ),
+                              ),
+                              SizedBox(
+                                width: pW * 0.36,
+                                child: AutoSizeText.rich(
+                                  showTScore(
+                                    firstUser.data().bestDuration!,
+                                    minute: lightOrange,
+                                    mm: lightOrange,
+                                  ),
+                                  style: TextStyle(fontSize: 15.r),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  )
+              ],
+            ),
+          ),
+        )*/

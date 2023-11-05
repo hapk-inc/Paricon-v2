@@ -30,7 +30,6 @@ class ShortLeaderBoard extends ConsumerWidget {
                 FirestoreQueryBuilderSnapshot<PUser> snapshot, Widget? child) {
               if (!snapshot.hasData) return Container();
               debugPrint("Overall T-Played ${snapshot.docs.length}");
-
               List<QueryDocumentSnapshot<PUser>> overallTList =
                   List.from(snapshot.docs);
 
