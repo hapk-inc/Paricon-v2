@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'my_user.freezed.dart';
@@ -10,14 +9,16 @@ class MyUser with _$MyUser {
     required String name,
     @Default("") String rName,
     required num id,
-    required String avatar,
-    required bool isActive,
+    String? avatar,
+    String? avatarCode,
+    @Default(true) bool isActive,
     String? playing,
-    required bool isHuman,
+    @Default(true) bool isHuman,
     //num? controllerCount,
     DateTime? createdAt,
     @Default([]) List<String> myCards,
     Duration? bestDuration,
+    @Default(0) num tournamentPlayed,
     //List<String>? controlledBy,
   }) = _MyUser;
 

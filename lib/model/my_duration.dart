@@ -11,18 +11,12 @@ class MyDuration with _$MyDuration {
   const factory MyDuration({
     DateTime? lastOpened,
     DateTime? lastGamePlayed,
-    String? avatarCode,
     String? appVersion,
     required DateTime currentTime,
   }) = _MyDuration;
 
   factory MyDuration.fromJson(Map<String, dynamic> json) =>
       _$MyDurationFromJson(json);
-
-  bool get isCurrentTimeSameTime {
-    final now = DateTime.now();
-    return now.difference(currentTime) < const Duration(seconds: 1);
-  }
 
   bool get onlyCurrentTime => lastOpened == null && appVersion == null;
 }

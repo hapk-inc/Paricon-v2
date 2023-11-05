@@ -14,35 +14,42 @@ class SplashPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    return const Scaffold(
+      backgroundColor: majorelleBlue,
+      body: SplashState(),
+    );
+  }
+}
+
+class SplashState extends ConsumerWidget {
+  const SplashState({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final sSize = ref.read(sizeProvider);
-    final isLarge = sSize == ScreenSize.pc ||
+    final isL = sSize == ScreenSize.pc ||
         sSize == ScreenSize.tv ||
         sSize == ScreenSize.iPad;
-    return Scaffold(
-      backgroundColor: majorelleBlue,
-      body: Stack(
-        children: [
-          Center(
-            // heightFactor: 2.4,
-            // widthFactor: 0.9,
-            child: FadeIn(
-              delay: const Duration(milliseconds: 500),
-              duration: const Duration(seconds: 1),
-              child: const MyLogo(),
-            ),
+
+    return Stack(
+      children: [
+        Center(
+          child: FadeIn(
+            delay: const Duration(seconds: 2),
+            duration: const Duration(seconds: 1),
+            child: const MyLogo(),
           ),
-          if (!isLarge)
-            Container(
-              //constraints: BoxConstraints.tight(Size.square(45.r)),
-              alignment: Alignment.bottomCenter,
-              child: Lottie.asset(
-                'lottie/waving_hand.json',
-                animate: true,
-                repeat: false,
-              ),
-            )
-        ],
-      ),
+        ),
+        if (!isL)
+          Container(
+            alignment: Alignment.bottomCenter,
+            child: Lottie.asset(
+              'lottie/waving_hand.json',
+              animate: true,
+              repeat: false,
+            ),
+          )
+      ],
     );
   }
 }

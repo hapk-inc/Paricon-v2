@@ -25,4 +25,5 @@ class SlidingPanelTheme {
   BorderRadius slidingPanelRadius =
       BorderRadius.vertical(top: Radius.circular(24.r));
   Color slidingPanelColor = ghostWhite;
+  Color backDrop = richBlack;
 }

@@ -56,7 +56,7 @@ class MaintenancePage extends ConsumerWidget {
                     fontFamily: 'Cabin',
                     height: 3,
                     fontSize: 15.r,
-                    color: cafeNoir,
+                    color: jasper,
                   ),
                 ),
               ),

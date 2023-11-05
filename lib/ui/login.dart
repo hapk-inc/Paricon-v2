@@ -10,7 +10,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../my_widget/login_option_button.dart';
 import '../../my_widget/my_logo.dart';
 import '../../theme/my_color.dart';
-import '../logic/auth.dart';
+import '../logic/auth_provider.dart';
 import '../theme/my_theme.dart';
 
 final PanelController _panelController = PanelController();

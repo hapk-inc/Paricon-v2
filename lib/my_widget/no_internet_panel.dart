@@ -65,63 +65,6 @@ class NoInternetPanel extends ConsumerWidget {
           ),
         ],
       ),
-      /*child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Flexible(
-            flex: 3,
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: CircleAvatar(child: Lottie.asset('lottie/no_net.json')),
-            ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Center(
-              child: ListTile(
-                isThreeLine: true,
-                title: Text(
-                  "No Internet now!",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    color: gray,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 24.r,
-                  ),
-                ),
-                subtitle: RichText(
-                  text: TextSpan(
-                    text: "Once you're connected to the internet, simply\n",
-                    children: [
-                      TextSpan(
-                        text: "click here",
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => ref.refresh(checkNetProvider),
-                        style: const TextStyle(
-                          color: darkPastelGreen,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const TextSpan(
-                          text: " to initiate the app, once internet is on."),
-                    ],
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      height: 1.8,
-                      fontSize: 13.5.r,
-                      fontWeight: FontWeight.w300,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-            ),
-          )
-        ],
-      ),*/
     );
   }
 }

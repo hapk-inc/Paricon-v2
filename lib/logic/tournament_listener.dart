@@ -1,20 +1,12 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paricon/logic/user_provider.dart';
-import 'package:paricon/model/p_user.dart';
 
 import '../model/local_icon.dart';
-import '../model/my_user.dart';
-import '../model/t_score.dart';
 import '../my_widget/g_icons.dart';
 import '../theme/my_color.dart';
-import 'auth.dart';
-import 'firebase_init.dart';
 
 final tournamentListenerNotifierProvider =
     ChangeNotifierProvider((_) => TournamentListener());
@@ -101,36 +93,4 @@ List<LocalIcon> get _newIcons {
     kDebugMode ? 12 : 72,
     (index) => LocalIcon(iconCode: z[index].codePoint, iconNo: index),
   );
-}
-
-final tournamentDatabaseProvider = Provider((ref) => TournamentDatabase(ref));
-
-class TournamentDatabase {
-  final Ref ref;
-
-  late DatabaseReference firebaseReference;
-  late FirebaseFirestore firebaseFirestore;
-  late String? userId;
-
-  TournamentDatabase(this.ref) {
-    firebaseFirestore = ref.read(fireStoreProvider);
-    firebaseReference = ref.read(databaseProvider).ref();
-    userId = ref.read(firebaseUserProvider).uid;
-  }
-
-  Future<void> updateTDuration(TScore tScore) async {
-    PUser pUser = await ref.read(pUserMeProvider.future);
-    final MyUser myUser = pUser.myUser;
-    firebaseReference.child('tournament').push().set(tScore.toJson());
-    return firebaseFirestore.collection('users').doc(userId).update(
-      {
-        'lastGamePlayed': tScore.playedAt.toIso8601String(),
-        'bestDuration': myUser.bestDuration == null
-            ? tScore.tDuration.inMicroseconds
-            : myUser.bestDuration!.compareTo(tScore.tDuration) < 0
-                ? tScore.tDuration.inMicroseconds
-                : myUser.bestDuration?.inMicroseconds
-      },
-    );
-  }
 }

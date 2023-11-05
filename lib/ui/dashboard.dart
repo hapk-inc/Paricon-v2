@@ -3,17 +3,24 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:paricon/d_widget/d_recent_player.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../logic/s_size.dart';
-import '../../theme/my_color.dart';
-import '../logic/dashboard_provider.dart';
+import '../d_widget/d_card_collection.dart';
+import '../d_widget/d_carousel.dart';
+import '../d_widget/d_panel.dart';
+import '../d_widget/d_welcome.dart';
+import '../d_widget/d_work_in_progress.dart';
+import '../logic/auth_provider.dart';
 import '../logic/firebase_init.dart';
+import '../logic/panel_provider.dart';
 import '../logic/remote_values.dart';
-import '../my_widget/no_internet_panel.dart';
+import '../logic/s_size.dart';
+import '../my_widget/my_logo.dart';
+import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
-import 'dashboard_widget/d_body_state.dart';
-import 'dashboard_widget/d_work_in_progress.dart';
 
 @RoutePage()
 class DashboardPage extends ConsumerWidget {
@@ -21,47 +28,44 @@ class DashboardPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ScreenSize sSize = ref.read(sizeProvider);
-
-    final SlidingPanelTheme pTheme = SlidingPanelTheme();
-
-    final Widget panelWidget = ref.watch(internetConnectionProvider).when(
-        data: (connectionResult) => connectionResult == ConnectivityResult.none
-            ? const NoInternetPanel()
-            : Container(),
-        error: (_, __) => Container(),
-        loading: () => Container());
-
-    final PanelController dPanelController = ref.watch(dashboardPanelProvider);
+    final PanelController controller = ref.watch(dashboardPanelProvider);
 
     ref.listen(
       internetConnectionProvider.select((value) => value.value),
       (previous, next) {
-        debugPrint("$next");
-        if (next != null) {
-          debugPrint("40-connection-$next");
-          bool noNet = next == ConnectivityResult.none;
-          if (noNet) {
-            if (dPanelController.isPanelClosed) {
-              dPanelController.open();
-            }
-          } else {
-            if (dPanelController.isPanelOpen) {
-              dPanelController.close();
-            }
+        if (controller.isPanelOpen) {
+          controller.close();
+        }
+        bool prevConnected = previous == ConnectivityResult.mobile ||
+            previous == ConnectivityResult.wifi;
+        if (next == ConnectivityResult.none && prevConnected) {
+          if (controller.isPanelClosed) {
+            controller.open();
           }
         }
       },
     );
 
+    return const DashboardState();
+  }
+}
+
+class DashboardState extends ConsumerWidget {
+  const DashboardState({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ScreenSize sSize = ref.read(sizeProvider);
+    final SlidingPanelTheme pTheme = SlidingPanelTheme();
+
     return Scaffold(
       backgroundColor: ghostWhite,
       drawerEnableOpenDragGesture: false,
       body: SlidingUpPanel(
-        controller: dPanelController,
-        panel: panelWidget,
+        controller: ref.watch(dashboardPanelProvider),
+        panel: const DashboardPanel(),
         isDraggable: false,
-        backdropColor: richBlack,
+        backdropColor: pTheme.backDrop,
         backdropEnabled: true,
         backdropOpacity: 0.9,
         borderRadius: pTheme.slidingPanelRadius,
@@ -85,21 +89,63 @@ class DashboardP extends ConsumerWidget {
         duration: const Duration(milliseconds: 500),
         child: (inWork.isNotEmpty && !kDebugMode)
             ? DashboardWorkInProgress(inWork: inWork)
-            : const DashboardBodyState(),
+            : const DashboardStaggered(),
       ),
     );
   }
 }
 
-/*
-* Certainly, here are five variations of the message for first-time users in your app:
+class DashboardStaggered extends ConsumerWidget {
+  const DashboardStaggered({super.key});
 
-"Hello, new user! You've unlocked a fresh avatar. Simply click here to set it as your profile picture."
-
-"Welcome, newcomer! Congratulations on earning a new avatar. To make it your profile picture, just click here."
-
-"Hey there, first-time user! You've got a brand-new avatar waiting. Click here to give it a spin as your profile pic."
-
-"Greetings, newbie! A shiny new avatar is yours to claim. To make it your profile image, click right here."
-
-"Hello to our newest user! You've earned a cool new avatar. To use it as your profile picture, just click here."*/
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: SingleChildScrollView(
+        child: StaggeredGrid.count(
+          crossAxisCount: 20,
+          mainAxisSpacing: 1.r,
+          crossAxisSpacing: 1.r,
+          children: [
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 8.4,
+              child: DWelcome(),
+            ),
+            StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 5.4.r,
+              child: const RecentPlayer(),
+            ),
+            const StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 15,
+              child: DashCarousel(),
+            ),
+            StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 21.r,
+              child: const DCardCollection(),
+            ),
+            StaggeredGridTile.count(
+              crossAxisCellCount: 20,
+              mainAxisCellCount: 9.r,
+              child: Container(
+                padding: EdgeInsets.all(7.5.r),
+                alignment: Alignment.center,
+                child: Opacity(
+                  opacity: 0.9,
+                  child: InkWell(
+                    onTap: () => ref.read(signOutProvider),
+                    child: const MyLogo(),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

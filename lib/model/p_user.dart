@@ -1,17 +1,28 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'my_duration.dart';
-import 'my_user.dart';
-
 part 'p_user.freezed.dart';
+part 'p_user.g.dart';
 
 @freezed
 class PUser with _$PUser {
   const PUser._();
-  const factory PUser(MyUser myUser, MyDuration myDuration) = _PUser;
+  const factory PUser({
+    required String name,
+    @Default("") String rName,
+    required num id,
+    String? avatar,
+    @Default(true) bool isActive,
+    String? playing,
+    DateTime? createdAt,
+    Duration? bestDuration,
+    DateTime? currentTime,
+    @Default(0) num tournamentPlayed,
+  }) = _PUser;
 
-  Map<String, String> get xtoJson => {
+  factory PUser.fromJson(Map<String, dynamic> json) => _$PUserFromJson(json);
+
+  /*Map<String, String> get xtoJson => {
         ...myUser.toJson(),
         ...myDuration.toJson(),
-      };
+      };*/
 }

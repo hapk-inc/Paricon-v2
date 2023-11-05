@@ -63,6 +63,8 @@ dependencies:
 
   flutter_screenutil: ^5.9.0
 
+  gap: ^3.0.1
+
   # awesome_dialog: ^3.0.2
 
   percent_indicator: ^4.2.3

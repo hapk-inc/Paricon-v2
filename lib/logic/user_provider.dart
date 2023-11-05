@@ -1,45 +1,54 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paricon/logic/auth.dart';
+import 'package:paricon/logic/auth_provider.dart';
 
-import '../model/avatar_card.dart';
+import '../model/my_duration.dart';
+import '../model/my_user.dart';
 import '../model/p_user.dart';
 import 'user_datastore.dart';
 
-final Provider<UserDatastore> userDatastoreProvider =
-    Provider<UserDatastore>((ref) => UserDatastore(ref));
-
-final AutoDisposeStreamProvider<PUser> pUserMeProvider =
-    StreamProvider.autoDispose(
+final Provider<UserDatastore> userDatastoreProvider = Provider<UserDatastore>(
   (ref) {
-    final datastore = ref.read(userDatastoreProvider);
-    final firebaseUser = ref.read(firebaseUserProvider);
-    return datastore.pUserMe(firebaseUser.uid);
+    final user = ref.watch(authUserProvider).value;
+    return UserDatastore(ref, user);
   },
 );
 
-final Provider<CollectionReference<PUser>>
-    recentUserCollectionReferenceProvider = Provider(
+final myUserProvider = StreamProvider.autoDispose<MyUser?>(
   (ref) {
     final datastore = ref.watch(userDatastoreProvider);
-    return datastore.recentUserCollection;
+    return datastore.myUser;
   },
 );
 
-final AutoDisposeFutureProvider updateDurationProvider =
-    FutureProvider.autoDispose(
-  (ref) {
-    final datastore = ref.watch(userDatastoreProvider);
-    debugPrint("32--");
-    return datastore.updateDuration;
+final AutoDisposeFutureProvider<bool> appOpenedOrLoggedInProvider =
+    FutureProvider.autoDispose<bool>(
+  (ref) async {
+    final userDatastore = ref.read(userDatastoreProvider);
+    return await userDatastore.appOpenedOrLoggedIn;
   },
 );
 
-final AutoDisposeProvider<CollectionReference<AvatarCard>>
-    avatarCardCollectionReferenceProvider = Provider.autoDispose(
+final recentUserCollectionReferenceProvider =
+    Provider.autoDispose.family<Query<PUser>, num>(
+  (ref, id) {
+    final datastore = ref.watch(userDatastoreProvider);
+    return datastore.recentUserCollection(id);
+  },
+);
+
+final AutoDisposeProvider<CollectionReference<PUser>>
+    bestDurationCollReferenceProvider = Provider.autoDispose(
   (ref) {
     final datastore = ref.watch(userDatastoreProvider);
-    return datastore.avatarCardCollection;
+    return datastore.bestDurationColl;
+  },
+);
+
+final StreamProvider<MyDuration?> myUserDurationProvider =
+    StreamProvider<MyDuration?>(
+  (ref) {
+    final userDatastore = ref.read(userDatastoreProvider);
+    return userDatastore.myUserDuration;
   },
 );

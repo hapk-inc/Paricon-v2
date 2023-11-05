@@ -23,7 +23,8 @@ mixin _$MyUser {
   String get name => throw _privateConstructorUsedError;
   String get rName => throw _privateConstructorUsedError;
   num get id => throw _privateConstructorUsedError;
-  String get avatar => throw _privateConstructorUsedError;
+  String? get avatar => throw _privateConstructorUsedError;
+  String? get avatarCode => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
   String? get playing => throw _privateConstructorUsedError;
   bool get isHuman =>
@@ -31,6 +32,7 @@ mixin _$MyUser {
   DateTime? get createdAt => throw _privateConstructorUsedError;
   List<String> get myCards => throw _privateConstructorUsedError;
   Duration? get bestDuration => throw _privateConstructorUsedError;
+  num get tournamentPlayed => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -46,13 +48,15 @@ abstract class $MyUserCopyWith<$Res> {
       {String name,
       String rName,
       num id,
-      String avatar,
+      String? avatar,
+      String? avatarCode,
       bool isActive,
       String? playing,
       bool isHuman,
       DateTime? createdAt,
       List<String> myCards,
-      Duration? bestDuration});
+      Duration? bestDuration,
+      num tournamentPlayed});
 }
 
 /// @nodoc
@@ -71,13 +75,15 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
     Object? name = null,
     Object? rName = null,
     Object? id = null,
-    Object? avatar = null,
+    Object? avatar = freezed,
+    Object? avatarCode = freezed,
     Object? isActive = null,
     Object? playing = freezed,
     Object? isHuman = null,
     Object? createdAt = freezed,
     Object? myCards = null,
     Object? bestDuration = freezed,
+    Object? tournamentPlayed = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -92,10 +98,14 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as num,
-      avatar: null == avatar
+      avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      avatarCode: freezed == avatarCode
+          ? _value.avatarCode
+          : avatarCode // ignore: cast_nullable_to_non_nullable
+              as String?,
       isActive: null == isActive
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
@@ -120,6 +130,10 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
           ? _value.bestDuration
           : bestDuration // ignore: cast_nullable_to_non_nullable
               as Duration?,
+      tournamentPlayed: null == tournamentPlayed
+          ? _value.tournamentPlayed
+          : tournamentPlayed // ignore: cast_nullable_to_non_nullable
+              as num,
     ) as $Val);
   }
 }
@@ -135,13 +149,15 @@ abstract class _$$MyUserImplCopyWith<$Res> implements $MyUserCopyWith<$Res> {
       {String name,
       String rName,
       num id,
-      String avatar,
+      String? avatar,
+      String? avatarCode,
       bool isActive,
       String? playing,
       bool isHuman,
       DateTime? createdAt,
       List<String> myCards,
-      Duration? bestDuration});
+      Duration? bestDuration,
+      num tournamentPlayed});
 }
 
 /// @nodoc
@@ -158,13 +174,15 @@ class __$$MyUserImplCopyWithImpl<$Res>
     Object? name = null,
     Object? rName = null,
     Object? id = null,
-    Object? avatar = null,
+    Object? avatar = freezed,
+    Object? avatarCode = freezed,
     Object? isActive = null,
     Object? playing = freezed,
     Object? isHuman = null,
     Object? createdAt = freezed,
     Object? myCards = null,
     Object? bestDuration = freezed,
+    Object? tournamentPlayed = null,
   }) {
     return _then(_$MyUserImpl(
       name: null == name
@@ -179,10 +197,14 @@ class __$$MyUserImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as num,
-      avatar: null == avatar
+      avatar: freezed == avatar
           ? _value.avatar
           : avatar // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      avatarCode: freezed == avatarCode
+          ? _value.avatarCode
+          : avatarCode // ignore: cast_nullable_to_non_nullable
+              as String?,
       isActive: null == isActive
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
@@ -207,24 +229,30 @@ class __$$MyUserImplCopyWithImpl<$Res>
           ? _value.bestDuration
           : bestDuration // ignore: cast_nullable_to_non_nullable
               as Duration?,
+      tournamentPlayed: null == tournamentPlayed
+          ? _value.tournamentPlayed
+          : tournamentPlayed // ignore: cast_nullable_to_non_nullable
+              as num,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
+class _$MyUserImpl implements _MyUser {
   const _$MyUserImpl(
       {required this.name,
       this.rName = "",
       required this.id,
-      required this.avatar,
-      required this.isActive,
+      this.avatar,
+      this.avatarCode,
+      this.isActive = true,
       this.playing,
-      required this.isHuman,
+      this.isHuman = true,
       this.createdAt,
       final List<String> myCards = const [],
-      this.bestDuration})
+      this.bestDuration,
+      this.tournamentPlayed = 0})
       : _myCards = myCards;
 
   factory _$MyUserImpl.fromJson(Map<String, dynamic> json) =>
@@ -238,12 +266,16 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
   @override
   final num id;
   @override
-  final String avatar;
+  final String? avatar;
   @override
+  final String? avatarCode;
+  @override
+  @JsonKey()
   final bool isActive;
   @override
   final String? playing;
   @override
+  @JsonKey()
   final bool isHuman;
 //num? controllerCount,
   @override
@@ -259,27 +291,13 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
 
   @override
   final Duration? bestDuration;
+  @override
+  @JsonKey()
+  final num tournamentPlayed;
 
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'MyUser(name: $name, rName: $rName, id: $id, avatar: $avatar, isActive: $isActive, playing: $playing, isHuman: $isHuman, createdAt: $createdAt, myCards: $myCards, bestDuration: $bestDuration)';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties
-      ..add(DiagnosticsProperty('type', 'MyUser'))
-      ..add(DiagnosticsProperty('name', name))
-      ..add(DiagnosticsProperty('rName', rName))
-      ..add(DiagnosticsProperty('id', id))
-      ..add(DiagnosticsProperty('avatar', avatar))
-      ..add(DiagnosticsProperty('isActive', isActive))
-      ..add(DiagnosticsProperty('playing', playing))
-      ..add(DiagnosticsProperty('isHuman', isHuman))
-      ..add(DiagnosticsProperty('createdAt', createdAt))
-      ..add(DiagnosticsProperty('myCards', myCards))
-      ..add(DiagnosticsProperty('bestDuration', bestDuration));
+  String toString() {
+    return 'MyUser(name: $name, rName: $rName, id: $id, avatar: $avatar, avatarCode: $avatarCode, isActive: $isActive, playing: $playing, isHuman: $isHuman, createdAt: $createdAt, myCards: $myCards, bestDuration: $bestDuration, tournamentPlayed: $tournamentPlayed)';
   }
 
   @override
@@ -291,6 +309,8 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
             (identical(other.rName, rName) || other.rName == rName) &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
+            (identical(other.avatarCode, avatarCode) ||
+                other.avatarCode == avatarCode) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
             (identical(other.playing, playing) || other.playing == playing) &&
@@ -299,7 +319,9 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other._myCards, _myCards) &&
             (identical(other.bestDuration, bestDuration) ||
-                other.bestDuration == bestDuration));
+                other.bestDuration == bestDuration) &&
+            (identical(other.tournamentPlayed, tournamentPlayed) ||
+                other.tournamentPlayed == tournamentPlayed));
   }
 
   @JsonKey(ignore: true)
@@ -310,12 +332,14 @@ class _$MyUserImpl with DiagnosticableTreeMixin implements _MyUser {
       rName,
       id,
       avatar,
+      avatarCode,
       isActive,
       playing,
       isHuman,
       createdAt,
       const DeepCollectionEquality().hash(_myCards),
-      bestDuration);
+      bestDuration,
+      tournamentPlayed);
 
   @JsonKey(ignore: true)
   @override
@@ -336,13 +360,15 @@ abstract class _MyUser implements MyUser {
       {required final String name,
       final String rName,
       required final num id,
-      required final String avatar,
-      required final bool isActive,
+      final String? avatar,
+      final String? avatarCode,
+      final bool isActive,
       final String? playing,
-      required final bool isHuman,
+      final bool isHuman,
       final DateTime? createdAt,
       final List<String> myCards,
-      final Duration? bestDuration}) = _$MyUserImpl;
+      final Duration? bestDuration,
+      final num tournamentPlayed}) = _$MyUserImpl;
 
   factory _MyUser.fromJson(Map<String, dynamic> json) = _$MyUserImpl.fromJson;
 
@@ -353,7 +379,9 @@ abstract class _MyUser implements MyUser {
   @override
   num get id;
   @override
-  String get avatar;
+  String? get avatar;
+  @override
+  String? get avatarCode;
   @override
   bool get isActive;
   @override
@@ -366,6 +394,8 @@ abstract class _MyUser implements MyUser {
   List<String> get myCards;
   @override
   Duration? get bestDuration;
+  @override
+  num get tournamentPlayed;
   @override
   @JsonKey(ignore: true)
   _$$MyUserImplCopyWith<_$MyUserImpl> get copyWith =>

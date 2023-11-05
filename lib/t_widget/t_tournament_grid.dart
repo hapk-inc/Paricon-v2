@@ -47,9 +47,6 @@ class TournamentGridTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //final sSize = ref.read(sizeProvider);
-    //final bool isPhone = sSize == ScreenSize.phone;
-    //final tournamentNotifier = ref.watch(tournamentNotifierProvider);
     final tListener = ref.watch(tournamentListenerNotifierProvider);
     final xIcon = tListener.icons[localIcon.iconNo];
     final showIcon = xIcon.checkFound;
