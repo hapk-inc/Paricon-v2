@@ -161,7 +161,7 @@ DataRow _showListTableRow(
             pUser.name,
             style: TextStyle(
               fontWeight: FontWeight.w300,
-              fontSize: 10.5.r,
+              fontSize: 12.r,
               color: isMe ? lightOrange : hookerGreen,
               fontFamily: 'Montserrat',
             ),
