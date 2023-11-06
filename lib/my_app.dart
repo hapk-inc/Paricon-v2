@@ -24,7 +24,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final showApp = ref.read(showAppProvider);
+    final showApp = ref.watch(showAppProvider);
 
     PageRouteInfo userRouteInfo = ref.watch(myUserProvider).when(
           loading: () {
@@ -53,7 +53,7 @@ class MyApp extends ConsumerWidget {
               },
             );
 
-    PageRouteInfo inAppUpdateRoute = ref.read(inAppUpdateProvider).maybeWhen(
+    PageRouteInfo inAppUpdateRoute = ref.watch(inAppUpdateProvider).maybeWhen(
           data: (update) =>
               update.updateAvailability == UpdateAvailability.updateAvailable
                   ? const AppUpdateRoute()
@@ -80,7 +80,7 @@ class MyApp extends ConsumerWidget {
             routerDelegate: AutoRouterDelegate.declarative(
               _myRoute,
               routes: (handler) => [
-                ref.read(checkNetProvider).maybeWhen(
+                ref.watch(checkNetProvider).maybeWhen(
                       orElse: () => const SplashRoute(),
                       data: (net) => net == ConnectivityResult.none
                           ? const NoNetRoute()
