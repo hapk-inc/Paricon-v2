@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:in_app_update/in_app_update.dart';
-import 'package:paricon/logic/user_provider.dart';
 
+import '../logic/user_provider.dart';
 import 'logic/auth_provider.dart';
 import 'logic/firebase_init.dart';
 import 'logic/remote_values.dart';

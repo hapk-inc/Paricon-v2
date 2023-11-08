@@ -1,12 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:animations/animations.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:random_avatar/random_avatar.dart';
 
@@ -15,6 +13,7 @@ import '../logic/user_provider.dart';
 import '../model/my_user.dart';
 import '../my_widget/my_logo.dart';
 import '../theme/my_color.dart';
+import 'd_show_profile_detail.dart';
 
 class DWelcome extends ConsumerWidget {
   const DWelcome({super.key});
@@ -25,7 +24,7 @@ class DWelcome extends ConsumerWidget {
     return OpenContainer(
       closedElevation: 0,
       middleColor: majorelleBlue,
-      // tappable: false,
+      tappable: false,
       closedBuilder: (BuildContext context, void Function() action) =>
           Container(
         decoration: BoxDecoration(
@@ -35,17 +34,19 @@ class DWelcome extends ConsumerWidget {
         margin: EdgeInsets.all(9.r),
         padding: EdgeInsets.only(top: 30.r, left: 15.r, right: 15.r),
         constraints: const BoxConstraints.expand(),
-        child: myUser == null ? null : const DashboardTitleSubTitle(),
+        child: myUser == null ? null : DashboardTitleSubTitle(action),
       ),
-      openBuilder:
-          (BuildContext context, void Function({Object? returnValue}) action) =>
-              const ShowProfileDetail(),
+      //closedColor: majorelleBlue,
+      openColor: majorelleBlue,
+      openBuilder: (_, void Function({Object? returnValue}) action) =>
+          ShowProfileDetail(action),
     );
   }
 }
 
 class DashboardTitleSubTitle extends ConsumerWidget {
-  const DashboardTitleSubTitle({super.key});
+  final void Function() action;
+  const DashboardTitleSubTitle(this.action, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -61,13 +62,7 @@ class DashboardTitleSubTitle extends ConsumerWidget {
           child: SlideInUp(
             delay: const Duration(seconds: 1),
             child: myUser!.avatar == null
-                ? FadeIn(
-                    delay: const Duration(seconds: 3),
-                    child: Lottie.asset(
-                      'lottie/b_${mockInteger(0, 1) == 0 ? "male" : "female"}_01.json',
-                      repeat: true,
-                    ),
-                  )
+                ? Container()
                 : SlideInUp(
                     delay: const Duration(seconds: 3),
                     child: FadeIn(
@@ -107,7 +102,8 @@ class DashboardTitleSubTitle extends ConsumerWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: () => Scaffold.of(context).openDrawer(),
+                  //onTap: () => Scaffold.of(context).openDrawer(),
+                  onTap: action,
                   child: Icon(
                     Icons.edit,
                     size: 18.r,
@@ -139,25 +135,6 @@ class DashboardTitleSubTitle extends ConsumerWidget {
           ],
         )
       ],
-    );
-  }
-}
-
-class ShowProfileDetail extends StatelessWidget {
-  const ShowProfileDetail({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        context.router.pop();
-      },
-      child: Container(
-        color: Colors.red,
-        constraints: const BoxConstraints.expand(),
-      ),
     );
   }
 }

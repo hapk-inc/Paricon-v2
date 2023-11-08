@@ -43,8 +43,8 @@ final AutoDisposeFutureProvider anonymousProvider =
   },
 );
 
-final AutoDisposeFutureProvider gSignProvider =
-    FutureProvider.autoDispose<void>(
+final AutoDisposeFutureProvider<String?> gSignProvider =
+    FutureProvider.autoDispose<String?>(
   (ref) async {
     final auth = ref.read(authProvider);
     return auth.signInWithGoogle;

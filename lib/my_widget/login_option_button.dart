@@ -7,7 +7,7 @@ class LoginOptionButton extends StatelessWidget {
   const LoginOptionButton(
       {super.key, required this.lChild, required this.optionBtnPressed});
 
-  final VoidCallback optionBtnPressed;
+  final VoidCallback? optionBtnPressed;
   final Widget lChild;
 
   @override
@@ -87,13 +87,17 @@ class LoginTextField extends StatelessWidget {
   }
 }
 
-SnackBar buildLoginSnackBar() => SnackBar(
+SnackBar buildLoginSnackBar({String? email = "abc"}) => SnackBar(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(1.5.r)),
       ),
       padding: EdgeInsets.symmetric(vertical: 18.r, horizontal: 15.r),
       content: Text(
-        "Creating an anonymous user",
+        email == null
+            ? "Loading"
+            : email == "abc"
+                ? "Creating an anonymous user"
+                : "Signing in as $email",
         style: TextStyle(
           fontFamily: 'Poppins',
           fontSize: 16.r,

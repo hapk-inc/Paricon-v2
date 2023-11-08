@@ -59,6 +59,7 @@ class Auth {
         rName: xName,
         id: mockInteger(11111111, 99999999),
         avatarCode: mockString(6, 'A'),
+        createdAt: createdAt,
       ).toJson(),
     );
     batch.set(
@@ -82,15 +83,37 @@ class Auth {
     return userColl.doc(_auth.currentUser!.uid).update({'name': name});
   }
 
-  Future get signInWithGoogle async {
+  Future<String?> get signInWithGoogle async {
     final credential = await googleCredentials;
-    if (credential == null) return;
+    if (credential == null) return null;
     return _auth.signInWithCredential(credential).then(
-      (userCred) => createUser(userCred),
+      (userCred) async {
+        if (userCred.user == null) {
+          return null;
+        } else {
+          final bool docExist = await checkIfDocExists(userCred.user!.uid);
+          if (!docExist) {
+            createUser(userCred);
+          }
+          return userCred.user!.email;
+        }
+      },
       onError: (e, s) {
         debugPrint(e);
+        debugPrintStack(stackTrace: s);
       },
     );
+  }
+
+  /// Check If Document Exists
+  Future<bool> checkIfDocExists(String docId) async {
+    try {
+      var doc = await userColl.doc(docId).get();
+      debugPrint("checkIfDocExists");
+      return doc.exists;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<AuthCredential?> get googleCredentials async {

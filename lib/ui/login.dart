@@ -15,6 +15,10 @@ import '../theme/my_theme.dart';
 
 final PanelController _panelController = PanelController();
 
+//final _scaffoldLoginMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
+GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 @RoutePage()
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -23,6 +27,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint("Welcome to Login");
     final pTheme = SlidingPanelTheme();
+
     Future.delayed(
       const Duration(milliseconds: 2100),
       () {
@@ -32,6 +37,7 @@ class LoginPage extends StatelessWidget {
       },
     );
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: majorelleBlue,
       body: SlidingUpPanel(
         controller: _panelController,
@@ -80,21 +86,109 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class LoginButtonBar extends ConsumerWidget {
+class LoginButtonBar extends ConsumerStatefulWidget {
   const LoginButtonBar({super.key});
 
   @override
+  ConsumerState createState() => _LoginButtonBarState();
+}
+
+class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
+  late bool isLoading;
+
+  Future<String?> get googleButtonClick => ref.read(gSignProvider.future);
+
+  Future get guestLogin => ref.read(anonymousProvider.future);
+
+  @override
+  void initState() {
+    super.initState();
+    isLoading = false;
+  }
+
+  void changeFlag(bool flag) {
+    if (mounted) {
+      setState(() => isLoading = flag);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Wrap(
+      children: [
+        LoginOptionButton(
+          lChild: Image.asset('images/gLogo.png'),
+          optionBtnPressed: isLoading
+              ? () {
+                  debugPrint("isLoading");
+                }
+              : () {
+                  changeFlag(true);
+                  if (kIsWeb) {
+                    googleButtonClick.then(
+                      (value) {
+                        if (mounted) {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(buildLoginSnackBar(email: value));
+                        }
+                      },
+                    ).whenComplete(() => changeFlag(false));
+                  } else {
+                    if (Platform.isMacOS) {
+                      guestLogin.then(
+                        (value) {
+                          if (mounted) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(buildLoginSnackBar());
+                          }
+                        },
+                      ).whenComplete(() => changeFlag(false));
+                    } else {
+                      googleButtonClick.then(
+                        (value) {
+                          if (mounted) {
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(buildLoginSnackBar(email: value));
+                          }
+                        },
+                      ).whenComplete(() => changeFlag(false));
+                    }
+                  }
+                },
+        )
+      ],
+    );
+  }
+}
+
+/*class LoginButtonBar1 extends ConsumerWidget {
+  const LoginButtonBar1({super.key});
+
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool isSnackBarVisible() {
+      if (_scaffoldKey.currentState != null) {
+        return _scaffoldKey.currentState!.mounted;
+      }
+      return false;
+    }
+
     return Consumer(
       builder: (_, ref, __) {
-        void googleButtonClick() =>
-            ref.read(gSignProvider.future).then((value) {}).catchError(
+        void googleButtonClick() => ref.read(gSignProvider.future).then(
+              (value) {
+                if (value != null) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(buildLoginSnackBar(email: value));
+                }
+              },
+            ).catchError(
               (e, s) {
                 debugPrint(e.toString());
                 debugPrintStack(stackTrace: s);
-                if (kDebugMode) {
+                /*if (kDebugMode) {
                   ref.read(anonymousProvider);
-                }
+                }*/
               },
             );
         void guestClick() {
@@ -102,12 +196,7 @@ class LoginButtonBar extends ConsumerWidget {
             _panelController.close();
           }
           ref.read(anonymousProvider);
-          ScaffoldMessenger.of(context)
-              .showSnackBar(buildLoginSnackBar())
-              .closed
-              .then(
-                (value) {},
-              );
+          ScaffoldMessenger.of(context).showSnackBar(buildLoginSnackBar());
         }
 
         return Wrap(
@@ -115,15 +204,19 @@ class LoginButtonBar extends ConsumerWidget {
           children: [
             LoginOptionButton(
               lChild: Image.asset('images/gLogo.png'),
-              optionBtnPressed: kIsWeb
-                  ? googleButtonClick
-                  : Platform.isMacOS
-                      ? guestClick
-                      : googleButtonClick,
+              optionBtnPressed: !isSnackBarVisible()
+                  ? () {
+                      debugPrint("Wait Loading");
+                    }
+                  : kIsWeb
+                      ? googleButtonClick
+                      : Platform.isMacOS
+                          ? guestClick
+                          : googleButtonClick,
             ),
           ],
         );
       },
     );
   }
-}
+}*/

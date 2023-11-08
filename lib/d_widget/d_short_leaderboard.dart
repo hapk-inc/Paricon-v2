@@ -180,6 +180,7 @@ DataRow _showListTableRow(
                     minute: isMe ? lightOrange : caputMortuum,
                     mm: isMe ? lightOrange : oldRose,
                   ),
+                  maxLines: 1,
                 ),
         ),
       ),

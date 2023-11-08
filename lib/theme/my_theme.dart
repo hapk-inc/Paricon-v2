@@ -17,6 +17,13 @@ ThemeData get buildThemeData => ThemeData(
             height: 2.4,
             fontWeight: FontWeight.w400),
       ),
+      snackBarTheme: SnackBarThemeData(
+        contentTextStyle: TextStyle(
+            color: ghostWhite,
+            //fontWeight: FontWeight.w300,
+            fontFamily: 'Cabin',
+            fontSize: 15.r),
+      ),
     );
 
 class SlidingPanelTheme {

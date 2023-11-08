@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:paricon/d_widget/d_recent_player.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../d_widget/d_card_collection.dart';
 import '../d_widget/d_carousel.dart';
 import '../d_widget/d_panel.dart';
+import '../d_widget/d_recent_player.dart';
 import '../d_widget/d_welcome.dart';
 import '../d_widget/d_work_in_progress.dart';
 import '../logic/auth_provider.dart';
@@ -33,16 +33,21 @@ class DashboardPage extends ConsumerWidget {
     ref.listen(
       internetConnectionProvider.select((value) => value.value),
       (previous, next) {
-        if (controller.isPanelOpen) {
-          controller.close();
-        }
-        bool prevConnected = previous == ConnectivityResult.mobile ||
-            previous == ConnectivityResult.wifi;
-        if (next == ConnectivityResult.none && prevConnected) {
-          if (controller.isPanelClosed) {
-            controller.open();
-          }
-        }
+        Future.delayed(
+          const Duration(seconds: 2),
+          () {
+            if (controller.isPanelOpen) {
+              controller.close();
+            }
+            bool prevConnected = previous == ConnectivityResult.mobile ||
+                previous == ConnectivityResult.wifi;
+            if (next == ConnectivityResult.none && prevConnected) {
+              if (controller.isPanelClosed) {
+                controller.open();
+              }
+            }
+          },
+        );
       },
     );
 
@@ -137,7 +142,16 @@ class DashboardStaggered extends ConsumerWidget {
                 child: Opacity(
                   opacity: 0.9,
                   child: InkWell(
-                    onTap: () => ref.read(signOutProvider),
+                    onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text("Click here to log out"),
+                        backgroundColor: charcoal,
+                        action: SnackBarAction(
+                          label: 'CONFIRM',
+                          onPressed: () => ref.read(signOutProvider),
+                        ),
+                      ),
+                    ),
                     child: const MyLogo(),
                   ),
                 ),

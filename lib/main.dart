@@ -29,7 +29,7 @@ Future<void> main() async {
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instanceFor(app: app);
   final FirebaseFirestore fireStore = FirebaseFirestore.instanceFor(app: app);
-  FirebaseFirestore.setLoggingEnabled(true);
+  //FirebaseFirestore.setLoggingEnabled(true);
   final FirebaseDatabase database = FirebaseDatabase.instanceFor(app: app);
 
   final FirebaseAnalytics firebaseAnalytics =
