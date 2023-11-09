@@ -31,10 +31,10 @@ class TournamentGrid extends ConsumerWidget {
       minItemWidth: 1.w,
       minItemsPerRow: 7,
       horizontalGridSpacing: 6.w,
-      verticalGridSpacing: 9.h,
+      verticalGridSpacing: 12.h,
       horizontalGridMargin: 0,
       verticalGridMargin: 0,
-      maxItemsPerRow: 8,
+      maxItemsPerRow: 7,
       children: tiles,
     );
   }
@@ -94,7 +94,7 @@ class TournamentGridTile extends ConsumerWidget {
                           xIcon.iconCode,
                           fontFamily: 'MaterialIcons',
                         ),
-                        size: 24.r,
+                        size: 27.r,
                         color: ghostWhite,
                       )
                     : xIcon.isCheck
@@ -103,7 +103,7 @@ class TournamentGridTile extends ConsumerWidget {
                               xIcon.iconCode,
                               fontFamily: 'MaterialIcons',
                             ),
-                            size: 24.r,
+                            size: 27.r,
                             color: coyote,
                           )
                         : Container(),

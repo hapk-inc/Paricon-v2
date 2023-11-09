@@ -28,10 +28,7 @@ class GiftAvatar extends StatelessWidget {
 class GiftAvatarCloseContainer extends StatelessWidget {
   final void Function() action;
 
-  const GiftAvatarCloseContainer(
-    this.action, {
-    super.key,
-  });
+  const GiftAvatarCloseContainer(this.action, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,27 +38,31 @@ class GiftAvatarCloseContainer extends StatelessWidget {
       alignment: Alignment.center,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          AutoSizeText(
-            "Gift your friends a new avatar",
-            style: TextStyle(
-              fontSize: 27.r,
-              fontFamily: 'DelaGothic',
-              height: 1.8.r,
-              color: cinerous,
-            ),
-            maxLines: 1,
-          ),
-          Text(
-            "You can also enter their code below and present them with new avatars.",
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  height: 2.1.r,
-                  color: cinerous.withOpacity(0.75),
-                  letterSpacing: 0,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AutoSizeText(
+                "Gift your friends a new avatar",
+                style: TextStyle(
+                  fontSize: 27.r,
+                  fontFamily: 'DelaGothic',
+                  height: 1.8.r,
+                  color: cinerous,
                 ),
+                maxLines: 1,
+              ),
+              Text(
+                "You can also enter their code below and present them with new avatars.",
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      height: 2.1.r,
+                      color: cinerous.withOpacity(0.75),
+                      letterSpacing: 0,
+                    ),
+              ),
+            ],
           ),
-          const Spacer(),
           Container(
             margin: EdgeInsets.symmetric(vertical: 24.r),
             height: 51.r,

@@ -86,11 +86,11 @@ class TournamentListener extends ChangeNotifier {
 List<LocalIcon> get _newIcons {
   List<IconData> x = List.from(gIcons);
   x.shuffle();
-  List<IconData> y = List.from(x.take(kDebugMode ? 6 : 36));
+  List<IconData> y = List.from(x.take(kDebugMode ? 28 : 28));
   List<IconData> z = y + y;
   z.shuffle();
   return List.generate(
-    kDebugMode ? 12 : 72,
+    kDebugMode ? 56 : 56,
     (index) => LocalIcon(iconCode: z[index].codePoint, iconNo: index),
   );
 }

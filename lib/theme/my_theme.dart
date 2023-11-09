@@ -18,10 +18,11 @@ ThemeData get buildThemeData => ThemeData(
             fontWeight: FontWeight.w400),
       ),
       snackBarTheme: SnackBarThemeData(
+        insetPadding: EdgeInsets.symmetric(vertical: 15.h),
         contentTextStyle: TextStyle(
             color: ghostWhite,
             //fontWeight: FontWeight.w300,
-            fontFamily: 'Cabin',
+            fontFamily: 'Poppins',
             fontSize: 15.r),
       ),
     );

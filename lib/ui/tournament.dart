@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:gap/gap.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/auth_provider.dart';
@@ -67,10 +68,11 @@ class TournamentPage extends ConsumerWidget {
     final sSize = ref.read(sizeProvider);
 
     return Scaffold(
+      backgroundColor: majorelleBlue,
       body: sSize != ScreenSize.phone
           ? Container()
           : SafeArea(
-              top: false,
+              top: true,
               bottom: false,
               child: SlidingUpPanel(
                 controller: tPanelController,
@@ -92,21 +94,12 @@ class TournamentPage extends ConsumerWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     child: StaggeredGrid.count(
                       crossAxisCount: 20,
-                      children: const [
-                        StaggeredGridTile.count(
+                      children: [
+                        Gap(45.r),
+                        const StaggeredGridTile.count(
                           crossAxisCellCount: 20,
-                          mainAxisCellCount: 4.5,
-                          child: SizedBox(),
-                        ),
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 20,
-                          mainAxisCellCount: 30,
+                          mainAxisCellCount: 31.2,
                           child: TournamentShow(),
-                        ),
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 20,
-                          mainAxisCellCount: 15,
-                          child: SizedBox(),
                         ),
                       ],
                     ),
@@ -128,20 +121,27 @@ class TournamentShow extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(7.5.r),
         ),
+        elevation: 3.r,
         child: Container(
           padding: EdgeInsets.all(4.5.r),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Flexible(
                 flex: 2,
-                child: ShowTimerIndicator(),
+                child: FractionallySizedBox(
+                  heightFactor: 1,
+                  widthFactor: 1,
+                  child: ShowTimerIndicator(),
+                ),
               ),
               Expanded(
-                flex: 11,
+                flex: 9,
                 child: FractionallySizedBox(
                   heightFactor: 1,
                   widthFactor: 1,
                   child: AnimatedContainer(
+                    alignment: Alignment.center,
                     duration: const Duration(milliseconds: 500),
                     padding: EdgeInsets.symmetric(horizontal: 9.r),
                     child: const TournamentGrid(),
