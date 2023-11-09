@@ -8,7 +8,7 @@ TextSpan showTScore(Duration duration,
         TextSpan(text: onlyMMSS(duration)),
         TextSpan(
           text: onlyMilli(duration),
-          style: TextStyle(fontSize: 10.8.r, color: mm),
+          style: TextStyle(fontSize: 12.r, color: mm),
         )
       ],
       style: TextStyle(fontFamily: 'Montserrat', color: minute),
@@ -16,6 +16,6 @@ TextSpan showTScore(Duration duration,
 
 String onlyMMSS(Duration duration) =>
     "${duration.inMinutes.toString().padLeft(2, '0').padLeft(2, '0')}"
-    " : ${"${duration.inSeconds}".padLeft(2, '0')} ";
+    ": ${"${duration.inSeconds}".padLeft(2, '0')} ";
 
 String onlyMilli(Duration duration) => "${duration.inMilliseconds ~/ 100}";

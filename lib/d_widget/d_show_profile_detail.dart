@@ -10,6 +10,7 @@ import 'package:random_avatar/random_avatar.dart';
 import '../logic/auth_provider.dart';
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
+import '../my_widget/show_t_score.dart';
 import '../theme/my_color.dart';
 
 class ShowProfileDetail extends ConsumerWidget {
@@ -153,7 +154,39 @@ class ShowProfileDetail extends ConsumerWidget {
                 ),
               ),
             ),
-            Gap(30.r),
+            Gap(60.r),
+            if (myUser.bestDuration != null)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Row(
+                  children: [
+                    Column(
+                      children: [
+                        AutoSizeText.rich(
+                          TextSpan(
+                            children: [
+                              showTScore(myUser.bestDuration!,
+                                  minute: ghostWhite, mm: ghostWhite)
+                            ],
+                          ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .copyWith(
+                                  fontFamily: 'Montserrat', fontSize: 27.r),
+                        ),
+                        Text(
+                          "Best Duration",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: ghostWhite),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              )
           ],
         ),
       ),
