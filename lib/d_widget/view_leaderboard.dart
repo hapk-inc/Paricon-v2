@@ -135,7 +135,7 @@ class ViewLeaderBoard extends ConsumerWidget {
                                             fit: FlexFit.tight,
                                             child: Row(
                                               children: [
-                                                Text(
+                                                AutoSizeText(
                                                   pUser.name,
                                                   style: TextStyle(
                                                     fontFamily: 'Montserrat',
@@ -143,8 +143,10 @@ class ViewLeaderBoard extends ConsumerWidget {
                                                   ),
                                                 ),
                                                 if (index == 0)
-                                                  Lottie.asset(
-                                                      'lottie/trophy.json')
+                                                  Expanded(
+                                                    child: Lottie.asset(
+                                                        'lottie/trophy.json'),
+                                                  )
                                               ],
                                             ),
                                           ),

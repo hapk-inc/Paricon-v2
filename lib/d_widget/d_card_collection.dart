@@ -148,7 +148,6 @@ class DCardCollection extends ConsumerWidget {
                               color: vanDyke.withOpacity(0.3),
                             ),
                           ),
-                          //Text("ENTER")
                         ],
                       ),
                     );

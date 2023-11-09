@@ -57,18 +57,21 @@ class DCarouselThirdSlide extends ConsumerWidget {
               Positioned(
                 top: 30.r,
                 left: 15.r,
+                right: 3.r,
                 child: AutoSizeText.rich(
                   TextSpan(
                     text: "1. ${firstUser.data().name}",
                     children: [
                       TextSpan(
-                          text: " #${firstUser.data().id}",
-                          style: TextStyle(
-                              fontSize: 12.r,
-                              color: oldRose,
-                              fontFamily: 'Montserrat'))
+                        text: " #${firstUser.data().id}",
+                        style: TextStyle(
+                            fontSize: 12.r,
+                            //color: oldRose,
+                            fontFamily: 'Montserrat'),
+                      )
                     ],
                   ),
+                  maxLines: 2,
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!

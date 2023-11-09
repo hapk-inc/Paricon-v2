@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
 
@@ -62,6 +63,7 @@ class DCarouselFirstSlide extends ConsumerWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Gap(15.r),
               Container(
                 height: 48.r,
                 width: double.maxFinite,
@@ -122,7 +124,7 @@ class DCarouselFirstSlide extends ConsumerWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 18.h),
+              Gap(15.r),
               //  Spacer(),
               if (myDuration != null)
                 Container(

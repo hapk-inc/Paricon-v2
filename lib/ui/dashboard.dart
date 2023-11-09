@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:gap/gap.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../d_widget/d_card_collection.dart';
 import '../d_widget/d_carousel.dart';
+import '../d_widget/d_gift_avatar.dart';
 import '../d_widget/d_panel.dart';
 import '../d_widget/d_recent_player.dart';
 import '../d_widget/d_welcome.dart';
@@ -118,11 +119,13 @@ class DashboardStaggered extends ConsumerWidget {
               mainAxisCellCount: 8.4,
               child: DWelcome(),
             ),
+            Gap(1.5.r),
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
               mainAxisCellCount: 5.4.r,
               child: const RecentPlayer(),
             ),
+            Gap(1.5.r),
             const StaggeredGridTile.count(
               crossAxisCellCount: 20,
               mainAxisCellCount: 15,
@@ -130,33 +133,36 @@ class DashboardStaggered extends ConsumerWidget {
             ),
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
+              mainAxisCellCount: 12.r,
+              child: const GiftAvatar(),
+            ),
+            /*StaggeredGridTile.count(
+              crossAxisCellCount: 20,
               mainAxisCellCount: 21.r,
               child: const DCardCollection(),
-            ),
+            ),*/
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: 9.r,
+              mainAxisCellCount: 6.r,
               child: Container(
-                padding: EdgeInsets.all(7.5.r),
+                padding: EdgeInsets.all(1.5.r),
                 alignment: Alignment.center,
-                child: Opacity(
-                  opacity: 0.9,
-                  child: InkWell(
-                    onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text("Click here to log out"),
-                        backgroundColor: charcoal,
-                        action: SnackBarAction(
-                          label: 'CONFIRM',
-                          onPressed: () => ref.read(signOutProvider),
-                        ),
+                child: InkWell(
+                  onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text("Click here to log out"),
+                      backgroundColor: charcoal,
+                      action: SnackBarAction(
+                        label: 'CONFIRM',
+                        onPressed: () => ref.read(signOutProvider),
                       ),
                     ),
-                    child: const MyLogo(),
                   ),
+                  child: const MyLogo(),
                 ),
               ),
             ),
+            Gap(30.r),
           ],
         ),
       ),
