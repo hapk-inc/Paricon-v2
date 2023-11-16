@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../model/my_avatar.dart';
 import '../model/my_duration.dart';
 import '../model/my_user.dart';
 import '../model/p_user.dart';
@@ -122,7 +123,7 @@ class UserDatastore {
     );
   }
 
-  Query<PUser> recentUserCollection(num id) => userColl
+  Query<PUser> get recentUserCollection => userColl
       .withConverter(
         fromFirestore: (snapshot, _) => PUser.fromJson(snapshot.data()!),
         toFirestore: (x, _) => x.toJson(),
@@ -153,6 +154,14 @@ class UserDatastore {
     return subject.stream;
   }
 
+  Future addFriend(String friend) => userColl.doc(_id).update(
+        {
+          'myFriends': FieldValue.arrayUnion([friend]),
+        },
+      );
+
+  Future setActive(bool flag) => userColl.doc(_id).update({'isActive': flag});
+
   Stream<QueryDocumentSnapshot<PUser>> get firstRank {
     late BehaviorSubject<QueryDocumentSnapshot<PUser>> subject;
     subject = BehaviorSubject(
@@ -178,5 +187,31 @@ class UserDatastore {
       ),
     );
     return subject.stream;
+  }
+
+  Query<MyAvatar> get receivedNewAvatar => userColl
+      .doc(_id)
+      .collection('avatar')
+      .where('id', isEqualTo: "")
+      .withConverter(
+        fromFirestore: (snapshot, _) => MyAvatar.fromJson(snapshot.data()!),
+        toFirestore: (x, _) => x.toJson(),
+      );
+
+  Future newCard(String docId, String rPickCard) {
+    WriteBatch batch = FirebaseFirestore.instance.batch();
+
+    batch.update(
+      userColl.doc(_id),
+      {
+        'myCards': FieldValue.arrayUnion([rPickCard]),
+        'avatar': rPickCard,
+      },
+    );
+    batch.update(
+      userColl.doc(_id).collection('avatar').doc(docId),
+      {'id': rPickCard},
+    );
+    return batch.commit();
   }
 }

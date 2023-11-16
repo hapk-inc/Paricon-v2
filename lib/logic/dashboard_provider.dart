@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mock_data/mock_data.dart';
 
@@ -13,3 +14,24 @@ final welcomeSubtitleProvider = Provider(
     "Just one click away from using it as your profile picture — "
   ][mockInteger(0, 3)],
 );
+
+final StateNotifierProvider<DPanelOption, Widget> dPanelWidgetProvider =
+    StateNotifierProvider<DPanelOption, Widget>(
+  (_) => DPanelOption(),
+);
+
+class DPanelOption extends StateNotifier<Widget> {
+  DPanelOption() : super(Container());
+}
+
+enum PGroupOption { everyone, friends }
+
+final StateNotifierProvider<PGroupOptionState, PGroupOption>
+    pGroupOptionProvider =
+    StateNotifierProvider<PGroupOptionState, PGroupOption>(
+  (_) => PGroupOptionState(),
+);
+
+class PGroupOptionState extends StateNotifier<PGroupOption> {
+  PGroupOptionState() : super(PGroupOption.everyone);
+}

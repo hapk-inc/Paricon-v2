@@ -57,7 +57,10 @@ Future<void> main() async {
   //const fatalError = true;
   // Non-async exceptions
   FlutterError.onError = (errorDetails) {
-    firebaseCrashlytics.recordFlutterFatalError(errorDetails);
+    if (!kIsWeb) {
+      debugPrintStack(stackTrace: errorDetails.stack);
+      firebaseCrashlytics.recordFlutterFatalError(errorDetails);
+    }
   };
 
   // Async exceptions

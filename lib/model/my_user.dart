@@ -17,6 +17,7 @@ class MyUser with _$MyUser {
     //num? controllerCount,
     DateTime? createdAt,
     @Default([]) List<String> myCards,
+    @Default([]) List<String> myFriends,
     Duration? bestDuration,
     @Default(0) num tournamentPlayed,
     //List<String>? controlledBy,

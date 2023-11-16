@@ -30,10 +30,10 @@ final AutoDisposeFutureProvider<bool> appOpenedOrLoggedInProvider =
 );
 
 final recentUserCollectionReferenceProvider =
-    Provider.autoDispose.family<Query<PUser>, num>(
-  (ref, id) {
+    Provider.autoDispose<Query<PUser>>(
+  (ref) {
     final datastore = ref.watch(userDatastoreProvider);
-    return datastore.recentUserCollection(id);
+    return datastore.recentUserCollection;
   },
 );
 
@@ -42,6 +42,22 @@ final AutoDisposeProvider<CollectionReference<PUser>>
   (ref) {
     final datastore = ref.watch(userDatastoreProvider);
     return datastore.bestDurationColl;
+  },
+);
+
+final AutoDisposeFutureProviderFamily<void, String> addFriendProvider =
+    FutureProvider.autoDispose.family<void, String>(
+  (ref, id) async {
+    final userDatastore = ref.read(userDatastoreProvider);
+    return userDatastore.addFriend(id);
+  },
+);
+
+final AutoDisposeFutureProviderFamily<void, bool> setActiveProvider =
+    FutureProvider.autoDispose.family<void, bool>(
+  (ref, flag) async {
+    final userDatastore = ref.read(userDatastoreProvider);
+    return userDatastore.setActive(flag);
   },
 );
 

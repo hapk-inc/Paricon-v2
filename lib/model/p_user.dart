@@ -17,6 +17,7 @@ class PUser with _$PUser {
     Duration? bestDuration,
     DateTime? currentTime,
     @Default(0) num tournamentPlayed,
+    @Default([]) List<String> myFriends,
   }) = _PUser;
 
   factory PUser.fromJson(Map<String, dynamic> json) => _$PUserFromJson(json);

@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../theme/my_color.dart';
 
-class DashboardWorkInProgress extends StatelessWidget {
-  const DashboardWorkInProgress({super.key, required this.inWork});
+class WorkInProgress extends StatelessWidget {
+  const WorkInProgress({super.key, required this.inWork});
 
   final String inWork;
 

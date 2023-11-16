@@ -31,6 +31,7 @@ mixin _$MyUser {
       throw _privateConstructorUsedError; //num? controllerCount,
   DateTime? get createdAt => throw _privateConstructorUsedError;
   List<String> get myCards => throw _privateConstructorUsedError;
+  List<String> get myFriends => throw _privateConstructorUsedError;
   Duration? get bestDuration => throw _privateConstructorUsedError;
   num get tournamentPlayed => throw _privateConstructorUsedError;
 
@@ -55,6 +56,7 @@ abstract class $MyUserCopyWith<$Res> {
       bool isHuman,
       DateTime? createdAt,
       List<String> myCards,
+      List<String> myFriends,
       Duration? bestDuration,
       num tournamentPlayed});
 }
@@ -82,6 +84,7 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
     Object? isHuman = null,
     Object? createdAt = freezed,
     Object? myCards = null,
+    Object? myFriends = null,
     Object? bestDuration = freezed,
     Object? tournamentPlayed = null,
   }) {
@@ -126,6 +129,10 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
           ? _value.myCards
           : myCards // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      myFriends: null == myFriends
+          ? _value.myFriends
+          : myFriends // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       bestDuration: freezed == bestDuration
           ? _value.bestDuration
           : bestDuration // ignore: cast_nullable_to_non_nullable
@@ -156,6 +163,7 @@ abstract class _$$MyUserImplCopyWith<$Res> implements $MyUserCopyWith<$Res> {
       bool isHuman,
       DateTime? createdAt,
       List<String> myCards,
+      List<String> myFriends,
       Duration? bestDuration,
       num tournamentPlayed});
 }
@@ -181,6 +189,7 @@ class __$$MyUserImplCopyWithImpl<$Res>
     Object? isHuman = null,
     Object? createdAt = freezed,
     Object? myCards = null,
+    Object? myFriends = null,
     Object? bestDuration = freezed,
     Object? tournamentPlayed = null,
   }) {
@@ -225,6 +234,10 @@ class __$$MyUserImplCopyWithImpl<$Res>
           ? _value._myCards
           : myCards // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      myFriends: null == myFriends
+          ? _value._myFriends
+          : myFriends // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       bestDuration: freezed == bestDuration
           ? _value.bestDuration
           : bestDuration // ignore: cast_nullable_to_non_nullable
@@ -251,9 +264,11 @@ class _$MyUserImpl implements _MyUser {
       this.isHuman = true,
       this.createdAt,
       final List<String> myCards = const [],
+      final List<String> myFriends = const [],
       this.bestDuration,
       this.tournamentPlayed = 0})
-      : _myCards = myCards;
+      : _myCards = myCards,
+        _myFriends = myFriends;
 
   factory _$MyUserImpl.fromJson(Map<String, dynamic> json) =>
       _$$MyUserImplFromJson(json);
@@ -289,6 +304,15 @@ class _$MyUserImpl implements _MyUser {
     return EqualUnmodifiableListView(_myCards);
   }
 
+  final List<String> _myFriends;
+  @override
+  @JsonKey()
+  List<String> get myFriends {
+    if (_myFriends is EqualUnmodifiableListView) return _myFriends;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_myFriends);
+  }
+
   @override
   final Duration? bestDuration;
   @override
@@ -297,7 +321,7 @@ class _$MyUserImpl implements _MyUser {
 
   @override
   String toString() {
-    return 'MyUser(name: $name, rName: $rName, id: $id, avatar: $avatar, avatarCode: $avatarCode, isActive: $isActive, playing: $playing, isHuman: $isHuman, createdAt: $createdAt, myCards: $myCards, bestDuration: $bestDuration, tournamentPlayed: $tournamentPlayed)';
+    return 'MyUser(name: $name, rName: $rName, id: $id, avatar: $avatar, avatarCode: $avatarCode, isActive: $isActive, playing: $playing, isHuman: $isHuman, createdAt: $createdAt, myCards: $myCards, myFriends: $myFriends, bestDuration: $bestDuration, tournamentPlayed: $tournamentPlayed)';
   }
 
   @override
@@ -318,6 +342,8 @@ class _$MyUserImpl implements _MyUser {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality().equals(other._myCards, _myCards) &&
+            const DeepCollectionEquality()
+                .equals(other._myFriends, _myFriends) &&
             (identical(other.bestDuration, bestDuration) ||
                 other.bestDuration == bestDuration) &&
             (identical(other.tournamentPlayed, tournamentPlayed) ||
@@ -338,6 +364,7 @@ class _$MyUserImpl implements _MyUser {
       isHuman,
       createdAt,
       const DeepCollectionEquality().hash(_myCards),
+      const DeepCollectionEquality().hash(_myFriends),
       bestDuration,
       tournamentPlayed);
 
@@ -367,6 +394,7 @@ abstract class _MyUser implements MyUser {
       final bool isHuman,
       final DateTime? createdAt,
       final List<String> myCards,
+      final List<String> myFriends,
       final Duration? bestDuration,
       final num tournamentPlayed}) = _$MyUserImpl;
 
@@ -392,6 +420,8 @@ abstract class _MyUser implements MyUser {
   DateTime? get createdAt;
   @override
   List<String> get myCards;
+  @override
+  List<String> get myFriends;
   @override
   Duration? get bestDuration;
   @override

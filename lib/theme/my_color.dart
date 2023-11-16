@@ -50,5 +50,14 @@ const Color periwinkle = Color(0xffB7B2DC);
 const Color coyote = Color(0xff7A542E);
 
 const Color aquamarine = Color(0xff93efd8);
-const Color uranianBlue = Color(0xffbfe7fc);
+const Color uranianBlue = Color(0xffbfe7fc); // ProfileDetail Color
 const Color xantHous = Color(0xffffc759);
+
+//ProfileDetail Color
+const Color mayaBlue = Color(0xff79beee);
+const Color wheat = Color(0xffead2ac);
+const Color federalBlue = Color(0xff0e0e52);
+
+//Recent Player Panel
+const Color bloodRed = Color(0xff6e0e0a);
+const Color chocolateCosmos = Color(0xff4c061d);

@@ -11,10 +11,18 @@ final showAppProvider = Provider<bool>(
   },
 );
 
-final inWorkProvider = Provider<String>(
+final Provider<String> inWorkProvider = Provider<String>(
   (ref) {
     final remoteConfig = ref.watch(remoteConfigProvider);
     final String inWork = remoteConfig.getString('inWork');
     return inWork;
+  },
+);
+
+final Provider<int> recentCountProvider = Provider<int>(
+  (ref) {
+    final remoteConfig = ref.watch(remoteConfigProvider);
+    final int recentCount = remoteConfig.getInt('recentCount');
+    return recentCount;
   },
 );

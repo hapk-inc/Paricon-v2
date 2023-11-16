@@ -49,7 +49,7 @@ class Auth {
             ? "${myRandomName()} $myLastName"
             : myRandomName());
     final DateTime createdAt = DateTime.now();
-    final String x = mockString();
+    final String x = fUser.uid;
 
     WriteBatch batch = _firebaseFirestore.batch();
     batch.set(

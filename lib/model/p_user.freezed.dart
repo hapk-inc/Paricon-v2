@@ -30,6 +30,7 @@ mixin _$PUser {
   Duration? get bestDuration => throw _privateConstructorUsedError;
   DateTime? get currentTime => throw _privateConstructorUsedError;
   num get tournamentPlayed => throw _privateConstructorUsedError;
+  List<String> get myFriends => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +52,8 @@ abstract class $PUserCopyWith<$Res> {
       DateTime? createdAt,
       Duration? bestDuration,
       DateTime? currentTime,
-      num tournamentPlayed});
+      num tournamentPlayed,
+      List<String> myFriends});
 }
 
 /// @nodoc
@@ -77,6 +79,7 @@ class _$PUserCopyWithImpl<$Res, $Val extends PUser>
     Object? bestDuration = freezed,
     Object? currentTime = freezed,
     Object? tournamentPlayed = null,
+    Object? myFriends = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -119,6 +122,10 @@ class _$PUserCopyWithImpl<$Res, $Val extends PUser>
           ? _value.tournamentPlayed
           : tournamentPlayed // ignore: cast_nullable_to_non_nullable
               as num,
+      myFriends: null == myFriends
+          ? _value.myFriends
+          : myFriends // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -140,7 +147,8 @@ abstract class _$$PUserImplCopyWith<$Res> implements $PUserCopyWith<$Res> {
       DateTime? createdAt,
       Duration? bestDuration,
       DateTime? currentTime,
-      num tournamentPlayed});
+      num tournamentPlayed,
+      List<String> myFriends});
 }
 
 /// @nodoc
@@ -164,6 +172,7 @@ class __$$PUserImplCopyWithImpl<$Res>
     Object? bestDuration = freezed,
     Object? currentTime = freezed,
     Object? tournamentPlayed = null,
+    Object? myFriends = null,
   }) {
     return _then(_$PUserImpl(
       name: null == name
@@ -206,6 +215,10 @@ class __$$PUserImplCopyWithImpl<$Res>
           ? _value.tournamentPlayed
           : tournamentPlayed // ignore: cast_nullable_to_non_nullable
               as num,
+      myFriends: null == myFriends
+          ? _value._myFriends
+          : myFriends // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -223,8 +236,10 @@ class _$PUserImpl extends _PUser {
       this.createdAt,
       this.bestDuration,
       this.currentTime,
-      this.tournamentPlayed = 0})
-      : super._();
+      this.tournamentPlayed = 0,
+      final List<String> myFriends = const []})
+      : _myFriends = myFriends,
+        super._();
 
   factory _$PUserImpl.fromJson(Map<String, dynamic> json) =>
       _$$PUserImplFromJson(json);
@@ -252,10 +267,18 @@ class _$PUserImpl extends _PUser {
   @override
   @JsonKey()
   final num tournamentPlayed;
+  final List<String> _myFriends;
+  @override
+  @JsonKey()
+  List<String> get myFriends {
+    if (_myFriends is EqualUnmodifiableListView) return _myFriends;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_myFriends);
+  }
 
   @override
   String toString() {
-    return 'PUser(name: $name, rName: $rName, id: $id, avatar: $avatar, isActive: $isActive, playing: $playing, createdAt: $createdAt, bestDuration: $bestDuration, currentTime: $currentTime, tournamentPlayed: $tournamentPlayed)';
+    return 'PUser(name: $name, rName: $rName, id: $id, avatar: $avatar, isActive: $isActive, playing: $playing, createdAt: $createdAt, bestDuration: $bestDuration, currentTime: $currentTime, tournamentPlayed: $tournamentPlayed, myFriends: $myFriends)';
   }
 
   @override
@@ -277,7 +300,9 @@ class _$PUserImpl extends _PUser {
             (identical(other.currentTime, currentTime) ||
                 other.currentTime == currentTime) &&
             (identical(other.tournamentPlayed, tournamentPlayed) ||
-                other.tournamentPlayed == tournamentPlayed));
+                other.tournamentPlayed == tournamentPlayed) &&
+            const DeepCollectionEquality()
+                .equals(other._myFriends, _myFriends));
   }
 
   @JsonKey(ignore: true)
@@ -293,7 +318,8 @@ class _$PUserImpl extends _PUser {
       createdAt,
       bestDuration,
       currentTime,
-      tournamentPlayed);
+      tournamentPlayed,
+      const DeepCollectionEquality().hash(_myFriends));
 
   @JsonKey(ignore: true)
   @override
@@ -320,7 +346,8 @@ abstract class _PUser extends PUser {
       final DateTime? createdAt,
       final Duration? bestDuration,
       final DateTime? currentTime,
-      final num tournamentPlayed}) = _$PUserImpl;
+      final num tournamentPlayed,
+      final List<String> myFriends}) = _$PUserImpl;
   const _PUser._() : super._();
 
   factory _PUser.fromJson(Map<String, dynamic> json) = _$PUserImpl.fromJson;
@@ -345,6 +372,8 @@ abstract class _PUser extends PUser {
   DateTime? get currentTime;
   @override
   num get tournamentPlayed;
+  @override
+  List<String> get myFriends;
   @override
   @JsonKey(ignore: true)
   _$$PUserImplCopyWith<_$PUserImpl> get copyWith =>

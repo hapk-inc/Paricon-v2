@@ -22,6 +22,10 @@ _$MyUserImpl _$$MyUserImplFromJson(Map<String, dynamic> json) => _$MyUserImpl(
               ?.map((e) => e as String)
               .toList() ??
           const [],
+      myFriends: (json['myFriends'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
       bestDuration: json['bestDuration'] == null
           ? null
           : Duration(microseconds: json['bestDuration'] as int),
@@ -40,6 +44,7 @@ Map<String, dynamic> _$$MyUserImplToJson(_$MyUserImpl instance) =>
       'isHuman': instance.isHuman,
       'createdAt': instance.createdAt?.toIso8601String(),
       'myCards': instance.myCards,
+      'myFriends': instance.myFriends,
       'bestDuration': instance.bestDuration?.inMicroseconds,
       'tournamentPlayed': instance.tournamentPlayed,
     };

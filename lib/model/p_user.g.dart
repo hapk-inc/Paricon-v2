@@ -23,6 +23,10 @@ _$PUserImpl _$$PUserImplFromJson(Map<String, dynamic> json) => _$PUserImpl(
           ? null
           : DateTime.parse(json['currentTime'] as String),
       tournamentPlayed: json['tournamentPlayed'] as num? ?? 0,
+      myFriends: (json['myFriends'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$PUserImplToJson(_$PUserImpl instance) =>
@@ -37,4 +41,5 @@ Map<String, dynamic> _$$PUserImplToJson(_$PUserImpl instance) =>
       'bestDuration': instance.bestDuration?.inMicroseconds,
       'currentTime': instance.currentTime?.toIso8601String(),
       'tournamentPlayed': instance.tournamentPlayed,
+      'myFriends': instance.myFriends,
     };
