@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,7 +38,7 @@ class RecentPlayer extends ConsumerWidget {
         ? Container()
         : AnimatedContainer(
             duration: const Duration(milliseconds: 500),
-            alignment: Alignment.center,
+            alignment: Alignment.centerLeft,
             child: FirestoreQueryBuilder<PUser>(
               query: asyncRecent,
               builder: (__, FirestoreQueryBuilderSnapshot<PUser> snapshot, _) {
@@ -64,6 +65,7 @@ class RecentPlayer extends ConsumerWidget {
                 }
 
                 return ListView.builder(
+                  shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   padding: EdgeInsets.only(left: 9.w),
                   itemBuilder: (_, int index) {
@@ -86,85 +88,90 @@ class RecentPlayerTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pTheme = SlidingPanelTheme();
-    return Container(
-      width: 69.w,
-      margin: EdgeInsets.symmetric(horizontal: 1.5.w),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AnimatedOpacity(
-            opacity: pUser.isActive ? 1 : 0.3,
-            duration: const Duration(milliseconds: 500),
-            child: InkWell(
-              onTap: () {
-                ref.watch(dPanelWidgetProvider.notifier).state = Container(
-                  height: 300.h,
-                  decoration: BoxDecoration(
-                    borderRadius: pTheme.slidingPanelRadius,
-                    color: ghostWhite,
-                  ),
-                  child: PPanel(id, pUser: pUser),
-                );
-                ref.read(dashboardPanelProvider).open();
-              },
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 500),
-                child: pUser.avatar == null || pUser.avatar!.isEmpty
-                    ? CircleAvatar(
-                        radius: 30.r,
-                        backgroundColor: majorelleBlue,
-                        child: Text(
-                          pUser.name.substring(0, 2).toUpperCase(),
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    color: lightOrange,
-                                    fontSize: 24.r,
-                                  ),
-                        ),
-                      )
-                    : Stack(
-                        children: [
-                          Center(
-                            child: CircleAvatar(
-                              radius: 30.r,
-                              backgroundColor: majorelleBlue,
-                            ),
+    return SlideInRight(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        width: 65.1.w,
+        margin: EdgeInsets.symmetric(horizontal: 1.5.w),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedOpacity(
+              opacity: pUser.isActive ? 1 : 0.3,
+              duration: const Duration(milliseconds: 500),
+              child: InkWell(
+                onTap: () {
+                  ref.watch(dPanelWidgetProvider.notifier).state = Container(
+                    height: 300.h,
+                    decoration: BoxDecoration(
+                      borderRadius: pTheme.slidingPanelRadius,
+                      color: ghostWhite,
+                    ),
+                    child: PPanel(id, pUser: pUser),
+                  );
+                  ref.read(dashboardPanelProvider).open();
+                },
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 500),
+                  child: pUser.avatar == null || pUser.avatar!.isEmpty
+                      ? CircleAvatar(
+                          radius: 30.r,
+                          backgroundColor: majorelleBlue,
+                          child: Text(
+                            pUser.name.substring(0, 2).toUpperCase(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                  color: lightOrange,
+                                  fontSize: 24.r,
+                                ),
                           ),
-                          Positioned(
-                            top: -3.r,
-                            bottom: -1.5.r,
-                            left: 0.r,
-                            right: 0.r,
-                            child: RandomAvatar(
-                              pUser.avatar!,
-                              trBackground: true,
-                              width: 30.r,
-                              height: 30.r,
+                        )
+                      : Stack(
+                          children: [
+                            Center(
+                              child: CircleAvatar(
+                                radius: 30.r,
+                                backgroundColor: majorelleBlue,
+                              ),
                             ),
-                          )
-                        ],
-                      ),
+                            Positioned(
+                              top: -3.r,
+                              bottom: -7.5.r,
+                              left: 0.r,
+                              right: 0.r,
+                              child: RandomAvatar(
+                                pUser.avatar!,
+                                trBackground: true,
+                                width: 30.r,
+                                height: 30.r,
+                              ),
+                            )
+                          ],
+                        ),
+                ),
               ),
             ),
-          ),
-          Gap(6.r),
-          Expanded(
-            child: AutoSizeText(
-              toBeginningOfSentenceCase(pUser.name) ?? "",
-              maxLines: 2,
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontSize: 10.5.r,
-                    height: 1.8.r,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w300,
-                  ),
-              wrapWords: false,
-              maxFontSize: 12,
-              minFontSize: 9,
-              textAlign: TextAlign.center,
+            Gap(6.r),
+            Expanded(
+              child: AutoSizeText(
+                toBeginningOfSentenceCase(pUser.name) ?? "",
+                maxLines: 2,
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontSize: 9.6.r,
+                      height: 1.8.r,
+                      fontFamily: 'Cabin',
+                      fontWeight: FontWeight.w300,
+                    ),
+                wrapWords: false,
+                maxFontSize: 12,
+                minFontSize: 9,
+                textAlign: TextAlign.center,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

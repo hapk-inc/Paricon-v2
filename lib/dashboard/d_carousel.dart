@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -21,7 +20,6 @@ import '../logic/user_provider.dart';
 import '../model/my_duration.dart';
 import '../model/p_user.dart';
 import '../my_widget/show_t_score.dart';
-import '../my_widget/view_leaderboard.dart';
 import '../router/my_route.dart';
 import '../theme/my_color.dart';
 
@@ -95,7 +93,8 @@ class DCarousel extends ConsumerWidget {
                               Theme.of(context).textTheme.bodyLarge!.copyWith(
                                     color: caputMortuum,
                                     fontFamily: 'Poppins',
-                                    height: 2.25,
+                                    fontSize: 12.r,
+                                    height: 2.1.r,
                                     fontWeight: FontWeight.normal,
                                   ),
                         ),
@@ -164,7 +163,7 @@ class DCarousel extends ConsumerWidget {
               ),
             ),
           ),
-          OpenContainer(
+          /*OpenContainer(
             closedElevation: 0.r,
             closedColor: lightOrange,
             openColor: lightOrange,
@@ -230,12 +229,12 @@ class DCarousel extends ConsumerWidget {
             ),
             openBuilder: (_, void Function({Object? returnValue}) action) =>
                 const ViewLeaderBoard(),
-          )
+          )*/
         ],
         options: CarouselOptions(
           padEnds: false,
           enableInfiniteScroll: false,
-          viewportFraction: 0.63,
+          viewportFraction: 0.6,
           aspectRatio: 1.5,
           enlargeCenterPage: true,
           enlargeFactor: 0.27,
@@ -271,7 +270,7 @@ class ShortLeaderBoard extends ConsumerWidget {
 
     return FirestoreQueryBuilder<PUser>(
       query: ref
-          .read(bestDurationCollReferenceProvider)
+          .watch(bestDurationCollReferenceProvider)
           .where('bestDuration', isNull: false)
           .orderBy('bestDuration'),
       builder: (_, FirestoreQueryBuilderSnapshot<PUser> snapshot, __) {

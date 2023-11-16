@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +42,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
   void initState() {
     _pageController = PageController();
     WidgetsBinding.instance.addObserver(this);
-    ref.read(setActiveProvider(true).future);
+    //ref.read(setActiveProvider(true).future);
     super.initState();
   }
 
@@ -74,7 +73,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
               toolbarHeight: 90.r,
               backgroundColor: majorelleBlue,
               title: Container(
-                padding: EdgeInsets.all(30.r),
+                padding: EdgeInsets.all(45.r),
                 alignment: Alignment.center,
                 child: const MyLogo(),
               ),
@@ -115,7 +114,7 @@ class _Tournament extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 9.r),
+      padding: EdgeInsets.only(top: 7.5.r),
       alignment: Alignment.topCenter,
       child: SingleChildScrollView(
         child: StaggeredGrid.count(
@@ -126,7 +125,7 @@ class _Tournament extends StatelessWidget {
               mainAxisCellCount: 7.2.r,
               child: const Welcome(),
             ),
-            Gap(7.5.r),
+            Gap(1.5.r),
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
               mainAxisCellCount: 1.8,
@@ -136,44 +135,23 @@ class _Tournament extends StatelessWidget {
                 child: const MyGroupButton(),
               ),
             ),
-            Gap(24.r),
+            Gap(10.5.r),
             const StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: 4.5,
+              mainAxisCellCount: 4.41,
               child: RecentPlayer(),
             ),
-            //Gap(3.r),
-            StaggeredGridTile.fit(
-              crossAxisCellCount: 20,
-              //mainAxisCellCount: 2.1,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: AutoSizeText(
-                  "Tap on the players to discover more about them.",
-                  //" Double-tap to make them your friends.",
-                  style: TextStyle(
-                    height: 2.1.r,
-                    letterSpacing: 0,
-                    color: vanDyke.withOpacity(0.6),
-                    fontFamily: 'Cabin',
-                    fontWeight: FontWeight.w300,
-                    fontSize: 9.r,
-                  ),
-                ),
-              ),
-            ),
-            Gap(24.r),
+            Gap(10.5.r),
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
               mainAxisCellCount: 13.5.r,
               child: const DCarousel(),
             ),
-            Gap(12.r),
+            Gap(9.r),
             const StaggeredGridTile.fit(
               crossAxisCellCount: 20,
               child: EnterTournamentCode(),
             ),
-            //Gap(1.5.r),
             StaggeredGridTile.fit(
               crossAxisCellCount: 20,
               child: Padding(

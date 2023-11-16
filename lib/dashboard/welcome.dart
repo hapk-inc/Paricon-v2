@@ -29,7 +29,7 @@ class Welcome extends ConsumerWidget {
       margin: EdgeInsets.only(left: 7.5.r, right: 7.5.r, bottom: 7.5.r),
       decoration: BoxDecoration(
         color: majorelleBlue,
-        borderRadius: BorderRadius.circular(7.2.r),
+        borderRadius: BorderRadius.circular(9.r),
       ),
       alignment: Alignment.centerLeft,
       child: Stack(
@@ -82,9 +82,11 @@ class _TitleSubtitle extends ConsumerWidget {
     return showTile
         ? Container()
         : ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 12.w),
             title: Container(
-              alignment: Alignment.bottomLeft,
-              height: 60.h,
+              alignment: Alignment.centerLeft,
+              height: 36.h,
+              // color: mayaBlue,
               child: AutoSizeText(
                 ref.read(welcomeTitleProvider(
                     toBeginningOfSentenceCase(myUser.name) ?? "")),
@@ -94,36 +96,33 @@ class _TitleSubtitle extends ConsumerWidget {
                     .copyWith(color: lightOrange),
                 maxLines: 1,
                 minFontSize: 15,
-                maxFontSize: 30,
+                maxFontSize: 24,
               ),
             ),
-            subtitle: SizedBox(
-              //color: Colors.amber,
-              height: 75.h,
-              child: AutoSizeText.rich(
-                TextSpan(
-                  children: [
-                    if (myUser.avatar == null) ...[
-                      TextSpan(
-                          text: ref.read(welcomeSubtitleProvider),
-                          style: TextStyle(height: 2.1.r)),
-                      TextSpan(
-                        text: "click here",
-                        recognizer: TapGestureRecognizer()
-                          ..onTap =
-                              () => ref.read(setCardAvatarProvider(fUser.uid)),
-                        style: TextStyle(color: darkPastelGreen, height: 2.1.r),
+            subtitle: AutoSizeText.rich(
+              TextSpan(
+                children: [
+                  if (myUser.avatar == null) ...[
+                    TextSpan(text: ref.read(welcomeSubtitleProvider)),
+                    TextSpan(
+                      text: " click here",
+                      recognizer: TapGestureRecognizer()
+                        ..onTap =
+                            () => ref.read(setCardAvatarProvider(fUser.uid)),
+                      style: TextStyle(
+                        color: darkPastelGreen,
+                        height: 0.6.r,
                       ),
-                    ] else ...[
-                      const TextSpan(text: "Hope you're having a good day")
-                    ]
-                  ],
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(color: lightOrange),
-                ),
+                    ),
+                  ] else ...[
+                    const TextSpan(text: "Hope you're having a good day")
+                  ]
+                ],
               ),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(color: lightOrange, height: 2.1.r),
             ),
           );
   }

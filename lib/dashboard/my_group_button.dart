@@ -22,21 +22,21 @@ class MyGroupButton extends ConsumerWidget {
             PGroupOption.values[index];
       },
       options: GroupButtonOptions(
-        buttonWidth: 75.w,
-        buttonHeight: 30.h,
+        buttonWidth: 60.w,
+        buttonHeight: 27.h,
         selectedTextStyle: TextStyle(
           fontFamily: 'Cabin',
-          fontSize: 12.r,
+          fontSize: 9.6.r,
           color: ghostWhite,
         ),
         unselectedTextStyle: TextStyle(
           fontFamily: 'Cabin',
-          fontSize: 12.r,
+          fontSize: 9.6.r,
           color: ghostWhite,
         ),
         selectedColor: vanDyke,
         unselectedColor: periwinkle,
-        borderRadius: BorderRadius.circular(6.r),
+        borderRadius: BorderRadius.circular(9.r),
       ),
     );
   }
