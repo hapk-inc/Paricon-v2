@@ -1,12 +1,8 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,20 +13,21 @@ import 'package:mock_data/mock_data.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../dashboard/d_name.dart';
+import '../dashboard/d_subtitle.dart';
+import '../dashboard/enter_tournament_code.dart';
 import '../dashboard/in_progress.dart';
+import '../dashboard/recent_player.dart';
+import '../dashboard/t_button.dart';
 import '../logic/auth_provider.dart';
-import '../logic/card_avatar_notifier.dart';
 import '../logic/dashboard_provider.dart';
 import '../logic/panel_provider.dart';
 import '../logic/remote_values.dart';
 import '../logic/t_score.dart';
 import '../logic/tournament_database.dart';
-import '../logic/tournament_listener.dart';
-import '../logic/user_activity_provider.dart';
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
 import '../model/t_duration.dart';
-import '../model/user_activity.dart';
 import '../my_widget/my_logo.dart';
 import '../router/my_route.dart';
 import '../theme/my_color.dart';
@@ -46,12 +43,8 @@ class DashboardPage extends ConsumerStatefulWidget {
 
 class _DashboardPageState extends ConsumerState<DashboardPage>
     with WidgetsBindingObserver {
-  late PageController _pageController;
-  late int _currentPage = 0;
-
   @override
   void initState() {
-    _pageController = PageController();
     WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
@@ -95,14 +88,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
             : SlidingUpPanel(
                 controller: ref.watch(dashboardPanelProvider),
                 borderRadius: pTheme.slidingPanelRadius,
-                body: PageView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: _pageController,
-                  children: [
-                    const _Tournament(),
-                    Container(),
-                  ],
-                ),
+                body: const _Tournament(),
                 isDraggable: false,
                 backdropEnabled: true,
                 panel: ref.watch(dPanelWidgetProvider),
@@ -174,7 +160,6 @@ class _Tournament extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final MyUser myUser = ref.watch(myUserProvider).value!;
-    final tTheme = Theme.of(context).textTheme.titleLarge!;
 
     final User? fUser = ref.watch(authUserProvider).value;
 
@@ -192,97 +177,8 @@ class _Tournament extends ConsumerWidget {
           axisDirection: AxisDirection.down,
           crossAxisCount: 20,
           children: [
-            StaggeredGridTile.fit(
-              crossAxisCellCount: 20,
-              child: SlideInLeft(
-                child: FadeIn(
-                  child: Container(
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    child: AnimatedDefaultTextStyle(
-                      style: tTheme.copyWith(
-                        color: majorelleBlue,
-                        fontSize: 24.r,
-                        fontFamily: 'WendyOne',
-                      ),
-                      duration: const Duration(milliseconds: 500),
-                      child: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        child: AutoSizeText.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: myUser.name,
-                                style: TextStyle(
-                                  color: majorelleBlue,
-                                  fontSize: 30.r,
-                                ),
-                              ),
-                              TextSpan(
-                                  text: " 👋", style: TextStyle(fontSize: 45.r))
-                            ],
-                          ),
-                          key: ValueKey(myUser.name),
-                          maxLines: 1,
-                          minFontSize: 21,
-                          maxFontSize: 45,
-                          stepGranularity: 3,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            StaggeredGridTile.fit(
-              crossAxisCellCount: 20,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 500),
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                alignment: Alignment.centerLeft,
-                child: AnimatedDefaultTextStyle(
-                  style: TextStyle(
-                    fontSize: 10.8.r,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w300,
-                    height: 2.1.r,
-                    color: violetBlue,
-                  ),
-                  textAlign: TextAlign.start,
-                  duration: const Duration(milliseconds: 300),
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 500),
-                    child: myUser.avatar == null
-                        ? AutoSizeText.rich(
-                            TextSpan(
-                              children: [
-                                ...[
-                                  TextSpan(
-                                      text: ref.read(welcomeSubtitleProvider)),
-                                  TextSpan(
-                                    text: "click here",
-                                    recognizer: TapGestureRecognizer()
-                                      ..onTap = () => ref.read(
-                                          setCardAvatarProvider(fUser!.uid)),
-                                    style:
-                                        const TextStyle(color: darkPastelGreen),
-                                  ),
-                                ],
-                              ],
-                            ),
-                            maxLines: 1,
-                            minFontSize: 6,
-                            maxFontSize: 12,
-                          )
-                        : AutoSizeText(
-                            ref.read(goodDayProvider),
-                            maxLines: 1,
-                            style: TextStyle(color: gray, fontSize: 12.r),
-                          ),
-                  ),
-                ),
-              ),
-            ),
+            DName(myUser.name),
+            DSubtitle(myUser),
             Gap(3.r),
             const RecentPlayer(),
             const TButton(),
@@ -579,113 +475,6 @@ class _Tournament extends ConsumerWidget {
   }
 }
 
-class TButton extends ConsumerWidget {
-  const TButton({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return StaggeredGridTile.count(
-      crossAxisCellCount: 20,
-      mainAxisCellCount: 9.6.h,
-      child: Stack(
-        children: [
-          Positioned(
-            top: 18.r,
-            bottom: 3.r,
-            left: 0,
-            right: 60.r,
-            child: Container(
-              decoration: BoxDecoration(
-                color: denim,
-                borderRadius: BorderRadius.circular(6.r),
-              ),
-              padding: EdgeInsets.all(9.r),
-              margin: EdgeInsets.only(right: 24.w, left: 9.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Open Challenge",
-                    style: TextStyle(
-                      fontFamily: 'WendyOne',
-                      fontSize: 30.r,
-                      color: ghostWhite,
-                    ),
-                  ),
-                  Gap(15.r),
-                  ButtonBar(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          ref.refresh(tournamentListenerNotifierProvider);
-                          context.router.push(const TournamentRoute());
-                        },
-                        style: ButtonStyle(
-                          textStyle: MaterialStatePropertyAll(
-                            TextStyle(
-                              fontFamily: 'Poppins',
-                              color: ghostWhite,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 13.5.r,
-                            ),
-                          ),
-                          padding: MaterialStatePropertyAll(
-                              EdgeInsets.symmetric(horizontal: 15.r)),
-                          backgroundColor:
-                              const MaterialStatePropertyAll(jasper),
-                        ),
-                        child: const Text(
-                          "PLAY NOW",
-                          style: TextStyle(color: ghostWhite),
-                        ),
-                      ),
-                      /*OutlinedButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                          side: MaterialStatePropertyAll(
-                            BorderSide(
-                              width: 0.6.r,
-                              color: charcoal,
-                            ),
-                          ),
-                          padding: MaterialStatePropertyAll(
-                            EdgeInsets.symmetric(horizontal: 18.w),
-                          ),
-                          textStyle: MaterialStatePropertyAll(
-                            TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w300,
-                              letterSpacing: 0.3.r,
-                              color: charcoal,
-                              fontSize: 13.5.r,
-                            ),
-                          ),
-                        ),
-                        child: const Text(
-                          "VIEW LEADERBOARD",
-                          style: TextStyle(color: charcoal),
-                        ),
-                      ),*/
-                    ],
-                  )
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            right: -60.r,
-            top: -15.r,
-            bottom: -15.r,
-            child: Lottie.asset('lottie/trophies.json', repeat: false),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class PlayWithFriend extends ConsumerWidget {
   const PlayWithFriend({super.key});
 
@@ -760,229 +549,6 @@ class PlayWithFriend extends ConsumerWidget {
             child: Lottie.asset('lottie/friends-playing.json', repeat: true),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class RecentPlayer extends ConsumerWidget {
-  const RecentPlayer({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final User fUser = ref.watch(authUserProvider).value!;
-    final tTheme = Theme.of(context).textTheme.titleLarge!;
-    return StaggeredGridTile.fit(
-      crossAxisCellCount: 20,
-      child: AnimatedContainer(
-        height: 90.h,
-        duration: const Duration(milliseconds: 500),
-        margin: EdgeInsets.only(top: 9.h),
-        //color: mayaBlue,
-        child: FirebaseAnimatedList(
-          scrollDirection: Axis.horizontal,
-          sort: (DataSnapshot a, DataSnapshot b) {
-            Map<String, dynamic> a1 = Map<String, dynamic>.from(a.value as Map);
-            Map<String, dynamic> b1 = Map<String, dynamic>.from(b.value as Map);
-
-            final UserActivity x = UserActivity.fromJson(a1);
-            final UserActivity y = UserActivity.fromJson(b1);
-            return y.nowTime.compareTo(x.nowTime);
-          },
-          query: ref.watch(recentUserProvider),
-          padding: EdgeInsets.only(left: 15.w),
-          defaultChild: FadeIn(
-            child: Center(
-              child: Text(
-                "Loading",
-                style: tTheme.copyWith(fontFamily: 'DelaGothic', color: gray),
-              ),
-            ),
-          ),
-          itemBuilder: (_, DataSnapshot snapshot, Animation<double> animation,
-              int index) {
-            if (fUser.uid == snapshot.key!) return Container();
-
-            Map<String, dynamic> json =
-                Map<String, dynamic>.from(snapshot.value as Map);
-            final UserActivity xUser = UserActivity.fromJson(json);
-
-            return AnimatedContainer(
-              duration: const Duration(milliseconds: 500),
-              margin: EdgeInsets.only(right: 6.w, left: 6.w),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AnimatedOpacity(
-                    opacity: xUser.isActive ? 1 : 0.3,
-                    duration: const Duration(milliseconds: 500),
-                    child: Card(
-                      elevation: 1.5.r,
-                      shape: const CircleBorder(),
-                      child: CircleAvatar(
-                        radius: 31.5.r,
-                        backgroundColor: violetBlue,
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 500),
-                          child: xUser.avatar == null
-                              ? Text(
-                                  xUser.name!.substring(0, 2).toUpperCase(),
-                                  style: tTheme.copyWith(
-                                      color: lightOrange, fontSize: 24.r),
-                                )
-                              : FadeIn(
-                                  child: RandomAvatar(
-                                    xUser.avatar!,
-                                    trBackground: true,
-                                  ),
-                                ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Gap(3.r),
-                  Expanded(
-                    child: AutoSizeText(
-                      firstCaps(xUser.name!),
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: 10.5.r,
-                        height: 1.8.r,
-                        fontFamily: 'Poppins',
-                        color: violetBlue,
-                        fontWeight: FontWeight.w300,
-                      ),
-                      wrapWords: false,
-                      maxFontSize: 15,
-                      minFontSize: 9,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class EnterTournamentCode extends StatelessWidget {
-  const EnterTournamentCode({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return OpenContainer<bool>(
-      tappable: false,
-      closedElevation: 0,
-      closedColor: ghostWhite,
-      closedShape:
-          const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-      closedBuilder: (_, void Function() action) => Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w),
-        alignment: Alignment.center,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AutoSizeText(
-                    "Ready, Set, Game : Join the Tournament 🏆",
-                    style: TextStyle(
-                      fontSize: 24.r,
-                      fontFamily: 'WendyOne',
-                      height: 1.8.r,
-                      color: cinerous,
-                    ),
-                    maxLines: 3,
-                  ),
-                  Gap(6.r),
-                  AutoSizeText(
-                    "Challenge the Best, Be the Best – It's Your Time to Dominate!",
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          height: 2.1.r,
-                          color: cinerous,
-                          letterSpacing: 0,
-                        ),
-                    maxLines: 1,
-                  ),
-                ],
-              ),
-            ),
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 500),
-              margin: EdgeInsets.symmetric(vertical: 24.r),
-              height: 48.r,
-              decoration: BoxDecoration(
-                color: cinerous,
-                borderRadius: BorderRadius.circular(7.5.r),
-              ),
-              child: InkWell(
-                onTap: action,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(7.5.r),
-                  child: Row(
-                    children: [
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 500),
-                        width: 225.w,
-                        color: lavenderWeb,
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.symmetric(horizontal: 15.w),
-                        child: Text(
-                          "PARICON",
-                          style: TextStyle(
-                            fontFamily: 'Cabin',
-                            fontSize: 15.r,
-                            letterSpacing: 0.45.r,
-                            fontWeight: FontWeight.w400,
-                            color: vanDyke.withOpacity(0.3),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Center(
-                          child: Text(
-                            "ENTER CODE",
-                            style: TextStyle(
-                              fontFamily: 'Cabin',
-                              fontSize: 13.5.r,
-                              color: ghostWhite,
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-      openBuilder: (_, void Function({bool? returnValue}) action) => InkWell(
-        onTap: action,
-        child: Container(
-          color: lavenderWeb,
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "No Tournaments yet!",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(fontFamily: 'DelaGothic', color: vanDyke),
-              )
-            ],
-          ),
-        ),
       ),
     );
   }

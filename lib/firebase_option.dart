@@ -21,12 +21,6 @@ class DefaultFirebaseOptions {
           'DefaultFirebaseOptions are not supported for this platform.',
         );
     }
-    /*if (defaultTargetPlatform == TargetPlatform.macOS) {
-      return macos;
-    }
-    throw UnsupportedError(
-      'DefaultFirebaseOptions are not supported for this platform.',
-    );*/
   }
 
   static const FirebaseOptions web = kDebugMode

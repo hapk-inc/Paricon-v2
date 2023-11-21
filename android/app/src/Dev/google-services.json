@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "118238046593-hmajgr7hfg1a5pk876diiucpjulinv29.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hapk.paricon",
+            "certificate_hash": "999aa2e896c6611391245e8b970756342f46d1a2"
+          }
+        },
+        {
+          "client_id": "118238046593-u711vrhpaa1qbtnmajug347s52rmogus.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hapk.paricon",
+            "certificate_hash": "067df014fc92ac54665e12ead9ebaf9ade10eb7f"
+          }
+        },
+        {
           "client_id": "118238046593-kvp54d513sjkd1lai0o51rs9kdakci50.apps.googleusercontent.com",
           "client_type": 3
         }

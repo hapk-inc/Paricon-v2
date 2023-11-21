@@ -98,8 +98,13 @@ class Auth {
           return userCred.user!.email;
         }
       },
-      onError: (e, s) {
-        debugPrint(e);
+      onError: (Object e, s) {
+        if (e is FirebaseAuthException) {
+          final FirebaseAuthException exe = e;
+          debugPrint(e.toString());
+
+          // debugPrintStack(stackTrace: exe.stackTrace);
+        }
         debugPrintStack(stackTrace: s);
       },
     );
