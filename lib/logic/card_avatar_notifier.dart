@@ -53,7 +53,7 @@ final AutoDisposeFutureProvider<String> newCardAvatarProvider =
     FutureProvider.autoDispose(
   (ref) async {
     final MyUser? myUser = await ref.read(myUserProvider.future);
-    final List<String> myCards = myUser!.myCards;
+    final List<String> myCards = myUser == null ? [] : myUser.avatarArr;
 
     final List<String> allCards =
         await ref.read(avatarCollectionProvider.future);
