@@ -12,7 +12,6 @@ import '../logic/panel_provider.dart';
 import '../logic/s_size.dart';
 import '../logic/tournament_database.dart';
 import '../logic/tournament_listener.dart';
-import '../model/t_score.dart';
 import '../t_widget/t_show_timer_indicator.dart';
 import '../t_widget/t_tournament_grid.dart';
 import '../theme/my_color.dart';
@@ -34,13 +33,7 @@ class TournamentPage extends ConsumerWidget {
         if (next && firebaseUser != null) {
           ref
               .read(tournamentDatabaseProvider)
-              .updateTDuration(
-                TScore(
-                  userId: firebaseUser.uid,
-                  playedAt: DateTime.now(),
-                  tDuration: tournamentListener.stopwatch.elapsed,
-                ),
-              )
+              .updateTDuration(tournamentListener.stopwatch.elapsed)
               .whenComplete(
                 () => context.router.pop(),
               );

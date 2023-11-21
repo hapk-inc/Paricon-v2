@@ -11,16 +11,9 @@ class MyUser with _$MyUser {
     required num id,
     String? avatar,
     String? avatarCode,
-    @Default(true) bool isActive,
-    String? playing,
-    @Default(true) bool isHuman,
-    //num? controllerCount,
     DateTime? createdAt,
-    @Default([]) List<String> myCards,
-    @Default([]) List<String> myFriends,
-    Duration? bestDuration,
-    @Default(0) num tournamentPlayed,
-    //List<String>? controlledBy,
+    @Default([]) List<String> avatarArr,
+    @Default([]) List<String> friendArr,
   }) = _MyUser;
 
   factory MyUser.fromJson(Map<String, dynamic> json) => _$MyUserFromJson(json);

@@ -5,10 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../model/my_avatar.dart';
-import '../model/my_duration.dart';
 import '../model/my_user.dart';
-import '../model/p_user.dart';
 import 'firebase_init.dart';
 
 class UserDatastore {
@@ -59,71 +56,21 @@ class UserDatastore {
     } else {
       debugPrint("First MyUser");
       Future.delayed(
-        const Duration(seconds: 4),
+        const Duration(seconds: 5),
         () => _userBehaviour.add(myUser),
       );
     }
   }
 
-  Future<String> get _appVersion =>
+  Future<String> get appVersion =>
       ref.read(packageInfoProvider.future).then((value) => value.version);
 
-  Future<bool> get appOpenedOrLoggedIn async {
-    debugPrint("Running appOpenedOrLoggedIn");
-    DocumentReference documentReference = userColl.doc(_id);
-    return await firebaseFirestore.runTransaction(
-      (transaction) async {
-        DocumentSnapshot snapshot = await transaction.get(documentReference);
-        if (snapshot.exists) {
-          final String appVersion = await _appVersion;
-          final DateTime now = DateTime.now();
+  Future<bool> get appOpenedOrLoggedIn async => true;
 
-          Map map = snapshot.data() as Map;
-          bool isNewUser = !map.containsKey('currentTime');
-          if (isNewUser) {
-            debugPrint("New User");
-            transaction.update(
-              documentReference,
-              MyDuration(appVersion: appVersion, currentTime: now).toJson(),
-            );
-          } else {
-            Map<String, dynamic> json = Map<String, dynamic>.from(map);
-            MyDuration d = MyDuration.fromJson(json);
-            bool nextDayOpen = now.day != d.currentTime.day;
-            Duration timeGap = now.difference(d.currentTime);
-            bool timeGapInMinute = timeGap > const Duration(minutes: 1);
-            if (timeGapInMinute || nextDayOpen) {
-              debugPrint("Existing LastOpened");
-              transaction.update(
-                documentReference,
-                MyDuration(
-                  currentTime: now,
-                  lastOpened: d.currentTime,
-                  appVersion: appVersion,
-                ).toJson(),
-              );
-            } else {
-              debugPrint(timeGap.toString());
-              debugPrint("Less than minute");
-            }
-            if (nextDayOpen) {
-              debugPrint("Changing New Avatar Code");
-              transaction.update(
-                documentReference,
-                {"avatarCode": mockString(6, 'A')},
-              );
-            }
-          }
-          return true;
-        } else {
-          debugPrint("No Transaction done");
-          return false;
-        }
-      },
-    );
-  }
+  Future get newAvatarCode async =>
+      userColl.doc(_id).update({'avatarCode': mockString(6, 'A')});
 
-  Query<PUser> get recentUserCollection => userColl
+/*  Query<PUser> get recentUserCollection => userColl
       .withConverter(
         fromFirestore: (snapshot, _) => PUser.fromJson(snapshot.data()!),
         toFirestore: (x, _) => x.toJson(),
@@ -133,9 +80,9 @@ class UserDatastore {
   CollectionReference<PUser> get bestDurationColl => userColl.withConverter(
         fromFirestore: (snapshot, _) => PUser.fromJson(snapshot.data()!),
         toFirestore: (x, _) => x.toJson(),
-      );
+      );*/
 
-  Stream<MyDuration?> get myUserDuration {
+  /*Stream<MyDuration?> get myUserDuration {
     late BehaviorSubject<MyDuration?> subject;
     subject = BehaviorSubject(
       onListen: () => userColl.doc(_id).snapshots().listen(
@@ -152,7 +99,7 @@ class UserDatastore {
       ),
     );
     return subject.stream;
-  }
+  }*/
 
   Future addFriend(String friend) => userColl.doc(_id).update(
         {
@@ -162,41 +109,14 @@ class UserDatastore {
 
   Future setActive(bool flag) => userColl.doc(_id).update({'isActive': flag});
 
-  Stream<QueryDocumentSnapshot<PUser>> get firstRank {
-    late BehaviorSubject<QueryDocumentSnapshot<PUser>> subject;
-    subject = BehaviorSubject(
-      onListen: () => bestDurationColl
-          .where('bestDuration', isNull: false)
-          .orderBy('bestDuration')
-          .limit(1)
-          .snapshots()
-          .listen(
-        (QuerySnapshot<PUser> querySnapshot) {
-          if (querySnapshot.docs.isNotEmpty) {
-            if (subject.hasValue) {
-              final QueryDocumentSnapshot<PUser> x = querySnapshot.docs[0];
-              if (subject.value.id != x.id ||
-                  subject.value.data().bestDuration! != x.data().bestDuration) {
-                subject.add(x);
-              }
-            } else {
-              subject.add(querySnapshot.docs[0]);
-            }
-          }
-        },
-      ),
-    );
-    return subject.stream;
-  }
-
-  Query<MyAvatar> get receivedNewAvatar => userColl
+/*  Query<MyAvatar> get receivedNewAvatar => userColl
       .doc(_id)
       .collection('avatar')
       .where('id', isEqualTo: "")
       .withConverter(
         fromFirestore: (snapshot, _) => MyAvatar.fromJson(snapshot.data()!),
         toFirestore: (x, _) => x.toJson(),
-      );
+      );*/
 
   Future newCard(String docId, String rPickCard) {
     WriteBatch batch = FirebaseFirestore.instance.batch();

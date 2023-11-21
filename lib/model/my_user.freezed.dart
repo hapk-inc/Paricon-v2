@@ -25,15 +25,9 @@ mixin _$MyUser {
   num get id => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
   String? get avatarCode => throw _privateConstructorUsedError;
-  bool get isActive => throw _privateConstructorUsedError;
-  String? get playing => throw _privateConstructorUsedError;
-  bool get isHuman =>
-      throw _privateConstructorUsedError; //num? controllerCount,
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  List<String> get myCards => throw _privateConstructorUsedError;
-  List<String> get myFriends => throw _privateConstructorUsedError;
-  Duration? get bestDuration => throw _privateConstructorUsedError;
-  num get tournamentPlayed => throw _privateConstructorUsedError;
+  List<String> get avatarArr => throw _privateConstructorUsedError;
+  List<String> get friendArr => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,14 +45,9 @@ abstract class $MyUserCopyWith<$Res> {
       num id,
       String? avatar,
       String? avatarCode,
-      bool isActive,
-      String? playing,
-      bool isHuman,
       DateTime? createdAt,
-      List<String> myCards,
-      List<String> myFriends,
-      Duration? bestDuration,
-      num tournamentPlayed});
+      List<String> avatarArr,
+      List<String> friendArr});
 }
 
 /// @nodoc
@@ -79,14 +68,9 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
     Object? id = null,
     Object? avatar = freezed,
     Object? avatarCode = freezed,
-    Object? isActive = null,
-    Object? playing = freezed,
-    Object? isHuman = null,
     Object? createdAt = freezed,
-    Object? myCards = null,
-    Object? myFriends = null,
-    Object? bestDuration = freezed,
-    Object? tournamentPlayed = null,
+    Object? avatarArr = null,
+    Object? friendArr = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -109,38 +93,18 @@ class _$MyUserCopyWithImpl<$Res, $Val extends MyUser>
           ? _value.avatarCode
           : avatarCode // ignore: cast_nullable_to_non_nullable
               as String?,
-      isActive: null == isActive
-          ? _value.isActive
-          : isActive // ignore: cast_nullable_to_non_nullable
-              as bool,
-      playing: freezed == playing
-          ? _value.playing
-          : playing // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isHuman: null == isHuman
-          ? _value.isHuman
-          : isHuman // ignore: cast_nullable_to_non_nullable
-              as bool,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      myCards: null == myCards
-          ? _value.myCards
-          : myCards // ignore: cast_nullable_to_non_nullable
+      avatarArr: null == avatarArr
+          ? _value.avatarArr
+          : avatarArr // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      myFriends: null == myFriends
-          ? _value.myFriends
-          : myFriends // ignore: cast_nullable_to_non_nullable
+      friendArr: null == friendArr
+          ? _value.friendArr
+          : friendArr // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      bestDuration: freezed == bestDuration
-          ? _value.bestDuration
-          : bestDuration // ignore: cast_nullable_to_non_nullable
-              as Duration?,
-      tournamentPlayed: null == tournamentPlayed
-          ? _value.tournamentPlayed
-          : tournamentPlayed // ignore: cast_nullable_to_non_nullable
-              as num,
     ) as $Val);
   }
 }
@@ -158,14 +122,9 @@ abstract class _$$MyUserImplCopyWith<$Res> implements $MyUserCopyWith<$Res> {
       num id,
       String? avatar,
       String? avatarCode,
-      bool isActive,
-      String? playing,
-      bool isHuman,
       DateTime? createdAt,
-      List<String> myCards,
-      List<String> myFriends,
-      Duration? bestDuration,
-      num tournamentPlayed});
+      List<String> avatarArr,
+      List<String> friendArr});
 }
 
 /// @nodoc
@@ -184,14 +143,9 @@ class __$$MyUserImplCopyWithImpl<$Res>
     Object? id = null,
     Object? avatar = freezed,
     Object? avatarCode = freezed,
-    Object? isActive = null,
-    Object? playing = freezed,
-    Object? isHuman = null,
     Object? createdAt = freezed,
-    Object? myCards = null,
-    Object? myFriends = null,
-    Object? bestDuration = freezed,
-    Object? tournamentPlayed = null,
+    Object? avatarArr = null,
+    Object? friendArr = null,
   }) {
     return _then(_$MyUserImpl(
       name: null == name
@@ -214,38 +168,18 @@ class __$$MyUserImplCopyWithImpl<$Res>
           ? _value.avatarCode
           : avatarCode // ignore: cast_nullable_to_non_nullable
               as String?,
-      isActive: null == isActive
-          ? _value.isActive
-          : isActive // ignore: cast_nullable_to_non_nullable
-              as bool,
-      playing: freezed == playing
-          ? _value.playing
-          : playing // ignore: cast_nullable_to_non_nullable
-              as String?,
-      isHuman: null == isHuman
-          ? _value.isHuman
-          : isHuman // ignore: cast_nullable_to_non_nullable
-              as bool,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      myCards: null == myCards
-          ? _value._myCards
-          : myCards // ignore: cast_nullable_to_non_nullable
+      avatarArr: null == avatarArr
+          ? _value._avatarArr
+          : avatarArr // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      myFriends: null == myFriends
-          ? _value._myFriends
-          : myFriends // ignore: cast_nullable_to_non_nullable
+      friendArr: null == friendArr
+          ? _value._friendArr
+          : friendArr // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      bestDuration: freezed == bestDuration
-          ? _value.bestDuration
-          : bestDuration // ignore: cast_nullable_to_non_nullable
-              as Duration?,
-      tournamentPlayed: null == tournamentPlayed
-          ? _value.tournamentPlayed
-          : tournamentPlayed // ignore: cast_nullable_to_non_nullable
-              as num,
     ));
   }
 }
@@ -259,16 +193,11 @@ class _$MyUserImpl implements _MyUser {
       required this.id,
       this.avatar,
       this.avatarCode,
-      this.isActive = true,
-      this.playing,
-      this.isHuman = true,
       this.createdAt,
-      final List<String> myCards = const [],
-      final List<String> myFriends = const [],
-      this.bestDuration,
-      this.tournamentPlayed = 0})
-      : _myCards = myCards,
-        _myFriends = myFriends;
+      final List<String> avatarArr = const [],
+      final List<String> friendArr = const []})
+      : _avatarArr = avatarArr,
+        _friendArr = friendArr;
 
   factory _$MyUserImpl.fromJson(Map<String, dynamic> json) =>
       _$$MyUserImplFromJson(json);
@@ -285,43 +214,28 @@ class _$MyUserImpl implements _MyUser {
   @override
   final String? avatarCode;
   @override
-  @JsonKey()
-  final bool isActive;
-  @override
-  final String? playing;
-  @override
-  @JsonKey()
-  final bool isHuman;
-//num? controllerCount,
-  @override
   final DateTime? createdAt;
-  final List<String> _myCards;
+  final List<String> _avatarArr;
   @override
   @JsonKey()
-  List<String> get myCards {
-    if (_myCards is EqualUnmodifiableListView) return _myCards;
+  List<String> get avatarArr {
+    if (_avatarArr is EqualUnmodifiableListView) return _avatarArr;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_myCards);
+    return EqualUnmodifiableListView(_avatarArr);
   }
 
-  final List<String> _myFriends;
+  final List<String> _friendArr;
   @override
   @JsonKey()
-  List<String> get myFriends {
-    if (_myFriends is EqualUnmodifiableListView) return _myFriends;
+  List<String> get friendArr {
+    if (_friendArr is EqualUnmodifiableListView) return _friendArr;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_myFriends);
+    return EqualUnmodifiableListView(_friendArr);
   }
-
-  @override
-  final Duration? bestDuration;
-  @override
-  @JsonKey()
-  final num tournamentPlayed;
 
   @override
   String toString() {
-    return 'MyUser(name: $name, rName: $rName, id: $id, avatar: $avatar, avatarCode: $avatarCode, isActive: $isActive, playing: $playing, isHuman: $isHuman, createdAt: $createdAt, myCards: $myCards, myFriends: $myFriends, bestDuration: $bestDuration, tournamentPlayed: $tournamentPlayed)';
+    return 'MyUser(name: $name, rName: $rName, id: $id, avatar: $avatar, avatarCode: $avatarCode, createdAt: $createdAt, avatarArr: $avatarArr, friendArr: $friendArr)';
   }
 
   @override
@@ -335,19 +249,12 @@ class _$MyUserImpl implements _MyUser {
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.avatarCode, avatarCode) ||
                 other.avatarCode == avatarCode) &&
-            (identical(other.isActive, isActive) ||
-                other.isActive == isActive) &&
-            (identical(other.playing, playing) || other.playing == playing) &&
-            (identical(other.isHuman, isHuman) || other.isHuman == isHuman) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            const DeepCollectionEquality().equals(other._myCards, _myCards) &&
             const DeepCollectionEquality()
-                .equals(other._myFriends, _myFriends) &&
-            (identical(other.bestDuration, bestDuration) ||
-                other.bestDuration == bestDuration) &&
-            (identical(other.tournamentPlayed, tournamentPlayed) ||
-                other.tournamentPlayed == tournamentPlayed));
+                .equals(other._avatarArr, _avatarArr) &&
+            const DeepCollectionEquality()
+                .equals(other._friendArr, _friendArr));
   }
 
   @JsonKey(ignore: true)
@@ -359,14 +266,9 @@ class _$MyUserImpl implements _MyUser {
       id,
       avatar,
       avatarCode,
-      isActive,
-      playing,
-      isHuman,
       createdAt,
-      const DeepCollectionEquality().hash(_myCards),
-      const DeepCollectionEquality().hash(_myFriends),
-      bestDuration,
-      tournamentPlayed);
+      const DeepCollectionEquality().hash(_avatarArr),
+      const DeepCollectionEquality().hash(_friendArr));
 
   @JsonKey(ignore: true)
   @override
@@ -389,14 +291,9 @@ abstract class _MyUser implements MyUser {
       required final num id,
       final String? avatar,
       final String? avatarCode,
-      final bool isActive,
-      final String? playing,
-      final bool isHuman,
       final DateTime? createdAt,
-      final List<String> myCards,
-      final List<String> myFriends,
-      final Duration? bestDuration,
-      final num tournamentPlayed}) = _$MyUserImpl;
+      final List<String> avatarArr,
+      final List<String> friendArr}) = _$MyUserImpl;
 
   factory _MyUser.fromJson(Map<String, dynamic> json) = _$MyUserImpl.fromJson;
 
@@ -411,21 +308,11 @@ abstract class _MyUser implements MyUser {
   @override
   String? get avatarCode;
   @override
-  bool get isActive;
-  @override
-  String? get playing;
-  @override
-  bool get isHuman;
-  @override //num? controllerCount,
   DateTime? get createdAt;
   @override
-  List<String> get myCards;
+  List<String> get avatarArr;
   @override
-  List<String> get myFriends;
-  @override
-  Duration? get bestDuration;
-  @override
-  num get tournamentPlayed;
+  List<String> get friendArr;
   @override
   @JsonKey(ignore: true)
   _$$MyUserImplCopyWith<_$MyUserImpl> get copyWith =>

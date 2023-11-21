@@ -1,21 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'my_avatar.dart';
+part of 'pass_avatar.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MyAvatarImpl _$$MyAvatarImplFromJson(Map<String, dynamic> json) =>
-    _$MyAvatarImpl(
+_$PassAvatarImpl _$$PassAvatarImplFromJson(Map<String, dynamic> json) =>
+    _$PassAvatarImpl(
       createdAt: DateTime.parse(json['createdAt'] as String),
-      createdBy: json['createdBy'] as String,
+      from: json['from'] as String,
       id: json['id'] as String? ?? "",
     );
 
-Map<String, dynamic> _$$MyAvatarImplToJson(_$MyAvatarImpl instance) =>
+Map<String, dynamic> _$$PassAvatarImplToJson(_$PassAvatarImpl instance) =>
     <String, dynamic>{
       'createdAt': instance.createdAt.toIso8601String(),
-      'createdBy': instance.createdBy,
+      'from': instance.from,
       'id': instance.id,
     };

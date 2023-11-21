@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
 
 import 'my_color.dart';
 
@@ -35,3 +36,5 @@ class SlidingPanelTheme {
   Color slidingPanelColor = ghostWhite;
   Color backDrop = richBlack;
 }
+
+String firstCaps(String s) => toBeginningOfSentenceCase(s) ?? "";

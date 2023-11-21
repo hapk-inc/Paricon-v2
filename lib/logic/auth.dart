@@ -7,8 +7,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../model/my_avatar.dart';
 import '../model/my_user.dart';
+import '../model/pass_avatar.dart';
 import 'firebase_init.dart';
 import 'my_names.dart';
 
@@ -16,6 +16,7 @@ class Auth {
   final Ref ref;
   late CollectionReference userColl;
   late FirebaseFirestore _firebaseFirestore;
+
   late FirebaseAuth _auth;
 
   Auth(this.ref) {
@@ -64,9 +65,9 @@ class Auth {
     );
     batch.set(
       userColl.doc(userCred.user!.uid).collection('avatar').doc(x),
-      MyAvatar(
+      PassAvatar(
         createdAt: createdAt,
-        createdBy: userCred.user!.uid,
+        from: userCred.user!.uid,
       ).toJson(),
     );
     return batch.commit();
@@ -74,7 +75,6 @@ class Auth {
 
   Future get signOut async {
     debugPrint("Signing Off ${_auth.currentUser!.uid}");
-
     return _auth.signOut();
   }
 

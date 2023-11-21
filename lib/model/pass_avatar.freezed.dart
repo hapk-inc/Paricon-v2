@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'my_avatar.dart';
+part of 'pass_avatar.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,34 +14,35 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-MyAvatar _$MyAvatarFromJson(Map<String, dynamic> json) {
-  return _MyAvatar.fromJson(json);
+PassAvatar _$PassAvatarFromJson(Map<String, dynamic> json) {
+  return _PassAvatar.fromJson(json);
 }
 
 /// @nodoc
-mixin _$MyAvatar {
+mixin _$PassAvatar {
   DateTime get createdAt => throw _privateConstructorUsedError;
-  String get createdBy => throw _privateConstructorUsedError;
+  String get from => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $MyAvatarCopyWith<MyAvatar> get copyWith =>
+  $PassAvatarCopyWith<PassAvatar> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $MyAvatarCopyWith<$Res> {
-  factory $MyAvatarCopyWith(MyAvatar value, $Res Function(MyAvatar) then) =
-      _$MyAvatarCopyWithImpl<$Res, MyAvatar>;
+abstract class $PassAvatarCopyWith<$Res> {
+  factory $PassAvatarCopyWith(
+          PassAvatar value, $Res Function(PassAvatar) then) =
+      _$PassAvatarCopyWithImpl<$Res, PassAvatar>;
   @useResult
-  $Res call({DateTime createdAt, String createdBy, String id});
+  $Res call({DateTime createdAt, String from, String id});
 }
 
 /// @nodoc
-class _$MyAvatarCopyWithImpl<$Res, $Val extends MyAvatar>
-    implements $MyAvatarCopyWith<$Res> {
-  _$MyAvatarCopyWithImpl(this._value, this._then);
+class _$PassAvatarCopyWithImpl<$Res, $Val extends PassAvatar>
+    implements $PassAvatarCopyWith<$Res> {
+  _$PassAvatarCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -52,7 +53,7 @@ class _$MyAvatarCopyWithImpl<$Res, $Val extends MyAvatar>
   @override
   $Res call({
     Object? createdAt = null,
-    Object? createdBy = null,
+    Object? from = null,
     Object? id = null,
   }) {
     return _then(_value.copyWith(
@@ -60,9 +61,9 @@ class _$MyAvatarCopyWithImpl<$Res, $Val extends MyAvatar>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      createdBy: null == createdBy
-          ? _value.createdBy
-          : createdBy // ignore: cast_nullable_to_non_nullable
+      from: null == from
+          ? _value.from
+          : from // ignore: cast_nullable_to_non_nullable
               as String,
       id: null == id
           ? _value.id
@@ -73,39 +74,39 @@ class _$MyAvatarCopyWithImpl<$Res, $Val extends MyAvatar>
 }
 
 /// @nodoc
-abstract class _$$MyAvatarImplCopyWith<$Res>
-    implements $MyAvatarCopyWith<$Res> {
-  factory _$$MyAvatarImplCopyWith(
-          _$MyAvatarImpl value, $Res Function(_$MyAvatarImpl) then) =
-      __$$MyAvatarImplCopyWithImpl<$Res>;
+abstract class _$$PassAvatarImplCopyWith<$Res>
+    implements $PassAvatarCopyWith<$Res> {
+  factory _$$PassAvatarImplCopyWith(
+          _$PassAvatarImpl value, $Res Function(_$PassAvatarImpl) then) =
+      __$$PassAvatarImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DateTime createdAt, String createdBy, String id});
+  $Res call({DateTime createdAt, String from, String id});
 }
 
 /// @nodoc
-class __$$MyAvatarImplCopyWithImpl<$Res>
-    extends _$MyAvatarCopyWithImpl<$Res, _$MyAvatarImpl>
-    implements _$$MyAvatarImplCopyWith<$Res> {
-  __$$MyAvatarImplCopyWithImpl(
-      _$MyAvatarImpl _value, $Res Function(_$MyAvatarImpl) _then)
+class __$$PassAvatarImplCopyWithImpl<$Res>
+    extends _$PassAvatarCopyWithImpl<$Res, _$PassAvatarImpl>
+    implements _$$PassAvatarImplCopyWith<$Res> {
+  __$$PassAvatarImplCopyWithImpl(
+      _$PassAvatarImpl _value, $Res Function(_$PassAvatarImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? createdAt = null,
-    Object? createdBy = null,
+    Object? from = null,
     Object? id = null,
   }) {
-    return _then(_$MyAvatarImpl(
+    return _then(_$PassAvatarImpl(
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      createdBy: null == createdBy
-          ? _value.createdBy
-          : createdBy // ignore: cast_nullable_to_non_nullable
+      from: null == from
+          ? _value.from
+          : from // ignore: cast_nullable_to_non_nullable
               as String,
       id: null == id
           ? _value.id
@@ -117,75 +118,72 @@ class __$$MyAvatarImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$MyAvatarImpl extends _MyAvatar {
-  const _$MyAvatarImpl(
-      {required this.createdAt, required this.createdBy, this.id = ""})
-      : super._();
+class _$PassAvatarImpl implements _PassAvatar {
+  const _$PassAvatarImpl(
+      {required this.createdAt, required this.from, this.id = ""});
 
-  factory _$MyAvatarImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MyAvatarImplFromJson(json);
+  factory _$PassAvatarImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PassAvatarImplFromJson(json);
 
   @override
   final DateTime createdAt;
   @override
-  final String createdBy;
+  final String from;
   @override
   @JsonKey()
   final String id;
 
   @override
   String toString() {
-    return 'MyAvatar(createdAt: $createdAt, createdBy: $createdBy, id: $id)';
+    return 'PassAvatar(createdAt: $createdAt, from: $from, id: $id)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MyAvatarImpl &&
+            other is _$PassAvatarImpl &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.createdBy, createdBy) ||
-                other.createdBy == createdBy) &&
+            (identical(other.from, from) || other.from == from) &&
             (identical(other.id, id) || other.id == id));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, createdAt, createdBy, id);
+  int get hashCode => Object.hash(runtimeType, createdAt, from, id);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MyAvatarImplCopyWith<_$MyAvatarImpl> get copyWith =>
-      __$$MyAvatarImplCopyWithImpl<_$MyAvatarImpl>(this, _$identity);
+  _$$PassAvatarImplCopyWith<_$PassAvatarImpl> get copyWith =>
+      __$$PassAvatarImplCopyWithImpl<_$PassAvatarImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MyAvatarImplToJson(
+    return _$$PassAvatarImplToJson(
       this,
     );
   }
 }
 
-abstract class _MyAvatar extends MyAvatar {
-  const factory _MyAvatar(
+abstract class _PassAvatar implements PassAvatar {
+  const factory _PassAvatar(
       {required final DateTime createdAt,
-      required final String createdBy,
-      final String id}) = _$MyAvatarImpl;
-  const _MyAvatar._() : super._();
+      required final String from,
+      final String id}) = _$PassAvatarImpl;
 
-  factory _MyAvatar.fromJson(Map<String, dynamic> json) =
-      _$MyAvatarImpl.fromJson;
+  factory _PassAvatar.fromJson(Map<String, dynamic> json) =
+      _$PassAvatarImpl.fromJson;
 
   @override
   DateTime get createdAt;
   @override
-  String get createdBy;
+  String get from;
   @override
   String get id;
   @override
   @JsonKey(ignore: true)
-  _$$MyAvatarImplCopyWith<_$MyAvatarImpl> get copyWith =>
+  _$$PassAvatarImplCopyWith<_$PassAvatarImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

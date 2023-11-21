@@ -7,6 +7,7 @@ import '../ui/dashboard.dart';
 import '../ui/login.dart';
 import '../ui/maintenance.dart';
 import '../ui/no_net.dart';
+import '../ui/settings.dart';
 import '../ui/splash.dart';
 import '../ui/tournament.dart';
 
@@ -29,7 +30,8 @@ class MyRouter extends _$MyRouter {
           page: AppStackRoute.page,
           children: [
             AutoRoute(page: DashboardRoute.page),
-            AutoRoute(page: TournamentRoute.page)
+            AutoRoute(page: TournamentRoute.page),
+            AutoRoute(page: SettingsRoute.page),
           ],
         )
       ];

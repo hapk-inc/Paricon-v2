@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 't_score.dart';
+part of 't_duration.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,33 +14,41 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-TScore _$TScoreFromJson(Map<String, dynamic> json) {
-  return _TScore.fromJson(json);
+TDuration _$TDurationFromJson(Map<String, dynamic> json) {
+  return _TDuration.fromJson(json);
 }
 
 /// @nodoc
-mixin _$TScore {
+mixin _$TDuration {
   String get userId => throw _privateConstructorUsedError;
   DateTime get playedAt => throw _privateConstructorUsedError;
   Duration get tDuration => throw _privateConstructorUsedError;
+  bool get firstTime => throw _privateConstructorUsedError;
+  String get tourId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $TScoreCopyWith<TScore> get copyWith => throw _privateConstructorUsedError;
+  $TDurationCopyWith<TDuration> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $TScoreCopyWith<$Res> {
-  factory $TScoreCopyWith(TScore value, $Res Function(TScore) then) =
-      _$TScoreCopyWithImpl<$Res, TScore>;
+abstract class $TDurationCopyWith<$Res> {
+  factory $TDurationCopyWith(TDuration value, $Res Function(TDuration) then) =
+      _$TDurationCopyWithImpl<$Res, TDuration>;
   @useResult
-  $Res call({String userId, DateTime playedAt, Duration tDuration});
+  $Res call(
+      {String userId,
+      DateTime playedAt,
+      Duration tDuration,
+      bool firstTime,
+      String tourId});
 }
 
 /// @nodoc
-class _$TScoreCopyWithImpl<$Res, $Val extends TScore>
-    implements $TScoreCopyWith<$Res> {
-  _$TScoreCopyWithImpl(this._value, this._then);
+class _$TDurationCopyWithImpl<$Res, $Val extends TDuration>
+    implements $TDurationCopyWith<$Res> {
+  _$TDurationCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -53,6 +61,8 @@ class _$TScoreCopyWithImpl<$Res, $Val extends TScore>
     Object? userId = null,
     Object? playedAt = null,
     Object? tDuration = null,
+    Object? firstTime = null,
+    Object? tourId = null,
   }) {
     return _then(_value.copyWith(
       userId: null == userId
@@ -67,26 +77,40 @@ class _$TScoreCopyWithImpl<$Res, $Val extends TScore>
           ? _value.tDuration
           : tDuration // ignore: cast_nullable_to_non_nullable
               as Duration,
+      firstTime: null == firstTime
+          ? _value.firstTime
+          : firstTime // ignore: cast_nullable_to_non_nullable
+              as bool,
+      tourId: null == tourId
+          ? _value.tourId
+          : tourId // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$TScoreImplCopyWith<$Res> implements $TScoreCopyWith<$Res> {
-  factory _$$TScoreImplCopyWith(
-          _$TScoreImpl value, $Res Function(_$TScoreImpl) then) =
-      __$$TScoreImplCopyWithImpl<$Res>;
+abstract class _$$TDurationImplCopyWith<$Res>
+    implements $TDurationCopyWith<$Res> {
+  factory _$$TDurationImplCopyWith(
+          _$TDurationImpl value, $Res Function(_$TDurationImpl) then) =
+      __$$TDurationImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userId, DateTime playedAt, Duration tDuration});
+  $Res call(
+      {String userId,
+      DateTime playedAt,
+      Duration tDuration,
+      bool firstTime,
+      String tourId});
 }
 
 /// @nodoc
-class __$$TScoreImplCopyWithImpl<$Res>
-    extends _$TScoreCopyWithImpl<$Res, _$TScoreImpl>
-    implements _$$TScoreImplCopyWith<$Res> {
-  __$$TScoreImplCopyWithImpl(
-      _$TScoreImpl _value, $Res Function(_$TScoreImpl) _then)
+class __$$TDurationImplCopyWithImpl<$Res>
+    extends _$TDurationCopyWithImpl<$Res, _$TDurationImpl>
+    implements _$$TDurationImplCopyWith<$Res> {
+  __$$TDurationImplCopyWithImpl(
+      _$TDurationImpl _value, $Res Function(_$TDurationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -95,8 +119,10 @@ class __$$TScoreImplCopyWithImpl<$Res>
     Object? userId = null,
     Object? playedAt = null,
     Object? tDuration = null,
+    Object? firstTime = null,
+    Object? tourId = null,
   }) {
-    return _then(_$TScoreImpl(
+    return _then(_$TDurationImpl(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -109,18 +135,30 @@ class __$$TScoreImplCopyWithImpl<$Res>
           ? _value.tDuration
           : tDuration // ignore: cast_nullable_to_non_nullable
               as Duration,
+      firstTime: null == firstTime
+          ? _value.firstTime
+          : firstTime // ignore: cast_nullable_to_non_nullable
+              as bool,
+      tourId: null == tourId
+          ? _value.tourId
+          : tourId // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$TScoreImpl implements _TScore {
-  const _$TScoreImpl(
-      {required this.userId, required this.playedAt, required this.tDuration});
+class _$TDurationImpl implements _TDuration {
+  const _$TDurationImpl(
+      {required this.userId,
+      required this.playedAt,
+      required this.tDuration,
+      this.firstTime = false,
+      this.tourId = "public"});
 
-  factory _$TScoreImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TScoreImplFromJson(json);
+  factory _$TDurationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TDurationImplFromJson(json);
 
   @override
   final String userId;
@@ -128,49 +166,62 @@ class _$TScoreImpl implements _TScore {
   final DateTime playedAt;
   @override
   final Duration tDuration;
+  @override
+  @JsonKey()
+  final bool firstTime;
+  @override
+  @JsonKey()
+  final String tourId;
 
   @override
   String toString() {
-    return 'TScore(userId: $userId, playedAt: $playedAt, tDuration: $tDuration)';
+    return 'TDuration(userId: $userId, playedAt: $playedAt, tDuration: $tDuration, firstTime: $firstTime, tourId: $tourId)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TScoreImpl &&
+            other is _$TDurationImpl &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.playedAt, playedAt) ||
                 other.playedAt == playedAt) &&
             (identical(other.tDuration, tDuration) ||
-                other.tDuration == tDuration));
+                other.tDuration == tDuration) &&
+            (identical(other.firstTime, firstTime) ||
+                other.firstTime == firstTime) &&
+            (identical(other.tourId, tourId) || other.tourId == tourId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, userId, playedAt, tDuration);
+  int get hashCode =>
+      Object.hash(runtimeType, userId, playedAt, tDuration, firstTime, tourId);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$TScoreImplCopyWith<_$TScoreImpl> get copyWith =>
-      __$$TScoreImplCopyWithImpl<_$TScoreImpl>(this, _$identity);
+  _$$TDurationImplCopyWith<_$TDurationImpl> get copyWith =>
+      __$$TDurationImplCopyWithImpl<_$TDurationImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TScoreImplToJson(
+    return _$$TDurationImplToJson(
       this,
     );
   }
 }
 
-abstract class _TScore implements TScore {
-  const factory _TScore(
+abstract class _TDuration implements TDuration {
+  const factory _TDuration(
       {required final String userId,
       required final DateTime playedAt,
-      required final Duration tDuration}) = _$TScoreImpl;
+      required final Duration tDuration,
+      final bool firstTime,
+      final String tourId}) = _$TDurationImpl;
 
-  factory _TScore.fromJson(Map<String, dynamic> json) = _$TScoreImpl.fromJson;
+  factory _TDuration.fromJson(Map<String, dynamic> json) =
+      _$TDurationImpl.fromJson;
 
   @override
   String get userId;
@@ -179,7 +230,11 @@ abstract class _TScore implements TScore {
   @override
   Duration get tDuration;
   @override
+  bool get firstTime;
+  @override
+  String get tourId;
+  @override
   @JsonKey(ignore: true)
-  _$$TScoreImplCopyWith<_$TScoreImpl> get copyWith =>
+  _$$TDurationImplCopyWith<_$TDurationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

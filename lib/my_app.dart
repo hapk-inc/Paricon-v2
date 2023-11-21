@@ -12,6 +12,7 @@ import 'logic/auth_provider.dart';
 import 'logic/firebase_init.dart';
 import 'logic/remote_values.dart';
 import 'logic/s_size.dart';
+import 'logic/user_activity_provider.dart';
 import 'router/my_route.dart';
 import 'theme/my_theme.dart';
 
@@ -34,7 +35,8 @@ class MyApp extends ConsumerWidget {
             return const SplashRoute();
           },
           data: (d) {
-            ref.read(appOpenedOrLoggedInProvider);
+            //ref.read(appOpenedOrLoggedInProvider);
+            ref.read(appOpenedProvider);
             if (d != null) {
               debugPrint("Welcome ${d.name}");
             }

@@ -1,10 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paricon/logic/auth_provider.dart';
 
-import '../model/my_duration.dart';
 import '../model/my_user.dart';
-import '../model/p_user.dart';
+//import '../model/p_user.dart';
+import 'auth_provider.dart';
 import 'user_datastore.dart';
 
 final Provider<UserDatastore> userDatastoreProvider = Provider<UserDatastore>(
@@ -29,7 +27,7 @@ final AutoDisposeFutureProvider<bool> appOpenedOrLoggedInProvider =
   },
 );
 
-final recentUserCollectionReferenceProvider =
+/*final recentUserCollectionReferenceProvider =
     Provider.autoDispose<Query<PUser>>(
   (ref) {
     final datastore = ref.watch(userDatastoreProvider);
@@ -43,7 +41,7 @@ final AutoDisposeProvider<CollectionReference<PUser>>
     final datastore = ref.watch(userDatastoreProvider);
     return datastore.bestDurationColl;
   },
-);
+);*/
 
 final AutoDisposeFutureProviderFamily<void, String> addFriendProvider =
     FutureProvider.autoDispose.family<void, String>(
@@ -61,10 +59,10 @@ final AutoDisposeFutureProviderFamily<void, bool> setActiveProvider =
   },
 );
 
-final StreamProvider<MyDuration?> myUserDurationProvider =
+/*final StreamProvider<MyDuration?> myUserDurationProvider =
     StreamProvider<MyDuration?>(
   (ref) {
     final userDatastore = ref.read(userDatastoreProvider);
     return userDatastore.myUserDuration;
   },
-);
+);*/

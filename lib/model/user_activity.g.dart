@@ -1,27 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'my_duration.dart';
+part of 'user_activity.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MyDurationImpl _$$MyDurationImplFromJson(Map<String, dynamic> json) =>
-    _$MyDurationImpl(
+_$UserActivityImpl _$$UserActivityImplFromJson(Map<String, dynamic> json) =>
+    _$UserActivityImpl(
       lastOpened: json['lastOpened'] == null
           ? null
           : DateTime.parse(json['lastOpened'] as String),
       lastGamePlayed: json['lastGamePlayed'] == null
           ? null
           : DateTime.parse(json['lastGamePlayed'] as String),
+      isActive: json['isActive'] as bool? ?? true,
+      isPlaying: json['isPlaying'] as bool? ?? false,
+      name: json['name'] as String?,
+      avatar: json['avatar'] as String?,
       appVersion: json['appVersion'] as String?,
-      currentTime: DateTime.parse(json['currentTime'] as String),
+      nowTime: DateTime.parse(json['nowTime'] as String),
     );
 
-Map<String, dynamic> _$$MyDurationImplToJson(_$MyDurationImpl instance) =>
+Map<String, dynamic> _$$UserActivityImplToJson(_$UserActivityImpl instance) =>
     <String, dynamic>{
       'lastOpened': instance.lastOpened?.toIso8601String(),
       'lastGamePlayed': instance.lastGamePlayed?.toIso8601String(),
+      'isActive': instance.isActive,
+      'isPlaying': instance.isPlaying,
+      'name': instance.name,
+      'avatar': instance.avatar,
       'appVersion': instance.appVersion,
-      'currentTime': instance.currentTime.toIso8601String(),
+      'nowTime': instance.nowTime.toIso8601String(),
     };

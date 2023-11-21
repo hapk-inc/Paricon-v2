@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mock_data/mock_data.dart';
 
-final welcomeTitleProvider = Provider.family(
-    (_, s) => ["Greetings, $s.", "Hey, $s!", "Hello, $s!"][mockInteger(0, 2)]);
+final ProviderFamily<String, String> welcomeTitleProvider =
+    Provider.family((_, s) => ["Greetings", "Hey", "Hello"][mockInteger(0, 2)]);
 
 final welcomeSubtitleProvider = Provider(
   (_) => [
@@ -13,6 +13,16 @@ final welcomeSubtitleProvider = Provider(
     "Make it your profile picture with a single ",
     "Just one click away from using it as your profile picture — "
   ][mockInteger(0, 3)],
+);
+
+final goodDayProvider = Provider<String>(
+  (_) => [
+    "Hope your day is going wonderfully",
+    "Trust your day is going splendidly",
+    "Hoping your day is fantastic",
+    "May your day be filled with happiness and success",
+    "Wishing you a day full of happiness and achievements"
+  ][mockInteger(0, 4)],
 );
 
 final StateNotifierProvider<DPanelOption, Widget> dPanelWidgetProvider =

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const Color ghostWhite = Color(0xfffbf9ff);
 const Color majorelleBlue = Color(0xff724cf9);
+const Color violetBlue = Color(0xff4448ae);
 
 //LoginButton Outlined
 const Color pictonBlue = Color(0xff00a7e1);
@@ -61,3 +62,5 @@ const Color federalBlue = Color(0xff0e0e52);
 //Recent Player Panel
 const Color bloodRed = Color(0xff6e0e0a);
 const Color chocolateCosmos = Color(0xff4c061d);
+
+const Color denim = Color(0xff3962a5);
