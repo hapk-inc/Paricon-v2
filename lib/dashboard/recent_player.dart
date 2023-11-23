@@ -75,7 +75,7 @@ class RecentPlayerTile extends StatelessWidget {
     final tTheme = Theme.of(context).textTheme.titleLarge!;
 
     final DateTime today = DateTime.now();
-    final bool notActive = xUser.isActive ? true : (xUser.nowTime == today);
+    final bool notActive = xUser.isActive && (xUser.nowTime.day == today.day);
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),

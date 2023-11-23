@@ -15,7 +15,7 @@ final welcomeSubtitleProvider = Provider(
   ][mockInteger(0, 3)],
 );
 
-final goodDayProvider = Provider<String>(
+final Provider<String> goodDayProvider = Provider<String>(
   (_) => [
     "Hope your day is going wonderfully",
     "Trust your day is going splendidly",

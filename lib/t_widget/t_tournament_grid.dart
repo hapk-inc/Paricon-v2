@@ -12,7 +12,7 @@ import '../model/local_icon.dart';
 import '../theme/my_color.dart';
 
 class TournamentGrid extends ConsumerWidget {
-  const TournamentGrid({Key? key}) : super(key: key);
+  const TournamentGrid({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,8 +42,7 @@ class TournamentGrid extends ConsumerWidget {
 
 class TournamentGridTile extends ConsumerWidget {
   final LocalIcon localIcon;
-  const TournamentGridTile({required this.localIcon, Key? key})
-      : super(key: key);
+  const TournamentGridTile({required this.localIcon, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

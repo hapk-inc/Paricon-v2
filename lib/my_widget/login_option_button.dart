@@ -5,17 +5,21 @@ import '../theme/my_color.dart';
 
 class LoginOptionButton extends StatelessWidget {
   const LoginOptionButton(
-      {super.key, required this.lChild, required this.optionBtnPressed});
+      {super.key,
+      required this.lChild,
+      this.bColor = pictonBlue,
+      required this.optionBtnPressed});
 
   final VoidCallback? optionBtnPressed;
   final Widget lChild;
+  final Color? bColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(7.5.r),
-        border: Border.all(color: pictonBlue, width: 1.r),
+        border: Border.all(color: bColor ?? pictonBlue, width: 1.r),
       ),
       alignment: Alignment.center,
       padding: EdgeInsets.all(10.5.r),

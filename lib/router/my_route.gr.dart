@@ -57,6 +57,12 @@ abstract class _$MyRouter extends RootStackRouter {
         child: const NoNetPage(),
       );
     },
+    PlayFriendRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PlayFriendPage(),
+      );
+    },
     SettingsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -64,9 +70,14 @@ abstract class _$MyRouter extends RootStackRouter {
       );
     },
     SplashRoute.name: (routeData) {
+      final args = routeData.argsAs<SplashRouteArgs>(
+          orElse: () => const SplashRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SplashPage(),
+        child: SplashPage(
+          otherColor: args.otherColor,
+          key: args.key,
+        ),
       );
     },
     TournamentRoute.name: (routeData) {
@@ -177,6 +188,20 @@ class NoNetRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [PlayFriendPage]
+class PlayFriendRoute extends PageRouteInfo<void> {
+  const PlayFriendRoute({List<PageRouteInfo>? children})
+      : super(
+          PlayFriendRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PlayFriendRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [SettingsPage]
 class SettingsRoute extends PageRouteInfo<void> {
   const SettingsRoute({List<PageRouteInfo>? children})
@@ -192,16 +217,39 @@ class SettingsRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [SplashPage]
-class SplashRoute extends PageRouteInfo<void> {
-  const SplashRoute({List<PageRouteInfo>? children})
-      : super(
+class SplashRoute extends PageRouteInfo<SplashRouteArgs> {
+  SplashRoute({
+    Color? otherColor,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
           SplashRoute.name,
+          args: SplashRouteArgs(
+            otherColor: otherColor,
+            key: key,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'SplashRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<SplashRouteArgs> page = PageInfo<SplashRouteArgs>(name);
+}
+
+class SplashRouteArgs {
+  const SplashRouteArgs({
+    this.otherColor,
+    this.key,
+  });
+
+  final Color? otherColor;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'SplashRouteArgs{otherColor: $otherColor, key: $key}';
+  }
 }
 
 /// generated route for

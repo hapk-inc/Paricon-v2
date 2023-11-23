@@ -23,6 +23,7 @@ import '../logic/auth_provider.dart';
 import '../logic/dashboard_provider.dart';
 import '../logic/panel_provider.dart';
 import '../logic/remote_values.dart';
+import '../logic/s_size.dart';
 import '../logic/t_score.dart';
 import '../logic/tournament_database.dart';
 import '../logic/user_provider.dart';
@@ -62,6 +63,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
     final String inWork = ref.watch(inWorkProvider);
     final MyUser? myUser = ref.watch(myUserProvider).value;
     final User? fUser = ref.watch(authUserProvider).value;
+    final ScreenSize sSize = ref.watch(sizeProvider);
+    final bool isPhone = sSize == ScreenSize.phone;
     final pTheme = SlidingPanelTheme();
 
     final bool doNotShow =
@@ -70,32 +73,36 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
     debugPrint(fUser.toString());
 
     return Scaffold(
-      appBar: doNotShow
+      appBar: !isPhone
           ? null
-          : AppBar(
-              toolbarHeight: 90.r,
-              backgroundColor: majorelleBlue,
-              leadingWidth: 90.w,
-              leading: AppBarLeading(myUser),
-              title: FadeIn(child: SlideInRight(child: const MyLogo())),
-              elevation: 3.r,
-            ),
+          : doNotShow
+              ? null
+              : AppBar(
+                  toolbarHeight: 90.r,
+                  backgroundColor: majorelleBlue,
+                  leadingWidth: 90.w,
+                  leading: AppBarLeading(myUser),
+                  title: FadeIn(child: SlideInRight(child: const MyLogo())),
+                  elevation: 3.r,
+                ),
       backgroundColor: ghostWhite,
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
-        child: doNotShow
-            ? WorkInProgress(inWork: inWork)
-            : SlidingUpPanel(
-                controller: ref.watch(dashboardPanelProvider),
-                borderRadius: pTheme.slidingPanelRadius,
-                body: const _Tournament(),
-                isDraggable: false,
-                backdropEnabled: true,
-                panel: ref.watch(dPanelWidgetProvider),
-                minHeight: 0,
-                maxHeight: 300.h,
-              ),
-      ),
+      body: !isPhone
+          ? const WorkInProgress(inWork: 'Screen size not compatible')
+          : AnimatedSwitcher(
+              duration: const Duration(milliseconds: 500),
+              child: doNotShow
+                  ? WorkInProgress(inWork: inWork)
+                  : SlidingUpPanel(
+                      controller: ref.watch(dashboardPanelProvider),
+                      borderRadius: pTheme.slidingPanelRadius,
+                      body: const SafeArea(bottom: false, child: _Tournament()),
+                      isDraggable: false,
+                      backdropEnabled: true,
+                      panel: ref.watch(dPanelWidgetProvider),
+                      minHeight: 0,
+                      maxHeight: 300.h,
+                    ),
+            ),
     );
   }
 }
@@ -182,7 +189,7 @@ class _Tournament extends ConsumerWidget {
             Gap(3.r),
             const RecentPlayer(),
             const TButton(),
-            Gap(9.r),
+            Gap(15.r),
             const StaggeredGridTile.fit(
               crossAxisCellCount: 20,
               child: EnterTournamentCode(),
@@ -258,7 +265,10 @@ class _Tournament extends ConsumerWidget {
                                 ),
                                 rows: recentTourList.isEmpty
                                     ? []
-                                    : List.generate(4, (index) {
+                                    : List.generate(
+                                        recentTourList.length <= 4
+                                            ? recentTourList.length
+                                            : 4, (index) {
                                         final TDuration tD =
                                             recentTourList[index];
                                         final bool isMe =
@@ -407,7 +417,7 @@ class _Tournament extends ConsumerWidget {
                                 padding:
                                     EdgeInsets.only(left: 4.5.w, right: 13.5.w),
                                 margin: EdgeInsets.symmetric(
-                                    horizontal: 3.w, vertical: 12.r),
+                                    horizontal: 3.w, vertical: 18.r),
                                 decoration: BoxDecoration(
                                   color: [
                                     aquamarine,
@@ -436,7 +446,7 @@ class _Tournament extends ConsumerWidget {
                                     AutoSizeText(
                                       xUser.name,
                                       style: TextStyle(
-                                          fontSize: 15.r,
+                                          fontSize: 13.5.r,
                                           fontFamily: 'Poppins',
                                           fontWeight: FontWeight.w500,
                                           color: federalBlue),
@@ -515,6 +525,7 @@ class PlayWithFriend extends ConsumerWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
+                          context.router.push(const PlayFriendRoute());
                           // ref.refresh(tournamentListenerNotifierProvider);
                           // context.router.push(const TournamentRoute());
                         },

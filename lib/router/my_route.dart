@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 
 import '../my_widget/app_stack.dart';
 import '../ui/app_error.dart';
@@ -7,6 +8,7 @@ import '../ui/dashboard.dart';
 import '../ui/login.dart';
 import '../ui/maintenance.dart';
 import '../ui/no_net.dart';
+import '../ui/play_friends.dart';
 import '../ui/settings.dart';
 import '../ui/splash.dart';
 import '../ui/tournament.dart';
@@ -32,6 +34,7 @@ class MyRouter extends _$MyRouter {
             AutoRoute(page: DashboardRoute.page),
             AutoRoute(page: TournamentRoute.page),
             AutoRoute(page: SettingsRoute.page),
+            AutoRoute(page: PlayFriendRoute.page),
           ],
         )
       ];

@@ -124,7 +124,7 @@ class UserDatastore {
     batch.update(
       userColl.doc(_id),
       {
-        'myCards': FieldValue.arrayUnion([rPickCard]),
+        'avatarArr': FieldValue.arrayUnion([rPickCard]),
         'avatar': rPickCard,
       },
     );

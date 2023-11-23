@@ -62,6 +62,8 @@ class DSubtitle extends ConsumerWidget {
                     ref.read(goodDayProvider),
                     maxLines: 1,
                     style: TextStyle(color: gray, fontSize: 12.r),
+                    minFontSize: 9,
+                    maxFontSize: 12,
                   ),
           ),
         ),

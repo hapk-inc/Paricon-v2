@@ -28,10 +28,14 @@ class TButton extends ConsumerWidget {
             child: Container(
               decoration: BoxDecoration(
                 color: denim,
-                borderRadius: BorderRadius.circular(6.r),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(7.5.r),
+                  bottomLeft: Radius.circular(7.5.r),
+                  bottomRight: Radius.circular(30.r),
+                ),
               ),
               padding: EdgeInsets.all(9.r),
-              margin: EdgeInsets.only(right: 24.w, left: 9.w),
+              margin: EdgeInsets.only(right: 15.w, left: 9.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,

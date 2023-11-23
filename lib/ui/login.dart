@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../my_widget/login_option_button.dart';
@@ -29,7 +30,7 @@ class LoginPage extends StatelessWidget {
     final pTheme = SlidingPanelTheme();
 
     Future.delayed(
-      const Duration(milliseconds: 2100),
+      const Duration(milliseconds: 500),
       () {
         if (!_panelController.isPanelOpen) {
           _panelController.open();
@@ -73,7 +74,7 @@ class LoginPage extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
-              SizedBox(height: 24.r),
+              Gap(24.r),
               const Expanded(child: LoginButtonBar())
             ],
           ),

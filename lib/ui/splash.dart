@@ -10,13 +10,14 @@ import '../theme/my_color.dart';
 
 @RoutePage()
 class SplashPage extends ConsumerWidget {
-  const SplashPage({super.key});
+  final Color? otherColor;
+  const SplashPage({this.otherColor, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Scaffold(
-      backgroundColor: majorelleBlue,
-      body: SplashState(),
+    return Scaffold(
+      backgroundColor: otherColor ?? majorelleBlue,
+      body: const SplashState(),
     );
   }
 }

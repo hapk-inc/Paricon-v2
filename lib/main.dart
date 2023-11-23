@@ -84,6 +84,8 @@ Future<void> main() async {
           fireStoreProvider.overrideWithValue(fireStore),
           databaseProvider.overrideWithValue(database),
           remoteConfigProvider.overrideWithValue(remoteConfig),
+          crashlyticsProvider.overrideWithValue(firebaseCrashlytics),
+          checkNetProvider.overrideWith((ref) async => iNet)
         ],
         child: const MyApp(),
       ),
