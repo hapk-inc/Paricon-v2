@@ -186,7 +186,7 @@ class _Tournament extends ConsumerWidget {
           children: [
             DName(myUser.name),
             DSubtitle(myUser),
-            Gap(3.r),
+            Gap(12.r),
             const RecentPlayer(),
             const TButton(),
             Gap(15.r),
@@ -388,7 +388,7 @@ class _Tournament extends ConsumerWidget {
               crossAxisCellCount: 20,
               mainAxisCellCount: 3.6,
               child: Container(
-                color: lavenderWeb.withOpacity(0.9),
+                color: magnolia,
                 alignment: Alignment.centerLeft,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
@@ -452,21 +452,6 @@ class _Tournament extends ConsumerWidget {
                                           color: federalBlue),
                                       maxLines: 1,
                                     ),
-                                    /* VerticalDivider(
-                              color: ghostWhite,
-                              thickness: 0.3.r,
-                              width: 30.r,
-                            ),
-                            AutoSizeText.rich(
-                              showTScore(
-                                Duration(
-                                    milliseconds: mockInteger(400000, 500000)),
-                                minute: ghostWhite,
-                                mm: ghostWhite,
-                                tSize: 15,
-                                sSize: 10.8,
-                              ),
-                            )*/
                                   ],
                                 ),
                               );
@@ -492,12 +477,12 @@ class PlayWithFriend extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return StaggeredGridTile.count(
       crossAxisCellCount: 20,
-      mainAxisCellCount: 9.6.h,
+      mainAxisCellCount: 13.5.h,
       child: Stack(
         children: [
           Positioned(
             top: 12.r,
-            bottom: 3.r,
+            //bottom: 3.r,
             left: 0.r,
             right: 0.r,
             child: Container(
@@ -519,13 +504,23 @@ class PlayWithFriend extends ConsumerWidget {
                       color: ghostWhite,
                     ),
                   ),
+                  AutoSizeText(
+                    "Max up to 4 players",
+                    style: TextStyle(
+                      fontSize: 12.r,
+                      color: ghostWhite,
+                      fontFamily: 'Poppins',
+                      height: 2.1.r,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
                   Gap(15.r),
                   ButtonBar(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          context.router.push(const PlayFriendRoute());
+                          context.router.push(const HostRoomRoute());
                           // ref.refresh(tournamentListenerNotifierProvider);
                           // context.router.push(const TournamentRoute());
                         },
@@ -535,6 +530,11 @@ class PlayWithFriend extends ConsumerWidget {
                               fontFamily: 'Poppins',
                               fontWeight: FontWeight.w400,
                               fontSize: 13.5.r,
+                            ),
+                          ),
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(7.5.r),
                             ),
                           ),
                           padding: MaterialStatePropertyAll(

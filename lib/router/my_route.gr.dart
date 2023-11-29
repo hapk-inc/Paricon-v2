@@ -39,6 +39,12 @@ abstract class _$MyRouter extends RootStackRouter {
         child: const ErrorPage(),
       );
     },
+    HostRoomRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const HostRoomPage(),
+      );
+    },
     LoginRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -141,6 +147,20 @@ class ErrorRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ErrorRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [HostRoomPage]
+class HostRoomRoute extends PageRouteInfo<void> {
+  const HostRoomRoute({List<PageRouteInfo>? children})
+      : super(
+          HostRoomRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HostRoomRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

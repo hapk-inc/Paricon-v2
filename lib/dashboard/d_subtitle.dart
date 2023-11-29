@@ -31,7 +31,7 @@ class DSubtitle extends ConsumerWidget {
             fontSize: 10.8.r,
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w300,
-            height: 2.1.r,
+            height: 1.5.r,
             color: violetBlue,
           ),
           textAlign: TextAlign.start,

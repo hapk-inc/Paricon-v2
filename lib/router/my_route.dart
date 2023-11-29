@@ -5,10 +5,11 @@ import '../my_widget/app_stack.dart';
 import '../ui/app_error.dart';
 import '../ui/app_update.dart';
 import '../ui/dashboard.dart';
+import '../ui/host_room.dart';
 import '../ui/login.dart';
 import '../ui/maintenance.dart';
 import '../ui/no_net.dart';
-import '../ui/play_friends.dart';
+import '../ui/play_friend.dart';
 import '../ui/settings.dart';
 import '../ui/splash.dart';
 import '../ui/tournament.dart';
@@ -34,6 +35,7 @@ class MyRouter extends _$MyRouter {
             AutoRoute(page: DashboardRoute.page),
             AutoRoute(page: TournamentRoute.page),
             AutoRoute(page: SettingsRoute.page),
+            AutoRoute(page: HostRoomRoute.page),
             AutoRoute(page: PlayFriendRoute.page),
           ],
         )

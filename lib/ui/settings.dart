@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart' as badges;
@@ -15,6 +14,7 @@ import '../logic/s_size.dart';
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
 import '../my_widget/login_option_button.dart';
+import '../my_widget/my_text_field.dart';
 import '../theme/my_color.dart';
 
 @RoutePage()
@@ -222,92 +222,6 @@ class CardList extends StatelessWidget {
   }
 }
 
-class LoginTextField extends ConsumerWidget {
-  const LoginTextField({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final MyUser? myUser = ref.watch(myUserProvider).value;
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 500),
-      height: 65.1.h,
-      // color: cinerous.withOpacity(0.15),
-      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 3.h),
-      alignment: Alignment.bottomCenter,
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
-        child: myUser == null
-            ? Container()
-            : FadeIn(
-                child: TextFormField(
-                  enabled: true,
-                  expands: true,
-                  maxLines: null,
-                  cursorHeight: 27.r,
-                  initialValue: myUser.name,
-                  style: TextStyle(
-                    fontSize: 18.r,
-                    fontFamily: 'Cabin',
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.3.r,
-                    color: charcoal,
-                  ),
-                  decoration: InputDecoration(
-                    suffixIcon: InkWell(
-                      onTap: () {
-                        debugPrint("Confirm");
-                      },
-                      child: Container(
-                        width: 90.w,
-                        //color: majorelleBlue,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "CHANGE",
-                          style: TextStyle(
-                            fontSize: 15.r,
-                            fontFamily: 'Cabin',
-                            fontWeight: FontWeight.w700,
-                            color: cinerous,
-                          ),
-                        ),
-                      ),
-                    ),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(6.r),
-                      borderSide: BorderSide(
-                        // color: spaceCadet,
-                        width: 0.3.r,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        // color: frenchGray,
-                        width: 0.3.r,
-                      ),
-                      borderRadius: BorderRadius.circular(6.r),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                          //color: barnRed,
-                          ),
-                      borderRadius: BorderRadius.circular(6.r),
-                    ),
-                    labelText: 'Enter your Nick Name',
-                    labelStyle: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 15.r, color: periwinkle,
-                      fontWeight: FontWeight.w300,
-                      //color: frenchGray,
-                    ),
-                  ),
-                ),
-              ),
-      ),
-    );
-  }
-}
-
 class DCardCollection extends ConsumerWidget {
   const DCardCollection({super.key});
 
@@ -362,7 +276,7 @@ class DCardCollection extends ConsumerWidget {
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
                   alignment: Alignment.centerLeft,
                   decoration: BoxDecoration(
-                    color: lavenderWeb,
+                    color: magnolia,
                     borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Row(
@@ -377,13 +291,13 @@ class DCardCollection extends ConsumerWidget {
                           letterSpacing: 1.2.r,
                           //fontWeight: FontWeight.w800,
                           fontSize: 18.r,
-                          color: cinerous,
+                          color: federalBlue,
                         ),
                       ),
                       Icon(
                         FontAwesomeIcons.clipboard,
                         size: 21.r,
-                        color: cinerous,
+                        color: federalBlue,
                       )
                     ],
                   ),

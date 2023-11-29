@@ -41,7 +41,7 @@ const Color oldRose = Color(0xffbb8588);
 
 //Card Code
 const Color cinerous = Color(0xff886f68);
-const Color lavenderWeb = Color(0xfff5edf0);
+const Color lavenderWeb = Color(0xffeae4ff);
 const Color vanDyke = Color(0xff3d2c2e);
 
 //Tournament Linear Indicator
@@ -64,3 +64,6 @@ const Color bloodRed = Color(0xff6e0e0a);
 const Color chocolateCosmos = Color(0xff4c061d);
 
 const Color denim = Color(0xff3962a5);
+
+const Color tropicalIndigo = Color(0xff9578FB);
+const Color magnolia = Color(0xffF3EFFF);

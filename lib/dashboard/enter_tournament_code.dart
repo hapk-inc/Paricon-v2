@@ -68,7 +68,7 @@ class EnterTournamentCode extends StatelessWidget {
                       AnimatedContainer(
                         duration: const Duration(milliseconds: 500),
                         width: 225.w,
-                        color: lavenderWeb,
+                        color: magnolia,
                         alignment: Alignment.centerLeft,
                         padding: EdgeInsets.symmetric(horizontal: 15.w),
                         child: Text(

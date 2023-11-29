@@ -30,7 +30,7 @@ ThemeData get buildThemeData => ThemeData(
 
 class SlidingPanelTheme {
   double slidingPanelHeight = 210.h;
-  EdgeInsets slidingPanelPadding = EdgeInsets.all(24.r);
+  EdgeInsets slidingPanelPadding = EdgeInsets.all(15.r);
   BorderRadius slidingPanelRadius =
       BorderRadius.vertical(top: Radius.circular(24.r));
   Color slidingPanelColor = ghostWhite;

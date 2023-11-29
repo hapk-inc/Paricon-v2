@@ -17,7 +17,7 @@ class TButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return StaggeredGridTile.count(
       crossAxisCellCount: 20,
-      mainAxisCellCount: 9.6.h,
+      mainAxisCellCount: 10.5.h,
       child: Stack(
         children: [
           Positioned(
@@ -30,6 +30,7 @@ class TButton extends ConsumerWidget {
                 color: denim,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(7.5.r),
+                  topRight: Radius.circular(7.5.r),
                   bottomLeft: Radius.circular(7.5.r),
                   bottomRight: Radius.circular(30.r),
                 ),
@@ -66,6 +67,11 @@ class TButton extends ConsumerWidget {
                               fontSize: 13.5.r,
                             ),
                           ),
+                          shape: MaterialStatePropertyAll(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(7.5.r),
+                            ),
+                          ),
                           padding: MaterialStatePropertyAll(
                               EdgeInsets.symmetric(horizontal: 15.r)),
                           backgroundColor:
@@ -76,33 +82,6 @@ class TButton extends ConsumerWidget {
                           style: TextStyle(color: ghostWhite),
                         ),
                       ),
-                      /*OutlinedButton(
-                        onPressed: () {},
-                        style: ButtonStyle(
-                          side: MaterialStatePropertyAll(
-                            BorderSide(
-                              width: 0.6.r,
-                              color: charcoal,
-                            ),
-                          ),
-                          padding: MaterialStatePropertyAll(
-                            EdgeInsets.symmetric(horizontal: 18.w),
-                          ),
-                          textStyle: MaterialStatePropertyAll(
-                            TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w300,
-                              letterSpacing: 0.3.r,
-                              color: charcoal,
-                              fontSize: 13.5.r,
-                            ),
-                          ),
-                        ),
-                        child: const Text(
-                          "VIEW LEADERBOARD",
-                          style: TextStyle(color: charcoal),
-                        ),
-                      ),*/
                     ],
                   )
                 ],

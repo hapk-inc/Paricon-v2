@@ -35,10 +35,7 @@ class DName extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: name,
-                        style: TextStyle(
-                          color: majorelleBlue,
-                          fontSize: 30.r,
-                        ),
+                        style: TextStyle(fontSize: 30.r, letterSpacing: 0),
                       ),
                       TextSpan(text: " 👋", style: TextStyle(fontSize: 45.r))
                     ],
