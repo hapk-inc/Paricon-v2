@@ -332,7 +332,7 @@ class __PlayFriend extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 1.5.r),
             child: ToggleSwitch(
               radiusStyle: true,
-              labels: const ["Normal", "Closed", "Orderwise"],
+              labels: const ["Normal", "Closed", "OrderWise"],
               customWidths: [108.w, 90.w, 108.w],
               customHeights: [60.h],
               inactiveBgColor: magnolia,
