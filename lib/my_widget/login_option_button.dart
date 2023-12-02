@@ -4,13 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../theme/my_color.dart';
 
 class LoginOptionButton extends StatelessWidget {
-  const LoginOptionButton(
-      {super.key,
-      required this.lChild,
-      this.bColor = pictonBlue,
-      required this.optionBtnPressed});
+  const LoginOptionButton({
+    super.key,
+    required this.lChild,
+    this.bColor = pictonBlue,
+    this.borderWidth = 1.2,
+    required this.optionBtnPressed,
+  });
 
   final VoidCallback? optionBtnPressed;
+  final double? borderWidth;
   final Widget lChild;
   final Color? bColor;
 
@@ -19,7 +22,10 @@ class LoginOptionButton extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(7.5.r),
-        border: Border.all(color: bColor ?? pictonBlue, width: 1.r),
+        border: Border.all(
+          color: bColor ?? pictonBlue,
+          width: (borderWidth)!.r,
+        ),
       ),
       alignment: Alignment.center,
       padding: EdgeInsets.all(10.5.r),

@@ -54,6 +54,8 @@ const Color aquamarine = Color(0xff93efd8);
 const Color uranianBlue = Color(0xffbfe7fc); // ProfileDetail Color
 const Color xantHous = Color(0xffffc759);
 
+const List<Color> lightColors = [aquamarine, uranianBlue, xantHous];
+
 //ProfileDetail Color
 const Color mayaBlue = Color(0xff79beee);
 const Color wheat = Color(0xffead2ac);

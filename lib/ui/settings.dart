@@ -1,3 +1,5 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart' as badges;
@@ -5,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
@@ -15,7 +18,6 @@ import '../logic/s_size.dart';
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
 import '../my_widget/login_option_button.dart';
-import '../my_widget/my_text_field.dart';
 import '../theme/my_color.dart';
 
 @RoutePage()
@@ -49,7 +51,7 @@ class SettingsPage extends ConsumerWidget {
   }
 }
 
-List<String> _settings = ["Card Collection", "Log Out"];
+List<String> _settings = ["Card Collection", /* "Game Statistics",*/ "Log Out"];
 
 class SettingsState extends ConsumerWidget {
   const SettingsState({super.key});
@@ -215,51 +217,71 @@ class SettingsState extends ConsumerWidget {
           Gap(30.r),
           Expanded(
             child: ListView.separated(
-              itemBuilder: (_, int index) => AnimatedContainer(
-                duration: const Duration(milliseconds: 500),
-                height: 60.h,
-                decoration: BoxDecoration(
-                  color: _settings[index] == _settings.last
-                      ? lavenderWeb
-                      : magnolia,
-                  borderRadius: BorderRadius.circular(1.5.r),
-                ),
-                child: ListTile(
-                  onTap: () {
-                    if (_settings[index] == _settings.last) {
-                      ref.read(signOutProvider);
-                    }
-                  },
-                  dense: true,
-                  title: AnimatedContainer(
-                    duration: const Duration(milliseconds: 500),
-                    height: 54.h,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      _settings[index],
-                      style: TextStyle(
-                        fontFamily: 'Cabin',
-                        fontSize: 18.r,
-                        color: _settings[index] == _settings.last
-                            ? chocolateCosmos
-                            : charcoal,
-                      ),
-                    ),
+              itemBuilder: (_, int index) {
+                final bool isLogOut = _settings[index] == _settings.last;
+                return AnimatedContainer(
+                  duration: const Duration(milliseconds: 500),
+                  height: 60.h,
+                  decoration: BoxDecoration(
+                    color: isLogOut ? lavenderWeb : magnolia,
+                    borderRadius: BorderRadius.circular(1.5.r),
                   ),
-                  trailing: SizedBox(
-                    height: 30.h,
-                    width: 30.w,
-                    //color: Colors.amber,
-                    child: Icon(
-                      Icons.chevron_right,
-                      color: _settings[index] == _settings.last
-                          ? chocolateCosmos
-                          : charcoal,
-                    ),
+                  child: OpenContainer(
+                    closedColor: magnolia,
+                    closedShape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7.5.r)),
+                    closedBuilder:
+                        (BuildContext context, void Function() action) {
+                      return ListTile(
+                        onTap: isLogOut
+                            ? () {
+                                if (isLogOut) {
+                                  ref.read(signOutProvider);
+                                }
+                              }
+                            : action,
+                        dense: true,
+                        leading: isLogOut
+                            ? Icon(
+                                FontAwesomeIcons.rightFromBracket,
+                                size: 21.r,
+                                color: jasper,
+                              )
+                            : null,
+                        title: AnimatedContainer(
+                          duration: const Duration(milliseconds: 500),
+                          height: 54.h,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            _settings[index],
+                            style: TextStyle(
+                              fontFamily: 'Cabin',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18.r,
+                              color: isLogOut ? jasper : charcoal,
+                            ),
+                          ),
+                        ),
+                        trailing: SizedBox(
+                          height: 30.h,
+                          width: 30.w,
+                          //color: Colors.amber,
+                          child: Icon(
+                            Icons.chevron_right,
+                            color: isLogOut ? jasper : charcoal,
+                          ),
+                        ),
+                      );
+                    },
+                    openColor: magnolia,
+                    openBuilder:
+                        (_, void Function({Object? returnValue}) action) {
+                      return isLogOut ? Container() : CardCollection(action);
+                    },
                   ),
-                ),
-              ),
-              separatorBuilder: (_, __) => Gap(3.r),
+                );
+              },
+              separatorBuilder: (_, __) => Gap(7.5.r),
               itemCount: _settings.length,
             ),
           )
@@ -269,183 +291,153 @@ class SettingsState extends ConsumerWidget {
   }
 }
 
-class SettingsState1 extends ConsumerWidget {
-  const SettingsState1({super.key});
+class CardCollection extends ConsumerWidget {
+  final Function({Object? returnValue}) action;
+
+  const CardCollection(this.action, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final MyUser myUser = ref.watch(myUserProvider).value!;
     final TextStyle tTheme = Theme.of(context).textTheme.titleLarge!;
     final TextStyle sTheme = Theme.of(context).textTheme.bodyLarge!;
+    final MyUser? myUser = ref.watch(myUserProvider).value;
     return SafeArea(
-      bottom: false,
-      minimum: EdgeInsets.only(top: 15.r, bottom: 15.r, left: 15.r),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(right: 15.r),
-            child: Container(
-              height: 120.h,
-              decoration: BoxDecoration(
-                color: lightOrange,
-                borderRadius: BorderRadius.circular(7.5.r),
+      minimum: EdgeInsets.only(top: 15.h, left: 1.5.w, right: 1.5.w),
+      child: Container(
+        color: magnolia,
+        padding: EdgeInsets.only(top: 15.h, left: 9.w, right: 9.w),
+        child: InkWell(
+          onTap: action,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AutoSizeText(
+                "Card Collection",
+                style: tTheme.copyWith(
+                  fontFamily: "WendyOne",
+                  fontSize: 36.r,
+                  height: 1.8.r,
+                  color: cinerous,
+                ),
               ),
-              padding: EdgeInsets.all(15.r),
-              alignment: Alignment.centerLeft,
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 45.r,
-                    child: myUser.avatar == null
-                        ? Text(myUser.name.substring(0, 2))
-                        : RandomAvatar(myUser.avatar!),
-                  ),
-                  Gap(15.r),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AutoSizeText(
-                          myUser.name,
-                          style: tTheme.copyWith(
-                            fontFamily: 'WendyOne',
-                            color: charcoal,
-                            height: 0,
+              Text(
+                "Increase your avatar collection by encouraging your "
+                "friends and family to use the code above.",
+                style: sTheme.copyWith(
+                  height: 2.4.r,
+                  fontSize: 15.r,
+                  color: cinerous,
+                ),
+              ),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 500),
+                margin: EdgeInsets.symmetric(vertical: 15.h),
+                height: 51.h,
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 500),
+                      width: 225.w,
+                      margin: EdgeInsets.only(right: 15.w),
+                      padding: EdgeInsets.symmetric(horizontal: 15.w),
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                        color: magnolia,
+                        borderRadius: BorderRadius.circular(7.5.r),
+                        border: Border.all(width: 0.09.r, color: federalBlue),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            myUser!.avatarCode == null
+                                ? "Hold on.."
+                                : myUser.avatarCode!.toUpperCase(),
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              letterSpacing: 0.3.r,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15.r,
+                              color: vanDyke,
+                            ),
                           ),
-                          maxLines: 1,
-                        ),
-                        Gap(3.r),
-                        AutoSizeText(
-                          myUser.id.toString(),
-                          style: sTheme.copyWith(
-                            height: 2.1.r,
+                          Icon(
+                            Icons.copy,
+                            size: 20.1.r,
                             color: cinerous,
-                          ),
-                          maxLines: 1,
-                          minFontSize: 9,
-                          maxFontSize: 10.5,
-                          stepGranularity: 1.5,
+                          )
+                        ],
+                      ),
+                    ),
+                    LoginOptionButton(
+                      bColor: majorelleBlue,
+                      lChild: Icon(Icons.share, size: 20.1.r),
+                      optionBtnPressed: () {},
+                      borderWidth: 0.75,
+                    )
+                  ],
+                ),
+              ),
+              Gap(15.r),
+              Expanded(
+                child: MasonryGridView.count(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 4.5.r,
+                  crossAxisSpacing: 3.r,
+                  itemBuilder: (_, index) {
+                    final bool currentAvatar =
+                        (myUser.avatar ?? "") == myUser.avatarArr[index];
+                    return FadeIn(
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 500),
+                        height: (mockInteger(13, 15)) * 12.h,
+                        decoration: BoxDecoration(
+                          color: currentAvatar
+                              ? majorelleBlue
+                              : lightColors[mockInteger(0, 2)],
+                          borderRadius: BorderRadius.circular(7.5.r),
                         ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Gap(30.r),
-          Padding(
-            padding: EdgeInsets.only(right: 15.r),
-            child: const LoginTextField(),
-          ),
-          Gap(15.r),
-          Padding(
-            padding: EdgeInsets.only(right: 15.r),
-            child: const DCardCollection(),
-          ),
-          Gap(12.r),
-          CardList(myUser: myUser),
-          Gap(18.r),
-          //const Spacer(),
-          //Gap(mainAxisExtent)
-          //GiftAvatarCloseContainer(() {}),
-          OutlinedButton(
-            onPressed: () => ref.read(signOutProvider),
-            style: ButtonStyle(
-              padding: MaterialStatePropertyAll(
-                EdgeInsets.symmetric(horizontal: 15.w),
-              ),
-              fixedSize: MaterialStatePropertyAll(
-                Size.fromWidth(180.w),
-              ),
-            ),
-            child: Text(
-              "Click here to logout",
-              style: TextStyle(
-                fontFamily: 'Cabin',
-                fontSize: 18.r,
-                color: oldRose,
-              ),
-            ),
-          ),
-          Gap(30.r),
-        ],
-      ),
-    );
-  }
-}
-
-class CardList extends StatelessWidget {
-  const CardList({
-    super.key,
-    required this.myUser,
-  });
-
-  final MyUser myUser;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 150.h,
-      //color: xantHous,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        //padding: EdgeInsets.only(left: 15.w),
-        children: myUser.avatarArr.map(
-          (e) {
-            final bool currentAvatar = e == myUser.avatar;
-            return AnimatedContainer(
-              duration: const Duration(milliseconds: 500),
-              width: currentAvatar ? 120.w : 105.w,
-              margin: EdgeInsets.only(right: 9.w),
-              decoration: BoxDecoration(
-                color: currentAvatar
-                    ? majorelleBlue
-                    : [
-                        aquamarine,
-                        // uranianBlue,
-                        xantHous
-                      ][mockInteger(0, 1)]
-                        .withOpacity(0.75),
-                borderRadius: BorderRadius.circular(6.r),
-              ),
-              child: Stack(
-                children: [
-                  AnimatedPositioned(
-                    duration: const Duration(milliseconds: 500),
-                    bottom: currentAvatar ? -36.r : -60.r,
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    child: badges.Badge(
-                      showBadge: currentAvatar,
-                      badgeContent: Icon(
-                        FontAwesomeIcons.check,
-                        size: 18.r,
-                        color: ghostWhite,
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                              top: 0,
+                              bottom: -72.r,
+                              left: 0,
+                              right: 0,
+                              child: badges.Badge(
+                                showBadge: currentAvatar,
+                                badgeContent: Icon(
+                                  FontAwesomeIcons.check,
+                                  size: 18.r,
+                                  color: ghostWhite,
+                                ),
+                                position: badges.BadgePosition.topEnd(
+                                  top: 6.r,
+                                  end: 6.r,
+                                ),
+                                badgeStyle: badges.BadgeStyle(
+                                  badgeColor: darkPastelGreen,
+                                  shape: badges.BadgeShape.circle,
+                                  borderRadius: BorderRadius.circular(6.r),
+                                ),
+                                child: RandomAvatar(
+                                  myUser.avatarArr[index],
+                                  trBackground: true,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      position: badges.BadgePosition.topEnd(
-                        top: 6.r,
-                        end: 6.r,
-                      ),
-                      badgeStyle: badges.BadgeStyle(
-                        badgeColor: darkPastelGreen,
-                        shape: badges.BadgeShape.circle,
-                        borderRadius: BorderRadius.circular(6.r),
-                      ),
-                      child: RandomAvatar(
-                        e,
-                        trBackground: true,
-                      ),
-                    ),
-                  ),
-                ],
+                    );
+                  },
+                  itemCount: myUser.avatarArr.length,
+                ),
               ),
-            );
-          },
-        ).toList(),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -461,7 +453,7 @@ class DCardCollection extends ConsumerWidget {
     final String? avatarCode = myUser.avatarCode;
 
     return Container(
-      height: 195.r,
+      height: 192.r,
       color: lavenderWeb.withOpacity(0.12),
       padding: EdgeInsets.only(right: 15.r, left: 3.r),
       child: Column(
@@ -543,6 +535,7 @@ class DCardCollection extends ConsumerWidget {
               ],
             ),
           ),
+          //Expanded(child: ColoredBox(color: chocolateCosmos))
         ],
       ),
     );

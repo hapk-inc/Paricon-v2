@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
@@ -113,25 +114,33 @@ class AppBarLeading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tTheme = Theme.of(context).textTheme.titleLarge!;
     return Stack(
       children: [
-        if (myUser.avatar != null)
-          Positioned.fill(
-            bottom: -7.5.r,
-            child: SlideInUp(
-              child: FadeIn(
-                child: InkWell(
-                  onTap: () => context.router.push(const SettingsRoute()),
-                  child: RandomAvatar(
-                    myUser.avatar ?? "x",
-                    trBackground: true,
-                  ),
+        //if (myUser.avatar != null)
+        Positioned.fill(
+          bottom: -7.5.r,
+          child: SlideInUp(
+            child: FadeIn(
+              child: InkWell(
+                onTap: () => context.router.push(const SettingsRoute()),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 500),
+                  child: myUser.avatar == null
+                      ? Icon(
+                          FontAwesomeIcons.userTie,
+                          size: 90.r,
+                          color: tropicalIndigo,
+                        )
+                      : RandomAvatar(
+                          myUser.avatar ?? mockString(2),
+                          trBackground: true,
+                        ),
                 ),
               ),
             ),
-          )
-        else
+          ),
+        )
+        /* else
           Positioned.fill(
             bottom: 9.r,
             child: SlideInLeft(
@@ -151,7 +160,7 @@ class AppBarLeading extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          )*/
       ],
     );
   }
@@ -227,7 +236,6 @@ class _Tournament extends ConsumerWidget {
                           builder: (_, BoxConstraints constraints) {
                             final double pH = constraints.maxHeight;
                             final double pW = constraints.maxWidth;
-                            final int r = mockInteger(0, 3);
 
                             return Theme(
                               data: Theme.of(context)
@@ -387,9 +395,13 @@ class _Tournament extends ConsumerWidget {
             StaggeredGridTile.count(
               crossAxisCellCount: 20,
               mainAxisCellCount: 3.6,
-              child: Container(
-                color: magnolia,
-                alignment: Alignment.centerLeft,
+              child: Card(
+                color: ghostWhite,
+                margin: EdgeInsets.zero,
+                elevation: 0.75.r,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero),
+                //alignment: Alignment.centerLeft,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   padding: EdgeInsets.only(left: 15.w),
@@ -475,6 +487,8 @@ class PlayWithFriend extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final bool goToPlayOnline = ref.watch(showPlayOnlineProvider);
+
     return StaggeredGridTile.count(
       crossAxisCellCount: 20,
       mainAxisCellCount: 13.5.h,
@@ -520,9 +534,28 @@ class PlayWithFriend extends ConsumerWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          context.router.push(const HostRoomRoute());
-                          // ref.refresh(tournamentListenerNotifierProvider);
-                          // context.router.push(const TournamentRoute());
+                          if (goToPlayOnline) {
+                            context.router.push(const HostRoomRoute());
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                backgroundColor: charcoal,
+                                padding: EdgeInsets.only(left: 15.w, top: 15.h),
+                                content: AutoSizeText(
+                                  "Still in Progress. Appreciate your patience till then",
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 12.r,
+                                    color: ghostWhite,
+                                    letterSpacing: 0.12.r,
+                                  ),
+                                  maxLines: 1,
+                                  minFontSize: 12,
+                                  maxFontSize: 15,
+                                ),
+                              ),
+                            );
+                          }
                         },
                         style: ButtonStyle(
                           textStyle: MaterialStatePropertyAll(

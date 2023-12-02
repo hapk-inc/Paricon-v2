@@ -26,3 +26,11 @@ final Provider<int> recentCountProvider = Provider<int>(
     return recentCount;
   },
 );
+
+final Provider<bool> showPlayOnlineProvider = Provider<bool>(
+  (ref) {
+    final remoteConfig = ref.watch(remoteConfigProvider);
+    final bool show = remoteConfig.getBool('playOnline');
+    return show;
+  },
+);
