@@ -32,7 +32,7 @@ class TButton extends ConsumerWidget {
                   topLeft: Radius.circular(7.5.r),
                   topRight: Radius.circular(7.5.r),
                   bottomLeft: Radius.circular(7.5.r),
-                  bottomRight: Radius.circular(30.r),
+                  bottomRight: Radius.circular(45.r),
                 ),
               ),
               padding: EdgeInsets.all(9.r),
@@ -46,7 +46,16 @@ class TButton extends ConsumerWidget {
                     style: TextStyle(
                       fontFamily: 'WendyOne',
                       fontSize: 30.r,
-                      color: ghostWhite,
+                      color: magnolia,
+                    ),
+                  ),
+                  Gap(3.r),
+                  Text(
+                    "Complete the block in less time",
+                    style: TextStyle(
+                      color: magnolia,
+                      fontSize: 12.r,
+                      fontFamily: 'Cabin',
                     ),
                   ),
                   Gap(15.r),
@@ -83,7 +92,8 @@ class TButton extends ConsumerWidget {
                         ),
                       ),
                     ],
-                  )
+                  ),
+
                 ],
               ),
             ),

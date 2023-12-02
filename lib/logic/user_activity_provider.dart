@@ -59,6 +59,16 @@ final AutoDisposeFutureProvider<TransactionResult> appOpenedProvider =
   },
 );
 
+final AutoDisposeFutureProviderFamily<void, bool> setActiveProvider =
+    FutureProvider.autoDispose.family<void, bool>(
+  (ref, flag) async {
+    final User user = ref.read(authUserProvider).value!;
+    final FirebaseDatabase dt = ref.read(databaseProvider);
+    final DatabaseReference userRef = dt.ref('users/${user.uid}');
+    return userRef.update({'isActive': flag});
+  },
+);
+
 final Provider<Query> recentUserProvider = Provider<Query>(
   (ref) {
     final dt = ref.read(databaseProvider);

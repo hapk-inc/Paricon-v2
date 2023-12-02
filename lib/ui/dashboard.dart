@@ -27,6 +27,7 @@ import '../logic/remote_values.dart';
 import '../logic/s_size.dart';
 import '../logic/t_score.dart';
 import '../logic/tournament_database.dart';
+import '../logic/user_activity_provider.dart';
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
 import '../model/t_duration.dart';
@@ -54,8 +55,11 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     debugPrint("didChangeAppLifecycleState ${state.name}");
-    if (state == AppLifecycleState.paused) {
-      ref.read(setActiveProvider(state == AppLifecycleState.resumed).future);
+    if (state == AppLifecycleState.inactive) {
+      ref.read(setActiveProvider(false).future);
+    } else if (state == AppLifecycleState.resumed) {
+      ref.read(setActiveProvider(true).future);
+      ref.read(appOpenedProvider);
     }
   }
 
@@ -474,6 +478,10 @@ class _Tournament extends ConsumerWidget {
               ),
             ),
             const PlayWithFriend(),
+            const StaggeredGridTile.fit(
+              crossAxisCellCount: 20,
+              child: EnterAvatarCode(),
+            ),
             Gap(240.r),
           ],
         ),
@@ -491,7 +499,7 @@ class PlayWithFriend extends ConsumerWidget {
 
     return StaggeredGridTile.count(
       crossAxisCellCount: 20,
-      mainAxisCellCount: 13.5.h,
+      mainAxisCellCount: 13.2.h,
       child: Stack(
         children: [
           Positioned(
@@ -515,14 +523,14 @@ class PlayWithFriend extends ConsumerWidget {
                     style: TextStyle(
                       fontFamily: 'WendyOne',
                       fontSize: 36.r,
-                      color: ghostWhite,
+                      color: magnolia,
                     ),
                   ),
                   AutoSizeText(
                     "Max up to 4 players",
                     style: TextStyle(
                       fontSize: 12.r,
-                      color: ghostWhite,
+                      color: magnolia,
                       fontFamily: 'Poppins',
                       height: 2.1.r,
                       fontWeight: FontWeight.w300,

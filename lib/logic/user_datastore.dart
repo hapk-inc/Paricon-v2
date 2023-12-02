@@ -65,7 +65,7 @@ class UserDatastore {
   Future<String> get appVersion =>
       ref.read(packageInfoProvider.future).then((value) => value.version);
 
-  Future<bool> get appOpenedOrLoggedIn async => true;
+  //Future<bool> get appOpenedOrLoggedIn async => true;
 
   Future get newAvatarCode async =>
       userColl.doc(_id).update({'avatarCode': mockString(6, 'A')});
@@ -107,7 +107,7 @@ class UserDatastore {
         },
       );
 
-  Future setActive(bool flag) => userColl.doc(_id).update({'isActive': flag});
+  // Future setActive(bool flag) => userColl.doc(_id).update({'isActive': flag});
 
 /*  Query<MyAvatar> get receivedNewAvatar => userColl
       .doc(_id)

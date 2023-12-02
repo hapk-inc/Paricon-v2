@@ -19,13 +19,13 @@ final myUserProvider = StreamProvider.autoDispose<MyUser?>(
   },
 );
 
-final AutoDisposeFutureProvider<bool> appOpenedOrLoggedInProvider =
+/*final AutoDisposeFutureProvider<bool> appOpenedOrLoggedInProvider =
     FutureProvider.autoDispose<bool>(
   (ref) async {
     final userDatastore = ref.read(userDatastoreProvider);
     return await userDatastore.appOpenedOrLoggedIn;
   },
-);
+);*/
 
 /*final recentUserCollectionReferenceProvider =
     Provider.autoDispose<Query<PUser>>(
@@ -48,14 +48,6 @@ final AutoDisposeFutureProviderFamily<void, String> addFriendProvider =
   (ref, id) async {
     final userDatastore = ref.read(userDatastoreProvider);
     return userDatastore.addFriend(id);
-  },
-);
-
-final AutoDisposeFutureProviderFamily<void, bool> setActiveProvider =
-    FutureProvider.autoDispose.family<void, bool>(
-  (ref, flag) async {
-    final userDatastore = ref.read(userDatastoreProvider);
-    return userDatastore.setActive(flag);
   },
 );
 

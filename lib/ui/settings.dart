@@ -398,36 +398,39 @@ class CardCollection extends ConsumerWidget {
                               : lightColors[mockInteger(0, 2)],
                           borderRadius: BorderRadius.circular(7.5.r),
                         ),
-                        child: Stack(
-                          children: [
-                            Positioned.fill(
-                              top: 0,
-                              bottom: -72.r,
-                              left: 0,
-                              right: 0,
-                              child: badges.Badge(
-                                showBadge: currentAvatar,
-                                badgeContent: Icon(
-                                  FontAwesomeIcons.check,
-                                  size: 18.r,
-                                  color: ghostWhite,
-                                ),
-                                position: badges.BadgePosition.topEnd(
-                                  top: 6.r,
-                                  end: 6.r,
-                                ),
-                                badgeStyle: badges.BadgeStyle(
-                                  badgeColor: darkPastelGreen,
-                                  shape: badges.BadgeShape.circle,
-                                  borderRadius: BorderRadius.circular(6.r),
-                                ),
-                                child: RandomAvatar(
-                                  myUser.avatarArr[index],
-                                  trBackground: true,
+                        child: LayoutBuilder(
+                          builder: (_, BoxConstraints constraints) => Stack(
+                            children: [
+                              AnimatedPositioned(
+                                duration: const Duration(milliseconds: 500),
+                                top: 0,
+                                bottom: -constraints.maxHeight * 0.81,
+                                left: 0,
+                                right: 0,
+                                child: badges.Badge(
+                                  showBadge: currentAvatar,
+                                  badgeContent: Icon(
+                                    FontAwesomeIcons.check,
+                                    size: 18.r,
+                                    color: ghostWhite,
+                                  ),
+                                  position: badges.BadgePosition.topEnd(
+                                    top: 6.r,
+                                    end: 6.r,
+                                  ),
+                                  badgeStyle: badges.BadgeStyle(
+                                    badgeColor: darkPastelGreen,
+                                    shape: badges.BadgeShape.circle,
+                                    borderRadius: BorderRadius.circular(6.r),
+                                  ),
+                                  child: RandomAvatar(
+                                    myUser.avatarArr[index],
+                                    trBackground: true,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     );
