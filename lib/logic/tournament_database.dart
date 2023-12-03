@@ -28,6 +28,14 @@ final StreamProvider<List<String>> bestDListProvider =
   },
 );
 
+final AutoDisposeFutureProvider<BestD?> myBestDProvider =
+    FutureProvider.autoDispose<BestD?>(
+  (ref) async {
+    final tDatabase = ref.read(tournamentDatabaseProvider);
+    return tDatabase.myBestD;
+  },
+);
+
 final StreamProviderFamily<MyUser?, String> xUserProvider =
     StreamProvider.family<MyUser?, String>(
   (ref, id) {

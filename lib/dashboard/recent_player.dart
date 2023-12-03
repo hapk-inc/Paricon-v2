@@ -98,7 +98,10 @@ class RecentPlayerTile extends StatelessWidget {
                       ? Text(
                           xUser.name!.substring(0, 2).toUpperCase(),
                           style: tTheme.copyWith(
-                              color: lightOrange, fontSize: 24.r),
+                            color: lightOrange,
+                            fontSize: 24.r,
+                            fontFamily: "WendyOne",
+                          ),
                         )
                       : FadeIn(
                           child: RandomAvatar(

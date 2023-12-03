@@ -236,7 +236,7 @@ class EnterAvatarCode extends StatelessWidget {
                     AnimatedContainer(
                       duration: const Duration(milliseconds: 500),
                       width: 225.w,
-                      color: magnolia,
+                      color: wheat,
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.symmetric(horizontal: 15.w),
                       child: Text(
@@ -246,7 +246,7 @@ class EnterAvatarCode extends StatelessWidget {
                           fontSize: 15.r,
                           letterSpacing: 0.45.r,
                           fontWeight: FontWeight.w400,
-                          color: vanDyke.withOpacity(0.3),
+                          color: vanDyke,
                         ),
                       ),
                     ),

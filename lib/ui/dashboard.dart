@@ -9,7 +9,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:lottie/lottie.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -18,6 +17,8 @@ import '../dashboard/d_name.dart';
 import '../dashboard/d_subtitle.dart';
 import '../dashboard/enter_tournament_code.dart';
 import '../dashboard/in_progress.dart';
+import '../dashboard/open_challenge_table.dart';
+import '../dashboard/play_with_friend.dart';
 import '../dashboard/recent_player.dart';
 import '../dashboard/t_button.dart';
 import '../logic/auth_provider.dart';
@@ -25,12 +26,10 @@ import '../logic/dashboard_provider.dart';
 import '../logic/panel_provider.dart';
 import '../logic/remote_values.dart';
 import '../logic/s_size.dart';
-import '../logic/t_score.dart';
 import '../logic/tournament_database.dart';
 import '../logic/user_activity_provider.dart';
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
-import '../model/t_duration.dart';
 import '../my_widget/my_logo.dart';
 import '../router/my_route.dart';
 import '../theme/my_color.dart';
@@ -54,12 +53,14 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    debugPrint("didChangeAppLifecycleState ${state.name}");
-    if (state == AppLifecycleState.inactive) {
-      ref.read(setActiveProvider(false).future);
-    } else if (state == AppLifecycleState.resumed) {
-      ref.read(setActiveProvider(true).future);
-      ref.read(appOpenedProvider);
+    if (mounted) {
+      debugPrint("didChangeAppLifecycleState ${state.name}");
+      if (state == AppLifecycleState.inactive) {
+        ref.read(setActiveProvider(false));
+      } else if (state == AppLifecycleState.resumed) {
+        ref.read(setActiveProvider(true));
+        ref.read(appOpenedProvider);
+      }
     }
   }
 
@@ -170,10 +171,6 @@ class AppBarLeading extends StatelessWidget {
   }
 }
 
-//List<double> colSize = [0.12, 0.24, 0.2];
-List<double> colSize = [0.12, 0.42, 0.36];
-List<String> colName = ['Rank', 'Name', 'Duration'];
-
 class _Tournament extends ConsumerWidget {
   const _Tournament();
 
@@ -181,425 +178,114 @@ class _Tournament extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final MyUser myUser = ref.watch(myUserProvider).value!;
 
-    final User? fUser = ref.watch(authUserProvider).value;
-
-    final List<TDuration> recentTourList =
-        ref.watch(recentTourListProvider).value ?? [];
-
     final List<String> bestDList = ref.watch(bestDListProvider).value ?? [];
-    debugPrint("185--${bestDList.length}");
-    return Container(
+
+    return SingleChildScrollView(
       padding: EdgeInsets.only(top: 7.5.r),
-      alignment: Alignment.topCenter,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: StaggeredGrid.count(
-          axisDirection: AxisDirection.down,
-          crossAxisCount: 20,
-          children: [
-            DName(myUser.name),
-            DSubtitle(myUser),
-            Gap(12.r),
-            const RecentPlayer(),
-            const TButton(),
-            Gap(15.r),
-            const StaggeredGridTile.fit(
-              crossAxisCellCount: 20,
-              child: EnterTournamentCode(),
-            ),
-            StaggeredGridTile.fit(
-              crossAxisCellCount: 20,
-              child: Container(
-                height: (78.h * 4),
-                color: lightOrange,
-                width: 360.w,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 9.w, vertical: 12.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Recently Played",
-                            style: TextStyle(
-                              fontSize: 21.r,
-                              color: cinerous,
-                              fontFamily: 'WendyOne',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        constraints: const BoxConstraints.expand(),
-                        child: LayoutBuilder(
-                          builder: (_, BoxConstraints constraints) {
-                            final double pH = constraints.maxHeight;
-                            final double pW = constraints.maxWidth;
-
-                            return Theme(
-                              data: Theme.of(context)
-                                  .copyWith(dividerColor: charcoal),
-                              child: DataTable(
-                                horizontalMargin: 12.w,
-                                dividerThickness: 0.6.r,
-                                columnSpacing: 3.w,
-                                headingRowHeight: pH * 0.18,
-                                dataRowMinHeight: pH * 0.21,
-                                dataRowMaxHeight: pH * 0.21,
-                                headingTextStyle: TextStyle(
-                                  fontSize: 15.r,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w700,
-                                  color: giantOrange,
-                                ),
-                                dataTextStyle: TextStyle(
-                                  fontSize: 15.r,
-                                  color: richBlack,
-                                  fontFamily: 'Poppins',
-                                ),
-                                columns: List.generate(
-                                  3,
-                                  (index) {
-                                    return DataColumn(
-                                      label: Container(
-                                        color:
-                                            index == 3 ? chocolateCosmos : null,
-                                        width: pW * colSize[index],
-                                        child: Text(colName[index]),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                rows: recentTourList.isEmpty
-                                    ? []
-                                    : List.generate(
-                                        recentTourList.length <= 4
-                                            ? recentTourList.length
-                                            : 4, (index) {
-                                        final TDuration tD =
-                                            recentTourList[index];
-                                        final bool isMe =
-                                            tD.userId == fUser!.uid;
-                                        final MyUser? xUser = ref
-                                            .watch(xUserProvider(tD.userId))
-                                            .value;
-
-                                        final int myRank =
-                                            bestDList.indexOf(tD.userId);
-                                        // final
-                                        return DataRow(
-                                          color: MaterialStatePropertyAll(
-                                              isMe ? bitterSweet : null),
-                                          cells: [
-                                            DataCell(
-                                              Container(
-                                                width: pW * colSize[0],
-                                                margin: EdgeInsets.only(
-                                                    left: pW * 0.03),
-                                                alignment: Alignment.centerLeft,
-                                                child: Text(
-                                                  "${myRank + 1}"
-                                                      .padLeft(2, '0'),
-                                                  style: TextStyle(
-                                                    fontFamily: 'Montserrat',
-                                                    fontSize: 14.r,
-                                                    color: isMe
-                                                        ? lightOrange
-                                                        : cardinal,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            DataCell(
-                                              Container(
-                                                width: pW * colSize[1],
-                                                alignment: Alignment.centerLeft,
-                                                child: AutoSizeText(
-                                                  xUser == null
-                                                      ? ""
-                                                      : xUser.name,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w300,
-                                                    fontSize: 13.2.r,
-                                                    color: isMe
-                                                        ? lightOrange
-                                                        : hookerGreen,
-                                                    fontFamily: 'Montserrat',
-                                                  ),
-                                                  maxLines: 1,
-                                                ),
-                                              ),
-                                            ),
-                                            DataCell(
-                                              SizedBox(
-                                                width: pW * colSize[2],
-                                                //width: 120.w,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    AutoSizeText.rich(
-                                                      showTScore(
-                                                        tD.tDuration,
-                                                        tSize: 15,
-                                                        sSize: 10.8,
-                                                        //family: 'WendyOne',
-                                                        minute: isMe
-                                                            ? lightOrange
-                                                            : caputMortuum,
-                                                        mm: isMe
-                                                            ? lightOrange
-                                                            : oldRose,
-                                                      ),
-                                                      maxLines: 1,
-                                                      style: TextStyle(
-                                                          letterSpacing: 0.3.r),
-                                                    ),
-                                                    Container(
-                                                      margin: EdgeInsets.only(
-                                                          right: 1.5.w),
-                                                      child: Text(
-                                                        "${tD.playedAt.hour.toString().padLeft(2, '0')}:${tD.playedAt.minute.toString().padLeft(2, '0')}",
-                                                        style: TextStyle(
-                                                          fontFamily: 'Cabin',
-                                                          fontWeight:
-                                                              FontWeight.w700,
-                                                          color: isMe
-                                                              ? lavenderWeb
-                                                              : gray,
-                                                          fontSize: 12.r,
-                                                          letterSpacing: 0.3.r,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      }),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Gap(15.r),
-            StaggeredGridTile.count(
-              crossAxisCellCount: 20,
-              mainAxisCellCount: 3.6,
-              child: Card(
-                color: ghostWhite,
-                margin: EdgeInsets.zero,
-                elevation: 0.75.r,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero),
-                //alignment: Alignment.centerLeft,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.only(left: 15.w),
-                  children: [
-                    Container(
-                      height: double.maxFinite,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "Top Players",
-                        style:
-                            TextStyle(fontFamily: 'WendyOne', fontSize: 24.r),
-                      ),
-                    ),
-                    Gap(12.r),
-                    ...List.generate(
-                      bestDList.length,
-                      (index) {
-                        final String bD = bestDList[index];
-                        final MyUser? xUser =
-                            ref.watch(xUserProvider(bD)).value;
-                        return xUser == null
-                            ? Container()
-                            : Container(
-                                //width: 135.w,
-                                padding:
-                                    EdgeInsets.only(left: 4.5.w, right: 13.5.w),
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: 3.w, vertical: 18.r),
-                                decoration: BoxDecoration(
-                                  color: [
-                                    aquamarine,
-                                    xantHous,
-                                    uranianBlue
-                                  ][mockInteger(0, 2)],
-                                  borderRadius: BorderRadius.circular(24.r),
-                                ),
-                                child: Row(
-                                  children: [
-                                    CircleAvatar(
-                                      child: xUser.avatar == null
-                                          ? Text(
-                                              xUser.name
-                                                  .substring(0, 2)
-                                                  .toUpperCase()
-                                                  .toString(),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .titleLarge!
-                                                  .copyWith(fontSize: 15.r),
-                                            )
-                                          : RandomAvatar(xUser.avatar!),
-                                    ),
-                                    Gap(10.5.r),
-                                    AutoSizeText(
-                                      xUser.name,
-                                      style: TextStyle(
-                                          fontSize: 13.5.r,
-                                          fontFamily: 'Poppins',
-                                          fontWeight: FontWeight.w500,
-                                          color: federalBlue),
-                                      maxLines: 1,
-                                    ),
-                                  ],
-                                ),
-                              );
-                      },
-                    )
-                  ],
-                ),
-              ),
-            ),
-            const PlayWithFriend(),
-            const StaggeredGridTile.fit(
-              crossAxisCellCount: 20,
-              child: EnterAvatarCode(),
-            ),
-            Gap(240.r),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class PlayWithFriend extends ConsumerWidget {
-  const PlayWithFriend({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final bool goToPlayOnline = ref.watch(showPlayOnlineProvider);
-
-    return StaggeredGridTile.count(
-      crossAxisCellCount: 20,
-      mainAxisCellCount: 13.2.h,
-      child: Stack(
+      scrollDirection: Axis.vertical,
+      child: StaggeredGrid.count(
+        axisDirection: AxisDirection.down,
+        crossAxisCount: 20,
         children: [
-          Positioned(
-            top: 12.r,
-            //bottom: 3.r,
-            left: 0.r,
-            right: 0.r,
-            child: Container(
-              decoration: BoxDecoration(
-                color: jasper,
-                borderRadius: BorderRadius.circular(7.5.r),
+          DName(myUser.name),
+          DSubtitle(myUser),
+          Gap(12.r),
+          const RecentPlayer(),
+          const TButton(),
+          Gap(15.r),
+          const StaggeredGridTile.fit(
+            crossAxisCellCount: 20,
+            child: EnterTournamentCode(),
+          ),
+          const StaggeredGridTile.fit(
+              crossAxisCellCount: 20, child: OpenChallengeTable()),
+          Gap(15.r),
+          StaggeredGridTile.count(
+            crossAxisCellCount: 20,
+            mainAxisCellCount: 3.6,
+            child: Card(
+              color: ghostWhite,
+              margin: EdgeInsets.zero,
+              elevation: 0.45.r,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.zero,
               ),
-              padding: EdgeInsets.only(top: 12.r, left: 15.r),
-              margin: EdgeInsets.only(right: 24.w, left: 9.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
+              //alignment: Alignment.centerLeft,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.only(left: 15.w),
                 children: [
-                  AutoSizeText(
-                    "Play with Friends",
-                    style: TextStyle(
-                      fontFamily: 'WendyOne',
-                      fontSize: 36.r,
-                      color: magnolia,
+                  Container(
+                    height: double.maxFinite,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Top Players",
+                      style: TextStyle(fontFamily: 'WendyOne', fontSize: 24.r),
                     ),
                   ),
-                  AutoSizeText(
-                    "Max up to 4 players",
-                    style: TextStyle(
-                      fontSize: 12.r,
-                      color: magnolia,
-                      fontFamily: 'Poppins',
-                      height: 2.1.r,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                  Gap(15.r),
-                  ButtonBar(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          if (goToPlayOnline) {
-                            context.router.push(const HostRoomRoute());
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                backgroundColor: charcoal,
-                                padding: EdgeInsets.only(left: 15.w, top: 15.h),
-                                content: AutoSizeText(
-                                  "Still in Progress. Appreciate your patience till then",
-                                  style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 12.r,
-                                    color: ghostWhite,
-                                    letterSpacing: 0.12.r,
+                  Gap(12.r),
+                  ...List.generate(
+                    bestDList.length,
+                    (index) {
+                      final String bD = bestDList[index];
+                      final MyUser? xUser = ref.watch(xUserProvider(bD)).value;
+                      return xUser == null
+                          ? Container()
+                          : Container(
+                              //width: 135.w,
+                              padding:
+                                  EdgeInsets.only(left: 4.5.w, right: 13.5.w),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 3.w, vertical: 18.r),
+                              decoration: BoxDecoration(
+                                color: [
+                                  aquamarine,
+                                  xantHous,
+                                  uranianBlue
+                                ][mockInteger(0, 2)],
+                                borderRadius: BorderRadius.circular(24.r),
+                              ),
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    child: xUser.avatar == null
+                                        ? Text(
+                                            xUser.name
+                                                .substring(0, 2)
+                                                .toUpperCase()
+                                                .toString(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleLarge!
+                                                .copyWith(fontSize: 15.r),
+                                          )
+                                        : RandomAvatar(xUser.avatar!),
                                   ),
-                                  maxLines: 1,
-                                  minFontSize: 12,
-                                  maxFontSize: 15,
-                                ),
+                                  Gap(10.5.r),
+                                  AutoSizeText(
+                                    xUser.name,
+                                    style: TextStyle(
+                                        fontSize: 13.5.r,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w500,
+                                        color: federalBlue),
+                                    maxLines: 1,
+                                  ),
+                                ],
                               ),
                             );
-                          }
-                        },
-                        style: ButtonStyle(
-                          textStyle: MaterialStatePropertyAll(
-                            TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 13.5.r,
-                            ),
-                          ),
-                          shape: MaterialStatePropertyAll(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(7.5.r),
-                            ),
-                          ),
-                          padding: MaterialStatePropertyAll(
-                              EdgeInsets.symmetric(horizontal: 15.r)),
-                          backgroundColor:
-                              const MaterialStatePropertyAll(denim),
-                        ),
-                        child: const Text(
-                          "PLAY ONLINE",
-                          style: TextStyle(color: ghostWhite),
-                        ),
-                      ),
-                    ],
+                    },
                   )
                 ],
               ),
             ),
           ),
-          Positioned(
-            right: -30.r,
-            top: -15.r,
-            bottom: -15.r,
-            child: Lottie.asset('lottie/friends-playing.json', repeat: true),
+          const PlayWithFriend(),
+          const StaggeredGridTile.fit(
+            crossAxisCellCount: 20,
+            child: EnterAvatarCode(),
           ),
+          Gap(210.r),
         ],
       ),
     );

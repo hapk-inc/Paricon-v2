@@ -11,13 +11,17 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/my_widget/show_t_score.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 import '../logic/auth_provider.dart';
 import '../logic/s_size.dart';
+import '../logic/tournament_database.dart';
 import '../logic/user_provider.dart';
+import '../model/best_d.dart';
 import '../model/my_user.dart';
 import '../my_widget/login_option_button.dart';
+import '../settings/settings_header.dart';
 import '../theme/my_color.dart';
 
 @RoutePage()
@@ -53,166 +57,40 @@ class SettingsPage extends ConsumerWidget {
 
 List<String> _settings = ["Card Collection", /* "Game Statistics",*/ "Log Out"];
 
+const List<String> _tileText = ['Games', 'Best Duration', 'Rank'];
+
 class SettingsState extends ConsumerWidget {
   const SettingsState({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final MyUser myUser = ref.watch(myUserProvider).value!;
+    final BestD? myBestD = ref.watch(myBestDProvider).value;
 
-    final User? user = ref.watch(authUserProvider).value;
-    final TextStyle tTheme = Theme.of(context).textTheme.titleLarge!;
-    final TextStyle sTheme = Theme.of(context).textTheme.bodyLarge!;
     return SafeArea(
       minimum: EdgeInsets.all(15.r),
       child: Column(
         children: [
-          Card(
-            margin: EdgeInsets.zero,
-            elevation: 3.r,
-            shape:
-                const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 500),
-              height: 150.h,
-              decoration: BoxDecoration(
-                color: magnolia,
-                borderRadius: BorderRadius.circular(7.5.r),
-              ),
-              padding: EdgeInsets.all(7.5.r),
-              alignment: Alignment.centerLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Flexible(
-                    flex: 2,
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 45.r,
-                          child: myUser.avatar == null
-                              ? Text(myUser.name.substring(0, 2))
-                              : RandomAvatar(myUser.avatar ?? mockString(2)),
-                        ),
-                        Gap(15.r),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                flex: 2,
-                                child: AutoSizeText(
-                                  myUser.name,
-                                  style: tTheme.copyWith(
-                                    fontFamily: 'WendyOne',
-                                    color: charcoal,
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                child: AutoSizeText(
-                                  user?.email ?? "Anonymous User",
-                                  style: sTheme.copyWith(color: tropicalIndigo),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Divider(
-                    color: tropicalIndigo,
-                    thickness: 0.45.r,
-                    height: 24.h,
-                    indent: 7.5.w,
-                    endIndent: 7.5.w,
-                  ),
-                  Flexible(
-                    child: TextButton(
-                      style: ButtonStyle(
-                        padding: MaterialStatePropertyAll(
-                          EdgeInsets.only(left: 15.r),
-                        ),
-                        minimumSize: MaterialStatePropertyAll(
-                          Size.fromWidth(120.w),
-                        ),
-                      ),
-                      onPressed: () {
-                        debugPrint("133-");
-                      },
-                      child: Row(
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.userPen,
-                            size: 21.r,
-                            color: federalBlue,
-                          ),
-                          Gap(15.r),
-                          Text(
-                            "Edit profile",
-                            style: TextStyle(
-                              fontFamily: 'Cabin',
-                              fontSize: 15.r,
-                              color: federalBlue,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          const SettingHeader(),
           Gap(24.r),
-          SizedBox(
-            height: 105.h,
-            // duration: const Duration(milliseconds: 500),
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: List.generate(
-                3,
-                (index) => AspectRatio(
-                  aspectRatio: 1.11,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 500),
-                    decoration: BoxDecoration(
-                      color: magnolia,
-                      borderRadius: BorderRadius.circular(7.5.r),
-                    ),
-                    margin: EdgeInsets.symmetric(horizontal: 3.r),
+          AnimatedSwitcher(
+            duration: const Duration(microseconds: 500),
+            child: myBestD == null
+                ? Container(
+                    height: 30.h,
+                    padding: EdgeInsets.symmetric(horizontal: 7.5.w),
                     alignment: Alignment.center,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "${mockInteger(1, 50)}".padLeft(2, '0'),
-                          style: tTheme.copyWith(
-                            fontFamily: 'Montserrat',
-                            color: tropicalIndigo,
-                            fontSize: 27.r,
-                            letterSpacing: .15.r,
-                          ),
-                        ),
-                        Gap(9.r),
-                        Text(
-                          mockString(8),
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 12.r,
-                            color: gray,
-                            letterSpacing: 0,
-                          ),
-                        ),
-                        Gap(6.r),
-                      ],
+                    child: AutoSizeText(
+                      "Open challenge is still pending on your to-do list.",
+                      style: TextStyle(
+                        fontFamily: 'Cabin',
+                        fontSize: 15.r,
+                        fontWeight: FontWeight.w900,
+                        color: cinerous,
+                      ),
+                      maxLines: 1,
                     ),
-                  ),
-                ),
-              ),
-            ),
+                  )
+                : ShowBestDTile(myBestD),
           ),
           Gap(30.r),
           Expanded(
@@ -229,50 +107,50 @@ class SettingsState extends ConsumerWidget {
                   child: OpenContainer(
                     closedColor: magnolia,
                     closedShape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7.5.r)),
+                      borderRadius: BorderRadius.circular(7.5.r),
+                    ),
                     closedBuilder:
-                        (BuildContext context, void Function() action) {
-                      return ListTile(
-                        onTap: isLogOut
-                            ? () {
-                                if (isLogOut) {
-                                  ref.read(signOutProvider);
-                                }
+                        (BuildContext context, void Function() action) =>
+                            ListTile(
+                      onTap: isLogOut
+                          ? () {
+                              if (isLogOut) {
+                                ref.read(signOutProvider);
                               }
-                            : action,
-                        dense: true,
-                        leading: isLogOut
-                            ? Icon(
-                                FontAwesomeIcons.rightFromBracket,
-                                size: 21.r,
-                                color: jasper,
-                              )
-                            : null,
-                        title: AnimatedContainer(
-                          duration: const Duration(milliseconds: 500),
-                          height: 54.h,
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            _settings[index],
-                            style: TextStyle(
-                              fontFamily: 'Cabin',
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18.r,
-                              color: isLogOut ? jasper : charcoal,
-                            ),
-                          ),
-                        ),
-                        trailing: SizedBox(
-                          height: 30.h,
-                          width: 30.w,
-                          //color: Colors.amber,
-                          child: Icon(
-                            Icons.chevron_right,
+                            }
+                          : action,
+                      dense: true,
+                      leading: isLogOut
+                          ? Icon(
+                              FontAwesomeIcons.rightFromBracket,
+                              size: 21.r,
+                              color: jasper,
+                            )
+                          : null,
+                      title: AnimatedContainer(
+                        duration: const Duration(milliseconds: 500),
+                        height: 54.h,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          _settings[index],
+                          style: TextStyle(
+                            fontFamily: 'Cabin',
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18.r,
                             color: isLogOut ? jasper : charcoal,
                           ),
                         ),
-                      );
-                    },
+                      ),
+                      trailing: SizedBox(
+                        height: 30.h,
+                        width: 30.w,
+                        //color: Colors.amber,
+                        child: Icon(
+                          Icons.chevron_right,
+                          color: isLogOut ? jasper : charcoal,
+                        ),
+                      ),
+                    ),
                     openColor: magnolia,
                     openBuilder:
                         (_, void Function({Object? returnValue}) action) {
@@ -286,6 +164,96 @@ class SettingsState extends ConsumerWidget {
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class ShowBestDTile extends ConsumerWidget {
+  final BestD myBestD;
+
+  const ShowBestDTile(this.myBestD, {super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final User? user = ref.watch(authUserProvider).value;
+    final TextStyle tTheme = Theme.of(context).textTheme.titleLarge!;
+
+    final List<String> bestDList = ref.watch(bestDListProvider).value ?? [];
+
+    if (bestDList.isEmpty || user == null) return Container();
+    final List<Widget> tileValue = [
+      Text(
+        "${myBestD.tCount}".padLeft(2, '0'),
+        style: tTheme.copyWith(
+          fontFamily: 'Montserrat',
+          color: tropicalIndigo,
+          fontSize: 27.r,
+        ),
+      ),
+      AutoSizeText.rich(
+        showTScore(
+          myBestD.bestD,
+          minute: tropicalIndigo,
+          mm: periwinkle,
+          tSize: 27,
+          sSize: 12,
+        ),
+        style: tTheme.copyWith(
+          fontFamily: 'Montserrat',
+          color: tropicalIndigo,
+          fontSize: 27.r,
+        ),
+      ),
+      Text(
+        "${bestDList.indexOf(user.uid) + 1}".padLeft(2, '0'),
+        style: tTheme.copyWith(
+          fontFamily: 'Montserrat',
+          color: tropicalIndigo,
+          fontSize: 27.r,
+        ),
+      ),
+    ];
+    return SizedBox(
+      height: 99.h,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: List.generate(
+          3,
+          (index) => AspectRatio(
+            aspectRatio: index == 1 ? 1.5 : 1.05,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
+              decoration: BoxDecoration(
+                color: magnolia,
+                borderRadius: BorderRadius.circular(7.5.r),
+              ),
+              margin: EdgeInsets.symmetric(horizontal: 3.r),
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  tileValue[index],
+                  Gap(7.5.r),
+                  AutoSizeText(
+                    _tileText[index],
+                    style: const TextStyle(
+                      fontFamily: 'Montserrat',
+                      //fontSize: 12.r,
+                      color: periwinkle,
+                      letterSpacing: 0,
+                    ),
+                    maxLines: 1,
+                    minFontSize: 10.5,
+                    maxFontSize: 12,
+                    stepGranularity: 1.5,
+                  ),
+                  Gap(6.r),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,6 +32,16 @@ class SplashState extends ConsumerWidget {
     final isL = sSize == ScreenSize.pc ||
         sSize == ScreenSize.tv ||
         sSize == ScreenSize.iPad;
+    Future.delayed(
+      const Duration(seconds: 1),
+      () {
+        final AudioPlayer audioPlayer = AudioPlayer()
+          ..setPlayerMode(PlayerMode.lowLatency);
+        audioPlayer.audioCache.prefix = 'audio/';
+        audioPlayer.setSourceAsset('pi-intro.mov');
+        audioPlayer.setReleaseMode(ReleaseMode.release);
+      },
+    );
 
     return Stack(
       children: [
