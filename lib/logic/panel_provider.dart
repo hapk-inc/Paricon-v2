@@ -8,3 +8,7 @@ final Provider<PanelController> dashboardPanelProvider = Provider(
 final Provider<PanelController> tournamentPanelProvider = Provider(
   (ref) => PanelController(),
 );
+
+final Provider<PanelController> settingPanelProvider = Provider(
+  (ref) => PanelController(),
+);

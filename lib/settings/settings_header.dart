@@ -7,7 +7,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/logic/panel_provider.dart';
 import 'package:random_avatar/random_avatar.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/auth_provider.dart';
 import '../logic/user_provider.dart';
@@ -24,6 +26,8 @@ class SettingHeader extends ConsumerWidget {
 
     final TextStyle tTheme = Theme.of(context).textTheme.titleLarge!;
     final TextStyle sTheme = Theme.of(context).textTheme.bodyLarge!;
+
+    final PanelController controller = ref.watch(settingPanelProvider);
 
     return Card(
       margin: EdgeInsets.zero,
@@ -91,7 +95,8 @@ class SettingHeader extends ConsumerWidget {
                                 endIndent: 1.5.r,
                               ),
                               AutoSizeText(
-                                "${DateFormat.yMMMMd('en_US').format(user!.metadata.creationTime!)}",
+                                DateFormat.yMMMMd('en_US')
+                                    .format(user!.metadata.creationTime!),
                                 style: sTheme.copyWith(
                                   color: tropicalIndigo,
                                   fontSize: 9.r,
@@ -129,6 +134,9 @@ class SettingHeader extends ConsumerWidget {
                 ),
                 onPressed: () {
                   debugPrint("133-");
+                  if (controller.isPanelClosed) {
+                    controller.open();
+                  }
                 },
                 child: Row(
                   children: [

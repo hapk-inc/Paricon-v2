@@ -51,7 +51,7 @@ class TButton extends ConsumerWidget {
                   ),
                   Gap(3.r),
                   Text(
-                    "Complete the block in less time",
+                    "Complete all blocks in less time",
                     style: TextStyle(
                       color: lavenderWeb,
                       fontSize: 12.r,

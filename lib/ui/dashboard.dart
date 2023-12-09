@@ -15,6 +15,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../dashboard/d_name.dart';
 import '../dashboard/d_subtitle.dart';
+import '../dashboard/enter_avatar_code.dart';
 import '../dashboard/enter_tournament_code.dart';
 import '../dashboard/in_progress.dart';
 import '../dashboard/open_challenge_table.dart';

@@ -18,7 +18,7 @@ TextSpan showTScore(Duration duration,
         )
       ],
       style: TextStyle(
-        fontFamily: 'Montserrat',
+        //fontFamily: 'Montserrat',
         color: minute,
         fontSize: tSize.r,
       ),

@@ -39,11 +39,12 @@ final AutoDisposeFutureProvider<TransactionResult> appOpenedProvider =
           if (timeGapInMinute || nextDayOpen) {
             debugPrint("Existing LastOpened");
             userActivity = UserActivity(
-                nowTime: now,
-                lastOpened: old.nowTime,
-                appVersion: appVersion,
-                name: myUser.name,
-                avatar: myUser.avatar);
+              nowTime: now,
+              lastOpened: old.nowTime,
+              appVersion: appVersion,
+              name: myUser.name,
+              avatar: myUser.avatar,
+            );
           } else {
             debugPrint(timeGap.toString());
             debugPrint("Less than minute");

@@ -13,16 +13,20 @@ import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:paricon/my_widget/show_t_score.dart';
 import 'package:random_avatar/random_avatar.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/auth_provider.dart';
+import '../logic/panel_provider.dart';
 import '../logic/s_size.dart';
 import '../logic/tournament_database.dart';
 import '../logic/user_provider.dart';
 import '../model/best_d.dart';
 import '../model/my_user.dart';
 import '../my_widget/login_option_button.dart';
+import '../my_widget/my_text_field.dart';
 import '../settings/settings_header.dart';
 import '../theme/my_color.dart';
+import '../theme/my_theme.dart';
 
 @RoutePage()
 class SettingsPage extends ConsumerWidget {
@@ -32,6 +36,7 @@ class SettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ScreenSize screenSize = ref.read(sizeProvider);
     final bool isPhone = screenSize == ScreenSize.phone;
+    final SlidingPanelTheme slidingPanelTheme = SlidingPanelTheme();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: majorelleBlue,
@@ -47,9 +52,39 @@ class SettingsPage extends ConsumerWidget {
         title: const AutoSizeText("Settings"),
       ),
       backgroundColor: ghostWhite,
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
-        child: !isPhone ? Container() : const SettingsState(),
+      body: SlidingUpPanel(
+        controller: ref.watch(settingPanelProvider),
+        minHeight: 0.h,
+        maxHeight: 300.h,
+        borderRadius: slidingPanelTheme.slidingPanelRadius,
+        backdropEnabled: true,
+        panel: Container(
+          decoration: BoxDecoration(
+            color: majorelleBlue,
+            borderRadius: slidingPanelTheme.slidingPanelRadius,
+          ),
+          padding: slidingPanelTheme.slidingPanelPadding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gap(15.r),
+              AutoSizeText(
+                "Edit Profile",
+                style: TextStyle(
+                  fontFamily: 'WendyOne',
+                  fontSize: 21.r,
+                  color: ghostWhite,
+                ),
+              ),
+              Gap(30.r),
+              const LoginTextField(),
+            ],
+          ),
+        ),
+        body: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 500),
+          child: !isPhone ? Container() : const SettingsState(),
+        ),
       ),
     );
   }
@@ -90,9 +125,9 @@ class SettingsState extends ConsumerWidget {
                       maxLines: 1,
                     ),
                   )
-                : ShowBestDTile(myBestD),
+                : FadeIn(child: ShowBestDTile(myBestD)),
           ),
-          Gap(30.r),
+          Gap(15.r),
           Expanded(
             child: ListView.separated(
               itemBuilder: (_, int index) {
@@ -134,9 +169,9 @@ class SettingsState extends ConsumerWidget {
                         child: Text(
                           _settings[index],
                           style: TextStyle(
-                            fontFamily: 'Cabin',
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18.r,
+                            fontFamily: 'WendyOne',
+                            fontWeight: FontWeight.normal,
+                            fontSize: 21.r,
                             color: isLogOut ? jasper : charcoal,
                           ),
                         ),
@@ -186,7 +221,7 @@ class ShowBestDTile extends ConsumerWidget {
       Text(
         "${myBestD.tCount}".padLeft(2, '0'),
         style: tTheme.copyWith(
-          fontFamily: 'Montserrat',
+          fontFamily: 'WendyOne',
           color: tropicalIndigo,
           fontSize: 27.r,
         ),
@@ -200,7 +235,7 @@ class ShowBestDTile extends ConsumerWidget {
           sSize: 12,
         ),
         style: tTheme.copyWith(
-          fontFamily: 'Montserrat',
+          fontFamily: 'WendyOne',
           color: tropicalIndigo,
           fontSize: 27.r,
         ),
@@ -208,14 +243,14 @@ class ShowBestDTile extends ConsumerWidget {
       Text(
         "${bestDList.indexOf(user.uid) + 1}".padLeft(2, '0'),
         style: tTheme.copyWith(
-          fontFamily: 'Montserrat',
+          fontFamily: 'WendyOne',
           color: tropicalIndigo,
           fontSize: 27.r,
         ),
       ),
     ];
     return SizedBox(
-      height: 99.h,
+      height: 90.h,
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: List.generate(
@@ -234,12 +269,11 @@ class ShowBestDTile extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   tileValue[index],
-                  Gap(7.5.r),
+                  Gap(5.4.r),
                   AutoSizeText(
                     _tileText[index],
                     style: const TextStyle(
-                      fontFamily: 'Montserrat',
-                      //fontSize: 12.r,
+                      fontFamily: 'Poppins',
                       color: periwinkle,
                       letterSpacing: 0,
                     ),
@@ -359,7 +393,7 @@ class CardCollection extends ConsumerWidget {
                     return FadeIn(
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 500),
-                        height: (mockInteger(13, 15)) * 12.h,
+                        height: (mockInteger(14, 15)) * 0.96 * 12.h,
                         decoration: BoxDecoration(
                           color: currentAvatar
                               ? majorelleBlue
