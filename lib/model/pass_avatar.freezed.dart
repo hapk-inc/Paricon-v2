@@ -21,7 +21,6 @@ PassAvatar _$PassAvatarFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PassAvatar {
   DateTime get createdAt => throw _privateConstructorUsedError;
-  String get from => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +35,7 @@ abstract class $PassAvatarCopyWith<$Res> {
           PassAvatar value, $Res Function(PassAvatar) then) =
       _$PassAvatarCopyWithImpl<$Res, PassAvatar>;
   @useResult
-  $Res call({DateTime createdAt, String from, String id});
+  $Res call({DateTime createdAt, String id});
 }
 
 /// @nodoc
@@ -53,7 +52,6 @@ class _$PassAvatarCopyWithImpl<$Res, $Val extends PassAvatar>
   @override
   $Res call({
     Object? createdAt = null,
-    Object? from = null,
     Object? id = null,
   }) {
     return _then(_value.copyWith(
@@ -61,10 +59,6 @@ class _$PassAvatarCopyWithImpl<$Res, $Val extends PassAvatar>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      from: null == from
-          ? _value.from
-          : from // ignore: cast_nullable_to_non_nullable
-              as String,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -81,7 +75,7 @@ abstract class _$$PassAvatarImplCopyWith<$Res>
       __$$PassAvatarImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DateTime createdAt, String from, String id});
+  $Res call({DateTime createdAt, String id});
 }
 
 /// @nodoc
@@ -96,7 +90,6 @@ class __$$PassAvatarImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? createdAt = null,
-    Object? from = null,
     Object? id = null,
   }) {
     return _then(_$PassAvatarImpl(
@@ -104,10 +97,6 @@ class __$$PassAvatarImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      from: null == from
-          ? _value.from
-          : from // ignore: cast_nullable_to_non_nullable
-              as String,
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -119,8 +108,7 @@ class __$$PassAvatarImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PassAvatarImpl implements _PassAvatar {
-  const _$PassAvatarImpl(
-      {required this.createdAt, required this.from, this.id = ""});
+  const _$PassAvatarImpl({required this.createdAt, this.id = ""});
 
   factory _$PassAvatarImpl.fromJson(Map<String, dynamic> json) =>
       _$$PassAvatarImplFromJson(json);
@@ -128,14 +116,12 @@ class _$PassAvatarImpl implements _PassAvatar {
   @override
   final DateTime createdAt;
   @override
-  final String from;
-  @override
   @JsonKey()
   final String id;
 
   @override
   String toString() {
-    return 'PassAvatar(createdAt: $createdAt, from: $from, id: $id)';
+    return 'PassAvatar(createdAt: $createdAt, id: $id)';
   }
 
   @override
@@ -145,13 +131,12 @@ class _$PassAvatarImpl implements _PassAvatar {
             other is _$PassAvatarImpl &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.from, from) || other.from == from) &&
             (identical(other.id, id) || other.id == id));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, createdAt, from, id);
+  int get hashCode => Object.hash(runtimeType, createdAt, id);
 
   @JsonKey(ignore: true)
   @override
@@ -169,17 +154,13 @@ class _$PassAvatarImpl implements _PassAvatar {
 
 abstract class _PassAvatar implements PassAvatar {
   const factory _PassAvatar(
-      {required final DateTime createdAt,
-      required final String from,
-      final String id}) = _$PassAvatarImpl;
+      {required final DateTime createdAt, final String id}) = _$PassAvatarImpl;
 
   factory _PassAvatar.fromJson(Map<String, dynamic> json) =
       _$PassAvatarImpl.fromJson;
 
   @override
   DateTime get createdAt;
-  @override
-  String get from;
   @override
   String get id;
   @override

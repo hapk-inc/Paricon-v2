@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/model/pass_avatar.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../model/my_user.dart';
@@ -107,6 +108,17 @@ class UserDatastore {
         },
       );
 
+  Future<String?> validUser(String avatarCode) =>
+      userColl.where('avatarCode', isEqualTo: avatarCode).get().then(
+        (QuerySnapshot snapshot) {
+          if (snapshot.docs.isEmpty) {
+            return null;
+          } else {
+            return snapshot.docs[0].id;
+          }
+        },
+      );
+
   // Future setActive(bool flag) => userColl.doc(_id).update({'isActive': flag});
 
 /*  Query<MyAvatar> get receivedNewAvatar => userColl
@@ -118,20 +130,47 @@ class UserDatastore {
         toFirestore: (x, _) => x.toJson(),
       );*/
 
-  Future newCard(String docId, String rPickCard) {
+  Future newAvatar(String docId, String rPickCard) =>
+      userColl.doc(docId).collection('avatar').doc(_id).set(
+            PassAvatar(
+              createdAt: DateTime.now(),
+              //from: _id!,
+            ).toJson(),
+          );
+
+  Future newCard(String docId, String xCard) {
     WriteBatch batch = FirebaseFirestore.instance.batch();
 
     batch.update(
       userColl.doc(_id),
       {
-        'avatarArr': FieldValue.arrayUnion([rPickCard]),
-        'avatar': rPickCard,
+        'avatarArr': FieldValue.arrayUnion([xCard]),
+        'avatar': xCard,
       },
     );
     batch.update(
       userColl.doc(_id).collection('avatar').doc(docId),
-      {'id': rPickCard},
+      PassAvatar(
+        createdAt: DateTime.now(),
+        id: xCard,
+      ).toJson(),
     );
     return batch.commit();
   }
+
+  Future<MyUser?> xUser(String userID) => userColl.doc(userID).get().then(
+        (DocumentSnapshot documentSnapshot) {
+          if (!documentSnapshot.exists) return null;
+          return getMyUser(documentSnapshot);
+        },
+      );
+
+  Future<List<String>> userAvatarArr(String userID) =>
+      userColl.doc(userID).get().then(
+        (DocumentSnapshot documentSnapshot) {
+          if (!documentSnapshot.exists) return [];
+          final Map map = documentSnapshot.data() as Map;
+          return List.from(map['avatarArr']);
+        },
+      );
 }

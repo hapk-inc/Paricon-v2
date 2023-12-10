@@ -45,13 +45,13 @@ final AutoDisposeFutureProvider<TransactionResult> appOpenedProvider =
               name: myUser.name,
               avatar: myUser.avatar,
             );
+            if (nextDayOpen) {
+              final userDatastore = ref.read(userDatastoreProvider);
+              userDatastore.newAvatarCode;
+            }
           } else {
             debugPrint(timeGap.toString());
             debugPrint("Less than minute");
-          }
-          if (nextDayOpen) {
-            final userDatastore = ref.read(userDatastoreProvider);
-            userDatastore.newAvatarCode;
           }
         }
         return Transaction.success(userActivity.toJson());

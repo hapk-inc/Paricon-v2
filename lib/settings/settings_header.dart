@@ -28,7 +28,7 @@ class SettingHeader extends ConsumerWidget {
     final TextStyle sTheme = Theme.of(context).textTheme.bodyLarge!;
 
     final PanelController controller = ref.watch(settingPanelProvider);
-
+    if (user == null) return Container();
     return Card(
       margin: EdgeInsets.zero,
       elevation: 3.r,

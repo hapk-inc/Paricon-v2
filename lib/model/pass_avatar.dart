@@ -7,7 +7,6 @@ part 'pass_avatar.g.dart';
 class PassAvatar with _$PassAvatar {
   const factory PassAvatar({
     required DateTime createdAt,
-    required String from,
     @Default("") String id,
   }) = _PassAvatar;
 

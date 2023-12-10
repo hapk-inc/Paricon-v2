@@ -32,13 +32,14 @@ class SplashState extends ConsumerWidget {
     final isL = sSize == ScreenSize.pc ||
         sSize == ScreenSize.tv ||
         sSize == ScreenSize.iPad;
+    final AudioPlayer audioPlayer = AudioPlayer()
+      ..setPlayerMode(PlayerMode.lowLatency);
+    audioPlayer.audioCache.prefix = 'audio/';
+
     Future.delayed(
       const Duration(seconds: 1),
       () {
-        final AudioPlayer audioPlayer = AudioPlayer()
-          ..setPlayerMode(PlayerMode.lowLatency);
-        audioPlayer.audioCache.prefix = 'audio/';
-        audioPlayer.setSourceAsset('pi-intro.mov');
+        //audioPlayer.setSourceAsset('pi-intro.mp3');
         audioPlayer.setReleaseMode(ReleaseMode.release);
       },
     );

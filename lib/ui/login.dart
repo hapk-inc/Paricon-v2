@@ -48,7 +48,8 @@ class LoginPage extends StatelessWidget {
         defaultPanelState: PanelState.CLOSED,
         isDraggable: false,
         panel: Container(
-          padding: pTheme.slidingPanelPadding,
+          padding:
+              pTheme.slidingPanelPadding + (pTheme.slidingPanelPadding * 0.5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -57,7 +58,7 @@ class LoginPage extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge!
-                    .copyWith(color: hookerGreen),
+                    .copyWith(color: hookerGreen, fontFamily: 'WendyOne'),
               ),
               RichText(
                 text: TextSpan(

@@ -64,10 +64,10 @@ class Auth {
       ).toJson(),
     );
     batch.set(
-      userColl.doc(userCred.user!.uid).collection('avatar').doc(x),
+      userColl.doc(x).collection('avatar').doc(x),
       PassAvatar(
         createdAt: createdAt,
-        from: userCred.user!.uid,
+        //from: userCred.user!.uid,
       ).toJson(),
     );
     return batch.commit();
@@ -100,7 +100,6 @@ class Auth {
       },
       onError: (Object e, s) {
         if (e is FirebaseAuthException) {
-          final FirebaseAuthException exe = e;
           debugPrint(e.toString());
 
           // debugPrintStack(stackTrace: exe.stackTrace);

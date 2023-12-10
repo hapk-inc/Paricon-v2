@@ -2,11 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:paricon/my_widget/enter_avatar_pinput.dart';
 
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
 import '../theme/my_color.dart';
-import '../ui/host_room.dart';
 
 class EnterAvatarCode extends ConsumerWidget {
   const EnterAvatarCode({super.key});
@@ -91,7 +91,7 @@ class EnterAvatarCode extends ConsumerWidget {
                                 vertical: 3.h,
                               ),
                               alignment: Alignment.bottomCenter,
-                              child: const FilledRoundedPinPut(),
+                              child: const EnterAvatarCodePinPut(),
                             ),
                             actions: <Widget>[
                               TextButton(
@@ -99,7 +99,7 @@ class EnterAvatarCode extends ConsumerWidget {
                                 child: const Text(
                                   "SHARE NOW",
                                   style: TextStyle(
-                                    fontFamily: 'Poppins',
+                                    fontFamily: 'Montserrat',
                                     color: ghostWhite,
                                   ),
                                 ),
