@@ -6,6 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
+import 'package:paricon/logic/dashboard_provider.dart';
+import 'package:paricon/logic/panel_provider.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 import '../logic/remote_values.dart';
 import '../router/my_route.dart';
@@ -63,27 +66,141 @@ class PlayWithFriend extends ConsumerWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          if (goToPlayOnline) {
+                          if (!goToPlayOnline) {
                             context.router.push(const HostRoomRoute());
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
+                            /*ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
+                                behavior: SnackBarBehavior.floating,
                                 backgroundColor: charcoal,
-                                padding: EdgeInsets.only(left: 15.w, top: 15.h),
-                                content: AutoSizeText(
-                                  "Still in Progress. Appreciate your patience till then",
-                                  style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontSize: 12.r,
-                                    color: ghostWhite,
-                                    letterSpacing: 0.12.r,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.zero),
+                                margin: const EdgeInsets.only(bottom: 0),
+                                // margin: EdgeInsets.only(bottom: 0.h),
+                                //padding: EdgeInsets.only(left: 15.w, top: 30.h),
+                                content: Center(
+                                  child: AutoSizeText(
+                                    "Still in Progress. Appreciate your patience till then",
+                                    style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 12.r,
+                                      color: ghostWhite,
+                                      letterSpacing: 0.12.r,
+                                    ),
+                                    maxLines: 1,
+                                    minFontSize: 12,
+                                    maxFontSize: 15,
                                   ),
-                                  maxLines: 1,
-                                  minFontSize: 12,
-                                  maxFontSize: 15,
                                 ),
                               ),
+                            );*/
+                            // showModalBottomSheet(
+                            //     context: context, builder: (_) => Container());
+                            ref.read(dPanelWidgetProvider.notifier).state =
+                                Container(
+                              color: majorelleBlue,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    alignment: Alignment.center,
+                                    width: double.maxFinite,
+                                    height: 60.h,
+                                    decoration: BoxDecoration(
+                                      color: magnolia,
+                                      borderRadius:
+                                          BorderRadius.circular(7.5.r),
+                                    ),
+                                    child: ToggleSwitch(
+                                      radiusStyle: true,
+                                      labels: const ["Easy", "Medium", "Hard"],
+                                      customWidths: [90.w, 108.w, 96.w],
+                                      minHeight: 45.h,
+                                      // customHeights: [60.h],
+                                      inactiveBgColor: magnolia,
+                                      inactiveFgColor: charcoal,
+                                      activeBgColor: const [tropicalIndigo],
+                                      animate: true,
+                                      animationDuration: 150,
+                                      dividerColor: ghostWhite,
+                                      dividerMargin: 1.2.r,
+                                      customTextStyles: [
+                                        TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: 15.r,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  AnimatedContainer(
+                                    duration: const Duration(milliseconds: 500),
+                                    alignment: Alignment.center,
+                                    height: 60.h,
+                                    decoration: BoxDecoration(
+                                      color: magnolia,
+                                      borderRadius:
+                                          BorderRadius.circular(7.5.r),
+                                    ),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 1.5.r),
+                                    child: ToggleSwitch(
+                                      radiusStyle: true,
+                                      labels: const [
+                                        "Normal",
+                                        "Closed",
+                                        "OrderWise"
+                                      ],
+                                      customWidths: [108.w, 90.w, 108.w],
+                                      customHeights: [60.h],
+                                      inactiveBgColor: magnolia,
+                                      inactiveFgColor: charcoal,
+                                      activeBgColor: const [tropicalIndigo],
+                                      animate: true,
+                                      animationDuration: 150,
+                                      dividerColor: ghostWhite,
+                                      dividerMargin: 1.2.r,
+                                      customTextStyles: [
+                                        TextStyle(
+                                          fontFamily: 'Montserrat',
+                                          fontSize: 13.5.r,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      //  panelController.open();
+                                      context.router
+                                          .push(const HostRoomRoute());
+                                    },
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          const MaterialStatePropertyAll(
+                                              chocolateCosmos),
+                                      shape: MaterialStatePropertyAll(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(7.5.r),
+                                        ),
+                                      ),
+                                    ),
+                                    child: Container(
+                                      height: 54.h,
+                                      //width: double.maxFinite,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Create Game",
+                                        style: TextStyle(
+                                          fontFamily: 'WendyOne',
+                                          color: ghostWhite,
+                                          fontSize: 21.r,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             );
+                            ref.read(dashboardPanelProvider).open();
                           }
                         },
                         style: ButtonStyle(

@@ -3,6 +3,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:in_app_update/in_app_update.dart';
@@ -97,6 +98,12 @@ class _MyAppState extends ConsumerState<MyApp> {
                   reason: 'inAppUpdate error',
                   fatal: true,
                 );
+
+            if (e is PlatformException) {
+              if (e.code.contains("10")) {
+                return whichPageRoute;
+              }
+            }
             return const ErrorRoute();
           },
         );

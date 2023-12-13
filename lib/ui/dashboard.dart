@@ -199,7 +199,9 @@ class _Tournament extends ConsumerWidget {
             child: EnterTournamentCode(),
           ),
           const StaggeredGridTile.fit(
-              crossAxisCellCount: 20, child: OpenChallengeTable()),
+            crossAxisCellCount: 20,
+            child: OpenChallengeTable(),
+          ),
           Gap(15.r),
           StaggeredGridTile.count(
             crossAxisCellCount: 20,
