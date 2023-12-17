@@ -8,6 +8,7 @@ import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 import 'package:paricon/logic/dashboard_provider.dart';
 import 'package:paricon/logic/panel_provider.dart';
+import 'package:paricon/theme/my_theme.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../logic/remote_values.dart';
@@ -19,8 +20,6 @@ class PlayWithFriend extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool goToPlayOnline = ref.watch(showPlayOnlineProvider);
-
     return StaggeredGridTile.count(
       crossAxisCellCount: 20,
       mainAxisCellCount: 13.2.h,
@@ -61,15 +60,39 @@ class PlayWithFriend extends ConsumerWidget {
                     ),
                   ),
                   Gap(15.r),
-                  ButtonBar(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          if (!goToPlayOnline) {
-                            context.router.push(const HostRoomRoute());
-                          } else {
-                            /*ScaffoldMessenger.of(context).showSnackBar(
+                  const PlayOnlineButton(),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            right: -30.r,
+            top: -15.r,
+            bottom: -15.r,
+            child: Lottie.asset('lottie/friends-playing.json', repeat: true),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PlayOnlineButton extends ConsumerWidget {
+  const PlayOnlineButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool goToPlayOnline = ref.watch(showPlayOnlineProvider);
+
+    return ButtonBar(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ElevatedButton(
+          onPressed: () {
+            if (!goToPlayOnline) {
+              context.router.push(const HostRoomRoute());
+            } else {
+              /*ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 behavior: SnackBarBehavior.floating,
                                 backgroundColor: charcoal,
@@ -94,150 +117,162 @@ class PlayWithFriend extends ConsumerWidget {
                                 ),
                               ),
                             );*/
-                            // showModalBottomSheet(
-                            //     context: context, builder: (_) => Container());
-                            ref.read(dPanelWidgetProvider.notifier).state =
-                                Container(
-                              color: majorelleBlue,
-                              child: Column(
-                                children: [
-                                  Container(
-                                    alignment: Alignment.center,
-                                    width: double.maxFinite,
-                                    height: 60.h,
-                                    decoration: BoxDecoration(
-                                      color: magnolia,
-                                      borderRadius:
-                                          BorderRadius.circular(7.5.r),
-                                    ),
-                                    child: ToggleSwitch(
-                                      radiusStyle: true,
-                                      labels: const ["Easy", "Medium", "Hard"],
-                                      customWidths: [90.w, 108.w, 96.w],
-                                      minHeight: 45.h,
-                                      // customHeights: [60.h],
-                                      inactiveBgColor: magnolia,
-                                      inactiveFgColor: charcoal,
-                                      activeBgColor: const [tropicalIndigo],
-                                      animate: true,
-                                      animationDuration: 150,
-                                      dividerColor: ghostWhite,
-                                      dividerMargin: 1.2.r,
-                                      customTextStyles: [
-                                        TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 15.r,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  AnimatedContainer(
-                                    duration: const Duration(milliseconds: 500),
-                                    alignment: Alignment.center,
-                                    height: 60.h,
-                                    decoration: BoxDecoration(
-                                      color: magnolia,
-                                      borderRadius:
-                                          BorderRadius.circular(7.5.r),
-                                    ),
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 1.5.r),
-                                    child: ToggleSwitch(
-                                      radiusStyle: true,
-                                      labels: const [
-                                        "Normal",
-                                        "Closed",
-                                        "OrderWise"
-                                      ],
-                                      customWidths: [108.w, 90.w, 108.w],
-                                      customHeights: [60.h],
-                                      inactiveBgColor: magnolia,
-                                      inactiveFgColor: charcoal,
-                                      activeBgColor: const [tropicalIndigo],
-                                      animate: true,
-                                      animationDuration: 150,
-                                      dividerColor: ghostWhite,
-                                      dividerMargin: 1.2.r,
-                                      customTextStyles: [
-                                        TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          fontSize: 13.5.r,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      //  panelController.open();
-                                      context.router
-                                          .push(const HostRoomRoute());
-                                    },
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          const MaterialStatePropertyAll(
-                                              chocolateCosmos),
-                                      shape: MaterialStatePropertyAll(
-                                        RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(7.5.r),
-                                        ),
-                                      ),
-                                    ),
-                                    child: Container(
-                                      height: 54.h,
-                                      //width: double.maxFinite,
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "Create Game",
-                                        style: TextStyle(
-                                          fontFamily: 'WendyOne',
-                                          color: ghostWhite,
-                                          fontSize: 21.r,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                            ref.read(dashboardPanelProvider).open();
-                          }
-                        },
-                        style: ButtonStyle(
-                          textStyle: MaterialStatePropertyAll(
-                            TextStyle(
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w400,
-                              fontSize: 13.5.r,
-                            ),
-                          ),
-                          shape: MaterialStatePropertyAll(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(7.5.r),
-                            ),
-                          ),
-                          padding: MaterialStatePropertyAll(
-                              EdgeInsets.symmetric(horizontal: 15.r)),
-                          backgroundColor:
-                              const MaterialStatePropertyAll(denim),
-                        ),
-                        child: const Text(
-                          "PLAY ONLINE",
-                          style: TextStyle(color: ghostWhite),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
+              // showModalBottomSheet(
+              //     context: context, builder: (_) => Container());
+              ref.read(dPanelWidgetProvider.notifier).state =
+                  const CreateGamePanel();
+              ref.read(dashboardPanelProvider).open();
+            }
+          },
+          style: ButtonStyle(
+            textStyle: MaterialStatePropertyAll(
+              TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w400,
+                fontSize: 13.5.r,
               ),
             ),
+            shape: MaterialStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(7.5.r),
+              ),
+            ),
+            padding: MaterialStatePropertyAll(
+                EdgeInsets.symmetric(horizontal: 15.r)),
+            backgroundColor: const MaterialStatePropertyAll(denim),
           ),
-          Positioned(
-            right: -30.r,
-            top: -15.r,
-            bottom: -15.r,
-            child: Lottie.asset('lottie/friends-playing.json', repeat: true),
+          child: const Text(
+            "PLAY ONLINE",
+            style: TextStyle(color: ghostWhite),
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class CreateGamePanel extends ConsumerWidget {
+  const CreateGamePanel({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final slidingPanelTheme = SlidingPanelTheme();
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: slidingPanelTheme.slidingPanelRadius,
+        color: magnolia,
+      ),
+      padding: slidingPanelTheme.slidingPanelPadding,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        //crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ToggleSwitch(
+            radiusStyle: true,
+            labels: const ["Easy", "Medium", "Hard"],
+            customWidths: [90.w, 105.w, 90.w],
+            minHeight: 45.h,
+            // customHeights: [60.h],
+            inactiveBgColor: magnolia,
+            inactiveFgColor: charcoal,
+            activeBgColor: const [tropicalIndigo],
+            animate: true,
+            animationDuration: 150,
+            dividerColor: ghostWhite,
+            dividerMargin: 1.2.r,
+            customTextStyles: [
+              TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 15.r,
+              ),
+            ],
+          ),
+          Gap(30.r),
+          ToggleSwitch(
+            radiusStyle: true,
+            labels: const ["Normal", "Closed", "OrderWise"],
+            customWidths: [108.w, 90.w, 108.w],
+            customHeights: [60.h],
+            inactiveBgColor: magnolia,
+            inactiveFgColor: charcoal,
+            activeBgColor: const [tropicalIndigo],
+            animate: true,
+            animationDuration: 150,
+            dividerColor: ghostWhite,
+            dividerMargin: 1.2.r,
+            customTextStyles: [
+              TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 13.5.r,
+              ),
+            ],
+          ),
+          Gap(30.r),
+          ButtonBar(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  //  panelController.open();
+                  ref.read(dashboardPanelProvider).close();
+                  context.router.push(const HostRoomRoute());
+                },
+                style: ButtonStyle(
+                  maximumSize: MaterialStatePropertyAll(Size.fromWidth(150.w)),
+                  backgroundColor:
+                      const MaterialStatePropertyAll(chocolateCosmos),
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7.5.r),
+                    ),
+                  ),
+                ),
+                child: Container(
+                  height: 45.h,
+                  //width: double.maxFinite,
+                  alignment: Alignment.center,
+                  child: AutoSizeText(
+                    "Create Game",
+                    style: TextStyle(
+                      fontFamily: 'WendyOne',
+                      color: ghostWhite,
+                      fontSize: 18.r,
+                    ),
+                  ),
+                ),
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  //  panelController.open();
+                  ref.read(dashboardPanelProvider).close();
+                  context.router.push(const HostRoomRoute());
+                },
+                style: ButtonStyle(
+                  maximumSize: MaterialStatePropertyAll(Size.fromWidth(120.w)),
+                  backgroundColor: const MaterialStatePropertyAll(magnolia),
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7.5.r),
+                      side: BorderSide(color: amaranthPurple),
+                    ),
+                  ),
+                ),
+                child: Container(
+                  height: 45.h,
+                  //width: double.maxFinite,
+                  alignment: Alignment.center,
+                  child: AutoSizeText(
+                    "Room Code",
+                    style: TextStyle(
+                      fontFamily: 'WendyOne',
+                      color: amaranthPurple,
+                      fontSize: 18.r,
+                    ),
+                    maxLines: 1,
+                  ),
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
