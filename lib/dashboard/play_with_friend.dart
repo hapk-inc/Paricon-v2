@@ -6,11 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
-import 'package:paricon/logic/dashboard_provider.dart';
 import 'package:paricon/logic/panel_provider.dart';
 import 'package:paricon/theme/my_theme.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
+import '../logic/dashboard_provider.dart';
 import '../logic/remote_values.dart';
 import '../router/my_route.dart';
 import '../theme/my_color.dart';
@@ -84,69 +84,79 @@ class PlayOnlineButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bool goToPlayOnline = ref.watch(showPlayOnlineProvider);
 
-    return ButtonBar(
+    return const ButtonBar(
       mainAxisSize: MainAxisSize.min,
-      children: [
-        ElevatedButton(
-          onPressed: () {
-            if (!goToPlayOnline) {
-              context.router.push(const HostRoomRoute());
-            } else {
-              /*ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                behavior: SnackBarBehavior.floating,
-                                backgroundColor: charcoal,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.zero),
-                                margin: const EdgeInsets.only(bottom: 0),
-                                // margin: EdgeInsets.only(bottom: 0.h),
-                                //padding: EdgeInsets.only(left: 15.w, top: 30.h),
-                                content: Center(
-                                  child: AutoSizeText(
-                                    "Still in Progress. Appreciate your patience till then",
-                                    style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      fontSize: 12.r,
-                                      color: ghostWhite,
-                                      letterSpacing: 0.12.r,
-                                    ),
-                                    maxLines: 1,
-                                    minFontSize: 12,
-                                    maxFontSize: 15,
-                                  ),
-                                ),
-                              ),
-                            );*/
-              // showModalBottomSheet(
-              //     context: context, builder: (_) => Container());
+      children: [PlayOnlineElevatedButton()],
+    );
+  }
+}
+
+class PlayOnlineElevatedButton extends ConsumerWidget {
+  const PlayOnlineElevatedButton({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool goToPlayOnline = ref.watch(showPlayOnlineProvider);
+
+    return ElevatedButton(
+      onPressed: !goToPlayOnline
+          ? () => ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: charcoal,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(7.5.r),
+                  ),
+                  padding: EdgeInsets.only(left: 12.r),
+                  margin: EdgeInsets.only(bottom: 0, left: 12.w, right: 12.w),
+                  content: AnimatedContainer(
+                    duration: const Duration(milliseconds: 500),
+                    height: 45.h,
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7.5.r),
+                    ),
+                    child: AutoSizeText(
+                      "Still in Progress. Appreciate your patience till then",
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 12.r,
+                        color: ghostWhite,
+                        letterSpacing: 0.12.r,
+                      ),
+                      maxLines: 1,
+                      minFontSize: 12,
+                      maxFontSize: 15,
+                    ),
+                  ),
+                ),
+              )
+          : () {
               ref.read(dPanelWidgetProvider.notifier).state =
                   const CreateGamePanel();
               ref.read(dashboardPanelProvider).open();
-            }
-          },
-          style: ButtonStyle(
-            textStyle: MaterialStatePropertyAll(
-              TextStyle(
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w400,
-                fontSize: 13.5.r,
-              ),
-            ),
-            shape: MaterialStatePropertyAll(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(7.5.r),
-              ),
-            ),
-            padding: MaterialStatePropertyAll(
-                EdgeInsets.symmetric(horizontal: 15.r)),
-            backgroundColor: const MaterialStatePropertyAll(denim),
-          ),
-          child: const Text(
-            "PLAY ONLINE",
-            style: TextStyle(color: ghostWhite),
+            },
+      style: ButtonStyle(
+        textStyle: MaterialStatePropertyAll(
+          TextStyle(
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w400,
+            fontSize: 13.5.r,
           ),
         ),
-      ],
+        shape: MaterialStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(7.5.r),
+          ),
+        ),
+        padding:
+            MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 15.r)),
+        backgroundColor: const MaterialStatePropertyAll(denim),
+      ),
+      child: const Text(
+        "PLAY ONLINE",
+        style: TextStyle(color: ghostWhite),
+      ),
     );
   }
 }
@@ -209,15 +219,15 @@ class CreateGamePanel extends ConsumerWidget {
           ),
           Gap(30.r),
           ButtonBar(
+            buttonMinWidth: 132.h,
+            buttonHeight: 45.h,
             children: [
               ElevatedButton(
                 onPressed: () {
-                  //  panelController.open();
                   ref.read(dashboardPanelProvider).close();
                   context.router.push(const HostRoomRoute());
                 },
                 style: ButtonStyle(
-                  maximumSize: MaterialStatePropertyAll(Size.fromWidth(150.w)),
                   backgroundColor:
                       const MaterialStatePropertyAll(chocolateCosmos),
                   shape: MaterialStatePropertyAll(
@@ -226,49 +236,26 @@ class CreateGamePanel extends ConsumerWidget {
                     ),
                   ),
                 ),
-                child: Container(
-                  height: 45.h,
-                  //width: double.maxFinite,
-                  alignment: Alignment.center,
-                  child: AutoSizeText(
-                    "Create Game",
-                    style: TextStyle(
-                      fontFamily: 'WendyOne',
-                      color: ghostWhite,
-                      fontSize: 18.r,
-                    ),
+                child: AutoSizeText(
+                  "Create Game",
+                  style: TextStyle(
+                    fontFamily: 'WendyOne',
+                    color: ghostWhite,
+                    fontSize: 18.r,
                   ),
+                  maxLines: 1,
                 ),
               ),
-              OutlinedButton(
-                onPressed: () {
-                  //  panelController.open();
-                  ref.read(dashboardPanelProvider).close();
-                  context.router.push(const HostRoomRoute());
-                },
-                style: ButtonStyle(
-                  maximumSize: MaterialStatePropertyAll(Size.fromWidth(120.w)),
-                  backgroundColor: const MaterialStatePropertyAll(magnolia),
-                  shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7.5.r),
-                      side: BorderSide(color: amaranthPurple),
-                    ),
+              TextButton(
+                onPressed: () {},
+                child: AutoSizeText(
+                  "Enter Room Code",
+                  style: TextStyle(
+                    fontFamily: 'WendyOne',
+                    color: amaranthPurple,
+                    fontSize: 18.r,
                   ),
-                ),
-                child: Container(
-                  height: 45.h,
-                  //width: double.maxFinite,
-                  alignment: Alignment.center,
-                  child: AutoSizeText(
-                    "Room Code",
-                    style: TextStyle(
-                      fontFamily: 'WendyOne',
-                      color: amaranthPurple,
-                      fontSize: 18.r,
-                    ),
-                    maxLines: 1,
-                  ),
+                  maxLines: 1,
                 ),
               ),
             ],

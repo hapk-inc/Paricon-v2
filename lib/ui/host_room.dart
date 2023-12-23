@@ -2,18 +2,71 @@ import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:paricon/router/my_route.dart';
 import 'package:pinput/pinput.dart';
-import 'package:random_avatar/random_avatar.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
-import '../logic/my_names.dart';
 import '../theme/my_color.dart';
-import '../theme/my_theme.dart';
+
+@RoutePage()
+class HostRoomPage extends StatelessWidget {
+  const HostRoomPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: majorelleBlue,
+        titleSpacing: 0,
+        iconTheme: IconThemeData(color: ghostWhite, size: 18.r),
+        centerTitle: false,
+        titleTextStyle: TextStyle(
+          fontFamily: 'WendyOne',
+          fontSize: 24.r,
+          letterSpacing: 0.3.r,
+        ),
+        toolbarHeight: 72.h,
+        title: const AutoSizeText("Play with Friends/Family"),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(7.5.r),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 3.r, top: 15.r, bottom: 3.r),
+              child: AutoSizeText(
+                "Share the room code with "
+                "your friends to join",
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  letterSpacing: 0,
+                  fontSize: 12.r,
+                  color: periwinkle,
+                ),
+                minFontSize: 9,
+                maxFontSize: 12,
+                maxLines: 1,
+              ),
+            ),
+            const FilledRoundedPinPut(),
+            Gap(15.r),
+            Expanded(
+              child: Card(
+                elevation: 3,
+                margin: EdgeInsets.all(12.r),
+                color: tropicalIndigo,
+                child: const Center(),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/*
 
 final PanelController panelController = PanelController();
 
@@ -381,203 +434,7 @@ class __PlayFriend extends StatelessWidget {
       ),
     );
   }
-}
-
-class __PlayFriend1 extends StatelessWidget {
-  const __PlayFriend1();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 7.5.r),
-          padding: EdgeInsets.all(15.r),
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            height: 72.h,
-            // color: cinerous.withOpacity(0.15),
-            padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 3.h),
-            alignment: Alignment.bottomCenter,
-            child: TextFormField(
-              enabled: true,
-              expands: true,
-              maxLines: null,
-              cursorHeight: 24.r,
-
-              //initialValue: myUser.name,
-              style: TextStyle(
-                fontSize: 18.r,
-                fontFamily: 'Cabin',
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.3.r,
-                color: charcoal,
-              ),
-              decoration: InputDecoration(
-                suffixIcon: InkWell(
-                  onTap: () {
-                    debugPrint("Confirm");
-                  },
-                  child: Container(
-                    width: 90.w,
-                    //color: majorelleBlue,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "CHANGE",
-                      style: TextStyle(
-                        fontSize: 15.r,
-                        fontFamily: 'Cabin',
-                        fontWeight: FontWeight.w700,
-                        color: cinerous,
-                      ),
-                    ),
-                  ),
-                ),
-                contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(6.r),
-                  borderSide: BorderSide(
-                    // color: spaceCadet,
-                    width: 0.3.r,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    // color: frenchGray,
-                    width: 0.3.r,
-                  ),
-                  borderRadius: BorderRadius.circular(6.r),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                      //color: barnRed,
-                      ),
-                  borderRadius: BorderRadius.circular(6.r),
-                ),
-                labelText: 'Enter Room Code',
-                labelStyle: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 15.r, color: periwinkle,
-                  fontWeight: FontWeight.w300,
-                  //color: frenchGray,
-                ),
-              ),
-            ),
-          ),
-        ),
-        Container(
-          height: 60.h,
-          color: periwinkle.withOpacity(0.15),
-          alignment: Alignment.centerLeft,
-          padding: EdgeInsets.symmetric(horizontal: 15.r),
-          child: Text(
-            "Game Type",
-            style: TextStyle(
-              fontFamily: 'WendyOne',
-              color: majorelleBlue,
-              fontSize: 18.r,
-            ),
-          ),
-        ),
-        Container(
-          width: 360.w,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: periwinkle.withOpacity(0.15),
-            borderRadius: BorderRadius.circular(7.5.r),
-          ),
-          padding: EdgeInsets.all(4.5.r),
-          child: ToggleSwitch(
-            initialLabelIndex: 0,
-            totalSwitches: 3,
-            cornerRadius: 7.5.r,
-            radiusStyle: true,
-            customWidths: [90.w, 105.w, 90.w],
-            inactiveBgColor: periwinkle.withOpacity(0.15),
-            inactiveFgColor: majorelleBlue,
-            activeBgColor: const [majorelleBlue],
-            /*activeBgColors: [
-              [Colors.cyan],
-              [Colors.redAccent],
-              [Colors.redAccent],
-            ],*/
-            customTextStyles: [
-              TextStyle(
-                fontFamily: 'Cabin',
-                fontSize: 18.r,
-                fontWeight: FontWeight.w700,
-              ),
-            ],
-            minHeight: 48.h,
-            labels: const ['Easy', 'Medium', 'Hard'],
-            onToggle: (index) {
-              print('switched to: $index');
-            },
-          ),
-        ),
-        Container(
-          height: 30.h,
-          color: periwinkle.withOpacity(0.15),
-        ),
-        Gap(45.r),
-        Container(
-          height: 60.h,
-          color: periwinkle.withOpacity(0.15),
-          alignment: Alignment.centerLeft,
-          padding: EdgeInsets.symmetric(horizontal: 15.r),
-          child: Text(
-            "Game Type",
-            style: TextStyle(
-              fontFamily: 'WendyOne',
-              color: majorelleBlue,
-              fontSize: 18.r,
-            ),
-          ),
-        ),
-        Container(
-          width: 360.w,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: periwinkle.withOpacity(0.15),
-            borderRadius: BorderRadius.circular(7.5.r),
-          ),
-          padding: EdgeInsets.all(4.5.r),
-          child: ToggleSwitch(
-            initialLabelIndex: 0,
-            totalSwitches: 3,
-            cornerRadius: 7.5.r,
-            radiusStyle: true,
-            customWidths: [90.w, 105.w, 90.w],
-            inactiveBgColor: periwinkle.withOpacity(0.15),
-            inactiveFgColor: majorelleBlue,
-            activeBgColor: const [majorelleBlue],
-            /*activeBgColors: [
-              [Colors.cyan],
-              [Colors.redAccent],
-              [Colors.redAccent],
-            ],*/
-            customTextStyles: [
-              TextStyle(
-                fontFamily: 'Cabin',
-                fontSize: 18.r,
-                fontWeight: FontWeight.w700,
-              ),
-            ],
-            minHeight: 48.h,
-            labels: const ['Easy', 'Medium', 'Hard'],
-            onToggle: (index) {
-              print('switched to: $index');
-            },
-          ),
-        ),
-        Container(
-          height: 30.h,
-          color: periwinkle.withOpacity(0.15),
-        ),
-      ],
-    );
-  }
-}
+}*/
 
 class FilledRoundedPinPut extends StatefulWidget {
   const FilledRoundedPinPut({super.key});
@@ -590,7 +447,8 @@ class FilledRoundedPinPut extends StatefulWidget {
 }
 
 class FilledRoundedPinPutState extends State<FilledRoundedPinPut> {
-  final controller = TextEditingController();
+  final controller =
+      TextEditingController(text: "${mockInteger(111111, 999999)}");
   final focusNode = FocusNode();
 
   @override
@@ -610,7 +468,7 @@ class FilledRoundedPinPutState extends State<FilledRoundedPinPut> {
     Color fillColor = magnolia;
     final defaultPinTheme = PinTheme(
       width: 54.r,
-      height: 60.r,
+      height: 54.r,
       textStyle: TextStyle(
         fontFamily: 'Montserrat',
         fontSize: 24.r,
