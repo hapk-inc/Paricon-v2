@@ -1,11 +1,17 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/logic/my_names.dart';
 import 'package:pinput/pinput.dart';
+import 'package:random_avatar/random_avatar.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
+import '../router/my_route.dart';
 import '../theme/my_color.dart';
 
 @RoutePage()
@@ -49,19 +55,229 @@ class HostRoomPage extends StatelessWidget {
                 maxLines: 1,
               ),
             ),
+            Gap(15.r),
             const FilledRoundedPinPut(),
             Gap(15.r),
             Expanded(
-              child: Card(
-                elevation: 3,
-                margin: EdgeInsets.all(12.r),
-                color: tropicalIndigo,
-                child: const Center(),
+              child: FadeInUp(
+                child: Card(
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.r),
+                  ),
+                  margin: EdgeInsets.all(12.r),
+                  color: tropicalIndigo,
+                  child: Column(
+                    children: [
+                      AspectRatio(
+                        aspectRatio: 1,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15.r),
+                          child: GridView(
+                            padding: EdgeInsets.all(7.5.r),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 4.5.r,
+                              crossAxisSpacing: 4.5.r,
+                            ),
+                            children: [
+                              ...List.generate(
+                                mockInteger(1, 4),
+                                (index) => Container(
+                                  decoration: BoxDecoration(
+                                    color: chocolateCosmos,
+                                    borderRadius: BorderRadius.circular(7.5.r),
+                                  ),
+                                  child: const RoomTile(),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Gap(15.r),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding:
+                            EdgeInsets.only(left: 15.r, top: 15.r, bottom: 3.r),
+                        child: AutoSizeText.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text:
+                                    "${myRandomName()} has created this room. ",
+                              ),
+                              TextSpan(
+                                text: "Click here to start",
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    context.router
+                                        .replace(const PlayFriendRoute());
+                                  },
+                              ),
+                            ],
+                          ),
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            letterSpacing: 0,
+                            fontSize: 12.r,
+                            color: lavenderWeb,
+                          ),
+                          minFontSize: 9,
+                          maxFontSize: 12,
+                          maxLines: 1,
+                        ),
+                      ),
+                      Gap(15.r),
+                      Expanded(
+                        child: Column(
+                          //mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Gap(15.r),
+                            ToggleSwitch(
+                              radiusStyle: true,
+                              labels: const ["Easy", "Medium", "Hard"],
+                              customWidths: [90.w, 105.w, 90.w],
+                              minHeight: 36.h,
+                              // customHeights: [60.h],
+                              inactiveBgColor: Colors.transparent,
+                              inactiveFgColor: charcoal,
+                              activeFgColor: charcoal,
+                              activeBgColor: const [magnolia],
+                              animate: true,
+                              animationDuration: 150,
+                              dividerColor: ghostWhite,
+                              dividerMargin: 1.2.r,
+                              customTextStyles: [
+                                TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 15.r,
+                                ),
+                              ],
+                            ),
+                            Gap(30.r),
+                            ToggleSwitch(
+                              radiusStyle: true,
+                              labels: const ["Normal", "Closed", "OrderWise"],
+                              customWidths: [96.w, 90.w, 108.w],
+                              customHeights: [36.h],
+                              inactiveBgColor: Colors.transparent,
+                              inactiveFgColor: charcoal,
+                              activeFgColor: charcoal,
+                              activeBgColor: const [magnolia],
+                              animate: true,
+                              animationDuration: 150,
+                              dividerColor: ghostWhite,
+                              dividerMargin: 1.2.r,
+                              customTextStyles: [
+                                TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 15.r,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
               ),
             )
           ],
         ),
       ),
+    );
+  }
+}
+
+class RoomTile extends StatelessWidget {
+  const RoomTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(7.5.r),
+      child: Row(
+        children: [
+          Flexible(
+            flex: 7,
+            child: Stack(
+              children: [
+                Positioned(
+                  left: -75.r,
+                  bottom: -15.r,
+                  width: 150.r,
+                  height: 150.r,
+                  child: RandomAvatar(mockString(), trBackground: true),
+                ),
+              ],
+            ),
+          ),
+          Flexible(
+            flex: 13,
+            child: Container(
+              color: charcoal,
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.only(left: 4.5.r, right: 7.5.r),
+              child: DefaultTextStyle(
+                style: TextStyle(
+                  color: gray,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w300,
+                  fontSize: 12.r,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AutoSizeText(
+                      "${myRandomName()} $myLastName",
+                      maxLines: 2,
+                      style: TextStyle(
+                        fontSize: 18.r,
+                        color: magnolia,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.normal,
+                        height: 2.1.r,
+                      ),
+                      wrapWords: false,
+                    ),
+                    Gap(15.r),
+                    AutoSizeText("Games: ${mockInteger(20, 100)}"),
+                    Gap(6.r),
+                    AutoSizeText("Win: ${mockInteger(20, 100)}"),
+                  ],
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class RoomTile1 extends StatelessWidget {
+  const RoomTile1({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Flexible(
+          flex: 5,
+          child: Container(),
+        ),
+        Flexible(
+            flex: 7,
+            child: Container(
+              color: Colors.white,
+            )),
+      ],
     );
   }
 }
