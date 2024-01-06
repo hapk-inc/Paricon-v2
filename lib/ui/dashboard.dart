@@ -21,9 +21,8 @@ import '../dashboard/in_progress.dart';
 import '../dashboard/open_challenge_table.dart';
 import '../dashboard/play_with_friend.dart';
 import '../dashboard/recent_player.dart';
-import '../dashboard/t_button.dart';
 import '../logic/auth_provider.dart';
-import '../logic/dashboard_provider.dart';
+import '../logic/dashboard_panel_provider.dart';
 import '../logic/panel_provider.dart';
 import '../logic/remote_values.dart';
 import '../logic/s_size.dart';
@@ -57,7 +56,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
     if (mounted) {
       debugPrint("didChangeAppLifecycleState ${state.name}");
       if (state == AppLifecycleState.inactive) {
-        ref.read(setActiveProvider(false));
+        if (!kDebugMode) {
+          ref.read(setActiveProvider(false));
+        }
       } else if (state == AppLifecycleState.resumed) {
         ref.read(setActiveProvider(true));
         ref.read(appOpenedProvider);
@@ -85,10 +86,10 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
           : doNotShow
               ? null
               : AppBar(
-                  toolbarHeight: 90.r,
+                  toolbarHeight: 120.h,
                   backgroundColor: majorelleBlue,
                   leadingWidth: 90.w,
-                  leading: AppBarLeading(myUser),
+                  //leading: AppBarLeading(myUser),
                   title: FadeIn(child: SlideInRight(child: const MyLogo())),
                   elevation: 3.r,
                 ),
@@ -102,12 +103,15 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                   : SlidingUpPanel(
                       controller: ref.watch(dashboardPanelProvider),
                       borderRadius: pTheme.slidingPanelRadius,
-                      body: const SafeArea(bottom: false, child: _Tournament()),
+                      body: const SafeArea(bottom: false, child: _Dashboard()),
                       isDraggable: false,
                       backdropEnabled: true,
-                      panel: ref.watch(dPanelWidgetProvider),
+                      panel: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        child: ref.watch(dPanelWidgetProvider),
+                      ),
                       minHeight: 0,
-                      maxHeight: 300.h,
+                      maxHeight: ref.watch(dPanelHeightProvider),
                     ),
             ),
     );
@@ -146,40 +150,17 @@ class AppBarLeading extends StatelessWidget {
             ),
           ),
         )
-        /* else
-          Positioned.fill(
-            bottom: 9.r,
-            child: SlideInLeft(
-              child: FadeIn(
-                child: Card(
-                  shape: const CircleBorder(),
-                  elevation: 9.r,
-                  color: Colors.transparent,
-                  child: CircleAvatar(
-                    radius: 36.r,
-                    backgroundColor: federalBlue,
-                    child: Text(
-                      myUser.name.substring(0, 2).toUpperCase(),
-                      style: tTheme.copyWith(color: ghostWhite),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          )*/
       ],
     );
   }
 }
 
-class _Tournament extends ConsumerWidget {
-  const _Tournament();
+class _Dashboard extends ConsumerWidget {
+  const _Dashboard();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final MyUser myUser = ref.watch(myUserProvider).value!;
-
-    final List<String> bestDList = ref.watch(bestDListProvider).value ?? [];
 
     return SingleChildScrollView(
       padding: EdgeInsets.only(top: 7.5.r),
@@ -188,12 +169,14 @@ class _Tournament extends ConsumerWidget {
         axisDirection: AxisDirection.down,
         crossAxisCount: 20,
         children: [
-          DName(myUser.name),
-          DSubtitle(myUser),
-          Gap(12.r),
-          const RecentPlayer(),
-          const TButton(),
           Gap(15.r),
+          DName(myUser.name),
+          //Gap(9.r),
+          DSubtitle(myUser),
+          // Gap(12.r),
+          const RecentPlayer(),
+          //const TButton(),
+          Gap(12.r),
           const StaggeredGridTile.fit(
             crossAxisCellCount: 20,
             child: EnterTournamentCode(),
@@ -203,86 +186,7 @@ class _Tournament extends ConsumerWidget {
             child: OpenChallengeTable(),
           ),
           Gap(15.r),
-          StaggeredGridTile.count(
-            crossAxisCellCount: 20,
-            mainAxisCellCount: 3.6,
-            child: Card(
-              color: ghostWhite,
-              margin: EdgeInsets.zero,
-              elevation: 0.45.r,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.zero,
-              ),
-              //alignment: Alignment.centerLeft,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.only(left: 15.w),
-                children: [
-                  Container(
-                    height: double.maxFinite,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Top Players",
-                      style: TextStyle(fontFamily: 'WendyOne', fontSize: 24.r),
-                    ),
-                  ),
-                  Gap(12.r),
-                  ...List.generate(
-                    bestDList.length,
-                    (index) {
-                      final String bD = bestDList[index];
-                      final MyUser? xUser = ref.watch(xUserProvider(bD)).value;
-                      return xUser == null
-                          ? Container()
-                          : Container(
-                              //width: 135.w,
-                              padding:
-                                  EdgeInsets.only(left: 4.5.w, right: 13.5.w),
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: 3.w, vertical: 18.r),
-                              decoration: BoxDecoration(
-                                color: [
-                                  aquamarine,
-                                  xantHous,
-                                  uranianBlue
-                                ][mockInteger(0, 2)],
-                                borderRadius: BorderRadius.circular(24.r),
-                              ),
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                    child: xUser.avatar == null
-                                        ? Text(
-                                            xUser.name
-                                                .substring(0, 2)
-                                                .toUpperCase()
-                                                .toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleLarge!
-                                                .copyWith(fontSize: 15.r),
-                                          )
-                                        : RandomAvatar(xUser.avatar!),
-                                  ),
-                                  Gap(10.5.r),
-                                  AutoSizeText(
-                                    xUser.name,
-                                    style: TextStyle(
-                                        fontSize: 13.5.r,
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w500,
-                                        color: federalBlue),
-                                    maxLines: 1,
-                                  ),
-                                ],
-                              ),
-                            );
-                    },
-                  )
-                ],
-              ),
-            ),
-          ),
+
           const PlayWithFriend(),
           const StaggeredGridTile.fit(
             crossAxisCellCount: 20,
@@ -290,6 +194,94 @@ class _Tournament extends ConsumerWidget {
           ),
           Gap(210.r),
         ],
+      ),
+    );
+  }
+}
+
+class TopPlayerHorizontalList extends ConsumerWidget {
+  const TopPlayerHorizontalList({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final List<String> bestDList = ref.watch(bestDListProvider).value ?? [];
+
+    return SizedBox(
+      height: 75.h,
+      child: Card(
+        color: ghostWhite,
+        margin: EdgeInsets.zero,
+        elevation: 0.3.r,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.zero,
+        ),
+        //alignment: Alignment.centerLeft,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          padding: EdgeInsets.only(left: 15.w),
+          children: [
+            Container(
+              height: double.maxFinite,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Top Players",
+                style: TextStyle(fontFamily: 'WendyOne', fontSize: 24.r),
+              ),
+            ),
+            Gap(12.r),
+            ...List.generate(
+              bestDList.length,
+              (index) {
+                final String bD = bestDList[index];
+                final MyUser? xUser = ref.watch(xUserProvider(bD)).value;
+                return xUser == null
+                    ? Container()
+                    : Container(
+                        //width: 135.w,
+                        padding: EdgeInsets.only(left: 4.5.w, right: 13.5.w),
+                        margin: EdgeInsets.symmetric(
+                            horizontal: 3.w, vertical: 18.r),
+                        decoration: BoxDecoration(
+                          color: [
+                            aquamarine,
+                            xantHous,
+                            uranianBlue
+                          ][mockInteger(0, 2)],
+                          borderRadius: BorderRadius.circular(24.r),
+                        ),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              child: xUser.avatar == null
+                                  ? Text(
+                                      xUser.name
+                                          .substring(0, 2)
+                                          .toUpperCase()
+                                          .toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge!
+                                          .copyWith(fontSize: 15.r),
+                                    )
+                                  : RandomAvatar(xUser.avatar!),
+                            ),
+                            Gap(10.5.r),
+                            AutoSizeText(
+                              xUser.name,
+                              style: TextStyle(
+                                  fontSize: 13.5.r,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                  color: federalBlue),
+                              maxLines: 1,
+                            ),
+                          ],
+                        ),
+                      );
+              },
+            )
+          ],
+        ),
       ),
     );
   }

@@ -32,7 +32,7 @@ class EnterAvatarCode extends ConsumerWidget {
                         style: TextStyle(
                           fontSize: 30.r,
                           fontFamily: 'WendyOne',
-                          height: 1.5.r,
+                          height: 1.8.r,
                           color: cinerous,
                         ),
                         maxLines: 2,
@@ -44,8 +44,9 @@ class EnterAvatarCode extends ConsumerWidget {
                               height: 2.1.r,
                               color: cinerous,
                               letterSpacing: 0,
+                              fontFamily: 'Poppins',
                             ),
-                        maxLines: 2,
+                        maxLines: 1,
                       ),
                     ],
                   ),
@@ -60,9 +61,7 @@ class EnterAvatarCode extends ConsumerWidget {
                   ),
                   child: InkWell(
                     onTap: () => showGeneralDialog(
-                      //barrierColor: Colors.transparent,
                       barrierColor: Colors.black.withOpacity(0.72),
-
                       transitionBuilder: (_, x, ___, __) => Transform.scale(
                         scale: x.value,
                         child: Opacity(

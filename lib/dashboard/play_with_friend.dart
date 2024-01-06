@@ -5,15 +5,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:paricon/logic/panel_provider.dart';
-import 'package:paricon/theme/my_theme.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
-import '../logic/dashboard_provider.dart';
+import '../logic/dashboard_panel_provider.dart';
 import '../logic/remote_values.dart';
+import '../logic/room_level_notifier.dart';
+import '../logic/room_provider.dart';
+import '../logic/room_type_notifier.dart';
+import '../my_widget/enter_avatar_pinput.dart';
 import '../router/my_route.dart';
 import '../theme/my_color.dart';
+import '../theme/my_theme.dart';
 
 class PlayWithFriend extends ConsumerWidget {
   const PlayWithFriend({super.key});
@@ -31,6 +36,7 @@ class PlayWithFriend extends ConsumerWidget {
             left: 0.r,
             right: 0.r,
             child: Container(
+              height: 180.h,
               decoration: BoxDecoration(
                 color: jasper,
                 borderRadius: BorderRadius.circular(7.5.r),
@@ -53,10 +59,11 @@ class PlayWithFriend extends ConsumerWidget {
                     "Max up to 4 players",
                     style: TextStyle(
                       fontSize: 12.r,
-                      color: magnolia,
-                      fontFamily: 'Poppins',
-                      height: 2.1.r,
-                      fontWeight: FontWeight.w300,
+                      color: ghostWhite,
+                      fontFamily: 'Montserrat',
+                      // height: 2.1.r,
+                      letterSpacing: 0,
+                      fontWeight: FontWeight.w200,
                     ),
                   ),
                   Gap(15.r),
@@ -82,8 +89,6 @@ class PlayOnlineButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bool goToPlayOnline = ref.watch(showPlayOnlineProvider);
-
     return const ButtonBar(
       mainAxisSize: MainAxisSize.min,
       children: [PlayOnlineElevatedButton()],
@@ -179,9 +184,12 @@ class CreateGamePanel extends ConsumerWidget {
         children: [
           ToggleSwitch(
             radiusStyle: true,
-            labels: const ["Easy", "Medium", "Hard"],
+            labels: List.from(RoomLevel.values.map((e) => firstCaps(e.name))),
             customWidths: [90.w, 105.w, 90.w],
             minHeight: 45.h,
+            onToggle: (index) {
+              ref.read(levelProvider.notifier).state = RoomLevel.values[index!];
+            },
             // customHeights: [60.h],
             inactiveBgColor: magnolia,
             inactiveFgColor: charcoal,
@@ -200,9 +208,13 @@ class CreateGamePanel extends ConsumerWidget {
           Gap(30.r),
           ToggleSwitch(
             radiusStyle: true,
-            labels: const ["Normal", "Closed", "OrderWise"],
+            labels: List.from(RoomType.values
+                .map((e) => toBeginningOfSentenceCase(e.name) ?? "")),
             customWidths: [108.w, 90.w, 108.w],
             customHeights: [60.h],
+            onToggle: (index) {
+              ref.read(typeProvider.notifier).state = RoomType.values[index!];
+            },
             inactiveBgColor: magnolia,
             inactiveFgColor: charcoal,
             activeBgColor: const [tropicalIndigo],
@@ -213,19 +225,33 @@ class CreateGamePanel extends ConsumerWidget {
             customTextStyles: [
               TextStyle(
                 fontFamily: 'Montserrat',
-                fontSize: 13.5.r,
+                fontSize: 15.r,
               ),
             ],
           ),
           Gap(30.r),
           ButtonBar(
             buttonMinWidth: 132.h,
-            buttonHeight: 45.h,
+            // buttonHeight: 48.h,
             children: [
               ElevatedButton(
                 onPressed: () {
-                  ref.read(dashboardPanelProvider).close();
-                  context.router.push(const HostRoomRoute());
+                  ref.read(createRoomProvider.future).then(
+                    (value) {
+                      debugPrint("Create Room Done");
+                      ref.read(joinRoomProvider.future).catchError((e, s) {
+                        debugPrint("244-- $e");
+                        debugPrintStack(stackTrace: s);
+                      });
+                    },
+                  ).whenComplete(
+                    () {
+                      debugPrint("Create Room whenComplete");
+
+                      ref.read(dashboardPanelProvider).close();
+                      context.router.push(const HostRoomRoute());
+                    },
+                  );
                 },
                 style: ButtonStyle(
                   backgroundColor:
@@ -237,29 +263,79 @@ class CreateGamePanel extends ConsumerWidget {
                   ),
                 ),
                 child: AutoSizeText(
-                  "Create Game",
+                  "Create Game".toUpperCase(),
                   style: TextStyle(
-                    fontFamily: 'WendyOne',
+                    fontFamily: 'Poppins',
                     color: ghostWhite,
-                    fontSize: 18.r,
+                    fontSize: 15.r,
                   ),
                   maxLines: 1,
                 ),
               ),
-              TextButton(
-                onPressed: () {},
+              OutlinedButton(
+                onPressed: () {
+                  ref.watch(dPanelHeightProvider.notifier).state = 450.h;
+                  ref.watch(dPanelWidgetProvider.notifier).state =
+                      const EnterRoomCode();
+                },
+                style: ButtonStyle(
+                  shape: MaterialStatePropertyAll(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(7.5.r),
+                    ),
+                  ),
+                  side: MaterialStatePropertyAll(
+                    BorderSide(color: majorelleBlue, width: 0.3.r),
+                  ),
+                ),
                 child: AutoSizeText(
-                  "Enter Room Code",
+                  "Enter Room Code".toUpperCase(),
                   style: TextStyle(
-                    fontFamily: 'WendyOne',
+                    fontFamily: 'Poppins',
                     color: amaranthPurple,
-                    fontSize: 18.r,
+                    fontSize: 15.r,
                   ),
                   maxLines: 1,
                 ),
               ),
             ],
           )
+        ],
+      ),
+    );
+  }
+}
+
+class EnterRoomCode extends StatelessWidget {
+  const EnterRoomCode({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(15.r),
+      child: Column(
+        children: [
+          Gap(30.r),
+          Container(
+            height: 54.h,
+            alignment: Alignment.centerLeft,
+            child: AutoSizeText(
+              "Share the room code with your friends to join",
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                letterSpacing: 0,
+                fontSize: 12.r,
+                color: gray,
+                fontWeight: FontWeight.w300,
+              ),
+              minFontSize: 12,
+              maxFontSize: 15,
+              maxLines: 1,
+            ),
+          ),
+          EnterAvatarCodePinPut(),
         ],
       ),
     );

@@ -54,6 +54,7 @@ class _MyAppState extends ConsumerState<MyApp> {
             : const DashboardRoute();
       },
       error: (e, s) {
+        debugPrint("57--$e");
         ref.read(crashlyticsProvider).recordError(
               e,
               s,
@@ -69,6 +70,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         : ref.watch(authUserProvider).when(
               loading: () => SplashRoute(otherColor: jasper),
               error: (e, s) {
+                debugPrint("72--$e");
                 ref.read(crashlyticsProvider).recordError(
                       e,
                       s,
@@ -147,16 +149,22 @@ class _MyAppState extends ConsumerState<MyApp> {
             routerDelegate: AutoRouterDelegate.declarative(
               _myRoute,
               routes: (handler) => [
-                ref.watch(isPhysicalDeviceProvider).when(
-                      data: (isPhysicalDevice) {
-                        if (kDebugMode) return whichPageRoute;
-                        return !isPhysicalDevice
-                            ? whichPageRoute
-                            : inAppUpdateRoute();
-                      },
-                      error: (_, __) => const ErrorRoute(),
-                      loading: () => SplashRoute(),
-                    )
+                kIsWeb
+                    ? whichPageRoute
+                    : ref.watch(isPhysicalDeviceProvider).when(
+                          data: (isPhysicalDevice) {
+                            if (kDebugMode) return whichPageRoute;
+                            return !isPhysicalDevice
+                                ? whichPageRoute
+                                : inAppUpdateRoute();
+                          },
+                          error: (e, __) {
+                            debugPrint("158--");
+                            debugPrint(e.toString());
+                            return const ErrorRoute();
+                          },
+                          loading: () => SplashRoute(),
+                        )
                 //kDebugMode ? whichPageRoute : inAppUpdateRoute
                 /*!isConnected
                     ? const NoNetRoute()

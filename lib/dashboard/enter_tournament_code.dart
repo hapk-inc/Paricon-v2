@@ -1,8 +1,10 @@
 import 'package:animations/animations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:paricon/router/my_route.dart';
 
 import '../theme/my_color.dart';
 
@@ -43,6 +45,7 @@ class EnterTournamentCode extends StatelessWidget {
                     "Challenge the Best, Be the Best – It's Your Time to Dominate!",
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                           height: 2.1.r,
+                          fontFamily: 'Poppins',
                           color: cinerous,
                           letterSpacing: 0,
                         ),
@@ -59,18 +62,18 @@ class EnterTournamentCode extends StatelessWidget {
                 color: cinerous,
                 borderRadius: BorderRadius.circular(7.5.r),
               ),
-              child: InkWell(
-                onTap: action,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(7.5.r),
-                  child: Row(
-                    children: [
-                      AnimatedContainer(
-                        duration: const Duration(milliseconds: 500),
-                        width: 225.w,
-                        color: magnolia,
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(7.5.r),
+                child: Row(
+                  children: [
+                    AnimatedContainer(
+                      duration: const Duration(milliseconds: 500),
+                      width: 225.w,
+                      color: magnolia,
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.symmetric(horizontal: 15.w),
+                      child: InkWell(
+                        onTap: action,
                         child: Text(
                           "PARICON",
                           style: TextStyle(
@@ -82,20 +85,24 @@ class EnterTournamentCode extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Expanded(
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () =>
+                            context.router.push(const TournamentRoute()),
                         child: Center(
                           child: Text(
-                            "ENTER CODE",
+                            "TRY NOW",
                             style: TextStyle(
                               fontFamily: 'Cabin',
-                              fontSize: 13.5.r,
+                              fontSize: 15.r,
                               color: ghostWhite,
                             ),
                           ),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    )
+                  ],
                 ),
               ),
             )

@@ -1,9 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:paricon/logic/room_provider.dart';
+import 'package:paricon/router/my_route.dart';
 import 'package:pinput/pinput.dart';
 
-import '../logic/user_provider.dart';
+import '../logic/room_id.dart';
+import '../logic/validate_room.dart';
 import '../theme/my_color.dart';
 
 class EnterAvatarCodePinPut extends StatefulWidget {
@@ -63,9 +67,29 @@ class EnterAvatarCodePinPutState extends State<EnterAvatarCodePinPut> {
           defaultPinTheme: defaultPinTheme,
           onCompleted: (pin) {
             //setState(() => showError = pin == '555555');
-            ref.read(validateAvatarCodeProvider(pin).future).then(
+            /*ref.read(validateAvatarCodeProvider(pin).future).then(
               (dynamic value) {
                 if (value is String) {}
+              },
+            );*/
+            ref.read(validateCodeProvider(pin).future).then(
+              (value) {
+                debugPrint("value--$pin");
+                if (value is ValidateRoom) {
+                } else if (value is String) {
+                  ref.read(idNotifier.notifier).state = value;
+                  ref.read(joinRoomProvider.future).catchError(
+                    (e, s) {
+                      debugPrint("244-- $e");
+                      debugPrintStack(stackTrace: s);
+                    },
+                  ).whenComplete(
+                      () => context.router.push(const HostRoomRoute()));
+                }
+              },
+            ).onError(
+              (error, stackTrace) {
+                debugPrint(error.toString());
               },
             );
           },

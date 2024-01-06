@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:animated_emoji/animated_emoji.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,32 +22,41 @@ class DName extends StatelessWidget {
           child: Container(
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.symmetric(horizontal: 15.w),
-            child: AnimatedDefaultTextStyle(
-              style: tTheme.copyWith(
-                color: majorelleBlue,
-                fontSize: 24.r,
-                fontFamily: 'WendyOne',
-              ),
-              duration: const Duration(milliseconds: 500),
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 500),
-                child: AutoSizeText.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: name,
-                        style: TextStyle(fontSize: 30.r, letterSpacing: 0),
-                      ),
-                      TextSpan(text: " 👋", style: TextStyle(fontSize: 45.r))
-                    ],
+            child: Wrap(
+              spacing: 9.r,
+              children: [
+                AnimatedDefaultTextStyle(
+                  style: tTheme.copyWith(
+                    color: violetBlue,
+                    fontSize: 36.r,
+                    fontFamily: 'WendyOne',
+                    letterSpacing: 0,
+                    fontWeight: FontWeight.w700,
+                    //  fontWeight: FontWeight.w700,
                   ),
-                  key: ValueKey(name),
-                  maxLines: 1,
-                  minFontSize: 21,
-                  maxFontSize: 45,
-                  stepGranularity: 3,
+                  duration: const Duration(milliseconds: 500),
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    child: AutoSizeText.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(text: name),
+                        ],
+                      ),
+                      key: ValueKey(name),
+                      maxLines: 1,
+                      minFontSize: 21,
+                      maxFontSize: 36,
+                      stepGranularity: 3,
+                    ),
+                  ),
                 ),
-              ),
+                const AnimatedEmoji(
+                  AnimatedEmojis.smileWithBigEyes,
+                  size: 45,
+                  repeat: false,
+                ),
+              ],
             ),
           ),
         ),

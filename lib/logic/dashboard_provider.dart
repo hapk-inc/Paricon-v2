@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mock_data/mock_data.dart';
 
@@ -24,15 +23,6 @@ final Provider<String> goodDayProvider = Provider<String>(
     "Wishing you a day full of happiness and achievements"
   ][mockInteger(0, 4)],
 );
-
-final StateNotifierProvider<DPanelOption, Widget> dPanelWidgetProvider =
-    StateNotifierProvider<DPanelOption, Widget>(
-  (_) => DPanelOption(),
-);
-
-class DPanelOption extends StateNotifier<Widget> {
-  DPanelOption() : super(Container());
-}
 
 enum PGroupOption { everyone, friends }
 

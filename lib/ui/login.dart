@@ -12,6 +12,7 @@ import '../../my_widget/login_option_button.dart';
 import '../../my_widget/my_logo.dart';
 import '../../theme/my_color.dart';
 import '../logic/auth_provider.dart';
+import '../logic/firebase_init.dart';
 import '../theme/my_theme.dart';
 
 final PanelController _panelController = PanelController();
@@ -96,6 +97,7 @@ class LoginButtonBar extends ConsumerStatefulWidget {
 
 class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
   late bool isLoading;
+  late bool isPhysicalDevice;
 
   Future<String?> get googleButtonClick => ref.read(gSignProvider.future);
 
@@ -115,6 +117,10 @@ class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
 
   @override
   Widget build(BuildContext context) {
+    isPhysicalDevice = ref
+        .watch(isPhysicalDeviceProvider)
+        .when(data: (x) => x, error: (_, __) => true, loading: () => true);
+    debugPrint("isPhysicalDevice $isPhysicalDevice");
     return Wrap(
       children: [
         LoginOptionButton(
@@ -125,15 +131,8 @@ class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
                 }
               : () {
                   changeFlag(true);
-                  if (kIsWeb) {
-                    googleButtonClick.then(
-                      (value) {
-                        if (mounted) {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(buildLoginSnackBar(email: value));
-                        }
-                      },
-                    ).whenComplete(() => changeFlag(false));
+                  if (kIsWeb || !isPhysicalDevice) {
+                    guestLogin.whenComplete(() => changeFlag(false));
                   } else {
                     if (Platform.isMacOS) {
                       guestLogin.then(
@@ -161,63 +160,3 @@ class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
     );
   }
 }
-
-/*class LoginButtonBar1 extends ConsumerWidget {
-  const LoginButtonBar1({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    bool isSnackBarVisible() {
-      if (_scaffoldKey.currentState != null) {
-        return _scaffoldKey.currentState!.mounted;
-      }
-      return false;
-    }
-
-    return Consumer(
-      builder: (_, ref, __) {
-        void googleButtonClick() => ref.read(gSignProvider.future).then(
-              (value) {
-                if (value != null) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(buildLoginSnackBar(email: value));
-                }
-              },
-            ).catchError(
-              (e, s) {
-                debugPrint(e.toString());
-                debugPrintStack(stackTrace: s);
-                /*if (kDebugMode) {
-                  ref.read(anonymousProvider);
-                }*/
-              },
-            );
-        void guestClick() {
-          if (_panelController.isPanelOpen) {
-            _panelController.close();
-          }
-          ref.read(anonymousProvider);
-          ScaffoldMessenger.of(context).showSnackBar(buildLoginSnackBar());
-        }
-
-        return Wrap(
-          spacing: 15.r,
-          children: [
-            LoginOptionButton(
-              lChild: Image.asset('images/gLogo.png'),
-              optionBtnPressed: !isSnackBarVisible()
-                  ? () {
-                      debugPrint("Wait Loading");
-                    }
-                  : kIsWeb
-                      ? googleButtonClick
-                      : Platform.isMacOS
-                          ? guestClick
-                          : googleButtonClick,
-            ),
-          ],
-        );
-      },
-    );
-  }
-}*/

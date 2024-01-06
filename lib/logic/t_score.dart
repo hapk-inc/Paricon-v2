@@ -12,7 +12,7 @@ TextSpan showTScore(
     TextSpan(
       children: [
         TextSpan(text: onlyMinute(duration)),
-        TextSpan(text: " : ", style: TextStyle(fontSize: (tSize - 10).r)),
+        TextSpan(text: " : ", style: TextStyle(fontSize: (tSize).r)),
         TextSpan(text: onlySecond(duration)),
         TextSpan(text: " ", style: TextStyle(fontSize: (tSize - 4).r)),
         TextSpan(

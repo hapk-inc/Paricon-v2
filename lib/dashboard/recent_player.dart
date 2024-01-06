@@ -25,11 +25,9 @@ class RecentPlayer extends ConsumerWidget {
     final tTheme = Theme.of(context).textTheme.titleLarge!;
     return StaggeredGridTile.fit(
       crossAxisCellCount: 20,
-      child: AnimatedContainer(
-        height: 90.h,
-        duration: const Duration(milliseconds: 500),
-        margin: EdgeInsets.only(top: 9.h),
-        //color: mayaBlue,
+      child: Container(
+        height: 120.h,
+        alignment: Alignment.center,
         child: FirebaseAnimatedList(
           scrollDirection: Axis.horizontal,
           sort: (DataSnapshot a, DataSnapshot b) {
@@ -41,7 +39,7 @@ class RecentPlayer extends ConsumerWidget {
             return y.nowTime.compareTo(x.nowTime);
           },
           query: ref.watch(recentUserProvider),
-          padding: EdgeInsets.only(left: 15.w),
+          padding: EdgeInsets.only(left: 15.w, top: 15.h),
           defaultChild: FadeIn(
             child: Center(
               child: Text(
@@ -79,7 +77,7 @@ class RecentPlayerTile extends StatelessWidget {
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
-      margin: EdgeInsets.only(right: 6.w, left: 6.w),
+      margin: EdgeInsets.only(right: 6.r, left: 6.r),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -90,7 +88,7 @@ class RecentPlayerTile extends StatelessWidget {
               elevation: 1.5.r,
               shape: const CircleBorder(),
               child: CircleAvatar(
-                radius: 31.5.r,
+                radius: 33.r,
                 backgroundColor: violetBlue,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 500),
@@ -99,7 +97,8 @@ class RecentPlayerTile extends StatelessWidget {
                           xUser.name!.substring(0, 2).toUpperCase(),
                           style: tTheme.copyWith(
                             color: lightOrange,
-                            fontSize: 24.r,
+                            letterSpacing: 0,
+                            fontSize: 30.r,
                             fontFamily: "WendyOne",
                           ),
                         )
@@ -113,17 +112,18 @@ class RecentPlayerTile extends StatelessWidget {
               ),
             ),
           ),
-          Gap(3.r),
+          Gap(2.4.r),
           Expanded(
             child: AutoSizeText(
               firstCaps(xUser.name!),
               maxLines: 1,
               style: TextStyle(
-                fontSize: 10.5.r,
-                height: 1.8.r,
+                fontSize: 12.r,
+                height: 2.1.r,
                 fontFamily: 'Poppins',
-                color: violetBlue,
+                color: richBlack,
                 fontWeight: FontWeight.w300,
+                letterSpacing: 0,
               ),
               wrapWords: false,
               maxFontSize: 15,

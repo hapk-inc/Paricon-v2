@@ -56,6 +56,9 @@ const Color xantHous = Color(0xffffc759);
 
 const List<Color> lightColors = [aquamarine, uranianBlue, xantHous];
 
+const Color rufous = Color(0xffa72608);
+const Color cyclamen = Color(0xfff06c9b);
+
 //ProfileDetail Color
 const Color mayaBlue = Color(0xff79beee);
 const Color wheat = Color(0xffead2ac);

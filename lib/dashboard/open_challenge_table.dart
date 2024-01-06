@@ -26,7 +26,7 @@ class OpenChallengeTable extends ConsumerWidget {
     final List<String> bestDList = ref.watch(bestDListProvider).value ?? [];
 
     return Container(
-      height: 315.h,
+      height: 300.h,
       color: lightOrange,
       width: 360.w,
       child: Column(
@@ -42,7 +42,8 @@ class OpenChallengeTable extends ConsumerWidget {
                   style: TextStyle(
                     fontSize: 21.r,
                     color: cinerous,
-                    fontFamily: 'WendyOne',
+                    fontFamily: 'Poppins',
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ],

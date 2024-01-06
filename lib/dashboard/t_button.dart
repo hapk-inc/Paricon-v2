@@ -55,7 +55,9 @@ class TButton extends ConsumerWidget {
                     style: TextStyle(
                       color: lavenderWeb,
                       fontSize: 12.r,
-                      fontFamily: 'Cabin',
+                      letterSpacing: 0,
+                      fontWeight: FontWeight.w200,
+                      fontFamily: 'Poppins',
                     ),
                   ),
                   Gap(15.r),

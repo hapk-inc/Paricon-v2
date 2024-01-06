@@ -28,11 +28,11 @@ class DSubtitle extends ConsumerWidget {
         alignment: Alignment.centerLeft,
         child: AnimatedDefaultTextStyle(
           style: TextStyle(
-            fontSize: 10.8.r,
+            fontSize: 12.r,
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w300,
-            height: 1.5.r,
-            color: violetBlue,
+            height: 2.4.r,
+            color: tropicalIndigo,
           ),
           textAlign: TextAlign.start,
           duration: const Duration(milliseconds: 300),
@@ -54,14 +54,19 @@ class DSubtitle extends ConsumerWidget {
                         ],
                       ],
                     ),
-                    maxLines: 1,
+                    maxLines: 2,
                     minFontSize: 6,
                     maxFontSize: 12,
                   )
                 : AutoSizeText(
                     ref.read(goodDayProvider),
                     maxLines: 1,
-                    style: TextStyle(color: gray, fontSize: 12.r),
+                    style: TextStyle(
+                      color: gray,
+                      fontSize: 12.r,
+                      fontWeight: FontWeight.w300,
+                      letterSpacing: 0,
+                    ),
                     minFontSize: 9,
                     maxFontSize: 12,
                   ),
