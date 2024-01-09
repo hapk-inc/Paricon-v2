@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:random_avatar/random_avatar.dart';
 
-import '../logic/auth_provider.dart';
 import '../logic/user_activity_provider.dart';
 import '../model/user_activity.dart';
 import '../theme/my_color.dart';
@@ -21,7 +19,7 @@ class RecentPlayer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final User fUser = ref.watch(authUserProvider).value!;
+    //final User fUser = ref.watch(authUserProvider).value!;
     final tTheme = Theme.of(context).textTheme.titleLarge!;
     return StaggeredGridTile.fit(
       crossAxisCellCount: 20,
@@ -50,7 +48,7 @@ class RecentPlayer extends ConsumerWidget {
           ),
           itemBuilder: (_, DataSnapshot snapshot, Animation<double> animation,
               int index) {
-            if (fUser.uid == snapshot.key!) return Container();
+            //if (fUser.uid == snapshot.key!) return Container();
 
             Map<String, dynamic> json =
                 Map<String, dynamic>.from(snapshot.value as Map);

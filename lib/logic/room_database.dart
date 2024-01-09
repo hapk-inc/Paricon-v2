@@ -30,21 +30,13 @@ class RoomDatabase {
   //late DocumentReference userDoc;
 
   RoomDatabase(this.ref, {this.id}) {
-    //firebaseFirestore = ref.read(fireStoreProvider);
     firebaseReference = ref.read(databaseProvider).ref();
 
     userId = ref.watch(authUserProvider).value!.uid;
-    debugPrint("Room Database init $id");
 
     roomReference = id == null
         ? firebaseReference.child('rooms')
         : firebaseReference.child('rooms/${id!}');
-
-    if (userId != null) {
-      debugPrint("57--$userId");
-      // userDoc = firebaseFirestore.collection('users').doc(userId);
-      //bestDurationDoc = firebaseFirestore.collection('bestD').doc(userId);
-    }
   }
 
   Future<String?> createRoom(Room room) async {

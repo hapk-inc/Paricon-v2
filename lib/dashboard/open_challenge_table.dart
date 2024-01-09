@@ -40,9 +40,9 @@ class OpenChallengeTable extends ConsumerWidget {
                 Text(
                   "Recently Played",
                   style: TextStyle(
-                    fontSize: 21.r,
-                    color: cinerous,
-                    fontFamily: 'Poppins',
+                    fontSize: 24.r,
+                    color: gray,
+                    fontFamily: 'WendyOne',
                     fontWeight: FontWeight.w700,
                   ),
                 ),

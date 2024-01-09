@@ -12,3 +12,7 @@ final Provider<PanelController> tournamentPanelProvider = Provider(
 final Provider<PanelController> settingPanelProvider = Provider(
   (ref) => PanelController(),
 );
+
+final Provider<PanelController> playFriendPanelProvider = Provider(
+  (ref) => PanelController(),
+);

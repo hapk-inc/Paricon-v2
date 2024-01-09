@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,9 +15,9 @@ import '../logic/room_level_notifier.dart';
 import '../logic/room_provider.dart';
 import '../logic/room_type_notifier.dart';
 import '../my_widget/enter_avatar_pinput.dart';
-import '../router/my_route.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
+import '../ui/host_room.dart';
 
 class PlayWithFriend extends ConsumerWidget {
   const PlayWithFriend({super.key});
@@ -231,7 +230,7 @@ class CreateGamePanel extends ConsumerWidget {
           ),
           Gap(30.r),
           ButtonBar(
-            buttonMinWidth: 132.h,
+            //buttonMinWidth: 132.h,
             // buttonHeight: 48.h,
             children: [
               ElevatedButton(
@@ -239,21 +238,28 @@ class CreateGamePanel extends ConsumerWidget {
                   ref.read(createRoomProvider.future).then(
                     (value) {
                       debugPrint("Create Room Done");
-                      ref.read(joinRoomProvider.future).catchError((e, s) {
-                        debugPrint("244-- $e");
-                        debugPrintStack(stackTrace: s);
-                      });
+                      ref.read(joinRoomProvider.future).catchError(
+                        (e, s) {
+                          debugPrint("244-- $e");
+                          debugPrintStack(stackTrace: s);
+                        },
+                      );
                     },
                   ).whenComplete(
                     () {
                       debugPrint("Create Room whenComplete");
-
-                      ref.read(dashboardPanelProvider).close();
-                      context.router.push(const HostRoomRoute());
+                      ref.read(dPanelHeightProvider.notifier).state = 540.h;
+                      ref.read(dPanelWidgetProvider.notifier).state =
+                          const HostRoom();
+                      //ref.read(dashboardPanelProvider).close();
+                      //context.router.push(const HostRoomRoute());
                     },
                   );
                 },
                 style: ButtonStyle(
+                  padding: MaterialStatePropertyAll(
+                    EdgeInsets.symmetric(horizontal: 15.w),
+                  ),
                   backgroundColor:
                       const MaterialStatePropertyAll(chocolateCosmos),
                   shape: MaterialStatePropertyAll(
@@ -267,7 +273,7 @@ class CreateGamePanel extends ConsumerWidget {
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     color: ghostWhite,
-                    fontSize: 15.r,
+                    fontSize: 14.4.r,
                   ),
                   maxLines: 1,
                 ),
@@ -284,6 +290,9 @@ class CreateGamePanel extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(7.5.r),
                     ),
                   ),
+                  padding: MaterialStatePropertyAll(
+                    EdgeInsets.symmetric(horizontal: 15.w),
+                  ),
                   side: MaterialStatePropertyAll(
                     BorderSide(color: majorelleBlue, width: 0.3.r),
                   ),
@@ -293,7 +302,7 @@ class CreateGamePanel extends ConsumerWidget {
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     color: amaranthPurple,
-                    fontSize: 15.r,
+                    fontSize: 14.4.r,
                   ),
                   maxLines: 1,
                 ),
@@ -322,7 +331,7 @@ class EnterRoomCode extends StatelessWidget {
             height: 54.h,
             alignment: Alignment.centerLeft,
             child: AutoSizeText(
-              "Share the room code with your friends to join",
+              "Enter the room code to join",
               style: TextStyle(
                 fontFamily: 'Poppins',
                 letterSpacing: 0,
@@ -335,7 +344,7 @@ class EnterRoomCode extends StatelessWidget {
               maxLines: 1,
             ),
           ),
-          EnterAvatarCodePinPut(),
+          const EnterAvatarCodePinPut(),
         ],
       ),
     );

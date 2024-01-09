@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +24,8 @@ import '../logic/auth_provider.dart';
 import '../logic/dashboard_panel_provider.dart';
 import '../logic/panel_provider.dart';
 import '../logic/remote_values.dart';
+import '../logic/room_id.dart';
 import '../logic/s_size.dart';
-import '../logic/tournament_database.dart';
 import '../logic/user_activity_provider.dart';
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
@@ -68,6 +67,23 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(
+      idNotifier.select((value) => value),
+      (previous, next) {
+        debugPrint("75-- $next");
+        if (next.isEmpty) {
+          ref.watch(dashboardPanelProvider).close();
+        } else {
+          Future.delayed(
+            const Duration(seconds: 1),
+            () {
+              ref.watch(dashboardPanelProvider).open();
+            },
+          );
+        }
+      },
+    );
+
     final String inWork = ref.watch(inWorkProvider);
     final MyUser? myUser = ref.watch(myUserProvider).value;
     final User? fUser = ref.watch(authUserProvider).value;
@@ -88,7 +104,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
               : AppBar(
                   toolbarHeight: 120.h,
                   backgroundColor: majorelleBlue,
-                  leadingWidth: 90.w,
+                  //leadingWidth: 90.w,
                   //leading: AppBarLeading(myUser),
                   title: FadeIn(child: SlideInRight(child: const MyLogo())),
                   elevation: 3.r,
@@ -163,20 +179,16 @@ class _Dashboard extends ConsumerWidget {
     final MyUser myUser = ref.watch(myUserProvider).value!;
 
     return SingleChildScrollView(
-      padding: EdgeInsets.only(top: 7.5.r),
+      padding: EdgeInsets.only(top: 30.h),
       scrollDirection: Axis.vertical,
       child: StaggeredGrid.count(
         axisDirection: AxisDirection.down,
         crossAxisCount: 20,
         children: [
-          Gap(15.r),
           DName(myUser.name),
-          //Gap(9.r),
           DSubtitle(myUser),
-          // Gap(12.r),
           const RecentPlayer(),
-          //const TButton(),
-          Gap(12.r),
+          Gap(15.r),
           const StaggeredGridTile.fit(
             crossAxisCellCount: 20,
             child: EnterTournamentCode(),
@@ -186,102 +198,22 @@ class _Dashboard extends ConsumerWidget {
             child: OpenChallengeTable(),
           ),
           Gap(15.r),
-
           const PlayWithFriend(),
+          StaggeredGridTile.fit(
+            crossAxisCellCount: 20,
+            child: Divider(
+              color: gray,
+              thickness: 0.3.r,
+              indent: 15.r,
+              endIndent: 15.r,
+            ),
+          ),
           const StaggeredGridTile.fit(
             crossAxisCellCount: 20,
             child: EnterAvatarCode(),
           ),
           Gap(210.r),
         ],
-      ),
-    );
-  }
-}
-
-class TopPlayerHorizontalList extends ConsumerWidget {
-  const TopPlayerHorizontalList({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final List<String> bestDList = ref.watch(bestDListProvider).value ?? [];
-
-    return SizedBox(
-      height: 75.h,
-      child: Card(
-        color: ghostWhite,
-        margin: EdgeInsets.zero,
-        elevation: 0.3.r,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.zero,
-        ),
-        //alignment: Alignment.centerLeft,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.only(left: 15.w),
-          children: [
-            Container(
-              height: double.maxFinite,
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Top Players",
-                style: TextStyle(fontFamily: 'WendyOne', fontSize: 24.r),
-              ),
-            ),
-            Gap(12.r),
-            ...List.generate(
-              bestDList.length,
-              (index) {
-                final String bD = bestDList[index];
-                final MyUser? xUser = ref.watch(xUserProvider(bD)).value;
-                return xUser == null
-                    ? Container()
-                    : Container(
-                        //width: 135.w,
-                        padding: EdgeInsets.only(left: 4.5.w, right: 13.5.w),
-                        margin: EdgeInsets.symmetric(
-                            horizontal: 3.w, vertical: 18.r),
-                        decoration: BoxDecoration(
-                          color: [
-                            aquamarine,
-                            xantHous,
-                            uranianBlue
-                          ][mockInteger(0, 2)],
-                          borderRadius: BorderRadius.circular(24.r),
-                        ),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              child: xUser.avatar == null
-                                  ? Text(
-                                      xUser.name
-                                          .substring(0, 2)
-                                          .toUpperCase()
-                                          .toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge!
-                                          .copyWith(fontSize: 15.r),
-                                    )
-                                  : RandomAvatar(xUser.avatar!),
-                            ),
-                            Gap(10.5.r),
-                            AutoSizeText(
-                              xUser.name,
-                              style: TextStyle(
-                                  fontSize: 13.5.r,
-                                  fontFamily: 'Poppins',
-                                  fontWeight: FontWeight.w500,
-                                  color: federalBlue),
-                              maxLines: 1,
-                            ),
-                          ],
-                        ),
-                      );
-              },
-            )
-          ],
-        ),
       ),
     );
   }

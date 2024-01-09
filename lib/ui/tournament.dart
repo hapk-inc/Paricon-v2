@@ -88,7 +88,7 @@ class TournamentPage extends ConsumerWidget {
                         Gap(45.r),
                         const StaggeredGridTile.count(
                           crossAxisCellCount: 20,
-                          mainAxisCellCount: 31.2,
+                          mainAxisCellCount: 31.5,
                           child: TournamentShow(),
                         ),
                       ],
@@ -127,15 +127,11 @@ class TournamentShow extends StatelessWidget {
               ),
               Expanded(
                 flex: 9,
-                child: FractionallySizedBox(
-                  heightFactor: 1,
-                  widthFactor: 1,
-                  child: AnimatedContainer(
-                    alignment: Alignment.center,
-                    duration: const Duration(milliseconds: 500),
-                    padding: EdgeInsets.symmetric(horizontal: 9.r),
-                    child: const TournamentGrid(),
-                  ),
+                child: AnimatedContainer(
+                  alignment: Alignment.center,
+                  duration: const Duration(milliseconds: 500),
+                  padding: EdgeInsets.symmetric(horizontal: 9.r),
+                  child: const TournamentGrid(),
                 ),
               ),
               Expanded(

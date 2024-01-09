@@ -5,8 +5,11 @@ import 'package:in_app_update/in_app_update.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:paricon/model/room.dart';
 
+import '../model/local_icon.dart';
 import 'auth_provider.dart';
+import 'board_database.dart';
 import 'firebase_init.dart';
+import 'game_setup_provider.dart';
 import 'room_database.dart';
 import 'room_id.dart';
 import 'room_level_notifier.dart';
@@ -89,9 +92,58 @@ final AutoDisposeStreamProvider<bool> sGameStartProvider =
 
 final AutoDisposeFutureProvider gameStartProvider = FutureProvider.autoDispose(
   (ref) async {
-    try {
-      final roomDatabase = ref.read(roomDatabaseProvider);
-      await roomDatabase.gameStart(true);
-    } catch (e) {}
+    final roomDatabase = ref.read(roomDatabaseProvider);
+    await roomDatabase.gameStart(true);
   },
 );
+
+final AutoDisposeFutureProvider<bool> createBoardProvider =
+    FutureProvider.autoDispose(
+  (ref) async {
+    final Room room = ref.read(roomProvider).value!;
+    //final details = room.details;
+
+    //final Map playersProvider = await ref.read(roomPlayersProvider!.future);
+
+    if (!kDebugMode) {
+      final package = await ref.read(packageInfoProvider.future);
+      if (!package.appName.contains("Dev") && room.players!.length == 1) {
+        return false;
+      }
+    }
+
+    //final boardDatabase = ref.read(boardDatabaseProvider!);
+
+    final players = convertToBoard(room.players!);
+
+    final GameSetup setup = ref.read(setupProvider);
+    final List<LocalIcon> localIcons = setup.newIcons;
+    final Map icons = localIcons.map((e) => e.toIdJson(mockString(8))).fold(
+      {},
+      (previousValue, element) => {...previousValue, ...element},
+    );
+
+    String currentIcon = "";
+    if (room.type.name == "orderWise") {
+      //final localIcon = localIcons[Random.secure().nextInt(localIcons.length)];
+      //_currentIcon = localIcon.iconCode;
+      // print("Current Icon is $_currentIcon");
+    }
+
+    final Map currentPlayer = {"currentID": room.players!.first};
+
+    final Map map = {
+      ...{"players": players},
+      ...{"icons": icons},
+      ...currentPlayer,
+      ...{"type": "normal"},
+      if (currentIcon.isNotEmpty) ...{"currentIcon": currentIcon},
+    };
+
+    final boardDatabase = ref.read(boardDatabaseProvider);
+    await boardDatabase.createBoard(map);
+    return true;
+  },
+);
+
+Map<String, dynamic> convertToBoard(List<dynamic> players) => {};

@@ -44,6 +44,7 @@ class EnterAvatarCode extends ConsumerWidget {
                               height: 2.1.r,
                               color: cinerous,
                               letterSpacing: 0,
+                              fontWeight: FontWeight.w300,
                               fontFamily: 'Poppins',
                             ),
                         maxLines: 1,
