@@ -7,8 +7,9 @@ import '../model/local_icon.dart';
 import '../my_widget/g_icons.dart';
 import '../theme/my_color.dart';
 
-final tournamentListenerNotifierProvider =
-    ChangeNotifierProvider((_) => TournamentListener());
+final AutoDisposeChangeNotifierProvider<TournamentListener>
+    tournamentListenerNotifierProvider =
+    AutoDisposeChangeNotifierProvider((_) => TournamentListener());
 
 class TournamentListener extends ChangeNotifier {
   late List<LocalIcon> _icons;

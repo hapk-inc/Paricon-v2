@@ -106,13 +106,8 @@ class PlayOnlineElevatedButton extends ConsumerWidget {
       onPressed: !goToPlayOnline
           ? () => ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  behavior: SnackBarBehavior.floating,
                   backgroundColor: charcoal,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(7.5.r),
-                  ),
                   padding: EdgeInsets.only(left: 12.r),
-                  margin: EdgeInsets.only(bottom: 0, left: 12.w, right: 12.w),
                   content: AnimatedContainer(
                     duration: const Duration(milliseconds: 500),
                     height: 45.h,
@@ -126,6 +121,7 @@ class PlayOnlineElevatedButton extends ConsumerWidget {
                         fontFamily: 'Poppins',
                         fontSize: 12.r,
                         color: ghostWhite,
+                        fontWeight: FontWeight.w300,
                         letterSpacing: 0.12.r,
                       ),
                       maxLines: 1,

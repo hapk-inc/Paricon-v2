@@ -6,7 +6,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 
-import '../logic/tournament_listener.dart';
 import '../router/my_route.dart';
 import '../theme/my_color.dart';
 
@@ -66,7 +65,6 @@ class TButton extends ConsumerWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {
-                          ref.refresh(tournamentListenerNotifierProvider);
                           context.router.push(const TournamentRoute());
                         },
                         style: ButtonStyle(
