@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paricon/logic/room_id.dart';
 import 'package:rxdart/rxdart.dart';
@@ -11,13 +12,14 @@ import 'firebase_init.dart';
 final Provider<BoardDatabase> boardDatabaseProvider = Provider(
   (ref) {
     final String id = ref.watch(idNotifier);
+    debugPrint("15--$id");
     return BoardDatabase(ref, id: id);
   },
 );
 
 class BoardDatabase {
   final Ref ref;
-  final String? id;
+  final String id;
 
   late DatabaseReference firebaseReference;
 
@@ -25,21 +27,24 @@ class BoardDatabase {
   late DatabaseReference boardReference;
   late DatabaseReference boardIconReference;
 
-  BoardDatabase(this.ref, {this.id}) {
+  BoardDatabase(this.ref, {this.id = ""}) {
     firebaseReference = ref.read(databaseProvider).ref();
 
     userId = ref.watch(authUserProvider).value!.uid;
 
-    boardReference = id == null
+    boardReference = id.isEmpty
         ? firebaseReference.child('boards')
-        : firebaseReference.child('boards/${id!}');
+        : firebaseReference.child('boards/$id');
 
-    boardIconReference = id == null
+    boardIconReference = id.isEmpty
         ? firebaseReference.child('boards')
-        : firebaseReference.child('boards/${id!}/icons');
+        : firebaseReference.child('boards/$id/icons');
   }
 
-  Future createBoard(Map board) async => await boardReference.set(board);
+  Future createBoard(Map board) async {
+    debugPrint("45--$id");
+    return boardReference.set(board);
+  }
 
   Future<Board?> get board async => await boardReference.once().then(
         (DatabaseEvent event) {
@@ -55,12 +60,15 @@ class BoardDatabase {
       );
 
   Stream<LocalIcon> localIcon(String icon) {
+    debugPrint("59--$icon");
+    debugPrint(boardIconReference.path);
     late BehaviorSubject<LocalIcon> controller;
     controller = BehaviorSubject<LocalIcon>(
       onListen: () => boardIconReference.child(icon).onValue.listen(
         (event) {
           var value = event.snapshot.value;
           if (value != null) {
+            debugPrint("64--");
             Map<String, dynamic> json = Map<String, dynamic>.from(value as Map);
 
             LocalIcon localIcon = LocalIcon.fromJson(json);
@@ -69,6 +77,7 @@ class BoardDatabase {
               controller.close();
             }
           } else {
+            debugPrint("74--");
             if (controller.hasValue) controller.close();
           }
         },

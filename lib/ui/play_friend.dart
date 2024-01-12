@@ -12,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/logic/room_id.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -78,12 +79,13 @@ class PlayFriendPage extends ConsumerWidget {
   }
 }
 
-class __PlayFriendBoard extends StatelessWidget {
+class __PlayFriendBoard extends ConsumerWidget {
   final Board board;
   const __PlayFriendBoard(this.board);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    debugPrint(board.icons.length.toString());
     return SingleChildScrollView(
       child: StaggeredGrid.count(
         crossAxisCount: 20,
@@ -159,6 +161,7 @@ class __PlayFriendBoard extends StatelessWidget {
                             trailing: InkWell(
                               onTap: () {
                                 context.router.pop();
+                                ref.watch(idNotifier.notifier).empty();
                               },
                               child: Icon(Icons.close, size: 21.r),
                             ),
@@ -301,10 +304,20 @@ class _PlayFriendGrid extends ConsumerWidget {
     List<Widget> tiles = List.from(
       icons.map(
         (e) => ref.watch(iconProvider(e)).when(
-              data: (x) => _PlayFriendGridTile(e, x),
-              error: (_, s) => Container(),
-              loading: () => Container(),
-            ),
+          data: (x) {
+            debugPrint("306-");
+            return _PlayFriendGridTile(e, x);
+          },
+          error: (_, s) {
+            debugPrint("307-");
+            debugPrintStack(stackTrace: s);
+            return Container();
+          },
+          loading: () {
+            debugPrint("315-");
+            return Container();
+          },
+        ),
       ),
     );
 

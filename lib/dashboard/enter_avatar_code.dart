@@ -28,7 +28,7 @@ class EnterAvatarCode extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AutoSizeText(
-                        "Gift your friends, a new avatars",
+                        "🎁 Gift your friends, a new avatars 😍",
                         style: TextStyle(
                           fontSize: 30.r,
                           fontFamily: 'WendyOne',

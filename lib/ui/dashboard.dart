@@ -59,8 +59,10 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
           ref.read(setActiveProvider(false));
         }
       } else if (state == AppLifecycleState.resumed) {
-        ref.read(setActiveProvider(true));
-        ref.read(appOpenedProvider);
+        if (!kDebugMode) {
+          ref.read(setActiveProvider(true));
+          ref.read(appOpenedProvider);
+        }
       }
     }
   }
@@ -126,6 +128,13 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                         duration: const Duration(milliseconds: 500),
                         child: ref.watch(dPanelWidgetProvider),
                       ),
+                      onPanelClosed: () {
+                        if (ref.watch(idNotifier).isNotEmpty) {
+                          ref.read(idNotifier.notifier).empty();
+                          ref.watch(dPanelHeightProvider.notifier).state =
+                              300.h;
+                        }
+                      },
                       minHeight: 0,
                       maxHeight: ref.watch(dPanelHeightProvider),
                     ),

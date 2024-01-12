@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:intl/intl.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:paricon/logic/dashboard_panel_provider.dart';
 import 'package:paricon/logic/panel_provider.dart';
@@ -146,8 +146,6 @@ class HostRoom extends ConsumerWidget {
     final MyUser? myUser = ref.watch(myUserProvider).value;
     final User? user = ref.watch(authUserProvider).value;
 
-    final tTheme = Theme.of(context).textTheme.titleLarge;
-
     ref.listen(
       sGameStartProvider.select((data) => data.value ?? false),
       (previous, next) {
@@ -167,10 +165,25 @@ class HostRoom extends ConsumerWidget {
               child: Column(
                 children: [
                   Container(
-                    height: 54.h,
+                    height: 60.h,
                     alignment: Alignment.centerLeft,
-                    child: AutoSizeText(
-                      "Share the room code with your friends to join",
+                    child: AutoSizeText.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Share ",
+                            recognizer: TapGestureRecognizer()..onTap = () {},
+                            style: TextStyle(
+                              color: caputMortuum,
+                              fontSize: 15.r,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const TextSpan(
+                            text: "the room code with your friends to join",
+                          )
+                        ],
+                      ),
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         letterSpacing: 0,
@@ -187,175 +200,277 @@ class HostRoom extends ConsumerWidget {
                   Gap(9.r),
                   SizedBox(
                     height: 300.h,
-                    child: LayoutBuilder(
-                      builder: (_, constraint) => Stack(
-                        children: [
-                          Positioned(
-                            left: constraint.maxWidth * 0.015,
-                            top: constraint.maxHeight * 0.15,
-                            width: 300.w,
-                            height: constraint.maxHeight * 0.45,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: magnolia,
-                                borderRadius: BorderRadius.circular(9.r),
-                              ),
-                              child: Column(
-                                children: [
-                                  Flexible(
-                                    flex: 2,
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      child: ListTile(
-                                        contentPadding: EdgeInsets.symmetric(
-                                          horizontal: 7.5.w,
-                                        ),
-                                        leading: CircleAvatar(
-                                          backgroundColor: federalBlue,
-                                          radius: 30.r,
-                                          child: room.creatorID == user.uid
-                                              ? myUser.avatar != null
-                                                  ? RandomAvatar(myUser.avatar!)
-                                                  : Text(
-                                                      myUser.name
-                                                          .substring(0, 2)
-                                                          .toUpperCase(),
-                                                      style: tTheme!.copyWith(
-                                                        color: lightOrange,
-                                                        fontSize: 24.r,
-                                                        fontFamily: "WendyOne",
-                                                      ),
-                                                    )
-                                              : RandomAvatar(mockString()),
-                                        ),
-                                        title: AutoSizeText(
-                                          room.creatorID == user.uid
-                                              ? "${myUser.name} created the room"
-                                              : "Someone created this room",
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            fontSize: 15.r,
-                                            fontWeight: FontWeight.w900,
-                                            color: richBlack,
-                                            letterSpacing: 0,
-                                          ),
-                                        ),
-                                        subtitle: Container(
-                                          height: 24.h,
-                                          // color: Colors.indigo,
-                                          alignment: Alignment.centerLeft,
-                                          child: AutoSizeText(
-                                            "${toBeginningOfSentenceCase(room.level.name) ?? ""}  |  ${toBeginningOfSentenceCase(room.type.name) ?? ""}",
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              letterSpacing: 0,
-                                              fontSize: 12.r,
-                                              color: gray,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                            maxLines: 1,
-                                            minFontSize: 9,
-                                            maxFontSize: 12,
-                                          ),
-                                        ),
-                                        isThreeLine: true,
-                                      ),
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            right: 6.w,
-                            bottom: constraint.maxHeight * 0.12,
-                            width: 300.w,
-                            height: constraint.maxHeight * 0.39,
-                            child: Card(
-                              margin: EdgeInsets.zero,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(9.r),
-                              ),
-                              elevation: 3.r,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(9.r),
-                                child: Row(
-                                  children: [
-                                    Flexible(
-                                      child: Container(
-                                        color: lightColors[0],
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: Container(
-                                        color: lightColors[1],
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: Container(
-                                        color: lightColors[2],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            right: constraint.maxWidth * 0.03,
-                            top: constraint.maxHeight * 0.06,
-                            height: constraint.maxHeight * 0.12,
-                            width: constraint.maxWidth * 0.45,
-                            child: ElevatedButton(
-                              onPressed: () =>
-                                  ref.watch(createBoardProvider.future).then(
-                                (created) {
-                                  if (created) {
-                                    ref.read(gameStartProvider);
-                                    if (ref
-                                        .watch(dashboardPanelProvider)
-                                        .isPanelOpen) {
-                                      ref
-                                          .watch(dPanelHeightProvider.notifier)
-                                          .state = 300.h;
-                                      ref.watch(dashboardPanelProvider).close();
-                                    }
-                                  }
-                                },
-                              ),
-                              style: ButtonStyle(
-                                backgroundColor: const MaterialStatePropertyAll(
-                                  darkPastelGreen,
-                                ),
-                                padding: const MaterialStatePropertyAll(
-                                    EdgeInsets.zero),
-                                shape: MaterialStatePropertyAll(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(7.5.w),
-                                  ),
-                                ),
-                              ),
-                              child: AutoSizeText(
-                                "Click here to Play",
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  color: magnolia,
-                                  fontSize: 13.2.r,
-                                  letterSpacing: 0,
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+                    child: const HostRoomContent(),
                   ),
                 ],
               ),
             ),
+    );
+  }
+}
+
+class HostRoomContent extends ConsumerWidget {
+  const HostRoomContent({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final Room? room = ref.watch(roomProvider).value;
+    final MyUser? myUser = ref.watch(myUserProvider).value;
+    final User? user = ref.watch(authUserProvider).value;
+
+    final tTheme = Theme.of(context).textTheme.titleLarge;
+
+    List<Color> tileColors = List.from(lightColors);
+    tileColors.shuffle();
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 500),
+      child: room == null || myUser == null || user == null
+          ? Container()
+          : LayoutBuilder(
+              builder: (_, constraint) => Stack(
+                children: [
+                  Positioned(
+                    left: constraint.maxWidth * 0.015,
+                    top: constraint.maxHeight * 0.15,
+                    width: 300.w,
+                    height: constraint.maxHeight * 0.45,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: magnolia,
+                        borderRadius: BorderRadius.circular(9.r),
+                      ),
+                      child: Column(
+                        children: [
+                          Flexible(
+                            flex: 2,
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: ListTile(
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 7.5.w,
+                                ),
+                                leading: const HostRoomLeading(),
+                                title: AutoSizeText(
+                                  room.creatorID == user.uid
+                                      ? "You created this room"
+                                      : "Someone created this room",
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 15.r,
+                                    fontWeight: FontWeight.w900,
+                                    color: richBlack,
+                                    letterSpacing: 0,
+                                  ),
+                                ),
+                                subtitle: HostRoomContentSubtitle(room),
+                                isThreeLine: true,
+                              ),
+                            ),
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    right: 6.w,
+                    bottom: constraint.maxHeight * 0.12,
+                    width: 300.w,
+                    height: constraint.maxHeight * 0.39,
+                    child: Card(
+                      color: ghostWhite,
+                      margin: EdgeInsets.zero,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(9.r),
+                      ),
+                      elevation: 3.r,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(9.r),
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: List.generate(
+                            3,
+                            (index) => AspectRatio(
+                              aspectRatio: 1,
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 500),
+                                decoration: BoxDecoration(
+                                  color: tileColors[index].withOpacity(0.75),
+                                ),
+                                alignment: Alignment.center,
+                                child: index < room.players!.length
+                                    ? Stack(
+                                        children:
+                                            room.players![index] == user.uid
+                                                ? [
+                                                    Positioned(
+                                                      top: 0,
+                                                      right: 12.r,
+                                                      left: 12.r,
+                                                      bottom: -40.r,
+                                                      child: RandomAvatar(
+                                                        myUser.avatar!,
+                                                        trBackground: true,
+                                                        width: 24.r,
+                                                        height: 24.r,
+                                                      ),
+                                                    ),
+                                                    Positioned(
+                                                      left: 7.5.r,
+                                                      top: 7.5.r,
+                                                      height: 30.h,
+                                                      child: AutoSizeText(
+                                                        myUser.name,
+                                                        style: TextStyle(
+                                                          fontFamily: 'Poppins',
+                                                          fontSize: 12.r,
+                                                          color: rufous,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ]
+                                                : [],
+                                      )
+                                    : Center(
+                                        child: IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            Icons.add,
+                                            size: 45.r,
+                                            color: richBlack,
+                                          ),
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    right: constraint.maxWidth * 0.03,
+                    top: constraint.maxHeight * 0.06,
+                    height: constraint.maxHeight * 0.12,
+                    width: constraint.maxWidth * 0.45,
+                    child: ElevatedButton(
+                      onPressed: () =>
+                          ref.watch(createBoardProvider.future).then(
+                        (created) {
+                          if (created) {
+                            ref.read(gameStartProvider);
+                            if (ref.watch(dashboardPanelProvider).isPanelOpen) {
+                              ref.watch(dPanelHeightProvider.notifier).state =
+                                  300.h;
+                              //ref.watch(dashboardPanelProvider).close();
+                            }
+                          }
+                        },
+                      ),
+                      style: ButtonStyle(
+                        backgroundColor: const MaterialStatePropertyAll(
+                          darkPastelGreen,
+                        ),
+                        padding:
+                            const MaterialStatePropertyAll(EdgeInsets.zero),
+                        shape: MaterialStatePropertyAll(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(7.5.w),
+                          ),
+                        ),
+                      ),
+                      child: AutoSizeText(
+                        "Click here to Play",
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          color: magnolia,
+                          fontSize: 15.r,
+                          letterSpacing: 0,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+    );
+  }
+}
+
+class HostRoomLeading extends ConsumerWidget {
+  const HostRoomLeading({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final Room? room = ref.watch(roomProvider).value;
+    final MyUser? myUser = ref.watch(myUserProvider).value;
+    final User? user = ref.watch(authUserProvider).value;
+    final tTheme = Theme.of(context).textTheme.titleLarge;
+
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 500),
+      child: room == null || myUser == null || user == null
+          ? Container()
+          : CircleAvatar(
+              backgroundColor: federalBlue,
+              radius: 30.r,
+              child: room.creatorID == user.uid
+                  ? myUser.avatar != null
+                      ? RandomAvatar(myUser.avatar!)
+                      : Text(
+                          myUser.name.substring(0, 2).toUpperCase(),
+                          style: tTheme!.copyWith(
+                            color: lightOrange,
+                            fontSize: 24.r,
+                            fontFamily: "WendyOne",
+                          ),
+                        )
+                  : RandomAvatar(mockString()),
+            ),
+    );
+  }
+}
+
+class HostRoomContentSubtitle extends StatelessWidget {
+  final Room room;
+  const HostRoomContentSubtitle(this.room, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 24.h,
+      //padding: EdgeInsets.only(right: 15.r),
+      // color: Colors.indigo,
+      alignment: Alignment.centerLeft,
+      child: Row(
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AutoSizeText(
+            "${firstCaps(room.level.name)}  |  ${firstCaps(room.type.name)}",
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              letterSpacing: 0,
+              fontSize: 12.r,
+              color: gray,
+              fontWeight: FontWeight.w300,
+            ),
+            maxLines: 1,
+            minFontSize: 9,
+            maxFontSize: 12,
+          ),
+          Gap(45.r),
+          /*  Text(
+            "Edit",
+            style:
+                TextStyle(fontFamily: 'Poppins', fontSize: 12.r, color: rufous),
+          ),*/
+        ],
+      ),
     );
   }
 }

@@ -55,7 +55,7 @@ class PlayWithFriend extends ConsumerWidget {
                     ),
                   ),
                   AutoSizeText(
-                    "Max up to 4 players",
+                    "Max up to 3 players",
                     style: TextStyle(
                       fontSize: 12.r,
                       color: ghostWhite,
@@ -265,7 +265,7 @@ class CreateGamePanel extends ConsumerWidget {
                   ),
                 ),
                 child: AutoSizeText(
-                  "Create Game".toUpperCase(),
+                  "CREATE GAME",
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     color: ghostWhite,
@@ -294,7 +294,7 @@ class CreateGamePanel extends ConsumerWidget {
                   ),
                 ),
                 child: AutoSizeText(
-                  "Enter Room Code".toUpperCase(),
+                  "ENTER ROOM CODE",
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     color: amaranthPurple,

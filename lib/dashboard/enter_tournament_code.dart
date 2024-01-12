@@ -31,7 +31,7 @@ class EnterTournamentCode extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AutoSizeText(
-                    "Ready, Set, Game : Join the Tournament 🏆",
+                    "🏁 Ready, Set, Game : Join the Tournament 🏆",
                     style: TextStyle(
                       fontSize: 27.r,
                       fontFamily: 'WendyOne',
@@ -40,7 +40,7 @@ class EnterTournamentCode extends StatelessWidget {
                     ),
                     maxLines: 3,
                   ),
-                  Gap(6.r),
+                  //Gap(6.r),
                   AutoSizeText(
                     "Challenge the Best, Be the Best – It's Your Time to Dominate!",
                     style: Theme.of(context).textTheme.bodyLarge!.copyWith(

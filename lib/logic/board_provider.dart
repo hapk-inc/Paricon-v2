@@ -7,7 +7,7 @@ import 'board_database.dart';
 final AutoDisposeFutureProvider<Board?> boardProvider =
     FutureProvider.autoDispose<Board?>(
   (ref) async {
-    final boardDatabase = ref.read(boardDatabaseProvider);
+    final boardDatabase = ref.watch(boardDatabaseProvider);
     return Future.delayed(
         const Duration(seconds: 1), () => boardDatabase.board);
   },
@@ -16,7 +16,7 @@ final AutoDisposeFutureProvider<Board?> boardProvider =
 final AutoDisposeStreamProviderFamily<LocalIcon, String> iconProvider =
     StreamProvider.family.autoDispose<LocalIcon, String>(
   (ref, icon) {
-    final boardDatabase = ref.read(boardDatabaseProvider);
+    final boardDatabase = ref.watch(boardDatabaseProvider);
     return boardDatabase.localIcon(icon);
   },
 );

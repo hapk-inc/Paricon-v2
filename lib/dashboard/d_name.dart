@@ -51,10 +51,12 @@ class DName extends StatelessWidget {
                     ),
                   ),
                 ),
-                const AnimatedEmoji(
+                AnimatedEmoji(
                   AnimatedEmojis.smileWithBigEyes,
-                  size: 45,
-                  repeat: false,
+                  size: 45.r,
+                  repeat: true,
+                  animate: true,
+                  onLoaded: (duration) {},
                 ),
               ],
             ),
