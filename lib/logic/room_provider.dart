@@ -3,9 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/logic/user_provider.dart';
 import 'package:paricon/model/room.dart';
 
 import '../model/local_icon.dart';
+import '../model/my_user.dart';
 import 'auth_provider.dart';
 import 'board_database.dart';
 import 'firebase_init.dart';
@@ -58,7 +60,9 @@ final AutoDisposeFutureProvider joinRoomProvider = FutureProvider.autoDispose(
     final roomDatabase = ref.read(roomDatabaseProvider);
 
     final User user = ref.read(authUserProvider).value!;
-    await roomDatabase.joinRoom(user);
+
+    final MyUser myUser = ref.watch(myUserProvider).value!;
+    return roomDatabase.joinRoom(user, myUser);
   },
 );
 
@@ -112,13 +116,12 @@ final AutoDisposeFutureProvider<bool> createBoardProvider =
       }
     }
 
-    //final boardDatabase = ref.read(boardDatabaseProvider!);
-
-    final players = convertToBoard(room.players!);
+    final players = convertToBoard(room.players);
+    //final players = {};
 
     final GameSetup setup = ref.read(setupProvider);
     final List<LocalIcon> localIcons = setup.newIcons;
-    final Map icons = localIcons.map((e) => e.toIdJson(mockString(8))).fold(
+    final Map icons = localIcons.map((e) => e.toIdJson(mockString(12))).fold(
       {},
       (previousValue, element) => {...previousValue, ...element},
     );
@@ -130,7 +133,8 @@ final AutoDisposeFutureProvider<bool> createBoardProvider =
       // print("Current Icon is $_currentIcon");
     }
 
-    final Map currentPlayer = {"currentID": room.players!.first};
+    final Map currentPlayer = {"currentID": room.players.keys.first};
+    //final Map currentPlayer = {};
 
     final Map map = {
       ...{"players": players},
@@ -146,4 +150,37 @@ final AutoDisposeFutureProvider<bool> createBoardProvider =
   },
 );
 
-Map<String, dynamic> convertToBoard(List<dynamic> players) => {};
+Map convertToBoard(Map map) {
+  List<int> playerOrder = List.generate(map.length, (index) => index + 1)
+    ..shuffle();
+
+  Map a = Map.from(map);
+
+  List<String> colorNames = ['red', 'green', 'yellow', 'blue']..shuffle();
+  int i = 0;
+  a.updateAll(
+    (key, value) {
+      Map<dynamic, dynamic> localPlayer = value;
+      localPlayer.remove("timestamp");
+      localPlayer["playerNo"] = playerOrder[i];
+      localPlayer["color"] = colorNames[i];
+
+      i++;
+      return localPlayer;
+    },
+  );
+
+  return a;
+
+  /*return players.fold<Map<String, dynamic>>(
+    {},
+    (m, element) {
+      int index = players.indexOf(element);
+      m[element] = {
+        'playerNo': playerOrder[index],
+        'color': colorNames[index],
+      };
+      return m;
+    },
+  );*/
+}

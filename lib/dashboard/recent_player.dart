@@ -42,7 +42,7 @@ class RecentPlayer extends ConsumerWidget {
             child: Center(
               child: Text(
                 "Loading",
-                style: tTheme.copyWith(fontFamily: 'DelaGothic', color: gray),
+                style: tTheme.copyWith(fontFamily: 'Poppins', color: gray),
               ),
             ),
           ),

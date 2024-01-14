@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:paricon/logic/room_id.dart';
 
+import '../model/my_user.dart';
 import '../model/room.dart';
 import 'auth_provider.dart';
 import 'firebase_init.dart';
@@ -74,7 +75,7 @@ class RoomDatabase {
           Map<String, dynamic> map = Map<String, dynamic>.from(a.values.first);
 
           final Room room = Room.fromJson(map);
-          if (room.players!.length >= 4) {
+          if (room.players.length >= 3) {
             return ValidateRoom.duplicateCode;
           }
           if (room.isGameStarted) {
@@ -88,14 +89,17 @@ class RoomDatabase {
     );
   }
 
-  Future joinRoom(User user) async {
-    /*Map map = {
+  Future joinRoom(User user, MyUser myUser) async {
+    Map map = {
       "isActive": true,
       "timestamp": DateTime.now().millisecondsSinceEpoch,
-      "name": user.displayName ?? "SomeOne",
-    };*/
+      "name": myUser.name,
+      "avatar": myUser.avatar,
+    };
 
-    await roomReference.child('players').runTransaction(
+    return roomReference.child('players/${user.uid}').set(map);
+
+    /* await roomReference.child('players').runTransaction(
       (Object? transactionHandler) {
         if (transactionHandler == null) {
           debugPrint("Null Transaction");
@@ -105,13 +109,10 @@ class RoomDatabase {
           List a = List.from(transactionHandler as List, growable: true);
           a.add(user.uid);
           return Transaction.success(a);
-          /*Map<String, dynamic> _post =
-              Map<String, dynamic>.from(transactionHandler as Map);
-          return Transaction.success(1);*/
         }
         //transactionHandler
       },
-    );
+    );*/
   }
 
   Stream<bool> get sGameStart {

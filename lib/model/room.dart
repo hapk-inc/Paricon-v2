@@ -9,7 +9,7 @@ part 'room.g.dart';
 @freezed
 class Room with _$Room {
   const factory Room({
-    @Default([]) List? players,
+    @Default({}) Map players,
     @Default(false) bool isGameStarted,
     required num roomCode,
     required RoomLevel level,
@@ -19,3 +19,15 @@ class Room with _$Room {
 
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
 }
+
+/*
+* _$RoomImpl _$$RoomImplFromJson(Map<String, dynamic> json) => _$RoomImpl(
+      players: json.containsKey('players')
+          ? (json['players'] as Map).keys.toList()
+          : [],
+      isGameStarted: json['isGameStarted'] as bool? ?? false,
+      roomCode: json['roomCode'] as num,
+      level: $enumDecode(_$RoomLevelEnumMap, json['level']),
+      creatorID: json['creatorID'] as String,
+      type: $enumDecode(_$RoomTypeEnumMap, json['type']),
+    );*/

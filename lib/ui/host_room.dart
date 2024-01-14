@@ -218,8 +218,6 @@ class HostRoomContent extends ConsumerWidget {
     final MyUser? myUser = ref.watch(myUserProvider).value;
     final User? user = ref.watch(authUserProvider).value;
 
-    final tTheme = Theme.of(context).textTheme.titleLarge;
-
     List<Color> tileColors = List.from(lightColors);
     tileColors.shuffle();
 
@@ -288,67 +286,7 @@ class HostRoomContent extends ConsumerWidget {
                       elevation: 3.r,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(9.r),
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: List.generate(
-                            3,
-                            (index) => AspectRatio(
-                              aspectRatio: 1,
-                              child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 500),
-                                decoration: BoxDecoration(
-                                  color: tileColors[index].withOpacity(0.75),
-                                ),
-                                alignment: Alignment.center,
-                                child: index < room.players!.length
-                                    ? Stack(
-                                        children:
-                                            room.players![index] == user.uid
-                                                ? [
-                                                    Positioned(
-                                                      top: 0,
-                                                      right: 12.r,
-                                                      left: 12.r,
-                                                      bottom: -40.r,
-                                                      child: RandomAvatar(
-                                                        myUser.avatar!,
-                                                        trBackground: true,
-                                                        width: 24.r,
-                                                        height: 24.r,
-                                                      ),
-                                                    ),
-                                                    Positioned(
-                                                      left: 7.5.r,
-                                                      top: 7.5.r,
-                                                      height: 30.h,
-                                                      child: AutoSizeText(
-                                                        myUser.name,
-                                                        style: TextStyle(
-                                                          fontFamily: 'Poppins',
-                                                          fontSize: 12.r,
-                                                          color: rufous,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ]
-                                                : [],
-                                      )
-                                    : Center(
-                                        child: IconButton(
-                                          onPressed: () {},
-                                          icon: Icon(
-                                            Icons.add,
-                                            size: 45.r,
-                                            color: richBlack,
-                                          ),
-                                        ),
-                                      ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        child: HostRoomPlayerTile(room.players),
                       ),
                     ),
                   ),
@@ -399,6 +337,87 @@ class HostRoomContent extends ConsumerWidget {
               ),
             ),
     );
+  }
+}
+
+class HostRoomPlayerTile extends ConsumerWidget {
+  final Map map;
+  const HostRoomPlayerTile(this.map, {super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final MyUser? myUser = ref.watch(myUserProvider).value;
+    final User? user = ref.watch(authUserProvider).value;
+
+    List<Color> tileColors = List.from(lightColors);
+    tileColors.shuffle();
+    debugPrint(map.toString());
+    return user == null || myUser == null
+        ? Container()
+        : ListView(
+            scrollDirection: Axis.horizontal,
+            children: List.generate(
+              3,
+              (index) => AspectRatio(
+                aspectRatio: 1,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 500),
+                  decoration: BoxDecoration(
+                    color: tileColors[index].withOpacity(0.75),
+                  ),
+                  alignment: Alignment.center,
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    child: !(index < map.length)
+                        ? Center(
+                            child: IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.add,
+                                size: 45.r,
+                                color: richBlack,
+                              ),
+                            ),
+                          )
+                        : LayoutBuilder(
+                            builder: (_, constraint) {
+                              final String x = List.from(map.keys)[index];
+                              final Map m = List.from(map.values)[index] as Map;
+
+                              return Stack(
+                                children: [
+                                  Positioned.fill(
+                                    bottom: -constraint.maxHeight * 0.36,
+                                    left: constraint.maxWidth * 0.12,
+                                    right: constraint.maxWidth * 0.12,
+                                    child: RandomAvatar(
+                                      m['avatar'],
+                                      trBackground: true,
+                                    ),
+                                  ),
+                                  Positioned.fill(
+                                    left: constraint.maxWidth * 0.075,
+                                    top: constraint.maxHeight * 0.075,
+                                    //height: 30.h,
+                                    child: AutoSizeText(
+                                      m['name'],
+                                      style: TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontSize: 12.r,
+                                        color: rufous,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                  ),
+                ),
+              ),
+            ),
+          );
   }
 }
 

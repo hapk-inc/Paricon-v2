@@ -44,7 +44,6 @@ class _MyAppState extends ConsumerState<MyApp> {
         return SplashRoute(otherColor: pictonBlue);
       },
       data: (d) {
-        //ref.read(appOpenedOrLoggedInProvider);
         ref.read(appOpenedProvider);
         if (d != null) {
           debugPrint("Welcome ${d.name}");
@@ -119,14 +118,6 @@ class _MyAppState extends ConsumerState<MyApp> {
             setState(() => isConnected = true);
           }
         }
-        /*final remoteConfig = ref.read(remoteConfigProvider);
-
-        if (previous == null &&
-            next != ConnectivityResult.none &&
-            next != null) {
-          debugPrint("Initialising Remote Config");
-          remoteConfig.fetchAndActivate();
-        }*/
       },
     );
 
@@ -165,29 +156,6 @@ class _MyAppState extends ConsumerState<MyApp> {
                           },
                           loading: () => SplashRoute(),
                         )
-                //kDebugMode ? whichPageRoute : inAppUpdateRoute
-                /*!isConnected
-                    ? const NoNetRoute()
-                    : kDebugMode
-                        ? whichPageRoute
-                        : inAppUpdateRoute,*/
-                /*ref.watch(checkNetProvider).when(
-                      error: (e, s) {
-                        ref.read(crashlyticsProvider).recordError(
-                              e,
-                              s,
-                              reason: 'check Net',
-                              fatal: true,
-                            );
-                        return const ErrorRoute();
-                      },
-                      loading: () => SplashRoute(otherColor: denim),
-                      data: (net) => net == ConnectivityResult.none
-                          ? const NoNetRoute()
-                          : kDebugMode
-                              ? whichPageRoute
-                              : inAppUpdateRoute,
-                    )*/
               ],
               onNavigate: (urlState) {
                 debugPrint("OnNavigate");
@@ -202,133 +170,6 @@ class _MyAppState extends ConsumerState<MyApp> {
     );
   }
 }
-
-/*class MyApp extends ConsumerWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final showApp = ref.watch(showAppProvider);
-
-    PageRouteInfo userRouteInfo = ref.watch(myUserProvider).when(
-      loading: () {
-        if (_scaffoldMessengerKey.currentState != null) {
-          _scaffoldMessengerKey.currentState!.removeCurrentSnackBar();
-        }
-        return SplashRoute(otherColor: pictonBlue);
-      },
-      data: (d) {
-        //ref.read(appOpenedOrLoggedInProvider);
-        ref.read(appOpenedProvider);
-        if (d != null) {
-          debugPrint("Welcome ${d.name}");
-        }
-        return d == null
-            ? SplashRoute(otherColor: darkPastelGreen) as PageRouteInfo
-            : const DashboardRoute();
-      },
-      error: (e, s) {
-        ref.read(crashlyticsProvider).recordError(
-              e,
-              s,
-              reason: 'a fatal error',
-              fatal: true,
-            );
-        return const ErrorRoute();
-      },
-    );
-
-    PageRouteInfo whichPageRoute = showApp
-        ? const MaintenanceRoute()
-        : ref.watch(authUserProvider).when(
-              loading: () => SplashRoute(otherColor: jasper),
-              error: (e, s) {
-                ref.read(crashlyticsProvider).recordError(
-                      e,
-                      s,
-                      reason: 'auth User error',
-                      fatal: true,
-                    );
-                return const ErrorRoute();
-              },
-              data: (user) {
-                if (user == null) return const LoginRoute();
-                return userRouteInfo;
-              },
-            );
-
-    PageRouteInfo inAppUpdateRoute = ref.watch(inAppUpdateProvider).maybeWhen(
-          data: (update) =>
-              update.updateAvailability == UpdateAvailability.updateAvailable
-                  ? const AppUpdateRoute()
-                  : whichPageRoute,
-          orElse: () => SplashRoute(otherColor: xantHous),
-        );
-
-    ref.listen(
-      internetConnectionProvider.select((value) => value.value),
-      (previous, next) {
-        final remoteConfig = ref.read(remoteConfigProvider);
-
-        if (previous == null &&
-            next != ConnectivityResult.none &&
-            next != null) {
-          debugPrint("Initialising Remote Config");
-          remoteConfig.fetchAndActivate();
-        }
-      },
-    );
-
-    return ScreenUtilInit(
-      designSize: const Size(360, 900),
-      useInheritedMediaQuery: true,
-      builder: (_, __) {
-        final double x = 900.h / 360.w;
-        debugPrint("ScreenRatio $x");
-        final ScreenSize sSize = _changeScreenSize(x);
-        return ProviderScope(
-          overrides: [
-            sizeProvider.overrideWithValue(sSize),
-          ],
-          child: MaterialApp.router(
-            scaffoldMessengerKey: _scaffoldMessengerKey,
-            locale: DevicePreview.locale(context),
-            builder: DevicePreview.appBuilder,
-            theme: buildThemeData,
-            routerDelegate: AutoRouterDelegate.declarative(
-              _myRoute,
-              routes: (handler) => [
-                ref.watch(checkNetProvider).when(
-                      error: (e, s) {
-                        ref.read(crashlyticsProvider).recordError(
-                              e,
-                              s,
-                              reason: 'check Net',
-                              fatal: true,
-                            );
-                        return const ErrorRoute();
-                      },
-                      loading: () => SplashRoute(otherColor: denim),
-                      data: (net) => net == ConnectivityResult.none
-                          ? const NoNetRoute()
-                          : kDebugMode
-                              ? whichPageRoute
-                              : inAppUpdateRoute,
-                    )
-              ],
-              onNavigate: (urlState) {
-                debugPrint("OnNavigate");
-              },
-              onPopRoute: (routeMatch, x) {
-                debugPrint("onPop Route");
-              },
-            ),
-          ),
-        );
-      },
-    );
-  }
-}*/
 
 ScreenSize _changeScreenSize(double x) => x > 2
     ? ScreenSize.phone

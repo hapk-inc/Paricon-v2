@@ -6,6 +6,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../model/board.dart';
 import '../model/local_icon.dart';
+import '../model/local_player.dart';
 import 'auth_provider.dart';
 import 'firebase_init.dart';
 
@@ -26,12 +27,14 @@ class BoardDatabase {
   late String? userId;
   late DatabaseReference boardReference;
   late DatabaseReference boardIconReference;
+  late DatabaseReference boardPlayerReference;
 
   BoardDatabase(this.ref, {this.id = ""}) {
     firebaseReference = ref.read(databaseProvider).ref();
 
     userId = ref.watch(authUserProvider).value!.uid;
 
+    //Because of web, firebaseReference separate declaration
     boardReference = id.isEmpty
         ? firebaseReference.child('boards')
         : firebaseReference.child('boards/$id');
@@ -39,6 +42,10 @@ class BoardDatabase {
     boardIconReference = id.isEmpty
         ? firebaseReference.child('boards')
         : firebaseReference.child('boards/$id/icons');
+
+    boardPlayerReference = id.isEmpty
+        ? firebaseReference.child('boards')
+        : firebaseReference.child('boards/$id/players');
   }
 
   Future createBoard(Map board) async {
@@ -60,15 +67,12 @@ class BoardDatabase {
       );
 
   Stream<LocalIcon> localIcon(String icon) {
-    debugPrint("59--$icon");
-    debugPrint(boardIconReference.path);
     late BehaviorSubject<LocalIcon> controller;
     controller = BehaviorSubject<LocalIcon>(
       onListen: () => boardIconReference.child(icon).onValue.listen(
         (event) {
           var value = event.snapshot.value;
           if (value != null) {
-            debugPrint("64--");
             Map<String, dynamic> json = Map<String, dynamic>.from(value as Map);
 
             LocalIcon localIcon = LocalIcon.fromJson(json);
@@ -84,5 +88,73 @@ class BoardDatabase {
       ),
     );
     return controller.stream;
+  }
+
+  Stream<LocalPlayer> localPlayer(String player) {
+    late BehaviorSubject<LocalPlayer> subject;
+    subject = BehaviorSubject<LocalPlayer>(
+      onListen: () => boardPlayerReference.child(player).onValue.listen(
+        (event) {
+          final value = event.snapshot.value;
+          if (value == null || subject.hasValue) {
+            subject.close();
+          } else {
+            Map<String, dynamic> json = Map<String, dynamic>.from(value as Map);
+            final LocalPlayer player = LocalPlayer.fromJson(json);
+            subject.add(player);
+          }
+        },
+      ),
+    );
+    return subject.stream;
+  }
+
+  Stream<String> get currentID {
+    late BehaviorSubject<String> subject;
+
+    subject = BehaviorSubject(
+      onListen: () => boardReference.child('currentID').onValue.listen(
+        (event) {
+          String? e = event.snapshot.value as String?;
+          if (e == null && subject.hasValue) {
+            subject.close();
+          } else {
+            subject.add(e!);
+          }
+        },
+      ),
+    );
+    return subject.stream;
+  }
+
+  Future get removeData => boardReference.remove();
+
+  Future setIconCheck(String icon, bool check) =>
+      boardIconReference.child(icon).child("isCheck").set(check);
+
+  Future setCurrentID(String player) =>
+      boardReference.child('currentID').set(player);
+
+  Future setCurrentIcon(String icon) =>
+      boardReference.child('currentIcon').set(icon);
+
+  Future leaveGame(String uid) async =>
+      boardPlayerReference.child(uid).child("isActive").set(false);
+
+  Future<bool> increment(String player) async {
+    // Increment counter in transaction.
+    DatabaseReference ref = boardPlayerReference.child(player).child("pts");
+    final TransactionResult transactionResult = await ref.runTransaction(
+      (value) {
+        return Transaction.success(value == null ? 1 : (value as int) + 1);
+      },
+    );
+    /*final TransactionResult transactionResult = await _ref.runTransaction(
+          (MutableData mutableData) async {
+        mutableData.value = (mutableData.value ?? 0) + 1;
+        return mutableData;
+      },
+    );*/
+    return transactionResult.committed;
   }
 }
