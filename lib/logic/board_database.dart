@@ -96,8 +96,8 @@ class BoardDatabase {
       onListen: () => boardPlayerReference.child(player).onValue.listen(
         (event) {
           final value = event.snapshot.value;
-          if (value == null || subject.hasValue) {
-            subject.close();
+          if (value == null) {
+            if (subject.hasValue) subject.close();
           } else {
             Map<String, dynamic> json = Map<String, dynamic>.from(value as Map);
             final LocalPlayer player = LocalPlayer.fromJson(json);
@@ -141,20 +141,32 @@ class BoardDatabase {
   Future leaveGame(String uid) async =>
       boardPlayerReference.child(uid).child("isActive").set(false);
 
-  Future<bool> increment(String player) async {
+  Future<dynamic> get increment async {
     // Increment counter in transaction.
-    DatabaseReference ref = boardPlayerReference.child(player).child("pts");
+
+    DatabaseReference ref = boardPlayerReference.child(userId!).child("pts");
     final TransactionResult transactionResult = await ref.runTransaction(
       (value) {
         return Transaction.success(value == null ? 1 : (value as int) + 1);
       },
     );
-    /*final TransactionResult transactionResult = await _ref.runTransaction(
-          (MutableData mutableData) async {
-        mutableData.value = (mutableData.value ?? 0) + 1;
-        return mutableData;
-      },
-    );*/
+
     return transactionResult.committed;
+  }
+
+  Future updateIcon(id, LocalIcon e) =>
+      boardIconReference.child(id).update(e.toJson());
+
+  Future updateBoard(Map<String, LocalIcon> map,
+      {bool addPts = false, String? nextPlayer}) async {
+    Map<String, Object?> x = Map.from(map);
+    x.updateAll((key, value) => (value as LocalIcon).toJson());
+    debugPrint(boardIconReference.path);
+    return Future.wait<dynamic>(
+      [
+        boardIconReference.update(x),
+        if (addPts) increment,
+      ],
+    );
   }
 }

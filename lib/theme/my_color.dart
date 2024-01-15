@@ -54,7 +54,28 @@ const Color aquamarine = Color(0xff93efd8);
 const Color uranianBlue = Color(0xffbfe7fc); // ProfileDetail Color
 const Color xantHous = Color(0xffffc759);
 
-const List<Color> lightColors = [aquamarine, uranianBlue, xantHous];
+const List<Color> gridColor = [aquamarine, uranianBlue, xantHous];
+
+const Color argentinianBlue = Color(0xff65AFFF);
+const Color darkGreen = Color(0xff062726);
+
+const Color cornellRed = Color(0xffbd1e1e);
+const Color dutchWhite = Color(0xfff4e8c1);
+
+const Color mint = Color(0xff13c4a3);
+const Color flax = Color(0xffe9d985);
+
+const Color orangeWeb = Color(0xfffca311);
+const Color black = Color(0xff000000);
+
+const List<Color> gridColorDark = [
+  argentinianBlue,
+  cornellRed,
+  mint,
+  orangeWeb
+];
+
+const List<Color> gridColorIconDark = [darkGreen, dutchWhite, flax, black];
 
 const Color rufous = Color(0xffa72608);
 const Color cyclamen = Color(0xfff06c9b);

@@ -218,7 +218,7 @@ class HostRoomContent extends ConsumerWidget {
     final MyUser? myUser = ref.watch(myUserProvider).value;
     final User? user = ref.watch(authUserProvider).value;
 
-    List<Color> tileColors = List.from(lightColors);
+    List<Color> tileColors = List.from(gridColor);
     tileColors.shuffle();
 
     return AnimatedSwitcher(
@@ -349,7 +349,7 @@ class HostRoomPlayerTile extends ConsumerWidget {
     final MyUser? myUser = ref.watch(myUserProvider).value;
     final User? user = ref.watch(authUserProvider).value;
 
-    List<Color> tileColors = List.from(lightColors);
+    List<Color> tileColors = List.from(gridColor);
     tileColors.shuffle();
     debugPrint(map.toString());
     return user == null || myUser == null

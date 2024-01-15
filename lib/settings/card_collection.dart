@@ -129,7 +129,7 @@ class CardCollection extends ConsumerWidget {
                       decoration: BoxDecoration(
                         color: currentAvatar
                             ? majorelleBlue
-                            : lightColors[mockInteger(0, 2)],
+                            : gridColor[mockInteger(0, 2)],
                         borderRadius: BorderRadius.circular(7.5.r),
                       ),
                       child: LayoutBuilder(

@@ -83,8 +83,9 @@ class __PlayFriendBoard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final playFriendNotifier = ref.watch(playFriendNotifierProvider);
+    final playFriendNotifier = ref.read(playFriendNotifierProvider);
     final Board? board = playFriendNotifier.board;
+
     return board == null
         ? Container()
         : SingleChildScrollView(
@@ -102,112 +103,16 @@ class __PlayFriendBoard extends ConsumerWidget {
                     elevation: 3.r,
                     child: Column(
                       children: [
-                        Flexible(
+                        const Flexible(
                           flex: 2,
-                          child: Container(
-                            constraints: const BoxConstraints.expand(),
-                            alignment: Alignment.centerLeft,
-                            child: ListTile(
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 15.r),
-                              title: SizedBox(
-                                height: 60.h,
-                                child: ListTile(
-                                  contentPadding: EdgeInsets.zero,
-                                  title: Container(
-                                    alignment: Alignment.centerLeft,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.timer,
-                                              size: 24.r,
-                                              color: amaranthPurple,
-                                            ),
-                                            SizedBox.square(dimension: 7.5.r),
-                                            AnimatedFlipCounter(
-                                              value: mockInteger(100, 500),
-                                              suffix: " : ",
-                                              wholeDigits: 2,
-                                              textStyle: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w900,
-                                                fontSize: 18.r,
-                                                color: amaranthPurple,
-                                                letterSpacing: 0.12.r,
-                                              ),
-                                            ),
-                                            SizedBox.square(dimension: 1.5.r),
-                                            AnimatedFlipCounter(
-                                              value: Duration(
-                                                          seconds: mockInteger(
-                                                              100, 3000))
-                                                      .inSeconds %
-                                                  60,
-                                              wholeDigits: 2,
-                                              textStyle: TextStyle(
-                                                fontFamily: 'Montserrat',
-                                                fontWeight: FontWeight.w900,
-                                                fontSize: 18.r,
-                                                color: amaranthPurple,
-                                                letterSpacing: 0.12.r,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  trailing: InkWell(
-                                    onTap: () {
-                                      context.router.pop();
-                                      ref.watch(idNotifier.notifier).empty();
-                                    },
-                                    child: Icon(Icons.close, size: 21.r),
-                                  ),
-                                ),
-                              ),
-                              subtitle: ClipRRect(
-                                borderRadius: BorderRadius.circular(3.r),
-                                child: TweenAnimationBuilder<double>(
-                                  duration: const Duration(milliseconds: 250),
-                                  curve: Curves.easeInOut,
-                                  tween: Tween<double>(
-                                      begin: 0, end: mockInteger(1, 100) * 0.01
-                                      // end: tournamentListener.balancePercentage,
-                                      ),
-                                  builder: (_, value, __) =>
-                                      LinearProgressIndicator(
-                                    value: value,
-                                    color: majorelleBlue,
-                                    backgroundColor: periwinkle,
-                                    minHeight: 4.5.r,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                          child: PlayFriendTimer(),
                         ),
                         Expanded(
                           flex: 11,
-                          child: _PlayFriendGrid(board.icons.keys.toList()),
+                          child: _PlayFriendGrid(board.icons),
                         ),
-                        Flexible(
-                          child: Container(
-                            color: Colors.green.shade200,
-                            padding: EdgeInsets.only(left: 15.w),
-                            alignment: Alignment.centerLeft,
-                            child: const Text(
-                              "It's your turn",
-                              style: TextStyle(
-                                fontFamily: 'Poppins',
-                                color: richBlack,
-                              ),
-                            ),
-                          ),
+                        const Flexible(
+                          child: PlayFriendFooter(),
                         )
                       ],
                     ),
@@ -221,6 +126,115 @@ class __PlayFriendBoard extends ConsumerWidget {
               ],
             ),
           );
+  }
+}
+
+class PlayFriendFooter extends ConsumerWidget {
+  const PlayFriendFooter({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      color: Colors.green.shade200,
+      padding: EdgeInsets.only(left: 15.w),
+      alignment: Alignment.centerLeft,
+      child: const Text(
+        "It's your turn",
+        style: TextStyle(
+          fontFamily: 'Poppins',
+          color: richBlack,
+        ),
+      ),
+    );
+  }
+}
+
+class PlayFriendTimer extends ConsumerWidget {
+  const PlayFriendTimer({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      constraints: const BoxConstraints.expand(),
+      alignment: Alignment.centerLeft,
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 15.r),
+        title: SizedBox(
+          height: 60.h,
+          child: ListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Container(
+              alignment: Alignment.centerLeft,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.timer,
+                        size: 24.r,
+                        color: amaranthPurple,
+                      ),
+                      SizedBox.square(dimension: 7.5.r),
+                      AnimatedFlipCounter(
+                        value: mockInteger(100, 500),
+                        suffix: " : ",
+                        wholeDigits: 2,
+                        textStyle: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w900,
+                          fontSize: 18.r,
+                          color: amaranthPurple,
+                          letterSpacing: 0.12.r,
+                        ),
+                      ),
+                      SizedBox.square(dimension: 1.5.r),
+                      AnimatedFlipCounter(
+                        value: Duration(
+                              seconds: mockInteger(100, 3000),
+                            ).inSeconds %
+                            60,
+                        wholeDigits: 2,
+                        textStyle: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w900,
+                          fontSize: 18.r,
+                          color: amaranthPurple,
+                          letterSpacing: 0.12.r,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            trailing: InkWell(
+              onTap: () {
+                context.router.pop();
+                ref.watch(idNotifier.notifier).empty();
+              },
+              child: Icon(Icons.close, size: 21.r),
+            ),
+          ),
+        ),
+        subtitle: ClipRRect(
+          borderRadius: BorderRadius.circular(3.r),
+          child: TweenAnimationBuilder<double>(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+            tween: Tween<double>(begin: 0, end: mockInteger(1, 100) * 0.01
+                // end: tournamentListener.balancePercentage,
+                ),
+            builder: (_, value, __) => LinearProgressIndicator(
+              value: value,
+              color: majorelleBlue,
+              backgroundColor: periwinkle,
+              minHeight: 4.5.r,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -253,7 +267,7 @@ class PlayFriendListTile extends ConsumerWidget {
               width: 120.w,
               margin: EdgeInsets.symmetric(horizontal: 1.5.r),
               decoration: BoxDecoration(
-                color: List.from([...lightColors, cyclamen], growable: true)[0],
+                color: List.from([...gridColor, cyclamen], growable: true)[0],
               ),
               child: Stack(
                 children: [
@@ -315,23 +329,25 @@ class PlayFriendListTile extends ConsumerWidget {
 }
 
 class _PlayFriendGrid extends ConsumerWidget {
-  final List icons;
+  final Map<String, LocalIcon> icons;
   const _PlayFriendGrid(this.icons);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<Widget> tiles = List.from(
-      icons.map(
-        (e) => ref.watch(iconProvider(e)).when(
-              data: (x) => _PlayFriendGridTile(e, x),
+    List<Widget> tiles = List.generate(
+      icons.length,
+      (index) {
+        final String id = List.from(icons.keys)[index];
+        final LocalIcon icon = List.from(icons.values)[index];
+        return ref.watch(iconProvider(id)).when(
+              data: (x) => _PlayFriendGridTile(id, x),
               error: (_, s) {
-                debugPrint("307-");
                 debugPrintStack(stackTrace: s);
                 return Container();
               },
-              loading: () => Container(),
-            ),
-      ),
+              loading: () => _PlayFriendGridTile(id, icon),
+            );
+      },
     );
 
     return Padding(
@@ -360,9 +376,8 @@ class _PlayFriendGridTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //final tListener = ref.watch(tournamentListenerNotifierProvider);
-    //final xIcon = tListener.icons[localIcon.iconNo];
-    //final showIcon = xIcon.checkFound;
+    final playFriendNotifier = ref.watch(playFriendNotifierProvider);
+    final int r = mockInteger(0, 3);
 
     return AspectRatio(
       aspectRatio: 1,
@@ -378,15 +393,9 @@ class _PlayFriendGridTile extends ConsumerWidget {
           ),
           child: Card(
             color: !localIcon.isFound
-                ? (mockInteger(0, 1) == 0 ? majorelleBlue : violetBlue)
-                : [
-                    ...[aquamarine, uranianBlue],
-                    ...[aquamarine, uranianBlue],
-                    ...[xantHous],
-                    //...[rosePompadour, xantHous],
-                  ][mockInteger(0, 4)],
-            //: [teaGreen, peach, lavenderPink][mockInteger(0, 2)],
-            //: [lapisLazuli, pear, bitterSweet, orangePeel][mockInteger(0, 3)],
+                //? (mockInteger(0, 1) == 0 ? federalBlue : violetBlue)
+                ? (localIcon.iconNo.isEven ? federalBlue : violetBlue)
+                : gridColorDark[r],
             margin: EdgeInsets.zero,
             elevation: 3,
             shape: RoundedRectangleBorder(
@@ -394,14 +403,9 @@ class _PlayFriendGridTile extends ConsumerWidget {
             ),
             child: InkWell(
               //onTap: tListener.inWait || localIcon.checkFound
-              onTap: (mockInteger(0, 1) == 0) || localIcon.checkFound
+              onTap: playFriendNotifier.inWait || localIcon.checkFound
                   ? null
-                  : () {
-                      //debugPrint(xIcon.iconCode.toString());
-                      //debugPrint(xIcon.iconNo.toString());
-                      //debugPrint(xIcon.toString());
-                      //tListener.iconClick(xIcon);
-                    },
+                  : () => playFriendNotifier.iconClick(id),
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 500),
                 child: localIcon.isFound
@@ -411,7 +415,7 @@ class _PlayFriendGridTile extends ConsumerWidget {
                           fontFamily: 'MaterialIcons',
                         ),
                         size: 27.r,
-                        color: ghostWhite,
+                        color: gridColorIconDark[r],
                       )
                     : localIcon.isCheck
                         ? Icon(
@@ -420,7 +424,7 @@ class _PlayFriendGridTile extends ConsumerWidget {
                               fontFamily: 'MaterialIcons',
                             ),
                             size: 27.r,
-                            color: coyote,
+                            color: ghostWhite,
                           )
                         : Container(),
               ),
