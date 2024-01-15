@@ -381,7 +381,6 @@ class HostRoomPlayerTile extends ConsumerWidget {
                           )
                         : LayoutBuilder(
                             builder: (_, constraint) {
-                              final String x = List.from(map.keys)[index];
                               final Map m = List.from(map.values)[index] as Map;
 
                               return Stack(

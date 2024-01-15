@@ -111,7 +111,7 @@ final AutoDisposeFutureProvider<bool> createBoardProvider =
 
     if (!kDebugMode) {
       final package = await ref.read(packageInfoProvider.future);
-      if (!package.appName.contains("Dev") && room.players!.length == 1) {
+      if (!package.appName.contains("Dev") && room.players.length == 1) {
         return false;
       }
     }
