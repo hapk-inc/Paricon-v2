@@ -385,7 +385,6 @@ class _PlayFriendGridTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playFriendNotifier = ref.watch(playFriendNotifierProvider);
-    final int r = mockInteger(0, 3);
 
     return AspectRatio(
       aspectRatio: 1,

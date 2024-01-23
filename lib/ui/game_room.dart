@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:paricon/ui/host_room.dart';
 import 'package:pinput/pinput.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
