@@ -17,6 +17,7 @@ import '../logic/room_type_notifier.dart';
 import '../my_widget/enter_avatar_pinput.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
+import '../ui/game_room.dart';
 import '../ui/host_room.dart';
 
 class PlayWithFriend extends ConsumerWidget {
@@ -59,10 +60,10 @@ class PlayWithFriend extends ConsumerWidget {
                     style: TextStyle(
                       fontSize: 12.r,
                       color: ghostWhite,
-                      fontFamily: 'Montserrat',
+                      fontFamily: 'Poppins',
                       // height: 2.1.r,
                       letterSpacing: 0,
-                      fontWeight: FontWeight.w200,
+                      fontWeight: FontWeight.normal,
                     ),
                   ),
                   Gap(15.r),
@@ -95,6 +96,32 @@ class PlayOnlineButton extends ConsumerWidget {
   }
 }
 
+SnackBar get _stillInProgress => SnackBar(
+      backgroundColor: charcoal,
+      padding: EdgeInsets.only(left: 12.r),
+      content: AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        height: 45.h,
+        alignment: Alignment.centerLeft,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(7.5.r),
+        ),
+        child: AutoSizeText(
+          "Still in Progress. Appreciate your patience till then",
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 12.r,
+            color: ghostWhite,
+            fontWeight: FontWeight.w300,
+            letterSpacing: 0.12.r,
+          ),
+          maxLines: 1,
+          minFontSize: 12,
+          maxFontSize: 15,
+        ),
+      ),
+    );
+
 class PlayOnlineElevatedButton extends ConsumerWidget {
   const PlayOnlineElevatedButton({super.key});
 
@@ -104,36 +131,10 @@ class PlayOnlineElevatedButton extends ConsumerWidget {
 
     return ElevatedButton(
       onPressed: !goToPlayOnline
-          ? () => ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: charcoal,
-                  padding: EdgeInsets.only(left: 12.r),
-                  content: AnimatedContainer(
-                    duration: const Duration(milliseconds: 500),
-                    height: 45.h,
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7.5.r),
-                    ),
-                    child: AutoSizeText(
-                      "Still in Progress. Appreciate your patience till then",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 12.r,
-                        color: ghostWhite,
-                        fontWeight: FontWeight.w300,
-                        letterSpacing: 0.12.r,
-                      ),
-                      maxLines: 1,
-                      minFontSize: 12,
-                      maxFontSize: 15,
-                    ),
-                  ),
-                ),
-              )
+          ? () => ScaffoldMessenger.of(context).showSnackBar(_stillInProgress)
           : () {
-              ref.read(dPanelWidgetProvider.notifier).state =
-                  const CreateGamePanel();
+              /*ref.read(dPanelWidgetProvider.notifier).state =
+                  const CreateGamePanel();*/
               ref.read(dashboardPanelProvider).open();
             },
       style: ButtonStyle(
@@ -156,192 +157,6 @@ class PlayOnlineElevatedButton extends ConsumerWidget {
       child: const Text(
         "PLAY ONLINE",
         style: TextStyle(color: ghostWhite),
-      ),
-    );
-  }
-}
-
-class CreateGamePanel extends ConsumerWidget {
-  const CreateGamePanel({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final slidingPanelTheme = SlidingPanelTheme();
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: slidingPanelTheme.slidingPanelRadius,
-        color: magnolia,
-      ),
-      padding: slidingPanelTheme.slidingPanelPadding,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        //crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ToggleSwitch(
-            radiusStyle: true,
-            labels: List.from(RoomLevel.values.map((e) => firstCaps(e.name))),
-            customWidths: [90.w, 105.w, 90.w],
-            minHeight: 45.h,
-            onToggle: (index) {
-              ref.read(levelProvider.notifier).state = RoomLevel.values[index!];
-            },
-            // customHeights: [60.h],
-            inactiveBgColor: magnolia,
-            inactiveFgColor: charcoal,
-            activeBgColor: const [tropicalIndigo],
-            animate: true,
-            animationDuration: 150,
-            dividerColor: ghostWhite,
-            dividerMargin: 1.2.r,
-            customTextStyles: [
-              TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 15.r,
-              ),
-            ],
-          ),
-          Gap(30.r),
-          ToggleSwitch(
-            radiusStyle: true,
-            labels: List.from(RoomType.values
-                .map((e) => toBeginningOfSentenceCase(e.name) ?? "")),
-            customWidths: [108.w, 90.w, 108.w],
-            customHeights: [60.h],
-            onToggle: (index) {
-              ref.read(typeProvider.notifier).state = RoomType.values[index!];
-            },
-            inactiveBgColor: magnolia,
-            inactiveFgColor: charcoal,
-            activeBgColor: const [tropicalIndigo],
-            animate: true,
-            animationDuration: 150,
-            dividerColor: ghostWhite,
-            dividerMargin: 1.2.r,
-            customTextStyles: [
-              TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 15.r,
-              ),
-            ],
-          ),
-          Gap(30.r),
-          ButtonBar(
-            //buttonMinWidth: 132.h,
-            // buttonHeight: 48.h,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(createRoomProvider.future).then(
-                    (value) {
-                      debugPrint("Create Room Done");
-                      ref.read(joinRoomProvider.future).catchError(
-                        (e, s) {
-                          debugPrint("244-- $e");
-                          debugPrintStack(stackTrace: s);
-                        },
-                      );
-                    },
-                  ).whenComplete(
-                    () {
-                      debugPrint("Create Room whenComplete");
-                      ref.read(dPanelHeightProvider.notifier).state = 540.h;
-                      ref.read(dPanelWidgetProvider.notifier).state =
-                          const HostRoom();
-                      //ref.read(dashboardPanelProvider).close();
-                      //context.router.push(const HostRoomRoute());
-                    },
-                  );
-                },
-                style: ButtonStyle(
-                  padding: MaterialStatePropertyAll(
-                    EdgeInsets.symmetric(horizontal: 15.w),
-                  ),
-                  backgroundColor:
-                      const MaterialStatePropertyAll(chocolateCosmos),
-                  shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7.5.r),
-                    ),
-                  ),
-                ),
-                child: AutoSizeText(
-                  "CREATE GAME",
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    color: ghostWhite,
-                    fontSize: 14.4.r,
-                  ),
-                  maxLines: 1,
-                ),
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  ref.watch(dPanelHeightProvider.notifier).state = 450.h;
-                  ref.watch(dPanelWidgetProvider.notifier).state =
-                      const EnterRoomCode();
-                },
-                style: ButtonStyle(
-                  shape: MaterialStatePropertyAll(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7.5.r),
-                    ),
-                  ),
-                  padding: MaterialStatePropertyAll(
-                    EdgeInsets.symmetric(horizontal: 15.w),
-                  ),
-                  side: MaterialStatePropertyAll(
-                    BorderSide(color: majorelleBlue, width: 0.3.r),
-                  ),
-                ),
-                child: AutoSizeText(
-                  "ENTER ROOM CODE",
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    color: amaranthPurple,
-                    fontSize: 14.4.r,
-                  ),
-                  maxLines: 1,
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class EnterRoomCode extends StatelessWidget {
-  const EnterRoomCode({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(15.r),
-      child: Column(
-        children: [
-          Gap(30.r),
-          Container(
-            height: 54.h,
-            alignment: Alignment.centerLeft,
-            child: AutoSizeText(
-              "Enter the room code to join",
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                letterSpacing: 0,
-                fontSize: 12.r,
-                color: gray,
-                fontWeight: FontWeight.w300,
-              ),
-              minFontSize: 12,
-              maxFontSize: 15,
-              maxLines: 1,
-            ),
-          ),
-          const EnterAvatarCodePinPut(),
-        ],
       ),
     );
   }

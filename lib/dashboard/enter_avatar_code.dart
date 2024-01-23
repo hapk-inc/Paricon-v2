@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:paricon/my_widget/enter_avatar_pinput.dart';
 
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
@@ -91,7 +90,8 @@ class EnterAvatarCode extends ConsumerWidget {
                                 vertical: 3.h,
                               ),
                               alignment: Alignment.bottomCenter,
-                              child: const EnterAvatarCodePinPut(),
+                              //child: const EnterAvatarCodePinPut(),
+                              child: Container(),
                             ),
                             actions: <Widget>[
                               TextButton(

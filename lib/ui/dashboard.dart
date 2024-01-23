@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:mock_data/mock_data.dart';
-import 'package:random_avatar/random_avatar.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../dashboard/d_name.dart';
@@ -30,9 +27,10 @@ import '../logic/user_activity_provider.dart';
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
 import '../my_widget/my_logo.dart';
-import '../router/my_route.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
+import 'game_room.dart';
+import 'host_room.dart';
 
 @RoutePage()
 class DashboardPage extends ConsumerStatefulWidget {
@@ -73,13 +71,20 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
       idNotifier.select((value) => value),
       (previous, next) {
         debugPrint("75-- $next");
+        final dNotifier = ref.watch(dashboardPanelNotifierProvider);
+
         if (next.isEmpty) {
           ref.watch(dashboardPanelProvider).close();
+          dNotifier.dMinHeight = 0.h;
+          dNotifier.dHeight = 300.h;
         } else {
+          dNotifier.dMinHeight = 72.h;
           Future.delayed(
-            const Duration(seconds: 1),
+            const Duration(milliseconds: 1200),
             () {
               ref.watch(dashboardPanelProvider).open();
+              dNotifier.dHeight = 480.h;
+              dNotifier.dWidget = const HostRoom();
             },
           );
         }
@@ -91,7 +96,6 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
     final User? fUser = ref.watch(authUserProvider).value;
     final ScreenSize sSize = ref.watch(sizeProvider);
     final bool isPhone = sSize == ScreenSize.phone;
-    final pTheme = SlidingPanelTheme();
 
     final bool doNotShow =
         (inWork.isNotEmpty && !kDebugMode) || myUser == null || fUser == null;
@@ -106,76 +110,58 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
               : AppBar(
                   toolbarHeight: 120.h,
                   backgroundColor: majorelleBlue,
-                  //leadingWidth: 90.w,
-                  //leading: AppBarLeading(myUser),
-                  title: FadeIn(child: SlideInRight(child: const MyLogo())),
+                  title: FadeIn(
+                    child: SlideInRight(
+                      child: const MyLogo(),
+                    ),
+                  ),
                   elevation: 3.r,
                 ),
       backgroundColor: ghostWhite,
-      body: !isPhone
-          ? const WorkInProgress(inWork: 'Screen size not compatible')
-          : AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
-              child: doNotShow
-                  ? WorkInProgress(inWork: inWork)
-                  : SlidingUpPanel(
-                      controller: ref.watch(dashboardPanelProvider),
-                      borderRadius: pTheme.slidingPanelRadius,
-                      body: const SafeArea(bottom: false, child: _Dashboard()),
-                      isDraggable: false,
-                      backdropEnabled: true,
-                      panel: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        child: ref.watch(dPanelWidgetProvider),
-                      ),
-                      onPanelClosed: () {
-                        if (ref.watch(idNotifier).isNotEmpty) {
-                          ref.read(idNotifier.notifier).empty();
-                          ref.watch(dPanelHeightProvider.notifier).state =
-                              300.h;
-                        }
-                      },
-                      minHeight: 0,
-                      maxHeight: ref.watch(dPanelHeightProvider),
-                    ),
-            ),
+      body: AnimatedSwitcher(
+        duration: const Duration(microseconds: 500),
+        child: !isPhone || doNotShow
+            ? WorkInProgress(
+                inWork: !isPhone ? 'Screen size not compatible' : inWork,
+              )
+            : const _DashboardSliding(),
+      ),
     );
   }
 }
 
-class AppBarLeading extends StatelessWidget {
-  final MyUser myUser;
-  const AppBarLeading(this.myUser, {super.key});
+class _DashboardSliding extends ConsumerWidget {
+  const _DashboardSliding();
 
   @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        //if (myUser.avatar != null)
-        Positioned.fill(
-          bottom: -7.5.r,
-          child: SlideInUp(
-            child: FadeIn(
-              child: InkWell(
-                onTap: () => context.router.push(const SettingsRoute()),
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 500),
-                  child: myUser.avatar == null
-                      ? Icon(
-                          FontAwesomeIcons.userTie,
-                          size: 90.r,
-                          color: tropicalIndigo,
-                        )
-                      : RandomAvatar(
-                          myUser.avatar ?? mockString(2),
-                          trBackground: true,
-                        ),
-                ),
-              ),
-            ),
-          ),
-        )
-      ],
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dPanelNotifier = ref.watch(dashboardPanelNotifierProvider);
+    final pTheme = SlidingPanelTheme();
+    return SlidingUpPanel(
+      controller: ref.watch(dashboardPanelProvider),
+      borderRadius: pTheme.slidingPanelRadius,
+      body: const SafeArea(bottom: false, child: _Dashboard()),
+      //isDraggable: false,
+      backdropEnabled: true,
+      /* collapsed: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        child: dPanelNotifier.dCollapsedWidget,
+      ),*/
+      panel: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        child: dPanelNotifier.dWidget,
+      ),
+      onPanelClosed: () {
+        if (ref.watch(idNotifier).isNotEmpty) {
+          //ref.read(idNotifier.notifier).empty();
+        } else {
+          ref.read(dashboardPanelNotifierProvider).dWidget = CreateGameRoom();
+          //ref.watch(dPanelHeightProvider.notifier).state = 300.h;
+        }
+        //ref.watch(dPanelHeightProvider.notifier).state = 300.h;
+      },
+      minHeight: 0.h,
+      maxHeight: dPanelNotifier.dHeight,
     );
   }
 }

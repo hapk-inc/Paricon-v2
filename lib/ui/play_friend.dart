@@ -47,8 +47,8 @@ class PlayFriendPage extends ConsumerWidget {
       body: sSize != ScreenSize.phone
           ? Container()
           : SafeArea(
-              top: false,
-              bottom: false,
+              //top: false,
+              //bottom: false,
               child: SlidingUpPanel(
                 isDraggable: false,
                 controller: ref.watch(playFriendPanelProvider),
@@ -88,44 +88,50 @@ class __PlayFriendBoard extends ConsumerWidget {
 
     return board == null
         ? Container()
-        : SingleChildScrollView(
-            child: StaggeredGrid.count(
-              crossAxisCount: 20,
-              children: [
-                StaggeredGridTile.count(
-                  crossAxisCellCount: 20,
-                  mainAxisCellCount: 31.5,
-                  child: Card(
-                    margin: EdgeInsets.symmetric(horizontal: 15.r),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7.5.r),
-                    ),
-                    elevation: 3.r,
-                    child: Column(
-                      children: [
-                        const Flexible(
-                          flex: 2,
-                          child: PlayFriendTimer(),
+        : LayoutBuilder(builder: (_, c) {
+            return SingleChildScrollView(
+              child: StaggeredGrid.count(
+                crossAxisCount: 20,
+                children: [
+                  StaggeredGridTile.fit(
+                    crossAxisCellCount: 20,
+                    //mainAxisCellCount: 31.5,
+                    child: Card(
+                      margin: EdgeInsets.symmetric(horizontal: 15.r),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7.5.r),
+                      ),
+                      elevation: 3.r,
+                      child: SizedBox(
+                        height: c.maxWidth * 1.5,
+                        child: Column(
+                          children: [
+                            const Flexible(
+                              flex: 2,
+                              child: PlayFriendTimer(),
+                            ),
+                            Gap(30.r),
+                            Expanded(
+                              flex: 11,
+                              child: _PlayFriendGrid(board.icons),
+                            ),
+                            const Flexible(
+                              child: PlayFriendFooter(),
+                            )
+                          ],
                         ),
-                        Expanded(
-                          flex: 11,
-                          child: _PlayFriendGrid(board.icons),
-                        ),
-                        const Flexible(
-                          child: PlayFriendFooter(),
-                        )
-                      ],
+                      ),
                     ),
                   ),
-                ),
-                Gap(30.r),
-                StaggeredGridTile.fit(
-                  crossAxisCellCount: 20,
-                  child: PlayFriendList(board.players.keys.toList()),
-                )
-              ],
-            ),
-          );
+                  Gap(30.r),
+                  StaggeredGridTile.fit(
+                    crossAxisCellCount: 20,
+                    child: PlayFriendList(board.players.keys.toList()),
+                  )
+                ],
+              ),
+            );
+          });
   }
 }
 
@@ -135,7 +141,7 @@ class PlayFriendFooter extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      color: Colors.green.shade200,
+        /* color: Colors.green.shade200,
       padding: EdgeInsets.only(left: 15.w),
       alignment: Alignment.centerLeft,
       child: const Text(
@@ -144,8 +150,8 @@ class PlayFriendFooter extends ConsumerWidget {
           fontFamily: 'Poppins',
           color: richBlack,
         ),
-      ),
-    );
+      ),*/
+        );
   }
 }
 
@@ -172,7 +178,7 @@ class PlayFriendTimer extends ConsumerWidget {
                     children: [
                       Icon(
                         Icons.timer,
-                        size: 24.r,
+                        size: 30.r,
                         color: amaranthPurple,
                       ),
                       SizedBox.square(dimension: 7.5.r),
@@ -211,9 +217,9 @@ class PlayFriendTimer extends ConsumerWidget {
             trailing: InkWell(
               onTap: () {
                 context.router.pop();
-                ref.watch(idNotifier.notifier).empty();
+                ref.read(idNotifier.notifier).empty();
               },
-              child: Icon(Icons.close, size: 21.r),
+              child: Icon(Icons.close, size: 30.r),
             ),
           ),
         ),
@@ -264,7 +270,7 @@ class PlayFriendListTile extends ConsumerWidget {
     return ref.watch(playFriendPlayerProvider(playerId)).when(
         data: (d) => AnimatedContainer(
               duration: const Duration(milliseconds: 500),
-              width: 120.w,
+              width: (360.w / 3),
               margin: EdgeInsets.symmetric(horizontal: 1.5.r),
               decoration: BoxDecoration(
                 color: List.from([...gridColor, cyclamen], growable: true)[0],
@@ -312,13 +318,15 @@ class PlayFriendListTile extends ConsumerWidget {
                     left: 30.r,
                     top: 7.5.r,
                     right: -30.r,
-                    child: Opacity(
-                      opacity: 0.45,
-                      child: RandomAvatar(
-                        d.avatar,
-                        trBackground: true,
-                      ),
-                    ),
+                    child: d.avatar.isEmpty
+                        ? Container()
+                        : Opacity(
+                            opacity: 0.45,
+                            child: RandomAvatar(
+                              d.avatar,
+                              trBackground: true,
+                            ),
+                          ),
                   )
                 ],
               ),
@@ -394,8 +402,8 @@ class _PlayFriendGridTile extends ConsumerWidget {
           child: Card(
             color: !localIcon.isFound
                 //? (mockInteger(0, 1) == 0 ? federalBlue : violetBlue)
-                ? (localIcon.iconNo.isEven ? federalBlue : violetBlue)
-                : gridColorDark[r],
+                ? (localIcon.iconNo.isEven ? majorelleBlue : majorelleBlue)
+                : gridColor[mockInteger(0, 2)],
             margin: EdgeInsets.zero,
             elevation: 3,
             shape: RoundedRectangleBorder(
@@ -414,8 +422,8 @@ class _PlayFriendGridTile extends ConsumerWidget {
                           localIcon.iconCode,
                           fontFamily: 'MaterialIcons',
                         ),
-                        size: 27.r,
-                        color: gridColorIconDark[r],
+                        size: 30.r,
+                        color: federalBlue,
                       )
                     : localIcon.isCheck
                         ? Icon(
@@ -423,7 +431,7 @@ class _PlayFriendGridTile extends ConsumerWidget {
                               localIcon.iconCode,
                               fontFamily: 'MaterialIcons',
                             ),
-                            size: 27.r,
+                            size: 30.r,
                             color: ghostWhite,
                           )
                         : Container(),

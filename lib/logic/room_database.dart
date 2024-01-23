@@ -48,14 +48,22 @@ class RoomDatabase {
     return _key;
   }
 
-  Future<Room> get hostRoom => roomReference.once().then(
-        (DatabaseEvent databaseEvent) {
-          Map<String, dynamic> json =
-              Map<String, dynamic>.from(databaseEvent.snapshot.value as Map);
-          Room room = Room.fromJson(json);
-          return room;
-        },
-      );
+  Future<Room?> get hostRoom => id == null
+      ? Future.value(null)
+      : id!.isEmpty
+          ? Future.value(null)
+          : roomReference.once().then(
+              (DatabaseEvent databaseEvent) {
+                if (databaseEvent.snapshot.exists) {
+                  Map<String, dynamic> json = Map<String, dynamic>.from(
+                      databaseEvent.snapshot.value as Map);
+                  Room room = Room.fromJson(json);
+                  return room;
+                } else {
+                  return null;
+                }
+              },
+            );
 
   Future<dynamic> validateCode(String roomCode) {
     num roomCode0 = num.parse(roomCode);

@@ -30,8 +30,8 @@ class DSubtitle extends ConsumerWidget {
           style: TextStyle(
             fontSize: 12.r,
             fontFamily: 'Poppins',
-            fontWeight: FontWeight.w300,
-            height: 2.4.r,
+            fontWeight: FontWeight.w500,
+            height: 3.r,
             color: tropicalIndigo,
           ),
           textAlign: TextAlign.start,
@@ -56,7 +56,7 @@ class DSubtitle extends ConsumerWidget {
                     ),
                     maxLines: 2,
                     minFontSize: 6,
-                    maxFontSize: 12,
+                    maxFontSize: 15,
                   )
                 : AutoSizeText(
                     ref.read(goodDayProvider),

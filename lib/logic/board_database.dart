@@ -53,18 +53,21 @@ class BoardDatabase {
     return boardReference.set(board);
   }
 
-  Future<Board?> get board async => await boardReference.once().then(
-        (DatabaseEvent event) {
-          if (!event.snapshot.exists) {
-            return null;
-          }
-          Map<String, dynamic> json =
-              Map<String, dynamic>.from(event.snapshot.value as Map);
+  Future<Board?> get board async => id.isEmpty
+      ? null
+      : await boardReference.once().then(
+          (DatabaseEvent event) {
+            if (!event.snapshot.exists) {
+              return null;
+            }
+            if (event.snapshot.value == null) return null;
+            Map<String, dynamic> json =
+                Map<String, dynamic>.from(event.snapshot.value as Map);
 
-          Board board = Board.fromJson(json);
-          return board;
-        },
-      );
+            Board board = Board.fromJson(json);
+            return board;
+          },
+        );
 
   Stream<LocalIcon> localIcon(String icon) {
     late BehaviorSubject<LocalIcon> controller;

@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -79,8 +80,9 @@ class EnterAvatarCodePinPutState extends State<EnterAvatarCodePinPut> {
                     },
                   ).whenComplete(
                     () {
-                      ref.read(dPanelWidgetProvider.notifier).state =
-                          const HostRoom();
+                      //ref.read(dPanelHeightProvider.notifier).state = 540.h;
+                      //ref.read(dPanelWidgetProvider.notifier).state =
+                      //const HostRoom();
                     },
                   );
                 }
@@ -109,3 +111,4 @@ class EnterAvatarCodePinPutState extends State<EnterAvatarCodePinPut> {
     );
   }
 }
+*/

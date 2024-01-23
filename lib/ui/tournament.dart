@@ -86,9 +86,9 @@ class TournamentPage extends ConsumerWidget {
                       crossAxisCount: 20,
                       children: [
                         Gap(45.r),
-                        const StaggeredGridTile.count(
+                        const StaggeredGridTile.fit(
                           crossAxisCellCount: 20,
-                          mainAxisCellCount: 31.5,
+                          // mainAxisCellCount: 31.5,
                           child: TournamentShow(),
                         ),
                       ],
@@ -113,6 +113,7 @@ class TournamentShow extends StatelessWidget {
         ),
         elevation: 3.r,
         child: Container(
+          height: (360.w * 1.5),
           padding: EdgeInsets.all(4.5.r),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -148,7 +149,7 @@ class TournamentShow extends StatelessWidget {
                       color: richBlack,
                       height: 1.8,
                       fontWeight: FontWeight.w200,
-                      fontSize: 11.1.r,
+                      fontSize: 12.r,
                       letterSpacing: 0.3.r,
                     ),
                     //maxLines: 1,

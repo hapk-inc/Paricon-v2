@@ -18,13 +18,37 @@ ThemeData get buildThemeData => ThemeData(
             height: 2.4,
             fontWeight: FontWeight.w400),
       ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: ButtonStyle(
+          textStyle: MaterialStatePropertyAll(
+            TextStyle(
+              fontSize: 15.r,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ButtonStyle(
+          textStyle: MaterialStatePropertyAll(
+            TextStyle(
+              fontSize: 15.r,
+              fontFamily: 'Poppins',
+              color: ghostWhite,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ),
       snackBarTheme: SnackBarThemeData(
         insetPadding: EdgeInsets.symmetric(vertical: 15.h),
         contentTextStyle: TextStyle(
-            color: ghostWhite,
-            //fontWeight: FontWeight.w300,
-            fontFamily: 'Poppins',
-            fontSize: 15.r),
+          color: ghostWhite,
+          //fontWeight: FontWeight.w300,
+          fontFamily: 'Poppins',
+          fontSize: 15.r,
+        ),
       ),
     );
 

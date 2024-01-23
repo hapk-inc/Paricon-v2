@@ -93,7 +93,7 @@ class TournamentGridTile extends ConsumerWidget {
                           xIcon.iconCode,
                           fontFamily: 'MaterialIcons',
                         ),
-                        size: 27.r,
+                        size: 30.r,
                         color: ghostWhite,
                       )
                     : xIcon.isCheck
@@ -102,7 +102,7 @@ class TournamentGridTile extends ConsumerWidget {
                               xIcon.iconCode,
                               fontFamily: 'MaterialIcons',
                             ),
-                            size: 27.r,
+                            size: 30.r,
                             color: coyote,
                           )
                         : Container(),

@@ -66,11 +66,11 @@ final AutoDisposeFutureProvider joinRoomProvider = FutureProvider.autoDispose(
   },
 );
 
-final AutoDisposeFutureProvider<Room> roomProvider =
-    FutureProvider.autoDispose<Room>(
+final AutoDisposeFutureProvider<Room?> roomProvider =
+    FutureProvider.autoDispose<Room?>(
   (ref) async {
     final roomDatabase = ref.watch(roomDatabaseProvider);
-    final Room room = await roomDatabase.hostRoom;
+    final Room? room = await roomDatabase.hostRoom;
     //  ref.maintainState = false;
     return room;
   },
@@ -104,49 +104,54 @@ final AutoDisposeFutureProvider gameStartProvider = FutureProvider.autoDispose(
 final AutoDisposeFutureProvider<bool> createBoardProvider =
     FutureProvider.autoDispose(
   (ref) async {
-    final Room room = ref.read(roomProvider).value!;
-    //final details = room.details;
+    try {
+      final Room room = ref.read(roomProvider).value!;
+      //final details = room.details;
 
-    //final Map playersProvider = await ref.read(roomPlayersProvider!.future);
+      //final Map playersProvider = await ref.read(roomPlayersProvider!.future);
 
-    if (!kDebugMode) {
-      final package = await ref.read(packageInfoProvider.future);
-      if (!package.appName.contains("Dev") && room.players.length == 1) {
-        return false;
+      if (!kDebugMode) {
+        final package = await ref.read(packageInfoProvider.future);
+        if (!package.appName.contains("Dev") && room.players.length == 1) {
+          return false;
+        }
       }
+
+      final players = convertToBoard(room.players);
+      //final players = {};
+
+      final GameSetup setup = ref.read(setupProvider);
+      final List<LocalIcon> localIcons = setup.newIcons;
+      final Map icons = localIcons.map((e) => e.toIdJson(mockString(12))).fold(
+        {},
+        (previousValue, element) => {...previousValue, ...element},
+      );
+
+      String currentIcon = "";
+      if (room.type.name == "orderWise") {
+        //final localIcon = localIcons[Random.secure().nextInt(localIcons.length)];
+        //_currentIcon = localIcon.iconCode;
+        // print("Current Icon is $_currentIcon");
+      }
+
+      final Map currentPlayer = {"currentID": room.players.keys.first};
+      //final Map currentPlayer = {};
+
+      final Map map = {
+        ...{"players": players},
+        ...{"icons": icons},
+        ...currentPlayer,
+        ...{"type": "normal"},
+        if (currentIcon.isNotEmpty) ...{"currentIcon": currentIcon},
+      };
+
+      final boardDatabase = ref.read(boardDatabaseProvider);
+      await boardDatabase.createBoard(map);
+      return true;
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
     }
-
-    final players = convertToBoard(room.players);
-    //final players = {};
-
-    final GameSetup setup = ref.read(setupProvider);
-    final List<LocalIcon> localIcons = setup.newIcons;
-    final Map icons = localIcons.map((e) => e.toIdJson(mockString(12))).fold(
-      {},
-      (previousValue, element) => {...previousValue, ...element},
-    );
-
-    String currentIcon = "";
-    if (room.type.name == "orderWise") {
-      //final localIcon = localIcons[Random.secure().nextInt(localIcons.length)];
-      //_currentIcon = localIcon.iconCode;
-      // print("Current Icon is $_currentIcon");
-    }
-
-    final Map currentPlayer = {"currentID": room.players.keys.first};
-    //final Map currentPlayer = {};
-
-    final Map map = {
-      ...{"players": players},
-      ...{"icons": icons},
-      ...currentPlayer,
-      ...{"type": "normal"},
-      if (currentIcon.isNotEmpty) ...{"currentIcon": currentIcon},
-    };
-
-    final boardDatabase = ref.read(boardDatabaseProvider);
-    await boardDatabase.createBoard(map);
-    return true;
   },
 );
 

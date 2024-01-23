@@ -28,7 +28,7 @@ class OpenChallengeTable extends ConsumerWidget {
     return Container(
       height: 300.h,
       color: lightOrange,
-      width: 360.w,
+      //width: 360.w,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -205,10 +205,10 @@ class ShowPlayedAt extends StatelessWidget {
               ? DateFormat.Hm().format(playedAt)
               : DateFormat.MMMd().format(playedAt),
           style: TextStyle(
-            fontFamily: 'Cabin',
+            fontFamily: 'Poppins',
             fontWeight: FontWeight.normal,
             color: isMe ? lavenderWeb : gray,
-            fontSize: 10.8.r,
+            fontSize: 9.r,
             letterSpacing: 0.r,
           ),
         ),
