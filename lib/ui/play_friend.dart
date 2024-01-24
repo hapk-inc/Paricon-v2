@@ -88,54 +88,60 @@ class __PlayFriendBoard extends ConsumerWidget {
 
     return board == null
         ? Container()
-        : LayoutBuilder(builder: (_, c) {
-            return Align(
-              alignment: Alignment.topCenter,
-              child: SingleChildScrollView(
-                child: StaggeredGrid.count(
-                  crossAxisCount: 20,
-                  children: [
-                    Gap(45.r),
-                    StaggeredGridTile.fit(
-                      crossAxisCellCount: 20,
-                      //mainAxisCellCount: 31.5,
-                      child: Card(
-                        margin: EdgeInsets.symmetric(horizontal: 15.r),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7.5.r),
-                        ),
-                        elevation: 3.r,
-                        child: SizedBox(
-                          height: c.maxWidth * 1.5,
-                          child: Column(
-                            children: [
-                              const Flexible(
-                                flex: 2,
-                                child: PlayFriendTimer(),
-                              ),
-                              Gap(30.r),
-                              Expanded(
-                                flex: 11,
-                                child: _PlayFriendGrid(board.icons),
-                              ),
-                              const Flexible(
-                                child: PlayFriendFooter(),
-                              )
-                            ],
+        : LayoutBuilder(
+            builder: (_, c) {
+              return Align(
+                alignment: Alignment.topCenter,
+                child: SingleChildScrollView(
+                  child: StaggeredGrid.count(
+                    crossAxisCount: 20,
+                    children: [
+                      Gap(45.r),
+                      StaggeredGridTile.fit(
+                        crossAxisCellCount: 20,
+                        //mainAxisCellCount: 31.5,
+                        child: Card(
+                          margin: EdgeInsets.symmetric(horizontal: 15.r),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(7.5.r),
+                          ),
+                          elevation: 3.r,
+                          child: SizedBox(
+                            // height: c.maxWidth * 1.5,
+                            height: (360.w * 1.5),
+                            child: Column(
+                              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Flexible(
+                                  flex: 2,
+                                  child: PlayFriendTimer(),
+                                ),
+                                //Gap(45.r),
+                                Expanded(
+                                  flex: 11,
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: _PlayFriendGrid(board.icons),
+                                  ),
+                                ),
+                                //Spacer()
+                                const Flexible(child: PlayFriendFooter())
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Gap(30.r),
-                    StaggeredGridTile.fit(
-                      crossAxisCellCount: 20,
-                      child: PlayFriendList(board.players.keys.toList()),
-                    )
-                  ],
+                      Gap(30.r),
+                      StaggeredGridTile.fit(
+                        crossAxisCellCount: 20,
+                        child: PlayFriendList(board.players.keys.toList()),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            );
-          });
+              );
+            },
+          );
   }
 }
 
@@ -152,9 +158,9 @@ class PlayFriendFooter extends ConsumerWidget {
         "It's your turn",
         style: TextStyle(
           fontFamily: 'Poppins',
-          color: richBlack,
+          color: gray,
           fontWeight: FontWeight.w400,
-          fontSize: 12.r,
+          fontSize: 15.r,
         ),
       ),
     );
@@ -165,92 +171,89 @@ class PlayFriendTimer extends ConsumerWidget {
   const PlayFriendTimer({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      constraints: const BoxConstraints.expand(),
-      alignment: Alignment.centerLeft,
-      child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 15.r),
-        dense: true,
-        title: Container(
-          height: 72.h,
-          alignment: Alignment.centerLeft,
-          child: ListTile(
-            contentPadding: EdgeInsets.zero,
-            dense: true,
-            title: Container(
-              alignment: Alignment.centerLeft,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.timer,
-                        size: 30.r,
-                        color: amaranthPurple,
-                      ),
-                      SizedBox.square(dimension: 7.5.r),
-                      AnimatedFlipCounter(
-                        value: mockInteger(100, 500),
-                        suffix: " : ",
-                        wholeDigits: 2,
-                        textStyle: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w900,
-                          fontSize: 18.r,
+  Widget build(BuildContext context, WidgetRef ref) => Container(
+        alignment: Alignment.centerLeft,
+        child: ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 15.r),
+          dense: true,
+          title: Container(
+            height: 72.h,
+            alignment: Alignment.centerLeft,
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              dense: true,
+              title: Container(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.timer,
+                          size: 30.r,
                           color: amaranthPurple,
-                          letterSpacing: 0.12.r,
                         ),
-                      ),
-                      SizedBox.square(dimension: 1.5.r),
-                      AnimatedFlipCounter(
-                        value: Duration(
-                              seconds: mockInteger(100, 3000),
-                            ).inSeconds %
-                            60,
-                        wholeDigits: 2,
-                        textStyle: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w900,
-                          fontSize: 18.r,
-                          color: amaranthPurple,
-                          letterSpacing: 0.12.r,
+                        SizedBox.square(dimension: 7.5.r),
+                        AnimatedFlipCounter(
+                          value: mockInteger(100, 500),
+                          suffix: " : ",
+                          wholeDigits: 2,
+                          textStyle: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w900,
+                            fontSize: 18.r,
+                            color: amaranthPurple,
+                            letterSpacing: 0.12.r,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        SizedBox.square(dimension: 1.5.r),
+                        AnimatedFlipCounter(
+                          value: Duration(
+                                seconds: mockInteger(100, 3000),
+                              ).inSeconds %
+                              60,
+                          wholeDigits: 2,
+                          textStyle: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w900,
+                            fontSize: 18.r,
+                            color: amaranthPurple,
+                            letterSpacing: 0.12.r,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              trailing: InkWell(
+                onTap: () {
+                  context.router.pop();
+                  ref.read(idNotifier.notifier).empty();
+                },
+                child: Icon(Icons.close, size: 24.r),
               ),
             ),
-            trailing: InkWell(
-              onTap: () {
-                context.router.pop();
-                ref.read(idNotifier.notifier).empty();
-              },
-              child: Icon(Icons.close, size: 24.r),
+          ),
+          subtitle: ClipRRect(
+            borderRadius: BorderRadius.circular(3.r),
+            child: TweenAnimationBuilder<double>(
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeInOut,
+              tween: Tween<double>(begin: 0, end: mockInteger(1, 100) * 0.01
+                  // end: tournamentListener.balancePercentage,
+                  ),
+              builder: (_, value, __) => LinearProgressIndicator(
+                value: value,
+                color: majorelleBlue,
+                backgroundColor: periwinkle,
+                minHeight: 4.5.r,
+              ),
             ),
           ),
         ),
-        subtitle: ClipRRect(
-          borderRadius: BorderRadius.circular(3.r),
-          child: TweenAnimationBuilder<double>(
-            duration: const Duration(milliseconds: 250),
-            curve: Curves.easeInOut,
-            tween: Tween<double>(begin: 0, end: mockInteger(1, 100) * 0.01
-                // end: tournamentListener.balancePercentage,
-                ),
-            builder: (_, value, __) => LinearProgressIndicator(
-              value: value,
-              color: majorelleBlue,
-              backgroundColor: periwinkle,
-              minHeight: 4.5.r,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+      );
 }
 
 class PlayFriendList extends StatelessWidget {
@@ -258,16 +261,14 @@ class PlayFriendList extends StatelessWidget {
   const PlayFriendList(this.players, {super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: ghostWhite,
-      height: 72.h,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: List.from(players.map((e) => PlayFriendListTile(e))),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Container(
+        color: ghostWhite,
+        height: 72.h,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: List.from(players.map((e) => PlayFriendListTile(e))),
+        ),
+      );
 }
 
 class PlayFriendListTile extends ConsumerWidget {
@@ -276,72 +277,81 @@ class PlayFriendListTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(playFriendPlayerProvider(playerId)).when(
-        data: (d) => AnimatedContainer(
-              duration: const Duration(milliseconds: 500),
-              width: (360.w / 3),
-              margin: EdgeInsets.symmetric(horizontal: 1.5.r),
-              decoration: BoxDecoration(
-                color: List.from([...gridColor, cyclamen], growable: true)[0],
-              ),
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    top: -4.5.h,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: ListTile(
-                        dense: true,
-                        title: Container(
-                          height: 30.h,
-                          alignment: Alignment.centerLeft,
-                          child: AutoSizeText(
-                            d.name,
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              letterSpacing: 0,
-                              color: richBlack,
-                              fontWeight: FontWeight.w300,
-                              fontSize: 12.r,
+    final Board? board = ref.watch(boardProvider).value;
+    return board == null
+        ? Container()
+        : ref.watch(playFriendPlayerProvider(playerId)).when(
+            data: (d) => AnimatedContainer(
+                  duration: const Duration(milliseconds: 500),
+                  width: (360.w / board.players.length),
+                  margin: EdgeInsets.symmetric(horizontal: 1.5.r),
+                  decoration: BoxDecoration(
+                    color:
+                        List.from([...gridColor, cyclamen], growable: true)[0],
+                  ),
+                  child: Stack(
+                    children: [
+                      Positioned.fill(
+                        top: -4.5.h,
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: ListTile(
+                            dense: true,
+                            title: Container(
+                              height: 30.h,
+                              alignment: Alignment.centerLeft,
+                              child: AutoSizeText(
+                                d.name,
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  letterSpacing: 0,
+                                  color: richBlack,
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 12.r,
+                                ),
+                                minFontSize: 9,
+                                maxFontSize: 12,
+                                maxLines: 1,
+                                wrapWords: false,
+                              ),
                             ),
-                            minFontSize: 9,
-                            maxFontSize: 12,
-                            maxLines: 1,
-                            wrapWords: false,
-                          ),
-                        ),
-                        subtitle: AutoSizeText(
-                          d.pts.toString(),
-                          style: TextStyle(
-                            fontSize: 24.r,
-                            fontFamily: 'Montserrat',
-                            letterSpacing: 0.9.r,
+                            subtitle: Container(
+                              height: 36.h,
+                              alignment: Alignment.centerLeft,
+                              child: AnimatedFlipCounter(
+                                value: d.pts,
+                                wholeDigits: 2,
+                                textStyle: TextStyle(
+                                  fontSize: 24.r,
+                                  fontFamily: 'Montserrat',
+                                  letterSpacing: 0.9.r,
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                      AnimatedPositioned(
+                        bottom: -105.r,
+                        duration: const Duration(milliseconds: 500),
+                        left: 30.r,
+                        top: 7.5.r,
+                        right: -30.r,
+                        child: d.avatar.isEmpty
+                            ? Container()
+                            : Opacity(
+                                opacity: 0.45,
+                                child: RandomAvatar(
+                                  d.avatar,
+                                  trBackground: true,
+                                ),
+                              ),
+                      )
+                    ],
                   ),
-                  AnimatedPositioned(
-                    bottom: -105.r,
-                    duration: const Duration(milliseconds: 500),
-                    left: 30.r,
-                    top: 7.5.r,
-                    right: -30.r,
-                    child: d.avatar.isEmpty
-                        ? Container()
-                        : Opacity(
-                            opacity: 0.45,
-                            child: RandomAvatar(
-                              d.avatar,
-                              trBackground: true,
-                            ),
-                          ),
-                  )
-                ],
-              ),
-            ),
-        error: (_, s) => Container(),
-        loading: () => Container());
+                ),
+            error: (_, s) => Container(),
+            loading: () => Container());
   }
 }
 
@@ -369,7 +379,9 @@ class _PlayFriendGrid extends ConsumerWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.r),
+      //padding: EdgeInsets.all(15.r),
       child: ResponsiveGridList(
+        shrinkWrap: true,
         listViewBuilderOptions: ListViewBuilderOptions(
           physics: const NeverScrollableScrollPhysics(),
         ),

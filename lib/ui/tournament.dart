@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -79,13 +80,13 @@ class TournamentPage extends ConsumerWidget {
                 maxHeight: pTheme.slidingPanelHeight,
                 body: Container(
                   color: majorelleBlue,
-                  constraints: const BoxConstraints.expand(),
+                  alignment: Alignment.topCenter,
                   child: SingleChildScrollView(
                     physics: const NeverScrollableScrollPhysics(),
                     child: StaggeredGrid.count(
                       crossAxisCount: 20,
                       children: [
-                        Gap(90.r),
+                        Gap(45.r),
                         const StaggeredGridTile.fit(
                           crossAxisCellCount: 20,
                           // mainAxisCellCount: 31.5,
@@ -113,8 +114,8 @@ class TournamentShow extends StatelessWidget {
         ),
         elevation: 3.r,
         child: Container(
-          height: (360.w * 1.5),
-          padding: EdgeInsets.all(4.5.r),
+          height: (360.w * 1.56),
+          //padding: EdgeInsets.all(4.5.r),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -127,11 +128,10 @@ class TournamentShow extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: 9,
-                child: AnimatedContainer(
+                flex: 11,
+                child: Container(
                   alignment: Alignment.center,
-                  duration: const Duration(milliseconds: 500),
-                  padding: EdgeInsets.symmetric(horizontal: 9.r),
+                  padding: EdgeInsets.symmetric(horizontal: 15.r),
                   child: const TournamentGrid(),
                 ),
               ),
@@ -141,7 +141,7 @@ class TournamentShow extends StatelessWidget {
                     horizontal: 12.r,
                   ),
                   alignment: Alignment.centerLeft,
-                  child: Text(
+                  child: AutoSizeText(
                     "When you tap on the block, that's when the timer begins.",
                     textAlign: TextAlign.start,
                     style: TextStyle(
@@ -152,7 +152,7 @@ class TournamentShow extends StatelessWidget {
                       fontSize: 12.r,
                       letterSpacing: 0.3.r,
                     ),
-                    //maxLines: 1,
+                    maxLines: 1,
                   ),
                 ),
               ),

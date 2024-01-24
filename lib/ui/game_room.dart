@@ -65,7 +65,7 @@ class _CreateGameRoomState extends ConsumerState<CreateGameRoom>
                       ],
                     ),
                   ),
-                  CreateRoomFooter()
+                  const CreateRoomFooter()
                 ],
               ),
             ),
@@ -101,7 +101,6 @@ class CreateRoomFooter extends ConsumerWidget {
                 ? () => ref.read(createRoomProvider.future).then(
                       (_) {
                         ref.read(joinRoomProvider);
-
                         dPanelNotifier.dCollapsedWidget =
                             const HostRoomCollapsed("Creating a Room");
                         // dPanelNotifier.dWidget = const HostRoom();
@@ -131,10 +130,6 @@ class CreateRoomFooter extends ConsumerWidget {
                 : () {
                     debugPrint("Already in Code");
                   },
-            // ref.watch(dPanelHeightProvider.notifier).state = 360.h;
-            // ref.watch(dPanelWidgetProvider.notifier).state =
-            //const EnterRoomCode();
-
             style: ButtonStyle(
               shape: MaterialStatePropertyAll(
                 RoundedRectangleBorder(
@@ -164,63 +159,61 @@ class CreateRoom extends ConsumerWidget {
   const CreateRoom({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Gap(3.r),
-        ToggleSwitch(
-          changeOnTap: false,
-          radiusStyle: true,
-          labels: List.from(RoomLevel.values.map((e) => firstCaps(e.name))),
-          customWidths: [75.w, 105.w, 75.w],
-          minHeight: 36.h,
-          onToggle: (index) =>
-              ref.read(levelProvider.notifier).state = RoomLevel.values[index!],
-          inactiveBgColor: magnolia,
-          inactiveFgColor: charcoal,
-          activeBgColor: const [tropicalIndigo],
-          animate: true,
-          animationDuration: 150,
-          dividerColor: ghostWhite,
-          dividerMargin: 1.2.r,
-          customTextStyles: [
-            TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 15.r,
-              fontWeight: FontWeight.w700,
-            ),
-          ],
-        ),
-        Gap(30.r),
-        ToggleSwitch(
-          changeOnTap: false,
-          radiusStyle: true,
-          labels: List.from(
-            RoomType.values.map((e) => firstCaps(e.name)),
+  Widget build(BuildContext context, WidgetRef ref) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Gap(3.r),
+          ToggleSwitch(
+            changeOnTap: false,
+            radiusStyle: true,
+            labels: List.from(RoomLevel.values.map((e) => firstCaps(e.name))),
+            customWidths: [75.w, 105.w, 75.w],
+            minHeight: 36.h,
+            //onToggle: (index) =>
+            //    ref.read(levelProvider.notifier).state = RoomLevel.values[index!],
+            inactiveBgColor: magnolia,
+            inactiveFgColor: charcoal,
+            activeBgColor: const [tropicalIndigo],
+            animate: true,
+            animationDuration: 150,
+            dividerColor: ghostWhite,
+            dividerMargin: 1.2.r,
+            customTextStyles: [
+              TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 15.r,
+                fontWeight: FontWeight.w700,
+              ),
+            ],
           ),
-          customWidths: [105.w, 90.w, 120.w],
-          minHeight: 45.h,
-          onToggle: (index) =>
-              ref.read(typeProvider.notifier).state = RoomType.values[index!],
-          inactiveBgColor: magnolia,
-          inactiveFgColor: charcoal,
-          activeBgColor: const [federalBlue],
-          //animate: true,
-          animationDuration: 120,
-          dividerColor: ghostWhite,
-          dividerMargin: 1.2.r,
-          customTextStyles: [
-            TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14.4.r,
-              fontWeight: FontWeight.w700,
+          Gap(30.r),
+          ToggleSwitch(
+            changeOnTap: false,
+            radiusStyle: true,
+            labels: List.from(
+              RoomType.values.map((e) => firstCaps(e.name)),
             ),
-          ],
-        ),
-      ],
-    );
-  }
+            customWidths: [105.w, 90.w, 120.w],
+            minHeight: 45.h,
+            //onToggle: (index) =>
+            //    ref.read(typeProvider.notifier).state = RoomType.values[index!],
+            inactiveBgColor: magnolia,
+            inactiveFgColor: charcoal,
+            activeBgColor: const [federalBlue],
+            //animate: true,
+            animationDuration: 120,
+            dividerColor: ghostWhite,
+            dividerMargin: 1.2.r,
+            customTextStyles: [
+              TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 15.r,
+                fontWeight: FontWeight.w700,
+              ),
+            ],
+          ),
+        ],
+      );
 }
 
 class EnterRoomCode extends StatelessWidget {
@@ -228,7 +221,7 @@ class EnterRoomCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        color: ghostWhite,
+        color: magnolia,
         padding: EdgeInsets.all(15.r),
         child: Column(
           children: [
@@ -249,7 +242,7 @@ class EnterRoomCode extends StatelessWidget {
                 maxLines: 1,
               ),
             ),
-            Gap(30.r),
+            Gap(7.2.r),
             const RoomCodeEdit(),
           ],
         ),
@@ -293,7 +286,7 @@ class _RoomCodeEditState extends ConsumerState<RoomCodeEdit> {
   static const length = 6;
   static const Color borderColor = darkPastelGreen;
   static const Color errorColor = chocolateCosmos;
-  static const Color fillColor = magnolia;
+  static const Color fillColor = ghostWhite;
   final defaultPinTheme = PinTheme(
     width: 54.r,
     height: 60.r,
@@ -317,12 +310,30 @@ class _RoomCodeEditState extends ConsumerState<RoomCodeEdit> {
   }
 
   @override
+  void initState() {
+    debugPrint("RoomEdit Init");
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    ref.listen(
+      dashboardPanelNotifierProvider.select((value) => value.tab),
+      (previous, next) {
+        debugPrint("Tab Change $next");
+        if (next == 0) {
+          FocusScope.of(context).unfocus();
+        }
+      },
+    );
+    final dashboardNotifier = ref.watch(dashboardPanelNotifierProvider);
     return Container(
       alignment: Alignment.centerLeft,
       height: 75.h,
       child: Pinput(
         length: length,
+        autofocus: dashboardNotifier.tab == 1,
         cursor: VerticalDivider(
           indent: 18.r,
           endIndent: 18.r,
@@ -355,113 +366,8 @@ class _RoomCodeEditState extends ConsumerState<RoomCodeEdit> {
               ref.read(joinRoomProvider);
             }
           },
-        ).onError(
-          (error, stackTrace) {
-            debugPrint(error.toString());
-          },
         ),
       ),
     );
   }
 }
-
-/*class EnterAvatarCodePinPut extends StatefulWidget {
-  const EnterAvatarCodePinPut({super.key});
-
-  @override
-  EnterAvatarCodePinPutState createState() => EnterAvatarCodePinPutState();
-
-  @override
-  String toStringShort() => 'Rounded Filled';
-}
-
-class EnterAvatarCodePinPutState extends State<EnterAvatarCodePinPut> {
-  final controller = TextEditingController();
-  final focusNode = FocusNode();
-
-  @override
-  void dispose() {
-    controller.dispose();
-    focusNode.dispose();
-    super.dispose();
-  }
-
-  bool showError = false;
-
-  @override
-  Widget build(BuildContext context) {
-    const length = 6;
-    const borderColor = darkPastelGreen;
-    const errorColor = chocolateCosmos;
-    Color fillColor = magnolia;
-    final defaultPinTheme = PinTheme(
-      width: 54.r,
-      height: 60.r,
-      textStyle: TextStyle(
-        fontFamily: 'Montserrat',
-        fontSize: 24.r,
-        color: federalBlue,
-      ),
-      decoration: BoxDecoration(
-        color: fillColor,
-        borderRadius: BorderRadius.circular(7.5.r),
-        border: Border.all(color: Colors.transparent),
-      ),
-    );
-
-    return Container(
-      height: 75.h,
-      alignment: Alignment.centerLeft,
-      //color: chocolateCosmos,
-      child: Consumer(builder: (_, ref, __) {
-        return Pinput(
-          length: length,
-          controller: controller,
-          keyboardType: TextInputType.text,
-          focusNode: focusNode,
-          defaultPinTheme: defaultPinTheme,
-          onCompleted: (pin) {
-            ref.read(validateCodeProvider(pin).future).then(
-                  (value) {
-                debugPrint("value--$pin");
-                if (value is ValidateRoom) {
-                } else if (value is String) {
-                  ref.read(idNotifier.notifier).state = value;
-                  ref.read(joinRoomProvider.future).catchError(
-                        (e, s) {
-                      debugPrint("244-- $e");
-                      debugPrintStack(stackTrace: s);
-                    },
-                  ).whenComplete(
-                        () {
-                      //ref.read(dPanelHeightProvider.notifier).state = 540.h;
-                      //ref.read(dPanelWidgetProvider.notifier).state =
-                      const HostRoom();
-                    },
-                  );
-                }
-              },
-            ).onError(
-                  (error, stackTrace) {
-                debugPrint(error.toString());
-              },
-            );
-          },
-          focusedPinTheme: defaultPinTheme.copyWith(
-            height: 75.r,
-            width: 60.r,
-            decoration: defaultPinTheme.decoration!.copyWith(
-              border: Border.all(color: borderColor),
-            ),
-          ),
-          errorPinTheme: defaultPinTheme.copyWith(
-            decoration: BoxDecoration(
-              color: errorColor,
-              borderRadius: BorderRadius.circular(9.r),
-            ),
-          ),
-        );
-      }),
-    );
-  }
-}*/

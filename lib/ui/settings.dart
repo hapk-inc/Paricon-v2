@@ -15,6 +15,7 @@ import '../logic/panel_provider.dart';
 import '../logic/s_size.dart';
 import '../logic/t_score.dart';
 import '../logic/tournament_database.dart';
+import '../logic/user_activity_provider.dart';
 import '../model/best_d.dart';
 import '../my_widget/my_text_field.dart';
 import '../settings/card_collection.dart';
@@ -99,7 +100,10 @@ class SettingsState extends ConsumerWidget {
         ListTile(
           horizontalTitleGap: 4.5.r,
           dense: true,
-          onTap: () => ref.read(signOutProvider),
+          onTap: () {
+            ref.read(setActiveProvider(false));
+            ref.read(signOutProvider);
+          },
           leading: Icon(
             FontAwesomeIcons.rightFromBracket,
             size: 21.r,

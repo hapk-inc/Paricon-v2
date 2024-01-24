@@ -30,6 +30,14 @@ final AutoDisposeStreamProviderFamily<LocalPlayer, String>
   },
 );
 
+final AutoDisposeStreamProvider<String> currentIDProvider =
+    StreamProvider.autoDispose<String>(
+  (ref) {
+    final boardDatabase = ref.read(boardDatabaseProvider!);
+    return boardDatabase.currentID;
+  },
+);
+
 /*
 final btnClickProvider = FutureProvider.family.autoDispose<bool, String>(
   (ref, _icon) async {

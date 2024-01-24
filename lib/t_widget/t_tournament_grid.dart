@@ -28,6 +28,7 @@ class TournamentGrid extends ConsumerWidget {
       listViewBuilderOptions: ListViewBuilderOptions(
         physics: const NeverScrollableScrollPhysics(),
       ),
+      shrinkWrap: true,
       minItemWidth: 1.w,
       minItemsPerRow: 7,
       horizontalGridSpacing: 6.w,

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:mock_data/mock_data.dart';
@@ -8,6 +9,7 @@ import 'package:paricon/model/room.dart';
 
 import '../model/local_icon.dart';
 import '../model/my_user.dart';
+import '../theme/my_color.dart';
 import 'auth_provider.dart';
 import 'board_database.dart';
 import 'firebase_init.dart';
@@ -66,13 +68,28 @@ final AutoDisposeFutureProvider joinRoomProvider = FutureProvider.autoDispose(
   },
 );
 
-final AutoDisposeFutureProvider<Room?> roomProvider =
+final AutoDisposeFutureProvider leaveRoomProvider = FutureProvider.autoDispose(
+  (ref) async {
+    final roomDatabase = ref.read(roomDatabaseProvider);
+    return roomDatabase.leaveRoom;
+  },
+);
+
+/*final AutoDisposeFutureProvider<Room?> roomProvider =
     FutureProvider.autoDispose<Room?>(
   (ref) async {
     final roomDatabase = ref.watch(roomDatabaseProvider);
     final Room? room = await roomDatabase.hostRoom;
     //  ref.maintainState = false;
     return room;
+  },
+);*/
+
+final AutoDisposeStreamProvider<Room?> roomProvider =
+    StreamProvider.autoDispose<Room?>(
+  (ref) {
+    final roomDatabase = ref.read(roomDatabaseProvider);
+    return roomDatabase.sGameRoom;
   },
 );
 
@@ -98,6 +115,15 @@ final AutoDisposeFutureProvider gameStartProvider = FutureProvider.autoDispose(
   (ref) async {
     final roomDatabase = ref.read(roomDatabaseProvider);
     await roomDatabase.gameStart(true);
+  },
+);
+
+final AutoDisposeProvider<List<Color>> gridColorRandomColorProvider =
+    Provider.autoDispose(
+  (ref) {
+    List<Color> x = List.from(gridColor);
+    x.shuffle();
+    return x;
   },
 );
 

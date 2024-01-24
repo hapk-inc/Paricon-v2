@@ -16,7 +16,7 @@ class ShowTimerIndicator extends ConsumerWidget {
     final Duration gameDuration = tournamentListener.stopwatch.elapsed;
 
     return ListTile(
-      contentPadding: EdgeInsets.symmetric(horizontal: 7.5.r),
+      contentPadding: EdgeInsets.symmetric(horizontal: 15.r),
       title: SizedBox(
         height: 60.h,
         child: ListTile(

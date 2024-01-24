@@ -168,7 +168,7 @@ class BoardDatabase {
     return Future.wait<dynamic>(
       [
         boardIconReference.update(x),
-        if (addPts) increment,
+        if (addPts) increment else setCurrentID(nextPlayer!)
       ],
     );
   }

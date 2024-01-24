@@ -27,6 +27,14 @@ final Provider<bool> showPlayOnlineProvider = Provider<bool>(
   },
 );
 
+final Provider<bool> enterAvatarCodeProvider = Provider<bool>(
+  (ref) {
+    final remoteConfig = ref.watch(remoteConfigProvider);
+    final bool enterAvatarCode = remoteConfig.getBool('enterAvatarCode');
+    return enterAvatarCode;
+  },
+);
+
 final Provider<int> onlinePlayerProvider = Provider<int>(
   (ref) {
     final remoteConfig = ref.watch(remoteConfigProvider);

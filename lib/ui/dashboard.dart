@@ -33,6 +33,8 @@ import '../theme/my_theme.dart';
 import 'game_room.dart';
 import 'host_room.dart';
 
+const String notCompatible = 'Screen size not compatible';
+
 @RoutePage()
 class DashboardPage extends ConsumerStatefulWidget {
   const DashboardPage({super.key});
@@ -45,7 +47,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
     with WidgetsBindingObserver {
   @override
   void initState() {
+    debugPrint("Dashboard Init");
     WidgetsBinding.instance.addObserver(this);
+    //ref.read(setActiveProvider(false));
     super.initState();
   }
 
@@ -77,7 +81,11 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
         if (next.isEmpty) {
           ref.watch(dashboardPanelProvider).close();
           dNotifier.dMinHeight = 0.h;
-          dNotifier.dHeight = 300.h;
+          double aR = (900.h / 360.w);
+          if (aR > 2.3) {
+            debugPrint("Small Screen");
+          }
+          dNotifier.dHeight = aR > 2.3 ? 300.h : 270.h;
         } else {
           dNotifier.dMinHeight = 72.h;
           Future.delayed(
@@ -114,10 +122,14 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                   toolbarHeight: 120.h,
                   backgroundColor: majorelleBlue,
                   title: FadeIn(
+                    delay: const Duration(milliseconds: 2100),
                     child: SlideInRight(
                       child: InkWell(
                         onTap: () => context.router.push(const SettingsRoute()),
-                        child: const MyLogo(),
+                        child: Padding(
+                          padding: EdgeInsets.all(3.r),
+                          child: const MyLogo(),
+                        ),
                       ),
                     ),
                   ),
@@ -127,9 +139,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
       body: AnimatedSwitcher(
         duration: const Duration(microseconds: 500),
         child: !isPhone || doNotShow
-            ? WorkInProgress(
-                inWork: !isPhone ? 'Screen size not compatible' : inWork,
-              )
+            ? WorkInProgress(inWork: !isPhone ? notCompatible : inWork)
             : const _DashboardSliding(),
       ),
     );
@@ -149,6 +159,7 @@ class _DashboardSliding extends ConsumerWidget {
       body: const SafeArea(bottom: false, child: _Dashboard()),
       isDraggable: false,
       backdropEnabled: true,
+      backdropTapClosesPanel: ref.watch(idNotifier).isEmpty,
       panel: AnimatedSwitcher(
         duration: const Duration(milliseconds: 500),
         child: Container(
@@ -159,6 +170,7 @@ class _DashboardSliding extends ConsumerWidget {
             child: dPanelNotifier.dWidget),
       ),
       onPanelClosed: () {
+        FocusScope.of(context).unfocus();
         if (ref.read(idNotifier).isEmpty) {
           ref.read(dashboardPanelNotifierProvider).dWidget =
               const CreateGameRoom();
@@ -170,22 +182,13 @@ class _DashboardSliding extends ConsumerWidget {
   }
 }
 
-/*   if (ref.watch(idNotifier).isNotEmpty) {
-          //ref.read(idNotifier.notifier).empty();
-        } else {
-          ref.read(dashboardPanelNotifierProvider).dWidget =
-              const CreateGameRoom();
-          //ref.watch(dPanelHeightProvider.notifier).state = 300.h;
-        }
-        //ref.watch(dPanelHeightProvider.notifier).state = 300.h;
-   */
-
 class _Dashboard extends ConsumerWidget {
   const _Dashboard();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final MyUser myUser = ref.watch(myUserProvider).value!;
+    final bool enterAvatarCode = ref.watch(enterAvatarCodeProvider);
 
     return SingleChildScrollView(
       padding: EdgeInsets.only(top: 30.h),
@@ -209,20 +212,22 @@ class _Dashboard extends ConsumerWidget {
           ),
           Gap(15.r),
           const PlayWithFriend(),
-          StaggeredGridTile.fit(
-            crossAxisCellCount: 20,
-            child: Divider(
-              color: gray,
-              thickness: 0.45.r,
-              indent: 15.r,
-              endIndent: 15.r,
+          if (enterAvatarCode)
+            StaggeredGridTile.fit(
+              crossAxisCellCount: 20,
+              child: Divider(
+                color: gray,
+                thickness: 0.45.r,
+                indent: 15.r,
+                endIndent: 15.r,
+              ),
             ),
-          ),
-          const StaggeredGridTile.fit(
-            crossAxisCellCount: 20,
-            child: EnterAvatarCode(),
-          ),
-          Gap(210.r),
+          if (enterAvatarCode)
+            const StaggeredGridTile.fit(
+              crossAxisCellCount: 20,
+              child: EnterAvatarCode(),
+            ),
+          Gap(180.r),
         ],
       ),
     );

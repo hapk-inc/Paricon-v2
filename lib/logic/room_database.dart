@@ -48,7 +48,7 @@ class RoomDatabase {
     return _key;
   }
 
-  Future<Room?> get hostRoom => id == null
+  /*Future<Room?> get hostRoom => id == null
       ? Future.value(null)
       : id!.isEmpty
           ? Future.value(null)
@@ -63,7 +63,25 @@ class RoomDatabase {
                   return null;
                 }
               },
-            );
+            );*/
+
+  Stream<Room?> get sGameRoom {
+    late StreamController<Room?> controller;
+    controller = StreamController<Room?>(
+      onListen: () => roomReference.onValue.listen(
+        (event) {
+          if (event.snapshot.exists) {
+            Map map = event.snapshot.value as Map;
+            Map<String, dynamic> json = Map<String, dynamic>.from(map);
+            final Room room = Room.fromJson(json);
+            controller.add(room);
+            if (room.players.isEmpty) controller.close();
+          }
+        },
+      ),
+    );
+    return controller.stream;
+  }
 
   Future<dynamic> validateCode(String roomCode) {
     num roomCode0 = num.parse(roomCode);
@@ -96,6 +114,8 @@ class RoomDatabase {
       },
     );
   }
+
+  Future get leaveRoom => roomReference.child('players/$userId').remove();
 
   Future joinRoom(User user, MyUser myUser) async {
     Map map = {

@@ -4,6 +4,7 @@ import 'package:paricon/logic/board_database.dart';
 
 import '../model/board.dart';
 import '../model/local_icon.dart';
+import '../model/local_player.dart';
 import 'board_provider.dart';
 
 final AutoDisposeChangeNotifierProvider<PlayFriendListener>
@@ -14,25 +15,24 @@ class PlayFriendListener extends ChangeNotifier {
   final Ref ref;
   late Board? board;
   late Map<String, LocalIcon> _icons;
+  late Map<String, LocalPlayer> _players;
   late bool _inWait;
   late bool _allFound;
 
   late Stopwatch _stopwatch;
-  double _balancePercentage = 0.0;
+  //double _balancePercentage = 0.0;
   bool _alreadyClicked = true;
 
   PlayFriendListener(this.ref) {
     board = ref.read(boardProvider).when(
           data: (d) {
             if (d != null) {
-              _icons = Map.from(d.icons);
+              _icons = Map<String, LocalIcon>.from(d.icons);
+              _players = Map<String, LocalPlayer>.from(d.players);
             }
             return d;
           },
-          error: (_, s) {
-            debugPrintStack(stackTrace: s);
-            return null;
-          },
+          error: (_, s) => null,
           loading: () => null,
         );
     _stopwatch = Stopwatch();
@@ -46,6 +46,8 @@ class PlayFriendListener extends ChangeNotifier {
   bool get inWait => _inWait;
 
   Map<String, LocalIcon> get icons => _icons;
+
+  Map<String, LocalPlayer> get players => _players;
 
   void iconClick(String i) async {
     final boardDatabase = ref.read(boardDatabaseProvider);
@@ -93,6 +95,22 @@ class PlayFriendListener extends ChangeNotifier {
       }
     }
     debugPrint("95--$z");
-    await boardDatabase.updateBoard(z, addPts: validCheck);
+    await boardDatabase.updateBoard(
+      z,
+      addPts: validCheck,
+      nextPlayer: !validCheck ? await changeNextPlayer : null,
+    );
+  }
+
+  Future<String> get changeNextPlayer async {
+    debugPrint("changeNextPlayer");
+    final String prevPlayer = await ref.read(currentIDProvider.future);
+    List<String> pList = List.from(_players.keys);
+    int prevIndex = pList.indexOf(prevPlayer);
+    return _players.keys.length == 1
+        ? pList.first
+        : pList.length == (prevIndex + 1)
+            ? pList.first
+            : pList[prevIndex + 1];
   }
 }
