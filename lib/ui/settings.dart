@@ -93,6 +93,50 @@ class SettingsState extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        Gap(7.5.r),
+        ListTile(
+          horizontalTitleGap: 4.5.r,
+          dense: true,
+          onTap: () => ref.read(signOutProvider),
+          leading: Icon(
+            FontAwesomeIcons.rightFromBracket,
+            size: 21.r,
+            color: jasper,
+          ),
+          title: Container(
+            height: 45.h,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Log Out",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(fontSize: 21.r, color: jasper),
+              /* style: TextStyle(
+                fontFamily: 'WendyOne',
+                fontWeight: FontWeight.normal,
+                fontSize: 21.r,
+                color: jasper,
+              ),*/
+            ),
+          ),
+          trailing: SizedBox.square(
+            dimension: 30.r,
+            child: const Icon(Icons.chevron_right, color: jasper),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class SettingsState1 extends ConsumerWidget {
+  const SettingsState1({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final BestD? myBestD = ref.watch(myBestDProvider).value;
 
     return SafeArea(

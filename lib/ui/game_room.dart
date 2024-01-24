@@ -170,6 +170,7 @@ class CreateRoom extends ConsumerWidget {
       children: [
         Gap(3.r),
         ToggleSwitch(
+          changeOnTap: false,
           radiusStyle: true,
           labels: List.from(RoomLevel.values.map((e) => firstCaps(e.name))),
           customWidths: [75.w, 105.w, 75.w],
@@ -193,6 +194,7 @@ class CreateRoom extends ConsumerWidget {
         ),
         Gap(30.r),
         ToggleSwitch(
+          changeOnTap: false,
           radiusStyle: true,
           labels: List.from(
             RoomType.values.map((e) => firstCaps(e.name)),

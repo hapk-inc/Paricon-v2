@@ -19,18 +19,18 @@ final Provider<String> inWorkProvider = Provider<String>(
   },
 );
 
-final Provider<int> recentCountProvider = Provider<int>(
-  (ref) {
-    final remoteConfig = ref.watch(remoteConfigProvider);
-    final int recentCount = remoteConfig.getInt('recentCount');
-    return recentCount;
-  },
-);
-
 final Provider<bool> showPlayOnlineProvider = Provider<bool>(
   (ref) {
     final remoteConfig = ref.watch(remoteConfigProvider);
     final bool show = remoteConfig.getBool('playOnline');
     return show;
+  },
+);
+
+final Provider<int> onlinePlayerProvider = Provider<int>(
+  (ref) {
+    final remoteConfig = ref.watch(remoteConfigProvider);
+    final int onlineCount = remoteConfig.getInt('onlineCount');
+    return onlineCount;
   },
 );

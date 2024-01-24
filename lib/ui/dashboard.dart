@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
+import 'package:paricon/router/my_route.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../dashboard/d_name.dart';
@@ -113,7 +114,12 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                   toolbarHeight: 120.h,
                   backgroundColor: majorelleBlue,
                   title: FadeIn(
-                    child: SlideInRight(child: const MyLogo()),
+                    child: SlideInRight(
+                      child: InkWell(
+                        onTap: () => context.router.push(const SettingsRoute()),
+                        child: const MyLogo(),
+                      ),
+                    ),
                   ),
                   elevation: 3.r,
                 ),
@@ -207,7 +213,7 @@ class _Dashboard extends ConsumerWidget {
             crossAxisCellCount: 20,
             child: Divider(
               color: gray,
-              thickness: 0.75.r,
+              thickness: 0.45.r,
               indent: 15.r,
               endIndent: 15.r,
             ),
