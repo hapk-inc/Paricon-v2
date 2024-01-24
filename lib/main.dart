@@ -51,11 +51,7 @@ Future<void> main() async {
 
   if (iNet != ConnectivityResult.none) {
     debugPrint("Initialising Remote Config for connectivity $iNet");
-    /*await remoteConfig.fetchAndActivate().catchError(
-      (e, s) {
-        debugPrint(e.toString());
-      },
-    );*/
+    await remoteConfig.fetchAndActivate();
   }
 
   //const fatalError = true;
@@ -89,7 +85,7 @@ Future<void> main() async {
           databaseProvider.overrideWithValue(database),
           remoteConfigProvider.overrideWithValue(remoteConfig),
           crashlyticsProvider.overrideWithValue(firebaseCrashlytics),
-          checkNetProvider.overrideWith((ref) async => iNet)
+          checkNetProvider.overrideWith((_) async => iNet)
         ],
         child: const MyApp(),
       ),

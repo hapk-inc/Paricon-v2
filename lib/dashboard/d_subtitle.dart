@@ -22,6 +22,48 @@ class DSubtitle extends ConsumerWidget {
 
     return StaggeredGridTile.fit(
       crossAxisCellCount: 20,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.w),
+        child: AutoSizeText.rich(
+          TextSpan(
+            children: [
+              if (myUser.avatar == null)
+                TextSpan(
+                  text: ref.read(welcomeSubtitleProvider),
+                  children: [
+                    TextSpan(
+                      text: "click here",
+                      recognizer: TapGestureRecognizer()
+                        ..onTap =
+                            () => ref.read(setCardAvatarProvider(fUser!.uid)),
+                      style: const TextStyle(color: darkPastelGreen),
+                    ),
+                  ],
+                )
+              else
+                TextSpan(text: ref.read(goodDayProvider))
+            ],
+          ),
+          style: Theme.of(context).textTheme.bodySmall,
+          maxLines: 2,
+          minFontSize: 12,
+          maxFontSize: 15,
+        ),
+      ),
+    );
+  }
+}
+
+class DSubtitle1 extends ConsumerWidget {
+  final MyUser myUser;
+  const DSubtitle1(this.myUser, {super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final User? fUser = ref.watch(authUserProvider).value;
+
+    return StaggeredGridTile.fit(
+      crossAxisCellCount: 20,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 500),
         padding: EdgeInsets.symmetric(horizontal: 15.w),
@@ -61,12 +103,7 @@ class DSubtitle extends ConsumerWidget {
                 : AutoSizeText(
                     ref.read(goodDayProvider),
                     maxLines: 1,
-                    style: TextStyle(
-                      color: gray,
-                      fontSize: 12.r,
-                      fontWeight: FontWeight.w300,
-                      letterSpacing: 0,
-                    ),
+                    style: const TextStyle(letterSpacing: 0),
                     minFontSize: 9,
                     maxFontSize: 12,
                   ),

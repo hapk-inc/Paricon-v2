@@ -89,46 +89,50 @@ class __PlayFriendBoard extends ConsumerWidget {
     return board == null
         ? Container()
         : LayoutBuilder(builder: (_, c) {
-            return SingleChildScrollView(
-              child: StaggeredGrid.count(
-                crossAxisCount: 20,
-                children: [
-                  StaggeredGridTile.fit(
-                    crossAxisCellCount: 20,
-                    //mainAxisCellCount: 31.5,
-                    child: Card(
-                      margin: EdgeInsets.symmetric(horizontal: 15.r),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7.5.r),
-                      ),
-                      elevation: 3.r,
-                      child: SizedBox(
-                        height: c.maxWidth * 1.5,
-                        child: Column(
-                          children: [
-                            const Flexible(
-                              flex: 2,
-                              child: PlayFriendTimer(),
-                            ),
-                            Gap(30.r),
-                            Expanded(
-                              flex: 11,
-                              child: _PlayFriendGrid(board.icons),
-                            ),
-                            const Flexible(
-                              child: PlayFriendFooter(),
-                            )
-                          ],
+            return Align(
+              alignment: Alignment.topCenter,
+              child: SingleChildScrollView(
+                child: StaggeredGrid.count(
+                  crossAxisCount: 20,
+                  children: [
+                    Gap(45.r),
+                    StaggeredGridTile.fit(
+                      crossAxisCellCount: 20,
+                      //mainAxisCellCount: 31.5,
+                      child: Card(
+                        margin: EdgeInsets.symmetric(horizontal: 15.r),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(7.5.r),
+                        ),
+                        elevation: 3.r,
+                        child: SizedBox(
+                          height: c.maxWidth * 1.5,
+                          child: Column(
+                            children: [
+                              const Flexible(
+                                flex: 2,
+                                child: PlayFriendTimer(),
+                              ),
+                              Gap(30.r),
+                              Expanded(
+                                flex: 11,
+                                child: _PlayFriendGrid(board.icons),
+                              ),
+                              const Flexible(
+                                child: PlayFriendFooter(),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Gap(30.r),
-                  StaggeredGridTile.fit(
-                    crossAxisCellCount: 20,
-                    child: PlayFriendList(board.players.keys.toList()),
-                  )
-                ],
+                    Gap(30.r),
+                    StaggeredGridTile.fit(
+                      crossAxisCellCount: 20,
+                      child: PlayFriendList(board.players.keys.toList()),
+                    )
+                  ],
+                ),
               ),
             );
           });
@@ -141,17 +145,19 @@ class PlayFriendFooter extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-        /* color: Colors.green.shade200,
+      //color: Colors.green.shade200,
       padding: EdgeInsets.only(left: 15.w),
       alignment: Alignment.centerLeft,
-      child: const Text(
+      child: Text(
         "It's your turn",
         style: TextStyle(
           fontFamily: 'Poppins',
           color: richBlack,
+          fontWeight: FontWeight.w400,
+          fontSize: 12.r,
         ),
-      ),*/
-        );
+      ),
+    );
   }
 }
 
@@ -165,10 +171,13 @@ class PlayFriendTimer extends ConsumerWidget {
       alignment: Alignment.centerLeft,
       child: ListTile(
         contentPadding: EdgeInsets.symmetric(horizontal: 15.r),
-        title: SizedBox(
-          height: 60.h,
+        dense: true,
+        title: Container(
+          height: 72.h,
+          alignment: Alignment.centerLeft,
           child: ListTile(
             contentPadding: EdgeInsets.zero,
+            dense: true,
             title: Container(
               alignment: Alignment.centerLeft,
               child: Column(
@@ -219,7 +228,7 @@ class PlayFriendTimer extends ConsumerWidget {
                 context.router.pop();
                 ref.read(idNotifier.notifier).empty();
               },
-              child: Icon(Icons.close, size: 30.r),
+              child: Icon(Icons.close, size: 24.r),
             ),
           ),
         ),
@@ -366,8 +375,8 @@ class _PlayFriendGrid extends ConsumerWidget {
         ),
         minItemWidth: 1.w,
         minItemsPerRow: 7,
-        horizontalGridSpacing: 7.5.w,
-        verticalGridSpacing: 9.h,
+        horizontalGridSpacing: 7.2.r,
+        verticalGridSpacing: 7.2.r,
         horizontalGridMargin: 0,
         verticalGridMargin: 0,
         maxItemsPerRow: 7,

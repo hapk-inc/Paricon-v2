@@ -43,6 +43,224 @@ class HostRoom extends ConsumerWidget {
           return null;
         },
         loading: () => null);
+    final pTheme = SlidingPanelTheme();
+    return ListView(
+      padding: pTheme.slidingPanelPadding,
+      children: [
+        ListTile(
+          dense: true,
+          tileColor: xantHous,
+          horizontalTitleGap: 0,
+          minLeadingWidth: 0,
+          contentPadding: EdgeInsets.zero,
+          leading: AnimatedFlipCounter(
+            value: room == null ? 0 : room.roomCode,
+            wholeDigits: 6,
+            duration: const Duration(milliseconds: 1200),
+            textStyle: TextStyle(
+              fontFamily: 'Montserrat',
+              fontSize: 30.r,
+              color: federalBlue,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 1.5.r,
+            ),
+          ),
+          trailing: room == null
+              ? null
+              : SizedBox(
+                  width: 90.w,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.done,
+                          size: 27.r,
+                          color: cornellRed,
+                        ),
+                        onPressed: () =>
+                            ref.watch(createBoardProvider.future).then(
+                          (created) {
+                            debugPrint("Created $created");
+                            if (created) {
+                              ref.read(gameStartProvider);
+                            }
+                          },
+                        ).catchError(
+                          (e, s) {
+                            debugPrintStack(stackTrace: s);
+                          },
+                        ),
+                      ),
+                      Icon(Icons.close, size: 27.r, color: gray),
+                    ],
+                  ),
+                ),
+        ),
+        //Gap(3.r),
+        if (room != null) ...[
+          if (room.players.containsKey(room.creatorID))
+            AutoSizeText(
+              "${room.players[room.creatorID]['name']} created this room. "
+              "Share the code with your friends",
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 12.r,
+                height: 2.1.r,
+                fontWeight: FontWeight.normal,
+                color: federalBlue,
+              ),
+              maxFontSize: 15,
+              minFontSize: 9,
+              maxLines: 1,
+            ),
+          Gap(24.r),
+          Container(
+            height: 105.h,
+            //  margin: EdgeInsets.symmetric(vertical: 24.r),
+            width: 330.w,
+            decoration: BoxDecoration(
+              color: lavenderWeb,
+              borderRadius: BorderRadius.circular(7.5.r),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(7.5.r),
+              child: LayoutBuilder(builder: (_, c) {
+                return ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: room.players.entries
+                        .map((e) => FadeInRight(
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 500),
+                                color: gridColor[mockInteger(0, 2)],
+                                width: c.maxWidth / room.players.length,
+                                child: Stack(
+                                  children: [
+                                    AnimatedPositioned(
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      bottom: -10.5.h,
+                                      left: 0,
+                                      right: 0,
+                                      child: Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: FadeInUp(
+                                          child: RandomAvatar(
+                                            e.value['avatar'],
+                                            trBackground: true,
+                                            height: c.maxWidth * 0.24,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ))
+                        .toList());
+              }),
+            ),
+          ),
+          Gap(15.r),
+          Container(
+            decoration: BoxDecoration(
+              color: lavenderWeb,
+              borderRadius: BorderRadius.circular(7.5.r),
+            ),
+            height: 144.h,
+            width: 330.w,
+            child: LayoutBuilder(builder: (context, c1) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Gap(3.r),
+                  ToggleSwitch(
+                    radiusStyle: true,
+                    labels: List.from(
+                        RoomLevel.values.map((e) => firstCaps(e.name))),
+                    customWidths: [75.w, 105.w, 75.w],
+                    minHeight: 36.h,
+                    changeOnTap: false,
+                    initialLabelIndex:
+                        RoomLevel.values.indexWhere((x) => x == room.level),
+                    /*onToggle: (index) => ref
+                        .read(levelProvider.notifier)
+                        .state = RoomLevel.values[index!],*/
+                    inactiveBgColor: lavenderWeb,
+                    inactiveFgColor: charcoal,
+                    activeBgColor: const [tropicalIndigo],
+                    animate: true,
+                    animationDuration: 150,
+                    dividerColor: ghostWhite,
+                    dividerMargin: 1.2.r,
+                    customTextStyles: [
+                      TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 15.r,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ],
+                  ),
+                  Gap(30.r),
+                  ToggleSwitch(
+                    changeOnTap: false,
+                    radiusStyle: true,
+                    labels: List.from(
+                      RoomType.values.map((e) => firstCaps(e.name)),
+                    ),
+                    customWidths: [105.w, 90.w, 120.w],
+                    minHeight: 45.h,
+                    initialLabelIndex:
+                        RoomType.values.indexWhere((x) => x == room.type),
+                    onToggle: null,
+                    //onToggle: (index) => ref.read(typeProvider.notifier).state =
+                    //    RoomType.values[index!],
+                    inactiveBgColor: lavenderWeb,
+                    inactiveFgColor: charcoal,
+                    activeBgColor: const [federalBlue],
+                    //animate: true,
+                    animationDuration: 120,
+                    dividerColor: ghostWhite,
+                    dividerMargin: 1.2.r,
+                    customTextStyles: [
+                      TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14.4.r,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            }),
+          ),
+        ]
+      ],
+    );
+  }
+}
+
+class HostRoom3 extends ConsumerWidget {
+  const HostRoom3({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(
+      sGameStartProvider.select((data) => data.value ?? false),
+      (previous, next) {
+        if (next) {
+          context.router.push(const PlayFriendRoute());
+        }
+      },
+    );
+
+    final Room? room = ref.watch(roomProvider).when(
+        data: (x) => x,
+        error: (e, s) {
+          debugPrintStack(stackTrace: s);
+          return null;
+        },
+        loading: () => null);
     final int i = mockInteger(1, 3);
     final pTheme = SlidingPanelTheme();
     return room == null
@@ -52,8 +270,6 @@ class HostRoom extends ConsumerWidget {
             alignment: Alignment.centerLeft,
             child: LayoutBuilder(
               builder: (_, c) => ListView(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ListTile(
                     dense: true,
@@ -212,7 +428,7 @@ class HostRoom extends ConsumerWidget {
                             labels: List.from(
                                 RoomLevel.values.map((e) => firstCaps(e.name))),
                             customWidths: [75.w, 105.w, 75.w],
-                            minHeight: c1.maxHeight * 0.24,
+                            minHeight: 36.h,
                             onToggle: (index) => ref
                                 .read(levelProvider.notifier)
                                 .state = RoomLevel.values[index!],
@@ -238,7 +454,7 @@ class HostRoom extends ConsumerWidget {
                               RoomType.values.map((e) => firstCaps(e.name)),
                             ),
                             customWidths: [105.w, 90.w, 120.w],
-                            minHeight: c1.maxHeight * 0.255,
+                            minHeight: 45.h,
                             onToggle: (index) => ref
                                 .read(typeProvider.notifier)
                                 .state = RoomType.values[index!],

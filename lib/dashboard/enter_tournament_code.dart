@@ -32,23 +32,19 @@ class EnterTournamentCode extends StatelessWidget {
                 children: [
                   AutoSizeText(
                     "🏁 Ready, Set, Game : Join the Tournament 🏆",
-                    style: TextStyle(
-                      fontSize: 27.r,
-                      fontFamily: 'WendyOne',
-                      height: 1.8.r,
-                      color: cinerous,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          height: 1.8.r,
+                          color: cinerous,
+                        ),
                     maxLines: 3,
                   ),
                   //Gap(6.r),
                   AutoSizeText(
                     "Challenge the Best, Be the Best – It's Your Time to Dominate!",
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          height: 2.1.r,
-                          fontFamily: 'Poppins',
-                          color: cinerous,
-                          letterSpacing: 0,
-                        ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: cinerous),
                     maxLines: 1,
                   ),
                 ],

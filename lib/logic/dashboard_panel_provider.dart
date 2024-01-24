@@ -38,7 +38,7 @@ final ChangeNotifierProvider<DashboardPanelNotifier>
 
 class DashboardPanelNotifier extends ChangeNotifier {
   final PanelController panelController = PanelController();
-  double _dHeight = 300.h;
+  double _dHeight = 270.h;
   double _dMinHeight = 0.h;
   Widget _dWidget = const CreateGameRoom();
   Widget _dCollapsedWidget = Container();
@@ -46,7 +46,14 @@ class DashboardPanelNotifier extends ChangeNotifier {
   num _tab = 0;
   late TabController _tabController;
 
-  DashboardPanelNotifier(this.ref);
+  DashboardPanelNotifier(this.ref) {
+    double aR = (900.h / 360.w);
+    if (aR > 2.3) {
+      debugPrint("Small Screen");
+      _dHeight = 300.h;
+    }
+    debugPrint("Height ${900.h / 360.w}");
+  }
 
   double get dHeight => _dHeight;
 

@@ -51,21 +51,23 @@ class _CreateGameRoomState extends ConsumerState<CreateGameRoom>
               //color: magnolia,
             ),
             padding: pTheme.slidingPanelPadding,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: c.maxHeight * 0.651,
-                  child: TabBarView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: dPanelNotifier.tabController,
-                    children: const [
-                      CreateRoom(),
-                      EnterRoomCode(),
-                    ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: c.maxHeight * 0.6,
+                    child: TabBarView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      controller: dPanelNotifier.tabController,
+                      children: const [
+                        CreateRoom(),
+                        EnterRoomCode(),
+                      ],
+                    ),
                   ),
-                ),
-                const Expanded(child: CreateRoomFooter())
-              ],
+                  CreateRoomFooter()
+                ],
+              ),
             ),
           );
         },
@@ -163,61 +165,58 @@ class CreateRoom extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ColoredBox(
-      color: magnolia,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          ToggleSwitch(
-            radiusStyle: true,
-            labels: List.from(RoomLevel.values.map((e) => firstCaps(e.name))),
-            customWidths: [75.w, 105.w, 75.w],
-            minHeight: 40.h,
-            onToggle: (index) => ref.read(levelProvider.notifier).state =
-                RoomLevel.values[index!],
-            inactiveBgColor: magnolia,
-            inactiveFgColor: charcoal,
-            activeBgColor: const [tropicalIndigo],
-            animate: true,
-            animationDuration: 150,
-            dividerColor: ghostWhite,
-            dividerMargin: 1.2.r,
-            customTextStyles: [
-              TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 15.r,
-                fontWeight: FontWeight.w700,
-              ),
-            ],
-          ),
-          Gap(30.r),
-          ToggleSwitch(
-            radiusStyle: true,
-            labels: List.from(
-              RoomType.values.map((e) => firstCaps(e.name)),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Gap(3.r),
+        ToggleSwitch(
+          radiusStyle: true,
+          labels: List.from(RoomLevel.values.map((e) => firstCaps(e.name))),
+          customWidths: [75.w, 105.w, 75.w],
+          minHeight: 36.h,
+          onToggle: (index) =>
+              ref.read(levelProvider.notifier).state = RoomLevel.values[index!],
+          inactiveBgColor: magnolia,
+          inactiveFgColor: charcoal,
+          activeBgColor: const [tropicalIndigo],
+          animate: true,
+          animationDuration: 150,
+          dividerColor: ghostWhite,
+          dividerMargin: 1.2.r,
+          customTextStyles: [
+            TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 15.r,
+              fontWeight: FontWeight.w700,
             ),
-            customWidths: [105.w, 90.w, 120.w],
-            minHeight: 43.5.h,
-            onToggle: (index) =>
-                ref.read(typeProvider.notifier).state = RoomType.values[index!],
-            inactiveBgColor: magnolia,
-            inactiveFgColor: charcoal,
-            activeBgColor: const [federalBlue],
-            animate: true,
-            animationDuration: 120,
-            dividerColor: ghostWhite,
-            dividerMargin: 1.2.r,
-            customTextStyles: [
-              TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14.4.r,
-                fontWeight: FontWeight.w700,
-              ),
-            ],
+          ],
+        ),
+        Gap(30.r),
+        ToggleSwitch(
+          radiusStyle: true,
+          labels: List.from(
+            RoomType.values.map((e) => firstCaps(e.name)),
           ),
-          Gap(30.r),
-        ],
-      ),
+          customWidths: [105.w, 90.w, 120.w],
+          minHeight: 45.h,
+          onToggle: (index) =>
+              ref.read(typeProvider.notifier).state = RoomType.values[index!],
+          inactiveBgColor: magnolia,
+          inactiveFgColor: charcoal,
+          activeBgColor: const [federalBlue],
+          //animate: true,
+          animationDuration: 120,
+          dividerColor: ghostWhite,
+          dividerMargin: 1.2.r,
+          customTextStyles: [
+            TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 14.4.r,
+              fontWeight: FontWeight.w700,
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

@@ -14,64 +14,57 @@ class PlayWithFriend extends ConsumerWidget {
   const PlayWithFriend({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return StaggeredGridTile.count(
-      crossAxisCellCount: 20,
-      mainAxisCellCount: 13.2.h,
-      child: Stack(
-        children: [
-          Positioned(
-            top: 12.r,
-            //bottom: 3.r,
-            left: 0.r,
-            right: 0.r,
-            child: Container(
-              height: 180.h,
-              decoration: BoxDecoration(
-                color: jasper,
-                borderRadius: BorderRadius.circular(7.5.r),
-              ),
-              padding: EdgeInsets.only(top: 12.r, left: 15.r),
-              margin: EdgeInsets.only(right: 24.w, left: 9.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AutoSizeText(
-                    "Play with Friends",
-                    style: TextStyle(
-                      fontFamily: 'WendyOne',
-                      fontSize: 36.r,
-                      color: magnolia,
+  Widget build(BuildContext context, WidgetRef ref) => StaggeredGridTile.count(
+        crossAxisCellCount: 20,
+        mainAxisCellCount: 13.5.h,
+        child: Stack(
+          children: [
+            Positioned(
+              top: 15.r,
+              left: 0.r,
+              right: 0.r,
+              child: Container(
+                height: 180.h,
+                decoration: BoxDecoration(
+                  color: jasper,
+                  borderRadius: BorderRadius.circular(7.5.r),
+                ),
+                padding: EdgeInsets.only(top: 15.r, left: 15.r),
+                margin: EdgeInsets.only(right: 30.w, left: 15.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AutoSizeText(
+                      "Play with Friends",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: magnolia),
                     ),
-                  ),
-                  AutoSizeText(
-                    "Max up to 3 players",
-                    style: TextStyle(
-                      fontSize: 12.r,
-                      color: ghostWhite,
-                      fontFamily: 'Poppins',
-                      // height: 2.1.r,
-                      letterSpacing: 0,
-                      fontWeight: FontWeight.normal,
+                    Gap(9.r),
+                    Text(
+                      "Max up to 3 players",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: ghostWhite),
                     ),
-                  ),
-                  Gap(15.r),
-                  const PlayOnlineButton(),
-                ],
+                    // Gap(15.r),
+                    const PlayOnlineButton(),
+                  ],
+                ),
               ),
             ),
-          ),
-          Positioned(
-            right: -30.r,
-            top: -15.r,
-            bottom: -15.r,
-            child: Lottie.asset('lottie/friends-playing.json', repeat: true),
-          ),
-        ],
-      ),
-    );
-  }
+            Positioned(
+              right: -30.r,
+              top: -15.r,
+              bottom: -15.r,
+              child: Lottie.asset('lottie/friends-playing.json', repeat: true),
+            ),
+          ],
+        ),
+      );
 }
 
 class PlayOnlineButton extends ConsumerWidget {

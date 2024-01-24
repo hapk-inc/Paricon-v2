@@ -83,7 +83,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
             const Duration(milliseconds: 1200),
             () {
               ref.watch(dashboardPanelProvider).open();
-              dNotifier.dHeight = 480.h;
+              double aR = 900.h / 360.w;
+              bool smallSize = aR > 2.3;
+              dNotifier.dHeight = smallSize ? 480.h : 450.h;
               dNotifier.dWidget = const HostRoom();
             },
           );
@@ -111,9 +113,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                   toolbarHeight: 120.h,
                   backgroundColor: majorelleBlue,
                   title: FadeIn(
-                    child: SlideInRight(
-                      child: const MyLogo(),
-                    ),
+                    child: SlideInRight(child: const MyLogo()),
                   ),
                   elevation: 3.r,
                 ),
@@ -141,30 +141,38 @@ class _DashboardSliding extends ConsumerWidget {
       controller: ref.watch(dashboardPanelProvider),
       borderRadius: pTheme.slidingPanelRadius,
       body: const SafeArea(bottom: false, child: _Dashboard()),
-      //isDraggable: false,
+      isDraggable: false,
       backdropEnabled: true,
-      /* collapsed: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
-        child: dPanelNotifier.dCollapsedWidget,
-      ),*/
       panel: AnimatedSwitcher(
         duration: const Duration(milliseconds: 500),
-        child: dPanelNotifier.dWidget,
+        child: Container(
+            decoration: BoxDecoration(
+              color: magnolia,
+              borderRadius: pTheme.slidingPanelRadius,
+            ),
+            child: dPanelNotifier.dWidget),
       ),
       onPanelClosed: () {
-        if (ref.watch(idNotifier).isNotEmpty) {
-          //ref.read(idNotifier.notifier).empty();
-        } else {
-          ref.read(dashboardPanelNotifierProvider).dWidget = CreateGameRoom();
-          //ref.watch(dPanelHeightProvider.notifier).state = 300.h;
+        if (ref.read(idNotifier).isEmpty) {
+          ref.read(dashboardPanelNotifierProvider).dWidget =
+              const CreateGameRoom();
         }
-        //ref.watch(dPanelHeightProvider.notifier).state = 300.h;
       },
       minHeight: 0.h,
       maxHeight: dPanelNotifier.dHeight,
     );
   }
 }
+
+/*   if (ref.watch(idNotifier).isNotEmpty) {
+          //ref.read(idNotifier.notifier).empty();
+        } else {
+          ref.read(dashboardPanelNotifierProvider).dWidget =
+              const CreateGameRoom();
+          //ref.watch(dPanelHeightProvider.notifier).state = 300.h;
+        }
+        //ref.watch(dPanelHeightProvider.notifier).state = 300.h;
+   */
 
 class _Dashboard extends ConsumerWidget {
   const _Dashboard();
@@ -181,6 +189,7 @@ class _Dashboard extends ConsumerWidget {
         crossAxisCount: 20,
         children: [
           DName(myUser.name),
+          Gap(9.r),
           DSubtitle(myUser),
           const RecentPlayer(),
           Gap(15.r),
@@ -198,7 +207,7 @@ class _Dashboard extends ConsumerWidget {
             crossAxisCellCount: 20,
             child: Divider(
               color: gray,
-              thickness: 0.3.r,
+              thickness: 0.75.r,
               indent: 15.r,
               endIndent: 15.r,
             ),

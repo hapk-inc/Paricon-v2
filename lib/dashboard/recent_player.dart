@@ -96,7 +96,6 @@ class RecentPlayerTile extends StatelessWidget {
                           style: tTheme.copyWith(
                             color: lightOrange,
                             letterSpacing: 0,
-                            fontSize: 30.r,
                             fontFamily: "WendyOne",
                           ),
                         )
@@ -115,14 +114,10 @@ class RecentPlayerTile extends StatelessWidget {
             child: AutoSizeText(
               firstCaps(xUser.name!),
               maxLines: 1,
-              style: TextStyle(
-                fontSize: 12.r,
-                height: 2.1.r,
-                fontFamily: 'Poppins',
-                color: richBlack,
-                fontWeight: FontWeight.w300,
-                letterSpacing: 0,
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: federalBlue),
               wrapWords: false,
               maxFontSize: 15,
               minFontSize: 9,

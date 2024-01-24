@@ -85,7 +85,7 @@ class TournamentPage extends ConsumerWidget {
                     child: StaggeredGrid.count(
                       crossAxisCount: 20,
                       children: [
-                        Gap(45.r),
+                        Gap(90.r),
                         const StaggeredGridTile.fit(
                           crossAxisCellCount: 20,
                           // mainAxisCellCount: 31.5,

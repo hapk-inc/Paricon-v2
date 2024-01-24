@@ -28,24 +28,20 @@ class EnterAvatarCode extends ConsumerWidget {
                     children: [
                       AutoSizeText(
                         "🎁 Gift your friends, a new avatars 😍",
-                        style: TextStyle(
-                          fontSize: 30.r,
-                          fontFamily: 'WendyOne',
-                          height: 1.8.r,
-                          color: cinerous,
-                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(height: 1.8.r, color: cinerous),
                         maxLines: 2,
                       ),
                       //Gap(6.r),
                       AutoSizeText(
-                        "Enter their code below and present them with new avatars.",
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                              height: 2.1.r,
-                              color: cinerous,
-                              letterSpacing: 0,
-                              fontWeight: FontWeight.w300,
-                              fontFamily: 'Poppins',
-                            ),
+                        "Enter their code below "
+                        "and present them with new avatars.",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(color: cinerous),
                         maxLines: 1,
                       ),
                     ],
@@ -149,7 +145,7 @@ class EnterAvatarCode extends ConsumerWidget {
                                 "ENTER CODE",
                                 style: TextStyle(
                                   fontFamily: 'Cabin',
-                                  fontSize: 13.5.r,
+                                  fontSize: 15.r,
                                   color: ghostWhite,
                                 ),
                               ),

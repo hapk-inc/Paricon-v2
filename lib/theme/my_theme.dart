@@ -17,6 +17,22 @@ ThemeData get buildThemeData => ThemeData(
             letterSpacing: 0.12.r,
             height: 2.4,
             fontWeight: FontWeight.w400),
+        bodyMedium: TextStyle(
+          color: violetBlue,
+          fontSize: 30.r,
+          fontFamily: 'WendyOne',
+          height: 0,
+          letterSpacing: 0,
+          fontWeight: FontWeight.w700,
+        ),
+        bodySmall: TextStyle(
+          fontSize: 10.8.r,
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.normal,
+          height: 2.4.r,
+          color: tropicalIndigo,
+          letterSpacing: 0,
+        ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: ButtonStyle(
