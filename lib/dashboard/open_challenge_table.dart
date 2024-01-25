@@ -5,11 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:mock_data/mock_data.dart';
-import '../logic/my_names.dart';
-import '../theme/my_theme.dart';
 
 import '../logic/auth_provider.dart';
 import '../logic/t_score.dart';

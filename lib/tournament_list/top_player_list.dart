@@ -1,15 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
-import 'package:mock_data/mock_data.dart';
-import 'package:random_avatar/random_avatar.dart';
-
-import '../logic/tournament_database.dart';
-import '../model/my_user.dart';
-import '../theme/my_color.dart';
-
 /*class TopPlayerHorizontalList extends ConsumerWidget {
   const TopPlayerHorizontalList({super.key});
 
