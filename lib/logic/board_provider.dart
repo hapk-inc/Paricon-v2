@@ -33,7 +33,7 @@ final AutoDisposeStreamProviderFamily<LocalPlayer, String>
 final AutoDisposeStreamProvider<String> currentIDProvider =
     StreamProvider.autoDispose<String>(
   (ref) {
-    final boardDatabase = ref.read(boardDatabaseProvider!);
+    final boardDatabase = ref.read(boardDatabaseProvider);
     return boardDatabase.currentID;
   },
 );

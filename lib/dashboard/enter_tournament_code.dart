@@ -43,7 +43,7 @@ class EnterTournamentCode extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall!
-                        .copyWith(color: cinerous),
+                        .copyWith(color: gray),
                     maxLines: 1,
                   ),
                 ],

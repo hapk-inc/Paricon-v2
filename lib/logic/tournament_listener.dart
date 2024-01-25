@@ -61,7 +61,9 @@ class TournamentListener extends ChangeNotifier {
           if (x.every((e) => x.first.iconCode == e.iconCode)) {
             for (var e in x) {
               _icons[e.iconNo] = e.copyWith(
-                  isCheck: false, isFound: true, color: majorelleBlue.value);
+                isCheck: false,
+                isFound: true,
+              );
             }
             int iconFoundCount =
                 _icons.where((element) => element.isFound).length;

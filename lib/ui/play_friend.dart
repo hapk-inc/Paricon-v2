@@ -4,12 +4,14 @@ import 'package:animate_do/animate_do.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/logic/auth_provider.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -99,7 +101,6 @@ class __PlayFriendBoard extends ConsumerWidget {
                       Gap(45.r),
                       StaggeredGridTile.fit(
                         crossAxisCellCount: 20,
-                        //mainAxisCellCount: 31.5,
                         child: Card(
                           margin: EdgeInsets.symmetric(horizontal: 15.r),
                           shape: RoundedRectangleBorder(
@@ -107,10 +108,8 @@ class __PlayFriendBoard extends ConsumerWidget {
                           ),
                           elevation: 3.r,
                           child: SizedBox(
-                            // height: c.maxWidth * 1.5,
                             height: (360.w * 1.5),
                             child: Column(
-                              //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Flexible(
                                   flex: 2,
@@ -150,20 +149,33 @@ class PlayFriendFooter extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      //color: Colors.green.shade200,
-      padding: EdgeInsets.only(left: 15.w),
-      alignment: Alignment.centerLeft,
-      child: Text(
-        "It's your turn",
-        style: TextStyle(
-          fontFamily: 'Poppins',
-          color: gray,
-          fontWeight: FontWeight.w400,
-          fontSize: 15.r,
-        ),
-      ),
-    );
+    final User? user = ref.watch(authUserProvider).value;
+    final String? currentID = ref.watch(currentIDProvider).value;
+    final playFriendNotifier = ref.read(playFriendNotifierProvider);
+    return currentID == null ||
+            playFriendNotifier.players.isEmpty ||
+            user == null
+        ? Container()
+        : AnimatedSwitcher(
+            duration: const Duration(milliseconds: 500),
+            key: ValueKey(currentID),
+            child: Container(
+              padding: EdgeInsets.only(left: 15.w),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                user.uid == currentID
+                    ? "Your turn"
+                    : "${playFriendNotifier.players[currentID]?.name}'s turn",
+                style: TextStyle(
+                  fontFamily: 'WendyOne',
+                  color: playFriendNotifier.colorMap[
+                      playFriendNotifier.players[currentID]!.color]['icon'],
+                  fontWeight: FontWeight.w300,
+                  fontSize: 18.r,
+                ),
+              ),
+            ),
+          );
   }
 }
 
@@ -171,89 +183,91 @@ class PlayFriendTimer extends ConsumerWidget {
   const PlayFriendTimer({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => Container(
-        alignment: Alignment.centerLeft,
-        child: ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 15.r),
-          dense: true,
-          title: Container(
-            height: 72.h,
-            alignment: Alignment.centerLeft,
-            child: ListTile(
-              contentPadding: EdgeInsets.zero,
-              dense: true,
-              title: Container(
-                alignment: Alignment.centerLeft,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.timer,
-                          size: 30.r,
+  Widget build(BuildContext context, WidgetRef ref) {
+    final playFriendNotifier = ref.watch(playFriendNotifierProvider);
+    final Duration gDuration = playFriendNotifier.stopwatch.elapsed;
+    return Container(
+      alignment: Alignment.centerLeft,
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(horizontal: 15.r),
+        dense: true,
+        title: Container(
+          height: 72.h,
+          alignment: Alignment.centerLeft,
+          child: ListTile(
+            contentPadding: EdgeInsets.zero,
+            dense: true,
+            title: Container(
+              alignment: Alignment.centerLeft,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.timer,
+                        size: 30.r,
+                        color: amaranthPurple,
+                      ),
+                      SizedBox.square(dimension: 7.5.r),
+                      AnimatedFlipCounter(
+                        value: gDuration.inMinutes,
+                        suffix: " : ",
+                        wholeDigits: 2,
+                        textStyle: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w900,
+                          fontSize: 18.r,
                           color: amaranthPurple,
+                          letterSpacing: 0.12.r,
                         ),
-                        SizedBox.square(dimension: 7.5.r),
-                        AnimatedFlipCounter(
-                          value: mockInteger(100, 500),
-                          suffix: " : ",
-                          wholeDigits: 2,
-                          textStyle: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w900,
-                            fontSize: 18.r,
-                            color: amaranthPurple,
-                            letterSpacing: 0.12.r,
-                          ),
+                      ),
+                      SizedBox.square(dimension: 1.5.r),
+                      AnimatedFlipCounter(
+                        value: gDuration.inSeconds % 60,
+                        wholeDigits: 2,
+                        textStyle: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w900,
+                          fontSize: 18.r,
+                          color: amaranthPurple,
+                          letterSpacing: 0.12.r,
                         ),
-                        SizedBox.square(dimension: 1.5.r),
-                        AnimatedFlipCounter(
-                          value: Duration(
-                                seconds: mockInteger(100, 3000),
-                              ).inSeconds %
-                              60,
-                          wholeDigits: 2,
-                          textStyle: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w900,
-                            fontSize: 18.r,
-                            color: amaranthPurple,
-                            letterSpacing: 0.12.r,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              trailing: InkWell(
-                onTap: () {
-                  context.router.pop();
-                  ref.read(idNotifier.notifier).empty();
-                },
-                child: Icon(Icons.close, size: 24.r),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-          ),
-          subtitle: ClipRRect(
-            borderRadius: BorderRadius.circular(3.r),
-            child: TweenAnimationBuilder<double>(
-              duration: const Duration(milliseconds: 250),
-              curve: Curves.easeInOut,
-              tween: Tween<double>(begin: 0, end: mockInteger(1, 100) * 0.01
-                  // end: tournamentListener.balancePercentage,
-                  ),
-              builder: (_, value, __) => LinearProgressIndicator(
-                value: value,
-                color: majorelleBlue,
-                backgroundColor: periwinkle,
-                minHeight: 4.5.r,
-              ),
+            trailing: InkWell(
+              onTap: () {
+                context.router.pop();
+                ref.read(idNotifier.notifier).empty();
+              },
+              child: Icon(Icons.close, size: 24.r),
             ),
           ),
         ),
-      );
+        subtitle: ClipRRect(
+          borderRadius: BorderRadius.circular(3.r),
+          child: TweenAnimationBuilder<double>(
+            duration: const Duration(milliseconds: 250),
+            curve: Curves.easeInOut,
+            tween: Tween<double>(
+              begin: 0,
+              end: playFriendNotifier.balancePercentage,
+            ),
+            builder: (_, value, __) => LinearProgressIndicator(
+              value: value,
+              color: majorelleBlue,
+              backgroundColor: periwinkle,
+              minHeight: 4.5.r,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class PlayFriendList extends StatelessWidget {
@@ -266,7 +280,11 @@ class PlayFriendList extends StatelessWidget {
         height: 72.h,
         child: ListView(
           scrollDirection: Axis.horizontal,
-          children: List.from(players.map((e) => PlayFriendListTile(e))),
+          children: List.from(
+            players.map(
+              (e) => PlayFriendListTile(e),
+            ),
+          ),
         ),
       );
 }
@@ -278,16 +296,16 @@ class PlayFriendListTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final Board? board = ref.watch(boardProvider).value;
+    final playFriendNotifier = ref.watch(playFriendNotifierProvider);
     return board == null
         ? Container()
         : ref.watch(playFriendPlayerProvider(playerId)).when(
-            data: (d) => AnimatedContainer(
+            data: (player) => AnimatedContainer(
                   duration: const Duration(milliseconds: 500),
                   width: (360.w / board.players.length),
                   margin: EdgeInsets.symmetric(horizontal: 1.5.r),
                   decoration: BoxDecoration(
-                    color:
-                        List.from([...gridColor, cyclamen], growable: true)[0],
+                    color: playFriendNotifier.colorMap[player.color]['tile'],
                   ),
                   child: Stack(
                     children: [
@@ -301,7 +319,7 @@ class PlayFriendListTile extends ConsumerWidget {
                               height: 30.h,
                               alignment: Alignment.centerLeft,
                               child: AutoSizeText(
-                                d.name,
+                                player.name,
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   letterSpacing: 0,
@@ -319,7 +337,7 @@ class PlayFriendListTile extends ConsumerWidget {
                               height: 36.h,
                               alignment: Alignment.centerLeft,
                               child: AnimatedFlipCounter(
-                                value: d.pts,
+                                value: player.pts,
                                 wholeDigits: 2,
                                 textStyle: TextStyle(
                                   fontSize: 24.r,
@@ -337,12 +355,12 @@ class PlayFriendListTile extends ConsumerWidget {
                         left: 30.r,
                         top: 7.5.r,
                         right: -30.r,
-                        child: d.avatar.isEmpty
+                        child: player.avatar.isEmpty
                             ? Container()
                             : Opacity(
                                 opacity: 0.45,
                                 child: RandomAvatar(
-                                  d.avatar,
+                                  player.avatar,
                                   trBackground: true,
                                 ),
                               ),
@@ -381,11 +399,11 @@ class _PlayFriendGrid extends ConsumerWidget {
       padding: EdgeInsets.symmetric(horizontal: 15.r),
       //padding: EdgeInsets.all(15.r),
       child: ResponsiveGridList(
-        shrinkWrap: true,
         listViewBuilderOptions: ListViewBuilderOptions(
           physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
         ),
-        minItemWidth: 1.w,
+        minItemWidth: 1.r,
         minItemsPerRow: 7,
         horizontalGridSpacing: 7.2.r,
         verticalGridSpacing: 7.2.r,
@@ -406,60 +424,66 @@ class _PlayFriendGridTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playFriendNotifier = ref.watch(playFriendNotifierProvider);
+    final User? user = ref.watch(authUserProvider).value;
+    final String? currentID = ref.watch(currentIDProvider).value;
 
     return AspectRatio(
       aspectRatio: 1,
-      child: FadeIn(
-        delay: Duration(milliseconds: mockInteger(20, 50) * 20),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 500),
-          transform: Matrix4.rotationZ(
-            (!localIcon.checkFound
-                    ? (mockInteger(0, 1) == 0 ? -pi : pi)
-                    : -pi) /
-                (localIcon.checkFound ? 60 : 45),
-          ),
-          child: Card(
-            color: !localIcon.isFound
-                //? (mockInteger(0, 1) == 0 ? federalBlue : violetBlue)
-                ? (localIcon.iconNo.isEven ? majorelleBlue : majorelleBlue)
-                : gridColor[mockInteger(0, 2)],
-            margin: EdgeInsets.zero,
-            elevation: 3,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4.5.r),
-            ),
-            child: InkWell(
-              //onTap: tListener.inWait || localIcon.checkFound
-              onTap: playFriendNotifier.inWait || localIcon.checkFound
-                  ? null
-                  : () => playFriendNotifier.iconClick(id),
-              child: AnimatedSwitcher(
+      child: user == null || currentID == null
+          ? Container()
+          : FadeIn(
+              delay: Duration(milliseconds: mockInteger(20, 50) * 20),
+              child: AnimatedContainer(
                 duration: const Duration(milliseconds: 500),
-                child: localIcon.isFound
-                    ? Icon(
-                        IconData(
-                          localIcon.iconCode,
-                          fontFamily: 'MaterialIcons',
-                        ),
-                        size: 30.r,
-                        color: federalBlue,
-                      )
-                    : localIcon.isCheck
-                        ? Icon(
-                            IconData(
-                              localIcon.iconCode,
-                              fontFamily: 'MaterialIcons',
-                            ),
-                            size: 30.r,
-                            color: ghostWhite,
-                          )
-                        : Container(),
+                transform: Matrix4.rotationZ(
+                  (!localIcon.checkFound
+                          ? (mockInteger(0, 1) == 0 ? -pi : pi)
+                          : -pi) /
+                      (localIcon.checkFound ? 60 : 45),
+                ),
+                child: Card(
+                  color: !localIcon.isFound
+                      //? (mockInteger(0, 1) == 0 ? federalBlue : violetBlue)
+                      ? majorelleBlue
+                      : playFriendNotifier.colorMap[localIcon.color]['tile'],
+                  margin: EdgeInsets.zero,
+                  elevation: 3,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4.5.r),
+                  ),
+                  child: InkWell(
+                    //onTap: tListener.inWait || localIcon.checkFound
+                    onTap: playFriendNotifier.inWait ||
+                            localIcon.checkFound ||
+                            user.uid != currentID
+                        ? null
+                        : () => playFriendNotifier.iconClick(id),
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 500),
+                      child: localIcon.isFound
+                          ? Icon(
+                              IconData(
+                                localIcon.iconCode,
+                                fontFamily: 'MaterialIcons',
+                              ),
+                              size: 30.r,
+                              color: federalBlue,
+                            )
+                          : localIcon.isCheck
+                              ? Icon(
+                                  IconData(
+                                    localIcon.iconCode,
+                                    fontFamily: 'MaterialIcons',
+                                  ),
+                                  size: 30.r,
+                                  color: ghostWhite,
+                                )
+                              : Container(),
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }

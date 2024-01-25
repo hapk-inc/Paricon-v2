@@ -9,7 +9,7 @@ class LocalIcon with _$LocalIcon {
   const LocalIcon._();
 
   const factory LocalIcon(
-      {int? color,
+      {String? color,
       String? audio,
       required int iconCode,
       required int iconNo,

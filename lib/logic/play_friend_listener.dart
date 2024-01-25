@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:paricon/logic/auth_provider.dart';
 import 'package:paricon/logic/board_database.dart';
+import 'package:paricon/theme/my_color.dart';
 
 import '../model/board.dart';
 import '../model/local_icon.dart';
@@ -20,7 +22,7 @@ class PlayFriendListener extends ChangeNotifier {
   late bool _allFound;
 
   late Stopwatch _stopwatch;
-  //double _balancePercentage = 0.0;
+  double _balancePercentage = 0.0;
   bool _alreadyClicked = true;
 
   PlayFriendListener(this.ref) {
@@ -40,6 +42,10 @@ class PlayFriendListener extends ChangeNotifier {
     _inWait = false;
     _allFound = false;
   }
+
+  double get balancePercentage => _balancePercentage;
+
+  Stopwatch get stopwatch => _stopwatch;
 
   bool get allFound => _allFound;
 
@@ -70,22 +76,24 @@ class PlayFriendListener extends ChangeNotifier {
   }
 
   Future get validCheck async {
+    final user = ref.read(authUserProvider).value;
     final Map<String, LocalIcon> z = Map<String, LocalIcon>.from(_icons);
     final boardDatabase = ref.read(boardDatabaseProvider);
     z.removeWhere((key, value) => !value.isCheck);
 
     debugPrint("75--$z");
-    final bool validCheck = z.values
-        .every((element) => element.iconCode == z.values.first.iconCode);
+    final bool validCheck = z.length > 1 &&
+        z.values
+            .every((element) => element.iconCode == z.values.first.iconCode);
     if (validCheck) {
       for (String y in z.keys) {
         _icons[y] = _icons[y]!.copyWith(
-          isCheck: false,
-          isFound: true,
-          //color: board?.players[user!.uid].color;
-          color: 0,
-        );
+            isCheck: false, isFound: true, color: _players[user!.uid]!.color);
         z[y] = _icons[y]!;
+
+        int iconFoundCount =
+            _icons.values.where((element) => element.isFound).length;
+        _balancePercentage = iconFoundCount / _icons.length;
       }
       // await boardDatabase.increment(user!.uid);
     } else {
@@ -101,6 +109,12 @@ class PlayFriendListener extends ChangeNotifier {
       nextPlayer: !validCheck ? await changeNextPlayer : null,
     );
   }
+
+  Map<String, dynamic> get colorMap => {
+        "blue": {"tile": uranianBlue, "icon": federalBlue},
+        "yellow": {"tile": xantHous, "icon": federalBlue},
+        "green": {"tile": aquamarine, "icon": federalBlue},
+      };
 
   Future<String> get changeNextPlayer async {
     debugPrint("changeNextPlayer");

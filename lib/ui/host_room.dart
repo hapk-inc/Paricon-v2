@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:mock_data/mock_data.dart';
 
 import 'package:random_avatar/random_avatar.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -82,7 +81,8 @@ class HostRoom extends ConsumerWidget {
                               size: 27.r,
                               color: cornellRed,
                             ),
-                            onPressed: user.uid == room.creatorID
+                            onPressed: user.uid == room.creatorID &&
+                                    room.players.length > 1
                                 ? () =>
                                     ref.watch(createBoardProvider.future).then(
                                       (created) {
@@ -92,7 +92,15 @@ class HostRoom extends ConsumerWidget {
                                         }
                                       },
                                     )
-                                : null,
+                                : () =>
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: richBlack,
+                                        content: Text(user.uid != room.creatorID
+                                            ? "Ask ${room.players[room.creatorID]['name']} to start the game"
+                                            : "Need atleast 2 players to start the game."),
+                                      ),
+                                    ),
                           ),
                         ),
                       Flexible(
@@ -108,7 +116,6 @@ class HostRoom extends ConsumerWidget {
                   ),
                 ),
         ),
-        //Gap(3.r),
         if (room != null) ...[
           if (room.players.containsKey(room.creatorID))
             FadeIn(

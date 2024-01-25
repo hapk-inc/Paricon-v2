@@ -8,7 +8,7 @@ part of 'local_icon.dart';
 
 _$LocalIconImpl _$$LocalIconImplFromJson(Map<String, dynamic> json) =>
     _$LocalIconImpl(
-      color: json['color'] as int?,
+      color: json['color'] as String?,
       audio: json['audio'] as String?,
       iconCode: json['iconCode'] as int,
       iconNo: json['iconNo'] as int,

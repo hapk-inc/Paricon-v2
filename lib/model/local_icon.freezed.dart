@@ -20,7 +20,7 @@ LocalIcon _$LocalIconFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$LocalIcon {
-  int? get color => throw _privateConstructorUsedError;
+  String? get color => throw _privateConstructorUsedError;
   String? get audio => throw _privateConstructorUsedError;
   int get iconCode => throw _privateConstructorUsedError;
   int get iconNo => throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ abstract class $LocalIconCopyWith<$Res> {
       _$LocalIconCopyWithImpl<$Res, LocalIcon>;
   @useResult
   $Res call(
-      {int? color,
+      {String? color,
       String? audio,
       int iconCode,
       int iconNo,
@@ -71,7 +71,7 @@ class _$LocalIconCopyWithImpl<$Res, $Val extends LocalIcon>
       color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       audio: freezed == audio
           ? _value.audio
           : audio // ignore: cast_nullable_to_non_nullable
@@ -105,7 +105,7 @@ abstract class _$$LocalIconImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int? color,
+      {String? color,
       String? audio,
       int iconCode,
       int iconNo,
@@ -135,7 +135,7 @@ class __$$LocalIconImplCopyWithImpl<$Res>
       color: freezed == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as String?,
       audio: freezed == audio
           ? _value.audio
           : audio // ignore: cast_nullable_to_non_nullable
@@ -176,7 +176,7 @@ class _$LocalIconImpl extends _LocalIcon with DiagnosticableTreeMixin {
       _$$LocalIconImplFromJson(json);
 
   @override
-  final int? color;
+  final String? color;
   @override
   final String? audio;
   @override
@@ -243,7 +243,7 @@ class _$LocalIconImpl extends _LocalIcon with DiagnosticableTreeMixin {
 
 abstract class _LocalIcon extends LocalIcon {
   const factory _LocalIcon(
-      {final int? color,
+      {final String? color,
       final String? audio,
       required final int iconCode,
       required final int iconNo,
@@ -255,7 +255,7 @@ abstract class _LocalIcon extends LocalIcon {
       _$LocalIconImpl.fromJson;
 
   @override
-  int? get color;
+  String? get color;
   @override
   String? get audio;
   @override

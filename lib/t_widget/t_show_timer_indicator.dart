@@ -27,7 +27,7 @@ class ShowTimerIndicator extends ConsumerWidget {
               children: [
                 Icon(
                   Icons.timer,
-                  size: 24.r,
+                  size: 30.r,
                   color: richBlack,
                 ),
                 SizedBox.square(dimension: 7.5.r),

@@ -41,11 +41,11 @@ class RoomDatabase {
   }
 
   Future<String?> createRoom(Room room) async {
-    String? _key = firebaseReference.child('rooms').push().key;
-    debugPrint("47-- $_key");
+    String? key = firebaseReference.child('rooms').push().key;
+    debugPrint("47-- $key");
 
-    await firebaseReference.child('rooms').child(_key!).set(room.toJson());
-    return _key;
+    await firebaseReference.child('rooms').child(key!).set(room.toJson());
+    return key;
   }
 
   /*Future<Room?> get hostRoom => id == null

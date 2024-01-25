@@ -187,7 +187,7 @@ Map convertToBoard(Map map) {
 
   Map a = Map.from(map);
 
-  List<String> colorNames = ['red', 'green', 'yellow', 'blue']..shuffle();
+  List<String> colorNames = ['green', 'yellow', 'blue']..shuffle();
   int i = 0;
   a.updateAll(
     (key, value) {
