@@ -32,7 +32,19 @@ class UserDatastore {
           ? null
           : userColl.doc(_id).snapshots().listen(
               (event) {
-                if (event.exists) getMyUser(event);
+                MyUser? myUser;
+                if (event.exists) myUser = getMyUser(event);
+                if (_userBehaviour.hasValue) {
+                  if (_userBehaviour.value != myUser) {
+                    _userBehaviour.add(myUser);
+                  }
+                } else {
+                  debugPrint("First MyUser");
+                  Future.delayed(
+                    const Duration(seconds: 5),
+                    () => _userBehaviour.add(myUser),
+                  );
+                }
               },
             ),
       onCancel: () {
@@ -47,20 +59,11 @@ class UserDatastore {
 
   Future userActive(bool flag) => userColl.doc(_id).update({'isActive': flag});
 
-  getMyUser(DocumentSnapshot<Object?> documentSnapshot) {
+  MyUser getMyUser(DocumentSnapshot<Object?> documentSnapshot) {
     Map m = documentSnapshot.data() as Map;
     Map<String, dynamic> json = Map<String, dynamic>.from(m);
     MyUser myUser = MyUser.fromJson(json);
-
-    if (_userBehaviour.hasValue) {
-      if (_userBehaviour.value != myUser) _userBehaviour.add(myUser);
-    } else {
-      debugPrint("First MyUser");
-      Future.delayed(
-        const Duration(seconds: 5),
-        () => _userBehaviour.add(myUser),
-      );
-    }
+    return myUser;
   }
 
   Future<String> get appVersion =>
@@ -158,7 +161,7 @@ class UserDatastore {
     return batch.commit();
   }
 
-  Future<MyUser?> xUser(String userID) => userColl.doc(userID).get().then(
+  Future<MyUser?> xUser(String x) => userColl.doc(x).get().then(
         (DocumentSnapshot documentSnapshot) {
           if (!documentSnapshot.exists) return null;
           return getMyUser(documentSnapshot);

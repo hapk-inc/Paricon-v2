@@ -36,7 +36,8 @@ final AutoDisposeFutureProviderFamily<List<String>, String>
   },
 );
 
-final xUserProvider = FutureProvider.autoDispose.family<MyUser?, String>(
+final FutureProviderFamily<MyUser?, String> xUserProvider =
+    FutureProvider.family<MyUser?, String>(
   (ref, id) async {
     final datastore = ref.read(userDatastoreProvider);
     return datastore.xUser(id);

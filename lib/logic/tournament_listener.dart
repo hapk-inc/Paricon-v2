@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../model/local_icon.dart';
 import '../my_widget/g_icons.dart';
-import '../theme/my_color.dart';
 
 final AutoDisposeChangeNotifierProvider<TournamentListener>
     tournamentListenerNotifierProvider =

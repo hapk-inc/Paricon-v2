@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
-import 'package:paricon/router/my_route.dart';
+import '../router/my_route.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../dashboard/d_name.dart';

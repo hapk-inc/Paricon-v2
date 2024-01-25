@@ -28,6 +28,14 @@ final StreamProvider<List<String>> bestDListProvider =
   },
 );
 
+final AutoDisposeFutureProvider<Map<String, BestD>> viewLeaderBoardProvider =
+    FutureProvider.autoDispose<Map<String, BestD>>(
+  (ref) async {
+    final tDatabase = ref.read(tournamentDatabaseProvider);
+    return tDatabase.viewLeaderBoard;
+  },
+);
+
 final AutoDisposeFutureProvider<BestD?> myBestDProvider =
     FutureProvider.autoDispose<BestD?>(
   (ref) async {
@@ -112,6 +120,23 @@ class TournamentDatabase {
       .snapshots()
       .map((event) =>
           event.size == 0 ? [] : event.docs.map((e) => e.id).toList());
+
+  Future<Map<String, BestD>> get viewLeaderBoard =>
+      firebaseFirestore.collection('bestD').orderBy('bestD').get().then(
+        (QuerySnapshot snapshot) {
+          Map<String, BestD> map = {};
+          if (snapshot.size != 0) {
+            final List<QueryDocumentSnapshot> x = snapshot.docs;
+            for (var e in x) {
+              Map m = e.data() as Map;
+              Map<String, dynamic> json = Map<String, dynamic>.from(m);
+              BestD bestD = BestD.fromJson(json);
+              map[e.id] = bestD;
+            }
+          }
+          return map;
+        },
+      );
 
   Stream<MyUser?> xUser(String id) =>
       firebaseFirestore.collection('users').doc(id).snapshots().map(

@@ -10,7 +10,7 @@ import '../logic/tournament_database.dart';
 import '../model/my_user.dart';
 import '../theme/my_color.dart';
 
-class TopPlayerHorizontalList extends ConsumerWidget {
+/*class TopPlayerHorizontalList extends ConsumerWidget {
   const TopPlayerHorizontalList({super.key});
 
   @override
@@ -96,4 +96,4 @@ class TopPlayerHorizontalList extends ConsumerWidget {
       ),
     );
   }
-}
+}*/

@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -60,7 +61,10 @@ class PlayWithFriend extends ConsumerWidget {
               right: -30.r,
               top: -15.r,
               bottom: -15.r,
-              child: Lottie.asset('lottie/friends-playing.json', repeat: true),
+              child: Lottie.asset(
+                'lottie/friends-playing.json',
+                repeat: !kDebugMode,
+              ),
             ),
           ],
         ),
