@@ -1,17 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paricon/logic/auth_provider.dart';
-import 'package:paricon/logic/board_database.dart';
-import 'package:paricon/theme/my_color.dart';
 
 import '../model/board.dart';
 import '../model/local_icon.dart';
 import '../model/local_player.dart';
+import '../theme/my_color.dart';
+import 'auth_provider.dart';
+import 'board_database.dart';
 import 'board_provider.dart';
 
 final AutoDisposeChangeNotifierProvider<PlayFriendListener>
-    playFriendNotifierProvider =
-    AutoDisposeChangeNotifierProvider((ref) => PlayFriendListener(ref));
+    playFriendNotifierProvider = AutoDisposeChangeNotifierProvider(
+  (ref) => PlayFriendListener(ref),
+);
 
 class PlayFriendListener extends ChangeNotifier {
   final Ref ref;
@@ -55,6 +56,11 @@ class PlayFriendListener extends ChangeNotifier {
 
   Map<String, LocalPlayer> get players => _players;
 
+  finalCut() {
+    board = board!.copyWith(icons: _icons, players: _players);
+    notifyListeners();
+  }
+
   void iconClick(String i) async {
     final boardDatabase = ref.read(boardDatabaseProvider);
 
@@ -90,10 +96,6 @@ class PlayFriendListener extends ChangeNotifier {
         _icons[y] = _icons[y]!.copyWith(
             isCheck: false, isFound: true, color: _players[user!.uid]!.color);
         z[y] = _icons[y]!;
-
-        int iconFoundCount =
-            _icons.values.where((element) => element.isFound).length;
-        _balancePercentage = iconFoundCount / _icons.length;
       }
       // await boardDatabase.increment(user!.uid);
     } else {
@@ -126,5 +128,19 @@ class PlayFriendListener extends ChangeNotifier {
         : pList.length == (prevIndex + 1)
             ? pList.first
             : pList[prevIndex + 1];
+  }
+
+  setIcon(String id, LocalIcon localIcon) {
+    _icons[id] = localIcon;
+    int iconFoundCount =
+        _icons.values.where((element) => element.isFound).length;
+    _balancePercentage = iconFoundCount / _icons.length;
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _stopwatch.stop();
   }
 }

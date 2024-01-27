@@ -8,6 +8,7 @@ import 'package:gap/gap.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/auth_provider.dart';
+import '../logic/firebase_init.dart';
 import '../logic/panel_provider.dart';
 import '../logic/s_size.dart';
 import '../logic/user_activity_provider.dart';
@@ -59,35 +60,52 @@ class SettingsState extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      children: [
-        Gap(7.5.r),
-        ListTile(
-          horizontalTitleGap: 4.5.r,
-          dense: true,
-          onTap: () {
-            ref.read(setActiveProvider(false));
-            ref.read(signOutProvider);
-          },
-          leading: Icon(
-            FontAwesomeIcons.rightFromBracket,
-            size: 21.r,
-            color: jasper,
-          ),
-          title: Container(
-            height: 45.h,
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Log Out",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(fontSize: 21.r, color: jasper),
+    final pTheme = SlidingPanelTheme();
+    return SafeArea(
+      minimum: pTheme.slidingPanelPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Gap(7.5.r),
+          ListTile(
+            contentPadding: EdgeInsets.zero,
+            horizontalTitleGap: 9.6.r,
+            dense: true,
+            onTap: () {
+              ref.read(setActiveProvider(false));
+              ref.read(signOutProvider);
+            },
+            leading: Icon(
+              FontAwesomeIcons.rightFromBracket,
+              size: 21.r,
+              color: jasper,
             ),
+            title: Container(
+              height: 45.h,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Log Out",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(fontSize: 21.r, color: jasper),
+              ),
+            ),
+            trailing: Icon(Icons.chevron_right, color: jasper, size: 30.r),
           ),
-          trailing: Icon(Icons.chevron_right, color: jasper, size: 30.r),
-        )
-      ],
+          ref.watch(packageInfoProvider).maybeWhen(
+                orElse: () => Container(),
+                data: (app) => Text(
+                  "Version: ${app.version}",
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: gray,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 12.r,
+                      ),
+                ),
+              ),
+        ],
+      ),
     );
   }
 }

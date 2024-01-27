@@ -75,16 +75,6 @@ final AutoDisposeFutureProvider leaveRoomProvider = FutureProvider.autoDispose(
   },
 );
 
-/*final AutoDisposeFutureProvider<Room?> roomProvider =
-    FutureProvider.autoDispose<Room?>(
-  (ref) async {
-    final roomDatabase = ref.watch(roomDatabaseProvider);
-    final Room? room = await roomDatabase.hostRoom;
-    //  ref.maintainState = false;
-    return room;
-  },
-);*/
-
 final AutoDisposeStreamProvider<Room?> roomProvider =
     StreamProvider.autoDispose<Room?>(
   (ref) {
@@ -132,9 +122,6 @@ final AutoDisposeFutureProvider<bool> createBoardProvider =
   (ref) async {
     try {
       final Room room = ref.read(roomProvider).value!;
-      //final details = room.details;
-
-      //final Map playersProvider = await ref.read(roomPlayersProvider!.future);
 
       if (!kDebugMode) {
         final package = await ref.read(packageInfoProvider.future);
@@ -146,15 +133,16 @@ final AutoDisposeFutureProvider<bool> createBoardProvider =
       final players = convertToBoard(room.players);
       //final players = {};
 
-      final GameSetup setup = ref.read(setupProvider);
-      final List<LocalIcon> localIcons = setup.newIcons;
+      //final GameSetup setup = ref.read(setupProvider);
+      final List<LocalIcon> localIcons =
+          List.from(GameSetup(room.level).newIcons);
       final Map icons = localIcons.map((e) => e.toIdJson(mockString(12))).fold(
         {},
         (previousValue, element) => {...previousValue, ...element},
       );
 
       String currentIcon = "";
-      if (room.type.name == "orderWise") {
+      if (room.type == RoomType.orderwise) {
         //final localIcon = localIcons[Random.secure().nextInt(localIcons.length)];
         //_currentIcon = localIcon.iconCode;
         // print("Current Icon is $_currentIcon");
@@ -202,16 +190,4 @@ Map convertToBoard(Map map) {
   );
 
   return a;
-
-  /*return players.fold<Map<String, dynamic>>(
-    {},
-    (m, element) {
-      int index = players.indexOf(element);
-      m[element] = {
-        'playerNo': playerOrder[index],
-        'color': colorNames[index],
-      };
-      return m;
-    },
-  );*/
 }

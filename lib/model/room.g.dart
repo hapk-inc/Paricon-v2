@@ -13,6 +13,7 @@ _$RoomImpl _$$RoomImplFromJson(Map<String, dynamic> json) => _$RoomImpl(
       level: $enumDecode(_$RoomLevelEnumMap, json['level']),
       creatorID: json['creatorID'] as String,
       type: $enumDecode(_$RoomTypeEnumMap, json['type']),
+      nextRoom: json['nextRoom'] as String? ?? "",
     );
 
 Map<String, dynamic> _$$RoomImplToJson(_$RoomImpl instance) =>
@@ -23,6 +24,7 @@ Map<String, dynamic> _$$RoomImplToJson(_$RoomImpl instance) =>
       'level': _$RoomLevelEnumMap[instance.level]!,
       'creatorID': instance.creatorID,
       'type': _$RoomTypeEnumMap[instance.type]!,
+      'nextRoom': instance.nextRoom,
     };
 
 const _$RoomLevelEnumMap = {

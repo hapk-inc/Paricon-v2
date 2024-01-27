@@ -12,11 +12,13 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:paricon/logic/auth_provider.dart';
+import 'package:paricon/ui/host_room.dart';
 import 'package:random_avatar/random_avatar.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/board_provider.dart';
+import '../logic/dashboard_panel_provider.dart';
 import '../logic/panel_provider.dart';
 import '../logic/play_friend_listener.dart';
 import '../logic/room_id.dart';
@@ -85,8 +87,25 @@ class __PlayFriendBoard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final playFriendNotifier = ref.read(playFriendNotifierProvider);
+    final playFriendNotifier = ref.watch(playFriendNotifierProvider);
     final Board? board = playFriendNotifier.board;
+    final dNotifier = ref.watch(dashboardPanelNotifierProvider);
+    final xIcons = playFriendNotifier.icons;
+    final xPlayers = playFriendNotifier.players;
+
+    ref.listen(
+      playFriendNotifierProvider.select((p) => p.balancePercentage),
+      (previous, next) {
+        if (next == 1.0) {
+          playFriendNotifier.finalCut;
+          //debugPrint("Is All Found ${xIcons.values.every((x) => x.isFound)}");
+          //debugPrint(
+          //    "How many Found ${xIcons.values.where((x) => x.isFound).length}");
+          dNotifier.dWidget = GameResult(xIcons, xPlayers);
+          context.router.pop();
+        }
+      },
+    );
 
     return board == null
         ? Container()
@@ -383,17 +402,21 @@ class _PlayFriendGrid extends ConsumerWidget {
       icons.length,
       (index) {
         final String id = List.from(icons.keys)[index];
-        final LocalIcon icon = List.from(icons.values)[index];
+        //final LocalIcon icon = List.from(icons.values)[index];
         return ref.watch(iconProvider(id)).when(
               data: (x) => _PlayFriendGridTile(id, x),
               error: (_, s) {
                 debugPrintStack(stackTrace: s);
                 return Container();
               },
-              loading: () => _PlayFriendGridTile(id, icon),
+              loading: () => Container(),
             );
       },
     );
+
+    /*List<Widget> tiles = playFriendNotifier.icons.entries
+        .map((e) => _PlayFriendGridTile(e.key, e.value))
+        .toList();*/
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.r),
@@ -404,12 +427,12 @@ class _PlayFriendGrid extends ConsumerWidget {
           shrinkWrap: true,
         ),
         minItemWidth: 1.r,
-        minItemsPerRow: 7,
+        minItemsPerRow: 2,
         horizontalGridSpacing: 7.2.r,
         verticalGridSpacing: 7.2.r,
         horizontalGridMargin: 0,
         verticalGridMargin: 0,
-        maxItemsPerRow: 7,
+        maxItemsPerRow: 3,
         children: tiles,
       ),
     );
@@ -426,6 +449,22 @@ class _PlayFriendGridTile extends ConsumerWidget {
     final playFriendNotifier = ref.watch(playFriendNotifierProvider);
     final User? user = ref.watch(authUserProvider).value;
     final String? currentID = ref.watch(currentIDProvider).value;
+
+    ref.listen(
+      iconProvider(id).select((data) => data.value),
+      (previous, next) {
+        if (next!.isFound) {
+          ref.read(playFriendNotifierProvider).setIcon(id, next);
+        }
+      },
+    );
+
+/*    ref.listen(
+      iconProvider(id).select((value) => value.value),
+      (previous, next) {
+        playFriendNotifier.setIcon(id, localIcon);
+      },
+    );*/
 
     return AspectRatio(
       aspectRatio: 1,

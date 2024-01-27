@@ -1,4 +1,4 @@
-import 'package:animate_do/animate_do.dart';
+/*import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
@@ -177,4 +177,4 @@ class CardCollection extends ConsumerWidget {
       ),
     );
   }
-}
+}*/

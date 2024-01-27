@@ -26,6 +26,7 @@ mixin _$Room {
   RoomLevel get level => throw _privateConstructorUsedError;
   String get creatorID => throw _privateConstructorUsedError;
   RoomType get type => throw _privateConstructorUsedError;
+  String get nextRoom => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,8 @@ abstract class $RoomCopyWith<$Res> {
       num roomCode,
       RoomLevel level,
       String creatorID,
-      RoomType type});
+      RoomType type,
+      String nextRoom});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$RoomCopyWithImpl<$Res, $Val extends Room>
     Object? level = null,
     Object? creatorID = null,
     Object? type = null,
+    Object? nextRoom = null,
   }) {
     return _then(_value.copyWith(
       players: null == players
@@ -91,6 +94,10 @@ class _$RoomCopyWithImpl<$Res, $Val extends Room>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as RoomType,
+      nextRoom: null == nextRoom
+          ? _value.nextRoom
+          : nextRoom // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -108,7 +115,8 @@ abstract class _$$RoomImplCopyWith<$Res> implements $RoomCopyWith<$Res> {
       num roomCode,
       RoomLevel level,
       String creatorID,
-      RoomType type});
+      RoomType type,
+      String nextRoom});
 }
 
 /// @nodoc
@@ -127,6 +135,7 @@ class __$$RoomImplCopyWithImpl<$Res>
     Object? level = null,
     Object? creatorID = null,
     Object? type = null,
+    Object? nextRoom = null,
   }) {
     return _then(_$RoomImpl(
       players: null == players
@@ -153,6 +162,10 @@ class __$$RoomImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as RoomType,
+      nextRoom: null == nextRoom
+          ? _value.nextRoom
+          : nextRoom // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -166,7 +179,8 @@ class _$RoomImpl implements _Room {
       required this.roomCode,
       required this.level,
       required this.creatorID,
-      required this.type})
+      required this.type,
+      this.nextRoom = ""})
       : _players = players;
 
   factory _$RoomImpl.fromJson(Map<String, dynamic> json) =>
@@ -192,10 +206,13 @@ class _$RoomImpl implements _Room {
   final String creatorID;
   @override
   final RoomType type;
+  @override
+  @JsonKey()
+  final String nextRoom;
 
   @override
   String toString() {
-    return 'Room(players: $players, isGameStarted: $isGameStarted, roomCode: $roomCode, level: $level, creatorID: $creatorID, type: $type)';
+    return 'Room(players: $players, isGameStarted: $isGameStarted, roomCode: $roomCode, level: $level, creatorID: $creatorID, type: $type, nextRoom: $nextRoom)';
   }
 
   @override
@@ -211,7 +228,9 @@ class _$RoomImpl implements _Room {
             (identical(other.level, level) || other.level == level) &&
             (identical(other.creatorID, creatorID) ||
                 other.creatorID == creatorID) &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.nextRoom, nextRoom) ||
+                other.nextRoom == nextRoom));
   }
 
   @JsonKey(ignore: true)
@@ -223,7 +242,8 @@ class _$RoomImpl implements _Room {
       roomCode,
       level,
       creatorID,
-      type);
+      type,
+      nextRoom);
 
   @JsonKey(ignore: true)
   @override
@@ -246,7 +266,8 @@ abstract class _Room implements Room {
       required final num roomCode,
       required final RoomLevel level,
       required final String creatorID,
-      required final RoomType type}) = _$RoomImpl;
+      required final RoomType type,
+      final String nextRoom}) = _$RoomImpl;
 
   factory _Room.fromJson(Map<String, dynamic> json) = _$RoomImpl.fromJson;
 
@@ -262,6 +283,8 @@ abstract class _Room implements Room {
   String get creatorID;
   @override
   RoomType get type;
+  @override
+  String get nextRoom;
   @override
   @JsonKey(ignore: true)
   _$$RoomImplCopyWith<_$RoomImpl> get copyWith =>

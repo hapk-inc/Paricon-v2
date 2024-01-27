@@ -18,12 +18,10 @@ class DName extends StatelessWidget {
           child: FadeIn(
             child: Container(
               height: 30.h,
-              // color: cornellRed,
               alignment: Alignment.bottomLeft,
               child: ListView(
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
                 scrollDirection: Axis.horizontal,
-                //spacing: 9.r,
                 children: [
                   Align(
                     alignment: Alignment.bottomLeft,
@@ -51,36 +49,3 @@ class DName extends StatelessWidget {
         ),
       );
 }
-
-/* AnimatedDefaultTextStyle(
-                style: tTheme.copyWith(
-                  color: violetBlue,
-                  fontSize: 30.r,
-                  fontFamily: 'WendyOne',
-                  height: 0,
-                  letterSpacing: 0,
-                  fontWeight: FontWeight.w700,
-                  //  fontWeight: FontWeight.w700,
-                ),
-                duration: const Duration(milliseconds: 500),
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 500),
-                  child: AutoSizeText.rich(
-                    TextSpan(children: [TextSpan(text: name)]),
-                    key: ValueKey(name),
-                    maxLines: 1,
-                    minFontSize: 21,
-                    maxFontSize: 36,
-                    stepGranularity: 3,
-                  ),
-                ),
-              ),
-              Gap(7.5.r),
-              AnimatedEmoji(
-                AnimatedEmojis.smileWithBigEyes,
-                size: 30.r,
-                repeat: true,
-                animate: true,
-                onLoaded: (duration) {},
-                errorWidget: Icon(FontAwesomeIcons.faceSmile, size: 30.r),
-              ),*/

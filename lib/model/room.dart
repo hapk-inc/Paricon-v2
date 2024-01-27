@@ -15,6 +15,7 @@ class Room with _$Room {
     required RoomLevel level,
     required String creatorID,
     required RoomType type,
+    @Default("") String nextRoom,
   }) = _Room;
 
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);

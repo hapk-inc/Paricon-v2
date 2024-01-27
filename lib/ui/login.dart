@@ -115,19 +115,12 @@ class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    isPhysicalDevice = ref
-        .watch(isPhysicalDeviceProvider)
-        .when(data: (x) => x, error: (_, __) => true, loading: () => true);
-    debugPrint("isPhysicalDevice $isPhysicalDevice");
-    return Wrap(
-      children: [
+  List<Widget> get loginOptionList => [
         LoginOptionButton(
           lChild: Image.asset('images/gLogo.png'),
           optionBtnPressed: isLoading
               ? () {
-                  debugPrint("isLoading");
+                  debugPrint("Wait now");
                 }
               : () {
                   changeFlag(true);
@@ -144,19 +137,29 @@ class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
                         },
                       ).whenComplete(() => changeFlag(false));
                     } else {
-                      googleButtonClick.then(
+                      googleButtonClick /*.then(
                         (value) {
                           if (mounted) {
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(buildLoginSnackBar(email: value));
                           }
                         },
-                      ).whenComplete(() => changeFlag(false));
+                      )*/
+                          .whenComplete(() => changeFlag(false));
                     }
                   }
                 },
         )
-      ],
+      ];
+
+  @override
+  Widget build(BuildContext context) {
+    isPhysicalDevice = ref
+        .watch(isPhysicalDeviceProvider)
+        .when(data: (x) => x, error: (_, __) => true, loading: () => true);
+    debugPrint("isPhysicalDevice $isPhysicalDevice");
+    return Wrap(
+      children: loginOptionList,
     );
   }
 }
