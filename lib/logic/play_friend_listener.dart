@@ -56,11 +56,6 @@ class PlayFriendListener extends ChangeNotifier {
 
   Map<String, LocalPlayer> get players => _players;
 
-  finalCut() {
-    board = board!.copyWith(icons: _icons, players: _players);
-    notifyListeners();
-  }
-
   void iconClick(String i) async {
     final boardDatabase = ref.read(boardDatabaseProvider);
 
@@ -135,6 +130,11 @@ class PlayFriendListener extends ChangeNotifier {
     int iconFoundCount =
         _icons.values.where((element) => element.isFound).length;
     _balancePercentage = iconFoundCount / _icons.length;
+    notifyListeners();
+  }
+
+  setPlayer(String id, LocalPlayer player) {
+    _players[id] = player;
     notifyListeners();
   }
 

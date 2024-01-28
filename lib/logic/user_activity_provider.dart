@@ -7,6 +7,7 @@ import '../model/my_user.dart';
 import '../model/user_activity.dart';
 import 'auth_provider.dart';
 import 'firebase_init.dart';
+import 'remote_values.dart';
 import 'user_provider.dart';
 
 final AutoDisposeFutureProvider<TransactionResult> appOpenedProvider =
@@ -73,6 +74,8 @@ final AutoDisposeFutureProviderFamily<void, bool> setActiveProvider =
 final Provider<Query> recentUserProvider = Provider<Query>(
   (ref) {
     final dt = ref.read(databaseProvider);
-    return dt.ref('users').orderByChild('nowTime');
+    final int count = ref.watch(onlinePlayerProvider);
+
+    return dt.ref('users').orderByChild('nowTime').limitToLast(count);
   },
 );

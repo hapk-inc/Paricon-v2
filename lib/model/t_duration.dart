@@ -9,6 +9,7 @@ class TDuration with _$TDuration {
     required String userId,
     required DateTime playedAt,
     required Duration tDuration,
+    @Default(Duration.zero) Duration bestDifference,
     @Default(false) bool firstTime,
     @Default("public") String tourId,
   }) = _TDuration;

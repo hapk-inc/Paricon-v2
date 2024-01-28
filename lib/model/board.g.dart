@@ -40,7 +40,8 @@ _$BoardImpl _$$BoardImplFromJson(Map<String, dynamic> json) {
       },
     ),
     currentID: json['currentID'] as String,
-    type: json['type'] as String,
+    type:
+        $enumDecodeNullable(_$RoomTypeEnumMap, json['type']) ?? RoomType.normal,
     currentIcon: json['currentIcon'] as String?,
   );
 }
@@ -50,6 +51,12 @@ Map<String, dynamic> _$$BoardImplToJson(_$BoardImpl instance) =>
       'players': instance.players,
       'icons': instance.icons,
       'currentID': instance.currentID,
-      'type': instance.type,
+      'type': _$RoomTypeEnumMap[instance.type]!,
       'currentIcon': instance.currentIcon,
     };
+
+const _$RoomTypeEnumMap = {
+  RoomType.normal: 'normal',
+  RoomType.closed: 'closed',
+  RoomType.orderwise: 'orderwise',
+};

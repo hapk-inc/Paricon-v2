@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:animate_do/animate_do.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -88,6 +87,7 @@ class __PlayFriendBoard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final playFriendNotifier = ref.watch(playFriendNotifierProvider);
     final Board? board = playFriendNotifier.board;
+    final String? currentID = ref.watch(currentIDProvider).value;
     final dNotifier = ref.watch(dashboardPanelNotifierProvider);
     final xIcons = playFriendNotifier.icons;
     final xPlayers = playFriendNotifier.players;
@@ -96,11 +96,12 @@ class __PlayFriendBoard extends ConsumerWidget {
       playFriendNotifierProvider.select((p) => p.balancePercentage),
       (previous, next) {
         if (next == 1.0) {
-          //playFriendNotifier.finalCut;
-          //debugPrint("Is All Found ${xIcons.values.every((x) => x.isFound)}");
-          //debugPrint(
-          //    "How many Found ${xIcons.values.where((x) => x.isFound).length}");
-          dNotifier.dWidget = PlayFriendScoreboard(xIcons, xPlayers);
+          final Board b = Board(
+              currentID: currentID ?? "",
+              players: xPlayers,
+              icons: xIcons,
+              type: board!.type);
+          dNotifier.dWidget = PlayFriendScoreboard(b);
           context.router.pop();
         }
       },
@@ -315,6 +316,17 @@ class PlayFriendListTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final Board? board = ref.watch(boardProvider).value;
     final playFriendNotifier = ref.watch(playFriendNotifierProvider);
+
+    ref.listen(
+      playFriendPlayerProvider(playerId).select((value) => value.value),
+      (previous, next) {
+        debugPrint("New Player");
+        if (next != null) {
+          playFriendNotifier.setPlayer(playerId, next);
+        }
+      },
+    );
+
     return board == null
         ? Container()
         : ref.watch(playFriendPlayerProvider(playerId)).when(
@@ -469,55 +481,52 @@ class _PlayFriendGridTile extends ConsumerWidget {
       aspectRatio: 1,
       child: user == null || currentID == null
           ? Container()
-          : FadeIn(
-              delay: Duration(milliseconds: mockInteger(20, 50) * 20),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 500),
-                transform: Matrix4.rotationZ(
-                  (!localIcon.checkFound
-                          ? (mockInteger(0, 1) == 0 ? -pi : pi)
-                          : -pi) /
-                      (localIcon.checkFound ? 60 : 45),
+          : AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
+              transform: Matrix4.rotationZ(
+                (!localIcon.checkFound
+                        ? (mockInteger(0, 1) == 0 ? -pi : pi)
+                        : -pi) /
+                    (localIcon.checkFound ? 60 : 45),
+              ),
+              child: Card(
+                color: !localIcon.isFound
+                    //? (mockInteger(0, 1) == 0 ? federalBlue : violetBlue)
+                    ? majorelleBlue
+                    : playFriendNotifier.colorMap[localIcon.color]['tile'],
+                margin: EdgeInsets.zero,
+                elevation: 3,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4.5.r),
                 ),
-                child: Card(
-                  color: !localIcon.isFound
-                      //? (mockInteger(0, 1) == 0 ? federalBlue : violetBlue)
-                      ? majorelleBlue
-                      : playFriendNotifier.colorMap[localIcon.color]['tile'],
-                  margin: EdgeInsets.zero,
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.5.r),
-                  ),
-                  child: InkWell(
-                    //onTap: tListener.inWait || localIcon.checkFound
-                    onTap: playFriendNotifier.inWait ||
-                            localIcon.checkFound ||
-                            user.uid != currentID
-                        ? null
-                        : () => playFriendNotifier.iconClick(id),
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 500),
-                      child: localIcon.isFound
-                          ? Icon(
-                              IconData(
-                                localIcon.iconCode,
-                                fontFamily: 'MaterialIcons',
-                              ),
-                              size: 30.r,
-                              color: federalBlue,
-                            )
-                          : localIcon.isCheck
-                              ? Icon(
-                                  IconData(
-                                    localIcon.iconCode,
-                                    fontFamily: 'MaterialIcons',
-                                  ),
-                                  size: 30.r,
-                                  color: ghostWhite,
-                                )
-                              : Container(),
-                    ),
+                child: InkWell(
+                  //onTap: tListener.inWait || localIcon.checkFound
+                  onTap: playFriendNotifier.inWait ||
+                          localIcon.checkFound ||
+                          user.uid != currentID
+                      ? null
+                      : () => playFriendNotifier.iconClick(id),
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 500),
+                    child: localIcon.isFound
+                        ? Icon(
+                            IconData(
+                              localIcon.iconCode,
+                              fontFamily: 'MaterialIcons',
+                            ),
+                            size: 30.r,
+                            color: federalBlue,
+                          )
+                        : localIcon.isCheck
+                            ? Icon(
+                                IconData(
+                                  localIcon.iconCode,
+                                  fontFamily: 'MaterialIcons',
+                                ),
+                                size: 30.r,
+                                color: ghostWhite,
+                              )
+                            : Container(),
                   ),
                 ),
               ),

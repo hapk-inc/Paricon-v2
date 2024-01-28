@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../logic/room_type_notifier.dart';
 import 'local_icon.dart';
 import 'local_player.dart';
 
@@ -14,7 +15,7 @@ class Board with _$Board {
     @Default({}) Map<String, LocalPlayer> players,
     @Default({}) Map<String, LocalIcon> icons,
     required String currentID,
-    required String type,
+    @Default(RoomType.normal) RoomType type,
     String? currentIcon,
   }) = _Board;
 

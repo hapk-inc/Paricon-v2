@@ -23,6 +23,7 @@ mixin _$TDuration {
   String get userId => throw _privateConstructorUsedError;
   DateTime get playedAt => throw _privateConstructorUsedError;
   Duration get tDuration => throw _privateConstructorUsedError;
+  Duration get bestDifference => throw _privateConstructorUsedError;
   bool get firstTime => throw _privateConstructorUsedError;
   String get tourId => throw _privateConstructorUsedError;
 
@@ -41,6 +42,7 @@ abstract class $TDurationCopyWith<$Res> {
       {String userId,
       DateTime playedAt,
       Duration tDuration,
+      Duration bestDifference,
       bool firstTime,
       String tourId});
 }
@@ -61,6 +63,7 @@ class _$TDurationCopyWithImpl<$Res, $Val extends TDuration>
     Object? userId = null,
     Object? playedAt = null,
     Object? tDuration = null,
+    Object? bestDifference = null,
     Object? firstTime = null,
     Object? tourId = null,
   }) {
@@ -76,6 +79,10 @@ class _$TDurationCopyWithImpl<$Res, $Val extends TDuration>
       tDuration: null == tDuration
           ? _value.tDuration
           : tDuration // ignore: cast_nullable_to_non_nullable
+              as Duration,
+      bestDifference: null == bestDifference
+          ? _value.bestDifference
+          : bestDifference // ignore: cast_nullable_to_non_nullable
               as Duration,
       firstTime: null == firstTime
           ? _value.firstTime
@@ -101,6 +108,7 @@ abstract class _$$TDurationImplCopyWith<$Res>
       {String userId,
       DateTime playedAt,
       Duration tDuration,
+      Duration bestDifference,
       bool firstTime,
       String tourId});
 }
@@ -119,6 +127,7 @@ class __$$TDurationImplCopyWithImpl<$Res>
     Object? userId = null,
     Object? playedAt = null,
     Object? tDuration = null,
+    Object? bestDifference = null,
     Object? firstTime = null,
     Object? tourId = null,
   }) {
@@ -134,6 +143,10 @@ class __$$TDurationImplCopyWithImpl<$Res>
       tDuration: null == tDuration
           ? _value.tDuration
           : tDuration // ignore: cast_nullable_to_non_nullable
+              as Duration,
+      bestDifference: null == bestDifference
+          ? _value.bestDifference
+          : bestDifference // ignore: cast_nullable_to_non_nullable
               as Duration,
       firstTime: null == firstTime
           ? _value.firstTime
@@ -154,6 +167,7 @@ class _$TDurationImpl implements _TDuration {
       {required this.userId,
       required this.playedAt,
       required this.tDuration,
+      this.bestDifference = Duration.zero,
       this.firstTime = false,
       this.tourId = "public"});
 
@@ -168,6 +182,9 @@ class _$TDurationImpl implements _TDuration {
   final Duration tDuration;
   @override
   @JsonKey()
+  final Duration bestDifference;
+  @override
+  @JsonKey()
   final bool firstTime;
   @override
   @JsonKey()
@@ -175,7 +192,7 @@ class _$TDurationImpl implements _TDuration {
 
   @override
   String toString() {
-    return 'TDuration(userId: $userId, playedAt: $playedAt, tDuration: $tDuration, firstTime: $firstTime, tourId: $tourId)';
+    return 'TDuration(userId: $userId, playedAt: $playedAt, tDuration: $tDuration, bestDifference: $bestDifference, firstTime: $firstTime, tourId: $tourId)';
   }
 
   @override
@@ -188,6 +205,8 @@ class _$TDurationImpl implements _TDuration {
                 other.playedAt == playedAt) &&
             (identical(other.tDuration, tDuration) ||
                 other.tDuration == tDuration) &&
+            (identical(other.bestDifference, bestDifference) ||
+                other.bestDifference == bestDifference) &&
             (identical(other.firstTime, firstTime) ||
                 other.firstTime == firstTime) &&
             (identical(other.tourId, tourId) || other.tourId == tourId));
@@ -195,8 +214,8 @@ class _$TDurationImpl implements _TDuration {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, userId, playedAt, tDuration, firstTime, tourId);
+  int get hashCode => Object.hash(runtimeType, userId, playedAt, tDuration,
+      bestDifference, firstTime, tourId);
 
   @JsonKey(ignore: true)
   @override
@@ -217,6 +236,7 @@ abstract class _TDuration implements TDuration {
       {required final String userId,
       required final DateTime playedAt,
       required final Duration tDuration,
+      final Duration bestDifference,
       final bool firstTime,
       final String tourId}) = _$TDurationImpl;
 
@@ -229,6 +249,8 @@ abstract class _TDuration implements TDuration {
   DateTime get playedAt;
   @override
   Duration get tDuration;
+  @override
+  Duration get bestDifference;
   @override
   bool get firstTime;
   @override

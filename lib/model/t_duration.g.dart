@@ -11,6 +11,9 @@ _$TDurationImpl _$$TDurationImplFromJson(Map<String, dynamic> json) =>
       userId: json['userId'] as String,
       playedAt: DateTime.parse(json['playedAt'] as String),
       tDuration: Duration(microseconds: json['tDuration'] as int),
+      bestDifference: json['bestDifference'] == null
+          ? Duration.zero
+          : Duration(microseconds: json['bestDifference'] as int),
       firstTime: json['firstTime'] as bool? ?? false,
       tourId: json['tourId'] as String? ?? "public",
     );
@@ -20,6 +23,7 @@ Map<String, dynamic> _$$TDurationImplToJson(_$TDurationImpl instance) =>
       'userId': instance.userId,
       'playedAt': instance.playedAt.toIso8601String(),
       'tDuration': instance.tDuration.inMicroseconds,
+      'bestDifference': instance.bestDifference.inMicroseconds,
       'firstTime': instance.firstTime,
       'tourId': instance.tourId,
     };

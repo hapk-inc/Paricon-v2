@@ -12,21 +12,35 @@ import '../logic/auth_provider.dart';
 import '../logic/my_names.dart';
 import '../logic/room_id.dart';
 import '../logic/room_provider.dart';
-import '../model/local_icon.dart';
+import '../model/board.dart';
 import '../model/local_player.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
 
 class PlayFriendScoreboard extends ConsumerWidget {
-  final Map<String, LocalIcon> xIcons;
-  final Map<String, LocalPlayer> xPlayers;
+  final Board board;
 
-  const PlayFriendScoreboard(this.xIcons, this.xPlayers, {super.key});
+  const PlayFriendScoreboard(this.board, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pTheme = SlidingPanelTheme();
     final User? user = ref.watch(authUserProvider).value;
+
+    final List<LocalPlayer> players = board.players.values.toList();
+    players.sort((a, b) => b.pts.compareTo(a.pts));
+
+    final List<LocalPlayer> winners = List<LocalPlayer>.from(players)
+        .where((x) => x.pts == players.first.pts)
+        .toList();
+
+    final List<LocalPlayer> others =
+        players.toSet().difference(winners.toSet()).toList();
+
+    debugPrint("Players $players");
+    debugPrint("Winners $winners");
+
+    //final MapEntry winner = board.icons.
 
     return Container(
       decoration: BoxDecoration(
@@ -46,7 +60,7 @@ class PlayFriendScoreboard extends ConsumerWidget {
                   left: 0.r,
                   right: 120.r,
                   child: AutoSizeText(
-                    "Congratulations ${myRandomName()} !!",
+                    "Congratulations ${winners.fold("", (previousValue, x) => "$previousValue${x.name}")} !!",
                     //textAlign: TextAlign.center,
                     style: TextStyle(
                       color: ghostWhite,
@@ -97,7 +111,7 @@ class PlayFriendScoreboard extends ConsumerWidget {
                             ),
                       ),
                       AutoSizeText(
-                        ["Normal", "Closed", "OrderWise"][mockInteger(0, 2)],
+                        firstCaps(board.type.name),
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                               fontSize: 12.r,
                               color: mistyRose,
@@ -114,67 +128,71 @@ class PlayFriendScoreboard extends ConsumerWidget {
                   color: ghostWhite,
                   strokeWidth: 1,
                   child: SizedBox(
-                    height: 120.h,
+                    height: 60.h * (others.length),
                     child: ListView(
                       children: List.generate(
-                        2,
-                        (index) => Container(
-                          height: 54.h,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            border: index == 1
-                                ? null
-                                : Border(
-                                    bottom: BorderSide(
-                                      color: ghostWhite,
-                                      width: 0.45.r,
+                        others.length,
+                        (index) {
+                          LocalPlayer i = others[index];
+                          return Container(
+                            height: 54.h,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              border: index == 1 || others.length == 1
+                                  ? null
+                                  : Border(
+                                      bottom: BorderSide(
+                                        color: ghostWhite,
+                                        width: 0.15.r,
+                                      ),
                                     ),
-                                  ),
-                          ),
-                          child: ListTile(
-                            leading: Container(
-                              constraints:
-                                  BoxConstraints.tight(Size(54.r, 30.r)),
-                              decoration: BoxDecoration(
-                                color: violetBlue,
-                                borderRadius: BorderRadius.circular(7.5.r),
-                              ),
-                              alignment: Alignment.center,
-                              child: Text(
-                                ["2nd", '3rd'][mockInteger(0, 1)],
-                                style: TextStyle(
+                            ),
+                            child: ListTile(
+                              leading: Container(
+                                constraints:
+                                    BoxConstraints.tight(Size(54.r, 30.r)),
+                                decoration: BoxDecoration(
+                                  color: violetBlue,
+                                  borderRadius: BorderRadius.circular(7.5.r),
+                                ),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  ["2nd", '3rd'][index],
+                                  style: TextStyle(
                                     fontSize: 12.r,
                                     color: mistyRose,
-                                    fontFamily: 'Montserrat'),
+                                    fontFamily: 'Montserrat',
+                                  ),
+                                ),
                               ),
-                            ),
-                            title: SizedBox(
-                              height: 36.h,
-                              width: 120.w,
-                              child: AutoSizeText(
-                                myRandomName(),
-                                style: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontSize: 24.r,
-                                  color: ghostWhite,
+                              title: SizedBox(
+                                height: 36.h,
+                                width: 120.w,
+                                child: AutoSizeText(
+                                  firstCaps(i.name),
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    fontSize: 24.r,
+                                    color: ghostWhite,
+                                  ),
+                                ),
+                              ),
+                              trailing: Container(
+                                alignment: Alignment.center,
+                                constraints:
+                                    BoxConstraints.tight(Size(60.w, 36.r)),
+                                child: Text(
+                                  "${i.pts}",
+                                  style: TextStyle(
+                                    fontSize: 15.r,
+                                    fontFamily: 'Montserrat',
+                                    color: ghostWhite,
+                                  ),
                                 ),
                               ),
                             ),
-                            trailing: Container(
-                              alignment: Alignment.center,
-                              constraints:
-                                  BoxConstraints.tight(Size(60.w, 36.r)),
-                              child: Text(
-                                "${mockInteger(10, 20)}",
-                                style: TextStyle(
-                                  fontSize: 15.r,
-                                  fontFamily: 'Montserrat',
-                                  color: ghostWhite,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                          );
+                        },
                       ),
                     ),
                   ),

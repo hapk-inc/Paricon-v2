@@ -39,7 +39,7 @@ class RecentPlayer extends ConsumerWidget {
             final UserActivity y = UserActivity.fromJson(b1);
             return y.nowTime.compareTo(x.nowTime);
           },
-          query: ref.watch(recentUserProvider).limitToLast(count),
+          query: ref.watch(recentUserProvider),
           padding: EdgeInsets.only(left: 15.w, top: 15.h),
           defaultChild: FadeIn(
             child: Center(

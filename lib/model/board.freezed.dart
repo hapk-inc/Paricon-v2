@@ -23,7 +23,7 @@ mixin _$Board {
   Map<String, LocalPlayer> get players => throw _privateConstructorUsedError;
   Map<String, LocalIcon> get icons => throw _privateConstructorUsedError;
   String get currentID => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
+  RoomType get type => throw _privateConstructorUsedError;
   String? get currentIcon => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $BoardCopyWith<$Res> {
       {Map<String, LocalPlayer> players,
       Map<String, LocalIcon> icons,
       String currentID,
-      String type,
+      RoomType type,
       String? currentIcon});
 }
 
@@ -79,7 +79,7 @@ class _$BoardCopyWithImpl<$Res, $Val extends Board>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as RoomType,
       currentIcon: freezed == currentIcon
           ? _value.currentIcon
           : currentIcon // ignore: cast_nullable_to_non_nullable
@@ -99,7 +99,7 @@ abstract class _$$BoardImplCopyWith<$Res> implements $BoardCopyWith<$Res> {
       {Map<String, LocalPlayer> players,
       Map<String, LocalIcon> icons,
       String currentID,
-      String type,
+      RoomType type,
       String? currentIcon});
 }
 
@@ -136,7 +136,7 @@ class __$$BoardImplCopyWithImpl<$Res>
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
+              as RoomType,
       currentIcon: freezed == currentIcon
           ? _value.currentIcon
           : currentIcon // ignore: cast_nullable_to_non_nullable
@@ -152,7 +152,7 @@ class _$BoardImpl implements _Board {
       {final Map<String, LocalPlayer> players = const {},
       final Map<String, LocalIcon> icons = const {},
       required this.currentID,
-      required this.type,
+      this.type = RoomType.normal,
       this.currentIcon})
       : _players = players,
         _icons = icons;
@@ -181,7 +181,8 @@ class _$BoardImpl implements _Board {
   @override
   final String currentID;
   @override
-  final String type;
+  @JsonKey()
+  final RoomType type;
   @override
   final String? currentIcon;
 
@@ -233,7 +234,7 @@ abstract class _Board implements Board {
       {final Map<String, LocalPlayer> players,
       final Map<String, LocalIcon> icons,
       required final String currentID,
-      required final String type,
+      final RoomType type,
       final String? currentIcon}) = _$BoardImpl;
 
   factory _Board.fromJson(Map<String, dynamic> json) = _$BoardImpl.fromJson;
@@ -245,7 +246,7 @@ abstract class _Board implements Board {
   @override
   String get currentID;
   @override
-  String get type;
+  RoomType get type;
   @override
   String? get currentIcon;
   @override
