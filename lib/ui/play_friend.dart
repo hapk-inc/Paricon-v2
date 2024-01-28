@@ -11,12 +11,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:paricon/logic/auth_provider.dart';
-import 'package:paricon/ui/host_room.dart';
+
 import 'package:random_avatar/random_avatar.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../logic/auth_provider.dart';
 import '../logic/board_provider.dart';
 import '../logic/dashboard_panel_provider.dart';
 import '../logic/panel_provider.dart';
@@ -27,6 +27,7 @@ import '../model/board.dart';
 import '../model/local_icon.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
+import 'play_friend_scoreboard.dart';
 
 @RoutePage()
 class PlayFriendPage extends ConsumerWidget {
@@ -51,8 +52,6 @@ class PlayFriendPage extends ConsumerWidget {
       body: sSize != ScreenSize.phone
           ? Container()
           : SafeArea(
-              //top: false,
-              //bottom: false,
               child: SlidingUpPanel(
                 isDraggable: false,
                 controller: ref.watch(playFriendPanelProvider),
@@ -97,11 +96,11 @@ class __PlayFriendBoard extends ConsumerWidget {
       playFriendNotifierProvider.select((p) => p.balancePercentage),
       (previous, next) {
         if (next == 1.0) {
-          playFriendNotifier.finalCut;
+          //playFriendNotifier.finalCut;
           //debugPrint("Is All Found ${xIcons.values.every((x) => x.isFound)}");
           //debugPrint(
           //    "How many Found ${xIcons.values.where((x) => x.isFound).length}");
-          dNotifier.dWidget = GameResult(xIcons, xPlayers);
+          dNotifier.dWidget = PlayFriendScoreboard(xIcons, xPlayers);
           context.router.pop();
         }
       },

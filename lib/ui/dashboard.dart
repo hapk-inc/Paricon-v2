@@ -95,7 +95,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
               double aR = 900.h / 360.w;
               bool smallSize = aR > 2.3;
               dNotifier.dHeight = smallSize ? 480.h : 450.h;
-              //dNotifier.dWidget = const GameResult();
+              //dNotifier.dWidget = const PlayFriendScoreboard({}, {});
               dNotifier.dWidget = const HostRoom();
             },
           );

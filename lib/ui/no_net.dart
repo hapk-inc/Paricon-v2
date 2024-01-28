@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:paricon/logic/firebase_init.dart';
+import '../logic/firebase_init.dart';
 
 import '../logic/s_size.dart';
 import '../my_widget/my_logo.dart';
