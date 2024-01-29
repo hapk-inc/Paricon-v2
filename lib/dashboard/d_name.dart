@@ -4,7 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import 'package:gap/gap.dart';
 
 class DName extends StatelessWidget {
@@ -39,7 +39,7 @@ class DName extends StatelessWidget {
                       repeat: true,
                       animate: true,
                       onLoaded: (duration) {},
-                      errorWidget: Icon(FontAwesomeIcons.faceSmile, size: 30.r),
+                      errorWidget: Icon(Icons.mood, size: 30.r),
                     ),
                   ),
                 ],

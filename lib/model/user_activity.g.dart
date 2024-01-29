@@ -15,7 +15,7 @@ _$UserActivityImpl _$$UserActivityImplFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['lastGamePlayed'] as String),
       isActive: json['isActive'] as bool? ?? true,
-      isPlaying: json['isPlaying'] as bool? ?? false,
+      isPlaying: json['isPlaying'] ?? false,
       name: json['name'] as String?,
       avatar: json['avatar'] as String?,
       appVersion: json['appVersion'] as String?,

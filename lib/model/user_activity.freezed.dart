@@ -23,7 +23,7 @@ mixin _$UserActivity {
   DateTime? get lastOpened => throw _privateConstructorUsedError;
   DateTime? get lastGamePlayed => throw _privateConstructorUsedError;
   bool get isActive => throw _privateConstructorUsedError;
-  bool get isPlaying => throw _privateConstructorUsedError;
+  dynamic get isPlaying => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
   String? get appVersion => throw _privateConstructorUsedError;
@@ -45,7 +45,7 @@ abstract class $UserActivityCopyWith<$Res> {
       {DateTime? lastOpened,
       DateTime? lastGamePlayed,
       bool isActive,
-      bool isPlaying,
+      dynamic isPlaying,
       String? name,
       String? avatar,
       String? appVersion,
@@ -68,7 +68,7 @@ class _$UserActivityCopyWithImpl<$Res, $Val extends UserActivity>
     Object? lastOpened = freezed,
     Object? lastGamePlayed = freezed,
     Object? isActive = null,
-    Object? isPlaying = null,
+    Object? isPlaying = freezed,
     Object? name = freezed,
     Object? avatar = freezed,
     Object? appVersion = freezed,
@@ -87,10 +87,10 @@ class _$UserActivityCopyWithImpl<$Res, $Val extends UserActivity>
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
               as bool,
-      isPlaying: null == isPlaying
+      isPlaying: freezed == isPlaying
           ? _value.isPlaying
           : isPlaying // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as dynamic,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -123,7 +123,7 @@ abstract class _$$UserActivityImplCopyWith<$Res>
       {DateTime? lastOpened,
       DateTime? lastGamePlayed,
       bool isActive,
-      bool isPlaying,
+      dynamic isPlaying,
       String? name,
       String? avatar,
       String? appVersion,
@@ -144,7 +144,7 @@ class __$$UserActivityImplCopyWithImpl<$Res>
     Object? lastOpened = freezed,
     Object? lastGamePlayed = freezed,
     Object? isActive = null,
-    Object? isPlaying = null,
+    Object? isPlaying = freezed,
     Object? name = freezed,
     Object? avatar = freezed,
     Object? appVersion = freezed,
@@ -163,10 +163,10 @@ class __$$UserActivityImplCopyWithImpl<$Res>
           ? _value.isActive
           : isActive // ignore: cast_nullable_to_non_nullable
               as bool,
-      isPlaying: null == isPlaying
+      isPlaying: freezed == isPlaying
           ? _value.isPlaying
           : isPlaying // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as dynamic,
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -213,7 +213,7 @@ class _$UserActivityImpl extends _UserActivity {
   final bool isActive;
   @override
   @JsonKey()
-  final bool isPlaying;
+  final dynamic isPlaying;
   @override
   final String? name;
   @override
@@ -239,8 +239,7 @@ class _$UserActivityImpl extends _UserActivity {
                 other.lastGamePlayed == lastGamePlayed) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
-            (identical(other.isPlaying, isPlaying) ||
-                other.isPlaying == isPlaying) &&
+            const DeepCollectionEquality().equals(other.isPlaying, isPlaying) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.appVersion, appVersion) ||
@@ -250,8 +249,16 @@ class _$UserActivityImpl extends _UserActivity {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, lastOpened, lastGamePlayed,
-      isActive, isPlaying, name, avatar, appVersion, nowTime);
+  int get hashCode => Object.hash(
+      runtimeType,
+      lastOpened,
+      lastGamePlayed,
+      isActive,
+      const DeepCollectionEquality().hash(isPlaying),
+      name,
+      avatar,
+      appVersion,
+      nowTime);
 
   @JsonKey(ignore: true)
   @override
@@ -272,7 +279,7 @@ abstract class _UserActivity extends UserActivity {
       {final DateTime? lastOpened,
       final DateTime? lastGamePlayed,
       final bool isActive,
-      final bool isPlaying,
+      final dynamic isPlaying,
       final String? name,
       final String? avatar,
       final String? appVersion,
@@ -289,7 +296,7 @@ abstract class _UserActivity extends UserActivity {
   @override
   bool get isActive;
   @override
-  bool get isPlaying;
+  dynamic get isPlaying;
   @override
   String? get name;
   @override

@@ -11,7 +11,7 @@ class UserActivity with _$UserActivity {
     DateTime? lastOpened,
     DateTime? lastGamePlayed,
     @Default(true) bool isActive,
-    @Default(false) bool isPlaying,
+    @Default(false) dynamic isPlaying,
     String? name,
     String? avatar,
     String? appVersion,

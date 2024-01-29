@@ -361,6 +361,11 @@ class _RoomCodeEditState extends ConsumerState<RoomCodeEdit> {
           (value) {
             debugPrint("value--$pin");
             if (value is ValidateRoom) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Room doesn't exist. Please check the code"),
+                ),
+              );
             } else if (value is String) {
               ref.read(idNotifier.notifier).state = value;
               ref.read(joinRoomProvider);

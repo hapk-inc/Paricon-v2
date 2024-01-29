@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
+import 'package:paricon/logic/auth_provider.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 import '../logic/user_activity_provider.dart';
@@ -19,7 +21,6 @@ class RecentPlayer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //final User fUser = ref.watch(authUserProvider).value!;
     final tTheme = Theme.of(context).textTheme.titleLarge!;
 
     return StaggeredGridTile.fit(
@@ -49,13 +50,13 @@ class RecentPlayer extends ConsumerWidget {
           ),
           itemBuilder: (_, DataSnapshot snapshot, Animation<double> animation,
               int index) {
-            //if (fUser.uid == snapshot.key!) return Container();
-
             Map<String, dynamic> json =
                 Map<String, dynamic>.from(snapshot.value as Map);
             final UserActivity xUser = UserActivity.fromJson(json);
 
-            return RecentPlayerTile(xUser);
+            return FadeInRight(
+              child: RecentPlayerTile(snapshot.key ?? "", xUser),
+            );
           },
         ),
       ),
@@ -63,17 +64,20 @@ class RecentPlayer extends ConsumerWidget {
   }
 }
 
-class RecentPlayerTile extends StatelessWidget {
+class RecentPlayerTile extends ConsumerWidget {
+  final String id;
   final UserActivity xUser;
-  const RecentPlayerTile(this.xUser, {super.key});
+  const RecentPlayerTile(this.id, this.xUser, {super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final tTheme = Theme.of(context).textTheme.titleLarge!;
 
+    final User? user = ref.watch(authUserProvider).value;
+    if (user == null) return Container();
     final DateTime today = DateTime.now();
     final bool notActive = xUser.isActive && (xUser.nowTime.day == today.day);
-
+    final bool isMe = id == user.uid;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
       margin: EdgeInsets.only(right: 6.r, left: 6.r),
@@ -113,7 +117,7 @@ class RecentPlayerTile extends StatelessWidget {
           Gap(2.4.r),
           Expanded(
             child: AutoSizeText(
-              firstCaps(xUser.name!),
+              firstCaps(xUser.name!) + (isMe ? " (You)" : ""),
               maxLines: 1,
               style: Theme.of(context)
                   .textTheme

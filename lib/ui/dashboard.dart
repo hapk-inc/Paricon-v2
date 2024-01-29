@@ -78,6 +78,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
         debugPrint("75-- $next");
         final dNotifier = ref.watch(dashboardPanelNotifierProvider);
 
+        ref.read(setPlayingProvider(next.isNotEmpty));
+
         if (next.isEmpty) {
           ref.watch(dashboardPanelProvider).close();
           dNotifier.dMinHeight = 0.h;

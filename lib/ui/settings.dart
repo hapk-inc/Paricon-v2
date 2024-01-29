@@ -3,8 +3,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gap/gap.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/auth_provider.dart';
@@ -63,6 +61,7 @@ class SettingsState extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final tTheme = Theme.of(context).textTheme;
     final pTheme = SlidingPanelTheme();
     return SafeArea(
       minimum: pTheme.slidingPanelPadding,
@@ -71,6 +70,7 @@ class SettingsState extends ConsumerWidget {
         children: [
           //Gap(7.5.r),
           ListTile(
+            iconColor: jasper,
             contentPadding: EdgeInsets.zero,
             horizontalTitleGap: 9.6.r,
             dense: true,
@@ -78,20 +78,16 @@ class SettingsState extends ConsumerWidget {
               ref.read(setActiveProvider(false));
               ref.read(signOutProvider);
             },
-            leading: Icon(
-              FontAwesomeIcons.rightFromBracket,
-              size: 21.r,
-              color: jasper,
-            ),
+            leading: Icon(Icons.logout, size: 30.r),
             title: Container(
               height: 45.h,
               alignment: Alignment.centerLeft,
               child: Text(
                 "Log Out",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(fontSize: 21.r, color: jasper),
+                style: tTheme.bodyMedium!.copyWith(
+                  fontSize: 21.r,
+                  color: jasper,
+                ),
               ),
             ),
             trailing: Icon(Icons.chevron_right, color: jasper, size: 30.r),
