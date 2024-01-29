@@ -234,7 +234,7 @@ class EnterRoomCode extends StatelessWidget {
                   fontFamily: 'Poppins',
                   letterSpacing: 0,
                   fontSize: 12.r,
-                  color: gray,
+                  color: chocolateCosmos,
                   fontWeight: FontWeight.normal,
                 ),
                 minFontSize: 12,
