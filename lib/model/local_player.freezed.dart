@@ -163,14 +163,15 @@ class __$$LocalPlayerImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$LocalPlayerImpl implements _LocalPlayer {
+class _$LocalPlayerImpl extends _LocalPlayer with DiagnosticableTreeMixin {
   const _$LocalPlayerImpl(
       {required this.name,
       required this.color,
       this.avatar = "",
       this.pts = 0,
       required this.playerNo,
-      this.isActive = false});
+      this.isActive = false})
+      : super._();
 
   factory _$LocalPlayerImpl.fromJson(Map<String, dynamic> json) =>
       _$$LocalPlayerImplFromJson(json);
@@ -192,8 +193,21 @@ class _$LocalPlayerImpl implements _LocalPlayer {
   final bool isActive;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LocalPlayer(name: $name, color: $color, avatar: $avatar, pts: $pts, playerNo: $playerNo, isActive: $isActive)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'LocalPlayer'))
+      ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('color', color))
+      ..add(DiagnosticsProperty('avatar', avatar))
+      ..add(DiagnosticsProperty('pts', pts))
+      ..add(DiagnosticsProperty('playerNo', playerNo))
+      ..add(DiagnosticsProperty('isActive', isActive));
   }
 
   @override
@@ -230,7 +244,7 @@ class _$LocalPlayerImpl implements _LocalPlayer {
   }
 }
 
-abstract class _LocalPlayer implements LocalPlayer {
+abstract class _LocalPlayer extends LocalPlayer {
   const factory _LocalPlayer(
       {required final String name,
       required final String color,
@@ -238,6 +252,7 @@ abstract class _LocalPlayer implements LocalPlayer {
       final int pts,
       required final int playerNo,
       final bool isActive}) = _$LocalPlayerImpl;
+  const _LocalPlayer._() : super._();
 
   factory _LocalPlayer.fromJson(Map<String, dynamic> json) =
       _$LocalPlayerImpl.fromJson;

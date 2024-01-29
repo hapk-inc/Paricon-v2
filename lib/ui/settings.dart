@@ -28,15 +28,18 @@ class SettingsPage extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: majorelleBlue,
         titleSpacing: 0,
-        iconTheme: IconThemeData(color: ghostWhite, size: 18.r),
+        iconTheme: IconThemeData(color: ghostWhite, size: 24.r),
         centerTitle: false,
-        toolbarHeight: 90.h,
+        toolbarHeight: 75.h,
         titleTextStyle: TextStyle(
           fontFamily: 'WendyOne',
           fontSize: 24.r,
           letterSpacing: 0.3.r,
         ),
-        title: const AutoSizeText("Settings"),
+        title: const AutoSizeText(
+          "Settings",
+          style: TextStyle(color: ghostWhite),
+        ),
       ),
       backgroundColor: ghostWhite,
       body: SlidingUpPanel(
@@ -66,7 +69,7 @@ class SettingsState extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Gap(7.5.r),
+          //Gap(7.5.r),
           ListTile(
             contentPadding: EdgeInsets.zero,
             horizontalTitleGap: 9.6.r,
@@ -96,7 +99,7 @@ class SettingsState extends ConsumerWidget {
           ref.watch(packageInfoProvider).maybeWhen(
                 orElse: () => Container(),
                 data: (app) => Text(
-                  "Version: ${app.version}",
+                  "Version ${app.version} (${app.buildNumber})",
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: gray,
                         fontWeight: FontWeight.w300,

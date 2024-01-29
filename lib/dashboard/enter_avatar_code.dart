@@ -132,9 +132,9 @@ class EnterAvatarCode extends ConsumerWidget {
                                 ],
                               ),
                               style: TextStyle(
-                                fontFamily: 'Cabin',
-                                fontSize: 15.r,
-                                fontWeight: FontWeight.w400,
+                                fontSize: 12.r,
+                                fontWeight: FontWeight.w300,
+                                fontFamily: 'Poppins',
                                 color: cinerous,
                               ),
                             ),
@@ -144,8 +144,9 @@ class EnterAvatarCode extends ConsumerWidget {
                               child: Text(
                                 "ENTER CODE",
                                 style: TextStyle(
-                                  fontFamily: 'Cabin',
+                                  fontFamily: 'Poppins',
                                   fontSize: 15.r,
+                                  fontWeight: FontWeight.normal,
                                   color: ghostWhite,
                                 ),
                               ),

@@ -147,7 +147,7 @@ class __$$BoardImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$BoardImpl implements _Board {
+class _$BoardImpl extends _Board {
   const _$BoardImpl(
       {final Map<String, LocalPlayer> players = const {},
       final Map<String, LocalIcon> icons = const {},
@@ -155,7 +155,8 @@ class _$BoardImpl implements _Board {
       this.type = RoomType.normal,
       this.currentIcon})
       : _players = players,
-        _icons = icons;
+        _icons = icons,
+        super._();
 
   factory _$BoardImpl.fromJson(Map<String, dynamic> json) =>
       _$$BoardImplFromJson(json);
@@ -229,13 +230,14 @@ class _$BoardImpl implements _Board {
   }
 }
 
-abstract class _Board implements Board {
+abstract class _Board extends Board {
   const factory _Board(
       {final Map<String, LocalPlayer> players,
       final Map<String, LocalIcon> icons,
       required final String currentID,
       final RoomType type,
       final String? currentIcon}) = _$BoardImpl;
+  const _Board._() : super._();
 
   factory _Board.fromJson(Map<String, dynamic> json) = _$BoardImpl.fromJson;
 

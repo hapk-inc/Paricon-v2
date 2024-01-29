@@ -72,7 +72,7 @@ class EnterTournamentCode extends StatelessWidget {
                         child: Text(
                           "PARICON",
                           style: TextStyle(
-                            fontFamily: 'Cabin',
+                            fontFamily: 'Poppins',
                             fontSize: 15.r,
                             letterSpacing: 0.45.r,
                             fontWeight: FontWeight.w400,
@@ -89,7 +89,7 @@ class EnterTournamentCode extends StatelessWidget {
                           child: Text(
                             "TRY NOW",
                             style: TextStyle(
-                              fontFamily: 'Cabin',
+                              fontFamily: 'Poppins',
                               fontSize: 15.r,
                               color: ghostWhite,
                             ),

@@ -9,7 +9,7 @@ import '../logic/user_provider.dart';
 import '../model/my_user.dart';
 import '../theme/my_color.dart';
 
-class LoginTextField extends ConsumerWidget {
+/*class LoginTextField extends ConsumerWidget {
   const LoginTextField({super.key});
 
   @override
@@ -108,4 +108,4 @@ class LoginTextField extends ConsumerWidget {
       ),
     );
   }
-}
+}*/

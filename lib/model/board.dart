@@ -11,6 +11,8 @@ part 'board.g.dart';
 
 @freezed
 class Board with _$Board {
+  const Board._();
+
   const factory Board({
     @Default({}) Map<String, LocalPlayer> players,
     @Default({}) Map<String, LocalIcon> icons,
@@ -20,4 +22,16 @@ class Board with _$Board {
   }) = _Board;
 
   factory Board.fromJson(Map<String, dynamic> json) => _$BoardFromJson(json);
+
+  Map<String, LocalPlayer> get winners {
+    final List<LocalPlayer> x = players.values.toList();
+    x.sort((a, b) => b.pts.compareTo(a.pts));
+
+    final List<LocalPlayer> winners =
+        List<LocalPlayer>.from(x).where((i) => i.pts == x.first.pts).toList();
+
+    final newX = Map<String, LocalPlayer>.from(players);
+    newX.removeWhere((key, value) => !winners.contains(value));
+    return newX;
+  }
 }

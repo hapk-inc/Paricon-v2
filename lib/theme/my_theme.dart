@@ -13,7 +13,7 @@ ThemeData get buildThemeData => ThemeData(
         ),
         bodyLarge: TextStyle(
             fontSize: 13.5.r,
-            fontFamily: 'Cabin',
+            fontFamily: 'Poppins',
             letterSpacing: 0.12.r,
             height: 2.4,
             fontWeight: FontWeight.w400),

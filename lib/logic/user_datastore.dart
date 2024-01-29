@@ -6,8 +6,12 @@ import 'package:mock_data/mock_data.dart';
 import 'package:paricon/model/pass_avatar.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../model/board.dart';
+import '../model/local_player.dart';
 import '../model/my_user.dart';
+import '../model/play_stats.dart';
 import 'firebase_init.dart';
+import 'game_setup_provider.dart';
 
 class UserDatastore {
   final Ref ref;
@@ -55,6 +59,43 @@ class UserDatastore {
       },
     );
     return _userBehaviour.stream;
+  }
+
+  Future updatePlayFriendScore(Board board) async {
+    final x = GameSetup();
+    final String cPath = x.collectionPath(board);
+
+    DocumentReference documentReference =
+        userColl.doc(_id).collection("play_friend_score").doc(cPath);
+
+    final LocalPlayer? myLocalPlayer = board.players[user!.uid];
+
+    return ref.read(fireStoreProvider).runTransaction(
+      (transaction) async {
+        // Get the document
+        DocumentSnapshot snapshot = await transaction.get(documentReference);
+
+        final List<String> pList = List.from(board.players.keys);
+        pList.remove(user!.uid);
+
+        PlayStats playStats = myLocalPlayer!.statsConversion(
+          board.icons.length,
+          board.winners.containsKey(user!.uid),
+          pList,
+        );
+
+        if (!snapshot.exists) {
+          transaction.set(documentReference, playStats.toJson());
+        } else {
+          Map map = snapshot.data() as Map;
+          Map<String, dynamic> json = Map<String, dynamic>.from(map);
+          PlayStats currentStats = PlayStats.fromJson(json);
+          currentStats += playStats;
+          transaction.update(documentReference, currentStats.toJson());
+        }
+        return playStats;
+      },
+    );
   }
 
   Future userActive(bool flag) => userColl.doc(_id).update({'isActive': flag});
@@ -105,13 +146,13 @@ class UserDatastore {
     return subject.stream;
   }*/
 
-  Future addFriend(String friend) => userColl.doc(_id).update(
+/*  Future addFriend(String friend) => userColl.doc(_id).update(
         {
           'myFriends': FieldValue.arrayUnion([friend]),
         },
-      );
+      );*/
 
-  Future<String?> validUser(String avatarCode) =>
+  /*Future<String?> validUser(String avatarCode) =>
       userColl.where('avatarCode', isEqualTo: avatarCode).get().then(
         (QuerySnapshot snapshot) {
           if (snapshot.docs.isEmpty) {
@@ -120,7 +161,7 @@ class UserDatastore {
             return snapshot.docs[0].id;
           }
         },
-      );
+      );*/
 
   // Future setActive(bool flag) => userColl.doc(_id).update({'isActive': flag});
 
@@ -133,13 +174,13 @@ class UserDatastore {
         toFirestore: (x, _) => x.toJson(),
       );*/
 
-  Future newAvatar(String docId, String rPickCard) =>
+  /*Future newAvatar(String docId, String rPickCard) =>
       userColl.doc(docId).collection('avatar').doc(_id).set(
             PassAvatar(
               createdAt: DateTime.now(),
               //from: _id!,
             ).toJson(),
-          );
+          );*/
 
   Future newCard(String docId, String xCard) {
     WriteBatch batch = FirebaseFirestore.instance.batch();

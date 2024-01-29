@@ -38,7 +38,7 @@ class WorkInProgress extends StatelessWidget {
             child: Text(
               "Appreciate your patience",
               style: TextStyle(
-                fontFamily: 'Cabin',
+                fontFamily: 'Poppins',
                 fontSize: 18.r,
                 fontWeight: FontWeight.w300,
                 color: jasper,

@@ -9,7 +9,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:random_avatar/random_avatar.dart';
 
-import '../logic/remote_values.dart';
 import '../logic/user_activity_provider.dart';
 import '../model/user_activity.dart';
 import '../theme/my_color.dart';
@@ -22,7 +21,6 @@ class RecentPlayer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //final User fUser = ref.watch(authUserProvider).value!;
     final tTheme = Theme.of(context).textTheme.titleLarge!;
-    final int count = ref.watch(onlinePlayerProvider);
 
     return StaggeredGridTile.fit(
       crossAxisCellCount: 20,

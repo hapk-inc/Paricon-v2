@@ -54,7 +54,7 @@ class MaintenancePage extends ConsumerWidget {
                   "Appreciate your patience while we perform maintenance",
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    fontFamily: 'Cabin',
+                    fontFamily: 'Poppins',
                     height: 2.1.r,
                     fontSize: 15.r,
                     color: jasper,

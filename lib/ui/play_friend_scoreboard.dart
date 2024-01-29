@@ -6,10 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mock_data/mock_data.dart';
 
 import '../logic/auth_provider.dart';
-import '../logic/my_names.dart';
 import '../logic/room_id.dart';
 import '../logic/room_provider.dart';
 import '../model/board.dart';

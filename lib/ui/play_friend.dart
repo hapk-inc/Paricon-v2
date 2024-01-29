@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/logic/game_setup_provider.dart';
 
 import 'package:random_avatar/random_avatar.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
@@ -22,6 +23,7 @@ import '../logic/panel_provider.dart';
 import '../logic/play_friend_listener.dart';
 import '../logic/room_id.dart';
 import '../logic/s_size.dart';
+import '../logic/user_provider.dart';
 import '../model/board.dart';
 import '../model/local_icon.dart';
 import '../theme/my_color.dart';
@@ -96,13 +98,21 @@ class __PlayFriendBoard extends ConsumerWidget {
       playFriendNotifierProvider.select((p) => p.balancePercentage),
       (previous, next) {
         if (next == 1.0) {
-          final Board b = Board(
-              currentID: currentID ?? "",
-              players: xPlayers,
-              icons: xIcons,
-              type: board!.type);
-          dNotifier.dWidget = PlayFriendScoreboard(b);
-          context.router.pop();
+          Future.delayed(const Duration(milliseconds: 750), () {
+            final Board b = Board(
+                currentID: currentID ?? "",
+                players: xPlayers,
+                icons: xIcons,
+                type: board!.type);
+            dNotifier.dWidget = PlayFriendScoreboard(b);
+            ref.read(updateStatsProvider(b).future).catchError(
+              (e, s) {
+                debugPrint(e.toString());
+                debugPrintStack(stackTrace: s);
+              },
+            );
+            context.router.pop();
+          });
         }
       },
     );
@@ -425,10 +435,6 @@ class _PlayFriendGrid extends ConsumerWidget {
       },
     );
 
-    /*List<Widget> tiles = playFriendNotifier.icons.entries
-        .map((e) => _PlayFriendGridTile(e.key, e.value))
-        .toList();*/
-
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.r),
       //padding: EdgeInsets.all(15.r),
@@ -443,7 +449,7 @@ class _PlayFriendGrid extends ConsumerWidget {
         verticalGridSpacing: 7.2.r,
         horizontalGridMargin: 0,
         verticalGridMargin: 0,
-        maxItemsPerRow: 3,
+        maxItemsPerRow: GameSetup().maxItemsPerRow(icons.length),
         children: tiles,
       ),
     );
@@ -458,6 +464,10 @@ class _PlayFriendGridTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playFriendNotifier = ref.watch(playFriendNotifierProvider);
+
+    if (playFriendNotifier.board == null) return Container();
+    final Map<String, LocalIcon> icons = playFriendNotifier.board!.icons;
+    if (icons.isEmpty) return Container();
     final User? user = ref.watch(authUserProvider).value;
     final String? currentID = ref.watch(currentIDProvider).value;
 
@@ -470,12 +480,7 @@ class _PlayFriendGridTile extends ConsumerWidget {
       },
     );
 
-/*    ref.listen(
-      iconProvider(id).select((value) => value.value),
-      (previous, next) {
-        playFriendNotifier.setIcon(id, localIcon);
-      },
-    );*/
+    final iconSize = icons.length == 30 ? 40.5.r : 30.r;
 
     return AspectRatio(
       aspectRatio: 1,
@@ -514,7 +519,7 @@ class _PlayFriendGridTile extends ConsumerWidget {
                               localIcon.iconCode,
                               fontFamily: 'MaterialIcons',
                             ),
-                            size: 30.r,
+                            size: iconSize,
                             color: federalBlue,
                           )
                         : localIcon.isCheck
@@ -523,7 +528,7 @@ class _PlayFriendGridTile extends ConsumerWidget {
                                   localIcon.iconCode,
                                   fontFamily: 'MaterialIcons',
                                 ),
-                                size: 30.r,
+                                size: iconSize,
                                 color: ghostWhite,
                               )
                             : Container(),

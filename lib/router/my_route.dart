@@ -43,6 +43,8 @@ class MyRouter extends _$MyRouter {
 
 //flutter packages pub run build_runner build --delete-conflicting-outputs
 
+//dart run build_runner build --delete-conflicting-outputs
+
 //for freezed
 //flutter pub run build_runner build --delete-conflicting-outputs
 

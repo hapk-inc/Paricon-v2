@@ -120,6 +120,7 @@ final AutoDisposeProvider<List<Color>> gridColorRandomColorProvider =
 final AutoDisposeFutureProvider<bool> createBoardProvider =
     FutureProvider.autoDispose(
   (ref) async {
+    final setup = GameSetup();
     try {
       final Room room = ref.read(roomProvider).value!;
 
@@ -134,8 +135,7 @@ final AutoDisposeFutureProvider<bool> createBoardProvider =
       //final players = {};
 
       //final GameSetup setup = ref.read(setupProvider);
-      final List<LocalIcon> localIcons =
-          List.from(GameSetup(room.level).newIcons);
+      final List<LocalIcon> localIcons = List.from(setup.newIcons(room.level));
       final Map icons = localIcons.map((e) => e.toIdJson(mockString(12))).fold(
         {},
         (previousValue, element) => {...previousValue, ...element},

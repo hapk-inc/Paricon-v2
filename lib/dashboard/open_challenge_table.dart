@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:paricon/theme/my_theme.dart';
 
 import '../logic/auth_provider.dart';
 import '../logic/t_score.dart';
@@ -27,6 +28,19 @@ class OpenChallengeTable extends ConsumerWidget {
     final User? fUser = ref.watch(authUserProvider).value;
 
     final List<String> bestDList = ref.watch(bestDListProvider).value ?? [];
+
+    List<DataRow> dRow(BoxConstraints constraints) => List.generate(
+          recentTourList.length <= 4 ? recentTourList.length : 4,
+          (index) {
+            final TDuration tD = recentTourList[index];
+            final bool isMe = tD.userId == fUser!.uid;
+            final MyUser? xUser = ref.watch(xUserProvider(tD.userId)).value;
+
+            final int myRank = bestDList.indexOf(tD.userId);
+            // final
+            return _dataRow(isMe, constraints, myRank, xUser, tD);
+          },
+        );
 
     return Container(
       height: 300.h,
@@ -94,93 +108,21 @@ class OpenChallengeTable extends ConsumerWidget {
                         color: giantOrange,
                       ),
                       dataTextStyle: TextStyle(
-                        fontSize: 15.r,
+                        fontSize: 13.5.r,
                         color: richBlack,
-                        fontFamily: 'Poppins',
+                        fontFamily: 'Montserrat',
                       ),
                       columns: List.generate(
                         3,
-                        (index) {
-                          return DataColumn(
-                            label: Container(
-                              color: index == 3 ? chocolateCosmos : null,
-                              width: pW * _colSize[index],
-                              child: Text(colName[index]),
-                            ),
-                          );
-                        },
+                        (index) => DataColumn(
+                          label: Container(
+                            color: index == 3 ? chocolateCosmos : null,
+                            width: pW * _colSize[index],
+                            child: Text(colName[index]),
+                          ),
+                        ),
                       ),
-                      rows: recentTourList.isEmpty
-                          ? []
-                          : List.generate(
-                              recentTourList.length <= 4
-                                  ? recentTourList.length
-                                  : 4,
-                              (index) {
-                                final TDuration tD = recentTourList[index];
-                                final bool isMe = tD.userId == fUser!.uid;
-                                final MyUser? xUser =
-                                    ref.watch(xUserProvider(tD.userId)).value;
-
-                                final int myRank = bestDList.indexOf(tD.userId);
-                                // final
-                                return DataRow(
-                                  color: MaterialStatePropertyAll(
-                                      isMe ? bitterSweet : null),
-                                  cells: [
-                                    DataCell(
-                                      Container(
-                                        width: pW * _colSize[0],
-                                        margin:
-                                            EdgeInsets.only(left: pW * 0.03),
-                                        alignment: Alignment.centerLeft,
-                                        child: Text(
-                                          "${myRank + 1}".padLeft(2, '0'),
-                                          style: TextStyle(
-                                            fontFamily: 'Montserrat',
-                                            fontSize: 15.r,
-                                            color:
-                                                isMe ? lightOrange : cardinal,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      Container(
-                                        width: pW * _colSize[1],
-                                        alignment: Alignment.centerLeft,
-                                        child: AutoSizeText(
-                                          xUser == null ? "" : xUser.name,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: 13.2.r,
-                                            color: isMe
-                                                ? lightOrange
-                                                : hookerGreen,
-                                            fontFamily: 'Montserrat',
-                                          ),
-                                          maxLines: 1,
-                                        ),
-                                      ),
-                                    ),
-                                    DataCell(
-                                      SizedBox(
-                                        width: pW * _colSize[2],
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            ShowPlayedDuration(
-                                                tD.tDuration, isMe),
-                                            ShowPlayedAt(tD.playedAt, isMe),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            ),
+                      rows: recentTourList.isEmpty ? [] : dRow(constraints),
                     ),
                   );
                 },
@@ -193,6 +135,49 @@ class OpenChallengeTable extends ConsumerWidget {
   }
 }
 
+DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
+    MyUser? xUser, TDuration tD) {
+  final double pW = constraints.maxWidth;
+  return DataRow(
+    color: MaterialStatePropertyAll(isMe ? bitterSweet : null),
+    cells: [
+      DataCell(
+        Container(
+          width: pW * _colSize[0],
+          margin: EdgeInsets.only(left: pW * 0.03),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            "${myRank + 1}".padLeft(2, '0'),
+            style: TextStyle(color: isMe ? lightOrange : cardinal),
+          ),
+        ),
+      ),
+      DataCell(
+        Container(
+          width: pW * _colSize[1],
+          alignment: Alignment.centerLeft,
+          child: AutoSizeText(
+            xUser == null ? "" : firstCaps(xUser.name),
+            style: TextStyle(color: isMe ? lightOrange : hookerGreen),
+            maxLines: 1,
+          ),
+        ),
+      ),
+      DataCell(
+        SizedBox(
+          width: pW * _colSize[2],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ShowPlayedDuration(tD.tDuration, isMe),
+              ShowPlayedAt(tD.playedAt, isMe),
+            ],
+          ),
+        ),
+      ),
+    ],
+  );
+}
 
 class ShowPlayedDuration extends StatelessWidget {
   final Duration tDuration;
@@ -205,7 +190,6 @@ class ShowPlayedDuration extends StatelessWidget {
           tDuration,
           tSize: 15,
           sSize: 10.8,
-          //family: 'WendyOne',
           minute: isMe ? lightOrange : caputMortuum,
           mm: isMe ? lightOrange : oldRose,
         ),

@@ -8,8 +8,7 @@ import 'package:lottie/lottie.dart';
 
 import '../router/my_route.dart';
 import '../theme/my_color.dart';
-
-class TButton extends ConsumerWidget {
+/*class TButton extends ConsumerWidget {
   const TButton({super.key});
 
   @override
@@ -107,4 +106,4 @@ class TButton extends ConsumerWidget {
       ),
     );
   }
-}
+}*/
