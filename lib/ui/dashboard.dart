@@ -163,21 +163,23 @@ class _DashboardSliding extends ConsumerWidget {
       isDraggable: false,
       backdropEnabled: true,
       backdropTapClosesPanel: ref.watch(idNotifier).isEmpty,
-      panel: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
-        child: Container(
-            decoration: BoxDecoration(
-              color: magnolia,
-              borderRadius: pTheme.slidingPanelRadius,
-            ),
-            child: dPanelNotifier.dWidget),
+      panel: Container(
+        decoration: BoxDecoration(
+          color: magnolia,
+          borderRadius: pTheme.slidingPanelRadius,
+        ),
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 500),
+          child: Container(
+              decoration: BoxDecoration(
+                color: magnolia,
+                borderRadius: pTheme.slidingPanelRadius,
+              ),
+              child: dPanelNotifier.dWidget),
+        ),
       ),
       onPanelClosed: () {
         FocusScope.of(context).unfocus();
-        if (ref.read(idNotifier).isEmpty) {
-          ref.read(dashboardPanelNotifierProvider).dWidget =
-              const CreateGameRoom();
-        }
       },
       minHeight: 0.h,
       maxHeight: dPanelNotifier.dHeight,

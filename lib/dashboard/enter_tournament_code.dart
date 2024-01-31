@@ -45,6 +45,9 @@ class EnterTournamentCode extends StatelessWidget {
                         .bodySmall!
                         .copyWith(color: gray),
                     maxLines: 1,
+                    minFontSize: 10.5,
+                    stepGranularity: 1.5,
+                    maxFontSize: 15,
                   ),
                 ],
               ),

@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:paricon/theme/my_theme.dart';
 
 import '../model/my_user.dart';
 import '../model/user_activity.dart';
@@ -81,4 +82,9 @@ class UserDatabase {
   Future setActive(bool flag) => userReference.update({'isActive': flag});
 
   Future setPlaying(bool flag) => userReference.update({'isPlaying': flag});
+
+  Future updateName(String name) {
+    String n = firstCaps(name);
+    return userReference.update({'name': n});
+  }
 }

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'auth.dart';
+import 'user_activity_database.dart';
 
 final Provider<Auth> authProvider = Provider<Auth>((ref) => Auth(ref));
 
@@ -31,7 +32,10 @@ final AutoDisposeFutureProviderFamily updateNameProvider =
     FutureProvider.autoDispose.family<void, String>(
   (ref, name) async {
     final auth = ref.read(authProvider);
-    return auth.updateName(name);
+    await auth.updateName(name);
+
+    final userDatabase = ref.read(userDatabaseProvider);
+    return userDatabase.updateName(name);
   },
 );
 

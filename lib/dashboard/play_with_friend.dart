@@ -6,69 +6,68 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
+import '../logic/dashboard_panel_provider.dart';
 import '../logic/panel_provider.dart';
 
 import '../logic/remote_values.dart';
 import '../theme/my_color.dart';
+import '../ui/game_room.dart';
 
 class PlayWithFriend extends ConsumerWidget {
   const PlayWithFriend({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => StaggeredGridTile.count(
-        crossAxisCellCount: 20,
-        mainAxisCellCount: 13.5.h,
-        child: Stack(
-          children: [
-            Positioned(
-              top: 15.r,
-              left: 0.r,
-              right: 0.r,
-              child: Container(
-                height: 180.h,
-                decoration: BoxDecoration(
-                  color: jasper,
-                  borderRadius: BorderRadius.circular(7.5.r),
-                ),
-                padding: EdgeInsets.only(top: 15.r, left: 15.r),
-                margin: EdgeInsets.only(right: 30.w, left: 15.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AutoSizeText(
-                      "Play with Friends",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(color: magnolia),
-                    ),
-                    Gap(9.r),
-                    Text(
-                      "Max up to 3 players",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: ghostWhite),
-                    ),
-                    // Gap(15.r),
-                    const PlayOnlineButton(),
-                  ],
-                ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tTheme = Theme.of(context).textTheme;
+    return StaggeredGridTile.count(
+      crossAxisCellCount: 20,
+      mainAxisCellCount: 13.5.h,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 15.r,
+            left: 0.r,
+            right: 0.r,
+            child: Container(
+              height: 180.h,
+              decoration: BoxDecoration(
+                color: jasper,
+                borderRadius: BorderRadius.circular(7.5.r),
+              ),
+              padding: EdgeInsets.only(top: 15.r, left: 15.r),
+              margin: EdgeInsets.only(right: 30.w, left: 15.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AutoSizeText(
+                    "Play with Friends",
+                    style: tTheme.bodyMedium!.copyWith(color: magnolia),
+                  ),
+                  Gap(9.r),
+                  Text(
+                    "Max up to 3 players",
+                    style: tTheme.bodySmall!.copyWith(color: ghostWhite),
+                  ),
+                  // Gap(15.r),
+                  const PlayOnlineButton(),
+                ],
               ),
             ),
-            Positioned(
-              right: -30.r,
-              top: -15.r,
-              bottom: -15.r,
-              child: Lottie.asset(
-                'lottie/friends-playing.json',
-                repeat: !kDebugMode,
-              ),
+          ),
+          Positioned(
+            right: -30.r,
+            top: -15.r,
+            bottom: -15.r,
+            child: Lottie.asset(
+              'lottie/friends-playing.json',
+              repeat: !kDebugMode,
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class PlayOnlineButton extends ConsumerWidget {
@@ -115,13 +114,15 @@ class PlayOnlineElevatedButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool goToPlayOnline = ref.watch(showPlayOnlineProvider);
+    final dNotifier = ref.watch(dashboardPanelNotifierProvider);
+    double aR = (900.h / 360.w);
 
     return ElevatedButton(
       onPressed: !goToPlayOnline
           ? () => ScaffoldMessenger.of(context).showSnackBar(_stillInProgress)
           : () {
-              /*ref.read(dPanelWidgetProvider.notifier).state =
-                  const CreateGamePanel();*/
+              dNotifier.dWidget = const CreateGameRoom();
+              dNotifier.dHeight = aR > 2.3 ? 300.h : 270.h;
               ref.read(dashboardPanelProvider).open();
             },
       style: ButtonStyle(

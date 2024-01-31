@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mock_data/mock_data.dart';
+import '../theme/my_theme.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../model/my_user.dart';
@@ -79,8 +80,9 @@ class Auth {
   }
 
   Future updateName(String name) async {
-    _auth.currentUser!.updateDisplayName(name);
-    return userColl.doc(_auth.currentUser!.uid).update({'name': name});
+    final String n = firstCaps(name);
+    await _auth.currentUser!.updateDisplayName(n);
+    return userColl.doc(_auth.currentUser!.uid).update({'name': n});
   }
 
   Future<String?> get signInWithGoogle async {
