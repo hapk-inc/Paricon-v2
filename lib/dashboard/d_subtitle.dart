@@ -45,7 +45,7 @@ class DSubtitle extends ConsumerWidget {
             ],
           ),
           style: Theme.of(context).textTheme.bodySmall,
-          maxLines: 1,
+          maxLines: 2,
           stepGranularity: 1.5,
           minFontSize: 10.5,
           maxFontSize: 15,

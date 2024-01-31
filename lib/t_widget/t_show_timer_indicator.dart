@@ -18,7 +18,7 @@ class ShowTimerIndicator extends ConsumerWidget {
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 15.r),
       title: SizedBox(
-        height: 60.h,
+        height: 75.h,
         child: ListTile(
           contentPadding: EdgeInsets.zero,
           title: Container(

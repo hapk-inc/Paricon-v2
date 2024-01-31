@@ -129,7 +129,7 @@ class PlayOnlineElevatedButton extends ConsumerWidget {
         textStyle: MaterialStatePropertyAll(
           TextStyle(
             fontFamily: 'Poppins',
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
             fontSize: 13.5.r,
           ),
         ),
@@ -144,7 +144,11 @@ class PlayOnlineElevatedButton extends ConsumerWidget {
       ),
       child: const Text(
         "PLAY ONLINE",
-        style: TextStyle(color: ghostWhite),
+        style: TextStyle(
+          color: ghostWhite,
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }

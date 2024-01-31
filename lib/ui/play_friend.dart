@@ -11,6 +11,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:paricon/logic/game_setup_provider.dart';
+import 'package:paricon/logic/room_level_notifier.dart';
 
 import 'package:random_avatar/random_avatar.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
@@ -22,6 +23,7 @@ import '../logic/dashboard_panel_provider.dart';
 import '../logic/panel_provider.dart';
 import '../logic/play_friend_listener.dart';
 import '../logic/room_id.dart';
+import '../logic/room_provider.dart';
 import '../logic/s_size.dart';
 import '../logic/user_provider.dart';
 import '../model/board.dart';
@@ -419,6 +421,9 @@ class _PlayFriendGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final room = ref.watch(roomProvider).value;
+    final setup =
+        GameSetup(level: room == null ? RoomLevel.medium : room.level);
     List<Widget> tiles = List.generate(
       icons.length,
       (index) {
@@ -435,7 +440,10 @@ class _PlayFriendGrid extends ConsumerWidget {
       },
     );
 
-    return Padding(
+    return Container(
+      //color: chocolateCosmos,
+      alignment: Alignment.center,
+      constraints: BoxConstraints.tight(Size.square(setup.containerSize)),
       padding: EdgeInsets.symmetric(horizontal: 15.r),
       //padding: EdgeInsets.all(15.r),
       child: ResponsiveGridList(
@@ -449,7 +457,7 @@ class _PlayFriendGrid extends ConsumerWidget {
         verticalGridSpacing: 7.2.r,
         horizontalGridMargin: 0,
         verticalGridMargin: 0,
-        maxItemsPerRow: GameSetup().maxItemsPerRow(icons.length),
+        maxItemsPerRow: setup.gridRow(icons.length),
         children: tiles,
       ),
     );
@@ -480,7 +488,9 @@ class _PlayFriendGridTile extends ConsumerWidget {
       },
     );
 
-    final iconSize = icons.length == 30 ? 40.5.r : 30.r;
+    final setUp = GameSetup();
+
+    final iconSize = setUp.iconSize(icons.length);
 
     return AspectRatio(
       aspectRatio: 1,

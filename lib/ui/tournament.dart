@@ -46,16 +46,6 @@ class TournamentPage extends ConsumerWidget {
 
     final PanelController tPanelController = ref.watch(tournamentPanelProvider);
 
-    /*final Widget panelWidget = ref.watch(internetConnectionProvider).when(
-          data: (connectionResult) {
-            return connectionResult == ConnectivityResult.none
-                ? const NoInternetPanel()
-                : Container();
-          },
-          error: (_, __) => Container(),
-          loading: () => Container(),
-        );*/
-
     final sSize = ref.read(sizeProvider);
 
     return Scaffold(

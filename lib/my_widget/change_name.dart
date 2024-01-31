@@ -66,14 +66,14 @@ class ChangeName extends ConsumerWidget {
                         ref.read(dashboardPanelProvider).close();
                       }
                     },
-                    icon: Icon(Icons.abc, size: 30.r),
+                    icon: Icon(Icons.abc, size: 45.r),
                   ),
                 ),
               ),
             ),
             Gap(12.r),
             Text(
-              "Change your current name here",
+              "Change your current name here. Now you're ${myUser.name}",
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w300,

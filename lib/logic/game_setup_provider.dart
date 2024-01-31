@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../model/board.dart';
 import '../model/local_icon.dart';
@@ -9,52 +10,71 @@ import 'room_level_notifier.dart';
     Provider.autoDispose<GameSetup>((_) => GameSetup());*/
 
 class GameSetup {
-  List<LocalIcon> newIcons(RoomLevel level) {
+  final RoomLevel level;
+  final Map<RoomLevel, int> map = {
+    RoomLevel.easy: 8,
+    RoomLevel.medium: 15,
+    RoomLevel.hard: 28
+  };
+
+  GameSetup({this.level = RoomLevel.medium});
+
+  List<LocalIcon> get newIcons {
     List<IconData> x = List.from(gIcons);
     x.shuffle();
-    List<IconData> y = List.from(x.take(iconCount(level)));
+    //List<IconData> y = List.from(x.take(iconCount(level)));
+    List<IconData> y = List.from(x.take(map[level]!));
     List<IconData> z = y + y;
     z.shuffle();
     return List.generate(
-      iconCount(level) * 2,
+      map[level]! * 2,
       (index) => LocalIcon(iconCode: z[index].codePoint, iconNo: index),
     );
   }
 
-  int iconCount(level) {
-    switch (level) {
+  int gridRow(int totalCount) {
+    RoomLevel l = whichLevel(totalCount);
+    switch (l) {
       case RoomLevel.easy:
-        return 15;
+        return 4;
       case RoomLevel.medium:
-        return 28;
+        return 6;
       case RoomLevel.hard:
-        return 32;
-      default:
-        return 0;
+        return 7;
     }
   }
 
-  int maxItemsPerRow(int iconCount) {
-    if (iconCount == 30) return 5;
-    if (iconCount == 56) return 7;
-    return 8;
+  RoomLevel whichLevel(int totalCount) {
+    int x = totalCount ~/ 2;
+    RoomLevel l = map.keys.firstWhere((element) => map[element] == x);
+    return l;
   }
 
-  String whichLevel(int count) {
-    switch (count) {
-      case 4:
-        return "easy";
-      case 8:
-        return "medium";
-      case 12:
-        return "hard";
-      default:
-        return "";
+  double get containerSize {
+    switch (level) {
+      case RoomLevel.easy:
+        return 300.r;
+      case RoomLevel.medium:
+        return 480.r;
+      case RoomLevel.hard:
+        return 480.r;
     }
   }
 
   String collectionPath(Board board) {
-    final String level = whichLevel(board.icons.length);
-    return "$level-${board.type.name}-${board.players.length}";
+    final String l = whichLevel(board.icons.length).name;
+    return "$l-${board.type.name}-${board.players.length}";
+  }
+
+  double iconSize(int totalCount) {
+    RoomLevel l = whichLevel(totalCount);
+    switch (l) {
+      case RoomLevel.easy:
+        return 33.r;
+      case RoomLevel.medium:
+        return 30.r;
+      case RoomLevel.hard:
+        return 30.r;
+    }
   }
 }

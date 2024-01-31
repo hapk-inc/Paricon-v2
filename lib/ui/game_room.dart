@@ -164,13 +164,13 @@ class CreateRoom extends ConsumerWidget {
         children: [
           Gap(3.r),
           ToggleSwitch(
-            changeOnTap: false,
+            //changeOnTap: false,
             radiusStyle: true,
             labels: List.from(RoomLevel.values.map((e) => firstCaps(e.name))),
             customWidths: [75.w, 105.w, 75.w],
             minHeight: 36.h,
-            //onToggle: (index) =>
-            //    ref.read(levelProvider.notifier).state = RoomLevel.values[index!],
+            onToggle: (index) => ref.read(levelProvider.notifier).state =
+                RoomLevel.values[index!],
             inactiveBgColor: magnolia,
             inactiveFgColor: charcoal,
             activeBgColor: const [tropicalIndigo],

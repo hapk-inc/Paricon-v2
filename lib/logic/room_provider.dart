@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:paricon/logic/user_provider.dart';
-import 'package:paricon/model/room.dart';
 
 import '../model/local_icon.dart';
 import '../model/my_user.dart';
+import '../model/room.dart';
 import '../theme/my_color.dart';
 import 'auth_provider.dart';
 import 'board_database.dart';
@@ -18,6 +17,7 @@ import 'room_database.dart';
 import 'room_id.dart';
 import 'room_level_notifier.dart';
 import 'room_type_notifier.dart';
+import 'user_provider.dart';
 
 final AutoDisposeFutureProvider<String> createRoomProvider =
     FutureProvider.autoDispose<String>(
@@ -120,52 +120,46 @@ final AutoDisposeProvider<List<Color>> gridColorRandomColorProvider =
 final AutoDisposeFutureProvider<bool> createBoardProvider =
     FutureProvider.autoDispose(
   (ref) async {
-    final setup = GameSetup();
-    try {
-      final Room room = ref.read(roomProvider).value!;
-
-      if (!kDebugMode) {
-        final package = await ref.read(packageInfoProvider.future);
-        if (!package.appName.contains("Dev") && room.players.length == 1) {
-          return false;
-        }
+    final Room room = ref.read(roomProvider).value!;
+    final setup = GameSetup(level: room.level);
+    if (!kDebugMode) {
+      final package = await ref.read(packageInfoProvider.future);
+      if (!package.appName.contains("Dev") && room.players.length == 1) {
+        return false;
       }
-
-      final players = convertToBoard(room.players);
-      //final players = {};
-
-      //final GameSetup setup = ref.read(setupProvider);
-      final List<LocalIcon> localIcons = List.from(setup.newIcons(room.level));
-      final Map icons = localIcons.map((e) => e.toIdJson(mockString(12))).fold(
-        {},
-        (previousValue, element) => {...previousValue, ...element},
-      );
-
-      String currentIcon = "";
-      if (room.type == RoomType.orderwise) {
-        //final localIcon = localIcons[Random.secure().nextInt(localIcons.length)];
-        //_currentIcon = localIcon.iconCode;
-        // print("Current Icon is $_currentIcon");
-      }
-
-      final Map currentPlayer = {"currentID": room.players.keys.first};
-      //final Map currentPlayer = {};
-
-      final Map map = {
-        ...{"players": players},
-        ...{"icons": icons},
-        ...currentPlayer,
-        ...{"type": "normal"},
-        if (currentIcon.isNotEmpty) ...{"currentIcon": currentIcon},
-      };
-
-      final boardDatabase = ref.read(boardDatabaseProvider);
-      await boardDatabase.createBoard(map);
-      return true;
-    } catch (e) {
-      debugPrint(e.toString());
-      return false;
     }
+
+    final players = convertToBoard(room.players);
+    //final players = {};
+
+    //final GameSetup setup = ref.read(setupProvider);
+    final List<LocalIcon> localIcons = List.from(setup.newIcons);
+    final Map icons = localIcons.map((e) => e.toIdJson(mockString(12))).fold(
+      {},
+      (previousValue, element) => {...previousValue, ...element},
+    );
+
+    String currentIcon = "";
+    if (room.type == RoomType.orderwise) {
+      //final localIcon = localIcons[Random.secure().nextInt(localIcons.length)];
+      //_currentIcon = localIcon.iconCode;
+      // print("Current Icon is $_currentIcon");
+    }
+
+    final Map currentPlayer = {"currentID": room.players.keys.first};
+    //final Map currentPlayer = {};
+
+    final Map map = {
+      ...{"players": players},
+      ...{"icons": icons},
+      ...currentPlayer,
+      ...{"type": "normal"},
+      if (currentIcon.isNotEmpty) ...{"currentIcon": currentIcon},
+    };
+
+    final boardDatabase = ref.read(boardDatabaseProvider);
+    await boardDatabase.createBoard(map);
+    return true;
   },
 );
 
@@ -175,7 +169,10 @@ Map convertToBoard(Map map) {
 
   Map a = Map.from(map);
 
-  List<String> colorNames = ['green', 'yellow', 'blue']..shuffle();
+  List<String> colorNames = (map.length == 2
+      ? [(mockInteger(0, 1) == 0 ? 'green' : 'blue'), 'yellow']
+      : ['green', 'yellow', 'blue'])
+    ..shuffle();
   int i = 0;
   a.updateAll(
     (key, value) {
