@@ -22,7 +22,7 @@ class GameSetup {
   List<LocalIcon> get newIcons {
     List<IconData> x = List.from(gIcons);
     x.shuffle();
-    //List<IconData> y = List.from(x.take(iconCount(level)));
+
     List<IconData> y = List.from(x.take(map[level]!));
     List<IconData> z = y + y;
     z.shuffle();
