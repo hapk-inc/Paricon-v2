@@ -30,7 +30,6 @@ import '../model/my_user.dart';
 import '../my_widget/my_logo.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
-import 'game_room.dart';
 import 'host_room.dart';
 
 const String notCompatible = 'Screen size not compatible';
