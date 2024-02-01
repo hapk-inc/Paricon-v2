@@ -103,19 +103,12 @@ class TournamentShow extends StatelessWidget {
         ),
         elevation: 3.r,
         child: SizedBox(
-          height: (360.w * 1.56),
+          height: 360.w * 1.5,
           //padding: EdgeInsets.all(4.5.r),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Flexible(
-                flex: 2,
-                child: FractionallySizedBox(
-                  heightFactor: 1,
-                  widthFactor: 1,
-                  child: ShowTimerIndicator(),
-                ),
-              ),
+              const Flexible(flex: 2, child: ShowTimerIndicator()),
               Expanded(
                 flex: 11,
                 child: Container(
@@ -126,9 +119,7 @@ class TournamentShow extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.r,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 12.r),
                   alignment: Alignment.centerLeft,
                   child: AutoSizeText(
                     "When you tap on the block, that's when the timer begins.",

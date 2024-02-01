@@ -1,22 +1,29 @@
+import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:gap/gap.dart';
 
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
 import '../theme/my_color.dart';
+import '../theme/my_theme.dart';
 
 class EnterAvatarCode extends ConsumerWidget {
   const EnterAvatarCode({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final tTheme = Theme.of(context).textTheme;
     final MyUser? myUser = ref.watch(myUserProvider).value;
     return myUser == null
         ? Container()
         : Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(3.r)),
+            margin: EdgeInsets.symmetric(horizontal: 4.5.r),
+            padding: EdgeInsets.symmetric(horizontal: 7.5.w, vertical: 15.h),
             alignment: Alignment.center,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,127 +35,70 @@ class EnterAvatarCode extends ConsumerWidget {
                     children: [
                       AutoSizeText(
                         "🎁 Gift your friends, a new avatars 😍",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(height: 1.8.r, color: cinerous),
+                        style: tTheme.bodyMedium!.copyWith(
+                          height: 1.8.r,
+                          color: drabDarkBrown,
+                        ),
                         maxLines: 2,
                       ),
                       //Gap(6.r),
                       AutoSizeText(
                         "Enter their code below "
                         "and present them with new avatars.",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(color: cinerous),
+                        style: tTheme.bodySmall!.copyWith(
+                          color: chocolateCosmos,
+                          letterSpacing: 0,
+                        ),
+                        stepGranularity: 1.5,
+                        minFontSize: 10.5,
+                        maxFontSize: 15,
                         maxLines: 1,
                       ),
                     ],
                   ),
                 ),
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 500),
-                  margin: EdgeInsets.symmetric(vertical: 24.r),
-                  height: 48.r,
-                  decoration: BoxDecoration(
-                    color: cinerous,
-                    borderRadius: BorderRadius.circular(7.5.r),
-                  ),
-                  child: InkWell(
-                    onTap: () => showGeneralDialog(
-                      barrierColor: Colors.black.withOpacity(0.72),
-                      transitionBuilder: (_, x, ___, __) => Transform.scale(
-                        scale: x.value,
-                        child: Opacity(
-                          opacity: x.value,
-                          child: AlertDialog(
-                            backgroundColor: chocolateCosmos,
-                            shape: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(7.5.r),
-                              borderSide: const BorderSide(
-                                  width: 0, color: chocolateCosmos),
-                            ),
-                            title: const Text(
-                              'Enter the avatar code',
-                              style: TextStyle(
-                                  fontFamily: 'WendyOne', color: xantHous),
-                            ),
-                            insetPadding:
-                                EdgeInsets.symmetric(horizontal: 7.5.w),
-                            content: AnimatedContainer(
-                              color: chocolateCosmos,
-                              duration: const Duration(milliseconds: 500),
-                              height: 72.h,
-                              // color: cinerous.withOpacity(0.15),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 3.w,
-                                vertical: 3.h,
-                              ),
-                              alignment: Alignment.bottomCenter,
-                              //child: const EnterAvatarCodePinPut(),
-                              child: Container(),
-                            ),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  "SHARE NOW",
-                                  style: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    color: ghostWhite,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      transitionDuration: const Duration(milliseconds: 200),
-                      barrierDismissible: true,
-                      barrierLabel: '',
-                      context: context,
-                      pageBuilder: (_, animation1, animation2) => Container(),
+                Gap(30.r),
+                OpenContainer(
+                  tappable: false,
+                  closedBuilder: (_, void Function() action) => Container(
+                    height: 48.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7.5.r),
                     ),
+                    padding: EdgeInsets.only(left: 15.w),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(7.5.r),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          AnimatedContainer(
-                            duration: const Duration(milliseconds: 500),
-                            width: 225.w,
-                            color: wheat,
-                            alignment: Alignment.centerLeft,
-                            padding: EdgeInsets.symmetric(horizontal: 15.w),
-                            child: AutoSizeText.rich(
-                              TextSpan(
-                                children: [
-                                  const TextSpan(text: "Your code - "),
-                                  TextSpan(
-                                    text: myUser.avatarCode,
-                                    style:
-                                        const TextStyle(color: chocolateCosmos),
-                                  ),
-                                ],
-                              ),
-                              style: TextStyle(
-                                fontSize: 12.r,
-                                fontWeight: FontWeight.w300,
-                                fontFamily: 'Poppins',
-                                color: cinerous,
-                              ),
+                          Text(
+                            myUser.avatarCode ?? "`",
+                            style: tTheme.bodySmall!.copyWith(
+                              fontSize: 18.r,
+                              color: bloodRed,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.12.r,
                             ),
                           ),
-                          Expanded(
-                            child: Center(
-                              child: Text(
-                                "ENTER CODE",
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 15.r,
-                                  fontWeight: FontWeight.normal,
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 500),
+                            decoration:
+                                const BoxDecoration(color: drabDarkBrown),
+                            alignment: Alignment.center,
+                            width: 120.w,
+                            padding: EdgeInsets.symmetric(horizontal: 4.5.w),
+                            child: InkWell(
+                              onTap: action,
+                              child: AutoSizeText(
+                                "VIEW MY AVATAR",
+                                style: tTheme.bodySmall!.copyWith(
+                                  fontSize: 13.2.r,
                                   color: ghostWhite,
+                                  fontWeight: FontWeight.w600,
                                 ),
+                                maxFontSize: 15,
+                                minFontSize: 9,
+                                maxLines: 1,
                               ),
                             ),
                           )
@@ -156,9 +106,48 @@ class EnterAvatarCode extends ConsumerWidget {
                       ),
                     ),
                   ),
+                  closedColor: citron,
+                  openColor: seaSalt,
+                  openBuilder:
+                      (_, void Function({Object? returnValue}) action) =>
+                          EnterAvatarCodeOpenBuilder(action),
                 )
               ],
             ),
           );
+  }
+}
+
+class EnterAvatarCodeOpenBuilder extends StatelessWidget {
+  final void Function({Object? returnValue}) action;
+  const EnterAvatarCodeOpenBuilder(this.action, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final pTheme = SlidingPanelTheme();
+    return GridView.custom(
+      padding: pTheme.slidingPanelPadding,
+      gridDelegate: SliverWovenGridDelegate.count(
+        crossAxisCount: 2,
+        mainAxisSpacing: 3.r,
+        crossAxisSpacing: 3.r,
+        pattern: [
+          //const WovenGridTile(1, crossAxisRatio: 0.9),
+          const WovenGridTile(
+            5 / 6,
+            crossAxisRatio: 0.9,
+            alignment: AlignmentDirectional.centerEnd,
+          ),
+          const WovenGridTile(1, crossAxisRatio: 0.9),
+        ],
+      ),
+      childrenDelegate: SliverChildBuilderDelegate(
+        (context, index) => Container(
+          color: cornellRed,
+          margin: EdgeInsets.all(3.r),
+        ),
+        childCount: 5,
+      ),
+    );
   }
 }

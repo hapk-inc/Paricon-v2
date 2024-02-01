@@ -79,8 +79,9 @@ class RecentPlayerTile extends ConsumerWidget {
     final bool notActive = xUser.isActive && (xUser.nowTime.day == today.day);
     final bool isMe = id == user.uid;
     return AnimatedContainer(
+      width: 67.5.w,
+      margin: EdgeInsets.only(right: 3.r),
       duration: const Duration(milliseconds: 500),
-      margin: EdgeInsets.only(right: 6.r, left: 6.r),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -114,10 +115,10 @@ class RecentPlayerTile extends ConsumerWidget {
               ),
             ),
           ),
-          Gap(2.4.r),
+          //Gap(2.4.r),
           Expanded(
             child: AutoSizeText(
-              firstCaps(xUser.name!) + (isMe ? " (You)" : ""),
+              (isMe ? " (You) " : "") + firstCaps(xUser.name!),
               maxLines: 1,
               style: Theme.of(context)
                   .textTheme

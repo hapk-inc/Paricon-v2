@@ -1,3 +1,4 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,47 +44,11 @@ class OpenChallengeTable extends ConsumerWidget {
         );
 
     return Container(
-      height: 300.h,
+      height: 270.h,
       color: lightOrange,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 12.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Recently Played",
-                  style: TextStyle(
-                    fontSize: 24.r,
-                    color: caputMortuum,
-                    fontFamily: 'WendyOne',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                OpenContainer(
-                  closedBuilder:
-                      (BuildContext context, void Function() action) => Text(
-                    "View Leaderboard",
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontSize: 15.r,
-                          fontFamily: 'WendyOne',
-                          color: cinerous,
-                        ),
-                  ),
-                  closedColor: lightOrange,
-                  middleColor: lightOrange,
-                  closedElevation: 0,
-                  openColor: lightOrange,
-                  openBuilder: (BuildContext context,
-                      void Function({Object? returnValue}) action) {
-                    return ViewLeaderBoard(action);
-                  },
-                )
-              ],
-            ),
-          ),
           Expanded(
             child: Container(
               constraints: const BoxConstraints.expand(),
@@ -134,6 +99,45 @@ class OpenChallengeTable extends ConsumerWidget {
     );
   }
 }
+
+/*  Container(
+            height: 48.h,
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+
+            //color: cornellRed,
+            alignment: Alignment.centerLeft,
+            child: DefaultTextStyle(
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 18.r,
+                color: chocolateCosmos,
+              ),
+              child: AnimatedTextKit(
+                repeatForever: true,
+                pause: const Duration(seconds: 3),
+                animatedTexts: [
+                  RotateAnimatedText(
+                    'Recently Played',
+                    alignment: Alignment.centerLeft,
+                    rotateOut: false,
+                    duration: const Duration(milliseconds: 500),
+                  ),
+                  RotateAnimatedText(
+                    'This week 3 players played so far',
+                    alignment: Alignment.centerLeft,
+                    rotateOut: false,
+                    duration: const Duration(milliseconds: 500),
+                  ),
+                  RotateAnimatedText(
+                    'Your rank is ',
+                    alignment: Alignment.centerLeft,
+                    rotateOut: false,
+                    duration: const Duration(milliseconds: 500),
+                  ),
+                ],
+              ),
+            ),
+          ),*/
 
 DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
     MyUser? xUser, TDuration tD) {

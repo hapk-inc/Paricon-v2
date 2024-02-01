@@ -27,12 +27,12 @@ class TournamentGrid extends ConsumerWidget {
     return ResponsiveGridList(
       listViewBuilderOptions: ListViewBuilderOptions(
         physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
       ),
-      shrinkWrap: true,
       minItemWidth: 1.w,
       minItemsPerRow: 7,
-      horizontalGridSpacing: 6.w,
-      verticalGridSpacing: 12.h,
+      horizontalGridSpacing: 7.2.r,
+      verticalGridSpacing: 7.2.r,
       horizontalGridMargin: 0,
       verticalGridMargin: 0,
       maxItemsPerRow: 7,

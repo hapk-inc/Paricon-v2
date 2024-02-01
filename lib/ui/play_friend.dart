@@ -10,8 +10,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:paricon/logic/game_setup_provider.dart';
-import 'package:paricon/logic/room_level_notifier.dart';
 
 import 'package:random_avatar/random_avatar.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
@@ -20,9 +18,11 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../logic/auth_provider.dart';
 import '../logic/board_provider.dart';
 import '../logic/dashboard_panel_provider.dart';
+import '../logic/game_setup_provider.dart';
 import '../logic/panel_provider.dart';
 import '../logic/play_friend_listener.dart';
 import '../logic/room_id.dart';
+import '../logic/room_level_notifier.dart';
 import '../logic/room_provider.dart';
 import '../logic/s_size.dart';
 import '../logic/user_provider.dart';
@@ -139,13 +139,11 @@ class __PlayFriendBoard extends ConsumerWidget {
                           ),
                           elevation: 3.r,
                           child: SizedBox(
-                            height: (360.w * 1.5),
+                            height: 360.w * 1.5,
                             child: Column(
                               children: [
                                 const Flexible(
-                                  flex: 2,
-                                  child: PlayFriendTimer(),
-                                ),
+                                    flex: 2, child: PlayFriendTimer()),
                                 //Gap(45.r),
                                 Expanded(
                                   flex: 11,

@@ -1620,3 +1620,158 @@ final AutoDisposeProvider<CollectionReference<PUser>>
     return datastore.bestDurationColl;
   },
 );*/
+
+/*class EnterAvatarCode1 extends ConsumerWidget {
+  const EnterAvatarCode1({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final MyUser? myUser = ref.watch(myUserProvider).value;
+    return myUser == null
+        ? Container()
+        : Container(
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            alignment: Alignment.center,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AutoSizeText(
+                        "🎁 Gift your friends, a new avatars 😍",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(height: 1.8.r, color: cinerous),
+                        maxLines: 2,
+                      ),
+                      //Gap(6.r),
+                      AutoSizeText(
+                        "Enter their code below "
+                        "and present them with new avatars.",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(color: cinerous),
+                        maxLines: 1,
+                      ),
+                    ],
+                  ),
+                ),
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 500),
+                  margin: EdgeInsets.symmetric(vertical: 24.r),
+                  height: 48.r,
+                  decoration: BoxDecoration(
+                    color: cinerous,
+                    borderRadius: BorderRadius.circular(7.5.r),
+                  ),
+                  child: InkWell(
+                    onTap: () => showGeneralDialog(
+                      barrierColor: Colors.black.withOpacity(0.72),
+                      transitionBuilder: (_, x, ___, __) => Transform.scale(
+                        scale: x.value,
+                        child: Opacity(
+                          opacity: x.value,
+                          child: AlertDialog(
+                            backgroundColor: chocolateCosmos,
+                            shape: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(7.5.r),
+                              borderSide: const BorderSide(
+                                  width: 0, color: chocolateCosmos),
+                            ),
+                            title: const Text(
+                              'Enter the avatar code',
+                              style: TextStyle(
+                                  fontFamily: 'WendyOne', color: xantHous),
+                            ),
+                            insetPadding:
+                                EdgeInsets.symmetric(horizontal: 7.5.w),
+                            content: AnimatedContainer(
+                              color: chocolateCosmos,
+                              duration: const Duration(milliseconds: 500),
+                              height: 72.h,
+                              // color: cinerous.withOpacity(0.15),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 3.w,
+                                vertical: 3.h,
+                              ),
+                              alignment: Alignment.bottomCenter,
+                              //child: const EnterAvatarCodePinPut(),
+                              child: Container(),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text(
+                                  "SHARE NOW",
+                                  style: TextStyle(
+                                    fontFamily: 'Montserrat',
+                                    color: ghostWhite,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      transitionDuration: const Duration(milliseconds: 200),
+                      barrierDismissible: true,
+                      barrierLabel: '',
+                      context: context,
+                      pageBuilder: (_, animation1, animation2) => Container(),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(7.5.r),
+                      child: Row(
+                        children: [
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 500),
+                            width: 225.w,
+                            color: wheat,
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.symmetric(horizontal: 15.w),
+                            child: AutoSizeText.rich(
+                              TextSpan(
+                                children: [
+                                  const TextSpan(text: "Your code - "),
+                                  TextSpan(
+                                    text: myUser.avatarCode,
+                                    style:
+                                        const TextStyle(color: chocolateCosmos),
+                                  ),
+                                ],
+                              ),
+                              style: TextStyle(
+                                fontSize: 12.r,
+                                fontWeight: FontWeight.w300,
+                                fontFamily: 'Poppins',
+                                color: cinerous,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Center(
+                              child: Text(
+                                "ENTER CODE",
+                                style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 15.r,
+                                  color: ghostWhite,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+  }
+}*/

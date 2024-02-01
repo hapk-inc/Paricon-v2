@@ -202,10 +202,10 @@ class _Dashboard extends ConsumerWidget {
         crossAxisCount: 20,
         children: [
           DName(myUser.name),
-          Gap(9.r),
+          Gap(7.5.r),
           DSubtitle(myUser),
           const RecentPlayer(),
-          Gap(15.r),
+          Gap(7.5.r),
           const StaggeredGridTile.fit(
             crossAxisCellCount: 20,
             child: EnterTournamentCode(),
@@ -216,22 +216,23 @@ class _Dashboard extends ConsumerWidget {
           ),
           Gap(15.r),
           const PlayWithFriend(),
-          if (enterAvatarCode)
+          Gap(15.r),
+          if (enterAvatarCode) ...[
             StaggeredGridTile.fit(
               crossAxisCellCount: 20,
               child: Divider(
                 color: gray,
-                thickness: 0.45.r,
+                thickness: 0.3.r,
                 indent: 15.r,
                 endIndent: 15.r,
               ),
             ),
-          if (enterAvatarCode)
             const StaggeredGridTile.fit(
               crossAxisCellCount: 20,
               child: EnterAvatarCode(),
             ),
-          Gap(180.r),
+          ],
+          Gap(270.r),
         ],
       ),
     );

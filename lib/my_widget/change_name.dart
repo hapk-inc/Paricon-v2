@@ -19,6 +19,17 @@ class ChangeName extends ConsumerWidget {
     final pTheme = SlidingPanelTheme();
     if (myUser == null) return Container();
     final TextEditingController controller = TextEditingController();
+
+    onSubmitted() => () {
+          debugPrint("54--");
+          if (myUser.name != controller.text) {
+            ref.read(updateNameProvider(controller.text).future).whenComplete(
+                  () => ref.read(dashboardPanelProvider).close(),
+                );
+          } else {
+            ref.read(dashboardPanelProvider).close();
+          }
+        };
     return Padding(
       padding: pTheme.slidingPanelPadding + pTheme.slidingPanelPadding,
       child: SingleChildScrollView(
@@ -33,6 +44,8 @@ class ChangeName extends ConsumerWidget {
               controller: controller,
               keyboardType: TextInputType.name,
               autocorrect: true,
+              onFieldSubmitted: (x) => onSubmitted(),
+              onEditingComplete: onSubmitted(),
               style: TextStyle(
                 color: chocolateCosmos,
                 fontSize: 18.r,
@@ -54,18 +67,7 @@ class ChangeName extends ConsumerWidget {
                 suffixIcon: Container(
                   constraints: BoxConstraints.tight(Size.square(30.r)),
                   child: IconButton(
-                    onPressed: () {
-                      debugPrint("54--");
-                      if (myUser.name != controller.text) {
-                        ref
-                            .read(updateNameProvider(controller.text).future)
-                            .whenComplete(
-                              () => ref.read(dashboardPanelProvider).close(),
-                            );
-                      } else {
-                        ref.read(dashboardPanelProvider).close();
-                      }
-                    },
+                    onPressed: onSubmitted(),
                     icon: Icon(Icons.abc, size: 45.r),
                   ),
                 ),

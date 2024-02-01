@@ -19,87 +19,100 @@ class PlayWithFriend extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tTheme = Theme.of(context).textTheme;
-    return StaggeredGridTile.count(
+    final bool goToPlayOnline = ref.watch(showPlayOnlineProvider);
+    final dNotifier = ref.watch(dashboardPanelNotifierProvider);
+    double aR = (900.h / 360.w);
+
+    return StaggeredGridTile.fit(
       crossAxisCellCount: 20,
-      mainAxisCellCount: 13.5.h,
-      child: Stack(
-        children: [
-          Positioned(
-            top: 15.r,
-            left: 0.r,
-            right: 0.r,
-            child: Container(
-              height: 180.h,
+      child: SizedBox(
+        height: 240.h,
+        //color: federalBlue,
+        child: Stack(
+          children: [
+            AnimatedContainer(
+              height: 150.h,
+              margin: EdgeInsets.all(4.5.r),
               decoration: BoxDecoration(
                 color: jasper,
                 borderRadius: BorderRadius.circular(7.5.r),
               ),
-              padding: EdgeInsets.only(top: 15.r, left: 15.r),
-              margin: EdgeInsets.only(right: 30.w, left: 15.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AutoSizeText(
-                    "Play with Friends",
-                    style: tTheme.bodyMedium!.copyWith(color: magnolia),
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: 15.r),
+              duration: const Duration(milliseconds: 500),
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                title: SizedBox(
+                  height: 36.h,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 30.h,
+                        child: AutoSizeText(
+                          "Play with Friends",
+                          style: tTheme.bodyMedium!.copyWith(color: magnolia),
+                          maxLines: 1,
+                        ),
+                      ),
+                      Gap(6.r),
+                    ],
                   ),
-                  Gap(9.r),
-                  Text(
-                    "Max up to 3 players",
-                    style: tTheme.bodySmall!.copyWith(color: ghostWhite),
-                  ),
-                  // Gap(15.r),
-                  const PlayOnlineButton(),
-                ],
+                ),
+                subtitle: AutoSizeText(
+                  "Connect with your friends",
+                  style: tTheme.bodySmall!.copyWith(color: magnolia),
+                  minFontSize: 9,
+                  maxFontSize: 12,
+                  maxLines: 1,
+                ),
+                trailing: ElevatedButton(
+                  onPressed: !goToPlayOnline
+                      ? () => ScaffoldMessenger.of(context)
+                          .showSnackBar(_stillInProgress)
+                      : () {
+                          dNotifier.dWidget = const CreateGameRoom();
+                          dNotifier.dHeight = aR > 2.3 ? 300.h : 270.h;
+                          ref.read(dashboardPanelProvider).open();
+                        },
+                  child: const Text("PLAY NOW"),
+                ),
               ),
             ),
-          ),
-          Positioned(
-            right: -30.r,
-            top: -15.r,
-            bottom: -15.r,
-            child: Lottie.asset(
-              'lottie/friends-playing.json',
-              repeat: !kDebugMode,
-            ),
-          ),
-        ],
+            Positioned(
+              left: 60.r,
+              right: 60.r,
+              top: -7.5.r,
+              child: Lottie.asset(
+                'lottie/friends-playing.json',
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
 }
 
-class PlayOnlineButton extends ConsumerWidget {
-  const PlayOnlineButton({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return const ButtonBar(
-      mainAxisSize: MainAxisSize.min,
-      children: [PlayOnlineElevatedButton()],
-    );
-  }
-}
-
 SnackBar get _stillInProgress => SnackBar(
-      backgroundColor: charcoal,
-      padding: EdgeInsets.only(left: 12.r),
+      backgroundColor: richBlack,
+      behavior: SnackBarBehavior.floating,
+      padding: EdgeInsets.only(left: 15.r),
+      margin: EdgeInsets.only(bottom: 30.h, left: 4.5.w, right: 4.5.w),
       content: AnimatedContainer(
         duration: const Duration(milliseconds: 500),
-        height: 45.h,
+        height: 48.h,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7.5.r),
         ),
         child: AutoSizeText(
-          "Still in Progress. Appreciate your patience till then",
+          "Under construction. Appreciate your patience",
           style: TextStyle(
             fontFamily: 'Poppins',
             fontSize: 12.r,
             color: ghostWhite,
-            fontWeight: FontWeight.w300,
-            letterSpacing: 0.12.r,
+            fontWeight: FontWeight.normal,
           ),
           maxLines: 1,
           minFontSize: 12,
@@ -107,49 +120,3 @@ SnackBar get _stillInProgress => SnackBar(
         ),
       ),
     );
-
-class PlayOnlineElevatedButton extends ConsumerWidget {
-  const PlayOnlineElevatedButton({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final bool goToPlayOnline = ref.watch(showPlayOnlineProvider);
-    final dNotifier = ref.watch(dashboardPanelNotifierProvider);
-    double aR = (900.h / 360.w);
-
-    return ElevatedButton(
-      onPressed: !goToPlayOnline
-          ? () => ScaffoldMessenger.of(context).showSnackBar(_stillInProgress)
-          : () {
-              dNotifier.dWidget = const CreateGameRoom();
-              dNotifier.dHeight = aR > 2.3 ? 300.h : 270.h;
-              ref.read(dashboardPanelProvider).open();
-            },
-      style: ButtonStyle(
-        textStyle: MaterialStatePropertyAll(
-          TextStyle(
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w500,
-            fontSize: 13.5.r,
-          ),
-        ),
-        shape: MaterialStatePropertyAll(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(7.5.r),
-          ),
-        ),
-        padding:
-            MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 15.r)),
-        backgroundColor: const MaterialStatePropertyAll(denim),
-      ),
-      child: const Text(
-        "PLAY ONLINE",
-        style: TextStyle(
-          color: ghostWhite,
-          fontFamily: 'Poppins',
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-    );
-  }
-}

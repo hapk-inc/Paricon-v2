@@ -19,6 +19,7 @@ class DashboardPanelNotifier extends ChangeNotifier {
   final Ref ref;
   num _tab = 0;
   late TabController _tabController;
+  Widget _openBuilder = Container();
 
   DashboardPanelNotifier(this.ref) {
     double aR = (900.h / 360.w);
@@ -42,6 +43,14 @@ class DashboardPanelNotifier extends ChangeNotifier {
   set dWidget(Widget value) {
     if (_dWidget == value) return;
     _dWidget = value;
+    notifyListeners();
+  }
+
+  Widget get openBuilder => _openBuilder;
+
+  set openBuilder(Widget value) {
+    if (_openBuilder == value) return;
+    _openBuilder = value;
     notifyListeners();
   }
 
