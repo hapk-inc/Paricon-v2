@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,10 +26,9 @@ class PlayWithFriend extends ConsumerWidget {
       crossAxisCellCount: 20,
       child: SizedBox(
         height: 240.h,
-        //color: federalBlue,
         child: Stack(
           children: [
-            AnimatedContainer(
+            Container(
               height: 150.h,
               margin: EdgeInsets.all(4.5.r),
               decoration: BoxDecoration(
@@ -39,9 +37,32 @@ class PlayWithFriend extends ConsumerWidget {
               ),
               alignment: Alignment.center,
               padding: EdgeInsets.symmetric(horizontal: 15.r),
-              duration: const Duration(milliseconds: 500),
               child: ListTile(
                 contentPadding: EdgeInsets.zero,
+                title: SizedBox(height: 36.h),
+                subtitle: AutoSizeText(
+                  "Connect with your friends",
+                  style: tTheme.bodySmall!.copyWith(color: magnolia),
+                  minFontSize: 9,
+                  maxFontSize: 12,
+                  maxLines: 1,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 60.r,
+              right: 60.r,
+              top: -15.r,
+              child: Lottie.asset('lottie/friends-playing.json'),
+            ),
+            Container(
+              height: 150.h,
+              margin: EdgeInsets.all(4.5.r),
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: 15.r),
+              child: ListTile(
+                contentPadding: EdgeInsets.zero,
+                isThreeLine: true,
                 title: SizedBox(
                   height: 36.h,
                   child: Column(
@@ -60,7 +81,7 @@ class PlayWithFriend extends ConsumerWidget {
                   ),
                 ),
                 subtitle: AutoSizeText(
-                  "Connect with your friends",
+                  "",
                   style: tTheme.bodySmall!.copyWith(color: magnolia),
                   minFontSize: 9,
                   maxFontSize: 12,
@@ -79,14 +100,6 @@ class PlayWithFriend extends ConsumerWidget {
                 ),
               ),
             ),
-            Positioned(
-              left: 60.r,
-              right: 60.r,
-              top: -7.5.r,
-              child: Lottie.asset(
-                'lottie/friends-playing.json',
-              ),
-            )
           ],
         ),
       ),

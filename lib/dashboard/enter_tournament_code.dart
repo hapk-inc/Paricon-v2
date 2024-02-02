@@ -5,7 +5,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:paricon/logic/dashboard_panel_provider.dart';
+import '../logic/dashboard_panel_provider.dart';
 import '../router/my_route.dart';
 
 import '../theme/my_color.dart';
@@ -15,20 +15,20 @@ class EnterTournamentCode extends ConsumerWidget {
   const EnterTournamentCode({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return OpenContainer<bool>(
-      tappable: false,
-      closedElevation: 0,
-      closedColor: ghostWhite,
-      closedShape:
-          const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-      closedBuilder: (_, void Function() action) =>
-          TournamentCodeClosed(action),
-      openBuilder: (_, void Function({bool? returnValue}) action) =>
-          // TournamentCodeOpen(action),
-          ref.watch(dashboardPanelNotifierProvider).openBuilder,
-    );
-  }
+  Widget build(BuildContext context, WidgetRef ref) => OpenContainer<bool>(
+        tappable: false,
+        closedElevation: 0,
+        closedColor: ghostWhite,
+        closedShape:
+            const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+        closedBuilder: (_, void Function() action) =>
+            TournamentCodeClosed(action),
+        openBuilder: (_, void Function({bool? returnValue}) action) =>
+            // TournamentCodeOpen(action),
+            AnimatedSwitcher(
+                duration: const Duration(milliseconds: 500),
+                child: ref.watch(dashboardPanelNotifierProvider).openBuilder),
+      );
 }
 
 class TournamentCodeClosed extends ConsumerWidget {
@@ -89,13 +89,14 @@ class TournamentCodeClosed extends ConsumerWidget {
                             style: const TextStyle(
                               fontFamily: 'Poppins',
                               color: ghostWhite,
+                              fontWeight: FontWeight.w700,
                             ),
                             child: AnimatedTextKit(
                               animatedTexts: [
-                                ScaleAnimatedText('PLAY NOW'),
-                                ScaleAnimatedText('TRY NOW'),
-                                ScaleAnimatedText('START NOW'),
-                              ],
+                                'PLAY NOW',
+                                'TRY NOW',
+                                'START NOW',
+                              ].map((e) => ScaleAnimatedText(e)).toList(),
                               isRepeatingAnimation: true,
                               repeatForever: true,
                               onTap: () =>
