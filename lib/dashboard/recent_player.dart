@@ -7,8 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:gap/gap.dart';
-import 'package:paricon/logic/auth_provider.dart';
+import '../logic/auth_provider.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 import '../logic/user_activity_provider.dart';

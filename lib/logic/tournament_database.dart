@@ -6,6 +6,7 @@ import 'package:mock_data/mock_data.dart';
 import 'package:paricon/model/my_user.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../dashboard/open_challenge_table.dart';
 import '../model/best_d.dart';
 import '../model/t_duration.dart';
 import 'auth_provider.dart';
@@ -94,7 +95,7 @@ class TournamentDatabase {
     subject = BehaviorSubject(
       onListen: () => tournamentReference
           .orderByChild('playedAt')
-          .limitToLast(4)
+          .limitToLast(tableCount)
           .onValue
           .listen(
         (event) {

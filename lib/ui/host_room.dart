@@ -127,7 +127,7 @@ class HostRoom extends ConsumerWidget {
                   fontFamily: 'Poppins',
                   fontSize: 12.r,
                   height: 2.1.r,
-                  fontWeight: FontWeight.normal,
+                  fontWeight: FontWeight.w300,
                   color: federalBlue,
                 ),
                 maxFontSize: 15,

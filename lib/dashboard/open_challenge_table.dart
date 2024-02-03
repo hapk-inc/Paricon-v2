@@ -1,5 +1,3 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:animations/animations.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +12,11 @@ import '../logic/tournament_database.dart';
 import '../model/my_user.dart';
 import '../model/t_duration.dart';
 import '../theme/my_color.dart';
-import 'view_leaderboard.dart';
 
 const List<double> _colSize = [0.12, 0.42, 0.36];
 const List<String> colName = ['Rank', 'Name', 'Duration'];
+
+const int tableCount = 5;
 
 class OpenChallengeTable extends ConsumerWidget {
   const OpenChallengeTable({super.key});
@@ -31,7 +30,9 @@ class OpenChallengeTable extends ConsumerWidget {
     final List<String> bestDList = ref.watch(bestDListProvider).value ?? [];
 
     List<DataRow> dRow(BoxConstraints constraints) => List.generate(
-          recentTourList.length <= 4 ? recentTourList.length : 4,
+          recentTourList.length <= tableCount
+              ? recentTourList.length
+              : tableCount,
           (index) {
             final TDuration tD = recentTourList[index];
             final bool isMe = tD.userId == fUser!.uid;
@@ -44,57 +45,51 @@ class OpenChallengeTable extends ConsumerWidget {
         );
 
     return Container(
-      height: 270.h,
+      height: 315.h,
       color: lightOrange,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Container(
-              constraints: const BoxConstraints.expand(),
-              child: LayoutBuilder(
-                builder: (_, BoxConstraints constraints) {
-                  final double pH = constraints.maxHeight;
-                  final double pW = constraints.maxWidth;
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: LayoutBuilder(
+          builder: (_, BoxConstraints constraints) {
+            final double pW = constraints.maxWidth;
 
-                  return Theme(
-                    data: Theme.of(context).copyWith(dividerColor: charcoal),
-                    child: DataTable(
-                      horizontalMargin: 12.w,
-                      dividerThickness: 0.6.r,
-                      columnSpacing: 3.w,
-                      headingRowHeight: pH * 0.18,
-                      dataRowMinHeight: pH * 0.21,
-                      dataRowMaxHeight: pH * 0.21,
-                      headingTextStyle: TextStyle(
-                        fontSize: 15.r,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w700,
-                        color: giantOrange,
-                      ),
-                      dataTextStyle: TextStyle(
-                        fontSize: 13.5.r,
-                        color: richBlack,
-                        fontFamily: 'Montserrat',
-                      ),
-                      columns: List.generate(
-                        3,
-                        (index) => DataColumn(
-                          label: Container(
-                            color: index == 3 ? chocolateCosmos : null,
-                            width: pW * _colSize[index],
-                            child: Text(colName[index]),
-                          ),
-                        ),
-                      ),
-                      rows: recentTourList.isEmpty ? [] : dRow(constraints),
+            debugPrint("47--${dRow(constraints).length}");
+
+            return Theme(
+              data: Theme.of(context).copyWith(dividerColor: charcoal),
+              child: DataTable(
+                horizontalMargin: 12.w,
+                dividerThickness: 0.6.r,
+                columnSpacing: 3.w,
+                headingRowHeight: 45.h,
+                dataRowMinHeight: 48.h,
+                dataRowMaxHeight: 54.h,
+                headingTextStyle: TextStyle(
+                  fontSize: 15.r,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w700,
+                  color: giantOrange,
+                ),
+                dataTextStyle: TextStyle(
+                  fontSize: 13.5.r,
+                  color: richBlack,
+                  fontFamily: 'Montserrat',
+                ),
+                columns: List.generate(
+                  3,
+                  (index) => DataColumn(
+                    label: Container(
+                      color: index == 3 ? chocolateCosmos : null,
+                      width: pW * _colSize[index],
+                      child: Text(colName[index]),
                     ),
-                  );
-                },
+                  ),
+                ),
+                rows: recentTourList.isEmpty ? [] : dRow(constraints),
               ),
-            ),
-          )
-        ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -216,7 +211,7 @@ class ShowPlayedAt extends StatelessWidget {
               : DateFormat.MMMd().format(playedAt),
           style: TextStyle(
             fontFamily: 'Poppins',
-            fontWeight: FontWeight.normal,
+            fontWeight: FontWeight.w600,
             color: isMe ? lavenderWeb : gray,
             fontSize: 9.r,
             letterSpacing: 0.r,

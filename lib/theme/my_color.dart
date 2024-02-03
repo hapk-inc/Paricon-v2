@@ -99,3 +99,6 @@ const Color drabDarkBrown = Color(0xff373d20);
 const Color citron = Color(0xffbdc667);
 const Color beige = Color(0xffecedd9);
 const Color seaSalt = Color(0xffF8F6F6);
+
+const Color ashGray = Color(0xffc7d6d5);
+const Color crayola = Color(0xffef798a);

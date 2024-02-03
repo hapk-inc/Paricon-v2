@@ -1775,3 +1775,692 @@ final AutoDisposeProvider<CollectionReference<PUser>>
           );
   }
 }*/
+
+/*import 'package:animate_do/animate_do.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:badges/badges.dart' as badges;
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
+import 'package:mock_data/mock_data.dart';
+import 'package:random_avatar/random_avatar.dart';
+
+import '../logic/user_provider.dart';
+import '../model/my_user.dart';
+import '../my_widget/login_option_button.dart';
+import '../theme/my_color.dart';
+
+class CardCollection extends ConsumerWidget {
+  final Function({Object? returnValue}) action;
+
+  const CardCollection(this.action, {super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final TextStyle tTheme = Theme.of(context).textTheme.titleLarge!;
+    final TextStyle sTheme = Theme.of(context).textTheme.bodyLarge!;
+    final MyUser? myUser = ref.watch(myUserProvider).value;
+    return SafeArea(
+      minimum: EdgeInsets.only(top: 15.h, left: 1.5.w, right: 1.5.w),
+      child: Container(
+        color: magnolia,
+        padding: EdgeInsets.only(top: 15.h, left: 9.w, right: 9.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AutoSizeText(
+                  "Card Collection",
+                  style: tTheme.copyWith(
+                    fontFamily: "WendyOne",
+                    fontSize: 36.r,
+                    height: 1.8.r,
+                    color: cinerous,
+                  ),
+                ),
+                IconButton(
+                  onPressed: action,
+                  icon: Icon(
+                    Icons.close,
+                    size: 21.r,
+                  ),
+                ),
+              ],
+            ),
+            Text(
+              "Increase your avatar collection by encouraging your "
+              "friends and family to use the code above.",
+              style: sTheme.copyWith(
+                height: 2.1.r,
+                fontSize: 15.r,
+                color: cinerous,
+              ),
+            ),
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
+              margin: EdgeInsets.symmetric(vertical: 15.h),
+              height: 51.h,
+              alignment: Alignment.centerLeft,
+              child: Row(
+                children: [
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 500),
+                    width: 225.w,
+                    margin: EdgeInsets.only(right: 15.w),
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    alignment: Alignment.centerLeft,
+                    decoration: BoxDecoration(
+                      color: magnolia,
+                      borderRadius: BorderRadius.circular(7.5.r),
+                      border: Border.all(width: 0.12.r, color: federalBlue),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          myUser!.avatarCode == null
+                              ? "Hold on.."
+                              : myUser.avatarCode!.toUpperCase(),
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            letterSpacing: 0.3.r,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15.r,
+                            color: vanDyke,
+                          ),
+                        ),
+                        Icon(
+                          Icons.copy,
+                          size: 20.1.r,
+                          color: cinerous,
+                        )
+                      ],
+                    ),
+                  ),
+                  LoginOptionButton(
+                    bColor: majorelleBlue,
+                    lChild: Icon(Icons.share, size: 20.1.r),
+                    optionBtnPressed: () {},
+                    borderWidth: 0.75,
+                  )
+                ],
+              ),
+            ),
+            Gap(15.r),
+            Expanded(
+              child: MasonryGridView.count(
+                crossAxisCount: 3,
+                mainAxisSpacing: 4.5.r,
+                crossAxisSpacing: 3.r,
+                itemBuilder: (_, index) {
+                  final bool currentAvatar =
+                      (myUser.avatar ?? "") == myUser.avatarArr[index];
+                  return FadeIn(
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 500),
+                      height: (mockInteger(14, 15)) * 0.96 * 12.h,
+                      decoration: BoxDecoration(
+                        color: currentAvatar
+                            ? majorelleBlue
+                            : gridColor[mockInteger(0, 2)],
+                        borderRadius: BorderRadius.circular(7.5.r),
+                      ),
+                      child: LayoutBuilder(
+                        builder: (_, BoxConstraints constraints) => Stack(
+                          children: [
+                            AnimatedPositioned(
+                              duration: const Duration(milliseconds: 500),
+                              top: 0,
+                              bottom: -constraints.maxHeight * 0.81,
+                              left: 0,
+                              right: 0,
+                              child: badges.Badge(
+                                showBadge: currentAvatar,
+                                badgeContent: Icon(
+                                  FontAwesomeIcons.check,
+                                  size: 18.r,
+                                  color: ghostWhite,
+                                ),
+                                position: badges.BadgePosition.topEnd(
+                                  top: 6.r,
+                                  end: 6.r,
+                                ),
+                                badgeStyle: badges.BadgeStyle(
+                                  badgeColor: darkPastelGreen,
+                                  shape: badges.BadgeShape.circle,
+                                  borderRadius: BorderRadius.circular(6.r),
+                                ),
+                                child: RandomAvatar(
+                                  myUser.avatarArr[index],
+                                  trBackground: true,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                itemCount: myUser.avatarArr.length,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}*/
+
+/*import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:gap/gap.dart';
+import 'package:mock_data/mock_data.dart';
+import 'package:paricon/logic/my_names.dart';
+import 'package:random_avatar/random_avatar.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+import '../theme/my_color.dart';
+import '../theme/my_theme.dart';
+
+class EnterAvatarCodeOpenBuilder extends StatelessWidget {
+  final void Function({Object? returnValue}) action;
+  const EnterAvatarCodeOpenBuilder(this.action, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final pTheme = SlidingPanelTheme();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        /* Text(
+          "Click here to enter code",
+          style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.r),
+        ),*/
+        SizedBox(
+          height: 600.h,
+          child: ListView(
+            padding: pTheme.slidingPanelPadding,
+            children: List.generate(
+              12,
+              (index) => Container(
+                height: 45.h,
+                margin: EdgeInsets.symmetric(vertical: 1.5.r),
+                color: gridColor[mockInteger(0, 2)].withOpacity(0.03),
+                alignment: Alignment.centerLeft,
+                child: ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 7.5.r),
+                  leadingAndTrailingTextStyle: TextStyle(
+                    fontFamily: 'Montserrat',
+                    color: gray,
+                    fontSize: 12.r,
+                  ),
+                  leading: Container(
+                    constraints: BoxConstraints.tight(Size(63.w, 30.h)),
+                    alignment: Alignment.topLeft,
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.timer_outlined,
+                          size: 15.r,
+                          color: drabDarkBrown,
+                        ),
+                        Gap(4.5.r),
+                        AutoSizeText(
+                          "${mockInteger(1, 12).toString().padLeft(2, '0')}: ${mockInteger(1, 59).toString().padLeft(2, '0')} PM",
+                          stepGranularity: 1.5,
+                          minFontSize: 6,
+                          maxFontSize: 9,
+                        ),
+                      ],
+                    ),
+                  ),
+                  titleTextStyle: TextStyle(
+                    fontSize: 9.r,
+                    fontFamily: 'Montserrat',
+                    color: federalBlue,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  title: Container(
+                    margin: EdgeInsets.only(bottom: 12.r),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 12.r,
+                          child: RandomAvatar(mockString()),
+                        ),
+                        Gap(9.r),
+                        AutoSizeText(myRandomName(), minFontSize: 9),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 21.r),
+                          child: const Icon(
+                            Icons.arrow_right_alt,
+                            color: gray,
+                          ),
+                        ),
+                        CircleAvatar(
+                          radius: 12.r,
+                          child: RandomAvatar(mockString()),
+                        ),
+                        Gap(9.r),
+                        AutoSizeText(myRandomName(), minFontSize: 9),
+                      ],
+                    ),
+                  ),
+                  /*subtitle: Padding(
+                    padding: EdgeInsets.only(left: 1.5.w),
+                    child: Text("Sharing new avatar to ${myRandomName()}"),
+                  ),*/
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          height: 210.h,
+          color: cornellRed,
+          child: Column(
+            children: [
+              Container(
+                color: federalBlue,
+                height: 60.h,
+              ),
+              Expanded(
+                child: GridView.custom(
+                  //scrollDirection: Axis.horizontal,
+                  gridDelegate: SliverWovenGridDelegate.count(
+                    crossAxisCount: 6,
+                    mainAxisSpacing: 1.5.r,
+                    crossAxisSpacing: 1.5.r,
+                    pattern: [
+                      const WovenGridTile(1, crossAxisRatio: 0.9),
+                      const WovenGridTile(1, crossAxisRatio: 0.9),
+                      const WovenGridTile(1),
+                    ],
+                  ),
+                  childrenDelegate: SliverChildBuilderDelegate(
+                    (_, index) => Card(
+                      margin: EdgeInsets.all(3.r),
+                      elevation: 3.r,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(1.2.r),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(4.5.r),
+                        child: Column(
+                          children: [
+                            AspectRatio(
+                              aspectRatio: 1,
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 500),
+                                color: [
+                                  ...gridColorDark,
+                                  ...gridColor
+                                ][mockInteger(0, 5)],
+                                child: Stack(
+                                  children: [],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      //padding: EdgeInsets.all(3.r),
+                    ),
+                    childCount: 12,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class EnterAvatarCodeOpenBuilder1 extends StatelessWidget {
+  final void Function({Object? returnValue}) action;
+  const EnterAvatarCodeOpenBuilder1(this.action, {super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final pTheme = SlidingPanelTheme();
+
+    return SlidingUpPanel(
+      //padding: pTheme.slidingPanelPadding,
+      body: const EnterAvatarCodeBody(),
+      borderRadius: pTheme.slidingPanelRadius,
+      panel: const EnterAvatarCodePanel(),
+      minHeight: 0,
+    );
+  }
+}
+
+class EnterAvatarCodeBody extends StatelessWidget {
+  const EnterAvatarCodeBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final pTheme = SlidingPanelTheme();
+    return SafeArea(
+      minimum: pTheme.slidingPanelPadding,
+      child: Column(
+        children: [
+          //Container(height: 150.h),
+          Gap(60.r),
+          const AvatarTextField(),
+          Gap(30.r),
+          // Divider(height: 60.r, thickness: 0.3.r),
+          SizedBox(
+            height: 450.h,
+            //color: cornellRed,
+            child: ListView(
+              children: List.generate(
+                6,
+                (index) => Container(
+                  height: 42.h,
+                  //padding: EdgeInsets.symmetric(vertical: 15.r),
+                  margin: EdgeInsets.symmetric(vertical: 4.5.r),
+                  color: gridColor[mockInteger(0, 2)].withOpacity(0.03),
+                  alignment: Alignment.centerLeft,
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 12.r),
+                    titleTextStyle: TextStyle(
+                      fontSize: 9.r,
+                      fontFamily: 'Montserrat',
+                      color: federalBlue,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    title: Container(
+                      margin: EdgeInsets.only(bottom: 12.r),
+                      child: Row(
+                        children: [
+                          Icon(Icons.timer_outlined,
+                              size: 18.r, color: drabDarkBrown),
+                          Gap(7.5.r),
+                          const Text(
+                            "9:30 PM",
+                            style: TextStyle(fontFamily: 'Montserrat'),
+                          ),
+                          Gap(30.r),
+                          CircleAvatar(
+                            radius: 12.r,
+                            child: RandomAvatar(mockString()),
+                          ),
+                          Gap(12.r),
+                          AutoSizeText(
+                            myRandomName(),
+                            minFontSize: 10,
+                          ),
+                          Container(
+                            margin: EdgeInsets.symmetric(horizontal: 24.r),
+                            child: const Icon(Icons.arrow_right_alt),
+                          ),
+                          CircleAvatar(
+                            radius: 12.r,
+                            child: RandomAvatar(mockString()),
+                          ),
+                          Gap(12.r),
+                          AutoSizeText(
+                            myRandomName(),
+                            minFontSize: 10,
+                          ),
+                        ],
+                      ),
+                    ),
+                    /*subtitle: Padding(
+                      padding: EdgeInsets.only(left: 1.5.w),
+                      child: Text("Sharing new avatar to ${myRandomName()}"),
+                    ),*/
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class AvatarTextField extends ConsumerStatefulWidget {
+  const AvatarTextField({super.key});
+
+  @override
+  ConsumerState createState() => _AvatarTextFieldState();
+}
+
+class _AvatarTextFieldState extends ConsumerState<AvatarTextField> {
+  final tController = TextEditingController();
+  final pTheme = SlidingPanelTheme();
+
+  @override
+  void initState() {
+    super.initState();
+    tController.addListener(
+      () {
+        debugPrint("77--");
+        debugPrint(tController.text);
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    tController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 3.r,
+      child: Container(
+        decoration: BoxDecoration(
+          color: ghostWhite,
+          //border: Border.all(color: gray, width: 0.3.r),
+          borderRadius: BorderRadius.circular(15.r),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15.r),
+          child: Column(
+            children: [
+              Gap(15.r),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.r),
+                child: TextFormField(
+                  maxLines: 1,
+                  maxLength: 6,
+                  showCursor: false,
+                  controller: tController,
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.none,
+                  style: TextStyle(
+                      fontSize: 24.r, height: 1.5.r, letterSpacing: 7.5.r),
+                  decoration: InputDecoration(
+                    hintText: 'Enter the avatar code here to share',
+                    hintStyle: TextStyle(
+                      fontFamily: 'Poppins',
+                      letterSpacing: 0,
+                      fontSize: 15.r,
+                      color: gray,
+                      fontWeight: FontWeight.w300,
+                    ),
+                    counterStyle: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: gray,
+                      letterSpacing: 1.5.r,
+                    ),
+                    isDense: true,
+                    isCollapsed: false,
+                  ),
+                ),
+              ),
+              Container(
+                alignment: Alignment.center,
+                color: tropicalIndigo,
+                child: StaggeredGrid.count(
+                  crossAxisCount: 5,
+                  mainAxisSpacing: 1.5.r,
+                  crossAxisSpacing: 1.5.r,
+                  children: [
+                    ...List.generate(
+                      9,
+                      (index) => StaggeredGridTile.count(
+                        crossAxisCellCount: 1,
+                        mainAxisCellCount: 1,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: magnolia,
+                            borderRadius: BorderRadius.circular(3.6.r),
+                          ),
+                          alignment: Alignment.center,
+                          child: InkWell(
+                            onTap: () => tController.text += emojiArr[index],
+                            child: Text(
+                              emojiArr[index],
+                              style: TextStyle(fontSize: 24.r),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    StaggeredGridTile.count(
+                      crossAxisCellCount: 1,
+                      mainAxisCellCount: 1,
+                      child: Container(
+                        color: lavenderWeb,
+                        child: InkWell(
+                          onTap: () {
+                            if (tController.text.isNotEmpty) {
+                              tController.text = "";
+                            } else {
+                              Navigator.of(context).pop();
+                            }
+                          },
+                          child: Icon(Icons.backspace, size: 24.r),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class EnterAvatarCodePanel extends StatelessWidget {
+  const EnterAvatarCodePanel({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final pTheme = SlidingPanelTheme();
+    final tTheme = Theme.of(context).textTheme;
+    return ClipRRect(
+      borderRadius: pTheme.slidingPanelRadius,
+      child: Container(
+        color: beige,
+        padding: pTheme.slidingPanelPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Gap(15.r),
+            InkWell(
+              onTap: () => Navigator.of(context).pop(),
+              child: Text(
+                "My Card Collection",
+                style: tTheme.bodyMedium!.copyWith(
+                  height: 1.8.r,
+                  color: federalBlue,
+                  //fontFamily: 'LuckiestGuy',
+                  fontSize: 30.r,
+                  letterSpacing: 0.3.r,
+                ),
+                maxLines: 2,
+              ),
+            ),
+            Gap(30.r),
+            Expanded(
+              child: GridView.custom(
+                gridDelegate: SliverWovenGridDelegate.count(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 1.5.r,
+                  crossAxisSpacing: 1.5.r,
+                  pattern: [
+                    //const WovenGridTile(1, crossAxisRatio: 0.9),
+                    const WovenGridTile(
+                      5 / 6,
+                      crossAxisRatio: 0.9,
+                      alignment: AlignmentDirectional.centerEnd,
+                    ),
+                    //const WovenGridTile(1, crossAxisRatio: 0.9),
+                    const WovenGridTile(
+                      7 / 9,
+                      crossAxisRatio: 0.9,
+                      alignment: AlignmentDirectional.centerEnd,
+                    ),
+                  ],
+                ),
+                childrenDelegate: SliverChildBuilderDelegate(
+                  (_, index) => Card(
+                    margin: EdgeInsets.all(3.r),
+                    elevation: 3.r,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(1.2.r),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(4.5.r),
+                      child: Column(
+                        children: [
+                          AspectRatio(
+                            aspectRatio: 1,
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 500),
+                              color: [
+                                ...gridColorDark,
+                                ...gridColor
+                              ][mockInteger(0, 5)],
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    width: 105.r,
+                                    height: 105.r,
+                                    bottom: -9.r,
+                                    child: RandomAvatar(
+                                      mockString(),
+                                      trBackground: true,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    //padding: EdgeInsets.all(3.r),
+                  ),
+                  childCount: 8,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+*/

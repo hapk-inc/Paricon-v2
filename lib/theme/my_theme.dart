@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 
 import 'my_color.dart';
 
+List<String> emojiArr = ["😁", "😍", "🤪", "😎", "😡", "🥺", "🤩", "😱", "🥶"];
+
 ThemeData get buildThemeData => ThemeData(
       textTheme: TextTheme(
         titleLarge: TextStyle(
