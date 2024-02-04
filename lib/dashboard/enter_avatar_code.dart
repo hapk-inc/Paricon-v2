@@ -19,6 +19,12 @@ class EnterAvatarCode extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tTheme = Theme.of(context).textTheme;
     final MyUser? myUser = ref.watch(myUserProvider).value;
+    final String avatarCodeTxt = myUser == null
+        ? ""
+        : myUser.avatarCode!
+            .split('')
+            .map((e) => emojiArr[int.parse(e)])
+            .join();
     return myUser == null
         ? Container()
         : Container(
@@ -74,10 +80,9 @@ class EnterAvatarCode extends ConsumerWidget {
                         children: [
                           AnimatedSwitcher(
                             duration: const Duration(milliseconds: 500),
-                            key: ValueKey(mockInteger(0, 10)),
+                            key: ValueKey(myUser.avatarCode),
                             child: Text(
-                              List.generate(
-                                  6, (_) => emojiArr[mockInteger(0, 8)]).join(),
+                              avatarCodeTxt,
                               style: tTheme.bodySmall!.copyWith(
                                 fontSize: 21.r,
                                 color: drabDarkBrown,

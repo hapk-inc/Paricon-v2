@@ -31,11 +31,28 @@ class ChangeName extends ConsumerWidget {
           }
         };
     return Padding(
-      padding: pTheme.slidingPanelPadding + pTheme.slidingPanelPadding,
+      //padding: pTheme.slidingPanelPadding + pTheme.slidingPanelPadding,
+      padding: EdgeInsets.symmetric(horizontal: 18.w),
       child: SingleChildScrollView(
         child: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              "Edit Name",
+              style: TextStyle(fontFamily: 'Poppins', fontSize: 21.r),
+            ),
+            Text(
+              "Change your current name here. Now you're ${myUser.name}",
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.normal,
+                color: gray,
+                fontSize: 12.r,
+              ),
+            ),
+            Gap(24.r),
+            //Gap(30.r),
             TextFormField(
               maxLines: 1,
               cursorColor: chocolateCosmos,
@@ -73,16 +90,7 @@ class ChangeName extends ConsumerWidget {
                 ),
               ),
             ),
-            Gap(12.r),
-            Text(
-              "Change your current name here. Now you're ${myUser.name}",
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.w300,
-                color: gray,
-                fontSize: 12.r,
-              ),
-            )
+            //Gap(12.r),
           ],
         ),
       ),

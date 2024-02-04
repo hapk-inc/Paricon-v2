@@ -33,7 +33,7 @@ class DName extends ConsumerWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    dNotifier.dHeight = 150.h;
+                    dNotifier.dHeight = 210.h;
                     dNotifier.dWidget = const ChangeName();
                     ref.read(dashboardPanelProvider).open();
                   },

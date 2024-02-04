@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:paricon/router/my_route.dart';
 
 import '../logic/auth_provider.dart';
 import '../logic/card_avatar_notifier.dart';
@@ -33,9 +35,13 @@ class DSubtitle extends ConsumerWidget {
                   children: [
                     TextSpan(
                       text: "click here",
-                      recognizer: TapGestureRecognizer()
+                      /* recognizer: TapGestureRecognizer()
                         ..onTap =
                             () => ref.read(setCardAvatarProvider(fUser!.uid)),
+                     */
+                      recognizer: TapGestureRecognizer()
+                        ..onTap =
+                            () => context.router.push(const SettingsRoute()),
                       style: const TextStyle(color: darkPastelGreen),
                     ),
                   ],

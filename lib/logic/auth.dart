@@ -9,7 +9,6 @@ import '../theme/my_theme.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../model/my_user.dart';
-import '../model/pass_avatar.dart';
 import 'firebase_init.dart';
 import 'my_names.dart';
 
@@ -50,27 +49,29 @@ class Auth {
         (mockInteger(0, 2) == 0
             ? "${myRandomName()} $myLastName"
             : myRandomName());
+    final String avatarCode =
+        List.generate(6, (index) => mockInteger(1, 8).toString()).join();
     final DateTime createdAt = DateTime.now();
-    final String x = fUser.uid;
+    final String id = fUser.uid;
 
     WriteBatch batch = _firebaseFirestore.batch();
     batch.set(
-      userColl.doc(userCred.user!.uid),
+      userColl.doc(id),
       MyUser(
         name: xName,
         rName: xName,
         id: mockInteger(11111111, 99999999),
-        avatarCode: mockString(6, 'A'),
+        avatarCode: avatarCode,
         createdAt: createdAt,
       ).toJson(),
     );
-    batch.set(
+    /* batch.set(
       userColl.doc(x).collection('avatar').doc(x),
       PassAvatar(
         createdAt: createdAt,
         //from: userCred.user!.uid,
       ).toJson(),
-    );
+    );*/
     return batch.commit();
   }
 

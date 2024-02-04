@@ -21,7 +21,9 @@ PassAvatar _$PassAvatarFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PassAvatar {
   DateTime get createdAt => throw _privateConstructorUsedError;
-  String get id => throw _privateConstructorUsedError;
+  String? get avatar => throw _privateConstructorUsedError;
+  String get from => throw _privateConstructorUsedError;
+  String get to => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +37,7 @@ abstract class $PassAvatarCopyWith<$Res> {
           PassAvatar value, $Res Function(PassAvatar) then) =
       _$PassAvatarCopyWithImpl<$Res, PassAvatar>;
   @useResult
-  $Res call({DateTime createdAt, String id});
+  $Res call({DateTime createdAt, String? avatar, String from, String to});
 }
 
 /// @nodoc
@@ -52,16 +54,26 @@ class _$PassAvatarCopyWithImpl<$Res, $Val extends PassAvatar>
   @override
   $Res call({
     Object? createdAt = null,
-    Object? id = null,
+    Object? avatar = freezed,
+    Object? from = null,
+    Object? to = null,
   }) {
     return _then(_value.copyWith(
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      avatar: freezed == avatar
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
+      from: null == from
+          ? _value.from
+          : from // ignore: cast_nullable_to_non_nullable
+              as String,
+      to: null == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -75,7 +87,7 @@ abstract class _$$PassAvatarImplCopyWith<$Res>
       __$$PassAvatarImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DateTime createdAt, String id});
+  $Res call({DateTime createdAt, String? avatar, String from, String to});
 }
 
 /// @nodoc
@@ -90,16 +102,26 @@ class __$$PassAvatarImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? createdAt = null,
-    Object? id = null,
+    Object? avatar = freezed,
+    Object? from = null,
+    Object? to = null,
   }) {
     return _then(_$PassAvatarImpl(
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      avatar: freezed == avatar
+          ? _value.avatar
+          : avatar // ignore: cast_nullable_to_non_nullable
+              as String?,
+      from: null == from
+          ? _value.from
+          : from // ignore: cast_nullable_to_non_nullable
+              as String,
+      to: null == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -108,7 +130,11 @@ class __$$PassAvatarImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PassAvatarImpl implements _PassAvatar {
-  const _$PassAvatarImpl({required this.createdAt, this.id = ""});
+  const _$PassAvatarImpl(
+      {required this.createdAt,
+      this.avatar,
+      required this.from,
+      required this.to});
 
   factory _$PassAvatarImpl.fromJson(Map<String, dynamic> json) =>
       _$$PassAvatarImplFromJson(json);
@@ -116,12 +142,15 @@ class _$PassAvatarImpl implements _PassAvatar {
   @override
   final DateTime createdAt;
   @override
-  @JsonKey()
-  final String id;
+  final String? avatar;
+  @override
+  final String from;
+  @override
+  final String to;
 
   @override
   String toString() {
-    return 'PassAvatar(createdAt: $createdAt, id: $id)';
+    return 'PassAvatar(createdAt: $createdAt, avatar: $avatar, from: $from, to: $to)';
   }
 
   @override
@@ -131,12 +160,14 @@ class _$PassAvatarImpl implements _PassAvatar {
             other is _$PassAvatarImpl &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.id, id) || other.id == id));
+            (identical(other.avatar, avatar) || other.avatar == avatar) &&
+            (identical(other.from, from) || other.from == from) &&
+            (identical(other.to, to) || other.to == to));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, createdAt, id);
+  int get hashCode => Object.hash(runtimeType, createdAt, avatar, from, to);
 
   @JsonKey(ignore: true)
   @override
@@ -154,7 +185,10 @@ class _$PassAvatarImpl implements _PassAvatar {
 
 abstract class _PassAvatar implements PassAvatar {
   const factory _PassAvatar(
-      {required final DateTime createdAt, final String id}) = _$PassAvatarImpl;
+      {required final DateTime createdAt,
+      final String? avatar,
+      required final String from,
+      required final String to}) = _$PassAvatarImpl;
 
   factory _PassAvatar.fromJson(Map<String, dynamic> json) =
       _$PassAvatarImpl.fromJson;
@@ -162,7 +196,11 @@ abstract class _PassAvatar implements PassAvatar {
   @override
   DateTime get createdAt;
   @override
-  String get id;
+  String? get avatar;
+  @override
+  String get from;
+  @override
+  String get to;
   @override
   @JsonKey(ignore: true)
   _$$PassAvatarImplCopyWith<_$PassAvatarImpl> get copyWith =>

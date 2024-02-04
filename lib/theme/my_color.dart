@@ -12,6 +12,7 @@ const Color hookerGreen = Color(0xff5a716a);
 const Color darkPastelGreen = Color(0xff0cca4a);
 //New To Paricon
 const Color gray = Color(0xff7F7979);
+const Color frenchGray = Color(0xffbdb9bc);
 
 //Maintenance
 const Color jasper = Color(0xffbf4e30);

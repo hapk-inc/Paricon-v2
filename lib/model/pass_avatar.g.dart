@@ -9,11 +9,15 @@ part of 'pass_avatar.dart';
 _$PassAvatarImpl _$$PassAvatarImplFromJson(Map<String, dynamic> json) =>
     _$PassAvatarImpl(
       createdAt: DateTime.parse(json['createdAt'] as String),
-      id: json['id'] as String? ?? "",
+      avatar: json['avatar'] as String?,
+      from: json['from'] as String,
+      to: json['to'] as String,
     );
 
 Map<String, dynamic> _$$PassAvatarImplToJson(_$PassAvatarImpl instance) =>
     <String, dynamic>{
       'createdAt': instance.createdAt.toIso8601String(),
-      'id': instance.id,
+      'avatar': instance.avatar,
+      'from': instance.from,
+      'to': instance.to,
     };

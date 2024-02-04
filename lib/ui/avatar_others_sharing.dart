@@ -61,7 +61,7 @@ class _EnterAvatarCodeBuilderState
         borderRadius: pTheme.slidingPanelRadius,
         panel: Container(
           decoration: BoxDecoration(
-            color: ashGray,
+            color: tropicalIndigo,
             borderRadius: pTheme.slidingPanelRadius,
           ),
           padding: pTheme.slidingPanelPadding,

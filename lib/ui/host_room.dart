@@ -3,6 +3,7 @@ import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,8 +82,9 @@ class HostRoom extends ConsumerWidget {
                               size: 27.r,
                               color: cornellRed,
                             ),
-                            onPressed: user.uid == room.creatorID &&
-                                    room.players.length > 1
+                            onPressed: kDebugMode ||
+                                    (user.uid == room.creatorID &&
+                                        room.players.length > 1)
                                 ? () =>
                                     ref.watch(createBoardProvider.future).then(
                                       (created) {

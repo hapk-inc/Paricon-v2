@@ -62,7 +62,7 @@ final AutoDisposeFutureProvider<String> newCardAvatarProvider =
   },
 );
 
-final AutoDisposeFutureProviderFamily<void, String> setCardAvatarProvider =
+/*final AutoDisposeFutureProviderFamily<void, String> setCardAvatarProvider =
     FutureProvider.autoDispose.family(
   (ref, docID) async {
     final datastore = ref.read(userDatastoreProvider);
@@ -70,4 +70,4 @@ final AutoDisposeFutureProviderFamily<void, String> setCardAvatarProvider =
     final String rString = await ref.read(newCardAvatarProvider.future);
     return datastore.newCard(docID, rString);
   },
-);
+);*/

@@ -217,7 +217,8 @@ class _Dashboard extends ConsumerWidget {
           Gap(15.r),
           const PlayWithFriend(),
           Gap(15.r),
-          if (enterAvatarCode) ...[
+          if (kDebugMode ||
+              (enterAvatarCode && myUser.avatarArr.isNotEmpty)) ...[
             StaggeredGridTile.fit(
               crossAxisCellCount: 20,
               child: Divider(

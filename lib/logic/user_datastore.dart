@@ -112,8 +112,14 @@ class UserDatastore {
 
   //Future<bool> get appOpenedOrLoggedIn async => true;
 
-  Future get newAvatarCode async =>
-      userColl.doc(_id).update({'avatarCode': mockString(6, 'A')});
+  Future get newAvatarCode async {
+    final String avatarCode =
+        List.generate(6, (index) => mockInteger(1, 8).toString()).join();
+
+    return userColl.doc(_id).update(
+      {'avatarCode': avatarCode},
+    );
+  }
 
 /*  Query<PUser> get recentUserCollection => userColl
       .withConverter(
@@ -182,7 +188,7 @@ class UserDatastore {
             ).toJson(),
           );*/
 
-  Future newCard(String docId, String xCard) {
+  /* Future newCard(String docId, String xCard) {
     WriteBatch batch = FirebaseFirestore.instance.batch();
 
     batch.update(
@@ -200,7 +206,7 @@ class UserDatastore {
       ).toJson(),
     );
     return batch.commit();
-  }
+  }*/
 
   Future<MyUser?> xUser(String x) => userColl.doc(x).get().then(
         (DocumentSnapshot documentSnapshot) {
