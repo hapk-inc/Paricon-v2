@@ -169,12 +169,7 @@ class _DashboardSliding extends ConsumerWidget {
         ),
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
-          child: Container(
-              decoration: BoxDecoration(
-                color: magnolia,
-                borderRadius: pTheme.slidingPanelRadius,
-              ),
-              child: dPanelNotifier.dWidget),
+          child: dPanelNotifier.dWidget,
         ),
       ),
       onPanelClosed: () {

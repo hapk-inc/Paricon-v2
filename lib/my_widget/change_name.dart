@@ -24,14 +24,20 @@ class ChangeName extends ConsumerWidget {
           debugPrint("54--");
           if (myUser.name != controller.text) {
             ref.read(updateNameProvider(controller.text).future).whenComplete(
-                  () => ref.read(dashboardPanelProvider).close(),
-                );
+              () {
+                if (ref.read(dashboardPanelProvider).isPanelOpen) {
+                  ref.read(dashboardPanelProvider).close();
+                }
+                if (ref.read(settingPanelProvider).isPanelOpen) {
+                  ref.read(settingPanelProvider).close();
+                }
+              },
+            );
           } else {
-            ref.read(dashboardPanelProvider).close();
+            //ref.read(dashboardPanelProvider).close();
           }
         };
-    return Padding(
-      //padding: pTheme.slidingPanelPadding + pTheme.slidingPanelPadding,
+    return Container(
       padding: EdgeInsets.symmetric(horizontal: 18.w),
       child: SingleChildScrollView(
         child: Column(

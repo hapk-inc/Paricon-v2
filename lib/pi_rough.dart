@@ -2464,3 +2464,317 @@ class EnterAvatarCodePanel extends StatelessWidget {
   }
 }
 */
+
+/*@RoutePage()
+class SettingsPage extends ConsumerWidget {
+  const SettingsPage({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ScreenSize screenSize = ref.read(sizeProvider);
+    final bool isPhone = screenSize == ScreenSize.phone;
+    final SlidingPanelTheme slidingPanelTheme = SlidingPanelTheme();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: majorelleBlue,
+        titleSpacing: 0,
+        iconTheme: IconThemeData(color: ghostWhite, size: 24.r),
+        centerTitle: false,
+        toolbarHeight: 75.h,
+        titleTextStyle: TextStyle(
+          fontFamily: 'WendyOne',
+          fontSize: 24.r,
+          letterSpacing: 0.3.r,
+        ),
+        title: const AutoSizeText(
+          "Settings",
+          style: TextStyle(color: ghostWhite),
+        ),
+      ),
+      backgroundColor: ghostWhite,
+      body: SlidingUpPanel(
+        controller: ref.watch(settingPanelProvider),
+        minHeight: 0.h,
+        maxHeight: 300.h,
+        borderRadius: slidingPanelTheme.slidingPanelRadius,
+        backdropEnabled: true,
+        panel: Container(),
+        body: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 500),
+          child: !isPhone ? Container() : const SettingsState(),
+        ),
+      ),
+    );
+  }
+}
+
+class SettingsState extends ConsumerWidget {
+  const SettingsState({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final tTheme = Theme.of(context).textTheme;
+    final pTheme = SlidingPanelTheme();
+    final MyUser? myUser = ref.watch(myUserProvider).value;
+    return SafeArea(
+      minimum: pTheme.slidingPanelPadding,
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        child: myUser == null
+            ? Container()
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Gap(15.r),
+                  AspectRatio(
+                    aspectRatio: 2.1,
+                    child: SlideInLeft(
+                      child: FadeIn(
+                        child: Card(
+                          color: magnolia,
+                          // color: cornellRed,
+                          child: Padding(
+                            padding: pTheme.slidingPanelPadding,
+                            child: GridTile(
+                              header: Center(
+                                child: AutoSizeText(
+                                  "Earn your first avatar",
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    color: richBlack,
+                                    fontSize: 21.r,
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                              ),
+                              child: Center(
+                                child: Lottie.asset(
+                                  'lottie/b_male_01.json',
+                                  width: 210.r,
+                                  onLoaded: (composition) {
+                                    debugPrint("93--");
+                                  },
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Gap(15.r),
+                  SizedBox(
+                    // color: cornellRed,
+                    height: 60.h,
+                    child: ListTile(
+                      iconColor: jasper,
+                      contentPadding: EdgeInsets.zero,
+                      horizontalTitleGap: 7.5.r,
+                      dense: true,
+                      onTap: () {
+                        ref.read(setActiveProvider(false));
+                        ref.read(signOutProvider);
+                      },
+                      leading: Icon(Icons.logout, size: 21.r),
+                      title: Container(
+                        height: 45.h,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Log Out",
+                          style: tTheme.bodySmall!.copyWith(
+                            fontSize: 21.r,
+                            fontWeight: FontWeight.w700,
+                            color: jasper,
+                          ),
+                        ),
+                      ),
+                      trailing:
+                          Icon(Icons.chevron_right, color: jasper, size: 30.r),
+                    ),
+                  ),
+                  ref.watch(packageInfoProvider).maybeWhen(
+                        orElse: () => Container(),
+                        data: (app) => Text(
+                          "Version ${app.version} (${app.buildNumber})",
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: gray,
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 12.r,
+                                  ),
+                        ),
+                      ),
+                ],
+              ),
+      ),
+    );
+  }
+}*/
+
+/*import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
+import 'package:mock_data/mock_data.dart';
+import 'package:paricon/logic/panel_provider.dart';
+import 'package:random_avatar/random_avatar.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+import '../logic/auth_provider.dart';
+import '../logic/user_provider.dart';
+import '../model/my_user.dart';
+import '../theme/my_color.dart';
+
+class SettingHeader extends ConsumerWidget {
+  const SettingHeader({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final MyUser myUser = ref.watch(myUserProvider).value!;
+    final User? user = ref.watch(authUserProvider).value;
+
+    final TextStyle tTheme = Theme.of(context).textTheme.titleLarge!;
+    final TextStyle sTheme = Theme.of(context).textTheme.bodyLarge!;
+
+    final PanelController controller = ref.watch(settingPanelProvider);
+    if (user == null) return Container();
+    return Card(
+      margin: EdgeInsets.zero,
+      elevation: 3.r,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 500),
+        height: 150.h,
+        decoration: BoxDecoration(
+          color: magnolia,
+          borderRadius: BorderRadius.circular(7.5.r),
+        ),
+        padding: EdgeInsets.all(7.5.r),
+        alignment: Alignment.centerLeft,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(
+              flex: 2,
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 45.r,
+                    child: myUser.avatar == null
+                        ? Text(
+                            myUser.name.substring(0, 2).toUpperCase(),
+                            style: tTheme.copyWith(
+                              fontFamily: 'WendyOne',
+                              letterSpacing: 0,
+                            ),
+                          )
+                        : RandomAvatar(myUser.avatar ?? mockString(2)),
+                  ),
+                  Gap(15.r),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          flex: 2,
+                          child: AutoSizeText(
+                            myUser.name,
+                            style: tTheme.copyWith(
+                              fontFamily: 'WendyOne',
+                              color: charcoal,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: Row(
+                            children: [
+                              AutoSizeText(
+                                user?.email ?? "Anonymous User",
+                                style: sTheme.copyWith(color: tropicalIndigo),
+                                minFontSize: 10.5,
+                                stepGranularity: 1.5,
+                                maxFontSize: 15,
+                                maxLines: 1,
+                              ),
+                              VerticalDivider(
+                                thickness: .9.r,
+                                color: majorelleBlue,
+                                indent: 1.5.r,
+                                endIndent: 1.5.r,
+                              ),
+                              AutoSizeText(
+                                DateFormat.yMMMMd('en_US')
+                                    .format(user!.metadata.creationTime!),
+                                style: sTheme.copyWith(
+                                  color: tropicalIndigo,
+                                  fontSize: 9.r,
+                                ),
+                                minFontSize: 10.5,
+                                stepGranularity: 1.5,
+                                maxFontSize: 15,
+                                maxLines: 1,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              color: tropicalIndigo,
+              thickness: 0.45.r,
+              height: 24.h,
+              indent: 7.5.w,
+              endIndent: 7.5.w,
+            ),
+            Flexible(
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStatePropertyAll(
+                    EdgeInsets.only(left: 15.r),
+                  ),
+                  minimumSize: MaterialStatePropertyAll(
+                    Size.fromWidth(120.w),
+                  ),
+                ),
+                onPressed: () {
+                  debugPrint("133-");
+                  if (controller.isPanelClosed) {
+                    controller.open();
+                  }
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      FontAwesomeIcons.userPen,
+                      size: 21.r,
+                      color: federalBlue,
+                    ),
+                    Gap(15.r),
+                    Text(
+                      "Edit profile",
+                      style: TextStyle(
+                        fontFamily: 'Cabin',
+                        fontSize: 15.r,
+                        color: federalBlue,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}*/

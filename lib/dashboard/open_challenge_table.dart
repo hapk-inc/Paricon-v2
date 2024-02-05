@@ -53,8 +53,6 @@ class OpenChallengeTable extends ConsumerWidget {
           builder: (_, BoxConstraints constraints) {
             final double pW = constraints.maxWidth;
 
-            debugPrint("47--${dRow(constraints).length}");
-
             return Theme(
               data: Theme.of(context).copyWith(dividerColor: charcoal),
               child: DataTable(

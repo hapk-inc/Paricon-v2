@@ -9,7 +9,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:paricon/router/my_route.dart';
 
 import '../logic/auth_provider.dart';
-import '../logic/card_avatar_notifier.dart';
+
 import '../logic/dashboard_provider.dart';
 import '../model/my_user.dart';
 import '../theme/my_color.dart';

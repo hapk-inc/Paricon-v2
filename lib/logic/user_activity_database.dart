@@ -1,12 +1,13 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paricon/theme/my_theme.dart';
 
 import '../model/my_user.dart';
 import '../model/user_activity.dart';
+import '../theme/my_theme.dart';
 import 'auth_provider.dart';
 import 'firebase_init.dart';
+import 'user_datastore.dart';
 import 'user_provider.dart';
 
 final Provider<UserDatabase> userDatabaseProvider =
@@ -82,6 +83,8 @@ class UserDatabase {
   Future setActive(bool flag) => userReference.update({'isActive': flag});
 
   Future setPlaying(bool flag) => userReference.update({'isPlaying': flag});
+
+  Future setAvatar(String avatar) => userReference.update({'avatar': avatar});
 
   Future updateName(String name) {
     String n = firstCaps(name);

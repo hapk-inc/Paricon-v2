@@ -88,7 +88,7 @@ class _EnterAvatarCodeBuilderState
                       fontFamily: 'Poppins',
                       letterSpacing: 0,
                       fontSize: 15.r,
-                      color: richBlack,
+                      color: ghostWhite,
                       fontWeight: FontWeight.w300,
                     ),
                     isDense: true,
@@ -109,7 +109,7 @@ class _EnterAvatarCodeBuilderState
                         icon: Icon(
                           Icons.backspace,
                           size: 21.r,
-                          color: cornellRed,
+                          color: ghostWhite,
                         ),
                       ),
                     ),
@@ -147,7 +147,7 @@ class _EnterAvatarCodeBuilderState
             ],
           ),
         ),
-        maxHeight: 240.h,
+        maxHeight: 180.h,
         minHeight: 0,
         body: SafeArea(
           child: Column(

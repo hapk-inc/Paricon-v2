@@ -38,7 +38,7 @@ class GameSetup {
       case RoomLevel.easy:
         return 4;
       case RoomLevel.medium:
-        return 6;
+        return 5;
       case RoomLevel.hard:
         return 7;
     }
@@ -72,7 +72,7 @@ class GameSetup {
       case RoomLevel.easy:
         return 33.r;
       case RoomLevel.medium:
-        return 30.r;
+        return 36.r;
       case RoomLevel.hard:
         return 30.r;
     }

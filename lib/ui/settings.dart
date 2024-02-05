@@ -1,16 +1,22 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:mock_data/mock_data.dart';
+import 'package:random_avatar/random_avatar.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/auth_provider.dart';
-import '../logic/firebase_init.dart';
+import '../logic/panel_provider.dart';
 import '../logic/s_size.dart';
-import '../logic/user_activity_provider.dart';
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
+import '../my_widget/change_name.dart';
+import '../settings/earn_first_avatar.dart';
+import '../settings/footer.dart';
+import '../settings/settings_app_bar.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
 
@@ -22,268 +28,179 @@ class SettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ScreenSize screenSize = ref.read(sizeProvider);
     final bool isPhone = screenSize == ScreenSize.phone;
-    final SlidingPanelTheme slidingPanelTheme = SlidingPanelTheme();
+    final SlidingPanelTheme pTheme = SlidingPanelTheme();
     final MyUser? myUser = ref.watch(myUserProvider).value;
+    final PanelController controller = ref.watch(settingPanelProvider);
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: richBlack, size: 24.r),
-        toolbarHeight: 90.h,
-        title: AnimatedSwitcher(
-          key: ValueKey(myUser?.name ?? ""),
+      appBar: settingAppBar(context),
+      body: SlidingUpPanel(
+        backdropTapClosesPanel: true,
+        backdropEnabled: true,
+        isDraggable: false,
+        controller: controller,
+        borderRadius: pTheme.slidingPanelRadius,
+        body: AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
-          child: AutoSizeText.rich(
-            TextSpan(children: [
-              TextSpan(text: "${myUser?.name ?? ""} "),
-              TextSpan(
-                text: "#${myUser?.id.toString() ?? ""}",
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.normal,
-                  fontSize: 12.r,
-                ),
-              ),
-            ]),
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-        ),
-      ),
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
-        child: !isPhone
-            ? Container()
-            : Column(
-                children: [
-                  SizedBox(
-                    height: 600.h,
-                    child: SingleChildScrollView(
+          child: !isPhone
+              ? Container()
+              : Column(
+                  children: [
+                    Container(
+                      height: 600.h,
+                      padding: pTheme.slidingPanelPadding,
+                      alignment: Alignment.topCenter,
                       child: Column(
                         children: [
-                          if (myUser?.avatarArr.isEmpty ?? true)
-                            Container(
-                              height: 150.h,
-                              width: double.maxFinite,
-                              color: magnolia,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Earn your first avatar",
-                                    style: TextStyle(
-                                      //fontFamily: 'Poppins',
-                                      color: drabDarkBrown,
-                                      fontSize: 21.r,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 500),
+                            child: myUser?.avatarArr.isEmpty ?? true
+                                ? const EarnFirstAvatar()
+                                : Container(),
+                          ),
+                          //Gap(30.r),
+                          Expanded(
+                            child: ListView.separated(
+                              itemBuilder: (_, index) => Container(
+                                height: 60.h,
+                                alignment: Alignment.centerLeft,
+                                color: magnolia,
+                                child: ListTile(
+                                  titleTextStyle: TextStyle(
+                                    fontSize: 15.r,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w600,
+                                    color: federalBlue,
                                   ),
-                                  Gap(15.r),
-                                  ElevatedButton(
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStatePropertyAll(federalBlue),
-                                    ),
-                                    onPressed: () {},
-                                    child: Text(
-                                      "APPLY NOW",
-                                      style: TextStyle(color: magnolia),
-                                    ),
-                                  )
-                                ],
+                                  leadingAndTrailingTextStyle: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    color: federalBlue,
+                                    fontSize: 13.5.r,
+                                  ),
+                                  onTap: index != 0
+                                      ? null
+                                      : () {
+                                          if (!controller.isPanelOpen) {
+                                            controller.open();
+                                          }
+                                        },
+                                  iconColor: richBlack,
+                                  horizontalTitleGap: 24.r,
+                                  leading: _settingInfoArr[index].titleIcon,
+                                  trailing: _settingInfoArr[index].trailing,
+                                  title: Text(_settingInfoArr[index].title),
+                                ),
                               ),
+                              separatorBuilder: (_, __) => Gap(7.5.r),
+                              itemCount: 3,
                             ),
+                          ),
                         ],
                       ),
                     ),
-                  ),
-                  Expanded(
-                      child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextButton.icon(
-                          onPressed: () {
-                            ref.read(setActiveProvider(false));
-                            ref.read(signOutProvider);
-                          },
-                          icon:
-                              Icon(Icons.logout, size: 21.r, color: frenchGray),
-                          label: Text(
-                            "LOG OUT",
-                            style: TextStyle(
-                              fontSize: 15.r,
-                              color: frenchGray,
-                              fontFamily: 'Montserrat',
-                              letterSpacing: 0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        ref.watch(packageInfoProvider).maybeWhen(
-                              orElse: () => Container(),
-                              data: (app) => Text(
-                                "Version ${app.version} (${app.buildNumber})",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall!
-                                    .copyWith(
-                                      color: gray,
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 12.r,
-                                    ),
-                              ),
-                            ),
-                      ],
-                    ),
-                  ))
-                ],
-              ),
+                    const SettingFooter()
+                  ],
+                ),
+        ),
+        panel: const Center(child: ChangeName()),
+        color: magnolia,
+        minHeight: 0,
+        maxHeight: 210.h,
+        onPanelClosed: () {
+          FocusScope.of(context).unfocus();
+        },
       ),
     );
   }
 }
 
-/*@RoutePage()
-class SettingsPage extends ConsumerWidget {
-  const SettingsPage({super.key});
+class SettingInfo {
+  final Icon titleIcon;
+  final String title;
+  final Widget? trailing;
+  final void Function() action;
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final ScreenSize screenSize = ref.read(sizeProvider);
-    final bool isPhone = screenSize == ScreenSize.phone;
-    final SlidingPanelTheme slidingPanelTheme = SlidingPanelTheme();
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: majorelleBlue,
-        titleSpacing: 0,
-        iconTheme: IconThemeData(color: ghostWhite, size: 24.r),
-        centerTitle: false,
-        toolbarHeight: 75.h,
-        titleTextStyle: TextStyle(
-          fontFamily: 'WendyOne',
-          fontSize: 24.r,
-          letterSpacing: 0.3.r,
-        ),
-        title: const AutoSizeText(
-          "Settings",
-          style: TextStyle(color: ghostWhite),
-        ),
-      ),
-      backgroundColor: ghostWhite,
-      body: SlidingUpPanel(
-        controller: ref.watch(settingPanelProvider),
-        minHeight: 0.h,
-        maxHeight: 300.h,
-        borderRadius: slidingPanelTheme.slidingPanelRadius,
-        backdropEnabled: true,
-        panel: Container(),
-        body: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500),
-          child: !isPhone ? Container() : const SettingsState(),
-        ),
-      ),
-    );
-  }
+  SettingInfo({
+    required this.titleIcon,
+    required this.title,
+    this.trailing,
+    required this.action,
+  });
 }
 
-class SettingsState extends ConsumerWidget {
-  const SettingsState({super.key});
+List<SettingInfo> _settingInfoArr = [
+  SettingInfo(
+    titleIcon: const Icon(Icons.edit),
+    title: "Edit Profile",
+    action: () {},
+  ),
+  SettingInfo(
+    titleIcon: const Icon(Icons.email_outlined),
+    title: "Email",
+    trailing: Consumer(
+      builder: (__, ref, _) {
+        final User? user = ref.watch(authUserProvider).value;
+        return Text(
+          user?.email ?? "${mockName()}${mockInteger(111, 9999)}@gmail.com",
+          style: const TextStyle(color: federalBlue),
+        );
+      },
+    ),
+    action: () {},
+  ),
+  SettingInfo(
+    titleIcon: const Icon(Icons.graphic_eq),
+    title: "Statistics",
+    action: () {},
+  ),
+];
+
+class AvatarList extends ConsumerWidget {
+  const AvatarList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tTheme = Theme.of(context).textTheme;
-    final pTheme = SlidingPanelTheme();
     final MyUser? myUser = ref.watch(myUserProvider).value;
-    return SafeArea(
-      minimum: pTheme.slidingPanelPadding,
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
-        child: myUser == null
-            ? Container()
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Gap(15.r),
-                  AspectRatio(
-                    aspectRatio: 2.1,
-                    child: SlideInLeft(
-                      child: FadeIn(
-                        child: Card(
-                          color: magnolia,
-                          // color: cornellRed,
-                          child: Padding(
-                            padding: pTheme.slidingPanelPadding,
-                            child: GridTile(
-                              header: Center(
-                                child: AutoSizeText(
-                                  "Earn your first avatar",
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    color: richBlack,
-                                    fontSize: 21.r,
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.w900,
-                                  ),
-                                ),
-                              ),
-                              child: Center(
-                                child: Lottie.asset(
-                                  'lottie/b_male_01.json',
-                                  width: 210.r,
-                                  onLoaded: (composition) {
-                                    debugPrint("93--");
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+
+    if (myUser == null) return Container();
+    final int r = mockInteger(1, 5);
+    return SizedBox(
+      height: 156.h,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(9.r),
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: List.from(
+            myUser.avatarArr.map(
+              (e) => AnimatedContainer(
+                duration: const Duration(milliseconds: 500),
+                width: 96.w,
+                margin: EdgeInsets.symmetric(horizontal: 4.5.w),
+                decoration: BoxDecoration(
+                  color: myUser.avatar == e
+                      ? majorelleBlue
+                      : gridColor[(r % 3)].withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(7.5.r),
+                ),
+                child: Stack(
+                  children: [
+                    AnimatedPositioned(
+                      duration: const Duration(milliseconds: 500),
+                      bottom: -7.5.r,
+                      left: 0.r,
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 600),
+                        alignment: Alignment.bottomCenter,
+                        constraints: BoxConstraints.tight(Size.square(108.r)),
+                        child: RandomAvatar(e, trBackground: true),
                       ),
                     ),
-                  ),
-                  Gap(15.r),
-                  SizedBox(
-                    // color: cornellRed,
-                    height: 60.h,
-                    child: ListTile(
-                      iconColor: jasper,
-                      contentPadding: EdgeInsets.zero,
-                      horizontalTitleGap: 7.5.r,
-                      dense: true,
-                      onTap: () {
-                        ref.read(setActiveProvider(false));
-                        ref.read(signOutProvider);
-                      },
-                      leading: Icon(Icons.logout, size: 21.r),
-                      title: Container(
-                        height: 45.h,
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Log Out",
-                          style: tTheme.bodySmall!.copyWith(
-                            fontSize: 21.r,
-                            fontWeight: FontWeight.w700,
-                            color: jasper,
-                          ),
-                        ),
-                      ),
-                      trailing:
-                          Icon(Icons.chevron_right, color: jasper, size: 30.r),
-                    ),
-                  ),
-                  ref.watch(packageInfoProvider).maybeWhen(
-                        orElse: () => Container(),
-                        data: (app) => Text(
-                          "Version ${app.version} (${app.buildNumber})",
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: gray,
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 12.r,
-                                  ),
-                        ),
-                      ),
-                ],
+                  ],
+                ),
               ),
+            ),
+          ),
+        ),
       ),
     );
   }
-}*/
+}
