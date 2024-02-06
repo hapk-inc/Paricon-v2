@@ -2778,3 +2778,114 @@ class SettingHeader extends ConsumerWidget {
     );
   }
 }*/
+
+/* Positioned(
+                  left: 0.r,
+                  right: 120.r,
+                  child: AutoSizeText(
+                    "Congratulations ${winners.fold("", (previousValue, x) => "$previousValue${x.name}")} !!",
+                    //textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: ghostWhite,
+                      fontFamily: 'WendyOne',
+                      fontSize: 21.r,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    maxLines: 1,
+                  ),
+                ),*/
+
+/* Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Lottie.asset(
+                    'lottie/trophy.json',
+                    width: 90.r,
+                    height: 90.r,
+                    fit: BoxFit.fill,
+                  ),
+                )*/
+
+/*AnimatedContainer(
+                            duration: const Duration(milliseconds: 500),
+                            decoration:
+                                const BoxDecoration(color: drabDarkBrown),
+                            alignment: Alignment.center,
+                            width: 150.w,
+                            padding: EdgeInsets.symmetric(horizontal: 4.5.w),
+                            child: InkWell(
+                              onTap: action,
+                              child: AutoSizeText(
+                                "SHARE WITH FRIENDS",
+                                style: tTheme.bodySmall!.copyWith(
+                                  fontSize: 13.5.r,
+                                  color: ghostWhite,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                maxFontSize: 15,
+                                minFontSize: 9,
+                                maxLines: 1,
+                              ),
+                            ),
+                          )*/
+/*OpenContainer(
+                  tappable: false,
+                  closedBuilder: (_, void Function() action) => Container(
+                    height: 54.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7.5.r),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(7.5.r),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 500),
+                              key: ValueKey(myUser.avatarCode),
+                              child: ListView(
+                                scrollDirection: Axis.horizontal,
+                                children: animatedEmojiList,
+                              ),
+                            ),
+                          ),
+                          AspectRatio(
+                            aspectRatio: 1,
+                            child: InkWell(
+                              onTap: action,
+                              child: Icon(Icons.group, size: 30.r),
+                            ),
+                          )
+                          */ /*AnimatedContainer(
+                            duration: const Duration(milliseconds: 500),
+                            decoration:
+                                const BoxDecoration(color: drabDarkBrown),
+                            alignment: Alignment.center,
+                            width: 150.w,
+                            padding: EdgeInsets.symmetric(horizontal: 4.5.w),
+                            child: InkWell(
+                              onTap: action,
+                              child: AutoSizeText(
+                                "SHARE WITH FRIENDS",
+                                style: tTheme.bodySmall!.copyWith(
+                                  fontSize: 13.5.r,
+                                  color: ghostWhite,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                maxFontSize: 15,
+                                minFontSize: 9,
+                                maxLines: 1,
+                              ),
+                            ),
+                          )*/ /*
+                        ],
+                      ),
+                    ),
+                  ),
+                  closedColor: beige,
+                  openColor: ghostWhite,
+                  openBuilder:
+                      (_, void Function({Object? returnValue}) action) =>
+                          EnterAvatarCodeBuilder(action),
+                )*/

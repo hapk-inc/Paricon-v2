@@ -1,7 +1,8 @@
+import 'package:animated_emoji/animated_emoji.dart';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -126,11 +127,28 @@ class EnterTournamentCodeClosedTitle extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AutoSizeText(
-            "🏁 Ready, Set, Game : Join the Tournament 🏆",
-            style: tTheme.bodyMedium!.copyWith(
-              height: 1.8.r,
-              color: cinerous,
+          RichText(
+            text: TextSpan(
+              children: [
+                WidgetSpan(
+                  child: SizedBox.square(
+                    dimension: 45.r,
+                    child: const AnimatedEmoji(
+                      AnimatedEmojis.chequeredFlag,
+                      errorWidget: Center(child: Text("🏁")),
+                    ),
+                  ),
+                ),
+                WidgetSpan(child: SizedBox.square(dimension: 12.r)),
+                const TextSpan(
+                  text: "Ready, Set, Game : "
+                      "Join the Tournament 🏆",
+                )
+              ],
+              style: tTheme.bodyMedium!.copyWith(
+                height: 1.8.r,
+                color: cinerous,
+              ),
             ),
             maxLines: 3,
           ),

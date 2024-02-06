@@ -1,3 +1,23 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+@RoutePage()
+class PassAvatarPage extends ConsumerStatefulWidget {
+  const PassAvatarPage({super.key});
+
+  @override
+  ConsumerState createState() => _PassAvatarPageState();
+}
+
+class _PassAvatarPageState extends ConsumerState<PassAvatarPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+/*
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -190,6 +210,7 @@ class _EnterAvatarCodeBuilderState
       );
 }
 
+*/
 /*Expanded(
               child: SlideInUp(
                 child: FadeInUp(
@@ -301,7 +322,8 @@ class _EnterAvatarCodeBuilderState
                   ),
                 ),
               ),
-            )*/
+            )*/ /*
+
 
 class EnterAvatarCodeListTile extends ConsumerWidget {
   const EnterAvatarCodeListTile({super.key});
@@ -403,3 +425,4 @@ class EnterAvatarCodeListTile extends ConsumerWidget {
     );
   }
 }
+*/

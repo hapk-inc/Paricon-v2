@@ -57,6 +57,12 @@ abstract class _$MyRouter extends RootStackRouter {
         child: const NoNetPage(),
       );
     },
+    PassAvatarRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const PassAvatarPage(),
+      );
+    },
     PlayFriendRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -183,6 +189,20 @@ class NoNetRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'NoNetRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [PassAvatarPage]
+class PassAvatarRoute extends PageRouteInfo<void> {
+  const PassAvatarRoute({List<PageRouteInfo>? children})
+      : super(
+          PassAvatarRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'PassAvatarRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

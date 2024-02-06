@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:lottie/lottie.dart';
 
 import '../logic/auth_provider.dart';
 import '../logic/room_id.dart';
@@ -33,7 +32,8 @@ class PlayFriendScoreboard extends ConsumerWidget {
         .toList();
 
     final List<LocalPlayer> others =
-        players.toSet().difference(winners.toSet()).toList();
+        // players.toSet().difference(winners.toSet()).toList();
+        players.toSet().toList();
 
     debugPrint("Players $players");
     debugPrint("Winners $winners");
@@ -48,27 +48,13 @@ class PlayFriendScoreboard extends ConsumerWidget {
       padding: pTheme.slidingPanelPadding,
       child: Column(
         children: [
-          Gap(12.r),
+          //Gap(12.r),
           Container(
-            height: 150.h,
+            height: 60.h,
+            //color: cornellRed,
             padding: EdgeInsets.all(3.r),
             child: Stack(
               children: [
-                Positioned(
-                  left: 0.r,
-                  right: 120.r,
-                  child: AutoSizeText(
-                    "Congratulations ${winners.fold("", (previousValue, x) => "$previousValue${x.name}")} !!",
-                    //textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: ghostWhite,
-                      fontFamily: 'WendyOne',
-                      fontSize: 21.r,
-                      fontWeight: FontWeight.normal,
-                    ),
-                    maxLines: 1,
-                  ),
-                ),
                 Positioned(
                   top: 0.r,
                   right: 0.r,
@@ -77,18 +63,13 @@ class PlayFriendScoreboard extends ConsumerWidget {
                         ref.read(leaveRoomProvider.future).whenComplete(
                               () => ref.read(idNotifier.notifier).empty(),
                             ),
-                    icon: const Icon(Icons.close, color: ghostWhite),
+                    icon: Icon(
+                      Icons.close,
+                      color: ghostWhite,
+                      size: 21.r,
+                    ),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Lottie.asset(
-                    'lottie/trophy.json',
-                    width: 90.r,
-                    height: 90.r,
-                    fit: BoxFit.fill,
-                  ),
-                )
               ],
             ),
           ),
@@ -155,7 +136,7 @@ class PlayFriendScoreboard extends ConsumerWidget {
                                 ),
                                 alignment: Alignment.center,
                                 child: Text(
-                                  ["2nd", '3rd'][index],
+                                  ['1st', '2nd', ''][index],
                                   style: TextStyle(
                                     fontSize: 12.r,
                                     color: mistyRose,

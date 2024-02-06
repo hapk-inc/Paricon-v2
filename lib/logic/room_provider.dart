@@ -78,7 +78,7 @@ final AutoDisposeFutureProvider leaveRoomProvider = FutureProvider.autoDispose(
 final AutoDisposeStreamProvider<Room?> roomProvider =
     StreamProvider.autoDispose<Room?>(
   (ref) {
-    final roomDatabase = ref.read(roomDatabaseProvider);
+    final roomDatabase = ref.watch(roomDatabaseProvider);
     return roomDatabase.sGameRoom;
   },
 );

@@ -1,3 +1,5 @@
+import 'package:animated_emoji/animated_emoji.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -5,6 +7,17 @@ import 'package:intl/intl.dart';
 import 'my_color.dart';
 
 List<String> emojiArr = ["😁", "😍", "🤪", "😎", "😡", "🥺", "🤩", "😱", "🥶"];
+List<AnimatedEmoji> animatedEmojiArr = [
+  const AnimatedEmoji(AnimatedEmojis.smileWithBigEyes),
+  const AnimatedEmoji(AnimatedEmojis.angry),
+  const AnimatedEmoji(AnimatedEmojis.badminton),
+  AnimatedEmoji(AnimatedEmojis.rocket),
+  const AnimatedEmoji(AnimatedEmojis.alien),
+  const AnimatedEmoji(AnimatedEmojis.clown),
+  const AnimatedEmoji(AnimatedEmojis.cupid),
+  const AnimatedEmoji(AnimatedEmojis.cry),
+  const AnimatedEmoji(AnimatedEmojis.volcano),
+];
 
 ThemeData get buildThemeData => ThemeData(
       textTheme: TextTheme(

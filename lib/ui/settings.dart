@@ -68,7 +68,7 @@ class SettingsPage extends ConsumerWidget {
                                   titleTextStyle: TextStyle(
                                     fontSize: 15.r,
                                     fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                     color: federalBlue,
                                   ),
                                   leadingAndTrailingTextStyle: TextStyle(

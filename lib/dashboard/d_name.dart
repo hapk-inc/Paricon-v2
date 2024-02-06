@@ -31,27 +31,27 @@ class DName extends ConsumerWidget {
             padding: EdgeInsets.only(left: 15.w),
             child: Row(
               children: [
-                InkWell(
-                  onTap: () {
-                    dNotifier.dHeight = 210.h;
-                    dNotifier.dWidget = const ChangeName();
-                    ref.read(dashboardPanelProvider).open();
-                  },
-                  child: AutoSizeText(
-                    name,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
+                AutoSizeText(
+                  name,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 Gap(12.r),
                 Align(
-                  alignment: Alignment.bottomLeft,
-                  child: AnimatedEmoji(
-                    AnimatedEmojis.smileWithBigEyes,
-                    size: 30.r,
-                    repeat: true,
-                    animate: true,
-                    onLoaded: (duration) {},
-                    errorWidget: Icon(Icons.mood, size: 30.r),
+                  alignment: Alignment.center,
+                  child: InkWell(
+                    onTap: () {
+                      dNotifier.dHeight = 210.h;
+                      dNotifier.dWidget = const ChangeName();
+                      ref.read(dashboardPanelProvider).open();
+                    },
+                    child: AnimatedEmoji(
+                      AnimatedEmojis.pencil,
+                      size: 30.r,
+                      repeat: true,
+                      animate: true,
+                      onLoaded: (duration) {},
+                      errorWidget: Icon(Icons.edit, size: 30.r),
+                    ),
                   ),
                 ),
               ],

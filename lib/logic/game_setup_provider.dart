@@ -53,7 +53,7 @@ class GameSetup {
   double get containerSize {
     switch (level) {
       case RoomLevel.easy:
-        return 300.r;
+        return 360.r;
       case RoomLevel.medium:
         return 480.r;
       case RoomLevel.hard:
@@ -75,6 +75,18 @@ class GameSetup {
         return 36.r;
       case RoomLevel.hard:
         return 30.r;
+    }
+  }
+
+  double gapSpacing(int totalCount) {
+    RoomLevel l = whichLevel(totalCount);
+    switch (l) {
+      case RoomLevel.easy:
+        return 24.r;
+      case RoomLevel.medium:
+        return 12.r;
+      case RoomLevel.hard:
+        return 7.5.r;
     }
   }
 }

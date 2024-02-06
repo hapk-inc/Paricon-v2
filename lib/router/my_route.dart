@@ -12,6 +12,7 @@ import '../ui/play_friend.dart';
 import '../ui/settings.dart';
 import '../ui/splash.dart';
 import '../ui/tournament.dart';
+import '../ui/pass_avatar.dart';
 
 part 'my_route.gr.dart';
 
@@ -36,6 +37,7 @@ class MyRouter extends _$MyRouter {
             AutoRoute(page: SettingsRoute.page),
             //AutoRoute(page: HostRoomRoute.page),
             AutoRoute(page: PlayFriendRoute.page),
+            AutoRoute(page: PassAvatarRoute.page)
           ],
         )
       ];

@@ -1,16 +1,16 @@
-import 'package:animations/animations.dart';
+import 'package:animated_emoji/animated_emoji.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:mock_data/mock_data.dart';
 
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
+import '../router/my_route.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
-import '../ui/avatar_others_sharing.dart';
 
 class EnterAvatarCode extends ConsumerWidget {
   const EnterAvatarCode({super.key});
@@ -19,12 +19,17 @@ class EnterAvatarCode extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tTheme = Theme.of(context).textTheme;
     final MyUser? myUser = ref.watch(myUserProvider).value;
-    final String avatarCodeTxt = myUser == null
+    /* final String avatarCodeTxt = myUser == null
         ? ""
         : myUser.avatarCode!
             .split('')
             .map((e) => emojiArr[int.parse(e)])
-            .join();
+            .join();*/
+    List<Widget> animatedEmojiList = myUser?.avatarCode
+            ?.split('')
+            .map((e) => animatedEmojiArr[int.parse(e)])
+            .toList() ??
+        <Widget>[];
     return myUser == null
         ? Container()
         : Container(
@@ -40,13 +45,26 @@ class EnterAvatarCode extends ConsumerWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AutoSizeText(
-                        "🎁 Gift your friends, a new avatars 😍",
-                        style: tTheme.bodyMedium!.copyWith(
-                          height: 1.8.r,
-                          color: drabDarkBrown,
-                        ),
+                      RichText(
                         maxLines: 2,
+                        text: TextSpan(
+                          children: [
+                            WidgetSpan(
+                              child: SizedBox.square(
+                                dimension: 45.r,
+                                child: const AnimatedEmoji(
+                                  AnimatedEmojis.wrappedGift,
+                                ),
+                              ),
+                            ),
+                            const TextSpan(
+                                text: " Gift your friends, a new avatars")
+                          ],
+                          style: tTheme.bodyMedium!.copyWith(
+                            height: 1.8.r,
+                            color: drabDarkBrown,
+                          ),
+                        ),
                       ),
                       //Gap(6.r),
                       AutoSizeText(
@@ -65,67 +83,42 @@ class EnterAvatarCode extends ConsumerWidget {
                   ),
                 ),
                 Gap(30.r),
-                OpenContainer(
-                  tappable: false,
-                  closedBuilder: (_, void Function() action) => Container(
-                    height: 54.h,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7.5.r),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(7.5.r),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          AnimatedSwitcher(
+                Container(
+                  height: 54.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7.5.r),
+                    border: Border.all(color: gray, width: 0.75.r),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(7.5.r),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: AnimatedSwitcher(
                             duration: const Duration(milliseconds: 500),
                             key: ValueKey(myUser.avatarCode),
-                            child: Text(
-                              avatarCodeTxt,
-                              style: tTheme.bodySmall!.copyWith(
-                                fontSize: 21.r,
-                                color: drabDarkBrown,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 0.15.r,
-                              ),
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (_, index) =>
+                                  animatedEmojiList[index],
+                              itemCount: 6,
+                              separatorBuilder: (_, __) => Gap(1.5.r),
                             ),
                           ),
-                          InkWell(
-                            onTap: action,
-                            child: Icon(Icons.group, size: 30.r),
-                          )
-                          /*AnimatedContainer(
-                            duration: const Duration(milliseconds: 500),
-                            decoration:
-                                const BoxDecoration(color: drabDarkBrown),
-                            alignment: Alignment.center,
-                            width: 150.w,
-                            padding: EdgeInsets.symmetric(horizontal: 4.5.w),
-                            child: InkWell(
-                              onTap: action,
-                              child: AutoSizeText(
-                                "SHARE WITH FRIENDS",
-                                style: tTheme.bodySmall!.copyWith(
-                                  fontSize: 13.5.r,
-                                  color: ghostWhite,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                maxFontSize: 15,
-                                minFontSize: 9,
-                                maxLines: 1,
-                              ),
-                            ),
-                          )*/
-                        ],
-                      ),
+                        ),
+                        AspectRatio(
+                          aspectRatio: 1,
+                          child: InkWell(
+                            onTap: () =>
+                                context.router.push(const PassAvatarRoute()),
+                            child: Icon(Icons.group, size: 30.r, color: gray),
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                  closedColor: beige,
-                  openColor: ghostWhite,
-                  openBuilder:
-                      (_, void Function({Object? returnValue}) action) =>
-                          EnterAvatarCodeBuilder(action),
                 )
               ],
             ),
