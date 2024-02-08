@@ -45,7 +45,7 @@ final AutoDisposeFutureProvider<BestD?> myBestDProvider =
   },
 );
 
-final StreamProviderFamily<MyUser?, String> xUserProvider =
+final StreamProviderFamily<MyUser?, String> xPlayerProvider =
     StreamProvider.family<MyUser?, String>(
   (ref, id) {
     final tDatabase = ref.read(tournamentDatabaseProvider);

@@ -107,6 +107,7 @@ class __PlayFriendBoard extends ConsumerWidget {
                 icons: xIcons,
                 type: board!.type);
             dNotifier.dWidget = PlayFriendScoreboard(b);
+            dNotifier.dHeight = 300.h;
             ref.read(updateStatsProvider(b).future).catchError(
               (e, s) {
                 debugPrint(e.toString());

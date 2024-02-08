@@ -16,3 +16,7 @@ final Provider<PanelController> settingPanelProvider = Provider(
 final Provider<PanelController> playFriendPanelProvider = Provider(
   (ref) => PanelController(),
 );
+
+final Provider<PanelController> passAvatarPanelProvider = Provider(
+  (_) => PanelController(),
+);

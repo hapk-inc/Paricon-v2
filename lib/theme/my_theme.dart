@@ -6,12 +6,12 @@ import 'package:intl/intl.dart';
 
 import 'my_color.dart';
 
-List<String> emojiArr = ["😁", "😍", "🤪", "😎", "😡", "🥺", "🤩", "😱", "🥶"];
+//List<String> emojiArr = ["😁", "😍", "🤪", "😎", "😡", "🥺", "🤩", "😱", "🥶"];
 List<AnimatedEmoji> animatedEmojiArr = [
   const AnimatedEmoji(AnimatedEmojis.smileWithBigEyes),
   const AnimatedEmoji(AnimatedEmojis.angry),
   const AnimatedEmoji(AnimatedEmojis.badminton),
-  AnimatedEmoji(AnimatedEmojis.rocket),
+  const AnimatedEmoji(AnimatedEmojis.rocket),
   const AnimatedEmoji(AnimatedEmojis.alien),
   const AnimatedEmoji(AnimatedEmojis.clown),
   const AnimatedEmoji(AnimatedEmojis.cupid),
@@ -88,6 +88,7 @@ class SlidingPanelTheme {
   EdgeInsets slidingPanelPadding = EdgeInsets.all(15.r);
   BorderRadius slidingPanelRadius =
       BorderRadius.vertical(top: Radius.circular(24.r));
+  BorderRadius slidingPanelFullRadius = BorderRadius.circular(15.r);
   Color slidingPanelColor = ghostWhite;
   Color backDrop = richBlack;
 }

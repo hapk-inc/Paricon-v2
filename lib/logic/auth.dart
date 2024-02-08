@@ -11,6 +11,7 @@ import 'package:rxdart/rxdart.dart';
 import '../model/my_user.dart';
 import 'firebase_init.dart';
 import 'my_names.dart';
+import 'pass_avatar_provider.dart';
 
 class Auth {
   final Ref ref;
@@ -49,8 +50,8 @@ class Auth {
         (mockInteger(0, 2) == 0
             ? "${myRandomName()} $myLastName"
             : myRandomName());
-    final String avatarCode =
-        List.generate(6, (index) => mockInteger(1, 8).toString()).join();
+    //final String avatarCode =
+    //    List.generate(6, (index) => mockInteger(1, 8).toString()).join();
     final DateTime createdAt = DateTime.now();
     final String id = fUser.uid;
 
@@ -61,7 +62,8 @@ class Auth {
         name: xName,
         rName: xName,
         id: mockInteger(11111111, 99999999),
-        avatarCode: avatarCode,
+        //avatarCode: avatarCode,
+        avatarCode: ref.read(newAvatarCodeProvider),
         createdAt: createdAt,
       ).toJson(),
     );

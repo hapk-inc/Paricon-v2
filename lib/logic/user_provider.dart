@@ -1,9 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mock_data/mock_data.dart';
 
 import '../model/board.dart';
 import '../model/my_user.dart';
-import 'card_notifier.dart';
 import 'user_datastore.dart';
 
 final myUserProvider = StreamProvider.autoDispose<MyUser?>(

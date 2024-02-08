@@ -36,7 +36,7 @@ class OpenChallengeTable extends ConsumerWidget {
           (index) {
             final TDuration tD = recentTourList[index];
             final bool isMe = tD.userId == fUser!.uid;
-            final MyUser? xUser = ref.watch(xUserProvider(tD.userId)).value;
+            final MyUser? xUser = ref.watch(xPlayerProvider(tD.userId)).value;
 
             final int myRank = bestDList.indexOf(tD.userId);
             // final

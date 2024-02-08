@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:paricon/model/pass_avatar.dart';
 
 import '../model/my_user.dart';
 import '../model/user_activity.dart';
@@ -19,12 +20,15 @@ class UserDatabase {
 
   late DatabaseReference firebaseReference;
 
+  late DatabaseReference passAvatarReference;
   late DatabaseReference userReference;
 
   UserDatabase(this.ref, {this.id}) {
     firebaseReference = ref.read(databaseProvider).ref();
 
     id = ref.watch(authUserProvider).value!.uid;
+
+    passAvatarReference = firebaseReference.child('pass_avatar');
 
     userReference = id == null
         ? firebaseReference.child('users')
@@ -90,4 +94,22 @@ class UserDatabase {
     String n = firstCaps(name);
     return userReference.update({'name': n});
   }
+
+  Future newPassAvatar(String x) {
+    firebaseReference.child('pass_avatar_count').set(ServerValue.increment(1));
+    return passAvatarReference.push().set(
+          PassAvatar(
+            createdAt: DateTime.now(),
+            from: id ?? "",
+            to: x,
+          ).toJson(),
+        );
+  }
+
+  Stream<num> get passAvatarCount => firebaseReference
+      .child('pass_avatar_count')
+      .onValue
+      .map((event) => event.snapshot.value as num);
+
+  Query get passAvatarQuery => passAvatarReference.orderByChild('createdAt');
 }

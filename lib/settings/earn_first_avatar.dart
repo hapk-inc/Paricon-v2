@@ -16,7 +16,6 @@ class EarnFirstAvatar extends ConsumerWidget {
           Container(
             height: 150.h,
             alignment: Alignment.center,
-            // width: double.maxFinite,
             color: magnolia,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

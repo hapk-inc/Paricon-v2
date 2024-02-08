@@ -1,6 +1,30 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
+import 'package:mock_data/mock_data.dart';
+import 'package:random_avatar/random_avatar.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+import 'package:flutter/foundation.dart' as foundation;
+
+import '../logic/panel_provider.dart';
+import '../logic/pass_avatar_provider.dart';
+import '../logic/user_provider.dart';
+import '../model/my_user.dart';
+import '../model/pass_avatar.dart';
+import '../pass_avatar/pass_avatar_list_tile.dart';
+import '../theme/my_color.dart';
+import '../theme/my_theme.dart';
 
 @RoutePage()
 class PassAvatarPage extends ConsumerStatefulWidget {
@@ -11,418 +35,383 @@ class PassAvatarPage extends ConsumerStatefulWidget {
 }
 
 class _PassAvatarPageState extends ConsumerState<PassAvatarPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
-
-/*
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:gap/gap.dart';
-import 'package:mock_data/mock_data.dart';
-import 'package:random_avatar/random_avatar.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
-
-import '../logic/my_names.dart';
-import '../theme/my_color.dart';
-import '../theme/my_theme.dart';
-
-final PanelController _panelController = PanelController();
-
-class EnterAvatarCodeBuilder extends ConsumerStatefulWidget {
-  final void Function({Object? returnValue}) action;
-
-  const EnterAvatarCodeBuilder(this.action, {super.key});
-
-  @override
-  ConsumerState createState() => _EnterAvatarCodeBuilderState();
-}
-
-class _EnterAvatarCodeBuilderState
-    extends ConsumerState<EnterAvatarCodeBuilder> {
-  final tController = TextEditingController();
   final pTheme = SlidingPanelTheme();
-  final List<String> _a = [];
+  final _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    tController.addListener(
-      () {
-        debugPrint("77--");
-        debugPrint(tController.text);
-      },
-    );
-
-    Future.delayed(
-      const Duration(milliseconds: 1500),
-      () {
-        if (!_panelController.isPanelOpen) {
-          _panelController.open();
+    _controller.addListener(
+      () async {
+        if (_controller.text.length >= 6) {
+          List<String> oldList = await ref.watch(passAvatarProvider.future);
+          debugPrint("45--$oldList");
+          await ref
+              .watch(searchAvatarCodeProvider(_controller.text).future)
+              .then(
+            (List<String> list) {
+              for (var id in list) {
+                if (!oldList.contains(id)) {
+                  ref.read(passNewAvatarProvider(id));
+                }
+              }
+              FocusScope.of(context).unfocus();
+            },
+          );
         }
       },
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    tController.dispose();
+  void _onBackspacePressed() {
+    final text = _controller.value.text;
+    var cursorPosition = _controller.selection.base.offset;
+
+    // If cursor is not set, then place it at the end of the textfield
+    if (cursorPosition < 0) {
+      _controller.selection = TextSelection(
+        baseOffset: _controller.text.length,
+        extentOffset: _controller.text.length,
+      );
+      cursorPosition = _controller.selection.base.offset;
+    }
+
+    if (cursorPosition >= 0) {
+      final selection = _controller.value.selection;
+      final newTextBeforeCursor =
+          selection.textBefore(text).characters.skipLast(1).toString();
+
+      _controller.value = _controller.value.copyWith(
+        text: newTextBeforeCursor + selection.textAfter(text),
+        selection: TextSelection.fromPosition(
+          TextPosition(offset: newTextBeforeCursor.length),
+        ),
+        composing: TextRange.collapsed(newTextBeforeCursor.length),
+      );
+    }
   }
 
   @override
-  Widget build(BuildContext context) => SlidingUpPanel(
-        controller: _panelController,
-        borderRadius: pTheme.slidingPanelRadius,
-        panel: Container(
-          decoration: BoxDecoration(
-            color: tropicalIndigo,
-            borderRadius: pTheme.slidingPanelRadius,
-          ),
-          padding: pTheme.slidingPanelPadding,
-          child: Column(
-            children: [
-              Container(
-                width: 330.w,
-                padding: EdgeInsets.only(left: 1.5.w),
-                child: TextFormField(
-                  maxLines: 1,
-                  //maxLength: 6,
-                  cursorColor: chocolateCosmos,
-                  cursorWidth: 1.2.r,
-                  controller: tController,
-                  keyboardType: TextInputType.none,
-                  style: TextStyle(
-                    fontSize: 24.r,
-                    height: 1.8.r,
-                    letterSpacing: 4.5.r,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: 'Type the emoji to enter avatar code',
-                    hintStyle: TextStyle(
-                      fontFamily: 'Poppins',
-                      letterSpacing: 0,
-                      fontSize: 15.r,
-                      color: ghostWhite,
-                      fontWeight: FontWeight.w300,
-                    ),
-                    isDense: true,
-                    isCollapsed: false,
-                    suffixIcon: Container(
-                      constraints: BoxConstraints.tight(Size.square(30.r)),
-                      child: IconButton(
-                        //onPressed: onSubmitted(),
-                        onPressed: () {
-                          if (_a.isNotEmpty) {
-                            setState(() {
-                              _a.removeLast();
-                              tController.text =
-                                  _a.map((e) => emojiArr[int.parse(e)]).join();
-                            });
-                          }
-                        },
-                        icon: Icon(
-                          Icons.backspace,
-                          size: 21.r,
-                          color: ghostWhite,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Gap(24.r),
-              Expanded(
-                child: GridView.custom(
-                  gridDelegate: SliverWovenGridDelegate.count(
-                    crossAxisCount: 8,
-                    pattern: [
-                      const WovenGridTile(1, crossAxisRatio: 0.9),
-                      const WovenGridTile(1, crossAxisRatio: 0.9),
-                      const WovenGridTile(1),
-                    ],
-                  ),
-                  childrenDelegate: SliverChildBuilderDelegate(
-                    (_, index) => Container(
-                      padding: EdgeInsets.all(4.5.r),
-                      alignment: Alignment.center,
-                      child: InkWell(
-                        child: Text(emojiArr[index]),
-                        onTap: () {
-                          setState(() => _a.add("$index"));
-                          tController.text =
-                              _a.map((e) => emojiArr[int.parse(e)]).join();
-                        },
-                      ),
-                    ),
-                    childCount: 8,
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-        maxHeight: 180.h,
-        minHeight: 0,
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 72.h,
-                child: ListTile(
-                  contentPadding: pTheme.slidingPanelPadding,
-                  horizontalTitleGap: 1.5.r,
-                  dense: true,
-                  leading: InkWell(
-                    onTap: widget.action,
-                    child: Icon(Icons.close, size: 18.r),
-                  ),
-                  title: AutoSizeText(
-                    "See what others are sharing . . .",
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 24.r,
-                      color: federalBlue,
-                      //height: 2.1.r,
-                      fontWeight: FontWeight.w700,
-                    ),
-                    maxLines: 1,
-                  ),
-                ),
-              ),
-              Expanded(
-                //height: 630.h,
-                child: ListView(
-                  //padding: pTheme.slidingPanelPadding,
-                  children: List.generate(
-                      15, (index) => const EnterAvatarCodeListTile()),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-}
+  Widget build(BuildContext context) {
+    final PanelController panelController = ref.watch(passAvatarPanelProvider);
 
-*/
-/*Expanded(
-              child: SlideInUp(
-                child: FadeInUp(
-                  child: Container(
-                    //height: 210.h,
-                    decoration: BoxDecoration(
-                      borderRadius: pTheme.slidingPanelRadius,
-                      color: ashGray,
-                    ),
-                    //color: federalBlue,
-                    padding: pTheme.slidingPanelPadding,
-                    child: ClipRRect(
-                      borderRadius: pTheme.slidingPanelRadius,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 330.w,
-                            padding: EdgeInsets.only(left: 1.5.w),
-                            child: TextFormField(
-                              maxLines: 1,
-                              //maxLength: 6,
-                              cursorColor: chocolateCosmos,
-                              cursorWidth: 1.2.r,
-                              controller: tController,
-                              //textAlign: TextAlign.center,
-
-                              //controller: controller,
-                              keyboardType: TextInputType.none,
-
-                              //onFieldSubmitted: (x) => onSubmitted(),
-                              //onEditingComplete: onSubmitted(),
-                              style: TextStyle(
-                                fontSize: 24.r,
-                                height: 1.8.r,
-                                letterSpacing: 4.5.r,
-                              ),
-
-                              decoration: InputDecoration(
-                                hintText: 'Type the emoji to enter avatar code',
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  letterSpacing: 0,
-                                  fontSize: 15.r,
-                                  color: richBlack,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                                isDense: true,
-                                isCollapsed: false,
-                                suffixIcon: Container(
-                                  constraints:
-                                      BoxConstraints.tight(Size.square(30.r)),
-                                  child: IconButton(
-                                    //onPressed: onSubmitted(),
-                                    onPressed: () {
-                                      if (_a.isNotEmpty) {
-                                        List<String> b = _a.split('');
-                                        b.removeLast();
-
-                                        tController.text = b
-                                            .map((e) => emojiArr[b.indexOf(e)])
-                                            .join();
-                                      }
-                                    },
-                                    icon: Icon(
-                                      Icons.backspace,
-                                      size: 21.r,
-                                      color: cornellRed,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Gap(24.r),
-                          Expanded(
-                            child: GridView.custom(
-                              //scrollDirection: Axis.horizontal,
-                              gridDelegate: SliverWovenGridDelegate.count(
-                                crossAxisCount: 8,
-                                //mainAxisSpacing: 1.5.r,
-                                //crossAxisSpacing: 1.5.r,
-                                pattern: [
-                                  const WovenGridTile(1, crossAxisRatio: 0.9),
-                                  const WovenGridTile(1, crossAxisRatio: 0.9),
-                                  const WovenGridTile(1),
-                                ],
-                              ),
-                              childrenDelegate: SliverChildBuilderDelegate(
-                                (_, index) => Container(
-                                  padding: EdgeInsets.all(4.5.r),
-                                  alignment: Alignment.center,
-                                  child: InkWell(
-                                    child: Text(emojiArr[index]),
-                                    onTap: () {
-                                      setState(() => _a += "$index");
-                                      tController.text += emojiArr[index];
-                                    },
-                                  ),
-                                ),
-                                childCount: 8,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            )*/ /*
-
-
-class EnterAvatarCodeListTile extends ConsumerWidget {
-  const EnterAvatarCodeListTile({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 500),
-      height: 45.h,
-      padding: EdgeInsets.symmetric(horizontal: 15.r),
-      margin: EdgeInsets.symmetric(vertical: 1.5.r),
-      decoration: BoxDecoration(
-        color: mockInteger(0, 9) == 9
-            ? gridColor[mockInteger(0, 2)].withOpacity(1)
-            : null,
-        borderRadius: BorderRadius.circular(3.r),
-      ),
-      alignment: Alignment.center,
-      child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 4.5.r),
-        leadingAndTrailingTextStyle: TextStyle(
-          fontFamily: 'Montserrat',
-          color: gray,
-          fontSize: 12.r,
-        ),
-        dense: true,
-        //isThreeLine: true,
-        subtitleTextStyle: TextStyle(fontSize: 9.r),
-        //subtitle: Text("ss"),
-        horizontalTitleGap: 1.5.r,
-        leading: Container(
-          constraints: BoxConstraints.tight(Size(72.w, 30.h)),
-          alignment: Alignment.topLeft,
-          child: Row(
-            children: [
-              Icon(
-                Icons.timer_outlined,
-                size: 15.r,
-                color: drabDarkBrown,
-              ),
-              Gap(4.5.r),
-              AutoSizeText(
-                "${mockInteger(1, 12).toString().padLeft(2, '0')}: ${mockInteger(1, 59).toString().padLeft(2, '0')} PM",
-                stepGranularity: 1.5,
-                overflow: TextOverflow.ellipsis,
-                minFontSize: 6,
-                maxFontSize: 9,
-              ),
-            ],
-          ),
-        ),
-        titleTextStyle: TextStyle(
-          fontSize: 10.5.r,
-          fontFamily: 'Montserrat',
-          color: federalBlue,
-          fontWeight: FontWeight.normal,
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        leadingWidth: 0,
+        leading: Container(),
+        toolbarHeight: 120.h,
+        titleSpacing: 0,
+        centerTitle: true,
         title: Container(
-          margin: EdgeInsets.only(bottom: 12.r),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 12.r,
-                child: RandomAvatar(mockString()),
+          height: 90.h,
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: TextFormField(
+            //minLines: 1,
+            expands: true,
+            maxLines: null,
+            maxLength: 6,
+            controller: _controller,
+            keyboardType: TextInputType.none,
+            cursorColor: drabDarkBrown,
+            onTap: () {
+              if (panelController.isPanelClosed) {
+                panelController.open();
+              }
+            },
+            //showCursor: false,
+
+            style: TextStyle(
+              color: chocolateCosmos,
+              fontSize: 24.r,
+              height: 1.35.r,
+              fontWeight: FontWeight.normal,
+              letterSpacing: 0.12.r,
+            ),
+            decoration: InputDecoration(
+              hintText: [
+                'Type new emojis to share new avatar',
+                'Put new emojis to share new avatar.',
+              ][mockInteger(0, 1)],
+              icon: InkWell(
+                onTap: () async {
+                  final clipboardData =
+                      await Clipboard.getData(Clipboard.kTextPlain);
+                  String? clipboardText = clipboardData?.text;
+                  _controller.text = clipboardText ?? "";
+                },
+                child: const Icon(Icons.content_paste_go),
               ),
-              Gap(9.r),
-              AutoSizeText(
-                myRandomName(),
-                minFontSize: 9,
-                maxFontSize: 12,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 13.2.r),
+              iconColor: gray,
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 0.45.r, color: gray),
+                borderRadius: BorderRadius.circular(45.r),
+                gapPadding: 0,
               ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 18.r),
-                child: const Icon(
-                  Icons.arrow_right_alt,
-                  color: gray,
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 0.3.r, color: richBlack),
+                borderRadius: BorderRadius.circular(45.r),
+                gapPadding: 0,
+              ),
+              suffixIcon: InkWell(
+                onTap: _onBackspacePressed,
+                child: Container(
+                  margin: EdgeInsets.only(right: 7.5.w),
+                  child: Icon(Icons.backspace, size: 24.r, color: hookerGreen),
                 ),
               ),
-              CircleAvatar(
-                radius: 12.r,
-                child: RandomAvatar(mockString()),
+              contentPadding: EdgeInsets.only(
+                left: 15.w,
+                right: 15.w,
+                bottom: 30.h,
               ),
-              Gap(9.r),
-              Expanded(
-                child: AutoSizeText(
-                  myRandomName(),
-                  style: TextStyle(fontSize: 13.2.r),
-                  overflow: TextOverflow.ellipsis,
-                  minFontSize: 9,
-                  maxFontSize: 12,
-                ),
+              hintStyle: TextStyle(
+                fontFamily: 'Poppins',
+                letterSpacing: 0,
+                fontSize: 13.5.r,
+                color: gray,
+                fontWeight: FontWeight.w300,
               ),
-            ],
+              counterStyle: TextStyle(
+                fontFamily: 'Poppins',
+                letterSpacing: 1.2.r,
+                color: gray,
+              ),
+              isDense: false,
+              isCollapsed: false,
+            ),
           ),
+        ),
+      ),
+      body: SafeArea(
+        child: SlidingUpPanel(
+          backdropEnabled: true,
+          controller: panelController,
+          minHeight: 0,
+          maxHeight: 240.h,
+          panel: EmojiPicker(
+            onEmojiSelected: (Category? category, Emoji emoji) {
+              //_controller.text += emoji.emoji;
+              // Do something when emoji is tapped (optional)
+            },
+
+            textEditingController: _controller,
+            // pass here the same [TextEditingController] that is connected to your input field, usually a [TextFormField]
+            config: Config(
+              //height: 256,
+              // bgColor: const Color(0xFFF2F2F2),
+              checkPlatformCompatibility: true,
+              emojiViewConfig: EmojiViewConfig(
+                emojiSizeMax: 28 *
+                    (foundation.defaultTargetPlatform == TargetPlatform.iOS
+                        ? 1.20
+                        : 1.0),
+              ),
+              swapCategoryAndBottomBar: false,
+              skinToneConfig: const SkinToneConfig(),
+              categoryViewConfig: const CategoryViewConfig(),
+              bottomActionBarConfig: BottomActionBarConfig(
+                customBottomActionBar: (_, __, ___) => Container(),
+              ),
+              searchViewConfig: SearchViewConfig(
+                customSearchView: (_, __, ___) => Container(),
+              ),
+            ),
+          ),
+          body: const _PassAvatarState(),
+          onPanelClosed: () => FocusScope.of(context).unfocus(),
         ),
       ),
     );
   }
 }
-*/
+
+class _PassAvatarState extends ConsumerWidget {
+  const _PassAvatarState();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final MyUser? myUser = ref.watch(myUserProvider).value;
+
+    final num passAvatarCount = ref.watch(strPassAvatarCountProvider).maybeWhen(
+          orElse: () => 0,
+          data: (x) => x,
+        );
+
+    return Column(
+      children: [
+        AspectRatio(
+          aspectRatio: (myUser?.avatar?.isNotEmpty ?? false) ? 1.2 : 1.5,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 500),
+            decoration: const BoxDecoration(color: majorelleBlue),
+            child: Stack(
+              children: [
+                if (myUser?.avatar?.isNotEmpty ?? false)
+                  Positioned.fill(
+                    bottom: -90.r,
+                    right: -120.r,
+                    left: 210.r,
+                    child: FadeInUp(
+                      child: RandomAvatar(
+                        myUser?.avatar ?? mockString(4),
+                        trBackground: true,
+                      ),
+                    ),
+                  ),
+                Positioned(
+                  left: 15.r,
+                  top: 24.r,
+                  right: 15.r,
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _TapAvatarText(),
+                      _TapAvatarCloseButton(),
+                    ],
+                  ),
+                ),
+                Positioned(
+                  left: 7.5.r,
+                  top: 60.h,
+                  child: DottedBorder(
+                    borderType: BorderType.RRect,
+                    dashPattern: [9.r, 4.5.r],
+                    color: ghostWhite,
+                    strokeWidth: 1,
+                    radius: Radius.circular(30.r),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+                    child: InkWell(
+                      onTap: () => Clipboard.setData(
+                        ClipboardData(text: myUser?.avatarCode ?? ""),
+                      ),
+                      child: Container(
+                        width: 150.w,
+                        margin: EdgeInsets.symmetric(horizontal: 15.w),
+                        alignment: Alignment.center,
+                        child: AutoSizeText(
+                          myUser?.avatarCode ?? "",
+                          style: TextStyle(
+                            fontSize: 24.r,
+                            letterSpacing: 0.3.r,
+                            color: lavenderWeb,
+                          ),
+                          maxLines: 1,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 15.r,
+                  bottom: 15.r,
+                  height: 105.h,
+                  width: 180.w,
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      dense: true,
+                      subtitle: Container(
+                        height: 21.h,
+                        alignment: Alignment.centerLeft,
+                        child: AutoSizeText(
+                          "Avatars, users shared this week",
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            letterSpacing: 0,
+                            color: ghostWhite,
+                            fontWeight: FontWeight.w300,
+                            fontSize: 12.r,
+                          ),
+                          minFontSize: 9,
+                          maxFontSize: 12,
+                          maxLines: 1,
+                          wrapWords: false,
+                        ),
+                      ),
+                      title: Container(
+                        height: 48.h,
+                        alignment: Alignment.bottomLeft,
+                        child: AnimatedFlipCounter(
+                          value: passAvatarCount,
+                          wholeDigits: 2,
+                          textStyle: TextStyle(
+                            fontSize: 30.r,
+                            fontFamily: 'Montserrat',
+                            letterSpacing: 0.3.r,
+                            color: ghostWhite,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Gap(15.r),
+        const _PassAvatarAnimatedList(),
+      ],
+    );
+  }
+}
+
+class _TapAvatarText extends StatelessWidget {
+  const _TapAvatarText();
+
+  @override
+  Widget build(BuildContext context) {
+    return AutoSizeText(
+      "Tap and share the below code to get a new avatar",
+      maxLines: 1,
+      style: TextStyle(
+        fontFamily: 'Poppins',
+        color: ghostWhite,
+        fontSize: 21.r,
+        fontWeight: FontWeight.normal,
+      ),
+      minFontSize: 9,
+      maxFontSize: 12,
+      stepGranularity: 1.5,
+    );
+  }
+}
+
+class _TapAvatarCloseButton extends StatelessWidget {
+  const _TapAvatarCloseButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => context.router.pop(),
+      child: Icon(
+        Icons.close,
+        size: 21.r,
+        color: lavenderWeb,
+      ),
+    );
+  }
+}
+
+class _PassAvatarAnimatedList extends ConsumerWidget {
+  const _PassAvatarAnimatedList();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      height: 300.h,
+      child: FirebaseAnimatedList(
+        query: ref.read(passAvatarQueryProvider),
+        reverse: true,
+        itemBuilder: (_, DataSnapshot snapshot, animation, index) {
+          final Map map = snapshot.value as Map;
+          final Map<String, dynamic> json = Map.from(map);
+          PassAvatar passAvatar = PassAvatar.fromJson(json);
+          return PassAvatarListTile(passAvatar);
+        },
+      ),
+    );
+  }
+}

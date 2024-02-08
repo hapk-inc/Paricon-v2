@@ -101,7 +101,7 @@ class ViewLeaderBoard extends ConsumerWidget {
                                       child: Container(
                                         alignment: Alignment.centerLeft,
                                         child: ref
-                                            .watch(xUserProvider(xID))
+                                            .watch(xPlayerProvider(xID))
                                             .maybeWhen(
                                               data: (a) => AnimatedSwitcher(
                                                 duration: const Duration(

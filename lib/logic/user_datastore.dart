@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mock_data/mock_data.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../model/board.dart';
@@ -12,6 +11,7 @@ import '../model/play_stats.dart';
 import 'auth_provider.dart';
 import 'firebase_init.dart';
 import 'game_setup_provider.dart';
+import 'pass_avatar_provider.dart';
 
 final Provider<UserDatastore> userDatastoreProvider =
     Provider<UserDatastore>((ref) => UserDatastore(ref));
@@ -77,9 +77,13 @@ class UserDatastore {
       ref.read(packageInfoProvider.future).then((value) => value.version);
 
   Future get newAvatarCode async {
-    final String avatarCode =
-        List.generate(6, (index) => mockInteger(1, 8).toString()).join();
-    return myDocRef.update({'avatarCode': avatarCode});
+    //final String avatarCode =
+    //    List.generate(6, (index) => mockInteger(1, 8).toString()).join();
+    return myDocRef.update(
+      {
+        'avatarCode': ref.read(newAvatarCodeProvider),
+      },
+    );
   }
 
   Future<MyUser?> xUser(String x) => userColl.doc(x).get().then(
@@ -139,4 +143,36 @@ class UserDatastore {
   }
 
   Future setAvatar(String value) => myDocRef.update({'avatar': value});
+
+  Future<List<String>> searchAvatarCode(String code) =>
+      userColl.where('avatarCode', isEqualTo: code).get().then(
+        (QuerySnapshot snapshot) {
+          return snapshot.size == 0
+              ? []
+              : snapshot.docs.map((e) => e.id).toList();
+        },
+      );
+
+  Future newAvatarUserId(String xId) => myDocRef.update(
+        {
+          'newPassAvatar': FieldValue.arrayUnion([xId]),
+        },
+      );
+
+  Future<List<String>> get passAvatar => myDocRef.get().then(
+        (DocumentSnapshot snapshot) {
+          if (snapshot.exists) {
+            Map map = snapshot.data() as Map;
+            debugPrint("166-$map");
+            List<String> x =
+                //(snapshot.data() as Map)['newPassAvatar'] as List<String>;
+                map.containsKey('newPassAvatar')
+                    ? (map['newPassAvatar'] as List).cast<String>()
+                    : [];
+            return x;
+          }
+          return [];
+        },
+      );
+  //Stream<String> onNewAvatarUserId => myDocRef.
 }

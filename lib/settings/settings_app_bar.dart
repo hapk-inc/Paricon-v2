@@ -20,17 +20,20 @@ AppBar settingAppBar(BuildContext context) => AppBar(
             key: ValueKey(myUser?.name ?? ""),
             duration: const Duration(milliseconds: 500),
             child: AutoSizeText.rich(
-              TextSpan(children: [
-                TextSpan(text: "${myUser?.name ?? ""} "),
-                TextSpan(
-                  text: "#${myUser?.id.toString() ?? ""}",
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.normal,
-                    fontSize: 12.r,
-                  ),
-                ),
-              ]),
+              TextSpan(
+                children: [
+                  TextSpan(text: "Settings")
+                  /*TextSpan(text: "${myUser?.name ?? ""} "),
+                  TextSpan(
+                    text: "#${myUser?.id.toString() ?? ""}",
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.normal,
+                      fontSize: 12.r,
+                    ),
+                  ),*/
+                ],
+              ),
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           );

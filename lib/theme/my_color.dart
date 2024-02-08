@@ -103,3 +103,5 @@ const Color seaSalt = Color(0xffF8F6F6);
 
 const Color ashGray = Color(0xffc7d6d5);
 const Color crayola = Color(0xffef798a);
+
+const Color pear = Color(0xffd6d84f);

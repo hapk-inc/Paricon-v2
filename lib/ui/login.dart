@@ -22,9 +22,14 @@ final PanelController _panelController = PanelController();
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 @RoutePage()
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     debugPrint("Welcome to Login");
@@ -34,7 +39,9 @@ class LoginPage extends StatelessWidget {
       const Duration(milliseconds: 500),
       () {
         if (!_panelController.isPanelOpen) {
-          _panelController.open();
+          if (mounted) {
+            _panelController.open();
+          }
         }
       },
     );
@@ -112,6 +119,11 @@ class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
   void changeFlag(bool flag) {
     if (mounted) {
       setState(() => isLoading = flag);
+      if (isLoading) {
+        _panelController.close();
+      } else {
+        _panelController.open();
+      }
     }
   }
 

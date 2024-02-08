@@ -50,7 +50,7 @@ class PlayFriendScoreboard extends ConsumerWidget {
         children: [
           //Gap(12.r),
           Container(
-            height: 60.h,
+            height: 54.h,
             //color: cornellRed,
             padding: EdgeInsets.all(3.r),
             child: Stack(

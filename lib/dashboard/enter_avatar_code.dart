@@ -19,17 +19,7 @@ class EnterAvatarCode extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tTheme = Theme.of(context).textTheme;
     final MyUser? myUser = ref.watch(myUserProvider).value;
-    /* final String avatarCodeTxt = myUser == null
-        ? ""
-        : myUser.avatarCode!
-            .split('')
-            .map((e) => emojiArr[int.parse(e)])
-            .join();*/
-    List<Widget> animatedEmojiList = myUser?.avatarCode
-            ?.split('')
-            .map((e) => animatedEmojiArr[int.parse(e)])
-            .toList() ??
-        <Widget>[];
+
     return myUser == null
         ? Container()
         : Container(
@@ -85,9 +75,10 @@ class EnterAvatarCode extends ConsumerWidget {
                 Gap(30.r),
                 Container(
                   height: 54.h,
+                  width: 300.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(7.5.r),
-                    border: Border.all(color: gray, width: 0.75.r),
+                    border: Border.all(color: gray, width: 0.45.r),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
                   child: ClipRRect(
@@ -99,12 +90,12 @@ class EnterAvatarCode extends ConsumerWidget {
                           child: AnimatedSwitcher(
                             duration: const Duration(milliseconds: 500),
                             key: ValueKey(myUser.avatarCode),
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (_, index) =>
-                                  animatedEmojiList[index],
-                              itemCount: 6,
-                              separatorBuilder: (_, __) => Gap(1.5.r),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                myUser.avatarCode ?? "",
+                                style: TextStyle(fontSize: 24.r),
+                              ),
                             ),
                           ),
                         ),
