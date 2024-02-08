@@ -9,7 +9,6 @@ import 'package:paricon/logic/user_provider.dart';
 import 'package:paricon/theme/my_theme.dart';
 import 'package:random_avatar/random_avatar.dart';
 
-import '../logic/my_names.dart';
 import '../model/my_user.dart';
 import '../model/pass_avatar.dart';
 import '../theme/my_color.dart';

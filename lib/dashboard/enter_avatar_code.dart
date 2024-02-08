@@ -10,7 +10,6 @@ import '../logic/user_provider.dart';
 import '../model/my_user.dart';
 import '../router/my_route.dart';
 import '../theme/my_color.dart';
-import '../theme/my_theme.dart';
 
 class EnterAvatarCode extends ConsumerWidget {
   const EnterAvatarCode({super.key});

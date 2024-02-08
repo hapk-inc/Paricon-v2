@@ -22,7 +22,6 @@ class PlayFriendScoreboard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pTheme = SlidingPanelTheme();
-    final User? user = ref.watch(authUserProvider).value;
 
     final List<LocalPlayer> players = board.players.values.toList();
     players.sort((a, b) => b.pts.compareTo(a.pts));
