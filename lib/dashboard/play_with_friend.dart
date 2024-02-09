@@ -53,7 +53,18 @@ class PlayWithFriend extends ConsumerWidget {
               left: 60.r,
               right: 60.r,
               top: -15.r,
-              child: Lottie.asset('lottie/friends-playing.json'),
+              child: InkWell(
+                splashColor: Colors.transparent,
+                onTap: !goToPlayOnline
+                    ? () => ScaffoldMessenger.of(context)
+                        .showSnackBar(_stillInProgress)
+                    : () {
+                        dNotifier.dWidget = const CreateGameRoom();
+                        dNotifier.dHeight = aR > 2.3 ? 300.h : 270.h;
+                        ref.read(dashboardPanelProvider).open();
+                      },
+                child: Lottie.asset('lottie/friends-playing.json'),
+              ),
             ),
             Container(
               height: 150.h,

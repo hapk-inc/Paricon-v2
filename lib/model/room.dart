@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../logic/room_level_notifier.dart';
@@ -19,6 +20,13 @@ class Room with _$Room {
   }) = _Room;
 
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
+
+  factory Room.fromSnapshot(DataSnapshot snapshot) {
+    Map map = snapshot.value as Map;
+    Map<String, dynamic> json = Map<String, dynamic>.from(map);
+    final Room room = Room.fromJson(json);
+    return room;
+  }
 }
 
 /*

@@ -39,6 +39,6 @@ final Provider<int> onlinePlayerProvider = Provider<int>(
   (ref) {
     final remoteConfig = ref.watch(remoteConfigProvider);
     final int onlineCount = remoteConfig.getInt('onlineCount');
-    return onlineCount;
+    return onlineCount == 0 ? 1 : onlineCount;
   },
 );

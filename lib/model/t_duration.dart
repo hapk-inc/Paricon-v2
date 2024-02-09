@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 't_duration.freezed.dart';
@@ -16,4 +17,11 @@ class TDuration with _$TDuration {
 
   factory TDuration.fromJson(Map<String, dynamic> json) =>
       _$TDurationFromJson(json);
+
+  factory TDuration.fromSnapshot(DataSnapshot snapshot) {
+    Map<String, dynamic> json =
+        Map<String, dynamic>.from(snapshot.value as Map);
+    TDuration tD = TDuration.fromJson(json);
+    return tD;
+  }
 }

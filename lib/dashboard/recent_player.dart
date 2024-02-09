@@ -92,7 +92,7 @@ class RecentPlayerTile extends ConsumerWidget {
               shape: const CircleBorder(),
               child: CircleAvatar(
                 radius: 33.r,
-                backgroundColor: violetBlue,
+                backgroundColor: xUser.isPlaying ? darkPastelGreen : violetBlue,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 500),
                   child: xUser.avatar == null

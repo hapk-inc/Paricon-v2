@@ -116,14 +116,16 @@ class PassAvatarListTile extends ConsumerWidget {
                   CircleAvatar(radius: 12.r, child: RandomAvatar(mockString())),
                   Gap(9.r),
                 ],
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 90.w),
-                  child: AutoSizeText(
-                    toUser.name,
-                    style: TextStyle(fontSize: 13.2.r),
-                    overflow: TextOverflow.ellipsis,
-                    minFontSize: 9,
-                    maxFontSize: 12,
+                Expanded(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 90.w),
+                    child: AutoSizeText(
+                      toUser.name,
+                      style: TextStyle(fontSize: 13.2.r),
+                      overflow: TextOverflow.ellipsis,
+                      minFontSize: 9,
+                      maxFontSize: 12,
+                    ),
                   ),
                 ),
               ]

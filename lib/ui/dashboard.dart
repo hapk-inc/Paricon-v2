@@ -228,6 +228,10 @@ class _Dashboard extends ConsumerWidget {
               child: EnterAvatarCode(),
             ),
           ],
+          /*const StaggeredGridTile.fit(
+            crossAxisCellCount: 20,
+            child: NewReceivedAvatar(),
+          ),*/
           Gap(270.r),
         ],
       ),

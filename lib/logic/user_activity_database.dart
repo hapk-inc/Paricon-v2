@@ -111,5 +111,6 @@ class UserDatabase {
       .onValue
       .map((event) => event.snapshot.value as num);
 
-  Query get passAvatarQuery => passAvatarReference.orderByChild('createdAt');
+  Query get passAvatarQuery =>
+      passAvatarReference.orderByChild('createdAt').limitToLast(10);
 }

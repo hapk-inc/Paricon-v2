@@ -1,10 +1,13 @@
+import 'package:animated_flip_counter/animated_flip_counter.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:paricon/theme/my_theme.dart';
+import 'package:mock_data/mock_data.dart';
 
 import '../logic/auth_provider.dart';
 import '../logic/t_score.dart';
@@ -12,8 +15,9 @@ import '../logic/tournament_database.dart';
 import '../model/my_user.dart';
 import '../model/t_duration.dart';
 import '../theme/my_color.dart';
+import '../theme/my_theme.dart';
 
-const List<double> _colSize = [0.12, 0.42, 0.36];
+const List<double> _colSize = [0.10, 0.44, 0.36];
 const List<String> colName = ['Rank', 'Name', 'Duration'];
 
 const int tableCount = 5;
@@ -93,45 +97,6 @@ class OpenChallengeTable extends ConsumerWidget {
   }
 }
 
-/*  Container(
-            height: 48.h,
-            padding: EdgeInsets.symmetric(horizontal: 12.w),
-
-            //color: cornellRed,
-            alignment: Alignment.centerLeft,
-            child: DefaultTextStyle(
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 18.r,
-                color: chocolateCosmos,
-              ),
-              child: AnimatedTextKit(
-                repeatForever: true,
-                pause: const Duration(seconds: 3),
-                animatedTexts: [
-                  RotateAnimatedText(
-                    'Recently Played',
-                    alignment: Alignment.centerLeft,
-                    rotateOut: false,
-                    duration: const Duration(milliseconds: 500),
-                  ),
-                  RotateAnimatedText(
-                    'This week 3 players played so far',
-                    alignment: Alignment.centerLeft,
-                    rotateOut: false,
-                    duration: const Duration(milliseconds: 500),
-                  ),
-                  RotateAnimatedText(
-                    'Your rank is ',
-                    alignment: Alignment.centerLeft,
-                    rotateOut: false,
-                    duration: const Duration(milliseconds: 500),
-                  ),
-                ],
-              ),
-            ),
-          ),*/
-
 DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
     MyUser? xUser, TDuration tD) {
   final double pW = constraints.maxWidth;
@@ -143,9 +108,13 @@ DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
           width: pW * _colSize[0],
           margin: EdgeInsets.only(left: pW * 0.03),
           alignment: Alignment.centerLeft,
-          child: Text(
-            "${myRank + 1}".padLeft(2, '0'),
-            style: TextStyle(color: isMe ? lightOrange : cardinal),
+          child: AnimatedFlipCounter(
+            value: myRank + 1,
+            textStyle: TextStyle(
+              color: isMe ? lightOrange : cardinal,
+              letterSpacing: 0,
+            ),
+            wholeDigits: 2,
           ),
         ),
       ),
@@ -153,10 +122,45 @@ DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
         Container(
           width: pW * _colSize[1],
           alignment: Alignment.centerLeft,
-          child: AutoSizeText(
-            xUser == null ? "" : firstCaps(xUser.name),
-            style: TextStyle(color: isMe ? lightOrange : hookerGreen),
-            maxLines: 1,
+          child: Row(
+            children: [
+              if (tD.firstTime) ...[
+                AnimatedTextKit(
+                  animatedTexts: [
+                    ColorizeAnimatedText(
+                      'First\nTime',
+                      textStyle: TextStyle(
+                        fontSize: 13.5.r,
+                        fontFamily: 'LuckiestGuy',
+                        letterSpacing: 0.72.r,
+                        height: 1.5.r,
+                      ),
+                      colors: isMe ? [ghostWhite, ghostWhite] : colorizedColor,
+                    ),
+                  ],
+                  totalRepeatCount: isMe ? 1 : 3,
+                  //repeatForever: true,
+                  onTap: () {
+                    print("Tap Event");
+                  },
+                ),
+                Gap(15.r),
+              ],
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: tD.firstTime ? 90.w : double.infinity,
+                ),
+                child: AutoSizeText(
+                  xUser == null ? "" : firstCaps(xUser.name),
+                  style: TextStyle(
+                    color: isMe ? lightOrange : hookerGreen,
+                    letterSpacing: 0,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )
+            ],
           ),
         ),
       ),

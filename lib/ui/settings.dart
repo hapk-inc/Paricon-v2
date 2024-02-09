@@ -104,7 +104,7 @@ class SettingsPage extends ConsumerWidget {
         panel: const Center(child: ChangeName()),
         color: magnolia,
         minHeight: 0,
-        maxHeight: 210.h,
+        maxHeight: 192.h,
         onPanelClosed: () {
           FocusScope.of(context).unfocus();
         },

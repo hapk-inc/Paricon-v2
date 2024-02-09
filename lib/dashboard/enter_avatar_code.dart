@@ -41,13 +41,16 @@ class EnterAvatarCode extends ConsumerWidget {
                             WidgetSpan(
                               child: SizedBox.square(
                                 dimension: 45.r,
-                                child: const AnimatedEmoji(
-                                  AnimatedEmojis.wrappedGift,
+                                child: Padding(
+                                  padding: EdgeInsets.all(3.r),
+                                  child: const AnimatedEmoji(
+                                    AnimatedEmojis.wrappedGift,
+                                  ),
                                 ),
                               ),
                             ),
                             const TextSpan(
-                                text: " Gift your friends, a new avatars")
+                                text: "Gift your friends, a new avatars")
                           ],
                           style: tTheme.bodyMedium!.copyWith(
                             height: 1.8.r,
@@ -60,7 +63,7 @@ class EnterAvatarCode extends ConsumerWidget {
                         "Share the code below "
                         "and present them with new avatars.",
                         style: tTheme.bodySmall!.copyWith(
-                          color: chocolateCosmos,
+                          color: gray,
                           letterSpacing: 0,
                         ),
                         stepGranularity: 1.5,
@@ -77,7 +80,7 @@ class EnterAvatarCode extends ConsumerWidget {
                   width: 300.w,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(7.5.r),
-                    border: Border.all(color: gray, width: 0.45.r),
+                    border: Border.all(color: frenchGray, width: 0.45.r),
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
                   child: ClipRRect(
@@ -93,7 +96,10 @@ class EnterAvatarCode extends ConsumerWidget {
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 myUser.avatarCode ?? "",
-                                style: TextStyle(fontSize: 24.r),
+                                style: TextStyle(
+                                  fontSize: 21.r,
+                                  letterSpacing: 0.75.r,
+                                ),
                               ),
                             ),
                           ),

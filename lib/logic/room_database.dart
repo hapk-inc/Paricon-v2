@@ -48,23 +48,6 @@ class RoomDatabase {
     return key;
   }
 
-  /*Future<Room?> get hostRoom => id == null
-      ? Future.value(null)
-      : id!.isEmpty
-          ? Future.value(null)
-          : roomReference.once().then(
-              (DatabaseEvent databaseEvent) {
-                if (databaseEvent.snapshot.exists) {
-                  Map<String, dynamic> json = Map<String, dynamic>.from(
-                      databaseEvent.snapshot.value as Map);
-                  Room room = Room.fromJson(json);
-                  return room;
-                } else {
-                  return null;
-                }
-              },
-            );*/
-
   Stream<Room?> get sGameRoom {
     late StreamController<Room?> controller;
     controller = StreamController<Room?>(

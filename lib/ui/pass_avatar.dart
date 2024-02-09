@@ -240,7 +240,7 @@ class _PassAvatarState extends ConsumerWidget {
     return Column(
       children: [
         AspectRatio(
-          aspectRatio: (myUser?.avatar?.isNotEmpty ?? false) ? 1.2 : 1.5,
+          aspectRatio: (myUser?.avatar?.isNotEmpty ?? false) ? 1.35 : 1.5,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 500),
             decoration: const BoxDecoration(color: majorelleBlue),
@@ -249,7 +249,7 @@ class _PassAvatarState extends ConsumerWidget {
                 if (myUser?.avatar?.isNotEmpty ?? false)
                   Positioned.fill(
                     bottom: -90.r,
-                    right: -120.r,
+                    right: -60.r,
                     left: 210.r,
                     child: FadeInUp(
                       child: RandomAvatar(
@@ -404,11 +404,16 @@ class _PassAvatarAnimatedList extends ConsumerWidget {
       height: 300.h,
       child: FirebaseAnimatedList(
         query: ref.read(passAvatarQueryProvider),
-        reverse: true,
+        physics: const NeverScrollableScrollPhysics(),
+        sort: (a, b) {
+          final PassAvatar x = PassAvatar.fromSnapshot(a);
+          final PassAvatar y = PassAvatar.fromSnapshot(b);
+          return y.createdAt.compareTo(x.createdAt);
+        },
+
+        //reverse: true,
         itemBuilder: (_, DataSnapshot snapshot, animation, index) {
-          final Map map = snapshot.value as Map;
-          final Map<String, dynamic> json = Map.from(map);
-          PassAvatar passAvatar = PassAvatar.fromJson(json);
+          PassAvatar passAvatar = PassAvatar.fromSnapshot(snapshot);
           return PassAvatarListTile(passAvatar);
         },
       ),

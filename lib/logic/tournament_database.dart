@@ -14,7 +14,8 @@ import 'firebase_init.dart';
 
 final tournamentDatabaseProvider = Provider((ref) => TournamentDatabase(ref));
 
-final recentTourListProvider = StreamProvider<List<TDuration>>(
+final StreamProvider<List<TDuration>> recentTourListProvider =
+    StreamProvider<List<TDuration>>(
   (ref) {
     final tDatabase = ref.read(tournamentDatabaseProvider);
     return tDatabase.recentTourList;
@@ -102,9 +103,7 @@ class TournamentDatabase {
           if (event.snapshot.exists) {
             List<TDuration> tList = [];
             for (final child in event.snapshot.children) {
-              Map<String, dynamic> json =
-                  Map<String, dynamic>.from(child.value as Map);
-              TDuration tD = TDuration.fromJson(json);
+              TDuration tD = TDuration.fromSnapshot(child);
               tList.add(tD);
             }
             subject.add(tList);
@@ -157,13 +156,13 @@ class TournamentDatabase {
     final now = DateTime.now();
 
     WriteBatch batch = firebaseFirestore.batch();
-    batch.set(
+    /*batch.set(
       userDoc.collection('played').doc(mockString(8)),
       {
         "playedAt": now.toIso8601String(),
         "tDuration": tDuration.inMicroseconds,
       },
-    );
+    );*/
     final BestD? bestD = await myBestD;
 
     final TDuration tD = TDuration(

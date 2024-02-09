@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:gap/gap.dart';
+import 'package:paricon/theme/my_color.dart';
 
 import '../logic/dashboard_panel_provider.dart';
 import '../logic/panel_provider.dart';
@@ -31,16 +32,20 @@ class DName extends ConsumerWidget {
             padding: EdgeInsets.only(left: 15.w),
             child: Row(
               children: [
-                AutoSizeText(
-                  name,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 150.w),
+                  child: AutoSizeText(
+                    name,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 Gap(12.r),
                 Align(
                   alignment: Alignment.center,
                   child: InkWell(
                     onTap: () {
-                      dNotifier.dHeight = 210.h;
+                      dNotifier.dHeight = 192.h;
                       dNotifier.dWidget = const ChangeName();
                       ref.read(dashboardPanelProvider).open();
                     },
@@ -50,7 +55,11 @@ class DName extends ConsumerWidget {
                       repeat: true,
                       animate: true,
                       onLoaded: (duration) {},
-                      errorWidget: Icon(Icons.edit, size: 30.r),
+                      errorWidget: Icon(
+                        Icons.edit,
+                        size: 30.r,
+                        color: federalBlue,
+                      ),
                     ),
                   ),
                 ),

@@ -3383,3 +3383,53 @@ class PassAvatarDatabase {
     passAvatarReference = firebaseReference.child('pass_avatar');
   }
 }*/
+
+/*  /*border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(6.r),
+                  borderSide: BorderSide(
+                    color: ghostWhite,
+                    width: 0.3.r,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(6.r),
+                  borderSide: BorderSide(
+                    color: chocolateCosmos,
+                    width: 0.3.r,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 0.3.r),
+                  borderRadius: BorderRadius.circular(6.r),
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(),
+                  borderRadius: BorderRadius.circular(6.r),
+                ),*/*/
+
+/*TextFormField(
+            controller: textEditingController,
+            keyboardType: TextInputType.name,
+            cursorHeight: 15.r,
+            scrollPadding: EdgeInsets.zero,
+            maxLines: null,
+            showCursor: false,
+            expands: true,
+            decoration: InputDecoration(contentPadding: EdgeInsets.zero),
+          ),*/
+
+//contentPadding:
+//    EdgeInsets.symmetric(horizontal: 15.w, vertical: 18.h)
+/*contentPadding: EdgeInsets.only(
+                  left: 15.w,
+                  bottom: 15.h,
+                  top: 30.h,
+                  right: 15.w,
+                ),*/
+
+/* style: TextStyle(
+                color: chocolateCosmos,
+                fontSize: 18.r,
+                height: 2.1.r,
+              ),*/
+//cursorHeight: 36.r,

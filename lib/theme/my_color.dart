@@ -105,3 +105,10 @@ const Color ashGray = Color(0xffc7d6d5);
 const Color crayola = Color(0xffef798a);
 
 const Color pear = Color(0xffd6d84f);
+const Color vividSkyBlue = Color(0xff1AC8ED);
+
+const Color claret = Color(0xff8b1e3f);
+const Color darkPurple = Color(0xff3c153b);
+const Color vermilion = Color(0xffdb4c40);
+
+const List<Color> colorizedColor = [claret, darkPurple, vermilion];
