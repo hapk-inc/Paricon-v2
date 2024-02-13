@@ -2,12 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mock_data/mock_data.dart';
-import 'package:paricon/model/my_user.dart';
+
 import 'package:rxdart/rxdart.dart';
 
-import '../dashboard/open_challenge_table.dart';
 import '../model/best_d.dart';
+import '../model/my_user.dart';
 import '../model/t_duration.dart';
 import 'auth_provider.dart';
 import 'firebase_init.dart';
@@ -63,6 +62,7 @@ class TournamentDatabase {
   late DatabaseReference tournamentReference;
   late DocumentReference bestDurationDoc;
   late DocumentReference userDoc;
+  late CollectionReference bestDReference;
 
   TournamentDatabase(this.ref) {
     firebaseFirestore = ref.read(fireStoreProvider);
@@ -71,10 +71,12 @@ class TournamentDatabase {
     userId = ref.watch(authUserProvider).value!.uid;
 
     tournamentReference = firebaseReference.child('tournament');
+    bestDReference = firebaseFirestore.collection('bestD');
     if (userId != null) {
       debugPrint("57--$userId");
       userDoc = firebaseFirestore.collection('users').doc(userId);
-      bestDurationDoc = firebaseFirestore.collection('bestD').doc(userId);
+
+      bestDurationDoc = bestDReference.doc(userId);
     }
   }
 
@@ -114,15 +116,12 @@ class TournamentDatabase {
     return subject.stream;
   }
 
-  Stream<List<String>> get bestDList => firebaseFirestore
-      .collection('bestD')
-      .orderBy('bestD')
-      .snapshots()
-      .map((event) =>
+  Stream<List<String>> get bestDList =>
+      bestDReference.orderBy('bestD').snapshots().map((event) =>
           event.size == 0 ? [] : event.docs.map((e) => e.id).toList());
 
   Future<Map<String, BestD>> get viewLeaderBoard =>
-      firebaseFirestore.collection('bestD').orderBy('bestD').get().then(
+      bestDReference.orderBy('bestD').get().then(
         (QuerySnapshot snapshot) {
           Map<String, BestD> map = {};
           if (snapshot.size != 0) {
@@ -188,3 +187,5 @@ class TournamentDatabase {
     return batch.commit();
   }
 }
+
+const int tableCount = 6;

@@ -142,7 +142,12 @@ class UserDatastore {
     return myDocRef.update({'avatarArr': x});
   }
 
-  Future setAvatar(String value) => myDocRef.update({'avatar': value});
+  Future setAvatar(String value) => myDocRef.update(
+        {
+          'avatar': value,
+          'avatarArr': FieldValue.arrayUnion([value]),
+        },
+      );
 
   Future<List<String>> searchAvatarCode(String code) =>
       userColl.where('avatarCode', isEqualTo: code).get().then(

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 const Color ghostWhite = Color(0xfffbf9ff);
+const Color ghostWhite1 = Color(0xfff8f5fb);
+const Color antiqueWhite = Color(0xfff3e6d6);
+const Color isabelline = Color(0xfff7f0eb);
+
 const Color majorelleBlue = Color(0xff724cf9);
 const Color violetBlue = Color(0xff4448ae);
 
@@ -85,6 +89,7 @@ const Color cyclamen = Color(0xfff06c9b);
 const Color mayaBlue = Color(0xff79beee);
 const Color wheat = Color(0xffead2ac);
 const Color federalBlue = Color(0xff0e0e52);
+const Color coolGray = Color(0xff8787a9);
 
 //Recent Player Panel
 const Color bloodRed = Color(0xff6e0e0a);
@@ -110,5 +115,7 @@ const Color vividSkyBlue = Color(0xff1AC8ED);
 const Color claret = Color(0xff8b1e3f);
 const Color darkPurple = Color(0xff3c153b);
 const Color vermilion = Color(0xffdb4c40);
+
+const Color emerald = Color(0xff26c485);
 
 const List<Color> colorizedColor = [claret, darkPurple, vermilion];

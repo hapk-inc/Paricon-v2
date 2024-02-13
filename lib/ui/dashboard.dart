@@ -7,17 +7,21 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
-import '../router/my_route.dart';
+
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../dashboard/d_footer.dart';
 import '../dashboard/d_name.dart';
-import '../dashboard/d_subtitle.dart';
-import '../dashboard/enter_avatar_code.dart';
+import '../dashboard/d_recent_player.dart';
+import '../dashboard/d_show_avatar.dart';
+import '../dashboard/d_tournament.dart';
+import '../dashboard/d_work_in_progress.dart';
+
 import '../dashboard/enter_tournament_code.dart';
-import '../dashboard/in_progress.dart';
+
 import '../dashboard/open_challenge_table.dart';
 import '../dashboard/play_with_friend.dart';
-import '../dashboard/recent_player.dart';
+
 import '../logic/auth_provider.dart';
 import '../logic/dashboard_panel_provider.dart';
 import '../logic/panel_provider.dart';
@@ -28,11 +32,10 @@ import '../logic/user_activity_provider.dart';
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
 import '../my_widget/my_logo.dart';
+import '../router/my_route.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
 import 'host_room.dart';
-
-const String notCompatible = 'Screen size not compatible';
 
 @RoutePage()
 class DashboardPage extends ConsumerStatefulWidget {
@@ -42,13 +45,14 @@ class DashboardPage extends ConsumerStatefulWidget {
   ConsumerState createState() => _DashboardPageState();
 }
 
+const String notCompatible = 'Screen size not compatible';
+
 class _DashboardPageState extends ConsumerState<DashboardPage>
     with WidgetsBindingObserver {
   @override
   void initState() {
     debugPrint("Dashboard Init");
     WidgetsBinding.instance.addObserver(this);
-    //ref.read(setActiveProvider(false));
     super.initState();
   }
 
@@ -71,107 +75,89 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
 
   @override
   Widget build(BuildContext context) {
+    final String inWork = ref.watch(inWorkProvider);
+    final MyUser? myUser = ref.watch(myUserProvider).value;
+    final User? fUser = ref.watch(authUserProvider).value;
+
+    final ScreenSize sSize = ref.watch(sizeProvider);
+    final bool isPhone = sSize == ScreenSize.phone;
+    final bool doNotShow =
+        (inWork.isNotEmpty && !kDebugMode) || myUser == null || fUser == null;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: FadeInRight(
+          delay: const Duration(milliseconds: 2100),
+          child: InkWell(
+            onTap: () => context.router.push(const SettingsRoute()),
+            child: Padding(
+              padding: EdgeInsets.all(15.r),
+              child: const MyLogo(),
+            ),
+          ),
+        ),
+      ),
+      body: AnimatedSwitcher(
+        duration: const Duration(microseconds: 600),
+        child: !isPhone || doNotShow
+            ? WorkInProgress(inWork: !isPhone ? notCompatible : inWork)
+            : const _DashboardSlidingPanel(),
+      ),
+    );
+  }
+}
+
+class _DashboardSlidingPanel extends ConsumerWidget {
+  const _DashboardSlidingPanel();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final dPanelNotifier = ref.watch(dashboardPanelNotifierProvider);
+    final pTheme = SlidingPanelTheme();
+
     ref.listen(
       idNotifier.select((value) => value),
       (previous, next) {
         debugPrint("75-- $next");
-        final dNotifier = ref.watch(dashboardPanelNotifierProvider);
+        //   final dNotifier = ref.watch(dashboardPanelNotifierProvider);
 
         ref.read(setPlayingProvider(next.isNotEmpty));
 
         if (next.isEmpty) {
           ref.watch(dashboardPanelProvider).close();
-          dNotifier.dMinHeight = 0.h;
+          dPanelNotifier.dMinHeight = 0.h;
           double aR = (900.h / 360.w);
-          if (aR > 2.3) {
-            debugPrint("Small Screen");
-          }
-          dNotifier.dHeight = aR > 2.3 ? 300.h : 270.h;
+          //if (aR > 2.3) debugPrint("Small Screen");
+          dPanelNotifier.dHeight = aR > 2.3 ? 300.h : 270.h;
         } else {
-          dNotifier.dMinHeight = 72.h;
+          dPanelNotifier.dMinHeight = 72.h;
           Future.delayed(
             const Duration(milliseconds: 1200),
             () {
               ref.watch(dashboardPanelProvider).open();
               double aR = 900.h / 360.w;
               bool smallSize = aR > 2.3;
-              dNotifier.dHeight = smallSize ? 480.h : 450.h;
+              dPanelNotifier.dHeight = smallSize ? 480.h : 450.h;
               //dNotifier.dWidget = const PlayFriendScoreboard({}, {});
-              dNotifier.dWidget = const HostRoom();
+              dPanelNotifier.dWidget = const HostRoom();
             },
           );
         }
       },
     );
 
-    final String inWork = ref.watch(inWorkProvider);
-    final MyUser? myUser = ref.watch(myUserProvider).value;
-    final User? fUser = ref.watch(authUserProvider).value;
-    final ScreenSize sSize = ref.watch(sizeProvider);
-    final bool isPhone = sSize == ScreenSize.phone;
-
-    final bool doNotShow =
-        (inWork.isNotEmpty && !kDebugMode) || myUser == null || fUser == null;
-
-    debugPrint(fUser.toString());
-
-    return Scaffold(
-      appBar: !isPhone
-          ? null
-          : doNotShow
-              ? null
-              : AppBar(
-                  toolbarHeight: 120.h,
-                  backgroundColor: majorelleBlue,
-                  title: FadeIn(
-                    delay: const Duration(milliseconds: 2100),
-                    child: SlideInRight(
-                      child: InkWell(
-                        onTap: () => context.router.push(const SettingsRoute()),
-                        child: Padding(
-                          padding: EdgeInsets.all(3.r),
-                          child: const MyLogo(),
-                        ),
-                      ),
-                    ),
-                  ),
-                  elevation: 3.r,
-                ),
-      backgroundColor: ghostWhite,
-      body: AnimatedSwitcher(
-        duration: const Duration(microseconds: 500),
-        child: !isPhone || doNotShow
-            ? WorkInProgress(inWork: !isPhone ? notCompatible : inWork)
-            : const _DashboardSliding(),
-      ),
-    );
-  }
-}
-
-class _DashboardSliding extends ConsumerWidget {
-  const _DashboardSliding();
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final dPanelNotifier = ref.watch(dashboardPanelNotifierProvider);
-    final pTheme = SlidingPanelTheme();
     return SlidingUpPanel(
       controller: ref.watch(dashboardPanelProvider),
       borderRadius: pTheme.slidingPanelRadius,
-      body: const SafeArea(bottom: false, child: _Dashboard()),
+      color: ghostWhite1,
+      body: const SafeArea(bottom: false, child: __Dashboard()),
+      panel: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        child: dPanelNotifier.dWidget,
+      ),
       isDraggable: false,
       backdropEnabled: true,
       backdropTapClosesPanel: ref.watch(idNotifier).isEmpty,
-      panel: Container(
-        decoration: BoxDecoration(
-          color: magnolia,
-          borderRadius: pTheme.slidingPanelRadius,
-        ),
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500),
-          child: dPanelNotifier.dWidget,
-        ),
-      ),
       onPanelClosed: () {
         FocusScope.of(context).unfocus();
       },
@@ -181,60 +167,37 @@ class _DashboardSliding extends ConsumerWidget {
   }
 }
 
-class _Dashboard extends ConsumerWidget {
-  const _Dashboard();
+class __Dashboard extends ConsumerWidget {
+  const __Dashboard();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final MyUser myUser = ref.watch(myUserProvider).value!;
-    final bool enterAvatarCode = ref.watch(enterAvatarCodeProvider);
-
-    return SingleChildScrollView(
-      padding: EdgeInsets.only(top: 30.h),
-      scrollDirection: Axis.vertical,
-      child: StaggeredGrid.count(
-        axisDirection: AxisDirection.down,
-        crossAxisCount: 20,
-        children: [
-          DName(myUser.name),
-          Gap(7.5.r),
-          DSubtitle(myUser),
-          const RecentPlayer(),
-          Gap(7.5.r),
-          const StaggeredGridTile.fit(
-            crossAxisCellCount: 20,
-            child: EnterTournamentCode(),
-          ),
-          const StaggeredGridTile.fit(
-            crossAxisCellCount: 20,
-            child: OpenChallengeTable(),
-          ),
-          Gap(15.r),
-          const PlayWithFriend(),
-          Gap(15.r),
-          if (kDebugMode ||
-              (enterAvatarCode && myUser.avatarArr.isNotEmpty)) ...[
-            StaggeredGridTile.fit(
-              crossAxisCellCount: 20,
-              child: Divider(
-                color: gray,
-                thickness: 0.3.r,
-                indent: 15.r,
-                endIndent: 15.r,
-              ),
-            ),
+  Widget build(BuildContext context, WidgetRef ref) => SingleChildScrollView(
+        child: StaggeredGrid.count(
+          crossAxisCount: 20,
+          children: [
+            Gap(15.r),
+            const StaggeredGridTile.fit(crossAxisCellCount: 20, child: DName()),
+            const RecentPlayer(),
+            Gap(7.5.r),
             const StaggeredGridTile.fit(
+                crossAxisCellCount: 20, child: DTournament()),
+            const StaggeredGridTile.fit(
+                crossAxisCellCount: 20, child: EnterTournamentCode()),
+            Gap(15.r),
+            const StaggeredGridTile.fit(
+                crossAxisCellCount: 20, child: OpenChallengeTable()),
+            Gap(15.r),
+            const PlayWithFriend(),
+            Gap(120.r),
+            const StaggeredGridTile.fit(
+                crossAxisCellCount: 20, child: ShowAvatar()),
+            const StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              child: EnterAvatarCode(),
+              mainAxisCellCount: 5.4,
+              child: DFooter(),
             ),
+            Gap(150.h),
           ],
-          /*const StaggeredGridTile.fit(
-            crossAxisCellCount: 20,
-            child: NewReceivedAvatar(),
-          ),*/
-          Gap(270.r),
-        ],
-      ),
-    );
-  }
+        ),
+      );
 }

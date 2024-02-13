@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mock_data/mock_data.dart';
 
@@ -53,43 +54,50 @@ class CardAvatarNotifier {
 final Provider<CardAvatarNotifier> cardNotifierProvider =
     Provider<CardAvatarNotifier>((ref) => CardAvatarNotifier(ref));
 
-final AutoDisposeFutureProvider<List<String>> avatarCollectionProvider =
+/*final AutoDisposeFutureProvider<List<String>> avatarCollectionProvider =
     FutureProvider.autoDispose(
   (ref) {
     final cardNotifier = ref.read(cardNotifierProvider);
     return cardNotifier.avatarCollection();
   },
-);
+);*/
 
-final AutoDisposeFutureProviderFamily newCardArrProvider =
+/*final AutoDisposeFutureProviderFamily newCardArrProvider =
     FutureProvider.autoDispose.family<void, String>(
   (ref, value) async {
     final datastore = ref.read(userDatastoreProvider);
     return datastore.newCardArr(value);
   },
-);
+);*/
 
 final AutoDisposeFutureProviderFamily setAvatarProvider =
     FutureProvider.autoDispose.family<void, String>(
   (ref, value) async {
     final datastore = ref.read(userDatastoreProvider);
-    return datastore.setAvatar(value);
+    datastore.setAvatar(value);
+
+    final database = ref.read(userDatabaseProvider);
+    database.setAvatar(value);
   },
 );
 
-final AutoDisposeFutureProviderFamily oneCardProvider =
+/*final AutoDisposeFutureProviderFamily oneCardProvider =
     FutureProvider.autoDispose.family<void, String>(
   (ref, docID) async {
-    final MyUser? myUser = ref.read(myUserProvider).value;
+    debugPrint("83--$docID");
+    final MyUser? myUser = ref.watch(myUserProvider).value;
     if (myUser != null) {
+      debugPrint("87--");
       final String oneCard =
-          await ref.read(cardNotifierProvider).oneCard(myUser.avatarArr);
+          await ref.watch(cardNotifierProvider).oneCard(myUser.avatarArr);
+      debugPrint("98--$oneCard");
       await ref.read(newCardArrProvider(oneCard).future);
       if (docID.isEmpty) {
-        await ref.read(newCardArrProvider(oneCard).future);
         await ref.read(userDatabaseProvider).setAvatar(oneCard);
         await ref.read(userDatastoreProvider).setAvatar(oneCard);
+      } else {
+        await ref.read(userDatabaseProvider).passAvatarUpdate(docID, oneCard);
       }
     }
   },
-);
+);*/

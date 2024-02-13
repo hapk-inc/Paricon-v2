@@ -8,6 +8,7 @@ TextSpan showTScore(
   double tSize = 12,
   double sSize = 9,
   String family = 'Montserrat',
+  FontWeight weight = FontWeight.normal,
 }) =>
     TextSpan(
       children: [
@@ -24,6 +25,7 @@ TextSpan showTScore(
         fontFamily: family,
         color: minute,
         fontSize: tSize.r,
+        fontWeight: weight,
       ),
     );
 

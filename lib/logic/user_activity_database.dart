@@ -1,9 +1,11 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:paricon/model/pass_avatar.dart';
+
+import 'package:rxdart/rxdart.dart';
 
 import '../model/my_user.dart';
+import '../model/pass_avatar.dart';
 import '../model/user_activity.dart';
 import '../theme/my_theme.dart';
 import 'auth_provider.dart';
@@ -113,4 +115,26 @@ class UserDatabase {
 
   Query get passAvatarQuery =>
       passAvatarReference.orderByChild('createdAt').limitToLast(10);
+
+  Query get myPassAvatarQuery {
+    debugPrint("120--${id ?? "abc"}");
+    return passAvatarReference.orderByChild('to').equalTo(id);
+    //.orderByChild('created At');
+  }
+
+  Future passAvatarUpdate(String doc, String avatar) =>
+      passAvatarReference.child(doc).update({'avatar': avatar});
+
+  Stream<bool> get hasNewAvatars {
+    late BehaviorSubject<bool> subject;
+    subject = BehaviorSubject<bool>(
+      onListen: () => myPassAvatarQuery.onValue.listen(
+        (event) {
+          final a = event.snapshot.exists;
+          subject.add(a);
+        },
+      ),
+    );
+    return subject.stream;
+  }
 }

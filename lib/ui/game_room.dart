@@ -117,7 +117,7 @@ class CreateRoomFooter extends ConsumerWidget {
                   },
             child: AutoSizeText(
               "CREATE GAME",
-              style: TextStyle(color: ghostWhite, fontSize: 14.4.r),
+              style: TextStyle(color: ghostWhite, fontSize: 13.5.r),
               maxLines: 1,
             ),
           ),
@@ -146,7 +146,7 @@ class CreateRoomFooter extends ConsumerWidget {
             child: AutoSizeText(
               "ENTER ROOM CODE",
               maxLines: 1,
-              style: TextStyle(fontSize: 14.4.r),
+              style: TextStyle(fontSize: 13.5.r),
             ),
           ),
         ],

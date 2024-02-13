@@ -1,67 +1,15 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import '../logic/auth_provider.dart';
 import 'package:random_avatar/random_avatar.dart';
 
-import '../logic/user_activity_provider.dart';
-import '../model/user_activity.dart';
-import '../theme/my_color.dart';
-import '../theme/my_theme.dart';
-
-class RecentPlayer extends ConsumerWidget {
-  const RecentPlayer({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final tTheme = Theme.of(context).textTheme.titleLarge!;
-
-    return StaggeredGridTile.fit(
-      crossAxisCellCount: 20,
-      child: Container(
-        height: 120.h,
-        alignment: Alignment.center,
-        child: FirebaseAnimatedList(
-          scrollDirection: Axis.horizontal,
-          sort: (DataSnapshot a, DataSnapshot b) {
-            Map<String, dynamic> a1 = Map<String, dynamic>.from(a.value as Map);
-            Map<String, dynamic> b1 = Map<String, dynamic>.from(b.value as Map);
-
-            final UserActivity x = UserActivity.fromJson(a1);
-            final UserActivity y = UserActivity.fromJson(b1);
-            return y.nowTime.compareTo(x.nowTime);
-          },
-          query: ref.watch(recentUserProvider),
-          padding: EdgeInsets.only(left: 15.w, top: 15.h),
-          defaultChild: FadeIn(
-            child: Center(
-              child: Text(
-                "Loading",
-                style: tTheme.copyWith(fontFamily: 'Poppins', color: gray),
-              ),
-            ),
-          ),
-          itemBuilder: (_, DataSnapshot snapshot, Animation<double> animation,
-              int index) {
-            Map<String, dynamic> json =
-                Map<String, dynamic>.from(snapshot.value as Map);
-            final UserActivity xUser = UserActivity.fromJson(json);
-
-            return FadeInRight(
-              child: RecentPlayerTile(snapshot.key ?? "", xUser),
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
+import '../../logic/auth_provider.dart';
+import '../../model/user_activity.dart';
+import '../../theme/my_color.dart';
+import '../../theme/my_theme.dart';
 
 class RecentPlayerTile extends ConsumerWidget {
   final String id;
@@ -71,6 +19,13 @@ class RecentPlayerTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tTheme = Theme.of(context).textTheme.titleLarge!;
+
+    double aR = (900.h / 360.w);
+    if (aR > 2.3) {
+      debugPrint("Small Screen");
+      //_dHeight = 300.h;
+    }
+    bool isSmallScreen = aR > 2.3;
 
     final User? user = ref.watch(authUserProvider).value;
     if (user == null) return Container();
@@ -91,16 +46,18 @@ class RecentPlayerTile extends ConsumerWidget {
               elevation: 1.5.r,
               shape: const CircleBorder(),
               child: CircleAvatar(
-                radius: 33.r,
+                radius: isSmallScreen ? 30.r : 33.r,
                 backgroundColor: xUser.isPlaying ? darkPastelGreen : violetBlue,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 500),
                   child: xUser.avatar == null
                       ? Text(
                           xUser.name!.substring(0, 2).toUpperCase(),
-                          style: tTheme.copyWith(
+                          style: TextStyle(
                             color: lightOrange,
                             letterSpacing: 0,
+                            fontSize: isSmallScreen ? 27.r : 30.r,
+                            height: 0,
                             fontFamily: "WendyOne",
                           ),
                         )

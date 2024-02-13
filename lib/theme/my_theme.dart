@@ -1,5 +1,3 @@
-import 'package:animated_emoji/animated_emoji.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -7,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'my_color.dart';
 
 //List<String> emojiArr = ["😁", "😍", "🤪", "😎", "😡", "🥺", "🤩", "😱", "🥶"];
-List<AnimatedEmoji> animatedEmojiArr = [
+/*List<AnimatedEmoji> animatedEmojiArr = [
   const AnimatedEmoji(AnimatedEmojis.smileWithBigEyes),
   const AnimatedEmoji(AnimatedEmojis.angry),
   const AnimatedEmoji(AnimatedEmojis.badminton),
@@ -17,9 +15,21 @@ List<AnimatedEmoji> animatedEmojiArr = [
   const AnimatedEmoji(AnimatedEmojis.cupid),
   const AnimatedEmoji(AnimatedEmojis.cry),
   const AnimatedEmoji(AnimatedEmojis.volcano),
-];
+];*/
+
+BorderRadius get bottomRadius => BorderRadius.only(
+      bottomLeft: Radius.circular(15.r),
+      bottomRight: Radius.circular(15.r),
+    );
 
 ThemeData get buildThemeData => ThemeData(
+      scaffoldBackgroundColor: ghostWhite,
+      appBarTheme: AppBarTheme(
+        backgroundColor: majorelleBlue,
+        //shape: RoundedRectangleBorder(borderRadius: bottomRadius),
+        toolbarHeight: 120.h,
+        elevation: 3.r,
+      ),
       textTheme: TextTheme(
         titleLarge: TextStyle(
           fontFamily: 'Poppins',
@@ -27,16 +37,17 @@ ThemeData get buildThemeData => ThemeData(
           fontWeight: FontWeight.w700,
         ),
         bodyLarge: TextStyle(
-            fontSize: 13.5.r,
-            fontFamily: 'Poppins',
-            letterSpacing: 0.12.r,
-            height: 2.4,
-            fontWeight: FontWeight.w400),
+          fontSize: 13.5.r,
+          fontFamily: 'Poppins',
+          letterSpacing: 0.12.r,
+          height: 2.4,
+          fontWeight: FontWeight.normal,
+        ),
         bodyMedium: TextStyle(
           color: violetBlue,
           fontSize: 30.r,
           fontFamily: 'WendyOne',
-          height: 0,
+          height: 1.5,
           letterSpacing: 0,
           fontWeight: FontWeight.w700,
         ),
@@ -44,7 +55,7 @@ ThemeData get buildThemeData => ThemeData(
           fontSize: 10.8.r,
           fontFamily: 'Poppins',
           fontWeight: FontWeight.normal,
-          height: 2.4.r,
+          height: 2.1,
           color: tropicalIndigo,
           letterSpacing: 0,
         ),
@@ -73,13 +84,14 @@ ThemeData get buildThemeData => ThemeData(
         ),
       ),
       snackBarTheme: SnackBarThemeData(
-        insetPadding: EdgeInsets.symmetric(vertical: 15.h),
+        insetPadding: EdgeInsets.symmetric(vertical: 30.h),
+        backgroundColor: darkPurple,
         contentTextStyle: TextStyle(
           color: ghostWhite,
-          //fontWeight: FontWeight.w300,
           fontFamily: 'Poppins',
           fontSize: 15.r,
         ),
+        elevation: 3.r,
       ),
     );
 

@@ -51,7 +51,11 @@ Future<void> main() async {
 
   if (iNet != ConnectivityResult.none) {
     debugPrint("Initialising Remote Config for connectivity $iNet");
-    await remoteConfig.fetchAndActivate();
+    try {
+      await remoteConfig.fetchAndActivate();
+    } on FirebaseException catch (e, stackTrace) {
+      firebaseCrashlytics.recordError(e, stackTrace, fatal: false);
+    }
   }
 
   //const fatalError = true;

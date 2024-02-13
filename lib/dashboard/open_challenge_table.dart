@@ -43,7 +43,7 @@ class OpenChallengeTable extends ConsumerWidget {
             final MyUser? xUser = ref.watch(xPlayerProvider(tD.userId)).value;
 
             final int myRank = bestDList.indexOf(tD.userId);
-            // final
+
             return _dataRow(isMe, constraints, myRank, xUser, tD);
           },
         );
@@ -100,6 +100,8 @@ class OpenChallengeTable extends ConsumerWidget {
 DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
     MyUser? xUser, TDuration tD) {
   final double pW = constraints.maxWidth;
+  bool showFirstTime = tD.firstTime &&
+      (DateTime.now().difference(tD.playedAt) < const Duration(hours: 12));
   return DataRow(
     color: MaterialStatePropertyAll(isMe ? bitterSweet : null),
     cells: [
@@ -124,31 +126,9 @@ DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
           alignment: Alignment.centerLeft,
           child: Row(
             children: [
-              if (tD.firstTime) ...[
-                AnimatedTextKit(
-                  animatedTexts: [
-                    ColorizeAnimatedText(
-                      'First\nTime',
-                      textStyle: TextStyle(
-                        fontSize: 13.5.r,
-                        fontFamily: 'LuckiestGuy',
-                        letterSpacing: 0.72.r,
-                        height: 1.5.r,
-                      ),
-                      colors: isMe ? [ghostWhite, ghostWhite] : colorizedColor,
-                    ),
-                  ],
-                  totalRepeatCount: isMe ? 1 : 3,
-                  //repeatForever: true,
-                  onTap: () {
-                    print("Tap Event");
-                  },
-                ),
-                Gap(15.r),
-              ],
               ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxWidth: tD.firstTime ? 90.w : double.infinity,
+                  maxWidth: showFirstTime ? 90.w : double.infinity,
                 ),
                 child: AutoSizeText(
                   xUser == null ? "" : firstCaps(xUser.name),
@@ -159,7 +139,30 @@ DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-              )
+              ),
+              if (showFirstTime) ...[
+                Gap(15.r),
+                AnimatedTextKit(
+                  pause: Duration(seconds: mockInteger(1, 5)),
+                  animatedTexts: [
+                    ColorizeAnimatedText(
+                      'First\nTime',
+                      textStyle: TextStyle(
+                        fontSize: 10.5.r,
+                        fontFamily: 'LuckiestGuy',
+                        letterSpacing: 0.72.r,
+                        height: 1.5.r,
+                      ),
+                      colors: isMe ? [ghostWhite, ghostWhite] : colorizedColor,
+                    ),
+                  ],
+                  totalRepeatCount: isMe ? 1 : 3,
+                  //repeatForever: true,
+                  onTap: () {
+                    debugPrint("Tap Event");
+                  },
+                ),
+              ]
             ],
           ),
         ),

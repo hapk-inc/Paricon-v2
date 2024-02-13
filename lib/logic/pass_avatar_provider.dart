@@ -12,8 +12,8 @@ final AutoDisposeProvider<String> newAvatarCodeProvider =
   (ref) {
     String str = List.generate(
         6,
-        <String>(int index) => defaultEmojiSet[0]
-            .emoji[mockInteger(0, defaultEmojiSet[0].emoji.length - 1)]
+        <String>(int index) => defaultEmojiSet[1]
+            .emoji[mockInteger(0, defaultEmojiSet[1].emoji.length - 1)]
             .emoji).join();
     return str;
   },
@@ -59,5 +59,12 @@ final Provider<Query> passAvatarQueryProvider = Provider<Query>(
   (ref) {
     final userDatabase = ref.read(userDatabaseProvider);
     return userDatabase.passAvatarQuery;
+  },
+);
+
+final Provider<Query> myPassAvatarQueryProvider = Provider<Query>(
+  (ref) {
+    final userDatabase = ref.read(userDatabaseProvider);
+    return userDatabase.myPassAvatarQuery;
   },
 );
