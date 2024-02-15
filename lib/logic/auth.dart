@@ -13,7 +13,6 @@ import 'package:rxdart/rxdart.dart';
 import '../model/my_user.dart';
 import 'firebase_init.dart';
 import 'my_names.dart';
-import 'pass_avatar_provider.dart';
 
 class Auth {
   final Ref ref;

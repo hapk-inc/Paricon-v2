@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../logic/user_provider.dart';
-import '../model/my_user.dart';
 import '../theme/my_color.dart';
 
 class CopyCodeButton extends ConsumerStatefulWidget {
