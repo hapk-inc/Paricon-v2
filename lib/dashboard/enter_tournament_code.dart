@@ -22,10 +22,9 @@ class EnterTournamentCode extends ConsumerWidget {
           borderRadius: BorderRadius.circular(7.5.r),
           child: Row(
             children: [
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 500),
+              Container(
                 width: 225.w,
-                color: magnolia,
+                color: magnolia1,
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
                 child: InkWell(
@@ -66,14 +65,16 @@ class EnterTournamentCode extends ConsumerWidget {
                           'START NOW',
                         ]
                             .map(
-                              (e) => ScaleAnimatedText(
+                              (e) => RotateAnimatedText(
                                 e,
-                                duration: const Duration(milliseconds: 1200),
+                                rotateOut: false,
+                                transitionHeight: 30.r,
+                                duration: const Duration(milliseconds: 300),
                               ),
                             )
                             .toList(),
                         isRepeatingAnimation: true,
-                        pause: const Duration(milliseconds: 300),
+                        pause: const Duration(milliseconds: 3000),
                         repeatForever: true,
                       ),
                     ),

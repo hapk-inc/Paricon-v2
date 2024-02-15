@@ -89,7 +89,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
         title: FadeInRight(
           delay: const Duration(milliseconds: 2100),
           child: InkWell(
-            onTap: () => context.router.push(const SettingsRoute()),
+            //onTap: () => context.router.push(const SettingsRoute()),
             child: Padding(
               padding: EdgeInsets.all(15.r),
               child: const MyLogo(),
@@ -190,13 +190,25 @@ class __Dashboard extends ConsumerWidget {
             const PlayWithFriend(),
             Gap(120.r),
             const StaggeredGridTile.fit(
-                crossAxisCellCount: 20, child: ShowAvatar()),
+              crossAxisCellCount: 20,
+              child: ShowAvatar(),
+            ),
+            StaggeredGridTile.fit(
+              crossAxisCellCount: 20,
+              child: Divider(
+                height: 15.h,
+                color: frenchGray,
+                thickness: 0.36.r,
+                indent: 15.w,
+                endIndent: 15.w,
+              ),
+            ),
             const StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: 5.4,
+              mainAxisCellCount: 3.6,
               child: DFooter(),
             ),
-            Gap(150.h),
+            Gap(210.h),
           ],
         ),
       );

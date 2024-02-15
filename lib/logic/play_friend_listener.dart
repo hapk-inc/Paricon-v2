@@ -99,7 +99,7 @@ class PlayFriendListener extends ChangeNotifier {
         z[y] = _icons[y]!;
       }
     }
-    debugPrint("95--$z");
+
     await boardDatabase.updateBoard(
       z,
       addPts: validCheck,

@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:gap/gap.dart';
-import 'package:mock_data/mock_data.dart';
 import '../logic/dashboard_provider.dart';
 import '../logic/panel_provider.dart';
 import '../model/my_user.dart';

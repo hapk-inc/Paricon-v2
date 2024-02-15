@@ -36,3 +36,10 @@ final Provider<Query> recentUserProvider = Provider<Query>(
     return userDatabase.recentUser(count);
   },
 );
+
+final Provider<Query> passAvatarQueryProvider = Provider<Query>(
+  (ref) {
+    final userDatabase = ref.read(userDatabaseProvider);
+    return userDatabase.passAvatarQuery;
+  },
+);

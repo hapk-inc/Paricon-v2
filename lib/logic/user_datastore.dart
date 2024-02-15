@@ -5,13 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../model/board.dart';
+import '../model/d_avatar.dart';
 import '../model/local_player.dart';
 import '../model/my_user.dart';
 import '../model/play_stats.dart';
 import 'auth_provider.dart';
 import 'firebase_init.dart';
 import 'game_setup_provider.dart';
-import 'pass_avatar_provider.dart';
+import 'pass_avatar_notifier.dart';
 
 final Provider<UserDatastore> userDatastoreProvider =
     Provider<UserDatastore>((ref) => UserDatastore(ref));
@@ -76,15 +77,11 @@ class UserDatastore {
   Future<String> get appVersion =>
       ref.read(packageInfoProvider.future).then((value) => value.version);
 
-  Future get newAvatarCode async {
-    //final String avatarCode =
-    //    List.generate(6, (index) => mockInteger(1, 8).toString()).join();
-    return myDocRef.update(
-      {
-        'avatarCode': ref.read(newAvatarCodeProvider),
-      },
-    );
-  }
+  Future get newAvatarCode async => myDocRef.update(
+        {
+          'avatarCode': ref.read(passAvatarNotifierProvider).generateAvatarCode,
+        },
+      );
 
   Future<MyUser?> xUser(String x) => userColl.doc(x).get().then(
         (DocumentSnapshot documentSnapshot) {
@@ -92,6 +89,18 @@ class UserDatastore {
           return getMyUser(documentSnapshot);
         },
       );
+
+  Query<DAvatar> get myDAvatarQuery {
+    debugPrint("94--${user?.uid ?? ""}");
+    return myDocRef
+        .collection('pass_avatar')
+        .orderBy('createdAt', descending: true)
+        .withConverter<DAvatar>(
+          fromFirestore: (snapshot, _) =>
+              DAvatar.fromJson(snapshot.data() ?? {}),
+          toFirestore: (value, _) => value.toJson(),
+        );
+  }
 
   MyUser getMyUser(DocumentSnapshot<Object?> documentSnapshot) {
     Map m = documentSnapshot.data() as Map;
@@ -136,48 +145,4 @@ class UserDatastore {
       },
     );
   }
-
-  Future newCardArr(String value) {
-    final x = FieldValue.arrayUnion([value]);
-    return myDocRef.update({'avatarArr': x});
-  }
-
-  Future setAvatar(String value) => myDocRef.update(
-        {
-          'avatar': value,
-          'avatarArr': FieldValue.arrayUnion([value]),
-        },
-      );
-
-  Future<List<String>> searchAvatarCode(String code) =>
-      userColl.where('avatarCode', isEqualTo: code).get().then(
-        (QuerySnapshot snapshot) {
-          return snapshot.size == 0
-              ? []
-              : snapshot.docs.map((e) => e.id).toList();
-        },
-      );
-
-  Future newAvatarUserId(String xId) => myDocRef.update(
-        {
-          'newPassAvatar': FieldValue.arrayUnion([xId]),
-        },
-      );
-
-  Future<List<String>> get passAvatar => myDocRef.get().then(
-        (DocumentSnapshot snapshot) {
-          if (snapshot.exists) {
-            Map map = snapshot.data() as Map;
-            debugPrint("166-$map");
-            List<String> x =
-                //(snapshot.data() as Map)['newPassAvatar'] as List<String>;
-                map.containsKey('newPassAvatar')
-                    ? (map['newPassAvatar'] as List).cast<String>()
-                    : [];
-            return x;
-          }
-          return [];
-        },
-      );
-  //Stream<String> onNewAvatarUserId => myDocRef.
 }

@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/logic/pass_avatar_notifier.dart';
+import '../model/d_avatar.dart';
 import '../theme/my_theme.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -63,17 +65,14 @@ class Auth {
         rName: xName,
         id: mockInteger(11111111, 99999999),
         //avatarCode: avatarCode,
-        avatarCode: ref.read(newAvatarCodeProvider),
+        avatarCode: ref.read(passAvatarNotifierProvider).generateAvatarCode,
         createdAt: createdAt,
       ).toJson(),
     );
-    /* batch.set(
-      userColl.doc(x).collection('avatar').doc(x),
-      PassAvatar(
-        createdAt: createdAt,
-        //from: userCred.user!.uid,
-      ).toJson(),
-    );*/
+    batch.set(
+      userColl.doc(id).collection('pass_avatar').doc(id),
+      DAvatar(createdAt: createdAt).toJson(),
+    );
     return batch.commit();
   }
 

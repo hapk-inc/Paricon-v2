@@ -2,10 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:rxdart/rxdart.dart';
-
 import '../model/my_user.dart';
-import '../model/pass_avatar.dart';
 import '../model/user_activity.dart';
 import '../theme/my_theme.dart';
 import 'auth_provider.dart';
@@ -90,14 +87,17 @@ class UserDatabase {
 
   Future setPlaying(bool flag) => userReference.update({'isPlaying': flag});
 
-  Future setAvatar(String avatar) => userReference.update({'avatar': avatar});
+//  Future setAvatar(String avatar) => userReference.update({'avatar': avatar});
 
   Future updateName(String name) {
     String n = firstCaps(name);
     return userReference.update({'name': n});
   }
 
-  Future newPassAvatar(String x) {
+  Query get passAvatarQuery =>
+      passAvatarReference.orderByChild('createdAt').limitToLast(6);
+
+/*  Future newPassAvatar(String x) {
     firebaseReference.child('pass_avatar_count').set(ServerValue.increment(1));
     return passAvatarReference.push().set(
           PassAvatar(
@@ -105,27 +105,24 @@ class UserDatabase {
             from: id ?? "",
             to: x,
           ).toJson(),
-        );
-  }
+        );*/
+}
 
-  Stream<num> get passAvatarCount => firebaseReference
+/*Stream<num> get passAvatarCount => firebaseReference
       .child('pass_avatar_count')
       .onValue
-      .map((event) => event.snapshot.value as num);
+      .map((event) => event.snapshot.value as num);*/
 
-  Query get passAvatarQuery =>
-      passAvatarReference.orderByChild('createdAt').limitToLast(10);
-
-  Query get myPassAvatarQuery {
+/*Query get myPassAvatarQuery {
     debugPrint("120--${id ?? "abc"}");
     return passAvatarReference.orderByChild('to').equalTo(id);
     //.orderByChild('created At');
-  }
+  }*/
 
-  Future passAvatarUpdate(String doc, String avatar) =>
+/*Future passAvatarUpdate(String doc, String avatar) =>
       passAvatarReference.child(doc).update({'avatar': avatar});
-
-  Stream<bool> get hasNewAvatars {
+*/
+/*Stream<bool> get hasNewAvatars {
     late BehaviorSubject<bool> subject;
     subject = BehaviorSubject<bool>(
       onListen: () => myPassAvatarQuery.onValue.listen(
@@ -137,4 +134,4 @@ class UserDatabase {
     );
     return subject.stream;
   }
-}
+}*/

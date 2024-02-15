@@ -99,6 +99,7 @@ const Color denim = Color(0xff3962a5);
 
 const Color tropicalIndigo = Color(0xff9578FB);
 const Color magnolia = Color(0xffF3EFFF);
+const Color magnolia1 = Color(0xfff7f4ff);
 
 const Color drabDarkBrown = Color(0xff373d20);
 //const Color sandyBrown = Color(0xfff4a261);

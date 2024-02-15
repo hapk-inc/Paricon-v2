@@ -18,8 +18,6 @@ class RecentPlayerTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tTheme = Theme.of(context).textTheme.titleLarge!;
-
     double aR = (900.h / 360.w);
     if (aR > 2.3) {
       debugPrint("Small Screen");

@@ -12,7 +12,7 @@ part of 'pass_avatar.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 PassAvatar _$PassAvatarFromJson(Map<String, dynamic> json) {
   return _PassAvatar.fromJson(json);
@@ -129,12 +129,13 @@ class __$$PassAvatarImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$PassAvatarImpl implements _PassAvatar {
+class _$PassAvatarImpl extends _PassAvatar {
   const _$PassAvatarImpl(
       {required this.createdAt,
       this.avatar,
       required this.from,
-      required this.to});
+      required this.to})
+      : super._();
 
   factory _$PassAvatarImpl.fromJson(Map<String, dynamic> json) =>
       _$$PassAvatarImplFromJson(json);
@@ -183,12 +184,13 @@ class _$PassAvatarImpl implements _PassAvatar {
   }
 }
 
-abstract class _PassAvatar implements PassAvatar {
+abstract class _PassAvatar extends PassAvatar {
   const factory _PassAvatar(
       {required final DateTime createdAt,
       final String? avatar,
       required final String from,
       required final String to}) = _$PassAvatarImpl;
+  const _PassAvatar._() : super._();
 
   factory _PassAvatar.fromJson(Map<String, dynamic> json) =
       _$PassAvatarImpl.fromJson;

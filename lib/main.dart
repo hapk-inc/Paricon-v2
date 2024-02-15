@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:paricon/logic/pass_avatar_notifier.dart';
 
 import 'firebase_option.dart';
 import 'logic/firebase_init.dart';
@@ -54,7 +55,10 @@ Future<void> main() async {
     try {
       await remoteConfig.fetchAndActivate();
     } on FirebaseException catch (e, stackTrace) {
-      firebaseCrashlytics.recordError(e, stackTrace, fatal: false);
+      debugPrint(e.code);
+      if (!kDebugMode) {
+        firebaseCrashlytics.recordError(e, stackTrace, fatal: false);
+      }
     }
   }
 
@@ -82,6 +86,8 @@ Future<void> main() async {
       enabled: kDebugMode,
       builder: (BuildContext context) => ProviderScope(
         overrides: [
+          passAvatarNotifierProvider
+              .overrideWith((ref) => PassAvatarNotifier(ref)),
           firebaseAppProvider.overrideWithValue(app),
           firebaseAuthProvider.overrideWithValue(firebaseAuth),
           analyticsProvider.overrideWithValue(firebaseAnalytics),

@@ -31,18 +31,10 @@ class PlayWithFriend extends ConsumerWidget {
             decoration: const BoxDecoration(color: jasper),
             alignment: Alignment.center,
             child: ListTile(
-              title: AutoSizeText(
-                "Play with Friends",
-                style: tTheme.bodyMedium!.copyWith(color: magnolia),
-                maxLines: 1,
-              ),
-              subtitle: Text(
-                "Connect with your friends",
-                style: tTheme.bodySmall!.copyWith(color: magnolia),
-                //minFontSize: 9,
-                //maxFontSize: 12,
-                maxLines: 1,
-              ),
+              titleTextStyle: tTheme.bodyMedium!.copyWith(color: magnolia),
+              title: const AutoSizeText("Play with Friends", maxLines: 1),
+              subtitle: const Text("Connect with your friends", maxLines: 1),
+              subtitleTextStyle: tTheme.bodySmall!.copyWith(color: magnolia),
               trailing: ElevatedButton(
                 onPressed: () {},
                 child: const Text("PLAY NOW"),
@@ -61,10 +53,7 @@ class PlayWithFriend extends ConsumerWidget {
                       dNotifier.dHeight = aR > 2.3 ? 300.h : 270.h;
                       ref.read(dashboardPanelProvider).open();
                     },
-              child: Lottie.asset(
-                'lottie/friends-playing.json',
-                alignment: Alignment.bottomCenter,
-              ),
+              child: Lottie.asset('lottie/friends-playing.json'),
             ),
           )
         ],
