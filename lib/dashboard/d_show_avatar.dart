@@ -9,6 +9,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 
 import '../logic/dashboard_provider.dart';
+import '../logic/next_animation_flag.dart';
 import '../logic/user_activity_provider.dart';
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
@@ -26,6 +27,7 @@ class ShowAvatar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final MyUser? myUser = ref.watch(myUserProvider).value;
+    final repeatAnimationNotifier = ref.watch(repeatAnimationNotifierProvider);
 
     final tTheme = Theme.of(context).textTheme;
 
@@ -72,6 +74,8 @@ class ShowAvatar extends ConsumerWidget {
                         dimension: 30.r,
                         child: AnimatedEmoji(
                           AnimatedEmojis.smile,
+                          repeat: repeatAnimationNotifier.repeatAnimation,
+                          animate: repeatAnimationNotifier.repeatAnimation,
                           errorWidget: Center(
                             child: Text("😎", style: TextStyle(fontSize: 30.r)),
                           ),

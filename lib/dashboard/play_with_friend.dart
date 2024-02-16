@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lottie/lottie.dart';
 import '../logic/dashboard_panel_provider.dart';
+import '../logic/next_animation_flag.dart';
 import '../logic/panel_provider.dart';
 
 import '../logic/remote_values.dart';
@@ -19,6 +20,7 @@ class PlayWithFriend extends ConsumerWidget {
     final tTheme = Theme.of(context).textTheme;
     final bool goToPlayOnline = ref.watch(showPlayOnlineProvider);
     final dNotifier = ref.watch(dashboardPanelNotifierProvider);
+    final repeatAnimationProvider = ref.watch(repeatAnimationNotifierProvider);
     double aR = (900.h / 360.w);
 
     return StaggeredGridTile.fit(
@@ -53,7 +55,10 @@ class PlayWithFriend extends ConsumerWidget {
                       dNotifier.dHeight = aR > 2.3 ? 300.h : 270.h;
                       ref.read(dashboardPanelProvider).open();
                     },
-              child: Lottie.asset('lottie/friends-playing.json'),
+              child: Lottie.asset(
+                'lottie/friends-playing.json',
+                repeat: !repeatAnimationProvider.repeatAnimation,
+              ),
             ),
           )
         ],

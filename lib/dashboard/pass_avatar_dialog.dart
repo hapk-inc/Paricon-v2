@@ -52,11 +52,7 @@ class _PassAvatarDialogState extends ConsumerState<PassAvatarDialog> {
                     .watch(searchAvatarCodeProvider(arrayTxt).future)
                     .whenComplete(
                       () => Navigator.pop(context),
-                    )
-                    .catchError((e, s) {
-                  debugPrint(e.toString());
-                  debugPrintStack(stackTrace: s);
-                });
+                    );
               },
             );
           },

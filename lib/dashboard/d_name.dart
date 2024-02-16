@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:gap/gap.dart';
 import '../logic/dashboard_provider.dart';
+import '../logic/next_animation_flag.dart';
 import '../logic/panel_provider.dart';
 import '../model/my_user.dart';
 import '../my_widget/change_name.dart';
@@ -23,6 +24,7 @@ class DName extends ConsumerWidget {
     final DashboardPanelNotifier dNotifier =
         ref.watch(dashboardPanelNotifierProvider);
     final tTheme = Theme.of(context).textTheme;
+    final repeatAnimationNotifier = ref.watch(repeatAnimationNotifierProvider);
 
     return ListTile(
       contentPadding: EdgeInsets.only(left: 15.w),
@@ -49,8 +51,8 @@ class DName extends ConsumerWidget {
               child: AnimatedEmoji(
                 AnimatedEmojis.pencil,
                 size: 30.r,
-                repeat: true,
-                animate: true,
+                repeat: repeatAnimationNotifier.repeatAnimation,
+                animate: repeatAnimationNotifier.repeatAnimation,
                 onLoaded: (duration) {},
                 errorWidget: Icon(
                   Icons.edit,

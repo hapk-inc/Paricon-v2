@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mock_data/mock_data.dart';
 
+import '../logic/next_animation_flag.dart';
 import '../theme/my_color.dart';
 
 class DTournament extends ConsumerWidget {
@@ -12,6 +13,7 @@ class DTournament extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextTheme tTheme = Theme.of(context).textTheme;
+    final repeatAnimationNotifier = ref.watch(repeatAnimationNotifierProvider);
     return ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 12.w),
       title: RichText(
@@ -25,20 +27,35 @@ class DTournament extends ConsumerWidget {
                   errorWidget: Center(
                     child: Text("🏁", style: TextStyle(fontSize: 30.r)),
                   ),
+                  repeat: repeatAnimationNotifier.repeatAnimation,
+                  animate: true,
                 ),
               ),
             ),
             WidgetSpan(child: SizedBox.square(dimension: 12.r)),
-            const TextSpan(
-              text: "Ready, Set, Game : Join the Tournament 🏆",
-            )
+            const TextSpan(text: "Ready, Set, Game : Join the Tournament 🏆")
           ],
           style: tTheme.bodyMedium!.copyWith(color: cinerous),
         ),
         maxLines: 3,
       ),
       subtitleTextStyle: tTheme.bodySmall!.copyWith(color: cinerous),
-      subtitle: Text(mockString(), maxLines: 2),
+      subtitle: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        child: Container(
+          key: ValueKey(repeatAnimationNotifier.index),
+          alignment: Alignment.centerLeft,
+          child: Text(
+            [
+              "Pair blocks quicker.",
+              "Speed up matching the blocks.",
+              "Match the blocks more quickly."
+            ][repeatAnimationNotifier.index % 3],
+            maxLines: 1,
+            textAlign: TextAlign.start,
+          ),
+        ),
+      ),
     );
   }
 }

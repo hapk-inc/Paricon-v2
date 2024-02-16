@@ -88,7 +88,7 @@ ThemeData get buildThemeData => ThemeData(
         backgroundColor: darkPurple,
         contentTextStyle: TextStyle(
           color: ghostWhite,
-          fontFamily: 'Poppins',
+          fontFamily: 'Montserrat',
           fontSize: 15.r,
         ),
         elevation: 3.r,

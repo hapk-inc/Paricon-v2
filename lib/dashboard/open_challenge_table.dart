@@ -1,5 +1,6 @@
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/router/my_route.dart';
 
 import '../logic/auth_provider.dart';
 import '../logic/t_score.dart';
@@ -83,7 +85,26 @@ class OpenChallengeTable extends ConsumerWidget {
                     label: Container(
                       color: index == 3 ? chocolateCosmos : null,
                       width: pW * _colSize[index],
-                      child: Text(colName[index]),
+                      child: index == 2
+                          ? Row(
+                              children: [
+                                Text(colName[index]),
+                                const Spacer(),
+                                InkWell(
+                                  onTap: () => context.router
+                                      .push(const ViewLeaderBoardRoute()),
+                                  child: Text(
+                                    "View All",
+                                    style: TextStyle(
+                                      fontSize: 12.r,
+                                      color: gray,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )
+                          : Text(colName[index]),
                     ),
                   ),
                 ),
