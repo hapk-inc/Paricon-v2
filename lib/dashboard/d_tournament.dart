@@ -2,7 +2,6 @@ import 'package:animated_emoji/animated_emoji.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mock_data/mock_data.dart';
 
 import '../logic/next_animation_flag.dart';
 import '../theme/my_color.dart';
