@@ -205,9 +205,10 @@ DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
 }
 
 class ShowPlayedDuration extends StatelessWidget {
+  final Color? color;
   final Duration tDuration;
   final bool isMe;
-  const ShowPlayedDuration(this.tDuration, this.isMe, {super.key});
+  const ShowPlayedDuration(this.tDuration, this.isMe, {this.color, super.key});
 
   @override
   Widget build(BuildContext context) => AutoSizeText.rich(
@@ -215,8 +216,8 @@ class ShowPlayedDuration extends StatelessWidget {
           tDuration,
           tSize: 15,
           sSize: 10.8,
-          minute: isMe ? lightOrange : caputMortuum,
-          mm: isMe ? lightOrange : oldRose,
+          minute: color ?? (isMe ? lightOrange : caputMortuum),
+          mm: color ?? (isMe ? lightOrange : oldRose),
         ),
         maxLines: 1,
         style: TextStyle(letterSpacing: 0.3.r),

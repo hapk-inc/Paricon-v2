@@ -45,7 +45,7 @@ class PassAvatarListTile extends ConsumerWidget {
       margin: EdgeInsets.symmetric(vertical: 1.5.r),
       decoration: BoxDecoration(
         //color: Colors.yellow,
-        color: isFromToMe ? gridColor[mockInteger(0, 2)].withOpacity(1) : null,
+        color: isFromToMe ? xantHous : null,
         borderRadius: BorderRadius.circular(3.r),
       ),
       alignment: Alignment.center,
@@ -82,8 +82,10 @@ class PassAvatarListTile extends ConsumerWidget {
             ],
           ),
         ),
-        titleTextStyle:
-            const TextStyle(fontFamily: 'Montserrat', color: coolGray),
+        titleTextStyle: const TextStyle(
+          fontFamily: 'Montserrat',
+          color: coolGray,
+        ),
         title: Row(
           children: [
             if (fromUser != null) ...[

@@ -162,6 +162,9 @@ class _MyAppState extends ConsumerState<MyApp> {
               },
               onPopRoute: (routeMatch, x) {
                 debugPrint("onPop Route");
+                debugPrint(x);
+                debugPrint(routeMatch.redirectedFrom);
+                context.router.replace(const DashboardRoute());
               },
             ),
           ),
