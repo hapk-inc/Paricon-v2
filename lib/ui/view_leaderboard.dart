@@ -15,6 +15,7 @@ class ViewLeaderBoardPage extends ConsumerWidget {
       appBar: AppBar(
         elevation: 0,
         toolbarHeight: 90.h,
+        titleSpacing: 0,
         backgroundColor: ghostWhite1,
         title: SingleChildScrollView(
           scrollDirection: Axis.horizontal,

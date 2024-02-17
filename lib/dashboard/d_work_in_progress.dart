@@ -12,6 +12,7 @@ class WorkInProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tTheme = Theme.of(context).textTheme;
     return Padding(
       padding: EdgeInsets.all(15.r),
       child: Column(
@@ -22,13 +23,12 @@ class WorkInProgress extends StatelessWidget {
             delay: const Duration(seconds: 1),
             child: AutoSizeText(
               inWork,
+              softWrap: true,
               wrapWords: false,
-              style: TextStyle(
+              style: tTheme.bodyMedium!.copyWith(
                 fontSize: 90.r,
-                fontFamily: 'DelaGothic',
-                fontWeight: FontWeight.w900,
                 color: jasper,
-                height: 1.5,
+                height: 1.8,
               ),
             ),
           ),
@@ -37,9 +37,8 @@ class WorkInProgress extends StatelessWidget {
             delay: const Duration(seconds: 3),
             child: Text(
               "Appreciate your patience",
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 18.r,
+              style: tTheme.bodySmall!.copyWith(
+                fontSize: 15.r,
                 fontWeight: FontWeight.w300,
                 color: jasper,
                 height: 2.1,

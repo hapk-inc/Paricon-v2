@@ -171,6 +171,7 @@ class TournamentDatabase {
       firstTime: bestD == null,
     );
     tournamentReference.push().set(tD.toJson());
+    await firebaseReference.child('t_count').set(ServerValue.increment(1));
 
     if (bestD == null) {
       batch.set(
