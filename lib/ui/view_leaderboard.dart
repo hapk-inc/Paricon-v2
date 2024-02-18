@@ -23,7 +23,6 @@ class ViewLeaderBoardPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final i = mockInteger(1, 10);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -156,7 +155,7 @@ class LeaderBoardTile extends ConsumerWidget {
                       height: 1.5,
                       color: richBlack,
                     ),
-                    contentPadding: EdgeInsets.only(left: 15.w, right: 9.w),
+                    contentPadding: EdgeInsets.only(left: 15.w, right: 15.w),
                     subtitleTextStyle: TextStyle(
                       fontSize: 9.r,
                       color: gray,
@@ -173,12 +172,14 @@ class LeaderBoardTile extends ConsumerWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          if (myRank < 4)
+                          if (myRank < 3)
                             CircleAvatar(
                               radius: isMoreSize ? 9.r : 10.5.r,
                               backgroundColor: xantHous,
                               child: Icon(Icons.star, size: 12.r),
-                            ),
+                            )
+                          else
+                            Spacer(),
                           ShowPlayedDuration(
                             bestDSnapshot.data().bestD,
                             true,
