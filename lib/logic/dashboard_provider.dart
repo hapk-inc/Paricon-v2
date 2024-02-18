@@ -45,8 +45,8 @@ final Provider<String> pasteCodeTitleTextProvider = Provider<String>(
   (_) => [
     "Input your friend's code below",
     "Insert your friend's code here",
-    "Paste the avatar's code from your friend",
-  ][mockInteger(0, 2)],
+    // "Paste the avatar's code from your friend",
+  ][mockInteger(0, 1)],
 );
 
 enum PGroupOption { everyone, friends }

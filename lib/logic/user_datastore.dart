@@ -114,7 +114,7 @@ class UserDatastore {
     final String cPath = x.collectionPath(board);
 
     DocumentReference documentReference =
-        myDocRef.collection("play_friend_score").doc(cPath);
+        myDocRef.collection("play_friend").doc(cPath);
 
     final LocalPlayer? myLocalPlayer = board.players[user!.uid];
 

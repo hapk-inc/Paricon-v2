@@ -144,7 +144,7 @@ class ShowAvatar extends ConsumerWidget {
                   onTap: () => showGeneralDialog(
                     context: context,
                     pageBuilder: (_, __, ___) => Container(),
-                    barrierDismissible: true,
+                    barrierDismissible: false,
                     barrierLabel: "passAvatar",
                     transitionBuilder: (ctx, a1, a2, child) {
                       double curve = Curves.easeInOut.transform(a1.value);

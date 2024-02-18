@@ -13,6 +13,7 @@ _$BestDImpl _$$BestDImplFromJson(Map<String, dynamic> json) => _$BestDImpl(
           ? null
           : Duration(microseconds: json['prevD'] as int),
       tCount: json['tCount'] as num? ?? 1,
+      prevGame: json['prevGame'] as String? ?? "",
     );
 
 Map<String, dynamic> _$$BestDImplToJson(_$BestDImpl instance) =>
@@ -21,4 +22,5 @@ Map<String, dynamic> _$$BestDImplToJson(_$BestDImpl instance) =>
       'bestD': instance.bestD.inMicroseconds,
       'prevD': instance.prevD?.inMicroseconds,
       'tCount': instance.tCount,
+      'prevGame': instance.prevGame,
     };

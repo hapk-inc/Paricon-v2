@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mock_data/mock_data.dart';
 
 import 'package:rxdart/rxdart.dart';
 
@@ -50,6 +52,14 @@ final StreamProviderFamily<MyUser?, String> xPlayerProvider =
   (ref, id) {
     final tDatabase = ref.read(tournamentDatabaseProvider);
     return tDatabase.xUser(id);
+  },
+);
+
+final ProviderFamily<firestore.Query<BestD>, bool> bestDQueryProvider =
+    Provider.family<firestore.Query<BestD>, bool>(
+  (ref, flag) {
+    final tDatabase = ref.watch(tournamentDatabaseProvider);
+    return tDatabase.bestDQuery(flag);
   },
 );
 
@@ -154,6 +164,8 @@ class TournamentDatabase {
   Future updateTDuration(Duration tDuration) async {
     final now = DateTime.now();
 
+    final String doc = mockString(12);
+
     WriteBatch batch = firebaseFirestore.batch();
     /*batch.set(
       userDoc.collection('played').doc(mockString(8)),
@@ -170,7 +182,7 @@ class TournamentDatabase {
       tDuration: tDuration,
       firstTime: bestD == null,
     );
-    tournamentReference.push().set(tD.toJson());
+    tournamentReference.child(doc).set(tD.toJson());
     await firebaseReference.child('t_count').set(ServerValue.increment(1));
 
     if (bestD == null) {
@@ -181,12 +193,25 @@ class TournamentDatabase {
           bestDurationDoc,
           BestD(lastPlayed: now, bestD: tDuration, prevD: bestD.bestD)
               .toJson());
-      batch.update(bestDurationDoc, {'tCount': FieldValue.increment(1)});
-    } else {
-      batch.update(bestDurationDoc, {'tCount': FieldValue.increment(1)});
     }
+    batch.update(
+      bestDurationDoc,
+      {
+        'tCount': FieldValue.increment(1),
+        'prevGame': doc,
+      },
+    );
     return batch.commit();
   }
+
+  firestore.Query<BestD> bestDQuery(bool flag) =>
+      bestDReference.orderBy('bestD', descending: false).withConverter(
+            fromFirestore: (snapshot, options) {
+              debugPrint("${snapshot.data()}");
+              return BestD.fromJson(snapshot.data() ?? {});
+            },
+            toFirestore: (value, options) => value.toJson(),
+          );
 }
 
 const int tableCount = 6;

@@ -24,6 +24,7 @@ mixin _$BestD {
   Duration get bestD => throw _privateConstructorUsedError;
   Duration? get prevD => throw _privateConstructorUsedError;
   num get tCount => throw _privateConstructorUsedError;
+  String get prevGame => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +36,12 @@ abstract class $BestDCopyWith<$Res> {
   factory $BestDCopyWith(BestD value, $Res Function(BestD) then) =
       _$BestDCopyWithImpl<$Res, BestD>;
   @useResult
-  $Res call({DateTime lastPlayed, Duration bestD, Duration? prevD, num tCount});
+  $Res call(
+      {DateTime lastPlayed,
+      Duration bestD,
+      Duration? prevD,
+      num tCount,
+      String prevGame});
 }
 
 /// @nodoc
@@ -55,6 +61,7 @@ class _$BestDCopyWithImpl<$Res, $Val extends BestD>
     Object? bestD = null,
     Object? prevD = freezed,
     Object? tCount = null,
+    Object? prevGame = null,
   }) {
     return _then(_value.copyWith(
       lastPlayed: null == lastPlayed
@@ -73,6 +80,10 @@ class _$BestDCopyWithImpl<$Res, $Val extends BestD>
           ? _value.tCount
           : tCount // ignore: cast_nullable_to_non_nullable
               as num,
+      prevGame: null == prevGame
+          ? _value.prevGame
+          : prevGame // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -84,7 +95,12 @@ abstract class _$$BestDImplCopyWith<$Res> implements $BestDCopyWith<$Res> {
       __$$BestDImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({DateTime lastPlayed, Duration bestD, Duration? prevD, num tCount});
+  $Res call(
+      {DateTime lastPlayed,
+      Duration bestD,
+      Duration? prevD,
+      num tCount,
+      String prevGame});
 }
 
 /// @nodoc
@@ -102,6 +118,7 @@ class __$$BestDImplCopyWithImpl<$Res>
     Object? bestD = null,
     Object? prevD = freezed,
     Object? tCount = null,
+    Object? prevGame = null,
   }) {
     return _then(_$BestDImpl(
       lastPlayed: null == lastPlayed
@@ -120,6 +137,10 @@ class __$$BestDImplCopyWithImpl<$Res>
           ? _value.tCount
           : tCount // ignore: cast_nullable_to_non_nullable
               as num,
+      prevGame: null == prevGame
+          ? _value.prevGame
+          : prevGame // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -131,7 +152,8 @@ class _$BestDImpl implements _BestD {
       {required this.lastPlayed,
       required this.bestD,
       this.prevD,
-      this.tCount = 1});
+      this.tCount = 1,
+      this.prevGame = ""});
 
   factory _$BestDImpl.fromJson(Map<String, dynamic> json) =>
       _$$BestDImplFromJson(json);
@@ -145,10 +167,13 @@ class _$BestDImpl implements _BestD {
   @override
   @JsonKey()
   final num tCount;
+  @override
+  @JsonKey()
+  final String prevGame;
 
   @override
   String toString() {
-    return 'BestD(lastPlayed: $lastPlayed, bestD: $bestD, prevD: $prevD, tCount: $tCount)';
+    return 'BestD(lastPlayed: $lastPlayed, bestD: $bestD, prevD: $prevD, tCount: $tCount, prevGame: $prevGame)';
   }
 
   @override
@@ -160,13 +185,15 @@ class _$BestDImpl implements _BestD {
                 other.lastPlayed == lastPlayed) &&
             (identical(other.bestD, bestD) || other.bestD == bestD) &&
             (identical(other.prevD, prevD) || other.prevD == prevD) &&
-            (identical(other.tCount, tCount) || other.tCount == tCount));
+            (identical(other.tCount, tCount) || other.tCount == tCount) &&
+            (identical(other.prevGame, prevGame) ||
+                other.prevGame == prevGame));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, lastPlayed, bestD, prevD, tCount);
+      Object.hash(runtimeType, lastPlayed, bestD, prevD, tCount, prevGame);
 
   @JsonKey(ignore: true)
   @override
@@ -187,7 +214,8 @@ abstract class _BestD implements BestD {
       {required final DateTime lastPlayed,
       required final Duration bestD,
       final Duration? prevD,
-      final num tCount}) = _$BestDImpl;
+      final num tCount,
+      final String prevGame}) = _$BestDImpl;
 
   factory _BestD.fromJson(Map<String, dynamic> json) = _$BestDImpl.fromJson;
 
@@ -199,6 +227,8 @@ abstract class _BestD implements BestD {
   Duration? get prevD;
   @override
   num get tCount;
+  @override
+  String get prevGame;
   @override
   @JsonKey(ignore: true)
   _$$BestDImplCopyWith<_$BestDImpl> get copyWith =>

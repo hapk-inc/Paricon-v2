@@ -238,7 +238,7 @@ class ShowPlayedAt extends StatelessWidget {
               : DateFormat.MMMd().format(playedAt),
           style: TextStyle(
             fontFamily: 'Poppins',
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w300,
             color: isMe ? lavenderWeb : gray,
             fontSize: 9.r,
             letterSpacing: 0.r,

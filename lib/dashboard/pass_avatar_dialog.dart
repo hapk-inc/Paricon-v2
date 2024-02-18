@@ -58,12 +58,21 @@ class _PassAvatarDialogState extends ConsumerState<PassAvatarDialog> {
           },
           child: Icon(Icons.paste, size: 24.r),
         ),
-        title: Text(
-          ref.read(pasteCodeTitleTextProvider),
-          maxLines: 1,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              ref.read(pasteCodeTitleTextProvider),
+              maxLines: 1,
+            ),
+            InkWell(
+              onTap: () => Navigator.pop(context),
+              child: Icon(Icons.close, size: 15.r, color: gray),
+            )
+          ],
         ),
         titleTextStyle: TextStyle(
-            fontFamily: 'WendyOne', color: violetBlue, fontSize: 18.r),
+            fontFamily: 'WendyOne', color: violetBlue, fontSize: 15.r),
         horizontalTitleGap: 3.w,
       ),
       content: SizedBox(

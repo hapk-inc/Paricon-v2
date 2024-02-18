@@ -10,6 +10,7 @@ class BestD with _$BestD {
     required Duration bestD,
     Duration? prevD,
     @Default(1) num tCount,
+    @Default("") String prevGame,
   }) = _BestD;
 
   factory BestD.fromJson(Map<String, dynamic> json) => _$BestDFromJson(json);
