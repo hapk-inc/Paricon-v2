@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 2.0.1+67
 
 environment:
-  sdk: '>=3.2.6 <4.0.0'
+  sdk: '>=3.3.0 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -57,7 +57,7 @@ dependencies:
   device_preview: ^1.1.0
   flutter_localization: ^0.2.0
 
-  lottie: ^2.7.0
+  lottie: ^3.0.0
 
   connectivity_plus: ^5.0.2
   in_app_update: ^4.2.1
@@ -110,11 +110,11 @@ dependencies:
 
   # carousel_slider: ^4.2.1
 
-  animated_emoji: ^3.0.0
+  animated_emoji: ^3.1.0
 
   # fl_chart: ^0.63.0
 
-  pinput: ^3.0.1
+  pinput: ^4.0.0
 
   # animated_digit: ^3.2.3
   animated_flip_counter: ^0.2.6

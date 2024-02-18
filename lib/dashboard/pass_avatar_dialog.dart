@@ -67,7 +67,7 @@ class _PassAvatarDialogState extends ConsumerState<PassAvatarDialog> {
             ),
             InkWell(
               onTap: () => Navigator.pop(context),
-              child: Icon(Icons.close, size: 15.r, color: gray),
+              child: Icon(Icons.close, size: 18.r, color: gray),
             )
           ],
         ),

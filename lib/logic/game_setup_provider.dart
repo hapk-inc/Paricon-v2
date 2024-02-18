@@ -82,9 +82,10 @@ class GameSetup {
     RoomLevel l = whichLevel(totalCount);
     switch (l) {
       case RoomLevel.easy:
-        return 24.r;
+        return 12.r;
       case RoomLevel.medium:
-        return 18.r;
+        return 7.5.r;
+      //  return 15.r;
       case RoomLevel.hard:
         return 7.5.r;
     }

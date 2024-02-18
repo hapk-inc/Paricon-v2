@@ -51,6 +51,17 @@ class ShowAvatar extends ConsumerWidget {
                   letterSpacing: 0,
                 ),
                 leading: const Text("My Cards"),
+                title: Text(
+                  "Double-tap to change your avatar",
+                  style: TextStyle(fontSize: 9.r),
+                ),
+                horizontalTitleGap: 9.w,
+                titleTextStyle: TextStyle(
+                  fontSize: 9.r,
+                  color: coolGray,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w300,
+                ),
                 dense: true,
                 contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
                 trailing: Text(
@@ -162,7 +173,10 @@ class ShowAvatar extends ConsumerWidget {
                         TextSpan(
                             text: "Tap here ",
                             style: TextStyle(color: darkPastelGreen)),
-                        TextSpan(text: "to paste avatar code"),
+                        TextSpan(
+                          text: "to paste avatar code",
+                          style: TextStyle(fontWeight: FontWeight.w300),
+                        ),
                       ],
                     ),
                     style: TextStyle(

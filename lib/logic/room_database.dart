@@ -51,17 +51,23 @@ class RoomDatabase {
   Stream<Room?> get sGameRoom {
     late StreamController<Room?> controller;
     controller = StreamController<Room?>(
-      onListen: () => roomReference.onValue.listen(
-        (event) {
-          if (event.snapshot.exists) {
-            Map map = event.snapshot.value as Map;
-            Map<String, dynamic> json = Map<String, dynamic>.from(map);
-            final Room room = Room.fromJson(json);
-            controller.add(room);
-            if (room.players.isEmpty) controller.close();
-          }
-        },
-      ),
+      onListen: id == null || (id ?? "").isEmpty
+          ? null
+          : () => roomReference.onValue.listen(
+                (event) {
+                  if (event.snapshot.exists) {
+                    Map map = event.snapshot.value as Map;
+                    Map<String, dynamic> json = Map<String, dynamic>.from(map);
+                    if (id == null || (id ?? "").isEmpty) controller.close();
+
+                    if (json.isNotEmpty) {
+                      final Room room = Room.fromJson(json);
+                      controller.add(room);
+                      if (room.players.isEmpty) controller.close();
+                    }
+                  }
+                },
+              ),
     );
     return controller.stream;
   }

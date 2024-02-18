@@ -195,7 +195,7 @@ class __Dashboard extends ConsumerWidget {
             StaggeredGridTile.fit(
               crossAxisCellCount: 20,
               child: Divider(
-                height: 15.h,
+                height: 7.5.h,
                 color: frenchGray,
                 thickness: 0.36.r,
                 indent: 15.w,
@@ -204,7 +204,7 @@ class __Dashboard extends ConsumerWidget {
             ),
             const StaggeredGridTile.count(
               crossAxisCellCount: 20,
-              mainAxisCellCount: 3.6,
+              mainAxisCellCount: 4.5,
               child: DFooter(),
             ),
             Gap(180.h),

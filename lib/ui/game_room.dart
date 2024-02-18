@@ -188,15 +188,15 @@ class CreateRoom extends ConsumerWidget {
           ),
           Gap(30.r),
           ToggleSwitch(
-            changeOnTap: false,
+            //changeOnTap: false,
             radiusStyle: true,
             labels: List.from(
               RoomType.values.map((e) => firstCaps(e.name)),
             ),
             customWidths: [105.w, 90.w, 120.w],
             minHeight: 45.h,
-            //onToggle: (index) =>
-            //    ref.read(typeProvider.notifier).state = RoomType.values[index!],
+            onToggle: (index) =>
+                ref.read(typeProvider.notifier).state = RoomType.values[index!],
             inactiveBgColor: magnolia,
             inactiveFgColor: charcoal,
             activeBgColor: const [federalBlue],

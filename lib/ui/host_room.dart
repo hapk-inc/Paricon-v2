@@ -209,7 +209,7 @@ class HostRoom extends ConsumerWidget {
                     ),
                     Gap(30.r),
                     ToggleSwitch(
-                      changeOnTap: false,
+                      //changeOnTap: false,
                       radiusStyle: true,
                       labels: List.from(
                         RoomType.values.map((e) => firstCaps(e.name)),
@@ -218,9 +218,10 @@ class HostRoom extends ConsumerWidget {
                       minHeight: 45.h,
                       initialLabelIndex:
                           RoomType.values.indexWhere((x) => x == room.type),
-                      onToggle: null,
-                      //onToggle: (index) => ref.read(typeProvider.notifier).state =
-                      //    RoomType.values[index!],
+                      //onToggle: null,
+                      onToggle: (index) => ref
+                          .read(typeProvider.notifier)
+                          .state = RoomType.values[index!],
                       inactiveBgColor: lavenderWeb,
                       inactiveFgColor: charcoal,
                       activeBgColor: const [federalBlue],

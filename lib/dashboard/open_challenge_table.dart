@@ -122,7 +122,7 @@ DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
     MyUser? xUser, TDuration tD) {
   final double pW = constraints.maxWidth;
   bool showFirstTime = tD.firstTime &&
-      (DateTime.now().difference(tD.playedAt) < const Duration(hours: 12));
+      (DateTime.now().difference(tD.playedAt) < const Duration(minutes: 90));
   return DataRow(
     color: MaterialStatePropertyAll(isMe ? bitterSweet : null),
     cells: [
@@ -169,7 +169,7 @@ DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
                     ColorizeAnimatedText(
                       'First\nTime',
                       textStyle: TextStyle(
-                        fontSize: 10.5.r,
+                        fontSize: 12.r,
                         fontFamily: 'LuckiestGuy',
                         letterSpacing: 0.72.r,
                         height: 1.5.r,

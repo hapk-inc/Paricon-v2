@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:animated_emoji/animated_emoji.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
+import 'package:paricon/logic/room_type_notifier.dart';
 
 import 'package:random_avatar/random_avatar.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
@@ -28,6 +30,7 @@ import '../logic/s_size.dart';
 import '../logic/user_provider.dart';
 import '../model/board.dart';
 import '../model/local_icon.dart';
+import '../model/room.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
 import 'play_friend_scoreboard.dart';
@@ -96,6 +99,8 @@ class __PlayFriendBoard extends ConsumerWidget {
     final xIcons = playFriendNotifier.icons;
     final xPlayers = playFriendNotifier.players;
 
+    final Room? room = ref.watch(roomProvider).value;
+
     ref.listen(
       playFriendNotifierProvider.select((p) => p.balancePercentage),
       (previous, next) {
@@ -143,18 +148,45 @@ class __PlayFriendBoard extends ConsumerWidget {
                             height: 360.w * 1.5,
                             child: Column(
                               children: [
-                                const Flexible(
-                                    flex: 2, child: PlayFriendTimer()),
+                                SizedBox(
+                                  height: 105.h,
+                                  child: const PlayFriendTimer(),
+                                ),
                                 //Gap(45.r),
                                 Expanded(
                                   flex: 11,
                                   child: Container(
                                     alignment: Alignment.center,
-                                    child: _PlayFriendGrid(board.icons),
+                                    child: Stack(
+                                      children: [
+                                        Center(
+                                          child: Container(
+                                            padding: EdgeInsets.all(3.r),
+                                            constraints: (room?.level ??
+                                                        RoomLevel.hard) ==
+                                                    RoomLevel.hard
+                                                ? const BoxConstraints.expand()
+                                                : BoxConstraints.tight(
+                                                    (room?.level ??
+                                                                RoomLevel
+                                                                    .hard) ==
+                                                            RoomLevel.easy
+                                                        ? Size.square(300.r)
+                                                        : Size(360.r, 450.r),
+                                                  ),
+                                            //color: federalBlue,
+                                            child: _PlayFriendGrid(board.icons),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 //Spacer()
-                                const Flexible(child: PlayFriendFooter())
+                                SizedBox(
+                                  height: 45.h,
+                                  child: const PlayFriendFooter(),
+                                )
                               ],
                             ),
                           ),
@@ -471,6 +503,9 @@ class _PlayFriendGridTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playFriendNotifier = ref.watch(playFriendNotifierProvider);
+    final Room? room = ref.watch(roomProvider).value;
+    final RoomType type = room?.type ?? RoomType.normal;
+    debugPrint("478--$type");
 
     if (playFriendNotifier.board == null) return Container();
     final Map<String, LocalIcon> icons = playFriendNotifier.board!.icons;
@@ -532,14 +567,24 @@ class _PlayFriendGridTile extends ConsumerWidget {
                             color: federalBlue,
                           )
                         : localIcon.isCheck
-                            ? Icon(
-                                IconData(
-                                  localIcon.iconCode,
-                                  fontFamily: 'MaterialIcons',
-                                ),
-                                size: iconSize,
-                                color: ghostWhite,
-                              )
+                            ? type == RoomType.closed && (user.uid != currentID)
+                                ? Container(
+                                    color: ghostWhite1,
+                                    alignment: Alignment.center,
+                                    child: AnimatedEmoji(
+                                      AnimatedEmojis.question,
+                                      size: iconSize,
+                                      //repeat: false,
+                                    ),
+                                  )
+                                : Icon(
+                                    IconData(
+                                      localIcon.iconCode,
+                                      fontFamily: 'MaterialIcons',
+                                    ),
+                                    size: iconSize,
+                                    color: ghostWhite,
+                                  )
                             : Container(),
                   ),
                 ),

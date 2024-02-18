@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mock_data/mock_data.dart';
 import '../logic/dashboard_panel_provider.dart';
 import '../logic/next_animation_flag.dart';
 import '../logic/panel_provider.dart';
@@ -35,7 +36,12 @@ class PlayWithFriend extends ConsumerWidget {
             child: ListTile(
               titleTextStyle: tTheme.bodyMedium!.copyWith(color: magnolia),
               title: const AutoSizeText("Play with Friends", maxLines: 1),
-              subtitle: const Text("Connect with your friends", maxLines: 1),
+              subtitle: Text(
+                  [
+                    "Connect with your friends",
+                    "Play with your mates online."
+                  ][mockInteger(0, 1)],
+                  maxLines: 1),
               subtitleTextStyle: tTheme.bodySmall!.copyWith(color: magnolia),
               trailing: ElevatedButton(
                 onPressed: () {},

@@ -60,8 +60,9 @@ class AvatarTile extends ConsumerWidget {
                           child: FadeInUp(
                             delay: const Duration(milliseconds: 300),
                             child: InkWell(
-                              onTap: () => ref.watch(updateFaceAvatarProvider(
-                                  doc.data().avatar ?? mockString(1))),
+                              onDoubleTap: () => ref.watch(
+                                  updateFaceAvatarProvider(
+                                      doc.data().avatar ?? mockString(1))),
                               child: RandomAvatar(
                                 doc.data().avatar ?? mockString(1),
                                 trBackground: true,
