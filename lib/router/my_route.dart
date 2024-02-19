@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import '../ui/view_tournament.dart';
 
 import '../my_widget/app_stack.dart';
 import '../ui/app_error.dart';
@@ -40,6 +41,7 @@ class MyRouter extends _$MyRouter {
             AutoRoute(page: PlayFriendRoute.page),
             AutoRoute(page: PassAvatarRoute.page),
             AutoRoute(page: ViewLeaderBoardRoute.page),
+            AutoRoute(page: ViewTournamentRoute.page),
           ],
         )
       ];

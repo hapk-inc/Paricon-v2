@@ -58,7 +58,9 @@ class __SplashStateState extends ConsumerState<_SplashState> {
       const Duration(seconds: 1),
       () {
         if (!kDebugMode) {
-          audioPlayer.play(AssetSource('sacharja.mp3'));
+          if (context.mounted) {
+            audioPlayer.play(AssetSource('sacharja.mp3'));
+          }
         }
       },
     );

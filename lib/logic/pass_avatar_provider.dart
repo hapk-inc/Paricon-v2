@@ -2,7 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'pass_avatar_notifier.dart';
 
-final searchAvatarCodeProvider = FutureProvider.family<void, String>(
+final FutureProviderFamily<void, String> searchAvatarCodeProvider =
+    FutureProvider.family<void, String>(
   (ref, code) async {
     final passAvatar = ref.read(passAvatarNotifierProvider);
     return passAvatar.searchAvatarCode(code);

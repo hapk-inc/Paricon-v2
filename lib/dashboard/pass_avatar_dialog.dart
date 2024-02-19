@@ -1,3 +1,4 @@
+import 'package:dart_emoji/dart_emoji.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,6 +7,8 @@ import 'package:gap/gap.dart';
 
 import '../logic/dashboard_provider.dart';
 import '../logic/pass_avatar_provider.dart';
+import '../logic/user_provider.dart';
+import '../model/my_user.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
 
@@ -30,6 +33,8 @@ class _PassAvatarDialogState extends ConsumerState<PassAvatarDialog> {
   @override
   Widget build(BuildContext context) {
     final tTheme = Theme.of(context).textTheme;
+    final MyUser? myUser = ref.watch(myUserProvider).value;
+    final String myAvatarCode = myUser?.avatarCode ?? "";
     //List<String> old = ref.watch(passAvatarProvider).value ?? [];
 
     return AlertDialog(
@@ -43,18 +48,31 @@ class _PassAvatarDialogState extends ConsumerState<PassAvatarDialog> {
         leading: InkWell(
           onTap: () async {
             final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-            String? clipboardText = clipboardData?.text;
-            setState(() => arrayTxt = clipboardText ?? "");
-            Future.delayed(
-              const Duration(milliseconds: 500),
-              () {
-                ref
-                    .watch(searchAvatarCodeProvider(arrayTxt).future)
-                    .whenComplete(
-                      () => Navigator.pop(context),
-                    );
-              },
-            );
+            String clipboardText = clipboardData?.text ?? "";
+
+            bool containsEmoji = EmojiUtil.hasOnlyEmojis(clipboardText);
+            if (containsEmoji) {
+              bool isMineCode = myAvatarCode == clipboardText;
+              if (isMineCode && context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      "Paste your friend's code, not yours",
+                      style: TextStyle(fontSize: 13.5.r, fontFamily: 'Poppins'),
+                    ),
+                  ),
+                );
+              } else {
+                Future.delayed(
+                  const Duration(milliseconds: 500),
+                  () => ref
+                      .watch(searchAvatarCodeProvider(arrayTxt).future)
+                      .whenComplete(
+                        () => Navigator.pop(context),
+                      ),
+                );
+              }
+            }
           },
           child: Icon(Icons.paste, size: 24.r),
         ),

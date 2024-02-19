@@ -26,9 +26,9 @@ class ChangeName extends ConsumerWidget {
                 if (ref.read(dashboardPanelProvider).isPanelOpen) {
                   ref.read(dashboardPanelProvider).close();
                 }
-                if (ref.read(settingPanelProvider).isPanelOpen) {
+                /* if (ref.read(settingPanelProvider).isPanelOpen) {
                   ref.read(settingPanelProvider).close();
-                }
+                }*/
               },
             );
           } else {

@@ -35,6 +35,7 @@ class EnterTournamentCode extends ConsumerWidget {
               padding: EdgeInsets.symmetric(horizontal: 15.w),
               child: InkWell(
                 onTap: () {
+                  context.router.push(const ViewTournamentRoute());
                   /* ref.read(dashboardPanelNotifierProvider).openBuilder =
                             TournamentCodeOpen(action);
                         action.call();*/

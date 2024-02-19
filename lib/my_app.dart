@@ -149,23 +149,19 @@ class _MyAppState extends ConsumerState<MyApp> {
                                 ? whichPageRoute
                                 : inAppUpdateRoute();
                           },
-                          error: (e, __) {
-                            debugPrint("158--");
-                            debugPrint(e.toString());
-                            return const ErrorRoute();
-                          },
+                          error: (e, __) => const ErrorRoute(),
                           loading: () => SplashRoute(),
                         )
               ],
-              onNavigate: (urlState) {
+              /*onNavigate: (urlState) {
                 debugPrint("OnNavigate");
-              },
-              onPopRoute: (routeMatch, x) {
+              },*/
+              /*onPopRoute: (routeMatch, x) {
                 debugPrint("onPop Route");
                 debugPrint(x);
                 debugPrint(routeMatch.redirectedFrom);
                 context.router.replace(const DashboardRoute());
-              },
+              },*/
             ),
           ),
         );

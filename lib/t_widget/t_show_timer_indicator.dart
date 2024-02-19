@@ -61,15 +61,23 @@ class ShowTimerIndicator extends ConsumerWidget {
           trailing: InkWell(
             onTap: () {
               //context.router.pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: const Text("CLICK HERE TO CLOSE GAME"),
-                  action: SnackBarAction(
-                    label: 'EXIT',
-                    onPressed: () => context.router.pop(),
-                  ),
-                ),
-              );
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        "Click here to close the game",
+                        style:
+                            TextStyle(fontSize: 13.5.r, fontFamily: 'Poppins'),
+                      ),
+                      action: SnackBarAction(
+                        label: 'EXIT GAME',
+                        onPressed: () => context.router.pop(),
+                      ),
+                    ),
+                  )
+                  .closed
+                  .then((value) =>
+                      ScaffoldMessenger.of(context).clearSnackBars());
             },
             child: Icon(Icons.close, size: 21.r),
           ),

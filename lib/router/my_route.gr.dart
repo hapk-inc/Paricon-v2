@@ -98,6 +98,12 @@ abstract class _$MyRouter extends RootStackRouter {
         child: const ViewLeaderBoardPage(),
       );
     },
+    ViewTournamentRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ViewTournamentPage(),
+      );
+    },
   };
 }
 
@@ -302,6 +308,20 @@ class ViewLeaderBoardRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ViewLeaderBoardRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ViewTournamentPage]
+class ViewTournamentRoute extends PageRouteInfo<void> {
+  const ViewTournamentRoute({List<PageRouteInfo>? children})
+      : super(
+          ViewTournamentRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ViewTournamentRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

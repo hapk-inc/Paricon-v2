@@ -149,15 +149,7 @@ class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
                         },
                       ).whenComplete(() => changeFlag(false));
                     } else {
-                      googleButtonClick /*.then(
-                        (value) {
-                          if (mounted) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(buildLoginSnackBar(email: value));
-                          }
-                        },
-                      )*/
-                          .whenComplete(() => changeFlag(false));
+                      googleButtonClick.whenComplete(() => changeFlag(false));
                     }
                   }
                 },

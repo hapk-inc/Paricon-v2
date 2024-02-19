@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:paricon/logic/pass_avatar_notifier.dart';
+import '../logic/pass_avatar_notifier.dart';
 
 import 'firebase_option.dart';
 import 'logic/firebase_init.dart';
