@@ -1,6 +1,8 @@
 import 'package:dart_emoji/dart_emoji.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -43,64 +45,77 @@ class _PassAvatarDialogState extends ConsumerState<PassAvatarDialog> {
       shape: RoundedRectangleBorder(
         borderRadius: pTheme.slidingPanelFullRadius,
       ),
-      title: ListTile(
-        contentPadding: EdgeInsets.zero,
-        leading: InkWell(
-          onTap: () async {
-            final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-            String clipboardText = clipboardData?.text ?? "";
+      title: Container(
+        height: 60.h,
+        alignment: Alignment.centerLeft,
+        child: ListTile(
+          contentPadding: EdgeInsets.zero,
+          dense: true,
+          leading: InkWell(
+            onTap: () async {
+              final clipboardData =
+                  await Clipboard.getData(Clipboard.kTextPlain);
+              String clipboardText = clipboardData?.text ?? "";
 
-            bool containsEmoji = EmojiUtil.hasOnlyEmojis(clipboardText);
-            if (containsEmoji) {
-              bool isMineCode = myAvatarCode == clipboardText;
-              if (isMineCode && context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      "Paste your friend's code, not yours",
-                      style: TextStyle(fontSize: 13.5.r, fontFamily: 'Poppins'),
-                    ),
-                  ),
-                );
-              } else {
-                Future.delayed(
-                  const Duration(milliseconds: 500),
-                  () => ref
-                      .watch(searchAvatarCodeProvider(arrayTxt).future)
-                      .whenComplete(
-                        () => Navigator.pop(context),
+              bool containsEmoji = EmojiUtil.hasOnlyEmojis(clipboardText);
+              if (containsEmoji) {
+                bool isMineCode = myAvatarCode == clipboardText;
+                if (isMineCode && context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        "Paste your friend's code, not yours",
+                        style:
+                            TextStyle(fontSize: 13.5.r, fontFamily: 'Poppins'),
                       ),
-                );
+                    ),
+                  );
+                } else {
+                  setState(() => arrayTxt = clipboardText);
+                  Future.delayed(
+                    const Duration(milliseconds: 500),
+                    () => ref
+                        .watch(searchAvatarCodeProvider(arrayTxt).future)
+                        .whenComplete(
+                          () => Navigator.pop(context),
+                        ),
+                  );
+                }
               }
-            }
-          },
-          child: Icon(Icons.paste, size: 24.r),
+            },
+            child: Icon(Icons.paste, size: 24.r),
+          ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  ref.read(pasteCodeTitleTextProvider),
+                  maxLines: 1,
+                ),
+              ),
+              AspectRatio(
+                aspectRatio: 1,
+                child: InkWell(
+                  onTap: () => Navigator.pop(context),
+                  child: Icon(Icons.close, size: 18.r, color: gray),
+                ),
+              )
+            ],
+          ),
+          titleTextStyle: TextStyle(
+              fontFamily: 'WendyOne', color: violetBlue, fontSize: 15.r),
+          horizontalTitleGap: 3.w,
         ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              ref.read(pasteCodeTitleTextProvider),
-              maxLines: 1,
-            ),
-            InkWell(
-              onTap: () => Navigator.pop(context),
-              child: Icon(Icons.close, size: 18.r, color: gray),
-            )
-          ],
-        ),
-        titleTextStyle: TextStyle(
-            fontFamily: 'WendyOne', color: violetBlue, fontSize: 15.r),
-        horizontalTitleGap: 3.w,
       ),
       content: SizedBox(
-        height: 120.h,
+        height: 150.h,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: double.maxFinite,
-              height: 45.h,
+              height: 54.h,
               alignment: Alignment.centerLeft,
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),

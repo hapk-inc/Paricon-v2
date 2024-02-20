@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -62,22 +63,25 @@ class PassAvatarListTile extends ConsumerWidget {
         //subtitle: Text("ss"),
         horizontalTitleGap: 15.r,
         leading: Container(
-          constraints: BoxConstraints.tight(Size(45.w, 30.h)),
+          constraints: BoxConstraints.tight(Size(48.w, 30.h)),
           //color: cornellRed,
           alignment: Alignment.center,
           child: Row(
             children: [
               Icon(Icons.timer_outlined, size: 15.r, color: frenchGray),
               Gap(4.5.r),
-              AutoSizeText(
-                now.day == passAvatar.createdAt.day
-                    ? DateFormat.Hm().format(passAvatar.createdAt)
-                    : DateFormat.MMMd().format(passAvatar.createdAt),
-                style: TextStyle(color: isFromToMe ? federalBlue : frenchGray),
-                stepGranularity: 1.5,
-                overflow: TextOverflow.ellipsis,
-                minFontSize: 6,
-                maxFontSize: 9,
+              Expanded(
+                child: AutoSizeText(
+                  now.day == passAvatar.createdAt.day
+                      ? DateFormat.Hm().format(passAvatar.createdAt)
+                      : DateFormat.MMMd().format(passAvatar.createdAt),
+                  style:
+                      TextStyle(color: isFromToMe ? federalBlue : frenchGray),
+                  stepGranularity: 1.5,
+                  overflow: TextOverflow.ellipsis,
+                  minFontSize: 6,
+                  maxFontSize: 9,
+                ),
               ),
             ],
           ),

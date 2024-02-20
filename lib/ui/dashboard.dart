@@ -207,7 +207,7 @@ class __Dashboard extends ConsumerWidget {
               mainAxisCellCount: 4.5,
               child: DFooter(),
             ),
-            Gap(180.h),
+            Gap(210.h),
           ],
         ),
       );
