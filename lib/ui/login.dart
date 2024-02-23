@@ -30,11 +30,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  @override
-  Widget build(BuildContext context) {
-    debugPrint("Welcome to Login");
-    final pTheme = SlidingPanelTheme();
+  final pTheme = SlidingPanelTheme();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
     Future.delayed(
       const Duration(milliseconds: 500),
       () {
@@ -45,6 +46,12 @@ class _LoginPageState extends State<LoginPage> {
         }
       },
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    debugPrint("Welcome to Login");
+
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: majorelleBlue,

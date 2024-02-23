@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -93,7 +95,31 @@ class PassAvatarNotifier extends ChangeNotifier {
     return str;
   }
 
-  Future searchAvatarCode(String code) =>
+  Future<Map<String, MyUser>> searchAvatarCode(String code) {
+    return userColl
+        .where('avatarCode', isEqualTo: code)
+        .withConverter<MyUser>(
+          fromFirestore: (snapshot, _) {
+            debugPrint("102--");
+            debugPrint(snapshot.id);
+            return MyUser.fromJson(snapshot.data() ?? {});
+          },
+          toFirestore: (value, _) => value.toJson(),
+        )
+        .get()
+        .then(
+          (QuerySnapshot<MyUser> snapshot) =>
+              snapshot.docs.fold<Map<String, MyUser>>(
+            {},
+            (map, doc) {
+              map.addAll({doc.id: doc.data()});
+              return map;
+            },
+          ),
+        );
+  }
+
+/*  Future searchAvatarCode(String code) =>
       userColl.where('avatarCode', isEqualTo: code).get().then(
         (QuerySnapshot snapshot) async {
           if (snapshot.docs.isEmpty) {
@@ -108,7 +134,10 @@ class PassAvatarNotifier extends ChangeNotifier {
             await Future.wait([friendCollection(x), passAvatarColl(x)]);
           }
         },
-      );
+      );*/
+
+  Future updatePassAvtar(String x) =>
+      Future.wait([friendCollection(x), passAvatarColl(x)]);
 
   Future passAvatarColl(String x) async {
     final now = DateTime.now();

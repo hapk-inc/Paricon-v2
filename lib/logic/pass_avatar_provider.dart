@@ -1,12 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../model/my_user.dart';
 import 'pass_avatar_notifier.dart';
 
-final FutureProviderFamily<void, String> searchAvatarCodeProvider =
-    FutureProvider.family<void, String>(
+final FutureProviderFamily<Map<String, MyUser>, String>
+    searchAvatarCodeProvider =
+    FutureProvider.family<Map<String, MyUser>, String>(
   (ref, code) async {
     final passAvatar = ref.read(passAvatarNotifierProvider);
     return passAvatar.searchAvatarCode(code);
+  },
+);
+
+final updatePassAvatarProvider =
+    FutureProvider.autoDispose.family<void, String>(
+  (ref, id) async {
+    final passAvatar = ref.read(passAvatarNotifierProvider);
+    return passAvatar.updatePassAvtar(id);
   },
 );
 

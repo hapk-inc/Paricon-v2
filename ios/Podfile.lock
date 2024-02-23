@@ -642,7 +642,7 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.24):
     - BoringSSL-GRPC/Interface (= 0.0.24)
   - BoringSSL-GRPC/Interface (0.0.24)
-  - cloud_firestore (4.15.4):
+  - cloud_firestore (4.15.5):
     - Firebase/Firestore (= 10.20.0)
     - firebase_core
     - Flutter
@@ -676,26 +676,26 @@ PODS:
   - Firebase/RemoteConfig (10.20.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 10.20.0)
-  - firebase_analytics (10.8.5):
+  - firebase_analytics (10.8.6):
     - Firebase/Analytics (= 10.20.0)
     - firebase_core
     - Flutter
-  - firebase_auth (4.17.4):
+  - firebase_auth (4.17.5):
     - Firebase/Auth (= 10.20.0)
     - firebase_core
     - Flutter
   - firebase_core (2.25.4):
     - Firebase/CoreOnly (= 10.20.0)
     - Flutter
-  - firebase_crashlytics (3.4.14):
+  - firebase_crashlytics (3.4.15):
     - Firebase/Crashlytics (= 10.20.0)
     - firebase_core
     - Flutter
-  - firebase_database (10.4.5):
+  - firebase_database (10.4.6):
     - Firebase/Database (= 10.20.0)
     - firebase_core
     - Flutter
-  - firebase_remote_config (4.3.13):
+  - firebase_remote_config (4.3.14):
     - Firebase/RemoteConfig (= 10.20.0)
     - firebase_core
     - Flutter
@@ -1029,17 +1029,17 @@ SPEC CHECKSUMS:
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
-  cloud_firestore: ba576bee785a05ff952e4da7fa4e23c196917436
+  cloud_firestore: ecf08badc10198974885617f14819201d9a42575
   connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
   device_info_plus: c6fb39579d0f423935b0c9ce7ee2f44b71b9fce6
   emoji_picker_flutter: fe2e6151c5b548e975d546e6eeb567daf0962a58
   Firebase: 10c8cb12fb7ad2ae0c09ffc86cd9c1ab392a0031
-  firebase_analytics: 2e82fd84ce13f8321aa7b99336d6ee0e6cc7b984
-  firebase_auth: 29a10d4129d53aa690c10dbd838ed1a059ef0c9b
+  firebase_analytics: 9c600045bfb4d16dd78593d18f32c99bb77e5001
+  firebase_auth: 7351d07504173efaf1fb31fe3ffb73b2c521eae0
   firebase_core: a46c312d8bae4defa3d009b2aa7b5b413aeb394e
-  firebase_crashlytics: 3d12285fcbd865d576b9965bd4090cd8b68e11fd
-  firebase_database: e6b72eeda8dadd6e3965d86b86c997d35e43d4e2
-  firebase_remote_config: e9e018e59700ab678c254cc9f36897ee53c15f94
+  firebase_crashlytics: 3054fbdd2b4a4a91f25a15e57c9f1bd2a9ed81ae
+  firebase_database: fcf0ecd9e488b7bbd7830e4c8449d0de28e18dc3
+  firebase_remote_config: c201b15649145b16886f64912a6ae8d46b2a75f5
   FirebaseABTesting: 40774deef367dcc7b736b6c26dd59ce0fab42f41
   FirebaseAnalytics: a2731bf3670747ce8f65368b118d18aa8e368246
   FirebaseAppCheckInterop: 69fc7d8f6a1cbfa973efb8d1723651de30d12525

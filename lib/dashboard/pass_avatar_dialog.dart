@@ -1,142 +1,113 @@
-import 'package:dart_emoji/dart_emoji.dart';
-
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
-import '../logic/dashboard_provider.dart';
 import '../logic/pass_avatar_provider.dart';
-import '../logic/user_provider.dart';
-import '../model/my_user.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
 
-class PassAvatarDialog extends ConsumerStatefulWidget {
-  const PassAvatarDialog({super.key});
+class PassAvatarDialog extends ConsumerWidget {
+  final String text;
+  const PassAvatarDialog(this.text, {super.key});
 
   @override
-  ConsumerState createState() => _PassAvatarDialogState();
-}
-
-class _PassAvatarDialogState extends ConsumerState<PassAvatarDialog> {
-  final pTheme = SlidingPanelTheme();
-
-  String arrayTxt = "";
-
-  /*String str = List.generate(
-                6,
-                <String>(int index) => defaultEmojiSet[1]
-                    .emoji[mockInteger(0, defaultEmojiSet[1].emoji.length - 1)]
-                    .emoji).join();*/
-
-  @override
-  Widget build(BuildContext context) {
-    final tTheme = Theme.of(context).textTheme;
-    final MyUser? myUser = ref.watch(myUserProvider).value;
-    final String myAvatarCode = myUser?.avatarCode ?? "";
-    //List<String> old = ref.watch(passAvatarProvider).value ?? [];
-
-    return AlertDialog(
-      backgroundColor: ghostWhite1,
-      surfaceTintColor: ghostWhite1,
-      shape: RoundedRectangleBorder(
-        borderRadius: pTheme.slidingPanelFullRadius,
-      ),
-      title: Container(
-        height: 60.h,
-        alignment: Alignment.centerLeft,
-        child: ListTile(
-          contentPadding: EdgeInsets.zero,
-          dense: true,
-          leading: InkWell(
-            onTap: () async {
-              final clipboardData =
-                  await Clipboard.getData(Clipboard.kTextPlain);
-              String clipboardText = clipboardData?.text ?? "";
-
-              bool containsEmoji = EmojiUtil.hasOnlyEmojis(clipboardText);
-              if (containsEmoji) {
-                bool isMineCode = myAvatarCode == clipboardText;
-                if (isMineCode && context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        "Paste your friend's code, not yours",
-                        style:
-                            TextStyle(fontSize: 13.5.r, fontFamily: 'Poppins'),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final pTheme = SlidingPanelTheme();
+    return ref.watch(searchAvatarCodeProvider(text)).when(
+          data: (map) {
+            debugPrint(map.toString());
+            if (map.isEmpty) return Container();
+            return SlideInUp(
+              child: AlertDialog(
+                elevation: 9.r,
+                backgroundColor: ghostWhite1,
+                shape: RoundedRectangleBorder(
+                  borderRadius: pTheme.slidingPanelFullRadius,
+                ),
+                titlePadding: EdgeInsets.symmetric(
+                  horizontal: 15.w,
+                  vertical: 15.h,
+                ),
+                title: SizedBox(
+                  //color: coolGray,
+                  height: 45.h,
+                  child: ListTile(
+                    dense: false,
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text("Pasting friend's code"),
+                    leading: const Icon(Icons.paste),
+                    horizontalTitleGap: 7.5.w,
+                    titleTextStyle: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: violetBlue,
+                      fontSize: 15.r,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
+                ),
+                contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
+                contentTextStyle: TextStyle(
+                  fontSize: 12.r,
+                  height: 1.8,
+                  color: violetBlue,
+                  letterSpacing: 0,
+                  fontWeight: FontWeight.w300,
+                  fontFamily: 'Poppins',
+                ),
+                content: SizedBox(
+                  height: 150.h,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        text,
+                        style: TextStyle(fontSize: 39.r, letterSpacing: 1.5.r),
+                        maxLines: 1,
+                      ),
+                      Gap(15.r),
+                      Text(
+                        "Looks like a this is ${map.values.first.name}'s avatar.",
+                        //" Click below to pass new avatar",
+                        style: const TextStyle(height: 2.4),
+                      )
+                    ],
+                  ),
+                ),
+                actions: [
+                  ElevatedButton(
+                    onPressed: () => ref
+                        .read(updatePassAvatarProvider(map.keys.first).future)
+                        .then(
+                      (value) {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(violetBlue),
+                    ),
+                    child: ConstrainedBox(
+                      constraints:
+                          BoxConstraints(maxWidth: 300.w, maxHeight: 30.h),
+                      child: Text(
+                        "PASS NEW AVATAR TO ${map.values.first.name.toUpperCase()}",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: ghostWhite1,
+                          fontFamily: 'Montserrat',
+                          fontSize: 12.r,
+                        ),
                       ),
                     ),
-                  );
-                } else {
-                  setState(() => arrayTxt = clipboardText);
-                  Future.delayed(
-                    const Duration(milliseconds: 500),
-                    () => ref
-                        .watch(searchAvatarCodeProvider(arrayTxt).future)
-                        .whenComplete(
-                          () => Navigator.pop(context),
-                        ),
-                  );
-                }
-              }
-            },
-            child: Icon(Icons.paste, size: 24.r),
-          ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Text(
-                  ref.read(pasteCodeTitleTextProvider),
-                  maxLines: 1,
-                ),
+                  )
+                ],
               ),
-              AspectRatio(
-                aspectRatio: 1,
-                child: InkWell(
-                  onTap: () => Navigator.pop(context),
-                  child: Icon(Icons.close, size: 18.r, color: gray),
-                ),
-              )
-            ],
-          ),
-          titleTextStyle: TextStyle(
-              fontFamily: 'WendyOne', color: violetBlue, fontSize: 15.r),
-          horizontalTitleGap: 3.w,
-        ),
-      ),
-      content: SizedBox(
-        height: 150.h,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: double.maxFinite,
-              height: 54.h,
-              alignment: Alignment.centerLeft,
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 300),
-                child: Text(
-                  arrayTxt,
-                  key: ValueKey(arrayTxt),
-                  style: TextStyle(fontSize: 30.r),
-                ),
-              ),
-            ),
-            Gap(15.r),
-            Text(
-              ref.read(pasteCodeTextProvider),
-              style: tTheme.bodySmall!.copyWith(
-                color: gray,
-                fontWeight: FontWeight.w300,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
+            );
+          },
+          error: (error, stackTrace) => Container(),
+          loading: () => Container(),
+        );
   }
 }

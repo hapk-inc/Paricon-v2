@@ -37,8 +37,29 @@ class _CopyCodeButtonState extends ConsumerState<CopyCodeButton> {
       duration: const Duration(milliseconds: 300),
       child: InkWell(
         onTap: () {
-          Clipboard.setData(ClipboardData(text: avatarCode)).whenComplete(
-            () => setState(() => isCopyDone = true),
+          Clipboard.setData(ClipboardData(text: avatarCode)).then(
+            (_) {
+              setState(() => isCopyDone = true);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: RichText(
+                    text: const TextSpan(
+                      text: "Avatar Code Copied",
+                      children: [
+                        /*TextSpan(
+                            text: "Not yours",
+                            style: TextStyle(color: Colors.cyan),
+                          )*/
+                      ],
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: ghostWhite1,
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            },
           );
         },
         child: AnimatedSwitcher(

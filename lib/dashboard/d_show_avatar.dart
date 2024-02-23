@@ -18,7 +18,7 @@ import '../theme/my_color.dart';
 
 import 'avatar_tile.dart';
 import 'copy_code_button.dart';
-import 'pass_avatar_dialog.dart';
+import 'd_tap_avatar_code.dart';
 import 'pass_avatar_list_tile.dart';
 
 class ShowAvatar extends ConsumerWidget {
@@ -98,7 +98,7 @@ class ShowAvatar extends ConsumerWidget {
                   ],
                   style: tTheme.bodyMedium!.copyWith(color: darkPurple),
                 ),
-                textAlign: TextAlign.center,
+                //textAlign: TextAlign.center,
                 maxLines: 1,
               ),
               titleAlignment: ListTileTitleAlignment.center,
@@ -107,7 +107,7 @@ class ShowAvatar extends ConsumerWidget {
               subtitle: Text(
                 ref.read(shareCodeProvider),
                 maxLines: 2,
-                textAlign: TextAlign.center,
+                //textAlign: TextAlign.center,
               ),
             ),
           ),
@@ -147,49 +147,11 @@ class ShowAvatar extends ConsumerWidget {
               ),
             ),
           ),
-          StaggeredGridTile.count(
-              crossAxisCellCount: 20,
-              mainAxisCellCount: 0.9,
-              child: Center(
-                child: InkWell(
-                  onTap: () => showGeneralDialog(
-                    context: context,
-                    pageBuilder: (_, __, ___) => Container(),
-                    barrierDismissible: false,
-                    barrierLabel: "passAvatar",
-                    transitionBuilder: (ctx, a1, a2, child) {
-                      double curve = Curves.easeInOut.transform(a1.value);
-                      return Transform.scale(
-                        scale: curve,
-                        child: const PassAvatarDialog(),
-                      );
-                    },
-                    transitionDuration: const Duration(milliseconds: 300),
-                    //builder: (_) => const PassAvatarDialog(),
-                  ),
-                  child: Text.rich(
-                    const TextSpan(
-                      children: [
-                        TextSpan(
-                            text: "Tap here ",
-                            style: TextStyle(color: darkPastelGreen)),
-                        TextSpan(
-                          text: "to paste avatar code",
-                          style: TextStyle(fontWeight: FontWeight.w300),
-                        ),
-                      ],
-                    ),
-                    style: TextStyle(
-                      color: coolGray,
-                      fontWeight: FontWeight.normal,
-                      fontFamily: 'Poppins',
-                      fontSize: 12.r,
-                    ),
-                    maxLines: 1,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              )),
+          const StaggeredGridTile.fit(
+            crossAxisCellCount: 20,
+            // mainAxisCellCount: 0.9,
+            child: TapAvatarCode(),
+          ),
           Gap(15.r),
           StaggeredGridTile.fit(
             crossAxisCellCount: 20,

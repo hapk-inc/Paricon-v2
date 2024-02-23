@@ -54,7 +54,7 @@ ThemeData get buildThemeData => ThemeData(
         bodySmall: TextStyle(
           fontSize: 10.8.r,
           fontFamily: 'Poppins',
-          fontWeight: FontWeight.normal,
+          fontWeight: FontWeight.w300,
           height: 2.1,
           color: tropicalIndigo,
           letterSpacing: 0,
@@ -73,12 +73,21 @@ ThemeData get buildThemeData => ThemeData(
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
+          padding: MaterialStatePropertyAll(
+            EdgeInsets.symmetric(horizontal: 15.w),
+          ),
           textStyle: MaterialStatePropertyAll(
             TextStyle(
               fontSize: 15.r,
               fontFamily: 'Poppins',
               color: ghostWhite,
               fontWeight: FontWeight.w500,
+            ),
+          ),
+          backgroundColor: const MaterialStatePropertyAll(ghostWhite1),
+          shape: MaterialStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(7.5.r),
             ),
           ),
         ),
@@ -88,7 +97,7 @@ ThemeData get buildThemeData => ThemeData(
         backgroundColor: darkPurple,
         contentTextStyle: TextStyle(
           color: ghostWhite,
-          fontFamily: 'Montserrat',
+          fontFamily: 'Poppins',
           fontSize: 15.r,
         ),
         elevation: 3.r,
