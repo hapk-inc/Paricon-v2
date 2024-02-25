@@ -44,9 +44,9 @@ class _MyAppState extends ConsumerState<MyApp> {
         return SplashRoute(otherColor: pictonBlue);
       },
       data: (d) {
-        ref.read(appOpenedProvider);
         if (d != null) {
           debugPrint("Welcome ${d.name}");
+          ref.read(appOpenedProvider);
         }
         return d == null
             ? SplashRoute(otherColor: darkPastelGreen) as PageRouteInfo

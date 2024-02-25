@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,6 +26,18 @@ Future<void> main() async {
   //FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   final PackageInfo info = await PackageInfo.fromPlatform();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+
+  final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+  bool isEmulator = true;
+  if (!kIsWeb) {
+    if (Platform.isAndroid) {
+      final androidInfo = await deviceInfoPlugin.androidInfo;
+      isEmulator = androidInfo.isPhysicalDevice;
+    } else if (Platform.isIOS) {
+      final iosInfo = await deviceInfoPlugin.iosInfo;
+      isEmulator = iosInfo.isPhysicalDevice;
+    }
+  }
 
   final FirebaseApp app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform(info.appName),
@@ -56,7 +71,7 @@ Future<void> main() async {
       await remoteConfig.fetchAndActivate();
     } on FirebaseException catch (e, stackTrace) {
       debugPrint(e.code);
-      if (!kDebugMode) {
+      if (!kDebugMode && !isEmulator) {
         firebaseCrashlytics.recordError(e, stackTrace, fatal: false);
       }
     }
@@ -65,7 +80,7 @@ Future<void> main() async {
   //const fatalError = true;
   // Non-async exceptions
   FlutterError.onError = (errorDetails) {
-    if (!kIsWeb) {
+    if (!kIsWeb && !isEmulator) {
       debugPrintStack(stackTrace: errorDetails.stack);
       firebaseCrashlytics.recordFlutterFatalError(errorDetails);
     }
@@ -73,17 +88,19 @@ Future<void> main() async {
 
   // Async exceptions
   PlatformDispatcher.instance.onError = (error, stack) {
-    firebaseCrashlytics.recordError(error, stack, fatal: true);
+    if (!isEmulator) {
+      firebaseCrashlytics.recordError(error, stack, fatal: true);
+    }
     return true;
   };
 
-  if (!kIsWeb) {
+  if (!kIsWeb && !isEmulator) {
     await firebaseCrashlytics.setCrashlyticsCollectionEnabled(!kDebugMode);
   }
 
   runApp(
     DevicePreview(
-      enabled: kDebugMode,
+      enabled: !kIsWeb ? (!Platform.isIOS && kDebugMode) : false,
       builder: (BuildContext context) => ProviderScope(
         overrides: [
           passAvatarNotifierProvider
