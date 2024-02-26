@@ -81,9 +81,9 @@ class EnterTournamentCode extends ConsumerWidget {
 
                       },*/
                       onNextBeforePause: (index, p1) {
-                        debugPrint(_animText[index]);
+                        /*  debugPrint(_animText[index]);
                         debugPrint(
-                            "Duration - ${repeatAnimationNotifier.animDuration.inSeconds}");
+                            "Duration - ${repeatAnimationNotifier.animDuration.inSeconds}");*/
                         repeatAnimationNotifier.animDuration =
                             Duration(seconds: mockInteger(5, 15));
                         repeatAnimationNotifier.index = index;

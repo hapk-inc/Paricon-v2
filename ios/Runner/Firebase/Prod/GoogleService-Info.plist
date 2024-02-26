@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>294396273385-bjgiv98kue80f5ce0ipuom2960jra6s7.apps.googleusercontent.com</string>
+	<string>294396273385-66205q4burgujaimie652odrv1o72jpo.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.294396273385-bjgiv98kue80f5ce0ipuom2960jra6s7</string>
+	<string>com.googleusercontent.apps.294396273385-66205q4burgujaimie652odrv1o72jpo</string>
 	<key>ANDROID_CLIENT_ID</key>
-	<string>294396273385-dpvnh1sqtslfhu8pv155od57hf11oggs.apps.googleusercontent.com</string>
+	<string>294396273385-a811foo3lo2lv6r7aod3m0s2c29povoo.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDaD7k3XFSKsN6gbg33zzHhKc7y6mIXV2I</string>
 	<key>GCM_SENDER_ID</key>
@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.hapk.paricon</string>
+	<string>inc.hapk.paricon</string>
 	<key>PROJECT_ID</key>
 	<string>paricon-85795</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,7 +31,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:294396273385:ios:ac318c6989ff9fe20c8678</string>
+	<string>1:294396273385:ios:7782e8d2bebe1b230c8678</string>
 	<key>DATABASE_URL</key>
 	<string>https://paricon-85795-default-rtdb.firebaseio.com</string>
 </dict>

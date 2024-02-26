@@ -42,6 +42,7 @@ Future<void> main() async {
   final FirebaseApp app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform(info.appName),
   );
+  debugPrint("Is Release Build $kReleaseMode");
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instanceFor(app: app);
   final FirebaseFirestore fireStore = FirebaseFirestore.instanceFor(app: app);
@@ -55,6 +56,17 @@ Future<void> main() async {
 
   final FirebaseRemoteConfig remoteConfig =
       FirebaseRemoteConfig.instanceFor(app: app);
+
+  await remoteConfig.setDefaults(
+    const {
+      "showApp": false,
+      "inWork": "",
+      "playOnline": true,
+      "enterAvatarCode": false,
+      "onlineCount": 9,
+    },
+  );
+
   await remoteConfig.setConfigSettings(
     RemoteConfigSettings(
       fetchTimeout: const Duration(minutes: 1),

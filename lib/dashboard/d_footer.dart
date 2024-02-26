@@ -37,7 +37,7 @@ class DFooter extends ConsumerWidget {
               data: (app) => Text(
                 "Version ${app.version} (${app.buildNumber})",
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: gray,
+                      color: frenchGray,
                       fontWeight: FontWeight.w300,
                       fontSize: 12.r,
                     ),

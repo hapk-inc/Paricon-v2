@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_preview/device_preview.dart';
@@ -147,21 +149,14 @@ class _MyAppState extends ConsumerState<MyApp> {
                             if (kDebugMode) return whichPageRoute;
                             return !isPhysicalDevice
                                 ? whichPageRoute
-                                : inAppUpdateRoute();
+                                : Platform.isAndroid
+                                    ? inAppUpdateRoute()
+                                    : whichPageRoute;
                           },
                           error: (e, __) => const ErrorRoute(),
                           loading: () => SplashRoute(),
                         )
               ],
-              /*onNavigate: (urlState) {
-                debugPrint("OnNavigate");
-              },*/
-              /*onPopRoute: (routeMatch, x) {
-                debugPrint("onPop Route");
-                debugPrint(x);
-                debugPrint(routeMatch.redirectedFrom);
-                context.router.replace(const DashboardRoute());
-              },*/
             ),
           ),
         );
