@@ -214,4 +214,4 @@ class TournamentDatabase {
           );
 }
 
-const int tableCount = 6;
+const int tableCount = 12;

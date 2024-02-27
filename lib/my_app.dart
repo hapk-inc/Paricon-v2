@@ -138,6 +138,7 @@ class _MyAppState extends ConsumerState<MyApp> {
             scaffoldMessengerKey: _scaffoldMessengerKey,
             locale: DevicePreview.locale(context),
             builder: DevicePreview.appBuilder,
+            debugShowCheckedModeBanner: false,
             theme: buildThemeData,
             routerDelegate: AutoRouterDelegate.declarative(
               _myRoute,

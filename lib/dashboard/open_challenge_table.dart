@@ -31,16 +31,37 @@ class OpenChallengeTable extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final List<TDuration> recentTourList =
         ref.watch(recentTourListProvider).value ?? [];
+
+    debugPrint(recentTourList.length.toString());
+    debugPrint(recentTourList.toString());
+    recentTourList.sort((TDuration a, TDuration b) {
+      return b.playedAt.compareTo(a.playedAt);
+    });
+
+    List<TDuration> extractTDuration = [];
+    for (TDuration tDuration in recentTourList) {
+      if (!extractTDuration.any((e) => e.userId == tDuration.userId)) {
+        extractTDuration.add(tDuration);
+      } else {
+        TDuration first =
+            extractTDuration.singleWhere((e) => e.userId == tDuration.userId);
+        if (!first.tDuration.compareTo(tDuration.tDuration).isNegative) {
+          int index = extractTDuration.indexOf(first);
+          extractTDuration[index] = tDuration;
+        }
+      }
+    }
+    debugPrint("${extractTDuration.length}--54");
     final User? fUser = ref.watch(authUserProvider).value;
 
     final List<String> bestDList = ref.watch(bestDListProvider).value ?? [];
 
     List<DataRow> dRow(BoxConstraints constraints) => List.generate(
-          recentTourList.length <= tableCount
-              ? recentTourList.length
+          extractTDuration.length <= tableCount
+              ? extractTDuration.length
               : tableCount,
           (index) {
-            final TDuration tD = recentTourList[index];
+            final TDuration tD = extractTDuration[index];
             final bool isMe = tD.userId == fUser!.uid;
             final MyUser? xUser = ref.watch(xPlayerProvider(tD.userId)).value;
 

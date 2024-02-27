@@ -17,8 +17,6 @@ import '../theme/my_theme.dart';
 
 final PanelController _panelController = PanelController();
 
-//final _scaffoldLoginMessengerKey = GlobalKey<ScaffoldMessengerState>();
-
 GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 @RoutePage()
@@ -51,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     debugPrint("Welcome to Login");
+    final tTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -70,24 +69,19 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               Text(
                 "Login",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
+                style: tTheme.titleLarge!
                     .copyWith(color: hookerGreen, fontFamily: 'WendyOne'),
               ),
               RichText(
                 text: TextSpan(
                   children: const [
-                    TextSpan(
-                      text: "New to Paricon?",
-                      style: TextStyle(color: gray),
-                    ),
+                    TextSpan(text: "New to Paricon?"),
                     TextSpan(
                       text: " Create a account",
                       style: TextStyle(color: darkPastelGreen),
                     ),
                   ],
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: tTheme.bodyLarge?.copyWith(color: gray),
                 ),
               ),
               Gap(24.r),
@@ -135,32 +129,42 @@ class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
   }
 
   List<Widget> get loginOptionList => [
+        if (!kIsWeb)
+          if (Platform.isIOS)
+            LoginOptionButton(
+              optionBtnPressed: () {},
+              bColor: gray,
+              lChild: ConstrainedBox(
+                constraints: BoxConstraints.tight(Size.square(36.r)),
+                child: const Icon(Icons.apple),
+              ),
+            ),
         LoginOptionButton(
-          lChild: Image.asset('images/gLogo.png'),
           optionBtnPressed: isLoading
-              ? () {
-                  debugPrint("Wait now");
-                }
+              ? () => debugPrint("Wait now")
               : () {
                   changeFlag(true);
                   if (kIsWeb || !isPhysicalDevice) {
                     guestLogin.whenComplete(() => changeFlag(false));
                   } else {
                     if (Platform.isMacOS) {
-                      guestLogin.then(
-                        (value) {
-                          if (mounted) {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(buildLoginSnackBar());
-                          }
-                        },
-                      ).whenComplete(() => changeFlag(false));
+                      guestLogin.whenComplete(() => changeFlag(false));
                     } else {
                       googleButtonClick.whenComplete(() => changeFlag(false));
                     }
                   }
                 },
-        )
+          bColor: pictonBlue,
+          lChild: ConstrainedBox(
+            constraints: BoxConstraints.tight(Size.square(36.r)),
+            child: Container(
+              padding: EdgeInsets.all(4.5.r),
+              alignment: Alignment.center,
+              constraints: BoxConstraints.tight(Size.square(36.r)),
+              child: Image.asset('images/gLogo.png'),
+            ),
+          ),
+        ),
       ];
 
   @override
@@ -170,6 +174,7 @@ class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
         .when(data: (x) => x, error: (_, __) => true, loading: () => true);
     debugPrint("isPhysicalDevice $isPhysicalDevice");
     return Wrap(
+      spacing: 15.w,
       children: loginOptionList,
     );
   }
