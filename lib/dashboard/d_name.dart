@@ -64,8 +64,13 @@ class DName extends ConsumerWidget {
           ),
         ],
       ),
+      dense: true,
       subtitleTextStyle: tTheme.bodySmall,
-      subtitle: Text(ref.read(goodDayProvider), maxLines: 1),
+      subtitle: Text(
+        ref.read(goodDayProvider),
+        maxLines: 1,
+        style: TextStyle(fontSize: 12.r),
+      ),
     );
   }
 }

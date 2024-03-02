@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'auth.dart';
@@ -52,5 +53,17 @@ final AutoDisposeFutureProvider<String?> gSignProvider =
   (ref) async {
     final auth = ref.read(authProvider);
     return auth.signInWithGoogle;
+  },
+);
+
+final AutoDisposeFutureProvider appleClickProvider = FutureProvider.autoDispose(
+  (ref) async {
+    final auth = ref.read(authProvider);
+    try {
+      return auth.appleClick;
+    } catch (e, s) {
+      debugPrintStack(stackTrace: s);
+      rethrow;
+    }
   },
 );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
+import '../logic/s_size.dart';
 import 'my_color.dart';
 
 //List<String> emojiArr = ["😁", "😍", "🤪", "😎", "😡", "🥺", "🤩", "😱", "🥶"];
@@ -22,87 +23,97 @@ BorderRadius get bottomRadius => BorderRadius.only(
       bottomRight: Radius.circular(15.r),
     );
 
-ThemeData get buildThemeData => ThemeData(
-      scaffoldBackgroundColor: ghostWhite,
-      appBarTheme: AppBarTheme(
-        backgroundColor: majorelleBlue,
-        //shape: RoundedRectangleBorder(borderRadius: bottomRadius),
-        toolbarHeight: 120.h,
-        elevation: 3.r,
+ThemeData buildThemeData(ScreenSize sSize) {
+  debugPrint("30--");
+  debugPrint(sSize.name);
+
+  final double appBarHeight = sSize == ScreenSize.phone
+      ? 120.h
+      : sSize == ScreenSize.tab
+          ? 135.h
+          : 114.h;
+  return ThemeData(
+    scaffoldBackgroundColor: ghostWhite,
+    appBarTheme: AppBarTheme(
+      backgroundColor: majorelleBlue,
+      //shape: RoundedRectangleBorder(borderRadius: bottomRadius),
+      toolbarHeight: appBarHeight,
+      elevation: 3.r,
+    ),
+    textTheme: TextTheme(
+      titleLarge: TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: 30.r,
+        fontWeight: FontWeight.w700,
       ),
-      textTheme: TextTheme(
-        titleLarge: TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 30.r,
-          fontWeight: FontWeight.w700,
-        ),
-        bodyLarge: TextStyle(
-          fontSize: 13.5.r,
-          fontFamily: 'Poppins',
-          letterSpacing: 0.12.r,
-          height: 2.4,
-          fontWeight: FontWeight.normal,
-        ),
-        bodyMedium: TextStyle(
-          color: violetBlue,
-          fontSize: 30.r,
-          fontFamily: 'WendyOne',
-          height: 1.5,
-          letterSpacing: 0,
-          fontWeight: FontWeight.w700,
-        ),
-        bodySmall: TextStyle(
-          fontSize: 10.8.r,
-          fontFamily: 'Poppins',
-          fontWeight: FontWeight.w300,
-          height: 2.1,
-          color: tropicalIndigo,
-          letterSpacing: 0,
-        ),
+      bodyLarge: TextStyle(
+        fontSize: 13.5.r,
+        fontFamily: 'Poppins',
+        letterSpacing: 0.12.r,
+        height: 2.4,
+        fontWeight: FontWeight.normal,
       ),
-      outlinedButtonTheme: OutlinedButtonThemeData(
-        style: ButtonStyle(
-          textStyle: MaterialStatePropertyAll(
-            TextStyle(
-              fontSize: 15.r,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w500,
-            ),
+      bodyMedium: TextStyle(
+        color: violetBlue,
+        fontSize: 30.r,
+        fontFamily: 'WendyOne',
+        height: 1.5,
+        letterSpacing: 0,
+        fontWeight: FontWeight.w700,
+      ),
+      bodySmall: TextStyle(
+        fontSize: 9.r,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w300,
+        height: 2.1,
+        color: tropicalIndigo,
+        letterSpacing: 0,
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: ButtonStyle(
+        textStyle: MaterialStatePropertyAll(
+          TextStyle(
+            fontSize: 15.r,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ButtonStyle(
-          padding: MaterialStatePropertyAll(
-            EdgeInsets.symmetric(horizontal: 15.w),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        padding: MaterialStatePropertyAll(
+          EdgeInsets.symmetric(horizontal: 15.w),
+        ),
+        textStyle: MaterialStatePropertyAll(
+          TextStyle(
+            fontSize: 15.r,
+            fontFamily: 'Poppins',
+            color: ghostWhite,
+            fontWeight: FontWeight.w500,
           ),
-          textStyle: MaterialStatePropertyAll(
-            TextStyle(
-              fontSize: 15.r,
-              fontFamily: 'Poppins',
-              color: ghostWhite,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          backgroundColor: const MaterialStatePropertyAll(ghostWhite1),
-          shape: MaterialStatePropertyAll(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(7.5.r),
-            ),
+        ),
+        backgroundColor: const MaterialStatePropertyAll(ghostWhite1),
+        shape: MaterialStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(7.5.r),
           ),
         ),
       ),
-      snackBarTheme: SnackBarThemeData(
-        insetPadding: EdgeInsets.symmetric(vertical: 30.h),
-        backgroundColor: darkPurple,
-        contentTextStyle: TextStyle(
-          color: ghostWhite,
-          fontFamily: 'Poppins',
-          fontSize: 15.r,
-        ),
-        elevation: 3.r,
+    ),
+    snackBarTheme: SnackBarThemeData(
+      insetPadding: EdgeInsets.symmetric(vertical: 30.h),
+      backgroundColor: darkPurple,
+      contentTextStyle: TextStyle(
+        color: ghostWhite,
+        fontFamily: 'Poppins',
+        fontSize: 15.r,
       ),
-    );
+      elevation: 3.r,
+    ),
+  );
+}
 
 class SlidingPanelTheme {
   double slidingPanelHeight = 210.h;

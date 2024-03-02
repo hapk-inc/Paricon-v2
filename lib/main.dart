@@ -34,7 +34,7 @@ Future<void> main() async {
       final androidInfo = await deviceInfoPlugin.androidInfo;
       isEmulator = androidInfo.isPhysicalDevice;
     } else if (Platform.isIOS) {
-      final iosInfo = await deviceInfoPlugin.iosInfo;
+      final IosDeviceInfo iosInfo = await deviceInfoPlugin.iosInfo;
       isEmulator = iosInfo.isPhysicalDevice;
     }
   }
@@ -60,7 +60,7 @@ Future<void> main() async {
   await remoteConfig.setDefaults(
     const {
       "showApp": false,
-      "inWork": "",
+      "inWork": "Screen not Compatible",
       "playOnline": true,
       "enterAvatarCode": false,
       "onlineCount": 9,

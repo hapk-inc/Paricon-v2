@@ -107,9 +107,22 @@ class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
   late bool isLoading;
   late bool isPhysicalDevice;
 
-  Future<String?> get googleButtonClick => ref.read(gSignProvider.future);
+  Future<String?> get googleButtonClick {
+    changeFlag(true);
+    return ref.read(gSignProvider.future);
+  }
 
-  Future get guestLogin => ref.read(anonymousProvider.future);
+  Future get guestLogin {
+    changeFlag(true);
+    return ref.read(anonymousProvider.future);
+  }
+
+  Future get appleClick {
+    changeFlag(true);
+    return ref
+        .read(appleClickProvider.future)
+        .whenComplete(() => changeFlag(false));
+  }
 
   @override
   void initState() {
@@ -132,7 +145,8 @@ class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
         if (!kIsWeb)
           if (Platform.isIOS)
             LoginOptionButton(
-              optionBtnPressed: () {},
+              optionBtnPressed: () async =>
+                  kDebugMode ? guestLogin : appleClick,
               bColor: gray,
               lChild: ConstrainedBox(
                 constraints: BoxConstraints.tight(Size.square(36.r)),

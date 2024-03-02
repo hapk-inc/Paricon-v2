@@ -46,6 +46,7 @@ class UserDatastore {
           : () => myDocRef.snapshots().listen(
                 (DocumentSnapshot snapshot) {
                   MyUser? myUser;
+                  debugPrint("49--user_datastore");
                   if (snapshot.exists) {
                     myUser = getMyUser(snapshot);
                     if (behaviorSubject.hasValue) {
@@ -59,6 +60,8 @@ class UserDatastore {
                         () => behaviorSubject.add(myUser),
                       );
                     }
+                  } else {
+                    behaviorSubject.add(null);
                   }
                 },
               ),

@@ -32,6 +32,7 @@ import '../logic/user_activity_provider.dart';
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
 import '../my_widget/my_logo.dart';
+import '../theme/dashboard_size.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
 import 'host_room.dart';
@@ -80,27 +81,34 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
 
     final ScreenSize sSize = ref.watch(sizeProvider);
     final bool isPhone = sSize == ScreenSize.phone;
+    final bool isPhoneTab = isPhone || sSize == ScreenSize.tab;
     final bool doNotShow =
         (inWork.isNotEmpty && !kDebugMode) || myUser == null || fUser == null;
 
     return Scaffold(
-      appBar: AppBar(
-        title: FadeInRight(
-          delay: const Duration(milliseconds: 2100),
-          child: InkWell(
-            //onTap: () => context.router.push(const SettingsRoute()),
-            child: Padding(
-              padding: EdgeInsets.all(15.r),
-              child: const MyLogo(),
+      appBar: isPhoneTab
+          ? AppBar(
+              title: FadeInRight(
+                delay: const Duration(milliseconds: 2100),
+                child: Padding(
+                  padding: EdgeInsets.all(15.r),
+                  child: const MyLogo(),
+                ),
+              ),
+            )
+          : AppBar(
+              leading: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 7.5.r),
+                child: const MyLogo(),
+              ),
+              leadingWidth: 180.w,
             ),
-          ),
-        ),
-      ),
-      body: AnimatedSwitcher(
-        duration: const Duration(microseconds: 600),
-        child: !isPhone || doNotShow
+      body: const AnimatedSwitcher(
+        duration: Duration(microseconds: 600),
+        child: /*!(!isPhone || doNotShow)
             ? WorkInProgress(inWork: !isPhone ? notCompatible : inWork)
-            : const _DashboardSlidingPanel(),
+            : */
+            _DashboardSlidingPanel(),
       ),
     );
   }
@@ -170,45 +178,81 @@ class __Dashboard extends ConsumerWidget {
   const __Dashboard();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => SingleChildScrollView(
-        child: StaggeredGrid.count(
-          crossAxisCount: 20,
-          children: [
-            Gap(15.r),
-            const StaggeredGridTile.fit(crossAxisCellCount: 20, child: DName()),
-            const RecentPlayer(),
-            Gap(7.5.r),
-            const StaggeredGridTile.fit(
-                crossAxisCellCount: 20, child: DTournament()),
-            const StaggeredGridTile.fit(
-                crossAxisCellCount: 20, child: EnterTournamentCode()),
-            Gap(15.r),
-            const StaggeredGridTile.fit(
-                crossAxisCellCount: 20, child: OpenChallengeTable()),
-            Gap(15.r),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ScreenSize sSize = ref.watch(sizeProvider);
+    final bool isPhoneTab =
+        sSize == ScreenSize.phone || sSize == ScreenSize.tab;
+    return SingleChildScrollView(
+      child: StaggeredGrid.count(
+        crossAxisCount: 20,
+        children: [
+          StaggeredGridTile.fit(
+            crossAxisCellCount: 20,
+            child: Gap(DashboardSize(sSize).headerGap),
+          ),
+          const StaggeredGridTile.fit(crossAxisCellCount: 20, child: DName()),
+          const RecentPlayer(),
+          StaggeredGridTile.fit(
+            crossAxisCellCount: 20,
+            child: Gap(DashboardSize(sSize).headerGap),
+          ),
+          StaggeredGridTile.fit(
+            crossAxisCellCount: isPhoneTab ? 20 : 18,
+            child: const DTournament(),
+          ),
+          if (sSize == ScreenSize.iPad)
+            StaggeredGridTile.fit(
+              crossAxisCellCount: 2,
+              child: Container(),
+            ),
+          StaggeredGridTile.fit(
+            crossAxisCellCount: isPhoneTab ? 20 : 18,
+            child: EnterTournamentCode(),
+          ),
+          if (sSize == ScreenSize.iPad)
+            StaggeredGridTile.fit(
+              crossAxisCellCount: 2,
+              child: Container(),
+            ),
+          StaggeredGridTile.fit(
+            crossAxisCellCount: 20,
+            child: Gap(DashboardSize(sSize).headerGap),
+          ),
+          const StaggeredGridTile.fit(
+              crossAxisCellCount: 20, child: OpenChallengeTable()),
+          if (sSize == ScreenSize.phone) ...[
+            StaggeredGridTile.fit(
+              crossAxisCellCount: 20,
+              child: Gap(DashboardSize(sSize).headerGap),
+            ),
             const PlayWithFriend(),
-            Gap(120.r),
+            StaggeredGridTile.fit(
+              crossAxisCellCount: 20,
+              child: Gap(120.r),
+            ),
             const StaggeredGridTile.fit(
               crossAxisCellCount: 20,
               child: ShowAvatar(),
             ),
-            StaggeredGridTile.fit(
-              crossAxisCellCount: 20,
-              child: Divider(
-                height: 7.5.h,
-                color: frenchGray,
-                thickness: 0.36.r,
-                indent: 15.w,
-                endIndent: 15.w,
-              ),
-            ),
-            const StaggeredGridTile.count(
-              crossAxisCellCount: 20,
-              mainAxisCellCount: 4.5,
-              child: DFooter(),
-            ),
-            Gap(210.h),
           ],
-        ),
-      );
+          StaggeredGridTile.fit(
+            crossAxisCellCount: 20,
+            child: Divider(
+              height: 7.5.h,
+              color: frenchGray,
+              thickness: 0.36.r,
+              indent: 15.w,
+              endIndent: 15.w,
+            ),
+          ),
+          const StaggeredGridTile.count(
+            crossAxisCellCount: 20,
+            mainAxisCellCount: 4.5,
+            child: DFooter(),
+          ),
+          Gap(180.h),
+        ],
+      ),
+    );
+  }
 }

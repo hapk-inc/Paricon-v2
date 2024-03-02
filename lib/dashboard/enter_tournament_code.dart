@@ -1,12 +1,15 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_route/auto_route.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mock_data/mock_data.dart';
 
 import '../logic/next_animation_flag.dart';
+import '../logic/s_size.dart';
 import '../router/my_route.dart';
+import '../theme/dashboard_size.dart';
 import '../theme/my_color.dart';
 
 const List<String> _animText = ['PLAY NOW', 'TRY NOW', 'START NOW'];
@@ -16,10 +19,11 @@ class EnterTournamentCode extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final sSize = ref.read(sizeProvider);
     final repeatAnimationNotifier = ref.watch(repeatAnimationNotifierProvider);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
-      height: 48.r,
+      height: DashboardSize(sSize).enterTournamentHeight,
       decoration: BoxDecoration(
         color: cinerous,
         borderRadius: BorderRadius.circular(7.5.r),
@@ -28,8 +32,9 @@ class EnterTournamentCode extends ConsumerWidget {
         borderRadius: BorderRadius.circular(7.5.r),
         child: Row(
           children: [
-            Container(
-              width: 225.w,
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 500),
+              width: DashboardSize(sSize).enterTournamentWidth,
               color: magnolia1,
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.symmetric(horizontal: 15.w),
@@ -44,7 +49,7 @@ class EnterTournamentCode extends ConsumerWidget {
                   "PARICON",
                   style: TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 15.r,
+                    fontSize: DashboardSize(sSize).enterTournamentFontSize,
                     letterSpacing: 0.45.r,
                     fontWeight: FontWeight.w400,
                     color: vanDyke.withOpacity(0.3),
@@ -60,11 +65,14 @@ class EnterTournamentCode extends ConsumerWidget {
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       color: ghostWhite,
-                      fontSize: 13.5.r,
+                      fontSize:
+                          DashboardSize(sSize).enterTournamentFontSize - 1.5.r,
                       fontWeight: FontWeight.w700,
                     ),
                     child: AnimatedTextKit(
-                      onTap: () => context.router.push(const TournamentRoute()),
+                      onTap: sSize != ScreenSize.phone
+                          ? null
+                          : () => context.router.push(const TournamentRoute()),
                       animatedTexts: _animText
                           .map(
                             (e) => RotateAnimatedText(

@@ -25,24 +25,28 @@ class WorkInProgress extends StatelessWidget {
               inWork,
               softWrap: true,
               wrapWords: false,
+              maxLines: 2,
               style: tTheme.bodyMedium!.copyWith(
                 fontSize: 90.r,
                 color: jasper,
-                height: 1.8,
+                //height: 1.8,
               ),
             ),
           ),
           SizedBox(height: 9.r),
           FadeIn(
             delay: const Duration(seconds: 3),
-            child: Text(
-              "Appreciate your patience",
-              style: tTheme.bodySmall!.copyWith(
-                fontSize: 15.r,
-                fontWeight: FontWeight.w300,
-                color: jasper,
-                height: 2.1,
-                letterSpacing: .3.r,
+            child: Padding(
+              padding: EdgeInsets.only(left: 3.w),
+              child: Text(
+                "Appreciate your patience",
+                style: tTheme.bodySmall!.copyWith(
+                  fontSize: 15.r,
+                  fontWeight: FontWeight.w300,
+                  color: jasper,
+                  height: 2.1,
+                  letterSpacing: .3.r,
+                ),
               ),
             ),
           ),

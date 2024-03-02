@@ -10,6 +10,7 @@ import '../../logic/auth_provider.dart';
 import '../../model/user_activity.dart';
 import '../../theme/my_color.dart';
 import '../../theme/my_theme.dart';
+import '../logic/s_size.dart';
 
 class RecentPlayerTile extends ConsumerWidget {
   final String id;
@@ -30,9 +31,15 @@ class RecentPlayerTile extends ConsumerWidget {
     final DateTime today = DateTime.now();
     final bool notActive = xUser.isActive && (xUser.nowTime.day == today.day);
     final bool isMe = id == user.uid;
+
+    final ScreenSize sSize = ref.watch(sizeProvider);
+    final isPhoneTab = sSize == ScreenSize.phone || sSize == ScreenSize.tab;
     return AnimatedContainer(
-      width: 67.5.w,
-      margin: EdgeInsets.only(right: 3.r),
+      //color: cornellRed,
+      constraints: BoxConstraints(
+          maxWidth: isPhoneTab ? 70.2.w : 60.w,
+          minWidth: isPhoneTab ? 60.w : 48.w),
+      margin: EdgeInsets.only(right: 4.5.r),
       duration: const Duration(milliseconds: 500),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -48,7 +55,7 @@ class RecentPlayerTile extends ConsumerWidget {
                 backgroundColor: (xUser.isPlaying &&
                         DateTime.now().difference(
                                 xUser.lastGamePlayed ?? DateTime(2024, 1)) <
-                            Duration(minutes: 30))
+                            const Duration(minutes: 30))
                     ? darkPastelGreen
                     : violetBlue,
                 child: AnimatedSwitcher(

@@ -46,9 +46,14 @@ class _MyAppState extends ConsumerState<MyApp> {
         return SplashRoute(otherColor: pictonBlue);
       },
       data: (d) {
+        debugPrint("49-- ${d ?? "No User"}");
         if (d != null) {
           debugPrint("Welcome ${d.name}");
           ref.read(appOpenedProvider);
+          return const DashboardRoute();
+        } else {
+          ref.read(signOutProvider);
+          return const LoginRoute();
         }
         return d == null
             ? SplashRoute(otherColor: darkPastelGreen) as PageRouteInfo
@@ -81,6 +86,7 @@ class _MyAppState extends ConsumerState<MyApp> {
                 return const ErrorRoute();
               },
               data: (user) {
+                debugPrint("84--${user?.uid ?? "No ID"}");
                 if (user == null) return const LoginRoute();
                 return userRouteInfo;
               },
@@ -126,7 +132,7 @@ class _MyAppState extends ConsumerState<MyApp> {
     return ScreenUtilInit(
       designSize: const Size(360, 900),
       useInheritedMediaQuery: true,
-      builder: (_, __) {
+      builder: (context1, __) {
         final double x = 900.h / 360.w;
         debugPrint("ScreenRatio $x");
         final ScreenSize sSize = _changeScreenSize(x);
@@ -139,7 +145,7 @@ class _MyAppState extends ConsumerState<MyApp> {
             locale: DevicePreview.locale(context),
             builder: DevicePreview.appBuilder,
             debugShowCheckedModeBanner: false,
-            theme: buildThemeData,
+            theme: buildThemeData(sSize),
             routerDelegate: AutoRouterDelegate.declarative(
               _myRoute,
               routes: (handler) => [

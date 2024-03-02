@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:mock_data/mock_data.dart';
+import '../logic/s_size.dart';
 import '../router/my_route.dart';
 
 import '../logic/auth_provider.dart';
@@ -16,6 +17,7 @@ import '../logic/t_score.dart';
 import '../logic/tournament_database.dart';
 import '../model/my_user.dart';
 import '../model/t_duration.dart';
+import '../theme/dashboard_size.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
 
@@ -32,11 +34,10 @@ class OpenChallengeTable extends ConsumerWidget {
     final List<TDuration> recentTourList =
         ref.watch(recentTourListProvider).value ?? [];
 
-    debugPrint(recentTourList.length.toString());
-    debugPrint(recentTourList.toString());
-    recentTourList.sort((TDuration a, TDuration b) {
-      return b.playedAt.compareTo(a.playedAt);
-    });
+    final ScreenSize sSize = ref.read(sizeProvider);
+
+    recentTourList
+        .sort((TDuration a, TDuration b) => b.playedAt.compareTo(a.playedAt));
 
     List<TDuration> extractTDuration = [];
     for (TDuration tDuration in recentTourList) {
@@ -51,10 +52,11 @@ class OpenChallengeTable extends ConsumerWidget {
         }
       }
     }
-    debugPrint("${extractTDuration.length}--54");
     final User? fUser = ref.watch(authUserProvider).value;
 
     final List<String> bestDList = ref.watch(bestDListProvider).value ?? [];
+
+    final bool isPhone = sSize == ScreenSize.phone;
 
     List<DataRow> dRow(BoxConstraints constraints) => List.generate(
           extractTDuration.length <= tableCount
@@ -62,17 +64,19 @@ class OpenChallengeTable extends ConsumerWidget {
               : tableCount,
           (index) {
             final TDuration tD = extractTDuration[index];
-            final bool isMe = tD.userId == fUser!.uid;
+            final bool isMe = tD.userId == (fUser?.uid ?? "");
             final MyUser? xUser = ref.watch(xPlayerProvider(tD.userId)).value;
 
             final int myRank = bestDList.indexOf(tD.userId);
 
-            return _dataRow(isMe, constraints, myRank, xUser, tD);
+            final ScreenSize sSize = ref.watch(sizeProvider);
+
+            return _dataRow(isMe, constraints, myRank, xUser, tD, sSize);
           },
         );
 
     return Container(
-      height: 315.h,
+      height: DashboardSize(sSize).openChallengeTableHeight,
       color: lightOrange,
       child: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
@@ -88,7 +92,7 @@ class OpenChallengeTable extends ConsumerWidget {
                 columnSpacing: 3.w,
                 headingRowHeight: 45.h,
                 dataRowMinHeight: 48.h,
-                dataRowMaxHeight: 54.h,
+                dataRowMaxHeight: DashboardSize(sSize).openChallengeDataHeight,
                 headingTextStyle: TextStyle(
                   fontSize: 15.r,
                   fontFamily: 'Poppins',
@@ -112,8 +116,10 @@ class OpenChallengeTable extends ConsumerWidget {
                                 Text(colName[index]),
                                 const Spacer(),
                                 InkWell(
-                                  onTap: () => context.router
-                                      .push(const ViewLeaderBoardRoute()),
+                                  onTap: !isPhone
+                                      ? null
+                                      : () => context.router
+                                          .push(const ViewLeaderBoardRoute()),
                                   child: Text(
                                     "View All",
                                     style: TextStyle(
@@ -140,7 +146,7 @@ class OpenChallengeTable extends ConsumerWidget {
 }
 
 DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
-    MyUser? xUser, TDuration tD) {
+    MyUser? xUser, TDuration tD, ScreenSize sSize) {
   final double pW = constraints.maxWidth;
   bool showFirstTime = tD.firstTime &&
       (DateTime.now().difference(tD.playedAt) < const Duration(minutes: 90));
@@ -172,11 +178,12 @@ DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
                 constraints: BoxConstraints(
                   maxWidth: showFirstTime ? 90.w : double.infinity,
                 ),
-                child: AutoSizeText(
+                child: Text(
                   xUser == null ? "" : firstCaps(xUser.name),
                   style: TextStyle(
                     color: isMe ? lightOrange : hookerGreen,
                     letterSpacing: 0,
+                    fontSize: DashboardSize(sSize).openChallengeNameTextSize,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -225,24 +232,27 @@ DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
   );
 }
 
-class ShowPlayedDuration extends StatelessWidget {
+class ShowPlayedDuration extends ConsumerWidget {
   final Color? color;
   final Duration tDuration;
   final bool isMe;
   const ShowPlayedDuration(this.tDuration, this.isMe, {this.color, super.key});
 
   @override
-  Widget build(BuildContext context) => AutoSizeText.rich(
-        showTScore(
-          tDuration,
-          tSize: 15,
-          sSize: 10.8,
-          minute: color ?? (isMe ? lightOrange : caputMortuum),
-          mm: color ?? (isMe ? lightOrange : oldRose),
-        ),
-        maxLines: 1,
-        style: TextStyle(letterSpacing: 0.3.r),
-      );
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ScreenSize sSize = ref.watch(sizeProvider);
+    return AutoSizeText.rich(
+      showTScore(
+        tDuration,
+        tSize: DashboardSize(sSize).openChallengeTDurationFontSize,
+        sSize: DashboardSize(sSize).openChallengeTDurationFontSizeSub,
+        minute: color ?? (isMe ? lightOrange : caputMortuum),
+        mm: color ?? (isMe ? lightOrange : oldRose),
+      ),
+      maxLines: 1,
+      style: TextStyle(letterSpacing: 0.3.r),
+    );
+  }
 }
 
 class ShowPlayedAt extends StatelessWidget {
@@ -261,7 +271,7 @@ class ShowPlayedAt extends StatelessWidget {
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w300,
             color: isMe ? lavenderWeb : gray,
-            fontSize: 9.r,
+            fontSize: 10.5.r,
             letterSpacing: 0.r,
           ),
         ),
