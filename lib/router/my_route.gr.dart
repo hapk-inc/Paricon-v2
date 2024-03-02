@@ -86,6 +86,12 @@ abstract class _$MyRouter extends RootStackRouter {
         ),
       );
     },
+    SupportRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SupportPage(),
+      );
+    },
     TournamentRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -282,6 +288,20 @@ class SplashRouteArgs {
   String toString() {
     return 'SplashRouteArgs{otherColor: $otherColor, key: $key}';
   }
+}
+
+/// generated route for
+/// [SupportPage]
+class SupportRoute extends PageRouteInfo<void> {
+  const SupportRoute({List<PageRouteInfo>? children})
+      : super(
+          SupportRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SupportRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

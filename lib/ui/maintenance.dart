@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,52 +18,55 @@ class MaintenancePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sSize = ref.watch(sizeProvider);
     final isPhone = sSize == ScreenSize.phone;
+    final tTheme = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: AppBar(
+      /* appBar: AppBar(
         title: FadeIn(child: const MyLogo()),
         backgroundColor: majorelleBlue,
         toolbarHeight: 120.h,
-      ),
+      ),*/
+      backgroundColor: ghostWhite1,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Flexible(
-            flex: 3,
-            child: FadeIn(
-              delay: const Duration(seconds: 3),
-              child: Lottie.asset('lottie/developer_typing.json'),
+          Opacity(
+            opacity: 0.3,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: const MyLogo(),
             ),
           ),
-          Expanded(
-            child: ListTile(
-              title: FadeInRight(
-                delay: const Duration(seconds: 1),
-                child: Text(
-                  "App improvements are in progress",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: jasper,
-                      height: 1.8.r,
-                      fontWeight: FontWeight.w700,
-                      fontSize: isPhone ? 36.r : 27.r),
+          //Gap(30.r),
+          AspectRatio(
+            aspectRatio: 1.35,
+            child: Lottie.asset('lottie/developer_typing.json'),
+          ),
+          ListTile(
+            contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
+            title: FadeInRight(
+              delay: const Duration(milliseconds: 600),
+              child: AutoSizeText(
+                "App improvements are in progress",
+                style: tTheme.bodyMedium!.copyWith(
+                  fontSize: 45.r,
+                  color: jasper,
                 ),
-              ),
-              subtitle: FadeIn(
-                delay: const Duration(milliseconds: 1500),
-                child: Text(
-                  "Appreciate your patience while we perform maintenance",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    height: 2.1.r,
-                    fontSize: 15.r,
-                    color: jasper,
-                  ),
-                ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
               ),
             ),
-          )
+            dense: true,
+            subtitleTextStyle: tTheme.bodySmall,
+            subtitle: FadeInRight(
+              delay: const Duration(milliseconds: 1200),
+              child: Text(
+                "Appreciate your patience while we perform maintenance",
+                maxLines: 1,
+                style: TextStyle(fontSize: 12.r, color: jasper),
+              ),
+            ),
+          ),
+          // Gap(60.r),
         ],
       ),
     );

@@ -31,6 +31,7 @@ import '../logic/user_provider.dart';
 import '../model/board.dart';
 import '../model/local_icon.dart';
 import '../model/room.dart';
+import '../my_widget/g_icons.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
 import 'play_friend_scoreboard.dart';
@@ -505,7 +506,7 @@ class _PlayFriendGridTile extends ConsumerWidget {
     final playFriendNotifier = ref.watch(playFriendNotifierProvider);
     final Room? room = ref.watch(roomProvider).value;
     final RoomType type = room?.type ?? RoomType.normal;
-    debugPrint("478--$type");
+    //debugPrint("478--$type");
 
     if (playFriendNotifier.board == null) return Container();
     final Map<String, LocalIcon> icons = playFriendNotifier.board!.icons;
@@ -559,10 +560,8 @@ class _PlayFriendGridTile extends ConsumerWidget {
                     duration: const Duration(milliseconds: 500),
                     child: localIcon.isFound
                         ? Icon(
-                            IconData(
-                              localIcon.iconCode,
-                              fontFamily: 'MaterialIcons',
-                            ),
+                            gIcons.singleWhere(
+                                (x) => x.codePoint == localIcon.iconCode),
                             size: iconSize,
                             color: federalBlue,
                           )
@@ -578,10 +577,8 @@ class _PlayFriendGridTile extends ConsumerWidget {
                                     ),
                                   )
                                 : Icon(
-                                    IconData(
-                                      localIcon.iconCode,
-                                      fontFamily: 'MaterialIcons',
-                                    ),
+                                    gIcons.singleWhere((x) =>
+                                        x.codePoint == localIcon.iconCode),
                                     size: iconSize,
                                     color: ghostWhite,
                                   )

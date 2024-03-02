@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import '../ui/support.dart';
 import '../ui/view_tournament.dart';
 
 import '../my_widget/app_stack.dart';
@@ -27,6 +28,7 @@ class MyRouter extends _$MyRouter {
           transitionsBuilder: TransitionsBuilders.fadeIn,
         ),
         AutoRoute(page: SplashRoute.page),
+        AutoRoute(page: SupportRoute.page),
         AutoRoute(page: MaintenanceRoute.page),
         AutoRoute(page: NoNetRoute.page),
         AutoRoute(page: ErrorRoute.page),

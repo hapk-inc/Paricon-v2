@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -32,10 +33,10 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    debugPrint("Welcome to Login");
     Future.delayed(
-      const Duration(milliseconds: 500),
+      const Duration(milliseconds: 600),
       () {
         if (!_panelController.isPanelOpen) {
           if (mounted) {
@@ -47,50 +48,72 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    debugPrint("Welcome to Login");
-    final tTheme = Theme.of(context).textTheme;
-
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: majorelleBlue,
-      body: SlidingUpPanel(
-        controller: _panelController,
-        borderRadius: pTheme.slidingPanelRadius,
-        color: pTheme.slidingPanelColor,
-        maxHeight: pTheme.slidingPanelHeight,
-        defaultPanelState: PanelState.CLOSED,
-        isDraggable: false,
-        panel: Container(
-          padding:
-              pTheme.slidingPanelPadding + (pTheme.slidingPanelPadding * 0.5),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Login",
-                style: tTheme.titleLarge!
-                    .copyWith(color: hookerGreen, fontFamily: 'WendyOne'),
-              ),
-              RichText(
-                text: TextSpan(
-                  children: const [
-                    TextSpan(text: "New to Paricon?"),
-                    TextSpan(
-                      text: " Create a account",
-                      style: TextStyle(color: darkPastelGreen),
-                    ),
-                  ],
-                  style: tTheme.bodyLarge?.copyWith(color: gray),
+  Widget build(BuildContext context) => Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: majorelleBlue,
+        body: SafeArea(
+          bottom: false,
+          child: SlidingUpPanel(
+            controller: _panelController,
+            borderRadius: pTheme.slidingPanelRadius,
+            color: pTheme.slidingPanelColor,
+            maxHeight: 210.h,
+            defaultPanelState: PanelState.CLOSED,
+            isDraggable: false,
+            panel: const LoginPanel(),
+            minHeight: 0.h,
+            body: Column(
+              children: [
+                Gap(300.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 7.5.w),
+                  child: FadeIn(child: const MyLogo()),
                 ),
-              ),
-              Gap(24.r),
-              const Expanded(child: LoginButtonBar())
-            ],
+              ],
+            ),
           ),
         ),
-        minHeight: 0.h,
-        body: const Center(child: MyLogo()),
+      );
+}
+
+class LoginPanel extends StatelessWidget {
+  const LoginPanel({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final pTheme = SlidingPanelTheme();
+    final tTheme = Theme.of(context).textTheme;
+
+    return Container(
+      padding: pTheme.slidingPanelPadding + (pTheme.slidingPanelPadding * 0.5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          FadeInRight(
+            child: Text(
+              "Login",
+              style: tTheme.titleLarge!
+                  .copyWith(color: hookerGreen, fontFamily: 'WendyOne'),
+            ),
+          ),
+          FadeInRight(
+            delay: const Duration(milliseconds: 900),
+            child: RichText(
+              text: TextSpan(
+                children: const [
+                  TextSpan(text: "New to Paricon?"),
+                  TextSpan(
+                    text: " Create a account",
+                    style: TextStyle(color: darkPastelGreen),
+                  ),
+                ],
+                style: tTheme.bodyLarge?.copyWith(color: frenchGray),
+              ),
+            ),
+          ),
+          Gap(18.r),
+          const Expanded(child: LoginButtonBar())
+        ],
       ),
     );
   }
@@ -109,12 +132,15 @@ class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
 
   Future<String?> get googleButtonClick {
     changeFlag(true);
-    return ref.read(gSignProvider.future);
+
+    return ref.read(gSignProvider.future).whenComplete(() => changeFlag(false));
   }
 
   Future get guestLogin {
     changeFlag(true);
-    return ref.read(anonymousProvider.future);
+    return ref
+        .read(anonymousProvider.future)
+        .whenComplete(() => changeFlag(false));
   }
 
   Future get appleClick {
@@ -143,7 +169,7 @@ class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
 
   List<Widget> get loginOptionList => [
         if (!kIsWeb)
-          if (Platform.isIOS)
+          if (Platform.isIOS || Platform.isMacOS)
             LoginOptionButton(
               optionBtnPressed: () async =>
                   kDebugMode ? guestLogin : appleClick,
@@ -153,43 +179,36 @@ class _LoginButtonBarState extends ConsumerState<LoginButtonBar> {
                 child: const Icon(Icons.apple),
               ),
             ),
-        LoginOptionButton(
-          optionBtnPressed: isLoading
-              ? () => debugPrint("Wait now")
-              : () {
-                  changeFlag(true);
-                  if (kIsWeb || !isPhysicalDevice) {
-                    guestLogin.whenComplete(() => changeFlag(false));
-                  } else {
-                    if (Platform.isMacOS) {
-                      guestLogin.whenComplete(() => changeFlag(false));
-                    } else {
-                      googleButtonClick.whenComplete(() => changeFlag(false));
-                    }
-                  }
-                },
-          bColor: pictonBlue,
-          lChild: ConstrainedBox(
-            constraints: BoxConstraints.tight(Size.square(36.r)),
-            child: Container(
-              padding: EdgeInsets.all(4.5.r),
-              alignment: Alignment.center,
-              constraints: BoxConstraints.tight(Size.square(36.r)),
-              child: Image.asset('images/gLogo.png'),
-            ),
-          ),
+        Consumer(
+          builder: (context, ref, child) {
+            final isEmulator = ref.watch(isEmulatorProvider);
+            return LoginOptionButton(
+              optionBtnPressed: isLoading
+                  ? () => debugPrint("Wait now")
+                  : () => Platform.isMacOS || isEmulator
+                      ? guestLogin
+                      : googleButtonClick,
+              bColor: pictonBlue,
+              lChild: ConstrainedBox(
+                constraints: BoxConstraints.tight(Size.square(36.r)),
+                child: Container(
+                  padding: EdgeInsets.all(4.5.r),
+                  alignment: Alignment.center,
+                  constraints: BoxConstraints.tight(Size.square(36.r)),
+                  child: Image.asset('images/gLogo.png'),
+                ),
+              ),
+            );
+          },
         ),
       ];
 
   @override
-  Widget build(BuildContext context) {
-    isPhysicalDevice = ref
-        .watch(isPhysicalDeviceProvider)
-        .when(data: (x) => x, error: (_, __) => true, loading: () => true);
-    debugPrint("isPhysicalDevice $isPhysicalDevice");
-    return Wrap(
-      spacing: 15.w,
-      children: loginOptionList,
-    );
-  }
+  Widget build(BuildContext context) => FadeInRight(
+        delay: const Duration(milliseconds: 1500),
+        child: Wrap(
+          spacing: 15.w,
+          children: loginOptionList,
+        ),
+      );
 }

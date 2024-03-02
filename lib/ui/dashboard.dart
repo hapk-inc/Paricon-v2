@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,23 +14,19 @@ import '../dashboard/d_name.dart';
 import '../dashboard/d_recent_player.dart';
 import '../dashboard/d_show_avatar.dart';
 import '../dashboard/d_tournament.dart';
-import '../dashboard/d_work_in_progress.dart';
 
 import '../dashboard/enter_tournament_code.dart';
 
 import '../dashboard/open_challenge_table.dart';
 import '../dashboard/play_with_friend.dart';
 
-import '../logic/auth_provider.dart';
 import '../logic/dashboard_panel_provider.dart';
 import '../logic/panel_provider.dart';
-import '../logic/remote_values.dart';
 import '../logic/room_id.dart';
 import '../logic/s_size.dart';
 import '../logic/user_activity_provider.dart';
-import '../logic/user_provider.dart';
-import '../model/my_user.dart';
 import '../my_widget/my_logo.dart';
+import '../my_widget/no_internet.dart';
 import '../theme/dashboard_size.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
@@ -75,15 +70,16 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
 
   @override
   Widget build(BuildContext context) {
-    final String inWork = ref.watch(inWorkProvider);
-    final MyUser? myUser = ref.watch(myUserProvider).value;
-    final User? fUser = ref.watch(authUserProvider).value;
+    //final String inWork = ref.watch(inWorkProvider);
+    //final MyUser? myUser = ref.watch(myUserProvider).value;
+    //final User? fUser = ref.watch(authUserProvider).value;
 
     final ScreenSize sSize = ref.watch(sizeProvider);
-    final bool isPhone = sSize == ScreenSize.phone;
-    final bool isPhoneTab = isPhone || sSize == ScreenSize.tab;
-    final bool doNotShow =
-        (inWork.isNotEmpty && !kDebugMode) || myUser == null || fUser == null;
+    //final bool isPhone = sSize == ScreenSize.phone;
+    final bool isPhoneTab =
+        sSize == ScreenSize.phone || sSize == ScreenSize.tab;
+    //final bool doNotShow =
+    //    (inWork.isNotEmpty && !kDebugMode) || myUser == null || fUser == null;
 
     return Scaffold(
       appBar: isPhoneTab
@@ -97,11 +93,13 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
               ),
             )
           : AppBar(
-              leading: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 7.5.r),
+              titleSpacing: 7.5.w,
+              title: Container(
+                width: 180.w,
+                alignment: Alignment.center,
                 child: const MyLogo(),
               ),
-              leadingWidth: 180.w,
+              //leadingWidth: 180.w,
             ),
       body: const AnimatedSwitcher(
         duration: Duration(microseconds: 600),
@@ -164,7 +162,10 @@ class _DashboardSlidingPanel extends ConsumerWidget {
       ),
       isDraggable: false,
       backdropEnabled: true,
-      backdropTapClosesPanel: ref.watch(idNotifier).isEmpty,
+      //backdropTapClosesPanel: ref.watch(idNotifier).isEmpty ,
+      backdropTapClosesPanel: ref.watch(idNotifier).isNotEmpty
+          ? false
+          : dPanelNotifier.dWidget != const NoInternet(),
       onPanelClosed: () {
         FocusScope.of(context).unfocus();
       },
@@ -207,7 +208,7 @@ class __Dashboard extends ConsumerWidget {
             ),
           StaggeredGridTile.fit(
             crossAxisCellCount: isPhoneTab ? 20 : 18,
-            child: EnterTournamentCode(),
+            child: const EnterTournamentCode(),
           ),
           if (sSize == ScreenSize.iPad)
             StaggeredGridTile.fit(
@@ -250,7 +251,7 @@ class __Dashboard extends ConsumerWidget {
             mainAxisCellCount: 4.5,
             child: DFooter(),
           ),
-          Gap(180.h),
+          Gap(210.h),
         ],
       ),
     );

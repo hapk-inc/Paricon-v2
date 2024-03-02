@@ -61,8 +61,8 @@ class NoNetPage extends ConsumerWidget {
                     children: [
                       TextSpan(
                         text: "click here",
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => ref.refresh(checkNetProvider),
+                        //recognizer: TapGestureRecognizer()
+                        //  ..onTap = () => ref.refresh(checkNetProvider),
                         style: const TextStyle(
                           color: darkPastelGreen,
                           fontFamily: 'Montserrat',

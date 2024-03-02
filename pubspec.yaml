@@ -269,3 +269,5 @@ flutter:
   # dart run flutter_native_splash:create --flavors Dev,Prod
 
   #  flutter build ipa --no-tree-shake-icons
+  #  flutter build web --no-tree-shake-icons
+  #  firebase deploy --no-tree-shake-icons

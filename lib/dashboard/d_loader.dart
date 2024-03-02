@@ -32,7 +32,7 @@ class _RecentPlayerLoaderState extends ConsumerState<DLoader> {
       () {
         if (mounted && dashboardPanel.isPanelClosed) {
           dashboardPanelNotifier.dWidget = const NoInternet();
-          dashboardPanelNotifier.dHeight = 150.h;
+          dashboardPanelNotifier.dHeight = 180.h;
           dashboardPanel.open();
         }
       },

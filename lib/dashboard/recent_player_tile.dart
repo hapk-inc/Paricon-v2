@@ -34,11 +34,13 @@ class RecentPlayerTile extends ConsumerWidget {
 
     final ScreenSize sSize = ref.watch(sizeProvider);
     final isPhoneTab = sSize == ScreenSize.phone || sSize == ScreenSize.tab;
+
     return AnimatedContainer(
       //color: cornellRed,
       constraints: BoxConstraints(
-          maxWidth: isPhoneTab ? 70.2.w : 60.w,
-          minWidth: isPhoneTab ? 60.w : 48.w),
+        maxWidth: isPhoneTab ? 70.5.w : 60.w,
+        minWidth: isPhoneTab ? 60.w : 48.w,
+      ),
       margin: EdgeInsets.only(right: 4.5.r),
       duration: const Duration(milliseconds: 500),
       child: Column(

@@ -9,6 +9,7 @@ import 'package:responsive_grid_list/responsive_grid_list.dart';
 
 import '../logic/tournament_listener.dart';
 import '../model/local_icon.dart';
+import '../my_widget/g_icons.dart';
 import '../theme/my_color.dart';
 
 class TournamentGrid extends ConsumerWidget {
@@ -90,20 +91,16 @@ class TournamentGridTile extends ConsumerWidget {
                 duration: const Duration(milliseconds: 500),
                 child: xIcon.isFound
                     ? Icon(
-                        IconData(
-                          xIcon.iconCode,
-                          fontFamily: 'MaterialIcons',
-                        ),
-                        size: 30.r,
+                        gIcons.singleWhere(
+                            (x) => x.codePoint == localIcon.iconCode),
+                        size: 27.r,
                         color: ghostWhite,
                       )
                     : xIcon.isCheck
                         ? Icon(
-                            IconData(
-                              xIcon.iconCode,
-                              fontFamily: 'MaterialIcons',
-                            ),
-                            size: 30.r,
+                            gIcons.singleWhere(
+                                (x) => x.codePoint == localIcon.iconCode),
+                            size: 27.r,
                             color: coyote,
                           )
                         : Container(),

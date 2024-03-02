@@ -66,6 +66,7 @@ class PlayFriendListener extends ChangeNotifier {
 
     if (_alreadyClicked) {
       _inWait = true;
+
       notifyListeners();
       await Future.delayed(
         const Duration(milliseconds: 600),

@@ -79,7 +79,6 @@ class DashboardSize {
   }
 
   double get openChallengeDataHeight {
-    debugPrint("196--${screenSize.name}");
     switch (screenSize) {
       case ScreenSize.phone:
         return 54.h;

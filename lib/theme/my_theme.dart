@@ -24,14 +24,11 @@ BorderRadius get bottomRadius => BorderRadius.only(
     );
 
 ThemeData buildThemeData(ScreenSize sSize) {
-  debugPrint("30--");
-  debugPrint(sSize.name);
-
   final double appBarHeight = sSize == ScreenSize.phone
       ? 120.h
       : sSize == ScreenSize.tab
           ? 135.h
-          : 114.h;
+          : 108.h;
   return ThemeData(
     scaffoldBackgroundColor: ghostWhite,
     appBarTheme: AppBarTheme(
@@ -116,6 +113,7 @@ ThemeData buildThemeData(ScreenSize sSize) {
 }
 
 class SlidingPanelTheme {
+  //double slidingPanelHeight = 270.h;
   double slidingPanelHeight = 210.h;
   EdgeInsets slidingPanelPadding = EdgeInsets.all(15.r);
   BorderRadius slidingPanelRadius =

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -20,6 +18,11 @@ final firebaseAppProvider = Provider<FirebaseApp>(
 );
 
 final firebaseAuthProvider = Provider<FirebaseAuth>(
+  (_) => throw UnimplementedError(),
+);
+
+final Provider<FirebaseFirestore> fireStoreProvider =
+    Provider<FirebaseFirestore>(
   (_) => throw UnimplementedError(),
 );
 
@@ -61,11 +64,6 @@ final StreamProvider<ConnectivityResult> internetConnectionProvider =
   },
 );
 
-final Provider<FirebaseFirestore> fireStoreProvider =
-    Provider<FirebaseFirestore>(
-  (_) => throw UnimplementedError(),
-);
-
 final debugAndAppNameProvider = FutureProvider<bool>(
   (ref) async {
     final package = await ref.read(packageInfoProvider.future);
@@ -78,7 +76,7 @@ final deviceInfoProvider = Provider<DeviceInfoPlugin>(
   (_) => DeviceInfoPlugin(),
 );
 
-final FutureProvider<bool> isPhysicalDeviceProvider = FutureProvider<bool>(
+/*final FutureProvider<bool> isPhysicalDeviceProvider = FutureProvider<bool>(
   (ref) async {
     final deviceInfo = ref.read(deviceInfoProvider);
     if (Platform.isIOS) {
@@ -91,7 +89,11 @@ final FutureProvider<bool> isPhysicalDeviceProvider = FutureProvider<bool>(
     }
     return false;
   },
-);
+);*/
+
+final Provider<bool> isEmulatorProvider = Provider<bool>((_) => false);
+
+final Provider<bool> isAndroidWebProvider = Provider<bool>((_) => true);
 
 final AutoDisposeFutureProvider<PackageInfo> packageInfoProvider =
     FutureProvider.autoDispose<PackageInfo>(
@@ -103,11 +105,6 @@ final AutoDisposeFutureProvider<AppUpdateInfo> inAppUpdateProvider =
   (_) async => InAppUpdate.checkForUpdate(),
 );
 
-/*final StreamProvider<ConnectivityResult> internetConnectionProvider =
-    StreamProvider(
-  (_) => Connectivity().onConnectivityChanged,
-);*/
-
-final FutureProvider<ConnectivityResult> checkNetProvider = FutureProvider(
-  (_) => Connectivity().checkConnectivity(),
-);
+// final FutureProvider<ConnectivityResult> checkNetProvider = FutureProvider(
+//   (_) => Connectivity().checkConnectivity(),
+// );

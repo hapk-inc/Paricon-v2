@@ -15,7 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import '../logic/pass_avatar_notifier.dart';
 
 import 'firebase_option.dart';
 import 'logic/firebase_init.dart';
@@ -28,21 +27,26 @@ Future<void> main() async {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
 
   final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
+
   bool isEmulator = true;
+  bool isAndroidWeb = true;
   if (!kIsWeb) {
     if (Platform.isAndroid) {
       final androidInfo = await deviceInfoPlugin.androidInfo;
-      isEmulator = androidInfo.isPhysicalDevice;
+      isEmulator = !androidInfo.isPhysicalDevice;
     } else if (Platform.isIOS) {
       final IosDeviceInfo iosInfo = await deviceInfoPlugin.iosInfo;
-      isEmulator = iosInfo.isPhysicalDevice;
+      isEmulator = !iosInfo.isPhysicalDevice;
     }
+  } else {
+    WebBrowserInfo webBrowserInfo = await deviceInfoPlugin.webBrowserInfo;
+    debugPrint('Running on ${webBrowserInfo.appVersion}');
+    isAndroidWeb = (webBrowserInfo.appVersion ?? "").contains("Android");
   }
 
   final FirebaseApp app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform(info.appName),
   );
-  debugPrint("Is Release Build $kReleaseMode");
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instanceFor(app: app);
   final FirebaseFirestore fireStore = FirebaseFirestore.instanceFor(app: app);
@@ -74,25 +78,12 @@ Future<void> main() async {
     ),
   );
 
-  final Connectivity connectivity = Connectivity();
-  final iNet = await connectivity.checkConnectivity();
-
-  if (iNet != ConnectivityResult.none) {
-    debugPrint("Initialising Remote Config for connectivity $iNet");
-    try {
-      await remoteConfig.fetchAndActivate();
-    } on FirebaseException catch (e, stackTrace) {
-      debugPrint(e.code);
-      if (!kDebugMode && !isEmulator) {
-        firebaseCrashlytics.recordError(e, stackTrace, fatal: false);
-      }
-    }
-  }
+  //remoteConfig.fetchAndActivate();
 
   //const fatalError = true;
   // Non-async exceptions
   FlutterError.onError = (errorDetails) {
-    if (!kIsWeb && !isEmulator) {
+    if (!kIsWeb) {
       debugPrintStack(stackTrace: errorDetails.stack);
       firebaseCrashlytics.recordFlutterFatalError(errorDetails);
     }
@@ -100,34 +91,35 @@ Future<void> main() async {
 
   // Async exceptions
   PlatformDispatcher.instance.onError = (error, stack) {
-    if (!isEmulator) {
+    if (!kIsWeb) {
       firebaseCrashlytics.recordError(error, stack, fatal: true);
     }
     return true;
   };
 
-  if (!kIsWeb && !isEmulator) {
+  if (!kIsWeb) {
     await firebaseCrashlytics.setCrashlyticsCollectionEnabled(!kDebugMode);
   }
 
+  List<Override> overrides = [
+    firebaseAppProvider.overrideWithValue(app),
+    firebaseAuthProvider.overrideWithValue(firebaseAuth),
+    analyticsProvider.overrideWithValue(firebaseAnalytics),
+    fireStoreProvider.overrideWithValue(fireStore),
+    databaseProvider.overrideWithValue(database),
+    remoteConfigProvider.overrideWithValue(remoteConfig),
+    crashlyticsProvider.overrideWithValue(firebaseCrashlytics),
+    //checkNetProvider.overrideWith((_) async => iNet)
+
+    isEmulatorProvider.overrideWithValue(isEmulator),
+    if (kIsWeb) isAndroidWebProvider.overrideWithValue(isAndroidWeb)
+  ];
+
   runApp(
     DevicePreview(
-      enabled: !kIsWeb ? (!Platform.isIOS && kDebugMode) : false,
-      builder: (BuildContext context) => ProviderScope(
-        overrides: [
-          passAvatarNotifierProvider
-              .overrideWith((ref) => PassAvatarNotifier(ref)),
-          firebaseAppProvider.overrideWithValue(app),
-          firebaseAuthProvider.overrideWithValue(firebaseAuth),
-          analyticsProvider.overrideWithValue(firebaseAnalytics),
-          fireStoreProvider.overrideWithValue(fireStore),
-          databaseProvider.overrideWithValue(database),
-          remoteConfigProvider.overrideWithValue(remoteConfig),
-          crashlyticsProvider.overrideWithValue(firebaseCrashlytics),
-          checkNetProvider.overrideWith((_) async => iNet)
-        ],
-        child: const MyApp(),
-      ),
+      //enabled: !kIsWeb ? (!Platform.isIOS && kDebugMode) : false,
+      enabled: kIsWeb ? false : kDebugMode,
+      builder: (_) => ProviderScope(overrides: overrides, child: const MyApp()),
     ),
   );
 }
