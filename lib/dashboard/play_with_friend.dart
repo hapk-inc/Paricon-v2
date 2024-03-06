@@ -42,7 +42,8 @@ class PlayWithFriend extends ConsumerWidget {
                     "Play with your mates online."
                   ][mockInteger(0, 1)],
                   maxLines: 1),
-              subtitleTextStyle: tTheme.bodySmall!.copyWith(color: magnolia),
+              subtitleTextStyle:
+                  tTheme.bodySmall?.copyWith(fontSize: 12.r, color: ghostWhite),
               trailing: ElevatedButton(
                 onPressed: () {},
                 child: const Text("PLAY NOW"),

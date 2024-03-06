@@ -9,9 +9,10 @@ import '../model/local_icon.dart';
 import '../model/my_user.dart';
 import '../model/room.dart';
 import '../theme/my_color.dart';
+import 'app_check.dart';
 import 'auth_provider.dart';
 import 'board_database.dart';
-import 'firebase_init.dart';
+
 import 'game_setup_provider.dart';
 import 'room_database.dart';
 import 'room_id.dart';

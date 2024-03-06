@@ -90,7 +90,7 @@ class OpenChallengeTable extends ConsumerWidget {
                 horizontalMargin: 12.w,
                 dividerThickness: 0.6.r,
                 columnSpacing: 3.w,
-                headingRowHeight: 45.h,
+                headingRowHeight: 48.h,
                 dataRowMinHeight: 48.h,
                 dataRowMaxHeight: DashboardSize(sSize).openChallengeDataHeight,
                 headingTextStyle: TextStyle(

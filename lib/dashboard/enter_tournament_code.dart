@@ -39,12 +39,12 @@ class EnterTournamentCode extends ConsumerWidget {
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.symmetric(horizontal: 15.w),
               child: InkWell(
-                onTap: () {
+                /* onTap: () {
                   context.router.push(const ViewTournamentRoute());
-                  /* ref.read(dashboardPanelNotifierProvider).openBuilder =
+                  */ /* ref.read(dashboardPanelNotifierProvider).openBuilder =
                             TournamentCodeOpen(action);
-                        action.call();*/
-                },
+                        action.call();*/ /*
+                },*/
                 child: Text(
                   "PARICON",
                   style: TextStyle(

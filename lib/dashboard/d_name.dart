@@ -1,10 +1,12 @@
 import 'package:animated_emoji/animated_emoji.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:gap/gap.dart';
+import '../router/my_route.dart';
 import '../logic/dashboard_provider.dart';
 import '../logic/next_animation_flag.dart';
 import '../logic/panel_provider.dart';
@@ -43,11 +45,13 @@ class DName extends ConsumerWidget {
             alignment: Alignment.center,
             child: InkWell(
               //onTap: () => context.router.push(const SettingsRoute()),
-              onTap: () {
+              /*onTap: () {
                 dNotifier.dHeight = 192.h;
                 dNotifier.dWidget = const ChangeName();
                 ref.read(dashboardPanelProvider).open();
-              },
+              },*/
+              onTap: () => context.router.push(const EditProfileRoute()),
+
               child: AnimatedEmoji(
                 AnimatedEmojis.pencil,
                 size: 30.r,

@@ -29,6 +29,14 @@ final AutoDisposeFutureProvider signOutProvider =
   },
 );
 
+final AutoDisposeFutureProvider deleteAccountProvider =
+    FutureProvider.autoDispose<void>(
+  (ref) {
+    final auth = ref.read(authProvider);
+    return auth.deleteAccount;
+  },
+);
+
 final AutoDisposeFutureProviderFamily updateNameProvider =
     FutureProvider.autoDispose.family<void, String>(
   (ref, name) async {

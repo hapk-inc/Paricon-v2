@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:in_app_update/in_app_update.dart';
-import 'package:paricon/ui/no_net.dart';
 
+import 'logic/app_check.dart';
 import 'logic/auth_provider.dart';
 import 'logic/firebase_init.dart';
 import 'logic/remote_values.dart';
@@ -35,43 +35,54 @@ class _MyAppState extends ConsumerState<MyApp> {
   late PageRouteInfo userRouteInfo;
   late PageRouteInfo whichPageRouteInfo;
   late PageRouteInfo appUpdateRouteInfo;
-  bool isConnected = true;
+  //bool? isConnected;
 
   @override
   Widget build(BuildContext context) {
     ref.listen(
-      internetConnectionProvider.select((value) => value.value),
-      (previous, next) {
-        if (next == ConnectivityResult.wifi ||
-            next == ConnectivityResult.mobile) {
-          ref.read(remoteConfigProvider).fetchAndActivate();
-          setState(() => isConnected = true);
+      internetConnectionProvider.select((x) => x.value),
+      (previous, next) async {
+        final bool validConnection = next == ConnectivityResult.wifi ||
+            next == ConnectivityResult.mobile;
+        debugPrint("validConnection $validConnection");
+        if (validConnection) {
+          int remoteConnected = await ref
+              .watch(remoteConfigProvider)
+              .fetchAndActivate()
+              .then((value) => value ? 1 : 0)
+              .onError((e, __) {
+            debugPrint(e.toString());
+            return -1;
+          });
+          debugPrint("RemoteConnected $remoteConnected");
+          ref.read(netConnectedNotifierProvider.notifier).state =
+              remoteConnected;
         } else {
-          setState(() => isConnected = false);
+          ref.read(netConnectedNotifierProvider.notifier).state = -1;
         }
       },
     );
 
     final bool showApp = ref.watch(showAppProvider);
     userRouteInfo = ref.watch(myUserProvider).maybeWhen(
-          orElse: () => SplashRoute(otherColor: pictonBlue),
-          loading: () {
-            if (_scaffoldMessengerKey.currentState != null) {
-              _scaffoldMessengerKey.currentState!.removeCurrentSnackBar();
-            }
-            return SplashRoute(otherColor: pictonBlue);
-          },
-          data: (user) {
-            if (user != null) {
-              debugPrint("Welcome ${user.name}");
-              ref.read(appOpenedProvider);
-              return const DashboardRoute();
-            } else {
-              ref.read(signOutProvider);
-              return const LoginRoute();
-            }
-          },
-        );
+        orElse: () => SplashRoute(otherColor: pictonBlue),
+        loading: () {
+          if (_scaffoldMessengerKey.currentState != null) {
+            _scaffoldMessengerKey.currentState!.removeCurrentSnackBar();
+          }
+          return SplashRoute(otherColor: pictonBlue);
+        },
+        data: (user) {
+          if (user != null) {
+            debugPrint("Welcome ${user.name}");
+            ref.read(appOpenedProvider);
+            return const DashboardRoute();
+          } else {
+            ref.read(signOutProvider);
+            return const LoginRoute();
+          }
+        },
+        error: (e, s) => SplashRoute());
     whichPageRouteInfo = showApp
         ? const MaintenanceRoute()
         : ref.watch(authUserProvider).when(
@@ -90,7 +101,7 @@ class _MyAppState extends ConsumerState<MyApp> {
                   : whichPageRouteInfo,
         );
 
-    final bool isEmulator = ref.watch(isEmulatorProvider);
+    // final bool isEmulator = ref.watch(isEmulatorProvider);
 
     return ScreenUtilInit(
       designSize: const Size(360, 900),
@@ -100,9 +111,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         debugPrint("ScreenRatio $x");
         final ScreenSize sSize = _changeScreenSize(x);
         return ProviderScope(
-          overrides: [
-            sizeProvider.overrideWithValue(sSize),
-          ],
+          overrides: [sizeProvider.overrideWithValue(sSize)],
           child: MaterialApp.router(
             color: cornellRed,
             scaffoldMessengerKey: _scaffoldMessengerKey,
@@ -112,16 +121,18 @@ class _MyAppState extends ConsumerState<MyApp> {
             theme: buildThemeData(sSize),
             routerDelegate: AutoRouterDelegate.declarative(
               _myRoute,
-              routes: (handler) => !isConnected
-                  ? [const NoNetRoute()]
-                  : [
-                      if (kIsWeb)
-                        const SupportRoute()
-                      else if (Platform.isMacOS || Platform.isIOS || isEmulator)
-                        whichPageRouteInfo
-                      else
-                        appUpdateRouteInfo
-                    ],
+              routes: (handler) {
+                return [
+                  if (kIsWeb)
+                    whichPageRouteInfo
+                  else if (showApp)
+                    const MaintenanceRoute()
+                  else if (Platform.isAndroid && kReleaseMode)
+                    appUpdateRouteInfo
+                  else
+                    whichPageRouteInfo
+                ];
+              },
             ),
           ),
         );

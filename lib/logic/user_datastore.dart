@@ -9,6 +9,7 @@ import '../model/d_avatar.dart';
 import '../model/local_player.dart';
 import '../model/my_user.dart';
 import '../model/play_stats.dart';
+import 'app_check.dart';
 import 'auth_provider.dart';
 import 'firebase_init.dart';
 import 'game_setup_provider.dart';
@@ -64,7 +65,11 @@ class UserDatastore {
                     behaviorSubject.add(null);
                   }
                 },
-              ),
+              ).onError((e, s) {
+                debugPrint("70--");
+                debugPrint("User_datastore");
+                debugPrintStack(stackTrace: s);
+              }),
       onCancel: () {
         debugPrint("on Cancelling $user");
         if (user != null) {

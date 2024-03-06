@@ -4297,7 +4297,7 @@ const List<String> femaleName = [
   "Pavithra"
 ];
 
-String myRandomName({String option = "Any"}) {
+String mockAvatarName({String option = "Any"}) {
   switch (option) {
     case "male":
       return maleName[mockInteger(0, maleName.length - 1)];

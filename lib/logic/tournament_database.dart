@@ -204,14 +204,14 @@ class TournamentDatabase {
     return batch.commit();
   }
 
-  firestore.Query<BestD> bestDQuery(bool flag) =>
-      bestDReference.orderBy('bestD', descending: false).withConverter(
-            fromFirestore: (snapshot, options) {
-              debugPrint("${snapshot.data()}");
-              return BestD.fromJson(snapshot.data() ?? {});
-            },
-            toFirestore: (value, options) => value.toJson(),
-          );
+  firestore.Query<BestD> bestDQuery(bool flag) => bestDReference
+      .orderBy('bestD', descending: false)
+      .limit(15)
+      .withConverter(
+        fromFirestore: (snapshot, options) =>
+            BestD.fromJson(snapshot.data() ?? {}),
+        toFirestore: (value, options) => value.toJson(),
+      );
 }
 
 const int tableCount = 12;

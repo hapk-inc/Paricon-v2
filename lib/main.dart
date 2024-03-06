@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -17,6 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'firebase_option.dart';
+import 'logic/app_check.dart';
 import 'logic/firebase_init.dart';
 import 'my_app.dart';
 
@@ -29,7 +29,8 @@ Future<void> main() async {
   final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
   bool isEmulator = true;
-  bool isAndroidWeb = true;
+  //bool isAndroidWeb = true;
+
   if (!kIsWeb) {
     if (Platform.isAndroid) {
       final androidInfo = await deviceInfoPlugin.androidInfo;
@@ -41,7 +42,7 @@ Future<void> main() async {
   } else {
     WebBrowserInfo webBrowserInfo = await deviceInfoPlugin.webBrowserInfo;
     debugPrint('Running on ${webBrowserInfo.appVersion}');
-    isAndroidWeb = (webBrowserInfo.appVersion ?? "").contains("Android");
+    //  isAndroidWeb = (webBrowserInfo.appVersion ?? "").contains("Android");
   }
 
   final FirebaseApp app = await Firebase.initializeApp(
@@ -53,73 +54,82 @@ Future<void> main() async {
   //FirebaseFirestore.setLoggingEnabled(true);
   final FirebaseDatabase database = FirebaseDatabase.instanceFor(app: app);
 
-  final FirebaseAnalytics firebaseAnalytics =
-      FirebaseAnalytics.instanceFor(app: app);
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instanceFor(app: app);
 
-  final FirebaseCrashlytics firebaseCrashlytics = FirebaseCrashlytics.instance;
+  final FirebaseCrashlytics crashlytics = FirebaseCrashlytics.instance;
 
   final FirebaseRemoteConfig remoteConfig =
       FirebaseRemoteConfig.instanceFor(app: app);
 
-  await remoteConfig.setDefaults(
-    const {
-      "showApp": false,
-      "inWork": "Screen not Compatible",
-      "playOnline": true,
-      "enterAvatarCode": false,
-      "onlineCount": 9,
-    },
+  await remoteConfig.setDefaults(_remoteConfigDefaults);
+
+  final RemoteConfigSettings remoteConfigSetting = RemoteConfigSettings(
+    fetchTimeout: const Duration(seconds: 45),
+    minimumFetchInterval: const Duration(seconds: 3),
   );
 
-  await remoteConfig.setConfigSettings(
-    RemoteConfigSettings(
-      fetchTimeout: const Duration(minutes: 1),
-      minimumFetchInterval: const Duration(seconds: 10),
-    ),
-  );
+  await remoteConfig.setConfigSettings(remoteConfigSetting);
+
+  /*final int isNetConnected = await remoteConfig
+      .fetchAndActivate()
+      .then((flag) => flag ? 1 : 0)
+      .catchError((_, __) => -1);*/
+
+  //final ConnectivityResult iNet =
+  //    await Connectivity().onConnectivityChanged.first;
 
   //remoteConfig.fetchAndActivate();
 
   //const fatalError = true;
   // Non-async exceptions
   FlutterError.onError = (errorDetails) {
+    debugPrint(errorDetails.toString());
     if (!kIsWeb) {
       debugPrintStack(stackTrace: errorDetails.stack);
-      firebaseCrashlytics.recordFlutterFatalError(errorDetails);
+      crashlytics.recordFlutterFatalError(errorDetails);
     }
   };
 
   // Async exceptions
   PlatformDispatcher.instance.onError = (error, stack) {
+    debugPrint(error.toString());
     if (!kIsWeb) {
-      firebaseCrashlytics.recordError(error, stack, fatal: true);
+      crashlytics.recordError(error, stack, fatal: true);
     }
     return true;
   };
 
   if (!kIsWeb) {
-    await firebaseCrashlytics.setCrashlyticsCollectionEnabled(!kDebugMode);
+    await crashlytics.setCrashlyticsCollectionEnabled(!kDebugMode);
   }
 
   List<Override> overrides = [
     firebaseAppProvider.overrideWithValue(app),
     firebaseAuthProvider.overrideWithValue(firebaseAuth),
-    analyticsProvider.overrideWithValue(firebaseAnalytics),
+    analyticsProvider.overrideWithValue(analytics),
     fireStoreProvider.overrideWithValue(fireStore),
     databaseProvider.overrideWithValue(database),
     remoteConfigProvider.overrideWithValue(remoteConfig),
-    crashlyticsProvider.overrideWithValue(firebaseCrashlytics),
-    //checkNetProvider.overrideWith((_) async => iNet)
-
+    crashlyticsProvider.overrideWithValue(crashlytics),
+    //checkNetProvider.overrideWith((_) async => iNet),
     isEmulatorProvider.overrideWithValue(isEmulator),
-    if (kIsWeb) isAndroidWebProvider.overrideWithValue(isAndroidWeb)
+    // if (kIsWeb) isAndroidWebProvider.overrideWithValue(isAndroidWeb)
   ];
 
   runApp(
     DevicePreview(
       //enabled: !kIsWeb ? (!Platform.isIOS && kDebugMode) : false,
-      enabled: kIsWeb ? false : kDebugMode,
+      //enabled: kIsWeb ? true : !kDebugMode,
+      enabled: kDebugMode,
       builder: (_) => ProviderScope(overrides: overrides, child: const MyApp()),
     ),
   );
 }
+
+const Map<String, dynamic> _remoteConfigDefaults = {
+  "showApp": false,
+  "inWork": "Screen not Compatible",
+  "playOnline": true,
+  "enterAvatarCode": false,
+  "onlineCount": 9,
+};

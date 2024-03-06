@@ -35,7 +35,7 @@ class RecentPlayer extends ConsumerWidget {
             return y.nowTime.compareTo(x.nowTime);
           },
           query: ref.watch(recentUserProvider),
-          padding: EdgeInsets.only(left: 9.w, top: 4.5.h),
+          padding: EdgeInsets.only(left: 15.w, top: 4.5.h),
           defaultChild: const DLoader("Checking for Recent Players"),
           itemBuilder:
               (_, DataSnapshot snapshot, Animation<double> animation, __) {

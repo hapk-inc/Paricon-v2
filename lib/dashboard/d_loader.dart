@@ -3,12 +3,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../logic/app_check.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../logic/dashboard_panel_provider.dart';
 import '../../logic/panel_provider.dart';
 import '../../my_widget/no_internet.dart';
 import '../../theme/my_color.dart';
+import '../logic/firebase_init.dart';
 
 class DLoader extends ConsumerStatefulWidget {
   final String s;
@@ -25,16 +27,28 @@ class _RecentPlayerLoaderState extends ConsumerState<DLoader> {
   void initState() {
     super.initState();
     dashboardPanel = ref.read(dashboardPanelProvider);
-    final DashboardPanelNotifier dashboardPanelNotifier =
-        ref.read(dashboardPanelNotifierProvider);
+
+    final nNotifier = netConnectedNotifierProvider.notifier;
+
     Future.delayed(
       const Duration(seconds: 3),
       () {
-        if (mounted && dashboardPanel.isPanelClosed) {
+        if (mounted) {
+          ref.watch(remoteConfigProvider).fetchAndActivate().then(
+            (value) {
+              ref.watch(nNotifier).state = value ? 1 : 0;
+            },
+          ).catchError(
+            (_, __) {
+              ref.watch(nNotifier).state = -1;
+            },
+          );
+        }
+/*        if (mounted && dashboardPanel.isPanelClosed) {
           dashboardPanelNotifier.dWidget = const NoInternet();
           dashboardPanelNotifier.dHeight = 180.h;
           dashboardPanel.open();
-        }
+        }*/
       },
     );
   }

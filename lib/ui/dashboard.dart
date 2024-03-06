@@ -27,6 +27,7 @@ import '../logic/s_size.dart';
 import '../logic/user_activity_provider.dart';
 import '../my_widget/my_logo.dart';
 import '../my_widget/no_internet.dart';
+import '../router/my_route.dart';
 import '../theme/dashboard_size.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
@@ -88,7 +89,10 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                 delay: const Duration(milliseconds: 2100),
                 child: Padding(
                   padding: EdgeInsets.all(15.r),
-                  child: const MyLogo(),
+                  child: InkWell(
+                    onTap: () => context.router.push(const SettingsRoute()),
+                    child: const MyLogo(),
+                  ),
                 ),
               ),
             )
@@ -164,8 +168,9 @@ class _DashboardSlidingPanel extends ConsumerWidget {
       backdropEnabled: true,
       //backdropTapClosesPanel: ref.watch(idNotifier).isEmpty ,
       backdropTapClosesPanel: ref.watch(idNotifier).isNotEmpty
-          ? false
-          : dPanelNotifier.dWidget != const NoInternet(),
+      /*? false
+          : dPanelNotifier.dWidget != const NoInternet()*/
+      ,
       onPanelClosed: () {
         FocusScope.of(context).unfocus();
       },
@@ -229,12 +234,12 @@ class __Dashboard extends ConsumerWidget {
             const PlayWithFriend(),
             StaggeredGridTile.fit(
               crossAxisCellCount: 20,
-              child: Gap(120.r),
+              child: Gap(105.r),
             ),
-            const StaggeredGridTile.fit(
+            /*const StaggeredGridTile.fit(
               crossAxisCellCount: 20,
               child: ShowAvatar(),
-            ),
+            ),*/
           ],
           StaggeredGridTile.fit(
             crossAxisCellCount: 20,
@@ -248,7 +253,7 @@ class __Dashboard extends ConsumerWidget {
           ),
           const StaggeredGridTile.count(
             crossAxisCellCount: 20,
-            mainAxisCellCount: 4.5,
+            mainAxisCellCount: 4.8,
             child: DFooter(),
           ),
           Gap(210.h),

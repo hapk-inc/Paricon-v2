@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,9 +27,11 @@ class ChangeName extends ConsumerWidget {
                 if (ref.read(dashboardPanelProvider).isPanelOpen) {
                   ref.read(dashboardPanelProvider).close();
                 }
-                /* if (ref.read(settingPanelProvider).isPanelOpen) {
+                */
+/* if (ref.read(settingPanelProvider).isPanelOpen) {
                   ref.read(settingPanelProvider).close();
-                }*/
+                }*/ /*
+
               },
             );
           } else {
@@ -101,3 +104,4 @@ class ChangeName extends ConsumerWidget {
     );
   }
 }
+*/

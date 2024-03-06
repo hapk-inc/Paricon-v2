@@ -51,6 +51,7 @@ class DTournament extends ConsumerWidget {
               "Match the blocks more quickly."
             ][repeatAnimationNotifier.index % 3],
             maxLines: 1,
+            style: tTheme.bodySmall?.copyWith(fontSize: 12.r, color: coyote),
             textAlign: TextAlign.start,
           ),
         ),

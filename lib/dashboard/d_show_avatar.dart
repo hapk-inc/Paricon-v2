@@ -43,13 +43,13 @@ class ShowAvatar extends ConsumerWidget {
           StaggeredGridTile.fit(
             crossAxisCellCount: 20,
             child: Container(
-              height: 51.h,
+              height: 54.h,
               margin: EdgeInsets.only(bottom: 6.h),
               alignment: Alignment.center,
-              color: magnolia,
+              color: magnolia1,
               child: ListTile(
                 leadingAndTrailingTextStyle: TextStyle(
-                  fontSize: 18.r,
+                  fontSize: 21.r,
                   color: federalBlue,
                   fontFamily: 'WendyOne',
                   letterSpacing: 0,
@@ -70,7 +70,7 @@ class ShowAvatar extends ConsumerWidget {
                 contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
                 trailing: Text(
                   (myUser?.avatarArr ?? []).length.toString().padLeft(2, '0'),
-                  style: const TextStyle(fontFamily: 'Montserrat'),
+                  style: TextStyle(fontFamily: 'Montserrat', fontSize: 18.r),
                 ),
               ),
             ),

@@ -93,14 +93,14 @@ class TournamentGridTile extends ConsumerWidget {
                     ? Icon(
                         gIcons.singleWhere(
                             (x) => x.codePoint == localIcon.iconCode),
-                        size: 27.r,
+                        size: 30.r,
                         color: ghostWhite,
                       )
                     : xIcon.isCheck
                         ? Icon(
                             gIcons.singleWhere(
                                 (x) => x.codePoint == localIcon.iconCode),
-                            size: 27.r,
+                            size: 30.r,
                             color: coyote,
                           )
                         : Container(),

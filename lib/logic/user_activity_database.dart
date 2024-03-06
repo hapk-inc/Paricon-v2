@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../model/my_user.dart';
 import '../model/user_activity.dart';
 import '../theme/my_theme.dart';
+import 'app_check.dart';
 import 'auth_provider.dart';
 import 'firebase_init.dart';
 import 'user_datastore.dart';

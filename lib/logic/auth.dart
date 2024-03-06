@@ -110,8 +110,8 @@ class Auth {
     final User fUser = userCred.user!;
     final String xName = fUser.displayName ??
         (mockInteger(0, 2) == 0
-            ? "${myRandomName()} $myLastName"
-            : myRandomName());
+            ? "${mockAvatarName()} $myLastName"
+            : mockAvatarName());
     //final String avatarCode =
     //    List.generate(6, (index) => mockInteger(1, 8).toString()).join();
     final DateTime createdAt = DateTime.now();
@@ -121,8 +121,8 @@ class Auth {
     batch.set(
       userColl.doc(id),
       MyUser(
-        name: xName,
-        rName: xName,
+        name: firstCaps(xName),
+        rName: firstCaps(xName),
         id: mockInteger(11111111, 99999999),
         //avatarCode: avatarCode,
         avatarCode: ref.read(passAvatarNotifierProvider).generateAvatarCode,
@@ -139,6 +139,11 @@ class Auth {
   Future get signOut async {
     debugPrint("Signing Off ${_auth.currentUser!.uid}");
     return _auth.signOut();
+  }
+
+  Future get deleteAccount async {
+    debugPrint("Delete Account ${_auth.currentUser!.uid}");
+    return _auth.currentUser?.delete();
   }
 
   Future updateName(String name) async {
@@ -165,8 +170,7 @@ class Auth {
       onError: (Object e, s) {
         if (e is FirebaseAuthException) {
           debugPrint(e.toString());
-
-          // debugPrintStack(stackTrace: exe.stackTrace);
+          debugPrintStack(stackTrace: e.stackTrace);
         }
         debugPrintStack(stackTrace: s);
       },

@@ -103,7 +103,7 @@ ThemeData buildThemeData(ScreenSize sSize) {
       insetPadding: EdgeInsets.symmetric(vertical: 30.h),
       backgroundColor: darkPurple,
       contentTextStyle: TextStyle(
-        color: ghostWhite,
+        color: ghostWhite1,
         fontFamily: 'Poppins',
         fontSize: 15.r,
       ),

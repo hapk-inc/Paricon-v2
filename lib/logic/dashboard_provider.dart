@@ -49,7 +49,7 @@ final Provider<String> pasteCodeTitleTextProvider = Provider<String>(
   ][mockInteger(0, 1)],
 );
 
-enum PGroupOption { everyone, friends }
+/*enum PGroupOption { everyone, friends }
 
 final StateNotifierProvider<PGroupOptionState, PGroupOption>
     pGroupOptionProvider =
@@ -59,4 +59,4 @@ final StateNotifierProvider<PGroupOptionState, PGroupOption>
 
 class PGroupOptionState extends StateNotifier<PGroupOption> {
   PGroupOptionState() : super(PGroupOption.everyone);
-}
+}*/

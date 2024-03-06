@@ -17,7 +17,7 @@ class SupportPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tTheme = Theme.of(context).textTheme;
-    final bool isAndroidWeb = ref.read(isAndroidWebProvider);
+    //final bool isAndroidWeb = ref.read(isAndroidWebProvider);
     final ScreenSize sSize = ref.read(sizeProvider);
     return Scaffold(
       backgroundColor: majorelleBlue,
