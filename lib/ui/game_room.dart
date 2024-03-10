@@ -15,6 +15,7 @@ import '../logic/room_type_notifier.dart';
 import '../logic/validate_room.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
+import 'edit_profile.dart';
 
 class CreateGameRoom extends ConsumerStatefulWidget {
   const CreateGameRoom({super.key});
@@ -81,6 +82,8 @@ class CreateRoomFooter extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final dPanelNotifier = ref.watch(dashboardPanelNotifierProvider);
     final tabController = dPanelNotifier.tabController;
+    final double aR = 900.h / 360.w;
+    final bool isSmallScreen = aR > 2.3;
     return SizedBox(
       height: 90.h,
       child: ButtonBar(
@@ -117,7 +120,12 @@ class CreateRoomFooter extends ConsumerWidget {
                   },
             child: AutoSizeText(
               "CREATE GAME",
-              style: TextStyle(color: ghostWhite, fontSize: 13.5.r),
+              style: TextStyle(
+                fontFamily: 'Montserrat',
+                color: ghostWhite,
+                fontStyle: FontStyle.italic,
+                fontSize: isSmallScreen ? 13.5.r : 13.5.r,
+              ),
               maxLines: 1,
             ),
           ),
@@ -146,7 +154,11 @@ class CreateRoomFooter extends ConsumerWidget {
             child: AutoSizeText(
               "ENTER ROOM CODE",
               maxLines: 1,
-              style: TextStyle(fontSize: 13.5.r),
+              style: TextStyle(
+                fontSize: isSmallScreen ? 13.5.r : 13.5.r,
+                fontFamily: 'Montserrat',
+                fontStyle: FontStyle.italic,
+              ),
             ),
           ),
         ],
@@ -167,8 +179,8 @@ class CreateRoom extends ConsumerWidget {
             //changeOnTap: false,
             radiusStyle: true,
             labels: List.from(RoomLevel.values.map((e) => firstCaps(e.name))),
-            customWidths: [75.w, 105.w, 75.w],
-            minHeight: 36.h,
+            customWidths: [105.w, 75.w],
+            minHeight: 45.h,
             onToggle: (index) => ref.read(levelProvider.notifier).state =
                 RoomLevel.values[index!],
             inactiveBgColor: magnolia,
@@ -221,28 +233,21 @@ class EnterRoomCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        color: magnolia,
+        //color: magnolia,
         padding: EdgeInsets.all(15.r),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              //height: 54.h,
-              alignment: Alignment.centerLeft,
-              child: AutoSizeText(
-                "Enter the room code to join",
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  letterSpacing: 0,
-                  fontSize: 12.r,
-                  color: chocolateCosmos,
-                  fontWeight: FontWeight.normal,
-                ),
-                minFontSize: 12,
-                maxFontSize: 15,
-                maxLines: 1,
-              ),
+            Header1(
+              "Enter the room code to join",
+              hStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontSize: 13.5.r,
+                    color: violetBlue,
+                    letterSpacing: 0,
+                    fontWeight: FontWeight.normal,
+                  ),
             ),
-            Gap(7.2.r),
+            Gap(7.5.r),
             const RoomCodeEdit(),
           ],
         ),
@@ -286,7 +291,7 @@ class _RoomCodeEditState extends ConsumerState<RoomCodeEdit> {
   static const length = 6;
   static const Color borderColor = darkPastelGreen;
   static const Color errorColor = chocolateCosmos;
-  static const Color fillColor = ghostWhite;
+  static const Color fillColor = lavenderWeb;
   final defaultPinTheme = PinTheme(
     width: 54.r,
     height: 60.r,
@@ -362,8 +367,12 @@ class _RoomCodeEditState extends ConsumerState<RoomCodeEdit> {
             debugPrint("value--$pin");
             if (value is ValidateRoom) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("Room doesn't exist. Please check the code"),
+                SnackBar(
+                  content: Text(
+                    "The requested room could not be found. Please verify the code and try again.",
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: ghostWhite1, fontSize: 15.r, height: 2.1.r),
+                  ),
                 ),
               );
             } else if (value is String) {

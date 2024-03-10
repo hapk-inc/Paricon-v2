@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -103,21 +102,21 @@ class TournamentShow extends StatelessWidget {
         ),
         elevation: 3.r,
         child: SizedBox(
-          height: 360.w * 1.5,
+          height: 360.w * 1.44,
           //padding: EdgeInsets.all(4.5.r),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Flexible(flex: 2, child: ShowTimerIndicator()),
               Expanded(
-                flex: 11,
+                flex: 12,
                 child: Container(
                   alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(horizontal: 15.r),
                   child: const TournamentGrid(),
                 ),
               ),
-              Expanded(
+              /*  Expanded(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 12.r),
                   alignment: Alignment.centerLeft,
@@ -135,7 +134,7 @@ class TournamentShow extends StatelessWidget {
                     maxLines: 1,
                   ),
                 ),
-              ),
+              ),*/
             ],
           ),
         ),

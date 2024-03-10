@@ -36,14 +36,14 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
 
-  firebase_core: ^2.25.4
-  firebase_auth: ^4.17.5
-  firebase_remote_config: ^4.3.14
-  cloud_firestore: ^4.15.5
-  firebase_crashlytics: ^3.4.15
+  firebase_core: ^2.26.0
+  firebase_auth: ^4.17.7
+  firebase_remote_config: ^4.3.16
+  cloud_firestore: ^4.15.7
+  firebase_crashlytics: ^3.4.17
   # firebase_dynamic_links: ^5.3.6
-  firebase_database: ^10.4.6
-  firebase_analytics: ^10.8.6
+  firebase_database: ^10.4.8
+  firebase_analytics: ^10.8.8
   firebase_ui_firestore: ^1.6.2
 
 
@@ -111,11 +111,16 @@ dependencies:
 
   carousel_slider: ^4.2.1
 
+  google_generative_ai: ^0.2.2
+
   animated_emoji: ^3.1.0
 
   # fl_chart: ^0.63.0
 
   pinput: ^4.0.0
+
+  url_launcher: ^6.2.5
+
 
   # animated_digit: ^3.2.3
   animated_flip_counter: ^0.2.6
@@ -146,7 +151,7 @@ dependencies:
 
   dotted_border: ^2.1.0
 
-  emoji_picker_flutter: ^2.1.0
+  emoji_picker_flutter: ^2.0.0
   dart_emoji: ^0.2.0+2
 
 dev_dependencies:
@@ -237,25 +242,9 @@ flutter:
       fonts:
         - asset: fonts/Montserrat-Bold.ttf
           weight: 700
-        - asset: fonts/Montserrat-BoldItalic.ttf
-          weight: 700
-          style: italic
-    - family: DelaGothic
-      fonts:
-        - asset: fonts/DelaGothicOne-Regular.ttf
-    - family: LuckiestGuy
-      fonts:
-        - asset: fonts/LuckiestGuy-Regular.ttf
-    - family: MochiyPopOne
-      fonts:
-        - asset: fonts/MochiyPopOne-Regular.ttf
     - family: WendyOne
       fonts:
         - asset: fonts/WendyOne-Regular.ttf
-    - family: Honk
-      fonts:
-        - asset: fonts/Honk-Regular.ttf
-
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
@@ -271,3 +260,4 @@ flutter:
   #  flutter build ipa --no-tree-shake-icons
   #  flutter build web --no-tree-shake-icons
   #  firebase deploy --no-tree-shake-icons
+  # pod update "Firebase/CoreOnly"

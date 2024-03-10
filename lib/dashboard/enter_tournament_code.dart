@@ -63,7 +63,8 @@ class EnterTournamentCode extends ConsumerWidget {
                 child: Center(
                   child: DefaultTextStyle(
                     style: TextStyle(
-                      fontFamily: 'Poppins',
+                      fontFamily: 'Montserrat',
+                      fontStyle: FontStyle.italic,
                       color: ghostWhite,
                       fontSize:
                           DashboardSize(sSize).enterTournamentFontSize - 1.5.r,

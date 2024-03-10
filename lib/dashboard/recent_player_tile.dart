@@ -68,7 +68,7 @@ class RecentPlayerTile extends ConsumerWidget {
                           style: TextStyle(
                             color: lightOrange,
                             letterSpacing: 0,
-                            fontSize: isSmallScreen ? 27.r : 30.r,
+                            fontSize: isSmallScreen ? 24.r : 27.r,
                             height: 0,
                             fontFamily: "WendyOne",
                           ),

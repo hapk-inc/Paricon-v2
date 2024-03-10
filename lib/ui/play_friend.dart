@@ -146,36 +146,31 @@ class __PlayFriendBoard extends ConsumerWidget {
                           ),
                           elevation: 3.r,
                           child: SizedBox(
-                            height: 360.w * 1.5,
+                            height: 360.w *
+                                ((room?.level ?? RoomLevel.beginner) ==
+                                        RoomLevel.expert
+                                    ? 1.35
+                                    : 1.08),
                             child: Column(
                               children: [
-                                SizedBox(
+                                /*SizedBox(
                                   height: 105.h,
                                   child: const PlayFriendTimer(),
+                                ),*/
+                                const Flexible(
+                                  flex: 2,
+                                  child: PlayFriendTimer(),
                                 ),
                                 //Gap(45.r),
                                 Expanded(
-                                  flex: 11,
+                                  flex: 12,
                                   child: Container(
                                     alignment: Alignment.center,
                                     child: Stack(
                                       children: [
                                         Center(
                                           child: Container(
-                                            padding: EdgeInsets.all(3.r),
-                                            constraints: (room?.level ??
-                                                        RoomLevel.hard) ==
-                                                    RoomLevel.hard
-                                                ? const BoxConstraints.expand()
-                                                : BoxConstraints.tight(
-                                                    (room?.level ??
-                                                                RoomLevel
-                                                                    .hard) ==
-                                                            RoomLevel.easy
-                                                        ? Size.square(300.r)
-                                                        : Size(360.r, 450.r),
-                                                  ),
-                                            //color: federalBlue,
+                                            padding: EdgeInsets.all(1.5.r),
                                             child: _PlayFriendGrid(board.icons),
                                           ),
                                         ),
@@ -184,10 +179,10 @@ class __PlayFriendBoard extends ConsumerWidget {
                                   ),
                                 ),
                                 //Spacer()
-                                SizedBox(
+                                /*SizedBox(
                                   height: 45.h,
                                   child: const PlayFriendFooter(),
-                                )
+                                )*/
                               ],
                             ),
                           ),
@@ -455,7 +450,7 @@ class _PlayFriendGrid extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final room = ref.watch(roomProvider).value;
     final setup =
-        GameSetup(level: room == null ? RoomLevel.medium : room.level);
+        GameSetup(level: room == null ? RoomLevel.beginner : room.level);
     List<Widget> tiles = List.generate(
       icons.length,
       (index) {
@@ -475,7 +470,6 @@ class _PlayFriendGrid extends ConsumerWidget {
     return Container(
       //color: chocolateCosmos,
       alignment: Alignment.center,
-      constraints: BoxConstraints.tight(Size.square(setup.containerSize)),
       padding: EdgeInsets.symmetric(horizontal: 15.r),
       //padding: EdgeInsets.all(15.r),
       child: ResponsiveGridList(

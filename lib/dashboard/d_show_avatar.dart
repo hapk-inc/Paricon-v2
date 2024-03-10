@@ -11,7 +11,6 @@ import 'package:gap/gap.dart';
 import '../logic/dashboard_provider.dart';
 import '../logic/next_animation_flag.dart';
 import '../logic/remote_values.dart';
-import '../logic/s_size.dart';
 import '../logic/user_activity_provider.dart';
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
@@ -28,7 +27,6 @@ class ShowAvatar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ScreenSize sSize = ref.read(sizeProvider);
     final bool enterAvatarCode = ref.watch(enterAvatarCodeProvider);
     final MyUser? myUser = ref.watch(myUserProvider).value;
     final repeatAnimationNotifier = ref.watch(repeatAnimationNotifierProvider);

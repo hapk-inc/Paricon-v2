@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum RoomLevel { easy, medium, hard }
+enum RoomLevel { beginner, expert }
 
 final StateNotifierProvider<RoomLevelNotifier, RoomLevel> levelProvider =
     StateNotifierProvider<RoomLevelNotifier, RoomLevel>(
@@ -8,7 +8,7 @@ final StateNotifierProvider<RoomLevelNotifier, RoomLevel> levelProvider =
 );
 
 class RoomLevelNotifier extends StateNotifier<RoomLevel> {
-  RoomLevelNotifier() : super(RoomLevel.easy);
+  RoomLevelNotifier() : super(RoomLevel.beginner);
 
   @override
   set state(RoomLevel value) => super.state = value;

@@ -12,12 +12,12 @@ import 'room_level_notifier.dart';
 class GameSetup {
   final RoomLevel level;
   final Map<RoomLevel, int> map = {
-    RoomLevel.easy: 8,
-    RoomLevel.medium: 15,
-    RoomLevel.hard: 28
+    //RoomLevel.easy: 8,
+    RoomLevel.beginner: 15,
+    RoomLevel.expert: 28
   };
 
-  GameSetup({this.level = RoomLevel.medium});
+  GameSetup({this.level = RoomLevel.beginner});
 
   List<LocalIcon> get newIcons {
     List<IconData> x = List.from(gIcons);
@@ -35,11 +35,11 @@ class GameSetup {
   int gridRow(int totalCount) {
     RoomLevel l = whichLevel(totalCount);
     switch (l) {
-      case RoomLevel.easy:
-        return 4;
-      case RoomLevel.medium:
-        return 5;
-      case RoomLevel.hard:
+      /*case RoomLevel.easy:
+        return 4;*/
+      case RoomLevel.beginner:
+        return 6;
+      case RoomLevel.expert:
         return 7;
     }
   }
@@ -50,16 +50,16 @@ class GameSetup {
     return l;
   }
 
-  double get containerSize {
+/*  double get containerSize {
     switch (level) {
-      case RoomLevel.easy:
-        return 360.r;
+    */ /*  case RoomLevel.easy:
+        return 360.r;*/ /*
       case RoomLevel.medium:
         return 480.r;
       case RoomLevel.hard:
         return 480.r;
     }
-  }
+  }*/
 
   String collectionPath(Board board) {
     final String l = whichLevel(board.icons.length).name;
@@ -69,24 +69,24 @@ class GameSetup {
   double iconSize(int totalCount) {
     RoomLevel l = whichLevel(totalCount);
     switch (l) {
-      case RoomLevel.easy:
-        return 33.r;
-      case RoomLevel.medium:
-        return 36.r;
-      case RoomLevel.hard:
+      /* case RoomLevel.easy:
+        return 33.r;*/
+      case RoomLevel.beginner:
         return 30.r;
+      case RoomLevel.expert:
+        return 27.r;
     }
   }
 
   double gapSpacing(int totalCount) {
     RoomLevel l = whichLevel(totalCount);
     switch (l) {
-      case RoomLevel.easy:
-        return 12.r;
-      case RoomLevel.medium:
+      /* case RoomLevel.easy:
+        return 12.r;*/
+      case RoomLevel.beginner:
         return 7.5.r;
       //  return 15.r;
-      case RoomLevel.hard:
+      case RoomLevel.expert:
         return 7.5.r;
     }
   }

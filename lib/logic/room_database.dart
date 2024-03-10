@@ -109,7 +109,7 @@ class RoomDatabase {
   Future joinRoom(User user, MyUser myUser) async {
     Map map = {
       "isActive": true,
-      "timestamp": DateTime.now().millisecondsSinceEpoch,
+      "timestamp": DateTime.now().toIso8601String(),
       "name": myUser.name,
       "avatar": myUser.avatar,
     };

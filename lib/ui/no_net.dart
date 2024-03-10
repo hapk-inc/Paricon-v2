@@ -1,12 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
-import '../logic/firebase_init.dart';
 import '../logic/s_size.dart';
 import '../my_widget/my_logo.dart';
 import '../theme/my_color.dart';
@@ -58,18 +56,18 @@ class NoNetPage extends ConsumerWidget {
                 child: RichText(
                   text: TextSpan(
                     text: "Once you're connected to the internet, simply\n",
-                    children: [
+                    children: const [
                       TextSpan(
                         text: "click here",
                         //recognizer: TapGestureRecognizer()
                         //  ..onTap = () => ref.refresh(checkNetProvider),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: darkPastelGreen,
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const TextSpan(text: " to initiate the app."),
+                      TextSpan(text: " to initiate the app."),
                     ],
                     style: TextStyle(
                       fontFamily: 'Poppins',

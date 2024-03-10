@@ -1,7 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'local_player.dart';
-
 part 'play_stats.freezed.dart';
 part 'play_stats.g.dart';
 

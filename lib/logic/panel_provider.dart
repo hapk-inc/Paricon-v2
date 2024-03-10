@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 final Provider<PanelController> dashboardPanelProvider = Provider(
-  (ref) => PanelController(),
+  (_) => PanelController(),
 );
 
 final Provider<PanelController> tournamentPanelProvider = Provider(
@@ -10,7 +10,7 @@ final Provider<PanelController> tournamentPanelProvider = Provider(
 );
 
 final Provider<PanelController> settingPanelProvider = Provider(
-  (ref) => PanelController(),
+  (_) => PanelController(),
 );
 
 final Provider<PanelController> playFriendPanelProvider = Provider(

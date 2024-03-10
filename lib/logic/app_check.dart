@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -31,6 +32,9 @@ final AutoDisposeFutureProvider<AppUpdateInfo> inAppUpdateProvider =
   (_) async => InAppUpdate.checkForUpdate(),
 );
 
+final Provider<GenerativeModel> geminiModelProvider =
+    Provider<GenerativeModel>((_) => throw UnimplementedError());
+
 class NetConnectedNotifier extends StateNotifier<int> {
   NetConnectedNotifier() : super(-1);
 
@@ -43,6 +47,8 @@ final StateNotifierProvider<NetConnectedNotifier, int>
     StateNotifierProvider<NetConnectedNotifier, int>(
   (_) => NetConnectedNotifier(),
 );
+
+final Provider<bool?> androidWebProvider = Provider<bool?>((_) => null);
 
 /*
 final StreamProvider<ConnectivityResult> internetConnectionProvider =

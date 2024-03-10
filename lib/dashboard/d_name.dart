@@ -6,15 +6,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:gap/gap.dart';
+import '../my_widget/login_option_button.dart';
 import '../router/my_route.dart';
 import '../logic/dashboard_provider.dart';
 import '../logic/next_animation_flag.dart';
-import '../logic/panel_provider.dart';
 import '../model/my_user.dart';
-import '../my_widget/change_name.dart';
 import '../theme/my_color.dart';
 
-import '../logic/dashboard_panel_provider.dart';
 import '../logic/user_provider.dart';
 
 class DName extends ConsumerWidget {
@@ -23,13 +21,12 @@ class DName extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final MyUser? myUser = ref.watch(myUserProvider).value;
-    final DashboardPanelNotifier dNotifier =
-        ref.watch(dashboardPanelNotifierProvider);
+
     final tTheme = Theme.of(context).textTheme;
     final repeatAnimationNotifier = ref.watch(repeatAnimationNotifierProvider);
 
     return ListTile(
-      contentPadding: EdgeInsets.only(left: 15.w),
+      contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
       title: Row(
         children: [
           ConstrainedBox(
@@ -74,6 +71,15 @@ class DName extends ConsumerWidget {
         ref.read(goodDayProvider),
         maxLines: 1,
         style: TextStyle(fontSize: 12.r),
+      ),
+      trailing: LoginOptionButton(
+        bColor: ghostWhite1,
+        lChild: Icon(
+          Icons.settings_rounded,
+          size: 30.r,
+          color: violetBlue,
+        ),
+        optionBtnPressed: () => context.router.push(const SettingsRoute()),
       ),
     );
   }

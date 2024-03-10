@@ -49,6 +49,17 @@ final Provider<String> pasteCodeTitleTextProvider = Provider<String>(
   ][mockInteger(0, 1)],
 );
 
+final Provider<String> roomCreatorProvider = Provider<String>(
+  (_) => [
+    " made this room. share the room code with your friends and get playing",
+    " created this room. share the room code with your friends to start playing",
+    " created this room. share the room code with your friends and start playing.",
+    " created this room. share the code with friends and play",
+    ", you created this room. tell your friends the room code to start playing",
+    " created this room, share the code with your friends and let's play"
+  ][mockInteger(0, 5)],
+);
+
 /*enum PGroupOption { everyone, friends }
 
 final StateNotifierProvider<PGroupOptionState, PGroupOption>

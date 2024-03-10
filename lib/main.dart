@@ -13,12 +13,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'firebase_option.dart';
 import 'logic/app_check.dart';
 import 'logic/firebase_init.dart';
 import 'my_app.dart';
+
+//import 'package:google_generative_ai/google_generative_ai.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +32,8 @@ Future<void> main() async {
   final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
   bool isEmulator = true;
-  //bool isAndroidWeb = true;
+
+  bool androidWeb = false;
 
   if (!kIsWeb) {
     if (Platform.isAndroid) {
@@ -38,12 +42,21 @@ Future<void> main() async {
     } else if (Platform.isIOS) {
       final IosDeviceInfo iosInfo = await deviceInfoPlugin.iosInfo;
       isEmulator = !iosInfo.isPhysicalDevice;
+    } else if (Platform.isMacOS) {
+      final PackageInfo r = await PackageInfo.fromPlatform();
+      debugPrint(r.data.toString());
     }
   } else {
     WebBrowserInfo webBrowserInfo = await deviceInfoPlugin.webBrowserInfo;
     debugPrint('Running on ${webBrowserInfo.appVersion}');
-    //  isAndroidWeb = (webBrowserInfo.appVersion ?? "").contains("Android");
+    androidWeb = (webBrowserInfo.appVersion ?? "").contains('Android');
+    debugPrint('AndroidWeb $androidWeb');
   }
+
+  final GenerativeModel model = GenerativeModel(
+    model: 'gemini-pro',
+    apiKey: DefaultFirebaseOptions.geminiKey,
+  );
 
   final FirebaseApp app = await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform(info.appName),
@@ -69,16 +82,6 @@ Future<void> main() async {
   );
 
   await remoteConfig.setConfigSettings(remoteConfigSetting);
-
-  /*final int isNetConnected = await remoteConfig
-      .fetchAndActivate()
-      .then((flag) => flag ? 1 : 0)
-      .catchError((_, __) => -1);*/
-
-  //final ConnectivityResult iNet =
-  //    await Connectivity().onConnectivityChanged.first;
-
-  //remoteConfig.fetchAndActivate();
 
   //const fatalError = true;
   // Non-async exceptions
@@ -111,16 +114,21 @@ Future<void> main() async {
     databaseProvider.overrideWithValue(database),
     remoteConfigProvider.overrideWithValue(remoteConfig),
     crashlyticsProvider.overrideWithValue(crashlytics),
-    //checkNetProvider.overrideWith((_) async => iNet),
     isEmulatorProvider.overrideWithValue(isEmulator),
-    // if (kIsWeb) isAndroidWebProvider.overrideWithValue(isAndroidWeb)
+    geminiModelProvider.overrideWithValue(model),
+    if (kIsWeb) androidWebProvider.overrideWithValue(androidWeb),
   ];
 
   runApp(
     DevicePreview(
       //enabled: !kIsWeb ? (!Platform.isIOS && kDebugMode) : false,
       //enabled: kIsWeb ? true : !kDebugMode,
-      enabled: kDebugMode,
+      enabled: kIsWeb
+          ? false
+          : Platform.isAndroid
+              ? false
+              : kDebugMode,
+      //enabled: false,
       builder: (_) => ProviderScope(overrides: overrides, child: const MyApp()),
     ),
   );

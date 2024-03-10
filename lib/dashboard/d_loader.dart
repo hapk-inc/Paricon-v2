@@ -1,14 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../logic/app_check.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../logic/dashboard_panel_provider.dart';
 import '../../logic/panel_provider.dart';
-import '../../my_widget/no_internet.dart';
 import '../../theme/my_color.dart';
 import '../logic/firebase_init.dart';
 
@@ -29,7 +28,7 @@ class _RecentPlayerLoaderState extends ConsumerState<DLoader> {
     dashboardPanel = ref.read(dashboardPanelProvider);
 
     final nNotifier = netConnectedNotifierProvider.notifier;
-
+    //ref.watch(nNotifier).state = 0;
     Future.delayed(
       const Duration(seconds: 3),
       () {
@@ -39,8 +38,17 @@ class _RecentPlayerLoaderState extends ConsumerState<DLoader> {
               ref.watch(nNotifier).state = value ? 1 : 0;
             },
           ).catchError(
-            (_, __) {
-              ref.watch(nNotifier).state = -1;
+            (e, __) {
+              final FirebaseException exe = e as FirebaseException;
+              debugPrint("40--");
+              //debugPrint(e.toString());
+              debugPrint(exe.message);
+              if (exe.message ==
+                  "The Internet connection appears to be offline.") {
+                ref.watch(nNotifier).state = -2;
+              } else {
+                ref.watch(nNotifier).state = -1;
+              }
             },
           );
         }

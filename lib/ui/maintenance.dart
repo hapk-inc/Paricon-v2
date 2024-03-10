@@ -17,7 +17,7 @@ class MaintenancePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sSize = ref.watch(sizeProvider);
+    ref.watch(sizeProvider);
     final tTheme = Theme.of(context).textTheme;
     return Scaffold(
       /* appBar: AppBar(

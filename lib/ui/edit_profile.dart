@@ -1,7 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
-import '../logic/my_names.dart';
 import 'package:random_avatar/random_avatar.dart';
 import '../logic/auth_provider.dart';
 import '../logic/pass_avatar_provider.dart';
@@ -18,7 +15,6 @@ import '../theme/my_color.dart';
 
 import '../logic/user_provider.dart';
 import '../model/my_user.dart';
-import '../theme/my_theme.dart';
 
 @RoutePage()
 class EditProfilePage extends ConsumerWidget {
@@ -28,32 +24,35 @@ class EditProfilePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final TextTheme tTheme = Theme.of(context).textTheme;
     final MyUser? myUser = ref.watch(myUserProvider).value;
-    final SlidingPanelTheme pTheme = SlidingPanelTheme();
     final ScreenSize screenSize = ref.watch(sizeProvider);
-    final User? user = ref.watch(authUserProvider).value;
+
+    final TextEditingController controller =
+        TextEditingController(text: myUser?.name ?? "");
+
+    updateName(String str) {
+      final String n = myUser?.name ?? "";
+      if (str != n) {
+        debugPrint("40--");
+        ref.read(updateNameProvider(str).future).then(
+          (_) {
+            return ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Your name has changed to $str"),
+                backgroundColor: charcoal,
+              ),
+            );
+          },
+        );
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 60.w,
-        titleSpacing: 0,
-        toolbarHeight: 90.h,
+        leadingWidth: 45.w,
+        titleSpacing: 1.5.w,
+        toolbarHeight: 75.h,
         centerTitle: false,
-        title: myUser == null
-            ? null
-            : AutoSizeText.rich(
-                TextSpan(
-                  text: myUser.rName,
-                  children: [
-                    TextSpan(
-                        text: " #${myUser.id}",
-                        style: TextStyle(fontSize: 15.r, color: frenchGray))
-                  ],
-                  style: tTheme.bodyMedium!.copyWith(
-                    color: ghostWhite1,
-                    fontFamily: 'Montserrat',
-                    fontSize: 24.r,
-                  ),
-                ),
-              ),
+        title: const Text("Edit profile"),
       ),
       body: SafeArea(
         //minimum: EdgeInsets.symmetric(horizontal: 15.r),
@@ -67,9 +66,9 @@ class EditProfilePage extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Header1(
-                    "You will be shown as",
+                    "Your name will be shown as",
                     hStyle: tTheme.bodySmall?.copyWith(
-                      fontSize: 13.2.r,
+                      fontSize: 12.r,
                       fontWeight: FontWeight.normal,
                     ),
                   ),
@@ -79,8 +78,9 @@ class EditProfilePage extends ConsumerWidget {
                     padding: EdgeInsets.symmetric(horizontal: 1.5.w),
                     alignment: Alignment.center,
                     child: TextFormField(
-                      controller:
-                          TextEditingController(text: myUser?.name ?? ""),
+                      controller: controller,
+                      onFieldSubmitted: (str) => updateName(str),
+                      onEditingComplete: () => updateName(controller.text),
                       maxLines: 1,
                       cursorColor: chocolateCosmos,
                       cursorHeight: 30.r,

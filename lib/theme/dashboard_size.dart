@@ -21,9 +21,11 @@ class DashboardSize {
   }
 
   double get recentPlayerHeight {
+    final double ar = 900.h / 360.w;
+    final bool isSmallScreen = ar > 2.3;
     switch (screenSize) {
       case ScreenSize.phone:
-        return 105.h;
+        return isSmallScreen ? 90.h : 105.h;
       case ScreenSize.tab:
         return 105.h;
       default:
@@ -80,7 +82,7 @@ class DashboardSize {
   double get openChallengeDataHeight {
     switch (screenSize) {
       case ScreenSize.phone:
-        return 54.h;
+        return 51.h;
       case ScreenSize.tab:
         return 57.h;
       default:

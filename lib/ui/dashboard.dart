@@ -6,13 +6,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
+import '../logic/app_check.dart';
 
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../dashboard/d_footer.dart';
 import '../dashboard/d_name.dart';
 import '../dashboard/d_recent_player.dart';
-import '../dashboard/d_show_avatar.dart';
 import '../dashboard/d_tournament.dart';
 
 import '../dashboard/enter_tournament_code.dart';
@@ -85,8 +85,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
     return Scaffold(
       appBar: isPhoneTab
           ? AppBar(
+              leadingWidth: 0.w,
               title: FadeInRight(
-                delay: const Duration(milliseconds: 2100),
+                delay: const Duration(milliseconds: 1200),
                 child: Padding(
                   padding: EdgeInsets.all(15.r),
                   child: InkWell(
@@ -121,36 +122,62 @@ class _DashboardSlidingPanel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dPanelNotifier = ref.watch(dashboardPanelNotifierProvider);
+    final DashboardPanelNotifier dPanelNotifier =
+        ref.watch(dashboardPanelNotifierProvider);
     final pTheme = SlidingPanelTheme();
+    double aR = 900.h / 360.w;
+    bool smallSize = aR > 2.3;
 
     ref.listen(
       idNotifier.select((value) => value),
       (previous, next) {
-        debugPrint("75-- $next");
-        //   final dNotifier = ref.watch(dashboardPanelNotifierProvider);
-
         ref.read(setPlayingProvider(next.isNotEmpty));
 
         if (next.isEmpty) {
-          ref.watch(dashboardPanelProvider).close();
-          dPanelNotifier.dMinHeight = 0.h;
-          double aR = (900.h / 360.w);
-          //if (aR > 2.3) debugPrint("Small Screen");
-          dPanelNotifier.dHeight = aR > 2.3 ? 300.h : 270.h;
+          dPanelNotifier.dHeight = smallSize ? 300.h : 270.h;
+          dPanelNotifier.dWidget = Container();
         } else {
-          dPanelNotifier.dMinHeight = 72.h;
+          //dPanelNotifier.dHeight = smallSize ? 600.h : 600.h;
+          dPanelNotifier.dHeight = 600.h;
           Future.delayed(
-            const Duration(milliseconds: 1200),
+            const Duration(milliseconds: 600),
             () {
-              ref.watch(dashboardPanelProvider).open();
-              double aR = 900.h / 360.w;
-              bool smallSize = aR > 2.3;
-              dPanelNotifier.dHeight = smallSize ? 480.h : 450.h;
-              //dNotifier.dWidget = const PlayFriendScoreboard({}, {});
               dPanelNotifier.dWidget = const HostRoom();
             },
           );
+        }
+      },
+    );
+
+    ref.listen(
+      netConnectedNotifierProvider.select((value) => value),
+      (_, next) {
+        debugPrint("netConnectedNotifierProvider in Dashboard $next");
+
+        debugPrint(context.router.currentPath);
+        debugPrint(context.router.current.name);
+
+        if (next.isNegative) {
+          if (dPanelNotifier.dWidget.toString() == "Container" ||
+              ref.watch(idNotifier).isEmpty) {
+            dPanelNotifier.dWidget = const NoInternet();
+          }
+        } else {
+          if (dPanelNotifier.dWidget.toString() == "NoInternet") {
+            dPanelNotifier.dWidget = Container();
+          }
+        }
+        //}
+      },
+    );
+
+    ref.listen(
+      dashboardPanelNotifierProvider.select((value) => value.dWidget),
+      (previous, next) {
+        if (next.toString() == "Container") {
+          ref.read(dashboardPanelProvider).close();
+        } else {
+          ref.read(dashboardPanelProvider).open();
         }
       },
     );
@@ -166,8 +193,8 @@ class _DashboardSlidingPanel extends ConsumerWidget {
       ),
       isDraggable: false,
       backdropEnabled: true,
-      //backdropTapClosesPanel: ref.watch(idNotifier).isEmpty ,
-      backdropTapClosesPanel: ref.watch(idNotifier).isNotEmpty
+      backdropTapClosesPanel: ref.watch(netConnectedNotifierProvider) != -1 &&
+          ref.watch(idNotifier).isEmpty
       /*? false
           : dPanelNotifier.dWidget != const NoInternet()*/
       ,
@@ -251,12 +278,12 @@ class __Dashboard extends ConsumerWidget {
               endIndent: 15.w,
             ),
           ),
-          const StaggeredGridTile.count(
+          /* const StaggeredGridTile.count(
             crossAxisCellCount: 20,
             mainAxisCellCount: 4.8,
             child: DFooter(),
-          ),
-          Gap(210.h),
+          ),*/
+          Gap(180.h),
         ],
       ),
     );

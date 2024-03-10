@@ -120,3 +120,5 @@ const Color vermilion = Color(0xffdb4c40);
 const Color emerald = Color(0xff26c485);
 
 const List<Color> colorizedColor = [claret, darkPurple, vermilion];
+
+const Color lavenderWeb1 = Color(0xffEFEAFF);

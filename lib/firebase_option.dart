@@ -103,4 +103,8 @@ class DefaultFirebaseOptions {
         '118238046593-fueao4h12snth56f96f6pm5oac34bbuv.apps.googleusercontent.com',
     iosBundleId: 'com.hapk.paricon',
   );
+
+  static const String geminiKey = kDebugMode
+      ? 'AIzaSyDBx1pfbxn7Qsz0WSvxIeTjAbf036pt_LA'
+      : 'AIzaSyBan1e4RM3p03pfzoBZtLL5JjMft5POodE';
 }

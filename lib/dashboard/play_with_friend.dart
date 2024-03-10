@@ -46,7 +46,16 @@ class PlayWithFriend extends ConsumerWidget {
                   tTheme.bodySmall?.copyWith(fontSize: 12.r, color: ghostWhite),
               trailing: ElevatedButton(
                 onPressed: () {},
-                child: const Text("PLAY NOW"),
+                child: Text(
+                  "PLAY NOW",
+                  style: TextStyle(
+                    color: chocolateCosmos,
+                    letterSpacing: 0,
+                    fontSize: 13.5.r,
+                    fontFamily: 'Montserrat',
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
               ),
             ),
           ),

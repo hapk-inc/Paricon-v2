@@ -29,10 +29,16 @@ ThemeData buildThemeData(ScreenSize sSize) {
       : sSize == ScreenSize.tab
           ? 135.h
           : 108.h;
+  final isSmallScreen = 900.h / 360.w > 2.3;
   return ThemeData(
     scaffoldBackgroundColor: ghostWhite,
     appBarTheme: AppBarTheme(
       backgroundColor: majorelleBlue,
+      titleTextStyle: TextStyle(
+        color: ghostWhite1,
+        fontFamily: 'WendyOne',
+        fontSize: 27.r,
+      ),
       //shape: RoundedRectangleBorder(borderRadius: bottomRadius),
       toolbarHeight: appBarHeight,
       elevation: 3.r,
@@ -59,7 +65,7 @@ ThemeData buildThemeData(ScreenSize sSize) {
         fontWeight: FontWeight.w700,
       ),
       bodySmall: TextStyle(
-        fontSize: 9.r,
+        fontSize: isSmallScreen ? 12.r : 9.r,
         fontFamily: 'Poppins',
         fontWeight: FontWeight.w300,
         height: 2.1,

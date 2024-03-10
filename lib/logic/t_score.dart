@@ -39,4 +39,5 @@ String onlySecond(Duration duration) =>
     "${duration.inMinutes.toString().padLeft(2, '0').padLeft(2, '0')}"
     " : ${"${duration.inSeconds % 60}".padLeft(2, '0')}";*/
 
-String onlyMilli(Duration duration) => "${duration.inMilliseconds % 1000}";
+String onlyMilli(Duration duration) =>
+    "${duration.inMilliseconds % 1000}".padLeft(3, '0');

@@ -1,14 +1,11 @@
 import 'package:animated_flip_counter/animated_flip_counter.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:mock_data/mock_data.dart';
 import '../logic/s_size.dart';
 import '../router/my_route.dart';
 
@@ -76,6 +73,7 @@ class OpenChallengeTable extends ConsumerWidget {
         );
 
     return Container(
+      //height: DashboardSize(sSize).openChallengeTableHeight,
       height: DashboardSize(sSize).openChallengeTableHeight,
       color: lightOrange,
       child: SingleChildScrollView(
@@ -151,7 +149,11 @@ DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
   bool showFirstTime = tD.firstTime &&
       (DateTime.now().difference(tD.playedAt) < const Duration(minutes: 90));
   return DataRow(
-    color: MaterialStatePropertyAll(isMe ? bitterSweet : null),
+    color: MaterialStatePropertyAll(myRank == 0
+        ? xantHous
+        : isMe
+            ? bitterSweet
+            : null),
     cells: [
       DataCell(
         Container(
@@ -179,7 +181,8 @@ DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
                   maxWidth: showFirstTime ? 90.w : double.infinity,
                 ),
                 child: Text(
-                  xUser == null ? "" : firstCaps(xUser.name),
+                  (xUser == null ? "" : firstCaps(xUser.name)) +
+                      (myRank == 0 ? " 🏆" : ""),
                   style: TextStyle(
                     color: isMe ? lightOrange : hookerGreen,
                     letterSpacing: 0,
@@ -189,29 +192,6 @@ DataRow _dataRow(bool isMe, BoxConstraints constraints, int myRank,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              if (showFirstTime) ...[
-                Gap(15.r),
-                AnimatedTextKit(
-                  pause: Duration(seconds: mockInteger(1, 5)),
-                  animatedTexts: [
-                    ColorizeAnimatedText(
-                      'First\nTime',
-                      textStyle: TextStyle(
-                        fontSize: 12.r,
-                        fontFamily: 'LuckiestGuy',
-                        letterSpacing: 0.72.r,
-                        height: 1.5.r,
-                      ),
-                      colors: isMe ? [ghostWhite, ghostWhite] : colorizedColor,
-                    ),
-                  ],
-                  totalRepeatCount: isMe ? 1 : 3,
-                  //repeatForever: true,
-                  onTap: () {
-                    debugPrint("Tap Event");
-                  },
-                ),
-              ]
             ],
           ),
         ),
