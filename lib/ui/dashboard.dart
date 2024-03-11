@@ -225,10 +225,10 @@ class __Dashboard extends ConsumerWidget {
           ),
           const StaggeredGridTile.fit(crossAxisCellCount: 20, child: DName()),
           const RecentPlayer(),
-          StaggeredGridTile.fit(
+          /* StaggeredGridTile.fit(
             crossAxisCellCount: 20,
             child: Gap(DashboardSize(sSize).headerGap),
-          ),
+          ),*/
           StaggeredGridTile.fit(
             crossAxisCellCount: isPhoneTab ? 20 : 18,
             child: const DTournament(),

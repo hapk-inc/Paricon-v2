@@ -51,7 +51,7 @@ class PlayWithFriend extends ConsumerWidget {
                   style: TextStyle(
                     color: chocolateCosmos,
                     letterSpacing: 0,
-                    fontSize: 13.5.r,
+                    fontSize: 13.2.r,
                     fontFamily: 'Montserrat',
                     fontStyle: FontStyle.italic,
                   ),

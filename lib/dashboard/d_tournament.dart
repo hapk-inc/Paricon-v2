@@ -14,6 +14,7 @@ class DTournament extends ConsumerWidget {
     final TextTheme tTheme = Theme.of(context).textTheme;
     final repeatAnimationNotifier = ref.watch(repeatAnimationNotifierProvider);
     return ListTile(
+      dense: true,
       contentPadding: EdgeInsets.symmetric(horizontal: 12.w),
       title: RichText(
         text: TextSpan(

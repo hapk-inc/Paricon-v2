@@ -67,7 +67,7 @@ class EnterTournamentCode extends ConsumerWidget {
                       fontStyle: FontStyle.italic,
                       color: ghostWhite,
                       fontSize:
-                          DashboardSize(sSize).enterTournamentFontSize - 1.5.r,
+                          DashboardSize(sSize).enterTournamentFontSize - 2.4.r,
                       fontWeight: FontWeight.w700,
                     ),
                     child: AnimatedTextKit(

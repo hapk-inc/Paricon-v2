@@ -42,7 +42,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     isLoading = false;
     isNetConnected = true;
     Future.delayed(
-      const Duration(milliseconds: 600),
+      const Duration(milliseconds: 900),
       () {
         if (!_panelController.isPanelOpen) {
           if (mounted) {
@@ -166,7 +166,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           isDraggable: false,
           minHeight: 0.h,
           panel: Container(
-            padding: pTheme.slidingPanelPadding * 1.5,
+            padding: pTheme.slidingPanelPadding * 1.8,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

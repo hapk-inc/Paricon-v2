@@ -33,15 +33,12 @@ class RecentPlayerTile extends ConsumerWidget {
     final bool isMe = id == user.uid;
 
     final ScreenSize sSize = ref.watch(sizeProvider);
-    final isPhoneTab = sSize == ScreenSize.phone || sSize == ScreenSize.tab;
+    //final isPhoneTab = sSize == ScreenSize.phone || sSize == ScreenSize.tab;
 
     return AnimatedContainer(
       //color: cornellRed,
-      constraints: BoxConstraints(
-        maxWidth: isPhoneTab ? 70.5.w : 60.w,
-        minWidth: isPhoneTab ? 60.w : 48.w,
-      ),
-      margin: EdgeInsets.only(right: 4.5.r),
+      constraints: BoxConstraints(maxWidth: 90.w, minWidth: 48.w),
+      margin: EdgeInsets.only(right: 7.5.r),
       duration: const Duration(milliseconds: 500),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -53,13 +50,19 @@ class RecentPlayerTile extends ConsumerWidget {
               elevation: 1.5.r,
               shape: const CircleBorder(),
               child: CircleAvatar(
-                radius: isSmallScreen ? 30.r : 33.r,
+                radius: sSize != ScreenSize.phone
+                    ? 36.r
+                    : isSmallScreen
+                        ? 30.r
+                        : 30.r,
                 backgroundColor: (xUser.isPlaying &&
                         DateTime.now().difference(
                                 xUser.lastGamePlayed ?? DateTime(2024, 1)) <
                             const Duration(minutes: 30))
                     ? darkPastelGreen
-                    : violetBlue,
+                    : isMe
+                        ? federalBlue
+                        : violetBlue,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 500),
                   child: xUser.avatar == null
@@ -68,7 +71,11 @@ class RecentPlayerTile extends ConsumerWidget {
                           style: TextStyle(
                             color: lightOrange,
                             letterSpacing: 0,
-                            fontSize: isSmallScreen ? 24.r : 27.r,
+                            fontSize: sSize != ScreenSize.phone
+                                ? 30.r
+                                : isSmallScreen
+                                    ? 24.r
+                                    : 24.r,
                             height: 0,
                             fontFamily: "WendyOne",
                           ),
@@ -91,10 +98,11 @@ class RecentPlayerTile extends ConsumerWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodySmall!
-                  .copyWith(color: federalBlue),
+                  .copyWith(color: isMe ? federalBlue : violetBlue),
               wrapWords: false,
+              stepGranularity: 0.3,
               maxFontSize: 15,
-              minFontSize: 9,
+              minFontSize: 9.6,
               textAlign: TextAlign.center,
             ),
           ),

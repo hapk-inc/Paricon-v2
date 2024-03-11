@@ -30,25 +30,18 @@ class DName extends ConsumerWidget {
       title: Row(
         children: [
           ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 2410.w),
+            constraints: BoxConstraints(maxWidth: 210.w),
             child: AutoSizeText(
               myUser?.name ?? "",
               style: tTheme.bodyMedium!.copyWith(color: violetBlue),
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          Gap(15.r),
+          Gap(12.r),
           Align(
             alignment: Alignment.center,
             child: InkWell(
-              //onTap: () => context.router.push(const SettingsRoute()),
-              /*onTap: () {
-                dNotifier.dHeight = 192.h;
-                dNotifier.dWidget = const ChangeName();
-                ref.read(dashboardPanelProvider).open();
-              },*/
               onTap: () => context.router.push(const EditProfileRoute()),
-
               child: AnimatedEmoji(
                 AnimatedEmojis.pencil,
                 size: 30.r,
@@ -69,7 +62,7 @@ class DName extends ConsumerWidget {
       subtitleTextStyle: tTheme.bodySmall,
       subtitle: Text(
         ref.read(goodDayProvider),
-        maxLines: 1,
+        maxLines: 2,
         style: TextStyle(fontSize: 12.r),
       ),
       trailing: LoginOptionButton(

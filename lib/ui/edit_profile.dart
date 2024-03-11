@@ -50,7 +50,7 @@ class EditProfilePage extends ConsumerWidget {
       appBar: AppBar(
         leadingWidth: 45.w,
         titleSpacing: 1.5.w,
-        toolbarHeight: 75.h,
+        toolbarHeight: 90.h,
         centerTitle: false,
         title: const Text("Edit profile"),
       ),
