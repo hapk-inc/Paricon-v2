@@ -126,10 +126,9 @@ class SupportButtonBar extends ConsumerWidget {
         else
           ElevatedButton(
             onPressed: () async {
-              final appId =
-                  isAndroidWeb ? 'com.hapk.paricon' : 'inc.hapk.paricon';
+              final appId = isAndroidWeb ? 'com.hapk.paricon' : '6478455538';
               final url = Uri.parse(
-                (isAndroidWeb ?? true)
+                (isAndroidWeb)
                     ? "https://play.google.com/store/apps/details?id=$appId"
                     : "https://apps.apple.com/app/id$appId",
               );

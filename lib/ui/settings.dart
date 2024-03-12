@@ -14,6 +14,8 @@ import '../logic/setting_notifier.dart';
 import '../logic/tournament_database.dart';
 import '../model/best_d.dart';
 import '../router/my_route.dart';
+import '../settings/deactivate_account.dart';
+import '../settings/log_out_dialog.dart';
 import '../theme/my_color.dart';
 
 import '../logic/user_provider.dart';
@@ -27,17 +29,17 @@ class SettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pTheme = SlidingPanelTheme();
-    final TextTheme tTheme = Theme.of(context).textTheme;
+    // final TextTheme tTheme = Theme.of(context).textTheme;
     final MyUser? myUser = ref.watch(myUserProvider).value;
-    final BestD? bestD = ref.watch(myBestDProvider).value;
+    //final BestD? bestD = ref.watch(myBestDProvider).value;
 
     final User? user = ref.watch(authUserProvider).value;
 
-    final String userName = myUser?.name ?? mockAvatarName();
-    final String? userAvatar = myUser?.avatar;
+    //final String userName = myUser?.name ?? mockAvatarName();
+    //final String? userAvatar = myUser?.avatar;
     final String mockEmail = "${mockAvatarName()}@gmail.com".toLowerCase();
-    final String email =
-        (user?.isAnonymous ?? true) ? mockEmail : (user?.email ?? mockEmail);
+    //final String email =
+    //    (user?.isAnonymous ?? true) ? mockEmail : (user?.email ?? mockEmail);
 
     final PanelController settingPanel = ref.read(settingPanelProvider);
 
@@ -81,7 +83,7 @@ class SettingsPage extends ConsumerWidget {
       ),
       body: SlidingUpPanel(
         minHeight: 0,
-        maxHeight: 450.h,
+        maxHeight: 375.h,
         borderRadius: pTheme.slidingPanelRadius,
         padding: pTheme.slidingPanelPadding,
         color: ghostWhite1,
@@ -168,55 +170,7 @@ List<Widget> logOutOption(BuildContext context, WidgetRef ref) {
                 tileColor: cornellRed,
                 onTap: () => showDialog(
                   context: context,
-                  builder: (_) => AlertDialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.r),
-                    ),
-                    elevation: 0,
-                    surfaceTintColor: ghostWhite1,
-                    title: const Text("REALLY!?"),
-                    titleTextStyle: TextStyle(
-                      fontSize: 18.r,
-                      fontFamily: 'Montserrat',
-                      color: violetBlue,
-                    ),
-                    content: const Text(
-                      "Are you sure you want to log out now?",
-                    ),
-                    contentTextStyle: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: gray,
-                      fontWeight: FontWeight.w300,
-                      fontSize: 15.r,
-                      height: 2.1.r,
-                    ),
-                    //actionsPadding: EdgeInsets.zero,
-                    actions: [
-                      TextButton(
-                        onPressed: () =>
-                            Navigator.of(context, rootNavigator: true)
-                                .pop('dialog'),
-                        child: Text(
-                          "CANCEL",
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 13.5.r,
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () => ref.read(signOutProvider),
-                        child: Text(
-                          "LOG OUT",
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            color: frenchGray,
-                            fontSize: 13.5.r,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                  builder: (_) => const LogOutDialog(),
                 ),
                 contentPadding: EdgeInsets.symmetric(horizontal: 3.w),
                 leading:
@@ -253,158 +207,6 @@ List<Widget> logOutOption(BuildContext context, WidgetRef ref) {
       ),
     ),
   ];
-}
-
-class DeactivateAccount extends ConsumerWidget {
-  const DeactivateAccount({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AspectRatio(
-            aspectRatio: 3.6,
-            child: ListTile(
-              contentPadding: EdgeInsets.zero,
-              dense: true,
-              title: Text(
-                "Delete Your Account",
-                style: TextStyle(
-                  fontFamily: 'WendyOne',
-                  fontSize: 27.r,
-                  color: federalBlue,
-                  letterSpacing: 0,
-                  height: 1.8.r,
-                ),
-              ),
-              subtitle: Text(
-                "We're sorry to see you go",
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w300,
-                  color: gray,
-                  letterSpacing: 0,
-                  fontSize: 13.5.r,
-                  height: 0,
-                ),
-              ),
-            ),
-          ),
-          //const SizedBox(height: 15),
-          Text(
-            "Before You go . . .",
-            style: TextStyle(
-              fontSize: 18.r,
-              fontFamily: 'WendyOne',
-              color: federalBlue,
-              letterSpacing: 0,
-              height: 1.8.r,
-              fontWeight: FontWeight.normal,
-            ),
-          ),
-          Container(
-            height: 150.h,
-            color: ghostWhite1,
-            child: ListView(
-              children: [
-                AspectRatio(
-                  aspectRatio: 5.4,
-                  child: ListTile(
-                    contentPadding: EdgeInsets.only(left: 7.5.w),
-                    horizontalTitleGap: 0,
-                    minLeadingWidth: 30.w,
-                    // dense: true,
-                    leading: Container(
-                      width: 30.w,
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.only(top: 4.5.h),
-                      child: Icon(Icons.circle, size: 9.r, color: gray),
-                    ),
-                    title: Text(
-                      "If you want to change your username, you can do that here.",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w300,
-                        color: gray,
-                        letterSpacing: 0,
-                        fontSize: 15.r,
-                        height: 2.1.r,
-                      ),
-                    ),
-                  ),
-                ),
-                AspectRatio(
-                  aspectRatio: 5.4,
-                  child: ListTile(
-                    horizontalTitleGap: 0,
-                    minLeadingWidth: 30.w,
-                    contentPadding: EdgeInsets.only(left: 7.5.w),
-
-                    // dense: true,
-                    leading: Container(
-                      width: 30.w,
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.only(top: 4.5.h),
-                      child: Icon(Icons.circle, size: 9.r, color: gray),
-                    ),
-                    title: Text(
-                      "Account Deletion is final. There will be no way to restore your account",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w300,
-                        color: gray,
-                        letterSpacing: 0,
-                        fontSize: 15.r,
-                        height: 2.1.r,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-
-          ButtonBar(
-            overflowButtonSpacing: 15.r,
-            children: [
-              ElevatedButton(
-                onPressed: () => ref.read(settingPanelProvider).close(),
-                style: ButtonStyle(
-                    shape: MaterialStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7.5.r),
-                      ),
-                    ),
-                    backgroundColor: MaterialStatePropertyAll(majorelleBlue),
-                    minimumSize: MaterialStatePropertyAll(Size(240.w, 45.h))),
-                child: Text(
-                  "I DON'T WANNA DO THIS",
-                  style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 13.5.r,
-                      color: ghostWhite1),
-                ),
-              ),
-              OutlinedButton(
-                onPressed: () => ref.read(deleteAccountProvider),
-                style: ButtonStyle(
-                    shape: MaterialStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7.5.r),
-                      ),
-                    ),
-                    // backgroundColor: MaterialStatePropertyAll(majorelleBlue),
-                    minimumSize: MaterialStatePropertyAll(Size(240.w, 45.h))),
-                child: Text(
-                  "DELETE MY ACCOUNT",
-                  style: TextStyle(
-                      fontFamily: 'Montserrat', fontSize: 13.5.r, color: gray),
-                ),
-              )
-            ],
-          )
-        ],
-      );
 }
 
 class _SettingSub extends StatelessWidget {
@@ -488,6 +290,35 @@ Widget get _staggeredSpacer => const StaggeredGridTile.count(
       child: SizedBox(),
     );
 
-TextStyle get _titleStyle => TextStyle(color: gray, fontFamily: 'Montserrat');
+TextStyle get _titleStyle =>
+    const TextStyle(color: gray, fontFamily: 'Montserrat');
 
 double get _tFontSize => 12.r;
+
+/* AspectRatio(
+                  aspectRatio: 5.4,
+                  child: ListTile(
+                    horizontalTitleGap: 0,
+                    minLeadingWidth: 30.w,
+                    contentPadding: EdgeInsets.only(left: 7.5.w),
+
+                    // dense: true,
+                    leading: Container(
+                      width: 30.w,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.only(top: 4.5.h),
+                      child: Icon(Icons.circle, size: 9.r, color: gray),
+                    ),
+                    title: Text(
+                      "Account Deletion is final. There will be no way to restore your account",
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w300,
+                        color: gray,
+                        letterSpacing: 0,
+                        fontSize: 15.r,
+                        height: 2.1.r,
+                      ),
+                    ),
+                  ),
+                )*/

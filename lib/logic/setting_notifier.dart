@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final settingPanelNotifierProvider =
+final StateNotifierProvider<SettingPanelNotifier, Widget>
+    settingPanelNotifierProvider =
     StateNotifierProvider<SettingPanelNotifier, Widget>(
         (_) => SettingPanelNotifier());
 

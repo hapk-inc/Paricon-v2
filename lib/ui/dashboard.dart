@@ -6,11 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
+import '../dashboard/d_footer.dart';
 import '../logic/app_check.dart';
 
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../dashboard/d_footer.dart';
 import '../dashboard/d_name.dart';
 import '../dashboard/d_recent_player.dart';
 import '../dashboard/d_tournament.dart';
@@ -278,12 +278,12 @@ class __Dashboard extends ConsumerWidget {
               endIndent: 15.w,
             ),
           ),
-          /* const StaggeredGridTile.count(
+          const StaggeredGridTile.count(
             crossAxisCellCount: 20,
-            mainAxisCellCount: 4.8,
+            mainAxisCellCount: 3,
             child: DFooter(),
-          ),*/
-          Gap(180.h),
+          ),
+          Gap(210.h),
         ],
       ),
     );
