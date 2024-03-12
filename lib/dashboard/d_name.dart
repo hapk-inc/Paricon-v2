@@ -30,7 +30,7 @@ class DName extends ConsumerWidget {
       title: Row(
         children: [
           ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 210.w),
+            constraints: BoxConstraints(maxWidth: 240.w),
             child: AutoSizeText(
               myUser?.name ?? "",
               style: tTheme.bodyMedium!.copyWith(color: violetBlue),

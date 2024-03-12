@@ -163,35 +163,34 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           color: pTheme.slidingPanelColor,
           maxHeight: 225.h,
           defaultPanelState: PanelState.CLOSED,
+          padding: pTheme.slidingPanelPadding,
           isDraggable: false,
           minHeight: 0.h,
-          panel: Container(
-            padding: pTheme.slidingPanelPadding * 1.8,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FadeInRight(
-                  child: Text(
-                    "Login",
-                    style: tTheme.bodyMedium!.copyWith(color: hookerGreen),
+          panel: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FadeInRight(
+                child: Text(
+                  "Login",
+                  style: tTheme.bodyMedium!.copyWith(color: hookerGreen),
+                ),
+              ),
+              FadeInRight(
+                delay: const Duration(milliseconds: 900),
+                child: LoginSubText(isNetConnected),
+              ),
+              Gap(15.r),
+              Expanded(
+                child: FadeInRight(
+                  delay: const Duration(milliseconds: 1500),
+                  child: Wrap(
+                    spacing: 15.w,
+                    children: loginOptionList,
                   ),
                 ),
-                FadeInRight(
-                  delay: const Duration(milliseconds: 900),
-                  child: LoginSubText(isNetConnected),
-                ),
-                Gap(15.r),
-                Expanded(
-                  child: FadeInRight(
-                    delay: const Duration(milliseconds: 1500),
-                    child: Wrap(
-                      spacing: 15.w,
-                      children: loginOptionList,
-                    ),
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
           body: Container(
             alignment: Alignment.topCenter,

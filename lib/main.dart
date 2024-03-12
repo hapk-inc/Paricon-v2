@@ -35,12 +35,19 @@ Future<void> main() async {
 
   bool androidWeb = false;
 
+  bool isModelPhone = true;
+
   if (!kIsWeb) {
     if (Platform.isAndroid) {
-      final androidInfo = await deviceInfoPlugin.androidInfo;
+      final AndroidDeviceInfo androidInfo = await deviceInfoPlugin.androidInfo;
       isEmulator = !androidInfo.isPhysicalDevice;
     } else if (Platform.isIOS) {
       final IosDeviceInfo iosInfo = await deviceInfoPlugin.iosInfo;
+      debugPrint("iOSInfo");
+      debugPrint(iosInfo.data.toString());
+
+      isModelPhone = iosInfo.model == "iPhone";
+
       isEmulator = !iosInfo.isPhysicalDevice;
     } else if (Platform.isMacOS) {
       final PackageInfo r = await PackageInfo.fromPlatform();
@@ -121,13 +128,20 @@ Future<void> main() async {
 
   runApp(
     DevicePreview(
+      isToolbarVisible: kIsWeb
+          ? true
+          : Platform.isIOS
+              ? false
+              : true,
       //enabled: !kIsWeb ? (!Platform.isIOS && kDebugMode) : false,
       //enabled: kIsWeb ? true : !kDebugMode,
       enabled: kIsWeb
           ? false
           : Platform.isAndroid
               ? false
-              : kDebugMode,
+              : Platform.isIOS
+                  ? !isModelPhone
+                  : kDebugMode,
       //enabled: false,
       builder: (_) => ProviderScope(overrides: overrides, child: const MyApp()),
     ),

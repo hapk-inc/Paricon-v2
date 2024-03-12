@@ -19,7 +19,7 @@ class SupportPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tTheme = Theme.of(context).textTheme;
-    final bool? isAndroidWeb = ref.read(androidWebProvider);
+    //final bool? isAndroidWeb = ref.read(androidWebProvider);
     final ScreenSize sSize = ref.read(sizeProvider);
     final isPhoneTab = sSize == ScreenSize.phone ||
         sSize == ScreenSize.tab ||
