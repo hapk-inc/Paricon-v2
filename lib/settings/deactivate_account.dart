@@ -4,19 +4,97 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 
 import '../logic/auth_provider.dart';
-import '../logic/panel_provider.dart';
 import '../theme/my_color.dart';
+import '../theme/my_theme.dart';
+
+final _pTheme = SlidingPanelTheme();
 
 class DeactivateAccount extends ConsumerWidget {
   const DeactivateAccount({super.key});
 
   @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      padding: _pTheme.slidingPanelPadding * 0.75,
+      decoration: BoxDecoration(
+        color: magnolia1,
+        borderRadius: _pTheme.slidingPanelFullRadius,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const AutoSizeText(
+            "Deactivating your Account",
+            maxLines: 2,
+            style: TextStyle(color: amaranthPurple),
+          ),
+          Gap(15.r),
+          ...[
+            "If you want to change your username, "
+                "you can do that here.",
+            "Account Deletion is final. "
+                "There will be no way to restore your account",
+          ].map(
+            (e) => Container(
+              margin: EdgeInsets.symmetric(vertical: 1.5.h),
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    WidgetSpan(
+                      child: Container(
+                        width: 24.w,
+                        alignment: Alignment.centerLeft,
+                        child: Icon(Icons.circle, size: 7.5.r),
+                      ),
+                    ),
+                    TextSpan(text: e)
+                  ],
+                  style: settingSubText,
+                ),
+              ),
+            ),
+          ),
+          Gap(15.r),
+          FadeIn(
+            delay: const Duration(milliseconds: 900),
+            child: ButtonBar(
+              buttonTextTheme: ButtonTextTheme.normal,
+              children: ["DEACTIVATE NOW"].map(
+                (e) {
+                  final bool isDeactivate = e.contains('DEACTIVATE');
+                  return TextButton(
+                    onPressed: () => ref.read(deleteAccountProvider),
+                    child: Text(
+                      e,
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 15.r,
+                        color: isDeactivate ? amaranthPurple : federalBlue,
+                      ),
+                    ),
+                  );
+                },
+              ).toList(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/*
+class DeactivateAccount1 extends ConsumerWidget {
+  const DeactivateAccount1({super.key});
+
+  @override
   Widget build(BuildContext context, WidgetRef ref) => Container(
         alignment: Alignment.topCenter,
         child: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,7 +102,8 @@ class DeactivateAccount extends ConsumerWidget {
               ListTile(
                 contentPadding: EdgeInsets.zero,
                 title: const Text(
-                  "Before you go ...",
+                  "",
+                  //"Before you go ...",
                   style: TextStyle(
                     color: amaranthPurple,
                     fontFamily: 'Poppins',
@@ -48,7 +127,7 @@ class DeactivateAccount extends ConsumerWidget {
               ].map(
                 (e) => GridTileBar(
                   leading: SizedBox(
-                    width: 15.w,
+                    width: 24.w,
                     child: Icon(Icons.circle, size: 7.5.r, color: vanDyke),
                   ),
                   title: Text(
@@ -123,3 +202,4 @@ class DeActivateListTile extends StatelessWidget {
         ),
       );
 }
+*/

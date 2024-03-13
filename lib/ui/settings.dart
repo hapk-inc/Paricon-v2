@@ -11,11 +11,10 @@ import '../logic/auth_provider.dart';
 import '../logic/my_names.dart';
 import '../logic/panel_provider.dart';
 import '../logic/setting_notifier.dart';
-import '../logic/tournament_database.dart';
-import '../model/best_d.dart';
 import '../router/my_route.dart';
 import '../settings/deactivate_account.dart';
 import '../settings/log_out_dialog.dart';
+import '../settings/use_avatar_code.dart';
 import '../theme/my_color.dart';
 
 import '../logic/user_provider.dart';
@@ -252,6 +251,9 @@ List<Widget> cardOption(BuildContext context, WidgetRef ref) {
               aspectRatio: 7.2,
               child: ListTile(
                 dense: true,
+                onTap: () => ref
+                    .read(settingPanelNotifierProvider.notifier)
+                    .state = const UseAvatarCode(),
                 contentPadding: EdgeInsets.symmetric(horizontal: 3.w),
                 leading: const Icon(Icons.copy_all_outlined, color: gray),
                 trailing: const Icon(Icons.chevron_right, color: gray),
@@ -267,6 +269,10 @@ List<Widget> cardOption(BuildContext context, WidgetRef ref) {
               aspectRatio: 7.2,
               child: ListTile(
                 dense: true,
+                onTap: () {
+                  ref.read(settingPanelNotifierProvider.notifier).state =
+                      Text("sss");
+                },
                 contentPadding: EdgeInsets.symmetric(horizontal: 3.w),
                 leading: const Icon(Icons.paste_outlined, color: darkGreen),
                 trailing: const Icon(Icons.chevron_right, color: darkGreen),

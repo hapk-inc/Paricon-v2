@@ -56,6 +56,15 @@ class SupportPage extends ConsumerWidget {
                     ),
                   ),
                   Gap(15.r),
+                  Text(
+                    "For app support, please contact hapk.inc@gmail.com",
+                    style: tTheme.bodySmall?.copyWith(
+                      //fontSize: 60.r,
+                      fontSize: 15.r,
+                      color: lavenderWeb,
+                    ),
+                  ),
+                  Gap(15.r),
                   SupportButtonBar(),
                 ],
               )
@@ -93,6 +102,15 @@ class SupportPage extends ConsumerWidget {
                             color: lavenderWeb,
                           ),
                           maxLines: 1,
+                        ),
+                        Gap(15.r),
+                        Text(
+                          "For app support, please contact hapk.inc@gmail.com",
+                          style: tTheme.bodySmall?.copyWith(
+                            //fontSize: 60.r,
+                            fontSize: 15.r,
+                            color: lavenderWeb,
+                          ),
                         ),
                         Gap(15.r),
                         SupportButtonBar(),
@@ -141,7 +159,7 @@ class SupportButtonBar extends ConsumerWidget {
               height: 45.h,
               alignment: Alignment.center,
               child: const Text(
-                "REDIRECT TO APP",
+                "REDIRECT TO APP STORE/PLAY STORE",
                 style: TextStyle(fontFamily: 'Montserrat'),
               ),
             ),

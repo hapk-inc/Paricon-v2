@@ -130,3 +130,11 @@ class SlidingPanelTheme {
 }
 
 String firstCaps(String s) => toBeginningOfSentenceCase(s) ?? "";
+
+TextStyle get settingSubText => TextStyle(
+      color: oldRose,
+      fontSize: 15.r,
+      fontWeight: FontWeight.w300,
+      height: 2.4.r,
+      fontFamily: 'Poppins',
+    );

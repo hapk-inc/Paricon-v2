@@ -15,6 +15,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import '../theme/my_color.dart';
 
 import 'firebase_option.dart';
 import 'logic/app_check.dart';
@@ -128,20 +129,29 @@ Future<void> main() async {
 
   runApp(
     DevicePreview(
-      isToolbarVisible: kIsWeb
+      data: const DevicePreviewData(isFrameVisible: false),
+      backgroundColor: violetBlue,
+      isToolbarVisible: false,
+      enabled: kIsWeb
+          ? false
+          : Platform.isAndroid
+              ? false
+              : !isModelPhone,
+      /*isToolbarVisible: kIsWeb
           ? true
           : Platform.isIOS
               ? false
-              : true,
+              : true,*/
+
       //enabled: !kIsWeb ? (!Platform.isIOS && kDebugMode) : false,
       //enabled: kIsWeb ? true : !kDebugMode,
-      enabled: kIsWeb
+      /*enabled: kIsWeb
           ? false
           : Platform.isAndroid
               ? false
               : Platform.isIOS
                   ? !isModelPhone
-                  : kDebugMode,
+                  : kDebugMode,*/
       //enabled: false,
       builder: (_) => ProviderScope(overrides: overrides, child: const MyApp()),
     ),

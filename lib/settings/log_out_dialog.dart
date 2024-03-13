@@ -34,16 +34,10 @@ class LogOutDialog extends ConsumerWidget {
             "Are you sure you want to end your session now?"
           ][mockInteger(0, 2)],
         ),
-        contentTextStyle: TextStyle(
-          fontFamily: 'Poppins',
-          color: gray,
-          fontWeight: FontWeight.normal,
-          fontSize: 15.r,
-          height: 2.1.r,
-        ),
+        contentTextStyle: settingSubText,
         //actionsPadding: EdgeInsets.zero,
         actions: [
-          TextButton(
+          /* TextButton(
             onPressed: () =>
                 Navigator.of(context, rootNavigator: true).pop('dialog'),
             child: Text(
@@ -53,15 +47,15 @@ class LogOutDialog extends ConsumerWidget {
                 fontSize: 13.5.r,
               ),
             ),
-          ),
+          ),*/
           TextButton(
             onPressed: () => ref.read(signOutProvider),
             child: Text(
               "LOG OUT",
               style: TextStyle(
                 fontFamily: 'Montserrat',
-                color: frenchGray,
-                fontSize: 13.5.r,
+                color: federalBlue,
+                fontSize: 15.r,
               ),
             ),
           )
