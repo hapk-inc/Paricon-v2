@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:responsive_grid_list/responsive_grid_list.dart';
 
+import '../logic/s_size.dart';
 import '../logic/tournament_listener.dart';
 import '../model/local_icon.dart';
 import '../my_widget/g_icons.dart';
@@ -51,6 +52,7 @@ class TournamentGridTile extends ConsumerWidget {
     final tListener = ref.watch(tournamentListenerNotifierProvider);
     final xIcon = tListener.icons[localIcon.iconNo];
     final showIcon = xIcon.checkFound;
+    final ScreenSize screenSize = ref.read(sizeProvider);
 
     return AspectRatio(
       aspectRatio: 1,
@@ -93,14 +95,14 @@ class TournamentGridTile extends ConsumerWidget {
                     ? Icon(
                         gIcons.singleWhere(
                             (x) => x.codePoint == localIcon.iconCode),
-                        size: 30.r,
+                        size: screenSize == ScreenSize.phone ? 30.r : 45.r,
                         color: ghostWhite,
                       )
                     : xIcon.isCheck
                         ? Icon(
                             gIcons.singleWhere(
                                 (x) => x.codePoint == localIcon.iconCode),
-                            size: 30.r,
+                            size: screenSize == ScreenSize.phone ? 30.r : 45.r,
                             color: coyote,
                           )
                         : Container(),

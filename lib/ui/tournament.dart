@@ -45,78 +45,80 @@ class TournamentPage extends ConsumerWidget {
 
     final PanelController tPanelController = ref.watch(tournamentPanelProvider);
 
-    final sSize = ref.read(sizeProvider);
+    final ScreenSize sSize = ref.read(sizeProvider);
+    final bool isPhone = sSize == ScreenSize.phone;
 
     return Scaffold(
       backgroundColor: majorelleBlue,
-      body: sSize != ScreenSize.phone
-          ? Container()
-          : SafeArea(
-              top: true,
-              bottom: false,
-              child: SlidingUpPanel(
-                controller: tPanelController,
-                panel: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 500),
-                  child: Container(),
-                ),
-                isDraggable: false,
-                backdropColor: richBlack,
-                backdropEnabled: true,
-                backdropOpacity: 0.9,
-                borderRadius: pTheme.slidingPanelRadius,
-                minHeight: 0,
-                maxHeight: pTheme.slidingPanelHeight,
-                body: Container(
-                  color: majorelleBlue,
-                  alignment: Alignment.topCenter,
-                  child: SingleChildScrollView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    child: StaggeredGrid.count(
-                      crossAxisCount: 20,
-                      children: [
-                        Gap(45.r),
-                        const StaggeredGridTile.fit(
-                          crossAxisCellCount: 20,
-                          child: TournamentShow(),
-                        ),
-                      ],
-                    ),
+      body: SafeArea(
+        top: true,
+        bottom: false,
+        child: SlidingUpPanel(
+          controller: tPanelController,
+          panel: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 500),
+            child: Container(),
+          ),
+          isDraggable: false,
+          backdropColor: richBlack,
+          backdropEnabled: true,
+          backdropOpacity: 0.9,
+          borderRadius: pTheme.slidingPanelRadius,
+          minHeight: 0,
+          maxHeight: pTheme.slidingPanelHeight,
+          body: Container(
+            color: majorelleBlue,
+            alignment: Alignment.topCenter,
+            child: SingleChildScrollView(
+              physics: isPhone ? const NeverScrollableScrollPhysics() : null,
+              child: StaggeredGrid.count(
+                crossAxisCount: 20,
+                children: [
+                  Gap(45.r),
+                  const StaggeredGridTile.fit(
+                    crossAxisCellCount: 20,
+                    child: TournamentShow(),
                   ),
-                ),
+                ],
               ),
             ),
+          ),
+        ),
+      ),
     );
   }
 }
 
-class TournamentShow extends StatelessWidget {
+class TournamentShow extends ConsumerWidget {
   const TournamentShow({super.key});
 
   @override
-  Widget build(BuildContext context) => Card(
-        color: ghostWhite,
-        margin: EdgeInsets.symmetric(horizontal: 15.r),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(7.5.r),
-        ),
-        elevation: 3.r,
-        child: SizedBox(
-          height: 360.w * 1.44,
-          //padding: EdgeInsets.all(4.5.r),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Flexible(flex: 2, child: ShowTimerIndicator()),
-              Expanded(
-                flex: 12,
-                child: Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(horizontal: 15.r),
-                  child: const TournamentGrid(),
-                ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ScreenSize sSize = ref.read(sizeProvider);
+    final bool isPhone = sSize == ScreenSize.phone;
+    return Card(
+      color: ghostWhite,
+      margin: EdgeInsets.symmetric(horizontal: 15.r),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(7.5.r),
+      ),
+      elevation: 3.r,
+      child: SizedBox(
+        height: 360.w * (isPhone ? 1.44 : 1.05),
+        //padding: EdgeInsets.all(4.5.r),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Flexible(flex: 2, child: ShowTimerIndicator()),
+            Expanded(
+              flex: 12,
+              child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.symmetric(horizontal: 15.r),
+                child: const TournamentGrid(),
               ),
-              /*  Expanded(
+            ),
+            /*  Expanded(
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 12.r),
                   alignment: Alignment.centerLeft,
@@ -135,8 +137,9 @@ class TournamentShow extends StatelessWidget {
                   ),
                 ),
               ),*/
-            ],
-          ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
