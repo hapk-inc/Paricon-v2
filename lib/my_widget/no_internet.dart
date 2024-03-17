@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import '.../theme/my_color.dart';
 
+import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
 
 //final _pTheme = SlidingPanelTheme();

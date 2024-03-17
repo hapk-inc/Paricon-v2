@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -12,7 +11,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
 import '../logic/dashboard_provider.dart';
-import '../logic/my_names.dart';
 import 'package:random_avatar/random_avatar.dart';
 
 import '../logic/auth_provider.dart';
