@@ -71,7 +71,7 @@ class ShowTimerIndicator extends ConsumerWidget {
                           text: "Press ",
                           style: const TextStyle(color: emerald),
                           recognizer: TapGestureRecognizer()
-                            ..onTap = () => context.router.pop(),
+                            ..onTap = () => context.router.maybePop(),
                         ),
                         const TextSpan(text: "here to exit the game.")
                       ],

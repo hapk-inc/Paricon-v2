@@ -36,7 +36,7 @@ class TournamentPage extends ConsumerWidget {
               .read(tournamentDatabaseProvider)
               .updateTDuration(tournamentListener.stopwatch.elapsed)
               .whenComplete(
-                () => context.router.pop(),
+                () => context.router.maybePop(),
               );
         }
       },

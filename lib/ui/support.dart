@@ -65,7 +65,7 @@ class SupportPage extends ConsumerWidget {
                     ),
                   ),
                   Gap(15.r),
-                  SupportButtonBar(),
+                  const SupportButtonBar(),
                 ],
               )
             : Row(
@@ -113,7 +113,7 @@ class SupportPage extends ConsumerWidget {
                           ),
                         ),
                         Gap(15.r),
-                        SupportButtonBar(),
+                        const SupportButtonBar(),
                       ],
                     ),
                   )

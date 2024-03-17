@@ -139,8 +139,8 @@ TextStyle get settingSubText => TextStyle(
       fontFamily: 'Poppins',
     );
 
-TextStyle get _tableTextStyle => TextStyle(
+/*TextStyle get _tableTextStyle => TextStyle(
       fontSize: 13.5.r,
       color: richBlack,
       fontFamily: 'Montserrat',
-    );
+    );*/

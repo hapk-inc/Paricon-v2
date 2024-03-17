@@ -29,7 +29,7 @@ class TapAvatarCode extends ConsumerWidget {
                 ..onTap = () async {
                   final cText = await Clipboard.getData(Clipboard.kTextPlain);
                   final String text = cText?.text ?? "";
-                  bool containsEmoji = EmojiUtil.hasOnlyEmojis(text ?? "");
+                  bool containsEmoji = EmojiUtil.hasOnlyEmojis(text);
                   if (context.mounted) {
                     if (!containsEmoji) {
                       return ScaffoldMessenger.of(context)

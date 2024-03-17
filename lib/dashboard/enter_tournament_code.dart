@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mock_data/mock_data.dart';
-import '../logic/dashboard_panel_provider.dart';
 
 import '../logic/next_animation_flag.dart';
 import '../logic/s_size.dart';
@@ -22,7 +21,7 @@ class EnterTournamentCode extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sSize = ref.read(sizeProvider);
     final repeatAnimationNotifier = ref.watch(repeatAnimationNotifierProvider);
-    final dPanelNotifier = ref.watch(dashboardPanelNotifierProvider);
+    //final dPanelNotifier = ref.watch(dashboardPanelNotifierProvider);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
       height: DashboardSize(sSize).enterTournamentHeight,

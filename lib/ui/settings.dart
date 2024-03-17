@@ -8,7 +8,6 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/app_check.dart';
 import '../logic/auth_provider.dart';
-import '../logic/my_names.dart';
 import '../logic/panel_provider.dart';
 import '../logic/setting_notifier.dart';
 import '../router/my_route.dart';
@@ -36,7 +35,7 @@ class SettingsPage extends ConsumerWidget {
 
     //final String userName = myUser?.name ?? mockAvatarName();
     //final String? userAvatar = myUser?.avatar;
-    final String mockEmail = "${mockAvatarName()}@gmail.com".toLowerCase();
+    //final String mockEmail = "${mockAvatarName()}@gmail.com".toLowerCase();
     //final String email =
     //    (user?.isAnonymous ?? true) ? mockEmail : (user?.email ?? mockEmail);
 

@@ -18,7 +18,7 @@ class DashboardPanelNotifier extends ChangeNotifier {
   Widget _dCollapsedWidget = Container();
   final Ref ref;
   num _tab = 0;
-  late TabController _tabController;
+  late TabController tabController;
   Widget _openBuilder = Container();
 
   DashboardPanelNotifier(this.ref) {
@@ -68,14 +68,6 @@ class DashboardPanelNotifier extends ChangeNotifier {
     if (_tab == value) return;
     _tab = value;
     notifyListeners();
-  }
-
-  TabController get tabController => _tabController;
-
-  set tabController(TabController value) {
-    //if (_tabController == value) return;
-    _tabController = value;
-    //notifyListeners();
   }
 
   double get dMinHeight => _dMinHeight;

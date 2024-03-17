@@ -11,7 +11,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../logic/pass_avatar_notifier.dart';
-import '../model/d_avatar.dart';
 import '../theme/my_theme.dart';
 import 'package:rxdart/rxdart.dart';
 

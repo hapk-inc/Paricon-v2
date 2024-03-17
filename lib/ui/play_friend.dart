@@ -120,7 +120,7 @@ class __PlayFriendBoard extends ConsumerWidget {
                 debugPrintStack(stackTrace: s);
               },
             );
-            context.router.pop();
+            context.router.maybePop();
           });
         }
       },
@@ -299,7 +299,7 @@ class PlayFriendTimer extends ConsumerWidget {
             ),
             trailing: InkWell(
               onTap: () {
-                context.router.pop();
+                context.router.maybePop();
                 ref.read(idNotifier.notifier).empty();
               },
               child: Icon(Icons.close, size: 24.r),

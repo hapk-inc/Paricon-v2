@@ -148,7 +148,7 @@ class EditProfilePage extends ConsumerWidget {
                               //scrollDirection: Axis.horizontal,
                               gridDelegate: SliverWovenGridDelegate.count(
                                 crossAxisCount:
-                                    screenSize == ScreenSize.phone ? 2 : 3,
+                                    screenSize == ScreenSize.phone ? 3 : 3,
                                 mainAxisSpacing: 1.2.r,
                                 crossAxisSpacing: 1.2.r,
                                 pattern: [

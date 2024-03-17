@@ -33,8 +33,6 @@ const String _prompt = 'Give a different line for line "created this room. '
     'Also starts with lower case because it starts with the person name.
     Dont start with you and and make it in single line. I need to show this in my app';*/
 
-final _pTheme = SlidingPanelTheme();
-
 class HostRoom extends ConsumerStatefulWidget {
   const HostRoom({super.key});
 
@@ -73,7 +71,6 @@ class _HostRoomState extends ConsumerState<HostRoom> {
 
     final User? user = ref.watch(authUserProvider).value;
     room = ref.watch(roomProvider).value;
-    final TextTheme tTheme = Theme.of(context).textTheme;
     if (room == null || user == null) return Container();
 
     final String creatorName = room == null
@@ -253,7 +250,7 @@ class _HostRoomState extends ConsumerState<HostRoom> {
                       BorderSide(color: gray, width: 0.75.r),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     "START GAME",
                     style: TextStyle(fontFamily: 'Montserrat'),
                   ),
