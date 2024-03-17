@@ -7,11 +7,11 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final firebaseAppProvider = Provider<FirebaseApp>(
+final Provider<FirebaseApp> firebaseAppProvider = Provider<FirebaseApp>(
   (_) => throw UnimplementedError(),
 );
 
-final firebaseAuthProvider = Provider<FirebaseAuth>(
+final Provider<FirebaseAuth> firebaseAuthProvider = Provider<FirebaseAuth>(
   (_) => throw UnimplementedError(),
 );
 
@@ -20,15 +20,15 @@ final Provider<FirebaseFirestore> fireStoreProvider =
   (_) => throw UnimplementedError(),
 );
 
-final databaseProvider = Provider<FirebaseDatabase>(
+final Provider<FirebaseDatabase> databaseProvider = Provider<FirebaseDatabase>(
   (_) => throw UnimplementedError(),
 );
 
-final analyticsProvider =
+final Provider<FirebaseAnalytics> analyticsProvider =
     Provider<FirebaseAnalytics>((_) => throw UnimplementedError());
 
-final remoteConfigProvider =
+final Provider<FirebaseRemoteConfig> remoteConfigProvider =
     Provider<FirebaseRemoteConfig>((ref) => throw UnimplementedError());
 
-final crashlyticsProvider =
+final Provider<FirebaseCrashlytics> crashlyticsProvider =
     Provider<FirebaseCrashlytics>((ref) => throw UnimplementedError());

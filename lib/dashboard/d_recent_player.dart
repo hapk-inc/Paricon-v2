@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
@@ -6,49 +5,43 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../logic/s_size.dart';
-import '../logic/user_activity_provider.dart';
+import '../logic/recent_user.dart';
 import '../model/user_activity.dart';
-import '../theme/dashboard_size.dart';
-import 'd_loader.dart';
 import 'recent_player_tile.dart';
 
-class RecentPlayer extends ConsumerWidget {
+/*final recentProvider = FutureProvider<List<MyUser>>(
+  (ref) async {
+    return SQLUser.recentUser;
+  },
+);*/
+
+class RecentPlayer extends ConsumerStatefulWidget {
   const RecentPlayer({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final ScreenSize sSize = ref.read(sizeProvider);
-    return StaggeredGridTile.fit(
+  ConsumerState createState() => _RecentPlayerState();
+}
+
+class _RecentPlayerState extends ConsumerState<RecentPlayer> {
+  @override
+  Widget build(BuildContext context) {
+    return StaggeredGridTile.count(
       crossAxisCellCount: 20,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
-        margin: EdgeInsets.symmetric(vertical: 4.5.h),
-        height: DashboardSize(sSize).recentPlayerHeight,
-        child: FirebaseAnimatedList(
-          scrollDirection: Axis.horizontal,
-          sort: (DataSnapshot a, DataSnapshot b) {
-            Map<String, dynamic> a1 = Map<String, dynamic>.from(a.value as Map);
-            Map<String, dynamic> b1 = Map<String, dynamic>.from(b.value as Map);
+      mainAxisCellCount: 5.1,
+      child: FirebaseAnimatedList(
+        scrollDirection: Axis.horizontal,
+        query: ref.read(recentUserProvider),
+        padding: EdgeInsets.only(left: 7.5.w),
+        sort: (DataSnapshot a, DataSnapshot b) {
+          UserActivity x = UserActivity.fromSnapshot(a);
+          UserActivity y = UserActivity.fromSnapshot(b);
+          return y.nowTime.compareTo(x.nowTime);
+        },
+        itemBuilder: (_, DataSnapshot snapshot, __, int index) {
+          UserActivity userActivity = UserActivity.fromSnapshot(snapshot);
 
-            final UserActivity x = UserActivity.fromJson(a1);
-            final UserActivity y = UserActivity.fromJson(b1);
-            return y.nowTime.compareTo(x.nowTime);
-          },
-          query: ref.watch(recentUserProvider),
-          padding: EdgeInsets.only(left: 15.w /*top: 4.5.h*/),
-          defaultChild: const DLoader("Checking for Recent Players"),
-          itemBuilder:
-              (_, DataSnapshot snapshot, Animation<double> animation, __) {
-            Map<String, dynamic> json =
-                Map<String, dynamic>.from(snapshot.value as Map);
-            final UserActivity xUser = UserActivity.fromJson(json);
-
-            return FadeInRight(
-              child: RecentPlayerTile(snapshot.key ?? "", xUser),
-            );
-          },
-        ),
+          return RecentPlayerTile(snapshot.key ?? "", userActivity);
+        },
       ),
     );
   }

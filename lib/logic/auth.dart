@@ -129,10 +129,10 @@ class Auth {
         createdAt: createdAt,
       ).toJson(),
     );
-    batch.set(
+    /*batch.set(
       userColl.doc(id).collection('pass_avatar').doc(id),
       DAvatar(createdAt: createdAt).toJson(),
-    );
+    );*/
     return batch.commit();
   }
 

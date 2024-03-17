@@ -56,220 +56,226 @@ class EditProfilePage extends ConsumerWidget {
       ),
       body: SafeArea(
         //minimum: EdgeInsets.symmetric(horizontal: 15.r),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 15),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 15.r),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Header1(
-                    "Your name will be shown as",
-                    hStyle: tTheme.bodySmall?.copyWith(
-                      fontSize: 12.r,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  Container(
-                    height: 60.h,
-                    //color: xantHous,
-                    padding: EdgeInsets.symmetric(horizontal: 1.5.w),
-                    alignment: Alignment.center,
-                    child: TextFormField(
-                      controller: controller,
-                      onFieldSubmitted: (str) => updateName(str),
-                      onEditingComplete: () => updateName(controller.text),
-                      maxLines: 1,
-                      cursorColor: chocolateCosmos,
-                      cursorHeight: 30.r,
-                      cursorWidth: 1.2.r,
-                      keyboardType: TextInputType.name,
-                      style: TextStyle(
-                        color: chocolateCosmos,
-                        fontSize: 18.r,
-                        height: 2.1,
-                        letterSpacing: 0.r,
-                        fontFamily: 'Montserrat',
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gap(15.r),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 15.r),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Header1(
+                      "Your name will be shown as",
+                      hStyle: tTheme.bodySmall?.copyWith(
+                        fontSize: 12.r,
+                        fontWeight: FontWeight.w300,
                       ),
-                      decoration: InputDecoration(
-                        hintText: 'Give a new name',
-                        contentPadding: _textFieldContentPadding,
-                        hintStyle: TextStyle(
+                    ),
+                    //Gap(15.r),
+                    Container(
+                      height: 72.h,
+                      //color: xantHous,
+                      padding: EdgeInsets.symmetric(horizontal: 1.5.w),
+                      alignment: Alignment.center,
+                      child: TextFormField(
+                        controller: controller,
+                        onFieldSubmitted: (str) => updateName(str),
+                        onEditingComplete: () => updateName(controller.text),
+                        maxLines: 1,
+                        cursorColor: chocolateCosmos,
+                        cursorHeight: 30.r,
+                        cursorWidth: 1.2.r,
+                        keyboardType: TextInputType.name,
+                        style: TextStyle(
+                          color: chocolateCosmos,
+                          fontSize: 18.r,
+                          height: 2.1,
+                          letterSpacing: 0.r,
                           fontFamily: 'Montserrat',
-                          fontSize: 13.5.r,
-                          color: frenchGray,
-                          fontWeight: FontWeight.w300,
                         ),
-                        isDense: true,
-                        isCollapsed: false,
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: majorelleBlue, width: 0.45.r),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide:
-                              BorderSide(color: majorelleBlue, width: 1.2.r),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Gap(15.r),
-            Container(
-              height: 450.h,
-              //color: xantHous,
-              alignment: Alignment.centerLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.r),
-                    child: Header1(
-                      "Available Cards - ${myUser?.avatarArr.length ?? 0}",
-                      hStyle: tTheme.bodyMedium?.copyWith(
-                        fontSize: 16.5.r,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ),
-                  ),
-                  Gap(15.r),
-                  Expanded(
-                    child: (myUser?.avatarArr ?? []).isEmpty
-                        ? Container(color: magnolia)
-                        : GridView.custom(
-                            //scrollDirection: Axis.horizontal,
-                            gridDelegate: SliverWovenGridDelegate.count(
-                              crossAxisCount:
-                                  screenSize == ScreenSize.phone ? 2 : 3,
-                              mainAxisSpacing: 1.2.r,
-                              crossAxisSpacing: 1.2.r,
-                              pattern: [
-                                const WovenGridTile(1, crossAxisRatio: 0.9),
-                                const WovenGridTile(1),
-                              ],
-                            ),
-                            childrenDelegate: SliverChildBuilderDelegate(
-                              (_, index) {
-                                final String e =
-                                    myUser?.avatarArr[index] ?? mockString(1);
-                                return Card(
-                                  margin: EdgeInsets.all(3.r),
-                                  elevation: 3.r,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(1.5.r),
-                                  ),
-                                  child: AnimatedContainer(
-                                    //padding: EdgeInsets.all(4.5.r),
-                                    margin: EdgeInsets.all(4.5.r),
-                                    duration: const Duration(milliseconds: 500),
-                                    color: (myUser?.avatar ?? "") == e
-                                        ? xantHous
-                                        : uranianBlue,
-                                    child: Stack(
-                                      children: [
-                                        Positioned.fill(
-                                          bottom: -24.r,
-                                          child: FadeInUp(
-                                            delay: const Duration(
-                                                milliseconds: 300),
-                                            child: InkWell(
-                                              onDoubleTap: () => ref.watch(
-                                                  updateFaceAvatarProvider(
-                                                      myUser?.avatarArr[
-                                                              index] ??
-                                                          mockString(1))),
-                                              child: RandomAvatar(
-                                                myUser?.avatarArr[index] ??
-                                                    mockString(1),
-                                                trBackground: true,
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  //padding: EdgeInsets.all(3.r),
-                                );
-                              },
-                              childCount: myUser?.avatarArr.length ?? 1,
-                            ),
+                        decoration: InputDecoration(
+                          hintText: 'Give a new name',
+                          contentPadding: _textFieldContentPadding,
+                          //errorText: "afsgfsgfgfsgfd",
+                          hintStyle: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 13.5.r,
+                            color: frenchGray,
+                            fontWeight: FontWeight.w300,
                           ),
-                  )
-                ],
-              ),
-            )
-            /*const SizedBox(height: 15),
-            const Header1("Available Cards"),
-            const SizedBox(height: 15),
-            Expanded(
-              child: (myUser?.avatarArr ?? []).isEmpty
-                  ? Container(
-                      color: magnolia,
-                    )
-                  : GridView.custom(
-                      //scrollDirection: Axis.horizontal,
-                      gridDelegate: SliverWovenGridDelegate.count(
-                        crossAxisCount: screenSize == ScreenSize.phone ? 2 : 3,
-                        mainAxisSpacing: 1.2.r,
-                        crossAxisSpacing: 1.2.r,
-                        pattern: [
-                          const WovenGridTile(1, crossAxisRatio: 0.9),
-                          const WovenGridTile(1),
-                        ],
+                          isDense: true,
+                          isCollapsed: false,
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: majorelleBlue, width: 0.45.r),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                                BorderSide(color: majorelleBlue, width: 1.2.r),
+                          ),
+                        ),
                       ),
-                      childrenDelegate: SliverChildBuilderDelegate(
-                        (_, index) {
-                          final String e =
-                              myUser?.avatarArr[index] ?? mockString(1);
-                          return Card(
-                            margin: EdgeInsets.all(3.r),
-                            elevation: 3.r,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(1.5.r),
-                            ),
-                            child: AnimatedContainer(
-                              //padding: EdgeInsets.all(4.5.r),
-                              margin: EdgeInsets.all(4.5.r),
-                              duration: const Duration(milliseconds: 500),
-                              color: (myUser?.avatar ?? "") == e
-                                  ? xantHous
-                                  : uranianBlue,
-                              child: Stack(
-                                children: [
-                                  Positioned.fill(
-                                    bottom: -24.r,
-                                    child: FadeInUp(
-                                      delay: const Duration(milliseconds: 300),
-                                      child: InkWell(
-                                        onDoubleTap: () => ref.watch(
-                                            updateFaceAvatarProvider(
-                                                myUser?.avatarArr[index] ??
-                                                    mockString(1))),
-                                        child: RandomAvatar(
-                                          myUser?.avatarArr[index] ??
-                                              mockString(1),
-                                          trBackground: true,
-                                        ),
-                                      ),
-                                    ),
-                                  )
+                    ),
+                  ],
+                ),
+              ),
+              Gap(15.r),
+              Container(
+                height: 450.h,
+                //color: xantHous,
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15.r),
+                      child: Header1(
+                        "Available Cards - ${myUser?.avatarArr.length ?? 0}",
+                        hStyle: tTheme.bodyMedium?.copyWith(
+                          fontSize: 16.5.r,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                    Gap(15.r),
+                    Expanded(
+                      child: (myUser?.avatarArr ?? []).isEmpty
+                          ? Container(color: magnolia)
+                          : GridView.custom(
+                              //scrollDirection: Axis.horizontal,
+                              gridDelegate: SliverWovenGridDelegate.count(
+                                crossAxisCount:
+                                    screenSize == ScreenSize.phone ? 2 : 3,
+                                mainAxisSpacing: 1.2.r,
+                                crossAxisSpacing: 1.2.r,
+                                pattern: [
+                                  const WovenGridTile(1, crossAxisRatio: 0.9),
+                                  const WovenGridTile(1),
                                 ],
                               ),
+                              childrenDelegate: SliverChildBuilderDelegate(
+                                (_, index) {
+                                  final String e =
+                                      myUser?.avatarArr[index] ?? mockString(1);
+                                  return Card(
+                                    margin: EdgeInsets.all(3.r),
+                                    elevation: 3.r,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(1.5.r),
+                                    ),
+                                    child: AnimatedContainer(
+                                      //padding: EdgeInsets.all(4.5.r),
+                                      margin: EdgeInsets.all(4.5.r),
+                                      duration:
+                                          const Duration(milliseconds: 500),
+                                      color: (myUser?.avatar ?? "") == e
+                                          ? xantHous
+                                          : uranianBlue,
+                                      child: Stack(
+                                        children: [
+                                          Positioned.fill(
+                                            bottom: -24.r,
+                                            child: FadeInUp(
+                                              delay: const Duration(
+                                                  milliseconds: 300),
+                                              child: InkWell(
+                                                onDoubleTap: () => ref.watch(
+                                                    updateFaceAvatarProvider(
+                                                        myUser?.avatarArr[
+                                                                index] ??
+                                                            mockString(1))),
+                                                child: RandomAvatar(
+                                                  myUser?.avatarArr[index] ??
+                                                      mockString(1),
+                                                  trBackground: true,
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    //padding: EdgeInsets.all(3.r),
+                                  );
+                                },
+                                childCount: myUser?.avatarArr.length ?? 1,
+                              ),
                             ),
-                            //padding: EdgeInsets.all(3.r),
-                          );
-                        },
-                        childCount: myUser?.avatarArr.length ?? 1,
+                    )
+                  ],
+                ),
+              )
+              /*const SizedBox(height: 15),
+              const Header1("Available Cards"),
+              const SizedBox(height: 15),
+              Expanded(
+                child: (myUser?.avatarArr ?? []).isEmpty
+                    ? Container(
+                        color: magnolia,
+                      )
+                    : GridView.custom(
+                        //scrollDirection: Axis.horizontal,
+                        gridDelegate: SliverWovenGridDelegate.count(
+                          crossAxisCount: screenSize == ScreenSize.phone ? 2 : 3,
+                          mainAxisSpacing: 1.2.r,
+                          crossAxisSpacing: 1.2.r,
+                          pattern: [
+                            const WovenGridTile(1, crossAxisRatio: 0.9),
+                            const WovenGridTile(1),
+                          ],
+                        ),
+                        childrenDelegate: SliverChildBuilderDelegate(
+                          (_, index) {
+                            final String e =
+                                myUser?.avatarArr[index] ?? mockString(1);
+                            return Card(
+                              margin: EdgeInsets.all(3.r),
+                              elevation: 3.r,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(1.5.r),
+                              ),
+                              child: AnimatedContainer(
+                                //padding: EdgeInsets.all(4.5.r),
+                                margin: EdgeInsets.all(4.5.r),
+                                duration: const Duration(milliseconds: 500),
+                                color: (myUser?.avatar ?? "") == e
+                                    ? xantHous
+                                    : uranianBlue,
+                                child: Stack(
+                                  children: [
+                                    Positioned.fill(
+                                      bottom: -24.r,
+                                      child: FadeInUp(
+                                        delay: const Duration(milliseconds: 300),
+                                        child: InkWell(
+                                          onDoubleTap: () => ref.watch(
+                                              updateFaceAvatarProvider(
+                                                  myUser?.avatarArr[index] ??
+                                                      mockString(1))),
+                                          child: RandomAvatar(
+                                            myUser?.avatarArr[index] ??
+                                                mockString(1),
+                                            trBackground: true,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              //padding: EdgeInsets.all(3.r),
+                            );
+                          },
+                          childCount: myUser?.avatarArr.length ?? 1,
+                        ),
                       ),
-                    ),
-            ),*/
-          ],
+              ),*/
+            ],
+          ),
         ),
       ),
     );

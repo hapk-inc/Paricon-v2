@@ -28,6 +28,7 @@ mixin _$UserActivity {
   String? get avatar => throw _privateConstructorUsedError;
   String? get appVersion => throw _privateConstructorUsedError;
   DateTime get nowTime => throw _privateConstructorUsedError;
+  bool get isEmulator => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -49,7 +50,8 @@ abstract class $UserActivityCopyWith<$Res> {
       String? name,
       String? avatar,
       String? appVersion,
-      DateTime nowTime});
+      DateTime nowTime,
+      bool isEmulator});
 }
 
 /// @nodoc
@@ -73,6 +75,7 @@ class _$UserActivityCopyWithImpl<$Res, $Val extends UserActivity>
     Object? avatar = freezed,
     Object? appVersion = freezed,
     Object? nowTime = null,
+    Object? isEmulator = null,
   }) {
     return _then(_value.copyWith(
       lastOpened: freezed == lastOpened
@@ -107,6 +110,10 @@ class _$UserActivityCopyWithImpl<$Res, $Val extends UserActivity>
           ? _value.nowTime
           : nowTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      isEmulator: null == isEmulator
+          ? _value.isEmulator
+          : isEmulator // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -127,7 +134,8 @@ abstract class _$$UserActivityImplCopyWith<$Res>
       String? name,
       String? avatar,
       String? appVersion,
-      DateTime nowTime});
+      DateTime nowTime,
+      bool isEmulator});
 }
 
 /// @nodoc
@@ -149,6 +157,7 @@ class __$$UserActivityImplCopyWithImpl<$Res>
     Object? avatar = freezed,
     Object? appVersion = freezed,
     Object? nowTime = null,
+    Object? isEmulator = null,
   }) {
     return _then(_$UserActivityImpl(
       lastOpened: freezed == lastOpened
@@ -183,6 +192,10 @@ class __$$UserActivityImplCopyWithImpl<$Res>
           ? _value.nowTime
           : nowTime // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      isEmulator: null == isEmulator
+          ? _value.isEmulator
+          : isEmulator // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -198,7 +211,8 @@ class _$UserActivityImpl extends _UserActivity {
       this.name,
       this.avatar,
       this.appVersion,
-      required this.nowTime})
+      required this.nowTime,
+      this.isEmulator = false})
       : super._();
 
   factory _$UserActivityImpl.fromJson(Map<String, dynamic> json) =>
@@ -222,10 +236,13 @@ class _$UserActivityImpl extends _UserActivity {
   final String? appVersion;
   @override
   final DateTime nowTime;
+  @override
+  @JsonKey()
+  final bool isEmulator;
 
   @override
   String toString() {
-    return 'UserActivity(lastOpened: $lastOpened, lastGamePlayed: $lastGamePlayed, isActive: $isActive, isPlaying: $isPlaying, name: $name, avatar: $avatar, appVersion: $appVersion, nowTime: $nowTime)';
+    return 'UserActivity(lastOpened: $lastOpened, lastGamePlayed: $lastGamePlayed, isActive: $isActive, isPlaying: $isPlaying, name: $name, avatar: $avatar, appVersion: $appVersion, nowTime: $nowTime, isEmulator: $isEmulator)';
   }
 
   @override
@@ -244,7 +261,9 @@ class _$UserActivityImpl extends _UserActivity {
             (identical(other.avatar, avatar) || other.avatar == avatar) &&
             (identical(other.appVersion, appVersion) ||
                 other.appVersion == appVersion) &&
-            (identical(other.nowTime, nowTime) || other.nowTime == nowTime));
+            (identical(other.nowTime, nowTime) || other.nowTime == nowTime) &&
+            (identical(other.isEmulator, isEmulator) ||
+                other.isEmulator == isEmulator));
   }
 
   @JsonKey(ignore: true)
@@ -258,7 +277,8 @@ class _$UserActivityImpl extends _UserActivity {
       name,
       avatar,
       appVersion,
-      nowTime);
+      nowTime,
+      isEmulator);
 
   @JsonKey(ignore: true)
   @override
@@ -283,7 +303,8 @@ abstract class _UserActivity extends UserActivity {
       final String? name,
       final String? avatar,
       final String? appVersion,
-      required final DateTime nowTime}) = _$UserActivityImpl;
+      required final DateTime nowTime,
+      final bool isEmulator}) = _$UserActivityImpl;
   const _UserActivity._() : super._();
 
   factory _UserActivity.fromJson(Map<String, dynamic> json) =
@@ -305,6 +326,8 @@ abstract class _UserActivity extends UserActivity {
   String? get appVersion;
   @override
   DateTime get nowTime;
+  @override
+  bool get isEmulator;
   @override
   @JsonKey(ignore: true)
   _$$UserActivityImplCopyWith<_$UserActivityImpl> get copyWith =>

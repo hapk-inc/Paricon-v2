@@ -20,6 +20,7 @@ import '../theme/my_color.dart';
 import 'firebase_option.dart';
 import 'logic/app_check.dart';
 import 'logic/firebase_init.dart';
+import 'logic/sql_user.dart';
 import 'my_app.dart';
 
 //import 'package:google_generative_ai/google_generative_ai.dart';
@@ -74,6 +75,7 @@ Future<void> main() async {
   final FirebaseFirestore fireStore = FirebaseFirestore.instanceFor(app: app);
   //FirebaseFirestore.setLoggingEnabled(true);
   final FirebaseDatabase database = FirebaseDatabase.instanceFor(app: app);
+  //database.setPersistenceEnabled(enabled)
 
   final FirebaseAnalytics analytics = FirebaseAnalytics.instanceFor(app: app);
 
@@ -89,7 +91,17 @@ Future<void> main() async {
     minimumFetchInterval: const Duration(seconds: 3),
   );
 
+  //await SQLUser.initSQL;
+
   await remoteConfig.setConfigSettings(remoteConfigSetting);
+
+  final bool devicePreviewEnabled = kIsWeb
+      ? kDebugMode
+      : Platform.isAndroid
+          ? false
+          : Platform.isMacOS
+              ? true
+              : !isModelPhone;
 
   //const fatalError = true;
   // Non-async exceptions
@@ -114,6 +126,11 @@ Future<void> main() async {
     await crashlytics.setCrashlyticsCollectionEnabled(!kDebugMode);
   }
 
+  final SQUser sqUser = SQUser();
+  if (!kIsWeb) {
+    await sqUser.initSQL;
+  }
+
   List<Override> overrides = [
     firebaseAppProvider.overrideWithValue(app),
     firebaseAuthProvider.overrideWithValue(firebaseAuth),
@@ -124,6 +141,7 @@ Future<void> main() async {
     crashlyticsProvider.overrideWithValue(crashlytics),
     isEmulatorProvider.overrideWithValue(isEmulator),
     geminiModelProvider.overrideWithValue(model),
+    sqUserProvider.overrideWithValue(sqUser),
     if (kIsWeb) androidWebProvider.overrideWithValue(androidWeb),
   ];
 
@@ -131,28 +149,8 @@ Future<void> main() async {
     DevicePreview(
       data: const DevicePreviewData(isFrameVisible: false),
       backgroundColor: violetBlue,
-      isToolbarVisible: false,
-      enabled: kIsWeb
-          ? false
-          : Platform.isAndroid
-              ? false
-              : !isModelPhone,
-      /*isToolbarVisible: kIsWeb
-          ? true
-          : Platform.isIOS
-              ? false
-              : true,*/
-
-      //enabled: !kIsWeb ? (!Platform.isIOS && kDebugMode) : false,
-      //enabled: kIsWeb ? true : !kDebugMode,
-      /*enabled: kIsWeb
-          ? false
-          : Platform.isAndroid
-              ? false
-              : Platform.isIOS
-                  ? !isModelPhone
-                  : kDebugMode,*/
-      //enabled: false,
+      isToolbarVisible: kDebugMode,
+      enabled: devicePreviewEnabled,
       builder: (_) => ProviderScope(overrides: overrides, child: const MyApp()),
     ),
   );

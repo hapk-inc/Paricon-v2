@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mock_data/mock_data.dart';
+import '../logic/dashboard_panel_provider.dart';
 
 import '../logic/next_animation_flag.dart';
 import '../logic/s_size.dart';
@@ -21,6 +22,7 @@ class EnterTournamentCode extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sSize = ref.read(sizeProvider);
     final repeatAnimationNotifier = ref.watch(repeatAnimationNotifierProvider);
+    final dPanelNotifier = ref.watch(dashboardPanelNotifierProvider);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 15.h, horizontal: 15.w),
       height: DashboardSize(sSize).enterTournamentHeight,
@@ -39,12 +41,11 @@ class EnterTournamentCode extends ConsumerWidget {
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.symmetric(horizontal: 15.w),
               child: InkWell(
-                /* onTap: () {
+                onTap: () {
                   context.router.push(const ViewTournamentRoute());
-                  */ /* ref.read(dashboardPanelNotifierProvider).openBuilder =
-                            TournamentCodeOpen(action);
-                        action.call();*/ /*
-                },*/
+                  //dPanelNotifier.dWidget = const NoInternet();
+                  //ref.read(dashboardPanelProvider).open();
+                },
                 child: Text(
                   "PARICON",
                   style: TextStyle(

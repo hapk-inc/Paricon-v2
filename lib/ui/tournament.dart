@@ -14,6 +14,7 @@ import '../logic/tournament_database.dart';
 import '../logic/tournament_listener.dart';
 import '../t_widget/t_show_timer_indicator.dart';
 import '../t_widget/t_tournament_grid.dart';
+import '../t_widget/tournament_footer.dart';
 import '../theme/my_color.dart';
 import '../theme/my_theme.dart';
 
@@ -50,36 +51,65 @@ class TournamentPage extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: majorelleBlue,
-      body: SafeArea(
-        top: true,
-        bottom: false,
-        child: SlidingUpPanel(
-          controller: tPanelController,
-          panel: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
-            child: Container(),
-          ),
-          isDraggable: false,
-          backdropColor: richBlack,
-          backdropEnabled: true,
-          backdropOpacity: 0.9,
-          borderRadius: pTheme.slidingPanelRadius,
-          minHeight: 0,
-          maxHeight: pTheme.slidingPanelHeight,
-          body: Container(
-            color: majorelleBlue,
-            alignment: Alignment.topCenter,
-            child: SingleChildScrollView(
-              physics: isPhone ? const NeverScrollableScrollPhysics() : null,
-              child: StaggeredGrid.count(
-                crossAxisCount: 20,
+      body: PopScope(
+        onPopInvoked: (didPop) =>
+            true /*ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: RichText(
+              text: TextSpan(
                 children: [
-                  Gap(45.r),
-                  const StaggeredGridTile.fit(
-                    crossAxisCellCount: 20,
-                    child: TournamentShow(),
+                  TextSpan(
+                    text: "Press ",
+                    style: const TextStyle(color: emerald),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => context.router.pop(),
                   ),
+                  const TextSpan(text: "here to exit the game.")
                 ],
+                style: TextStyle(fontSize: 15.r, fontFamily: 'Poppins'),
+              ),
+            ),
+          ),
+        )*/
+        ,
+        child: SafeArea(
+          top: true,
+          bottom: false,
+          child: SlidingUpPanel(
+            controller: tPanelController,
+            panel: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 500),
+              child: Container(),
+            ),
+            isDraggable: false,
+            backdropColor: richBlack,
+            backdropEnabled: true,
+            backdropOpacity: 0.9,
+            borderRadius: pTheme.slidingPanelRadius,
+            minHeight: 0,
+            maxHeight: pTheme.slidingPanelHeight,
+            body: Container(
+              color: majorelleBlue,
+              alignment: Alignment.topCenter,
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: SingleChildScrollView(
+                physics: isPhone ? const NeverScrollableScrollPhysics() : null,
+                child: StaggeredGrid.count(
+                  crossAxisCount: 20,
+                  children: [
+                    Gap(45.r),
+                    const StaggeredGridTile.fit(
+                      crossAxisCellCount: 20,
+                      child: TournamentShow(),
+                    ),
+                    Gap(45.r),
+                    const StaggeredGridTile.count(
+                      crossAxisCellCount: 20,
+                      mainAxisCellCount: 6,
+                      child: PlayTournamentFooter(),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -98,7 +128,7 @@ class TournamentShow extends ConsumerWidget {
     final bool isPhone = sSize == ScreenSize.phone;
     return Card(
       color: ghostWhite,
-      margin: EdgeInsets.symmetric(horizontal: 15.r),
+      margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(7.5.r),
       ),

@@ -23,6 +23,27 @@ final StreamProvider<List<TDuration>> recentTourListProvider =
   },
 );
 
+final Provider<List<String>> tournamentTextProvider = Provider<List<String>>(
+  (_) => [
+    "Tap on 2 blocks, remember their icons, and match them.",
+    "Choose 2 blocks, memorize their icons, and pair them.",
+    "Select 2 blocks, recall their icons, and find their pairs.",
+    "Pick 2 blocks, remember their icons, and pair them together.",
+    "Tap 2 blocks, memorize their icons, and then match them.",
+    "Select 2 blocks, recall their icons, and pair them up.",
+    "Click on 2 blocks, remember the icons, and find their matches.",
+    "Choose 2 blocks, note their icons, and pair them."
+  ],
+);
+
+final Provider<List<String>> repeatTextProvider = Provider<List<String>>(
+  (_) => [
+    "Continue this process to complete all blocks.",
+    "Keep repeating this sequence until all blocks are matched.",
+    "Repeat these steps to finish all blocks."
+  ],
+);
+
 final StreamProvider<List<String>> bestDListProvider =
     StreamProvider<List<String>>(
   (ref) {

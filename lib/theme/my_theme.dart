@@ -133,8 +133,14 @@ String firstCaps(String s) => toBeginningOfSentenceCase(s) ?? "";
 
 TextStyle get settingSubText => TextStyle(
       color: oldRose,
-      fontSize: 15.r,
+      fontSize: 13.5.r,
       fontWeight: FontWeight.w300,
-      height: 2.4.r,
+      height: 2.1.r,
       fontFamily: 'Poppins',
+    );
+
+TextStyle get _tableTextStyle => TextStyle(
+      fontSize: 13.5.r,
+      color: richBlack,
+      fontFamily: 'Montserrat',
     );

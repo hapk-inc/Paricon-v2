@@ -123,8 +123,8 @@ class CreateRoomFooter extends ConsumerWidget {
               style: TextStyle(
                 fontFamily: 'Montserrat',
                 color: ghostWhite,
-                fontStyle: FontStyle.italic,
-                fontSize: isSmallScreen ? 13.5.r : 13.5.r,
+                //fontStyle: FontStyle.italic,
+                fontSize: isSmallScreen ? 13.5.r : 12.r,
               ),
               maxLines: 1,
             ),
@@ -155,9 +155,9 @@ class CreateRoomFooter extends ConsumerWidget {
               "ENTER ROOM CODE",
               maxLines: 1,
               style: TextStyle(
-                fontSize: isSmallScreen ? 13.5.r : 13.5.r,
+                fontSize: isSmallScreen ? 13.5.r : 12.r,
                 fontFamily: 'Montserrat',
-                fontStyle: FontStyle.italic,
+                //fontStyle: FontStyle.italic,
               ),
             ),
           ),
@@ -180,12 +180,12 @@ class CreateRoom extends ConsumerWidget {
             radiusStyle: true,
             labels: List.from(RoomLevel.values.map((e) => firstCaps(e.name))),
             customWidths: [105.w, 75.w],
-            minHeight: 45.h,
+            minHeight: 40.h,
             onToggle: (index) => ref.read(levelProvider.notifier).state =
                 RoomLevel.values[index!],
             inactiveBgColor: magnolia,
             inactiveFgColor: charcoal,
-            activeBgColor: const [tropicalIndigo],
+            activeBgColor: const [majorelleBlue],
             animate: true,
             animationDuration: 150,
             dividerColor: ghostWhite,
@@ -193,12 +193,12 @@ class CreateRoom extends ConsumerWidget {
             customTextStyles: [
               TextStyle(
                 fontFamily: 'Poppins',
-                fontSize: 15.r,
+                fontSize: 14.4.r,
                 fontWeight: FontWeight.w700,
               ),
             ],
           ),
-          Gap(30.r),
+          Gap(24.r),
           ToggleSwitch(
             //changeOnTap: false,
             radiusStyle: true,
@@ -206,12 +206,12 @@ class CreateRoom extends ConsumerWidget {
               RoomType.values.map((e) => firstCaps(e.name)),
             ),
             customWidths: [105.w, 90.w, 120.w],
-            minHeight: 45.h,
+            minHeight: 40.h,
             onToggle: (index) =>
                 ref.read(typeProvider.notifier).state = RoomType.values[index!],
-            inactiveBgColor: magnolia,
+            inactiveBgColor: ghostWhite1,
             inactiveFgColor: charcoal,
-            activeBgColor: const [federalBlue],
+            activeBgColor: const [majorelleBlue],
             //animate: true,
             animationDuration: 120,
             dividerColor: ghostWhite,
@@ -219,7 +219,7 @@ class CreateRoom extends ConsumerWidget {
             customTextStyles: [
               TextStyle(
                 fontFamily: 'Poppins',
-                fontSize: 15.r,
+                fontSize: 14.4.r,
                 fontWeight: FontWeight.w700,
               ),
             ],

@@ -68,7 +68,7 @@ class PlayWithFriend extends ConsumerWidget {
                       .showSnackBar(_stillInProgress)
                   : () {
                       dNotifier.dWidget = const CreateGameRoom();
-                      dNotifier.dHeight = aR > 2.3 ? 300.h : 270.h;
+                      dNotifier.dHeight = aR > 2.3 ? 270.h : 240.h;
                       ref.read(dashboardPanelProvider).open();
                     },
               child: Lottie.asset(

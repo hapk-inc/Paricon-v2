@@ -28,8 +28,8 @@ Map<String, dynamic> _$$RoomImplToJson(_$RoomImpl instance) =>
     };
 
 const _$RoomLevelEnumMap = {
-  RoomLevel.beginner: 'medium',
-  RoomLevel.expert: 'hard',
+  RoomLevel.beginner: 'beginner',
+  RoomLevel.expert: 'expert',
 };
 
 const _$RoomTypeEnumMap = {

@@ -1,5 +1,6 @@
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,23 +62,31 @@ class ShowTimerIndicator extends ConsumerWidget {
           trailing: InkWell(
             onTap: () {
               //context.router.pop();
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        "Click here to close the game",
-                        style:
-                            TextStyle(fontSize: 13.5.r, fontFamily: 'Poppins'),
-                      ),
-                      action: SnackBarAction(
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Press ",
+                          style: const TextStyle(color: emerald),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () => context.router.pop(),
+                        ),
+                        const TextSpan(text: "here to exit the game.")
+                      ],
+                      style: TextStyle(fontSize: 15.r, fontFamily: 'Poppins'),
+                    ),
+                  ),
+                  /*  action: SnackBarAction(
                         label: 'EXIT GAME',
                         onPressed: () => context.router.pop(),
-                      ),
-                    ),
-                  )
-                  .closed
-                  .then((value) =>
-                      ScaffoldMessenger.of(context).clearSnackBars());
+                      ),*/
+                ),
+              );
+              //.closed
+              /*.then((value) =>
+                      ScaffoldMessenger.of(context).clearSnackBars());*/
             },
             child: Icon(Icons.close, size: 21.r),
           ),

@@ -82,7 +82,7 @@ class SettingsPage extends ConsumerWidget {
       ),
       body: SlidingUpPanel(
         minHeight: 0,
-        maxHeight: 375.h,
+        maxHeight: 350.h,
         borderRadius: pTheme.slidingPanelRadius,
         padding: pTheme.slidingPanelPadding,
         color: ghostWhite1,
@@ -271,7 +271,7 @@ List<Widget> cardOption(BuildContext context, WidgetRef ref) {
                 dense: true,
                 onTap: () {
                   ref.read(settingPanelNotifierProvider.notifier).state =
-                      Text("sss");
+                      const Text("");
                 },
                 contentPadding: EdgeInsets.symmetric(horizontal: 3.w),
                 leading: const Icon(Icons.paste_outlined, color: darkGreen),

@@ -124,7 +124,7 @@ class _MyAppState extends ConsumerState<MyApp> {
               routes: (handler) {
                 return [
                   if (kIsWeb)
-                    const SupportRoute()
+                    if (kDebugMode) whichPageRouteInfo else const SupportRoute()
                   else if (showApp)
                     const MaintenanceRoute()
                   else if (Platform.isAndroid && kReleaseMode)

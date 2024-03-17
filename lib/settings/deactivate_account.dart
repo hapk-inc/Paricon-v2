@@ -18,7 +18,7 @@ class DeactivateAccount extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      padding: _pTheme.slidingPanelPadding * 0.75,
+      //padding: _pTheme.slidingPanelPadding * 0.75,
       decoration: BoxDecoration(
         color: magnolia1,
         borderRadius: _pTheme.slidingPanelFullRadius,
@@ -26,9 +26,10 @@ class DeactivateAccount extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Gap(15.r),
           const AutoSizeText(
             "Deactivating your Account",
-            maxLines: 2,
+            maxLines: 1,
             style: TextStyle(color: amaranthPurple),
           ),
           Gap(15.r),
@@ -45,9 +46,13 @@ class DeactivateAccount extends ConsumerWidget {
                   children: [
                     WidgetSpan(
                       child: Container(
-                        width: 24.w,
+                        width: 15.w,
                         alignment: Alignment.centerLeft,
-                        child: Icon(Icons.circle, size: 7.5.r),
+                        child: Icon(
+                          Icons.circle,
+                          size: 7.5.r,
+                          color: cornellRed,
+                        ),
                       ),
                     ),
                     TextSpan(text: e)

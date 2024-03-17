@@ -24,6 +24,7 @@ import '../model/room.dart';
 import '../my_widget/login_option_button.dart';
 import '../router/my_route.dart';
 import '../theme/my_color.dart';
+import '../theme/my_theme.dart';
 import 'game_room.dart';
 
 /*final SlidingPanelTheme _pTheme = SlidingPanelTheme();
@@ -33,6 +34,8 @@ const String _prompt = 'Give a different line for line "created this room. '
     'in easy english in the same order.'
     'Also starts with lower case because it starts with the person name.
     Dont start with you and and make it in single line. I need to show this in my app';*/
+
+final _pTheme = SlidingPanelTheme();
 
 class HostRoom extends ConsumerStatefulWidget {
   const HostRoom({super.key});
@@ -92,14 +95,14 @@ class _HostRoomState extends ConsumerState<HostRoom> {
     return Align(
       alignment: Alignment.topCenter,
       child: SingleChildScrollView(
-        // padding: _pTheme.slidingPanelPadding,
+        //padding: _pTheme.slidingPanelPadding,
         child: Column(
           children: [
             Gap(15.r),
             AspectRatio(
               aspectRatio: 3.6,
               child: GridTileBar(
-                // backgroundColor: cornellRed,
+                //backgroundColor: cornellRed,
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -130,11 +133,136 @@ class _HostRoomState extends ConsumerState<HostRoom> {
                 subtitle: AutoSizeText(
                   "$creatorName${ref.read(roomCreatorProvider)}",
                   maxLines: 2,
-                  style: tTheme.bodySmall?.copyWith(color: vanDyke),
+                  style:
+                      settingSubText.copyWith(color: vanDyke, fontSize: 13.5.r),
+                  // style: tTheme.bodySmall?.copyWith(color: gray),
                 ),
               ),
             ),
-            FadeIn(
+            Gap(15.r),
+            Container(
+              //height: 45.h + (48.h * (room?.players.length ?? 0)),
+              height: 195.h,
+              width: 360.w,
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              color: lavenderWeb1,
+              child: Table(
+                columnWidths: const {
+                  0: FlexColumnWidth(2),
+                },
+                children: [
+                  TableRow(
+                    children: ["Name", "Matches", "Avg. Score"]
+                        .map(
+                          (e) => Container(
+                            // margin: EdgeInsets.symmetric(horizontal: 15.w),
+                            alignment: Alignment.centerLeft,
+                            height: 45.h,
+                            child: Text(
+                              e,
+                              style: tableTextStyle.copyWith(color: gray),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                  ...(room?.players ?? {}).entries.map(
+                    (e) {
+                      final map = e.value as Map;
+                      final MyUser? myUser =
+                          ref.watch(xUserProvider(e.key)).value;
+                      debugPrint(map.toString());
+                      return TableRow(
+                        key: ValueKey(e.key),
+                        children: [
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            height: 48.h,
+                            child: Row(
+                              children: [
+                                if (myUser?.avatar != null) ...[
+                                  CircleAvatar(
+                                    radius: 15.r,
+                                    child: RandomAvatar(
+                                        myUser?.avatar ?? mockString(1)),
+                                  ),
+                                  Gap(7.5.r),
+                                ],
+                                AutoSizeText(
+                                  map['name'],
+                                  style: tableTextStyle.copyWith(
+                                      color: amaranthPurple),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            height: 48.h,
+                            child: Text("${mockInteger(1, 10)}",
+                                style: tableTextStyle),
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            height: 48.h,
+                            child: Text(
+                                "${mockInteger(10, 20)}.${mockInteger(10, 20)}",
+                                style: tableTextStyle),
+                          ),
+                        ],
+                      );
+                    },
+                  )
+                ],
+                /* columns: [
+                  DataColumn(label: Text("ll")),
+                  DataColumn(label: Text("ll")),
+                  DataColumn(label: Text("ll")),
+                ],
+                rows: [],*/
+              ),
+            ),
+            SizedBox(height: 150.h, child: const CreateRoom()),
+            ButtonBar(
+              buttonPadding: EdgeInsets.symmetric(horizontal: 15.w),
+              children: [
+                OutlinedButton(
+                  onPressed: kDebugMode ||
+                          (user.uid == room?.creatorID &&
+                              room!.players.length > 1)
+                      ? () => ref.watch(createBoardProvider.future).then(
+                            (created) {
+                              debugPrint("Created $created");
+                              if (created) {
+                                ref.read(gameStartProvider);
+                              }
+                            },
+                          )
+                      : () => ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: richBlack,
+                              content: Text(user.uid != room?.creatorID
+                                  ? "Ask ${room?.players[room?.creatorID]['name']} to start the game"
+                                  : "Need atleast 2 players to start the game."),
+                            ),
+                          ),
+                  style: ButtonStyle(
+                    shape: MaterialStatePropertyAll(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(7.5.r)),
+                    ),
+                    side: MaterialStatePropertyAll(
+                      BorderSide(color: gray, width: 0.75.r),
+                    ),
+                  ),
+                  child: Text(
+                    "START GAME",
+                    style: TextStyle(fontFamily: 'Montserrat'),
+                  ),
+                ),
+              ],
+            )
+            /* FadeIn(
               delay: const Duration(milliseconds: 300),
               child: Container(
                 height: 135.h,
@@ -164,7 +292,7 @@ class _HostRoomState extends ConsumerState<HostRoom> {
               child: Container(
                 height: 156.h,
                 alignment: Alignment.center,
-                color: lavenderWeb1,
+                //color: lavenderWeb1,
                 child: const CreateRoom(),
               ),
             ),
@@ -207,7 +335,7 @@ class _HostRoomState extends ConsumerState<HostRoom> {
                   ),
                 ),
               ),
-            )
+            )*/
           ],
         ),
       ),
@@ -215,6 +343,7 @@ class _HostRoomState extends ConsumerState<HostRoom> {
   }
 }
 
+/*
 class RoomPTile extends ConsumerWidget {
   final int index;
   const RoomPTile(this.index, {super.key});
@@ -291,6 +420,7 @@ class RoomPTile extends ConsumerWidget {
     );
   }
 }
+*/
 
 /*
 class RoomDivider extends StatelessWidget {
@@ -344,3 +474,9 @@ class RoomDivider extends StatelessWidget {
 //created this room. share the code with friends and play
 //, you created this room. tell your friends the room code to start playing
 // created this room, share the code with your friends and let's play
+
+TextStyle get tableTextStyle => TextStyle(
+      fontSize: 13.5.r,
+      color: richBlack,
+      fontFamily: 'Montserrat',
+    );

@@ -9,37 +9,19 @@ class DFooter extends ConsumerWidget {
   const DFooter({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          /*TextButton.icon(
-            onPressed: () {
-              ref.read(setActiveProvider(false));
-              ref.read(signOutProvider);
-            },
-            icon: Icon(Icons.logout, size: 21.r, color: gray),
-            label: Text(
-              "LOG OUT",
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Center(
+      child: ref.watch(packageInfoProvider).maybeWhen(
+            orElse: () => Container(),
+            data: (app) => Text(
+              "Version ${app.version} (${app.buildNumber})",
               style: TextStyle(
+                color: frenchGray,
+                fontWeight: FontWeight.w300,
                 fontSize: 15.r,
-                color: gray,
-                fontFamily: 'Montserrat',
-                letterSpacing: 0,
-                fontWeight: FontWeight.w600,
               ),
             ),
-          ),*/
-          ref.watch(packageInfoProvider).maybeWhen(
-                orElse: () => Container(),
-                data: (app) => Text(
-                  "Version ${app.version} (${app.buildNumber})",
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: coolGray,
-                        fontWeight: FontWeight.w300,
-                        fontSize: 12.r,
-                      ),
-                ),
-              ),
-        ],
-      );
+          ),
+    );
+  }
 }

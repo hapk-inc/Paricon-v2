@@ -20,6 +20,7 @@ _$UserActivityImpl _$$UserActivityImplFromJson(Map<String, dynamic> json) =>
       avatar: json['avatar'] as String?,
       appVersion: json['appVersion'] as String?,
       nowTime: DateTime.parse(json['nowTime'] as String),
+      isEmulator: json['isEmulator'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$UserActivityImplToJson(_$UserActivityImpl instance) =>
@@ -32,4 +33,5 @@ Map<String, dynamic> _$$UserActivityImplToJson(_$UserActivityImpl instance) =>
       'avatar': instance.avatar,
       'appVersion': instance.appVersion,
       'nowTime': instance.nowTime.toIso8601String(),
+      'isEmulator': instance.isEmulator,
     };

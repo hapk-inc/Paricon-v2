@@ -57,13 +57,13 @@ class LTile extends ConsumerWidget {
     final int index = bestDList.indexOf(doc.id);
 
     return Container(
-      height: 81.h,
+      height: 75.h,
       color: isMe ? lavenderWeb : null,
       padding: EdgeInsets.symmetric(horizontal: 3.w),
-      margin: EdgeInsets.only(bottom: 3.r),
+      // margin: EdgeInsets.only(bottom: 3.r),
       child: GridTileBar(
         leading: SizedBox(
-          width: 81.w,
+          width: 75.w,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -72,8 +72,8 @@ class LTile extends ConsumerWidget {
                 style: TextStyle(fontFamily: 'Montserrat', fontSize: 15.r),
               ),
               CircleAvatar(
-                radius: 27.r,
-                backgroundColor: violetBlue,
+                radius: 24.r,
+                //backgroundColor: violetBlue,
                 child: myUser?.avatar == null
                     ? Text(
                         (myUser?.name.substring(0, 2) ?? "XX").toUpperCase(),
@@ -82,14 +82,13 @@ class LTile extends ConsumerWidget {
                       )
                     : RandomAvatar(
                         myUser?.avatar ?? mockString(1),
-                        trBackground: true,
+                        // trBackground: true,
                       ),
               )
             ],
           ),
         ),
         trailing: SizedBox(
-          //color: xantHous,
           width: 90.w,
           child: AutoSizeText.rich(
             TextSpan(
@@ -106,40 +105,42 @@ class LTile extends ConsumerWidget {
             textAlign: TextAlign.end,
           ),
         ),
-        title: Container(
-          // color: xantHous,
-          height: 36.h,
-          alignment: Alignment.centerLeft,
-          //width: 165.w,
-          child: AutoSizeText.rich(
-            TextSpan(
-              text: firstCaps(myUser?.name ?? ""),
-              children: [
-                TextSpan(
-                  text: " ${myUser?.id ?? 000}",
-                  style: TextStyle(fontSize: 10.8.r, color: frenchGray),
-                )
-              ],
-              style: TextStyle(
+        title: AutoSizeText.rich(
+          TextSpan(
+            text: firstCaps(myUser?.name ?? ""),
+            children: [
+              TextSpan(
+                text: " #${myUser?.id ?? 000}",
+                style: TextStyle(
+                    fontSize: 9.6.r, color: gray, fontWeight: FontWeight.w300),
+              )
+            ],
+            style: TextStyle(
                 color: federalBlue,
                 fontFamily: 'Montserrat',
-                fontSize: 14.4.r,
-              ),
-            ),
-            maxLines: 1,
+                // fontWeight: FontWeight.w600,
+                fontSize: 15.r,
+                height: 2.1.r),
           ),
+          maxLines: 1,
+          maxFontSize: 13.5,
+          stepGranularity: 1.5,
+          minFontSize: 9,
         ),
-        subtitle: SizedBox(
+        /*  subtitle: Container(
           height: 24.h,
-          child: Text(
-            "Matches: ${bestD.tCount}",
-            style: TextStyle(
-              color: gray,
-              fontSize: 9.6.r,
-              fontFamily: 'Poppins',
-            ),
-          ),
-        ),
+          alignment: Alignment.centerLeft,
+          child: bestD.tCount == 2
+              ? Text(
+                  "FIRST TIME",
+                  style: TextStyle(
+                    color: emerald,
+                    fontSize: 9.6.r,
+                    fontFamily: 'Montserrat',
+                  ),
+                )
+              : null,
+        ),*/
       ),
     );
   }
