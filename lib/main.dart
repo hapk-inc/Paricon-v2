@@ -14,16 +14,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:logger/logger.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import '../theme/my_color.dart';
 
-import 'firebase_option.dart';
-import 'logic/app_check.dart';
-import 'logic/firebase_init.dart';
-import 'logic/sql_user.dart';
+import 'firebase/firebase_option.dart';
+
+import 'firebase/bloc.dart';
+import 'logic/app/ai_bloc.dart';
+import 'logic/app/device_provider.dart';
 import 'my_app.dart';
+import 'values/strings.dart';
 
-//import 'package:google_generative_ai/google_generative_ai.dart';
+Logger _log = Logger();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,21 +47,20 @@ Future<void> main() async {
       isEmulator = !androidInfo.isPhysicalDevice;
     } else if (Platform.isIOS) {
       final IosDeviceInfo iosInfo = await deviceInfoPlugin.iosInfo;
-      debugPrint("iOSInfo");
-      debugPrint(iosInfo.data.toString());
 
-      isModelPhone = iosInfo.model == "iPhone";
+      _log.d("${iosInfo.data}");
 
+      isModelPhone = iosInfo.model == iphone;
       isEmulator = !iosInfo.isPhysicalDevice;
     } else if (Platform.isMacOS) {
-      final PackageInfo r = await PackageInfo.fromPlatform();
-      debugPrint(r.data.toString());
+      final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      _log.d("${packageInfo.data}");
     }
   } else {
     WebBrowserInfo webBrowserInfo = await deviceInfoPlugin.webBrowserInfo;
-    debugPrint('Running on ${webBrowserInfo.appVersion}');
+    _log.d('Running on ${webBrowserInfo.appVersion}');
     androidWeb = (webBrowserInfo.appVersion ?? "").contains('Android');
-    debugPrint('AndroidWeb $androidWeb');
+    _log.d('AndroidWeb $androidWeb');
   }
 
   final GenerativeModel model = GenerativeModel(
@@ -84,13 +85,24 @@ Future<void> main() async {
   final FirebaseRemoteConfig remoteConfig =
       FirebaseRemoteConfig.instanceFor(app: app);
 
-  await remoteConfig.setDefaults(_remoteConfigDefaults);
+  await remoteConfig.setDefaults(remoteConfigDefaults);
 
   final RemoteConfigSettings remoteConfigSetting = RemoteConfigSettings(
     fetchTimeout: const Duration(seconds: 45),
     minimumFetchInterval: const Duration(seconds: 3),
   );
-
+/*
+  Database users = await openDatabase(
+    join(await getDatabasesPath(), 'users.db'),
+    onCreate: (db, version) {
+      return db.execute('CREATE TABLE users'
+          '('
+          'id TEXT PRIMARY KEY, '
+          'name TEXT, '
+          ')');
+    },
+    version: 1,
+  );*/
   //await SQLUser.initSQL;
 
   await remoteConfig.setConfigSettings(remoteConfigSetting);
@@ -106,16 +118,17 @@ Future<void> main() async {
   //const fatalError = true;
   // Non-async exceptions
   FlutterError.onError = (errorDetails) {
-    debugPrint(errorDetails.toString());
+    _log.e(errorDetails.exception, stackTrace: errorDetails.stack);
     if (!kIsWeb) {
-      debugPrintStack(stackTrace: errorDetails.stack);
+      _log.e("MainError",
+          error: errorDetails.exception, stackTrace: errorDetails.stack);
       crashlytics.recordFlutterFatalError(errorDetails);
     }
   };
 
   // Async exceptions
   PlatformDispatcher.instance.onError = (error, stack) {
-    debugPrint(error.toString());
+    _log.e(error, stackTrace: stack);
     if (!kIsWeb) {
       crashlytics.recordError(error, stack, fatal: true);
     }
@@ -126,10 +139,10 @@ Future<void> main() async {
     await crashlytics.setCrashlyticsCollectionEnabled(!kDebugMode);
   }
 
-  final SQUser sqUser = SQUser();
-  if (!kIsWeb) {
-    await sqUser.initSQL;
-  }
+  //final SQUser sqUser = SQUser();
+  //if (!kIsWeb) {
+  //  await sqUser.initSQL;
+  //}
 
   List<Override> overrides = [
     firebaseAppProvider.overrideWithValue(app),
@@ -141,25 +154,18 @@ Future<void> main() async {
     crashlyticsProvider.overrideWithValue(crashlytics),
     isEmulatorProvider.overrideWithValue(isEmulator),
     geminiModelProvider.overrideWithValue(model),
-    sqUserProvider.overrideWithValue(sqUser),
+    //userDatabaseProvider.overrideWith((ref) => UserDatabase(ref, users)),
+    //sqUserProvider.overrideWithValue(sqUser),
     if (kIsWeb) androidWebProvider.overrideWithValue(androidWeb),
   ];
 
   runApp(
     DevicePreview(
       data: const DevicePreviewData(isFrameVisible: false),
-      backgroundColor: violetBlue,
+      //backgroundColor: violetBlue,
       isToolbarVisible: kDebugMode,
       enabled: devicePreviewEnabled,
       builder: (_) => ProviderScope(overrides: overrides, child: const MyApp()),
     ),
   );
 }
-
-const Map<String, dynamic> _remoteConfigDefaults = {
-  "showApp": false,
-  "inWork": "Screen not Compatible",
-  "playOnline": true,
-  "enterAvatarCode": false,
-  "onlineCount": 9,
-};

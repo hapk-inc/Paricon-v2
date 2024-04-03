@@ -1,8 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import '../ui/edit_profile.dart';
 import '../ui/support.dart';
-import '../ui/view_tournament.dart';
 
 import '../my_widget/app_stack.dart';
 import '../ui/app_error.dart';
@@ -10,13 +8,12 @@ import '../ui/app_update.dart';
 import '../ui/dashboard.dart';
 import '../ui/login.dart';
 import '../ui/maintenance.dart';
-import '../ui/no_net.dart';
+import '../ui/game_room.dart';
+
 import '../ui/play_friend.dart';
 import '../ui/settings.dart';
 import '../ui/splash.dart';
-import '../ui/tournament.dart';
-import '../ui/pass_avatar.dart';
-import '../ui/view_leaderboard.dart';
+import '../ui/play_tournament.dart';
 
 part 'my_route.gr.dart';
 
@@ -31,20 +28,16 @@ class MyRouter extends _$MyRouter {
         AutoRoute(page: SplashRoute.page),
         AutoRoute(page: SupportRoute.page),
         AutoRoute(page: MaintenanceRoute.page),
-        AutoRoute(page: NoNetRoute.page),
         AutoRoute(page: ErrorRoute.page),
         AutoRoute(page: AppUpdateRoute.page),
         AutoRoute(
           page: AppStackRoute.page,
           children: [
             AutoRoute(page: DashboardRoute.page),
-            AutoRoute(page: TournamentRoute.page),
+            AutoRoute(page: PlayTournamentRoute.page),
             AutoRoute(page: SettingsRoute.page),
-            AutoRoute(page: EditProfileRoute.page),
+            AutoRoute(page: GameRoomRoute.page),
             AutoRoute(page: PlayFriendRoute.page),
-            AutoRoute(page: PassAvatarRoute.page),
-            AutoRoute(page: ViewLeaderBoardRoute.page),
-            AutoRoute(page: ViewTournamentRoute.page),
           ],
         )
       ];

@@ -25,26 +25,16 @@ class AppUpdatePage extends StatelessWidget {
               onPressed: () => InAppUpdate.performImmediateUpdate().catchError(
                 (e) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        "An App Update is required",
-                        style: TextStyle(fontFamily: 'Poppins', fontSize: 15.r),
-                      ),
-                    ),
+                    const SnackBar(content: Text("An App Update is required")),
                   );
+                  return AppUpdateResult.inAppUpdateFailed;
                 },
               ),
               child: Container(
                 width: 240.w,
                 height: 39.h,
                 alignment: Alignment.center,
-                child: Text(
-                  "Update Available",
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16.r,
-                  ),
-                ),
+                child: const Text("Update Available"),
               ),
             )
           ],

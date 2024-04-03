@@ -1,7 +1,8 @@
-import 'package:flutter/foundation.dart';
+import 'dart:ui';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'play_stats.dart';
+import '../values/colors.dart';
+import 'color_converter.dart';
 
 part 'local_player.freezed.dart';
 part 'local_player.g.dart';
@@ -10,27 +11,19 @@ part 'local_player.g.dart';
 class LocalPlayer with _$LocalPlayer {
   const LocalPlayer._();
 
+  @JsonSerializable(includeIfNull: false)
   const factory LocalPlayer({
     required String name,
-    required String color,
-    @Default("") String avatar,
-    @Default(0) int pts,
-    required int playerNo,
-    @Default(false) bool isActive,
+    @JsonKey(name: "color")
+    @ColorConverter()
+    @Default(majorelleBlue)
+    Color? color,
+    String? avatar,
+    @Default(0) int? pts,
+    int? playerNo,
+    bool? isActive,
   }) = _LocalPlayer;
 
   factory LocalPlayer.fromJson(Map<String, dynamic> json) =>
       _$LocalPlayerFromJson(json);
-
-  PlayStats statsConversion(int totalIcons, bool winner, List<String> players) {
-    final int totalPts = totalIcons ~/ 2;
-    final double avg = (pts / totalPts) * 100;
-
-    final Map<String, num> x = players.fold({}, (prev, m) {
-      prev[m] = 1;
-      return prev;
-    });
-
-    return PlayStats(matches: 1, win: winner ? 1 : 0, avg: avg, players: x);
-  }
 }

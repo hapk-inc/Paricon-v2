@@ -7,9 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
 
-import '../logic/s_size.dart';
-import '../my_widget/my_logo.dart';
-import '../theme/my_color.dart';
+import '../values/colors.dart';
 
 @RoutePage()
 class MaintenancePage extends ConsumerWidget {
@@ -17,7 +15,7 @@ class MaintenancePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(sizeProvider);
+    //ref.watch(sizeProvider);
     final tTheme = Theme.of(context).textTheme;
     return Scaffold(
       /* appBar: AppBar(
@@ -25,20 +23,17 @@ class MaintenancePage extends ConsumerWidget {
         backgroundColor: majorelleBlue,
         toolbarHeight: 120.h,
       ),*/
-      backgroundColor: ghostWhite1,
+      //backgroundColor: ghostWhite1,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Gap(120.r),
-              Opacity(
-                opacity: 0.75,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: const MyLogo(),
-                ),
-              ),
+              Gap(150.r),
+              /*Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: const MyLogo(),
+              ),*/
               //Gap(30.r),
               AspectRatio(
                 aspectRatio: 1.35,
@@ -50,10 +45,7 @@ class MaintenancePage extends ConsumerWidget {
                   delay: const Duration(milliseconds: 600),
                   child: AutoSizeText(
                     "App improvements are in progress",
-                    style: tTheme.bodyMedium!.copyWith(
-                      fontSize: 45.r,
-                      color: jasper,
-                    ),
+                    style: tTheme.titleLarge?.copyWith(color: cornellRed),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                   ),
@@ -64,8 +56,8 @@ class MaintenancePage extends ConsumerWidget {
                   delay: const Duration(milliseconds: 1200),
                   child: Text(
                     "Appreciate your patience while we perform maintenance",
-                    maxLines: 1,
-                    style: TextStyle(fontSize: 12.r, color: jasper),
+                    maxLines: 2, style: tTheme.bodyMedium,
+                    //style: TextStyle(fontSize: 12.r, color: jasper),
                   ),
                 ),
               ),

@@ -4,11 +4,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 import 'package:lottie/lottie.dart';
 
-import '../logic/s_size.dart';
-import '../my_widget/my_logo.dart';
-import '../theme/my_color.dart';
+import '../logic/auth/notifier.dart';
+import '../my_widget/pi_logo.dart';
+import '../values/colors.dart';
+
+Logger _logger = Logger();
 
 @RoutePage()
 class SplashPage extends StatelessWidget {
@@ -16,9 +19,9 @@ class SplashPage extends StatelessWidget {
   const SplashPage({this.otherColor, super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: otherColor ?? majorelleBlue,
-        body: const _SplashState(),
+  Widget build(BuildContext context) => const Scaffold(
+        backgroundColor: majorelleBlue,
+        body: _SplashState(),
       );
 }
 
@@ -50,10 +53,10 @@ class __SplashStateState extends ConsumerState<_SplashState> {
 
   @override
   Widget build(BuildContext context) {
-    final sSize = ref.read(sizeProvider);
-    final isL = sSize == ScreenSize.pc ||
-        sSize == ScreenSize.tv ||
-        sSize == ScreenSize.iPad;
+    //final sSize = ref.read(sizeProvider);
+
+    //final bool isPT = sSize == ScreenSize.phone || sSize == ScreenSize.tab;
+
     Future.delayed(
       const Duration(seconds: 1),
       () {
@@ -73,15 +76,24 @@ class __SplashStateState extends ConsumerState<_SplashState> {
             child: const MyLogo(),
           ),
         ),
-        if (!isL)
-          Container(
-            alignment: Alignment.bottomCenter,
-            child: Lottie.asset(
-              'lottie/waving_hand.json',
-              animate: true,
-              repeat: false,
-            ),
-          )
+        //if (isPT)
+        Container(
+          alignment: Alignment.bottomCenter,
+          child: Lottie.asset(
+            'lottie/waving_hand.json',
+            animate: true,
+            repeat: false,
+            onLoaded: (LottieComposition lottieComposition) {
+              _logger.d("Lottie onLoaded");
+              Future.delayed(
+                lottieComposition.duration,
+                () {
+                  ref.read(authNotifierProvider).validateAuth();
+                },
+              );
+            },
+          ),
+        )
       ],
     );
   }
