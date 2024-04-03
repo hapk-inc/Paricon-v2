@@ -1,24 +1,25 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../logic/app_check.dart';
-import '../logic/auth_provider.dart';
-import '../logic/panel_provider.dart';
-import '../logic/setting_notifier.dart';
-import '../router/my_route.dart';
-import '../settings/deactivate_account.dart';
-import '../settings/log_out_dialog.dart';
-import '../settings/use_avatar_code.dart';
-import '../theme/my_color.dart';
+import '../logic/auth/bloc.dart';
+import '../logic/user/bloc.dart';
+import '../model/player.dart';
+import '../values/colors.dart';
+import 'my_theme.dart';
+import 'settings/log_out_option.dart';
+import 'package:group_button/group_button.dart';
 
-import '../logic/user_provider.dart';
-import '../model/my_user.dart';
-import '../theme/my_theme.dart';
+final SlidingPanelTheme _pTheme = SlidingPanelTheme();
+final Logger _logger = Logger();
 
 @RoutePage()
 class SettingsPage extends ConsumerWidget {
@@ -26,304 +27,164 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final pTheme = SlidingPanelTheme();
-    // final TextTheme tTheme = Theme.of(context).textTheme;
-    final MyUser? myUser = ref.watch(myUserProvider).value;
-    //final BestD? bestD = ref.watch(myBestDProvider).value;
-
-    final User? user = ref.watch(authUserProvider).value;
-
-    //final String userName = myUser?.name ?? mockAvatarName();
-    //final String? userAvatar = myUser?.avatar;
-    //final String mockEmail = "${mockAvatarName()}@gmail.com".toLowerCase();
-    //final String email =
-    //    (user?.isAnonymous ?? true) ? mockEmail : (user?.email ?? mockEmail);
-
-    final PanelController settingPanel = ref.read(settingPanelProvider);
-
-    /*ref.listen(
-      netConnectedNotifierProvider.select((value) => value),
-      (_, next) {
-        debugPrint("netConnectedNotifierProvider in Settings $next");
-        if (next.isNegative) {
-          if (settingPanel.isPanelClosed) {
-            settingPanel.open();
-          }
-        } else {
-          if (settingPanel.isPanelOpen) {
-            settingPanel.close();
-          }
-        }
-        //}
-      },
-    );*/
-    ref.listen(
-      settingPanelNotifierProvider.select((value) => value),
-      (previous, next) {
-        if (next is Container) {
-          if (settingPanel.isPanelOpen) {
-            settingPanel.close();
-          }
-        } else {
-          if (settingPanel.isPanelClosed) {
-            settingPanel.open();
-          }
-        }
-      },
-    );
+    final double appH = Theme.of(context).appBarTheme.toolbarHeight ?? 120.h;
+    final User? user = ref.read(authUserProvider).value;
+    final Player? player = ref.watch(meProvider).value;
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    final DateTime now = DateTime.now();
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 45.w,
-        titleSpacing: 1.5.w,
-        toolbarHeight: 90.h,
-        centerTitle: false,
-        title: const Text("Settings"),
-      ),
-      body: SlidingUpPanel(
-        minHeight: 0,
-        maxHeight: 350.h,
-        borderRadius: pTheme.slidingPanelRadius,
-        padding: pTheme.slidingPanelPadding,
-        color: ghostWhite1,
-        controller: ref.watch(settingPanelProvider),
-        panel: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500),
-          child: ref.watch(settingPanelNotifierProvider),
+        toolbarHeight: appH * 0.75,
+        leadingWidth: 60.w,
+        leading: IconButton(
+          iconSize: 24.r,
+          color: magnolia,
+          onPressed: () => context.router.maybePop(),
+          icon: const Icon(Icons.chevron_left),
         ),
-        onPanelClosed: () {
-          ref.read(settingPanelNotifierProvider.notifier).state = Container();
-        },
-        isDraggable: false,
-        backdropEnabled: true,
-        backdropTapClosesPanel: ref.watch(netConnectedNotifierProvider) != -1,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: StaggeredGrid.count(
-              crossAxisCount: 21,
-              children: [
-                const StaggeredGridTile.count(
-                  crossAxisCellCount: 21,
-                  mainAxisCellCount: 1.5,
-                  child: SizedBox(),
-                ),
-                StaggeredGridTile.fit(
-                  crossAxisCellCount: 21,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15.w),
-                    child: ElevatedButton(
-                      onPressed: () =>
-                          context.router.push(const EditProfileRoute()),
-                      style: const ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll(majorelleBlue),
-                      ),
-                      child: Container(
-                        height: 45.h,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "EDIT YOUR PROFILE",
-                          style: TextStyle(
-                            color: ghostWhite1,
-                            fontSize: 13.2.r,
-                            fontStyle: FontStyle.italic,
-                            fontFamily: 'Montserrat',
+        titleSpacing: 0,
+        title: const Text("Settings"),
+        actions: [
+          TextButton(
+            onPressed: () {},
+            child: const Text(
+              "EDIT PROFILE",
+              style: TextStyle(color: magnolia),
+            ),
+          )
+        ],
+      ),
+      body: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: player == null
+            ? Container()
+            : SlidingUpPanel(
+                minHeight: 0,
+                panel: Container(),
+                borderRadius: _pTheme.slidingPanelRadius,
+                color: _pTheme.slidingPanelColor,
+                maxHeight: 240.h,
+                defaultPanelState: PanelState.CLOSED,
+                padding: _pTheme.slidingPanelPadding * 1.5,
+                isDraggable: false,
+                body: SafeArea(
+                  bottom: false,
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(horizontal: 7.5.w),
+                    child: StaggeredGrid.count(
+                      crossAxisCount: 15,
+                      children: [
+                        Gap(7.5.r),
+                        StaggeredGridTile.fit(
+                          crossAxisCellCount: 15,
+                          child: SizedBox(
+                            height: 180.h,
+                            child: Stack(
+                              children: [
+                                Positioned.fill(
+                                  bottom: 30.h,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: majorelleBlue,
+                                      borderRadius:
+                                          BorderRadius.circular(7.5.r),
+                                    ),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: CircleAvatar(
+                                    radius: 60.r,
+                                    backgroundColor: ghostWhite,
+                                    child: CircleAvatar(radius: 54.r),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
+                        StaggeredGridTile.fit(
+                          crossAxisCellCount: 15,
+                          child: Center(
+                            child:
+                                Text(player.name, style: textTheme.titleLarge),
+                          ),
+                        ),
+                        StaggeredGridTile.fit(
+                          crossAxisCellCount: 15,
+                          child: Center(
+                            child: Text(
+                              DateFormat.yMMMMd()
+                                  .format(user?.metadata.creationTime ?? now),
+                              style: textTheme.bodySmall,
+                              // style: textTheme.bodySmall,
+                            ),
+                          ),
+                        ),
+                        const StaggeredGridTile.count(
+                          crossAxisCellCount: 15,
+                          mainAxisCellCount: 1.2,
+                          child: SizedBox(),
+                        ),
+                        StaggeredGridTile.fit(
+                          crossAxisCellCount: 15,
+                          // mainAxisCellCount: 2.1,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsets.only(left: 7.5.w),
+                            child: GroupButton(
+                              controller:
+                                  GroupButtonController(selectedIndex: 0),
+                              isRadio: true,
+                              onSelected: (str, index, isSelected) =>
+                                  _logger.i('$index button is selected'),
+                              maxSelected: 1,
+                              buttons: const [
+                                "OPEN CHALLENGE",
+                                "AVATAR PASS",
+                                //"PLAY WITH FRIENDS",
+                              ],
+                              options: GroupButtonOptions(
+                                mainGroupAlignment: MainGroupAlignment.start,
+                                spacing: 7.5.w,
+                                textPadding:
+                                    EdgeInsets.symmetric(horizontal: 15.w),
+                                unselectedColor: lavender,
+                                selectedColor: majorelleBlue,
+                                borderRadius: BorderRadius.circular(4.8.r),
+                                buttonHeight: 36.h,
+                                unselectedTextStyle: textTheme.headlineSmall
+                                    ?.copyWith(color: magnolia1),
+                                selectedTextStyle: textTheme.headlineSmall
+                                    ?.copyWith(color: ghostWhite),
+                                //unselectedTextStyle: TextStyle(fontSize: 15.r)
+                                //crossGroupAlignment: CrossGroupAlignment.start,
+                                //groupRunAlignment: GroupRunAlignment.start,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const StaggeredGridTile.count(
+                          crossAxisCellCount: 15,
+                          mainAxisCellCount: 1.05,
+                          child: SizedBox(),
+                        ),
+                        StaggeredGridTile.fit(
+                          crossAxisCellCount: 15,
+                          child: Container(height: 120.h, color: lavender),
+                        ),
+                        const StaggeredGridTile.count(
+                          crossAxisCellCount: 15,
+                          mainAxisCellCount: 0.72,
+                          child: SizedBox(),
+                        ),
+                        const LogoutOption(),
+                      ],
                     ),
                   ),
                 ),
-                ...cardOption(context, ref),
-                ...logOutOption(context, ref),
-              ],
-            ),
-          ),
-        ),
+              ),
       ),
     );
   }
 }
-
-List<Widget> logOutOption(BuildContext context, WidgetRef ref) {
-  return [
-    _staggeredSpacer,
-    const _SettingSub("ACCOUNT SETTINGS"),
-    StaggeredGridTile.count(
-      crossAxisCellCount: 21,
-      mainAxisCellCount: 6,
-      child: Container(
-        decoration: BoxDecoration(
-          color: magnolia1,
-          borderRadius: BorderRadius.circular(7.5.r),
-        ),
-        margin: EdgeInsets.symmetric(horizontal: 15.w),
-        padding: EdgeInsets.only(left: 15.w),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            AspectRatio(
-              aspectRatio: 7.2,
-              child: ListTile(
-                dense: true,
-                tileColor: cornellRed,
-                onTap: () => showDialog(
-                  context: context,
-                  builder: (_) => const LogOutDialog(),
-                ),
-                contentPadding: EdgeInsets.symmetric(horizontal: 3.w),
-                leading:
-                    const Icon(Icons.logout_outlined, color: drabDarkBrown),
-                trailing: const Icon(Icons.chevron_right, color: drabDarkBrown),
-                title: Text(
-                  "LOG OUT",
-                  style: TextStyle(fontSize: _tFontSize),
-                ),
-                titleTextStyle: _titleStyle.copyWith(color: drabDarkBrown),
-              ),
-            ),
-            const Divider(height: 0, color: frenchGray, thickness: 0.75),
-            AspectRatio(
-              aspectRatio: 7.2,
-              child: ListTile(
-                dense: true,
-                onTap: () {
-                  ref.read(settingPanelNotifierProvider.notifier).state =
-                      const DeactivateAccount();
-                },
-                contentPadding: EdgeInsets.symmetric(horizontal: 3.w),
-                leading: const Icon(Icons.person_remove, color: cornellRed),
-                trailing: const Icon(Icons.chevron_right, color: cornellRed),
-                titleTextStyle: _titleStyle.copyWith(color: cornellRed),
-                title: Text(
-                  "DEACTIVATE ACCOUNT",
-                  style: TextStyle(fontSize: _tFontSize),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  ];
-}
-
-class _SettingSub extends StatelessWidget {
-  final String sub;
-  const _SettingSub(this.sub);
-
-  @override
-  Widget build(BuildContext context) => StaggeredGridTile.fit(
-        crossAxisCellCount: 21,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
-          child: Text(
-            sub,
-            style: TextStyle(
-              color: frenchGray,
-              fontSize: 12.r,
-              fontFamily: 'Montserrat',
-            ),
-          ),
-        ),
-      );
-}
-
-List<Widget> cardOption(BuildContext context, WidgetRef ref) {
-  final MyUser? myUser = ref.watch(myUserProvider).value;
-  return [
-    _staggeredSpacer,
-    const _SettingSub("CARD SETTINGS"),
-    StaggeredGridTile.count(
-      crossAxisCellCount: 21,
-      mainAxisCellCount: 6,
-      child: Container(
-        decoration: BoxDecoration(
-          color: magnolia1,
-          borderRadius: BorderRadius.circular(7.5.r),
-        ),
-        margin: EdgeInsets.symmetric(horizontal: 15.w),
-        padding: EdgeInsets.only(left: 15.w),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            AspectRatio(
-              aspectRatio: 7.2,
-              child: ListTile(
-                dense: true,
-                onTap: () => ref
-                    .read(settingPanelNotifierProvider.notifier)
-                    .state = const UseAvatarCode(),
-                contentPadding: EdgeInsets.symmetric(horizontal: 3.w),
-                leading: const Icon(Icons.copy_all_outlined, color: gray),
-                trailing: const Icon(Icons.chevron_right, color: gray),
-                titleTextStyle: _titleStyle,
-                title: Text(
-                  "USE AVATAR CODE",
-                  style: TextStyle(fontSize: _tFontSize),
-                ),
-              ),
-            ),
-            const Divider(height: 0, color: frenchGray),
-            AspectRatio(
-              aspectRatio: 7.2,
-              child: ListTile(
-                dense: true,
-                onTap: () {
-                  ref.read(settingPanelNotifierProvider.notifier).state =
-                      const Text("");
-                },
-                contentPadding: EdgeInsets.symmetric(horizontal: 3.w),
-                leading: const Icon(Icons.paste_outlined, color: darkGreen),
-                trailing: const Icon(Icons.chevron_right, color: darkGreen),
-                titleTextStyle: _titleStyle.copyWith(color: darkGreen),
-                title: Text(
-                  "ENTER FRIEND'S AVATAR CODE",
-                  style: TextStyle(fontSize: _tFontSize),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    )
-  ];
-}
-
-Widget get _staggeredSpacer => const StaggeredGridTile.count(
-      crossAxisCellCount: 21,
-      mainAxisCellCount: 0.9,
-      child: SizedBox(),
-    );
-
-TextStyle get _titleStyle =>
-    const TextStyle(color: gray, fontFamily: 'Montserrat');
-
-double get _tFontSize => 12.r;
-
-/* AspectRatio(
-                  aspectRatio: 5.4,
-                  child: ListTile(
-                    horizontalTitleGap: 0,
-                    minLeadingWidth: 30.w,
-                    contentPadding: EdgeInsets.only(left: 7.5.w),
-
-                    // dense: true,
-                    leading: Container(
-                      width: 30.w,
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.only(top: 4.5.h),
-                      child: Icon(Icons.circle, size: 9.r, color: gray),
-                    ),
-                    title: Text(
-                      "Account Deletion is final. There will be no way to restore your account",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w300,
-                        color: gray,
-                        letterSpacing: 0,
-                        fontSize: 15.r,
-                        height: 2.1.r,
-                      ),
-                    ),
-                  ),
-                )*/

@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
-import '../theme/my_color.dart';
-import '../theme/my_theme.dart';
+//import '../theme/my_color.dart';
+//import '../theme/my_theme.dart';
 
 //final _pTheme = SlidingPanelTheme();
 
@@ -32,9 +32,9 @@ class NoInternet extends ConsumerWidget {
               ),
               subtitle: FadeIn(
                 delay: const Duration(milliseconds: 750),
-                child: Text(
+                child: const Text(
                   "No internet connection found Check your connection or try again",
-                  style: settingSubText.copyWith(color: federalBlue),
+                  // style: settingSubText.copyWith(color: federalBlue),
                   maxLines: 2,
                 ),
               ),
