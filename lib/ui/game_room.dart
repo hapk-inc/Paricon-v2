@@ -1,18 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
-import 'package:intl/intl.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:paricon/logic/room/id.dart';
-import 'package:paricon/router/my_route.dart';
-import 'package:paricon/values/colors.dart';
-import 'package:pinput/pinput.dart';
 
-import '../enums/enums.dart';
+import '../logic/room/id.dart';
+import '../values/colors.dart';
 import '../values/names.dart';
 import 'my_theme.dart';
 
@@ -56,8 +50,19 @@ class _GameRoomState extends ConsumerState<GameRoom> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //Text("${mockInteger(100000, 999999)}"),
+
+            Padding(
+              padding: _panelTheme.slidingPanelPadding,
+              child: GridTileBar(
+                title: Text(
+                  "${NameGen.dummyName()} created this room",
+                  style: textTheme.titleSmall,
+                ),
+                subtitle: Text("ss"),
+              ),
+            ),
             SizedBox(
-              height: 96,
+              height: 105,
               child: LayoutBuilder(
                 builder: (_, constraints) => ListView(
                   scrollDirection: Axis.horizontal,
