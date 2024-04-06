@@ -31,20 +31,18 @@ class WelcomeUser extends ConsumerWidget {
           ? Container()
           : ListTile(
               contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
-              title: Center(
-                child: ListTile(
-                  tileColor: ghostWhite,
-                  title: AutoSizeText(
-                    me.name,
-                    style: textTheme.titleLarge?.copyWith(color: violetBlue),
-                    maxLines: 1,
-                  ),
-                  trailing: IconButton(
-                    color: violetBlue,
-                    iconSize: 27.r,
-                    onPressed: () => context.router.push(const SettingsRoute()),
-                    icon: const Icon(Icons.settings_rounded),
-                  ),
+              title: ListTile(
+                tileColor: ghostWhite,
+                title: AutoSizeText(
+                  me.name,
+                  style: textTheme.titleLarge?.copyWith(color: violetBlue),
+                  maxLines: 1,
+                ),
+                trailing: IconButton(
+                  color: violetBlue,
+                  iconSize: 27.r,
+                  onPressed: () => context.router.push(const SettingsRoute()),
+                  icon: const Icon(Icons.settings_rounded),
                 ),
               ),
               subtitle: welcome == null

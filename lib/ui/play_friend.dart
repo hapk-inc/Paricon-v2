@@ -17,14 +17,19 @@ import 'my_theme.dart';
 final SlidingPanelTheme _pTheme = SlidingPanelTheme();
 
 @RoutePage()
-class PlayFriendPage extends ConsumerWidget {
+class PlayFriendPage extends ConsumerStatefulWidget {
   const PlayFriendPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final ScreenSize screenSize = ref.watch(sizeProvider);
-    final bool isPT = SizeNotifier(screenSize).isPT;
+  ConsumerState createState() => _PlayFriendPageState();
+}
 
+class _PlayFriendPageState extends ConsumerState<PlayFriendPage> {
+  @override
+  Widget build(BuildContext context) {
+    final ScreenSize screenSize = ref.watch(sizeProvider);
+    final bool isP = SizeNotifier(screenSize).isP;
+    final bool isPT = SizeNotifier(screenSize).isPT;
     return Scaffold(
       backgroundColor: majorelleBlue,
       body: SafeArea(
@@ -47,8 +52,8 @@ class PlayFriendPage extends ConsumerWidget {
                       Gap(45.r),
                       StaggeredGridTile.fit(
                         crossAxisCellCount: 15,
-                        child: SizedBox(
-                          height: 600.h,
+                        child: AspectRatio(
+                          aspectRatio: isP ? 0.705 : 0.9,
                           child: Card(
                             margin: EdgeInsets.symmetric(horizontal: 15.w),
                             shape: RoundedRectangleBorder(
@@ -77,7 +82,6 @@ class PlayFriendPage extends ConsumerWidget {
                             child: Row(
                               children: List.generate(
                                 3,
-                                // mockInteger(2, 3),
                                 (index) => BoardPlayerTile(index),
                               ),
                             ),
@@ -92,4 +96,3 @@ class PlayFriendPage extends ConsumerWidget {
     );
   }
 }
-

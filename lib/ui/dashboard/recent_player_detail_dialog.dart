@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:mock_data/mock_data.dart';
 
 import '../../model/player.dart';
 import '../../values/colors.dart';

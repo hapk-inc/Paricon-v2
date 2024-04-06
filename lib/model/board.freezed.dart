@@ -122,11 +122,11 @@ class __$$BoardImplCopyWithImpl<$Res>
   }) {
     return _then(_$BoardImpl(
       players: null == players
-          ? _value._players
+          ? _value.players
           : players // ignore: cast_nullable_to_non_nullable
               as Map<String, LocalPlayer>,
       icons: null == icons
-          ? _value._icons
+          ? _value.icons
           : icons // ignore: cast_nullable_to_non_nullable
               as Map<String, LocalIcon>,
       currentID: null == currentID
@@ -148,38 +148,24 @@ class __$$BoardImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(includeIfNull: false)
-class _$BoardImpl extends _Board {
+class _$BoardImpl extends _Board with DiagnosticableTreeMixin {
   const _$BoardImpl(
-      {final Map<String, LocalPlayer> players = const {},
-      final Map<String, LocalIcon> icons = const {},
+      {this.players = const {},
+      this.icons = const {},
       required this.currentID,
       this.type = BoardType.normal,
       this.currentIcon})
-      : _players = players,
-        _icons = icons,
-        super._();
+      : super._();
 
   factory _$BoardImpl.fromJson(Map<String, dynamic> json) =>
       _$$BoardImplFromJson(json);
 
-  final Map<String, LocalPlayer> _players;
   @override
   @JsonKey()
-  Map<String, LocalPlayer> get players {
-    if (_players is EqualUnmodifiableMapView) return _players;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_players);
-  }
-
-  final Map<String, LocalIcon> _icons;
+  final Map<String, LocalPlayer> players;
   @override
   @JsonKey()
-  Map<String, LocalIcon> get icons {
-    if (_icons is EqualUnmodifiableMapView) return _icons;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_icons);
-  }
-
+  final Map<String, LocalIcon> icons;
   @override
   final String currentID;
   @override
@@ -189,33 +175,21 @@ class _$BoardImpl extends _Board {
   final String? currentIcon;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Board(players: $players, icons: $icons, currentID: $currentID, type: $type, currentIcon: $currentIcon)';
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$BoardImpl &&
-            const DeepCollectionEquality().equals(other._players, _players) &&
-            const DeepCollectionEquality().equals(other._icons, _icons) &&
-            (identical(other.currentID, currentID) ||
-                other.currentID == currentID) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.currentIcon, currentIcon) ||
-                other.currentIcon == currentIcon));
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Board'))
+      ..add(DiagnosticsProperty('players', players))
+      ..add(DiagnosticsProperty('icons', icons))
+      ..add(DiagnosticsProperty('currentID', currentID))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('currentIcon', currentIcon));
   }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_players),
-      const DeepCollectionEquality().hash(_icons),
-      currentID,
-      type,
-      currentIcon);
 
   @JsonKey(ignore: true)
   @override

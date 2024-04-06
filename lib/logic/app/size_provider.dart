@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../enums/enums.dart';
 
@@ -16,6 +17,8 @@ class SizeNotifier {
   bool get isP => sSize == ScreenSize.phone;
   bool get isTab => sSize == ScreenSize.tab;
   bool get isPad => sSize == ScreenSize.iPad;
+
+  static bool get isSmallScreen => 900.h / 360.w > 2.3;
 }
 
 /*

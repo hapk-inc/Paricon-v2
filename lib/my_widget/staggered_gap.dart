@@ -13,6 +13,6 @@ class StaggeredGap extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ScreenSize screenSize = ref.watch(sizeProvider);
     final bool isP = SizeNotifier(screenSize).isP;
-    return Gap(isP ? 4.5.r : 3.r);
+    return Gap(isP ? 4.8.r : 3.r);
   }
 }

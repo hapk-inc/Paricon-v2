@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../enums/enums.dart';
@@ -7,7 +8,7 @@ import 'local_player.dart';
 part 'board.freezed.dart';
 part 'board.g.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class Board with _$Board {
   const Board._();
 
@@ -21,4 +22,7 @@ class Board with _$Board {
   }) = _Board;
 
   factory Board.fromJson(Map<String, dynamic> json) => _$BoardFromJson(json);
+
+  int get checkCount =>
+      icons.values.where((value) => value.isCheck ?? false).length;
 }

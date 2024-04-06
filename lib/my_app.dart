@@ -68,7 +68,7 @@ class _MyAppState extends ConsumerState<MyApp> {
 
 ScreenSize _changeScreenSize(double x) => x > 2
     ? ScreenSize.phone
-    : x > 1.5
+    : x > 1.65
         ? ScreenSize.tab
         : x > 1.2
             ? ScreenSize.iPad

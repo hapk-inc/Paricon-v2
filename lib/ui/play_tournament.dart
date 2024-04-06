@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../enums/enums.dart';
 import '../logic/app/size_provider.dart';
+import '../logic/board/notifier.dart';
 import '../values/colors.dart';
 import 'board/board_timer.dart';
 import 'board/icon_grid.dart';
@@ -25,10 +27,19 @@ class PlayTournamentPage extends ConsumerStatefulWidget {
 }
 
 class _PlayTournamentPageState extends ConsumerState<PlayTournamentPage> {
+  late BoardNotifier boardNotifier;
+
+  @override
+  void initState() {
+    boardNotifier = ref.read(boardNotifierProvider);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final ScreenSize screenSize = ref.watch(sizeProvider);
     final bool isPT = SizeNotifier(screenSize).isPT;
+    final bool isP = SizeNotifier(screenSize).isP;
     return Scaffold(
       backgroundColor: majorelleBlue,
       //appBar: AppBar(elevation: 0),
@@ -53,8 +64,8 @@ class _PlayTournamentPageState extends ConsumerState<PlayTournamentPage> {
                       Gap(45.r),
                       StaggeredGridTile.fit(
                         crossAxisCellCount: 15,
-                        child: SizedBox(
-                          height: 600.h,
+                        child: AspectRatio(
+                          aspectRatio: isP ? 0.72 : 0.9,
                           child: Card(
                             margin: EdgeInsets.symmetric(horizontal: 15.w),
                             shape: RoundedRectangleBorder(
@@ -72,9 +83,9 @@ class _PlayTournamentPageState extends ConsumerState<PlayTournamentPage> {
                           ),
                         ),
                       ),
-                      Gap(45.r),
+                      /*  Gap(45.r),
                       const LeaderBoard(),
-                      Gap(45.r),
+                      Gap(45.r),*/
                     ],
                   ),
                 ),

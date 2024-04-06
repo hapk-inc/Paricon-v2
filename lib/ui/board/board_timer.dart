@@ -5,10 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:paricon/values/colors.dart';
 
 import '../../enums/enums.dart';
 import '../../logic/app/size_provider.dart';
+import '../../values/colors.dart';
 
 class IconTimer extends ConsumerWidget {
   const IconTimer({super.key});
@@ -17,9 +17,12 @@ class IconTimer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ScreenSize screenSize = ref.watch(sizeProvider);
     final bool isP = SizeNotifier(screenSize).isP;
+
+    final TextTheme textTheme = Theme.of(context).textTheme;
+
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.symmetric(horizontal: 15.r),
+      padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -29,38 +32,22 @@ class IconTimer extends ConsumerWidget {
               SizedBox.square(dimension: 7.5.r),
               AnimatedFlipCounter(
                 value: mockInteger(1, 50),
-                //value: gameDuration.inMinutes,
                 suffix: " : ",
                 wholeDigits: 2,
-                textStyle: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w900,
-                  fontSize: isP ? 18.r : 21.r,
-                  color: cornellRed,
-                  //color: amaranthPurple,
-                  letterSpacing: 0.075.r,
-                ),
+                textStyle: textTheme.displayLarge,
               ),
               SizedBox.square(dimension: 1.5.r),
               AnimatedFlipCounter(
                 value: mockInteger(1, 50),
-                //value:
-                //    gameDuration.inSeconds % 60,
                 wholeDigits: 2,
-                textStyle: TextStyle(
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w900,
-                  fontSize: isP ? 18.r : 21.r,
-                  color: cornellRed,
-                  letterSpacing: 0.075.r,
-                ),
+                textStyle: textTheme.displayLarge,
               ),
               const Spacer(),
               InkWell(
                 onTap: () => context.router.maybePop(),
-                child: Icon(Icons.close, size: 21.r),
+                child: Icon(Icons.close, size: 18.r, color: gray),
               ),
-              Gap(15.r)
+              SizedBox.square(dimension: 7.5.r),
             ],
           ),
           Gap(15.r),

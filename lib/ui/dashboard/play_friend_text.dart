@@ -6,11 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../logic/app/ai_bloc.dart';
-import '../../logic/panel/dashboard_bloc.dart';
 import '../../router/my_route.dart';
 import '../../values/colors.dart';
-import 'create_room.dart';
-import 'enter_room_code.dart';
 
 class PlayFriendText extends ConsumerWidget {
   const PlayFriendText({super.key});
@@ -60,11 +57,17 @@ class PlayFriendButton extends ConsumerWidget {
   const PlayFriendButton({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return StaggeredGridTile.fit(
-      crossAxisCellCount: 15,
-      child: Container(
-        height: 60.h,
+  Widget build(BuildContext context, WidgetRef ref) => StaggeredGridTile.fit(
+        crossAxisCellCount: 15,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: ElevatedButton(
+            onPressed: () => context.router.push(const GameRoomRoute()),
+            child: const Text("Create / Join Game"),
+          ),
+        ),
+        /* child: Container(
+        //height: 60.h,
         margin: EdgeInsets.symmetric(horizontal: 15.w),
         padding: EdgeInsets.only(left: 15.w),
         decoration: BoxDecoration(
@@ -75,16 +78,20 @@ class PlayFriendButton extends ConsumerWidget {
           borderRadius: BorderRadius.circular(7.5.r),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Row(
-              // buttonPadding: EdgeInsets.zero,
+            child: ButtonBar(
+              //buttonHeight: 60.h,
+              buttonPadding: EdgeInsets.all(3.6.r),
               // mainAxisAlignment: MainAxisAlignment.spaceAround,
               //overflowButtonSpacing: 0,
               children: [
                 TextButton(
+                  style: ButtonStyle(),
                   onPressed: () {
-                    ref.read(dashboardPanelProvider.notifier).state =
-                        const CreateRoom();
-                  } /*=> context.router.push(const PlayFriendRoute())*/,
+                    context.router.push(GameRoomRoute());
+                    //ref.read(dashboardPanelControllerProvider).open();
+                    //ref.read(dashboardPanelProvider.notifier).state =
+                    //    const CreateRoom();
+                  } */ /*=> context.router.push(const PlayFriendRoute())*/ /*,
                   child: const Text("CREATE ROOM"),
                 ),
                 VerticalDivider(
@@ -98,8 +105,8 @@ class PlayFriendButton extends ConsumerWidget {
                         Size.fromHeight(double.maxFinite)),
                   ),
                   onPressed: () {
-                    ref.read(dashboardPanelProvider.notifier).state =
-                        const EnterRoomCode();
+                    // ref.read(dashboardPanelProvider.notifier).state =
+                    //     const EnterRoomCode();
                   },
                   child: const Text("ENTER ROOM CODE"),
                 ),
@@ -107,7 +114,6 @@ class PlayFriendButton extends ConsumerWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
+      ),*/
+      );
 }

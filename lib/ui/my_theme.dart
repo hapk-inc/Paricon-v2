@@ -29,7 +29,7 @@ class MyTheme {
     final SizeNotifier sizeNotifier = SizeNotifier(screenSize);
     final bool isP = sizeNotifier.isP;
     final bool isPT = sizeNotifier.isPT;
-    final double appBarHeight = isPT ? 108.h : 105.h;
+    final double appBarHeight = isP ? 105.h : 120.h;
     //final double appBarHeight = 120.h;
 
     return ThemeData(
@@ -60,20 +60,34 @@ class MyTheme {
       appBarTheme: AppBarTheme(
         centerTitle: false,
         backgroundColor: majorelleBlue,
+        iconTheme: IconThemeData(size: isP ? 18.r : 21.r),
         titleTextStyle: montserratTheme.copyWith(
           color: ghostWhite,
           fontSize: 21.r,
         ),
+
         //shape: RoundedRectangleBorder(borderRadius: bottomRadius),
         toolbarHeight: appBarHeight,
         elevation: 3.r,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
-          foregroundColor: const MaterialStatePropertyAll(majorelleBlue),
-          textStyle: MaterialStatePropertyAll(poppinsTheme),
-          elevation: MaterialStatePropertyAll(2.4.r),
-          backgroundColor: const MaterialStatePropertyAll(ghostWhite),
+          padding: const MaterialStatePropertyAll(EdgeInsets.zero),
+          foregroundColor: const MaterialStatePropertyAll(ghostWhite),
+          textStyle: MaterialStatePropertyAll(
+            montserratTheme.copyWith(
+              color: ghostWhite,
+              fontSize: isP ? 15.r : 18.r,
+            ),
+          ),
+          elevation: MaterialStatePropertyAll(1.5.r),
+          backgroundColor: const MaterialStatePropertyAll(violetBlue),
+          minimumSize: MaterialStatePropertyAll(Size.fromHeight(isP ? 48 : 39)),
+          shape: MaterialStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(7.5.r),
+            ),
+          ),
         ),
       ),
       textButtonTheme: TextButtonThemeData(
@@ -120,17 +134,18 @@ class MyTheme {
         bodyLarge: questrialTheme.copyWith(
           height: 1.8,
           fontSize: 24.r,
-          letterSpacing: 0,
         ),
         bodyMedium: questrialTheme.copyWith(
           height: 1.8,
           fontSize: SizeNotifier(screenSize).isP ? 15.r : 18.r,
         ),
-        bodySmall: questrialTheme.copyWith(fontSize: 12.r),
+        bodySmall: questrialTheme.copyWith(
+            fontSize: SizeNotifier(screenSize).isP ? 12.r : 13.5.r),
 
         //headlineFonts
         headlineLarge: montserratTheme.copyWith(fontSize: 15.r),
-        headlineMedium: montserratTheme.copyWith(fontSize: 13.2.r),
+        headlineMedium:
+            montserratTheme.copyWith(fontSize: isP ? 12.30.r : 13.2.r),
         headlineSmall: montserratTheme.copyWith(fontSize: 12.r),
 
         //label
@@ -143,6 +158,13 @@ class MyTheme {
           fontSize: isP ? 18.r : 21.r,
           //fontWeight: FontWeight.w300,
           height: 1.2,
+        ),
+
+        displayLarge: montserratTheme.copyWith(
+          fontWeight: FontWeight.w900,
+          fontSize: isP ? 18.r : 21.r,
+          color: cornellRed,
+          letterSpacing: 0.075.r,
         ),
       ),
     );

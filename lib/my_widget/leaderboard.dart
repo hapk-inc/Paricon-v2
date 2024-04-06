@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
+import '../enums/enums.dart';
+import '../logic/app/size_provider.dart';
 import '../values/colors.dart';
 
 class LeaderBoard extends ConsumerWidget {
@@ -11,6 +13,10 @@ class LeaderBoard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextTheme textTheme = Theme.of(context).textTheme;
+
+    final ScreenSize screenSize = ref.watch(sizeProvider);
+    final bool isP = SizeNotifier(screenSize).isP;
+
     return StaggeredGridTile.fit(
       crossAxisCellCount: 15,
       //mainAxisCellCount: 12,
@@ -29,7 +35,7 @@ class LeaderBoard extends ConsumerWidget {
             children: ["Rank", "Name", "Duration", "When"]
                 .map(
                   (String e) => Container(
-                    height: 55.5.h,
+                    height: isP ? 54.h : 60.h,
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.only(left: 12.w),
                     child: Text(

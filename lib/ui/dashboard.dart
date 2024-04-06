@@ -58,7 +58,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
     screenSize = ref.watch(sizeProvider);
     final bool isPT = SizeNotifier(screenSize).isPT;
 
-    ref.listen(
+    /*ref.listen(
       dashboardPanelProvider.select((value) => value),
       (prev, next) {
         if (next.toString() != "BlankContainer") {
@@ -67,16 +67,16 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
           }
         }
       },
-    );
+    );*/
     return Scaffold(
       appBar: isPT
           ? AppBar(
               leading: const SizedBox(),
-              leadingWidth: 7.5.w,
-              centerTitle: true,
+              leadingWidth: 0.w,
+              centerTitle: SizeNotifier(screenSize).isP,
               title: AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
-                width: SizeNotifier(screenSize).isP ? 270.w : 225.w,
+                width: SizeNotifier(screenSize).isP ? 270.w : 210.w,
                 alignment: Alignment.center,
                 child: const MyLogo(),
               ),
@@ -105,21 +105,19 @@ class _Dashboard extends ConsumerWidget {
           controller: ref.read(dashboardPanelControllerProvider),
           panel: AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
-            child: ref.watch(dashboardPanelProvider),
+            child: Container(),
           ),
           borderRadius: _pTheme.slidingPanelRadius,
           backdropEnabled: true,
           color: _pTheme.slidingPanelColor,
-          maxHeight: 420.h,
+          maxHeight: 360.r,
           defaultPanelState: PanelState.CLOSED,
-          //padding: _pTheme.slidingPanelPadding * 0.9,
-          // padding: _pTheme.slidingPanelPadding,
-          padding: EdgeInsets.zero,
+          padding: _pTheme.slidingPanelPadding,
           isDraggable: false,
           minHeight: 0,
           onPanelClosed: () {
-            ref.read(dashboardPanelProvider.notifier).state =
-                const BlankContainer();
+            //ref.read(dashboardPanelProvider.notifier).state =
+            //    const BlankContainer();
           },
           body: SingleChildScrollView(
             child: StaggeredGrid.count(
@@ -129,8 +127,9 @@ class _Dashboard extends ConsumerWidget {
                   const [
                     StaggeredGap(),
                     WelcomeUser(),
+                    // StaggeredGap(),
                     RecentPlayer(),
-                    StaggeredGap(),
+                    //StaggeredGap(),
                     TournamentText(),
                     StaggeredGap(),
                     EnterTournamentCode(),
@@ -140,8 +139,8 @@ class _Dashboard extends ConsumerWidget {
                     PlayFriendText(),
                     StaggeredGap(),
                     PlayFriendButton(),
-                    StaggeredGap(),
-                    AppVersion(),
+                    //StaggeredGap(),
+                    //AppVersion(),
                     Staggered9(),
                     //FriendAnimation(),
                   ],

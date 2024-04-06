@@ -47,11 +47,11 @@ class TournamentText extends ConsumerWidget {
                 alignment: Alignment.centerLeft,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
-                  child: AutoSizeText(
+                  child: Text(
                     "$sub 🏆",
                     key: ValueKey(sub),
                     style: textTheme.bodyMedium?.copyWith(color: jasper),
-                    maxLines: 1,
+                    maxLines: 2,
                   ),
                 ),
               ),
