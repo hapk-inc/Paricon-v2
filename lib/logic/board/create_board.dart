@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:paricon/values/colors.dart';
 

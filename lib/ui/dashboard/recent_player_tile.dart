@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:mock_data/mock_data.dart';
-import 'package:paricon/values/colors.dart';
 
-import '../../enums/enums.dart';
-import '../../logic/app/size_provider.dart';
 import '../../model/my_activity.dart';
 import '../../model/player.dart';
-import '../../values/names.dart';
-import 'recent_player_detail_dialog.dart';
 
 class RecentPlayerTile extends ConsumerWidget {
   final String id;

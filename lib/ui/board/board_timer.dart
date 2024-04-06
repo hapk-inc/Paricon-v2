@@ -15,9 +15,6 @@ class IconTimer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ScreenSize screenSize = ref.watch(sizeProvider);
-    final bool isP = SizeNotifier(screenSize).isP;
-
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return Container(

@@ -13,7 +13,6 @@ import '../logic/board/notifier.dart';
 import '../values/colors.dart';
 import 'board/board_timer.dart';
 import 'board/icon_grid.dart';
-import '../my_widget/leaderboard.dart';
 import 'my_theme.dart';
 
 final _pTheme = SlidingPanelTheme();

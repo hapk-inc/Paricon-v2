@@ -17,8 +17,6 @@ import '../logic/user/bloc.dart';
 import '../logic/user/notifier.dart';
 import '../my_widget/pi_logo.dart';
 import '../my_widget/staggered_gap.dart';
-import '../values/colors.dart';
-import 'dashboard/app_version.dart';
 import 'dashboard/enter_tournament_code.dart';
 import '../my_widget/leaderboard.dart';
 import 'dashboard/play_friend_text.dart';

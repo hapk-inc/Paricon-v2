@@ -28,9 +28,8 @@ class MyTheme {
   ThemeData get themeData {
     final SizeNotifier sizeNotifier = SizeNotifier(screenSize);
     final bool isP = sizeNotifier.isP;
-    final bool isPT = sizeNotifier.isPT;
+
     final double appBarHeight = isP ? 105.h : 120.h;
-    //final double appBarHeight = 120.h;
 
     return ThemeData(
       primaryColor: majorelleBlue,
