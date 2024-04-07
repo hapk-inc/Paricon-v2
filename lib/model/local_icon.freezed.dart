@@ -166,7 +166,7 @@ class __$$LocalIconImplCopyWithImpl<$Res>
 @JsonSerializable(includeIfNull: false)
 class _$LocalIconImpl extends _LocalIcon {
   const _$LocalIconImpl(
-      {@ColorConverter() this.color = majorelleBlue,
+      {@ColorConverter() this.color = charcoal,
       this.audio,
       required this.iconCode,
       required this.iconNo,

@@ -7,7 +7,6 @@ import 'package:gap/gap.dart';
 import 'package:logger/logger.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../enums/enums.dart';
 import '../logic/app/size_provider.dart';
 import '../logic/login/notifier.dart';
 import '../my_widget/pi_logo.dart';
@@ -68,8 +67,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       },
     );
 
-    final ScreenSize screenSize = ref.watch(sizeProvider);
-    final sizeNotifier = SizeNotifier(screenSize);
+    final sizeNotifier = ref.watch(sizeProvider.notifier);
+
+    //final ScreenSize screenSize = ref.watch(sizeProvider);
+    //final sizeNotifier = SizeNotifier(screenSize);
 
     return Scaffold(
       backgroundColor: majorelleBlue,

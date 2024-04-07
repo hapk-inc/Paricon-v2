@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:paricon/ui/settings/deactivate_account_dialog.dart';
 
-import '../../logic/auth/bloc.dart';
 import '../../values/colors.dart';
 import 'log_out_dialog.dart';
 

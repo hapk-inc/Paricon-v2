@@ -5,13 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
-import 'package:paricon/router/my_route.dart';
 
-import '../enums/enums.dart';
-import '../logic/app/size_provider.dart';
-import '../my_widget/staggered_gap.dart';
+import '../router/my_route.dart';
 import '../values/colors.dart';
-import 'my_theme.dart';
 
 @RoutePage()
 class GameRoomPage extends ConsumerWidget {
@@ -20,9 +16,6 @@ class GameRoomPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-
-    final ScreenSize screenSize = ref.watch(sizeProvider);
-    final bool isP = SizeNotifier(screenSize).isP;
 
     final double appH = Theme.of(context).appBarTheme.toolbarHeight ?? 120.h;
 
@@ -183,7 +176,7 @@ class GameRoomPage extends ConsumerWidget {
   }
 }
 
-final SlidingPanelTheme _panelTheme = SlidingPanelTheme();
+//final SlidingPanelTheme _panelTheme = SlidingPanelTheme();
 /*
 
 class GameRoom extends ConsumerStatefulWidget {

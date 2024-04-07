@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
-import '../../enums/enums.dart';
 import '../../model/board.dart';
+import '../app/game_match_bloc.dart';
 import '../auth/bloc.dart';
 import '../user/bloc.dart';
 import 'create_board.dart';
@@ -18,21 +18,27 @@ final ChangeNotifierProvider<BoardNotifier> boardNotifierProvider =
 class BoardNotifier extends ChangeNotifier {
   final Ref ref;
 
-  final bool isOnline;
   late Board _board;
 
-  bool _allFound = false;
   bool _wait = false;
-  double _percentage = 0.0;
+
   late Stopwatch _stopwatch;
   late String _me;
+  late bool _isDailyMatch;
+  int _iconFound = 0;
 
   late bool _alreadyClicked;
 
-  BoardNotifier(this.ref, {this.isOnline = false}) {
+  bool _everyFound = false;
+
+  BoardNotifier(this.ref) {
     _logger.d("initializeBoard");
-    _me = ref.watch(authUserProvider).value?.uid ?? "";
-    if (!isOnline) {
+    _me = ref.read(authUserProvider).value?.uid ?? "";
+    _stopwatch = Stopwatch();
+    _alreadyClicked = true;
+    _isDailyMatch = ref.watch(matchNotifierProvider.notifier).isDailyMatch;
+
+    if (_isDailyMatch) {
       _board = Board(
         currentID: _me,
         icons: CreateBoard.icons,
@@ -43,8 +49,47 @@ class BoardNotifier extends ChangeNotifier {
 
   Board get board => _board;
 
-  iconClick(String i) async {
+  Stopwatch get stopwatch => _stopwatch;
+
+  Future iconClick(String i) async {
+    _wait = true;
+
+    if (!_stopwatch.isRunning) {
+      _stopwatch.start();
+    }
+
     board.icons[i] = board.icons[i]!.copyWith(isCheck: true);
+    _alreadyClicked = !_alreadyClicked;
+    notifyListeners();
+
+    if (_alreadyClicked) {
+      final bool validate = await validateIcon;
+      if (validate) {
+        _iconFound++;
+        _everyFound = board.everyIcon;
+      }
+    }
+    _wait = false;
     notifyListeners();
   }
+
+  Future<bool> get validateIcon async => Future.delayed(
+        const Duration(milliseconds: 750),
+        () {
+          final x = board.updateIcon(_isDailyMatch);
+          notifyListeners();
+          return x;
+        },
+      );
+
+  bool get wait => _wait;
+
+  set wait(bool value) {
+    if (_wait == value) return;
+    notifyListeners();
+  }
+
+  double get percentageFound => _iconFound / board.icons.length;
+
+  bool get everyFound => _everyFound;
 }

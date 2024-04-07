@@ -44,9 +44,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         ScreenSize screenSize = _changeScreenSize(x);
         return ProviderScope(
           overrides: [
-            sizeProvider.overrideWithValue(screenSize),
-            //screenSizeNotifierProvider
-            //    .overrideWith((_) => ScreenSizeNotifier(screenSize))
+            sizeProvider.overrideWith((_) => SizeNotifier(screenSize))
           ],
           child: MaterialApp.router(
             locale: DevicePreview.locale(context),
@@ -67,7 +65,7 @@ class _MyAppState extends ConsumerState<MyApp> {
 }
 
 ScreenSize _changeScreenSize(double x) => x > 2
-    ? ScreenSize.phone
+    ? ScreenSize.mobile
     : x > 1.65
         ? ScreenSize.tab
         : x > 1.2

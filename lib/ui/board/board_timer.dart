@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:mock_data/mock_data.dart';
 
-import '../../enums/enums.dart';
-import '../../logic/app/size_provider.dart';
+import '../../logic/board/notifier.dart';
 import '../../values/colors.dart';
 
 class IconTimer extends ConsumerWidget {
@@ -15,6 +13,9 @@ class IconTimer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final boardNotifier = ref.watch(boardNotifierProvider);
+    final Duration duration = boardNotifier.stopwatch.elapsed;
+
     final TextTheme textTheme = Theme.of(context).textTheme;
 
     return Container(
@@ -28,14 +29,14 @@ class IconTimer extends ConsumerWidget {
               Icon(Icons.timer, size: 30.r, color: charcoal),
               SizedBox.square(dimension: 7.5.r),
               AnimatedFlipCounter(
-                value: mockInteger(1, 50),
+                value: duration.inMinutes,
                 suffix: " : ",
                 wholeDigits: 2,
                 textStyle: textTheme.displayLarge,
               ),
               SizedBox.square(dimension: 1.5.r),
               AnimatedFlipCounter(
-                value: mockInteger(1, 50),
+                value: duration.inSeconds % 60,
                 wholeDigits: 2,
                 textStyle: textTheme.displayLarge,
               ),
@@ -55,13 +56,13 @@ class IconTimer extends ConsumerWidget {
               curve: Curves.easeInOut,
               tween: Tween<double>(
                 begin: 0,
-                // end: tournamentListener.balancePercentage,
-                end: mockInteger(1, 100) * 0.01,
+                end: boardNotifier.percentageFound,
+                //end: mockInteger(1, 100) * 0.01,
               ),
               builder: (_, value, __) => LinearProgressIndicator(
                 value: value,
                 color: majorelleBlue,
-                backgroundColor: aquamarine,
+                backgroundColor: frenchGray,
                 minHeight: 4.5.r,
               ),
             ),

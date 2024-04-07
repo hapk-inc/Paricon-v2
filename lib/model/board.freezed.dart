@@ -191,6 +191,30 @@ class _$BoardImpl extends _Board with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('currentIcon', currentIcon));
   }
 
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BoardImpl &&
+            const DeepCollectionEquality().equals(other.players, players) &&
+            const DeepCollectionEquality().equals(other.icons, icons) &&
+            (identical(other.currentID, currentID) ||
+                other.currentID == currentID) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.currentIcon, currentIcon) ||
+                other.currentIcon == currentIcon));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(players),
+      const DeepCollectionEquality().hash(icons),
+      currentID,
+      type,
+      currentIcon);
+
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')

@@ -53,10 +53,6 @@ class __SplashStateState extends ConsumerState<_SplashState> {
 
   @override
   Widget build(BuildContext context) {
-    //final sSize = ref.read(sizeProvider);
-
-    //final bool isPT = sSize == ScreenSize.phone || sSize == ScreenSize.tab;
-
     Future.delayed(
       const Duration(seconds: 1),
       () {

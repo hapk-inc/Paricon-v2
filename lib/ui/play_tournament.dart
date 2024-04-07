@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +7,6 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../enums/enums.dart';
 import '../logic/app/size_provider.dart';
 import '../logic/board/notifier.dart';
 import '../values/colors.dart';
@@ -30,18 +29,19 @@ class _PlayTournamentPageState extends ConsumerState<PlayTournamentPage> {
 
   @override
   void initState() {
-    boardNotifier = ref.read(boardNotifierProvider);
+    boardNotifier = ref.refresh(boardNotifierProvider);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final ScreenSize screenSize = ref.watch(sizeProvider);
-    final bool isPT = SizeNotifier(screenSize).isPT;
-    final bool isP = SizeNotifier(screenSize).isP;
+    final sizeNotifier = ref.watch(sizeProvider.notifier);
+
+    final bool isP = sizeNotifier.isP;
+    final bool isPT = sizeNotifier.isPT;
+
     return Scaffold(
       backgroundColor: majorelleBlue,
-      //appBar: AppBar(elevation: 0),
       body: SafeArea(
         bottom: false,
         child: SlidingUpPanel(

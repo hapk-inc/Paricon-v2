@@ -50,7 +50,8 @@ const List<IconData> _boardIcons = [
   Icons.delivery_dining, Icons.fastfood, Icons.zoom_out_map,
   Icons.local_gas_station, Icons.local_parking,
   Icons.diamond, Icons.traffic, Icons.two_wheeler, Icons.sailing,
-  Icons.electrical_services, Icons.connecting_airports, Icons.sos,
+  //Icons.electrical_services, Icons.connecting_airports,
+  Icons.sos,
 
   //social
   Icons.pets, Icons.elderly_woman,

@@ -38,8 +38,9 @@ class MyTheme {
         margin: EdgeInsets.zero,
         color: ghostWhite,
         shadowColor: frenchGray,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.r),
+        ),
         elevation: 7.5.r,
       ),
       listTileTheme: const ListTileThemeData(

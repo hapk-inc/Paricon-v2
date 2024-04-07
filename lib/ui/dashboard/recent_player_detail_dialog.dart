@@ -25,7 +25,7 @@ class RecentPlayerDetailDialog extends ConsumerWidget {
       titleTextStyle: textTheme.titleMedium,
       contentTextStyle: textTheme.bodyMedium,
       content: Text("Created ${DateFormat.yMMMMd().format(player.createdAt!)}"),
-      actions: [
+      actions: const [
         /* TextButton(
           onPressed: () => ref.read(signOutProvider),
           child: const Text("LOG OUT"),

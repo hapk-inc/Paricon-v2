@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:paricon/values/colors.dart';
 
 import '../enums/enums.dart';
 import 'local_icon.dart';
@@ -25,4 +26,41 @@ class Board with _$Board {
 
   int get checkCount =>
       icons.values.where((value) => value.isCheck ?? false).length;
+
+  bool get validateIcon {
+    Iterable<LocalIcon> x = icons.values.where((x) => x.isCheck ?? false);
+    if (x.length != 2) return false;
+    return x.every((e) => x.first.iconCode == e.iconCode);
+  }
+
+  bool updateIcon(bool isDailyMatch) {
+    Iterable<MapEntry<String, LocalIcon>> x =
+        icons.entries.where((x) => x.value.isCheck ?? false);
+
+    bool v = validateIcon;
+
+    if (v) {
+      for (MapEntry<String, LocalIcon> e in x) {
+        icons.update(
+          e.key,
+          (value) => value.copyWith(
+            isCheck: false,
+            isFound: true,
+            color: majorelleBlue,
+          ),
+        );
+      }
+    } else {
+      for (MapEntry<String, LocalIcon> e in x) {
+        icons.update(
+          e.key,
+          (value) => value.copyWith(isCheck: false),
+        );
+      }
+    }
+
+    return validateIcon;
+  }
+
+  bool get everyIcon => icons.values.every((value) => value.isCheck ?? false);
 }

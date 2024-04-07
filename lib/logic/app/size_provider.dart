@@ -1,38 +1,21 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../enums/enums.dart';
 
-final Provider<ScreenSize> sizeProvider = Provider<ScreenSize>(
-  (_) => ScreenSize.phone,
+final StateNotifierProvider<SizeNotifier, ScreenSize> sizeProvider =
+    StateNotifierProvider<SizeNotifier, ScreenSize>(
+  (_) => SizeNotifier(ScreenSize.mobile),
 );
 
-class SizeNotifier {
-  final ScreenSize sSize;
+class SizeNotifier extends StateNotifier<ScreenSize> {
+  SizeNotifier(super.state);
 
-  SizeNotifier(this.sSize);
+  @override
+  set state(ScreenSize value) => super.state = value;
 
-  bool get isPT => sSize == ScreenSize.phone || sSize == ScreenSize.tab;
+  bool get isPT => state == ScreenSize.mobile || state == ScreenSize.tab;
 
-  bool get isP => sSize == ScreenSize.phone;
-  bool get isTab => sSize == ScreenSize.tab;
-  bool get isPad => sSize == ScreenSize.iPad;
-
-  static bool get isSmallScreen => 900.h / 360.w > 2.3;
+  bool get isP => state == ScreenSize.mobile || state == ScreenSize.smallMobile;
+  bool get isTab => state == ScreenSize.tab;
+  bool get isPad => state == ScreenSize.iPad;
 }
-
-/*
-final Provider<ScreenSizeNotifier> screenSizeNotifierProvider =
-    Provider<ScreenSizeNotifier>(
-  (_) => throw UnimplementedError(),
-);
-
-class ScreenSizeNotifier {
-  final ScreenSize screenSize;
-
-  ScreenSizeNotifier(this.screenSize);
-
-  bool get isPT =>
-      screenSize == ScreenSize.phone || screenSize == ScreenSize.tab;
-}
-*/

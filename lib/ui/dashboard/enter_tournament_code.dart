@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:paricon/enums/enums.dart';
 import 'package:paricon/router/my_route.dart';
 
+import '../../logic/app/game_match_bloc.dart';
 import '../../values/colors.dart';
 
 const List<String> _animText = ['PLAY NOW', 'TRY NOW', 'START NOW'];
@@ -34,13 +36,19 @@ class EnterTournamentCode extends ConsumerWidget {
               Container(
                 height: double.maxFinite,
                 alignment: Alignment.center,
-                color: cornellRed,
+                color: jasper,
                 width: 120.w,
                 child: DefaultTextStyle(
-                  style: Theme.of(context).textTheme.headlineLarge!,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineLarge!
+                      .copyWith(color: ghostWhite),
                   child: AnimatedTextKit(
-                    onTap: () =>
-                        context.router.push(const PlayTournamentRoute()),
+                    onTap: () {
+                      ref.watch(matchNotifierProvider.notifier).state =
+                          GameMatch.dailyMatch;
+                      context.router.push(const PlayTournamentRoute());
+                    },
                     animatedTexts: _animText
                         .map(
                           (e) => RotateAnimatedText(
@@ -52,6 +60,7 @@ class EnterTournamentCode extends ConsumerWidget {
                         )
                         .toList(),
                     isRepeatingAnimation: true,
+                    pause: const Duration(seconds: 3),
                     // pause: repeatAnimationNotifier.animDuration,
                     /*onNext: (index, flag) {
 

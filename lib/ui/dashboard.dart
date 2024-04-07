@@ -8,7 +8,6 @@ import 'package:logger/logger.dart';
 import 'package:paricon/my_widget/staggered_9.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../enums/enums.dart';
 import '../logic/app/size_provider.dart';
 
 import '../logic/auth/notifier.dart';
@@ -38,7 +37,7 @@ class DashboardPage extends ConsumerStatefulWidget {
 }
 
 class _DashboardPageState extends ConsumerState<DashboardPage> {
-  late ScreenSize screenSize;
+  //late ScreenSize screenSize;
   late AuthNotifier authNotifier;
   late UserNotifier userNotifier;
 
@@ -53,8 +52,11 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    screenSize = ref.watch(sizeProvider);
-    final bool isPT = SizeNotifier(screenSize).isPT;
+    final screenSize = ref.watch(sizeProvider.notifier);
+    final bool isP = screenSize.isP;
+    final bool isPT = screenSize.isPT;
+    /*  screenSize = ref.watch(sizeProvider);
+    final bool isPT = SizeNotifier(screenSize).isPT;*/
 
     /*ref.listen(
       dashboardPanelProvider.select((value) => value),
@@ -71,10 +73,10 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
           ? AppBar(
               leading: const SizedBox(),
               leadingWidth: 0.w,
-              centerTitle: SizeNotifier(screenSize).isP,
+              centerTitle: isP,
               title: AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
-                width: SizeNotifier(screenSize).isP ? 270.w : 210.w,
+                width: isP ? 270.w : 210.w,
                 alignment: Alignment.center,
                 child: const MyLogo(),
               ),
@@ -113,10 +115,7 @@ class _Dashboard extends ConsumerWidget {
           padding: _pTheme.slidingPanelPadding,
           isDraggable: false,
           minHeight: 0,
-          onPanelClosed: () {
-            //ref.read(dashboardPanelProvider.notifier).state =
-            //    const BlankContainer();
-          },
+          onPanelClosed: () {},
           body: SingleChildScrollView(
             child: StaggeredGrid.count(
               crossAxisCount: 15,
@@ -125,9 +124,7 @@ class _Dashboard extends ConsumerWidget {
                   const [
                     StaggeredGap(),
                     WelcomeUser(),
-                    // StaggeredGap(),
                     RecentPlayer(),
-                    //StaggeredGap(),
                     TournamentText(),
                     StaggeredGap(),
                     EnterTournamentCode(),
@@ -137,10 +134,7 @@ class _Dashboard extends ConsumerWidget {
                     PlayFriendText(),
                     StaggeredGap(),
                     PlayFriendButton(),
-                    //StaggeredGap(),
-                    //AppVersion(),
                     Staggered9(),
-                    //FriendAnimation(),
                   ],
             ),
           ),

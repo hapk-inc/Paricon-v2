@@ -10,7 +10,7 @@ class Staggered9 extends StatelessWidget {
     return StaggeredGridTile.count(
       crossAxisCellCount: 15,
       mainAxisCellCount: 9.r,
-      child: SizedBox(),
+      child: const SizedBox(),
     );
   }
 }
