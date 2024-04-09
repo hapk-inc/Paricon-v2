@@ -5,14 +5,14 @@ import 'package:logger/logger.dart';
 import '../../model/player.dart';
 import '../auth/bloc.dart';
 import 'bloc.dart';
-import 'user_database.dart';
+import 'user_ql.dart';
 
 Logger _logger = Logger();
 
 //const Duration _m900 = Duration(milliseconds: 900);
 
 class UserNotifier extends ChangeNotifier {
-  final UserDatabase _db = UserDatabase();
+  final UserQL _db = UserQL();
   Player? _me;
   final Ref ref;
 

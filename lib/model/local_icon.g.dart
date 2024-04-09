@@ -10,7 +10,7 @@ _$LocalIconImpl _$$LocalIconImplFromJson(Map<String, dynamic> json) =>
     _$LocalIconImpl(
       color: _$JsonConverterFromJson<int, Color>(
               json['color'], const ColorConverter().fromJson) ??
-          charcoal,
+          majorelleBlue,
       audio: json['audio'] as String?,
       iconCode: json['iconCode'] as int,
       iconNo: json['iconNo'] as int,

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:paricon/values/colors.dart';
 
 import '../enums/enums.dart';
+import '../values/colors.dart';
 import 'local_icon.dart';
 import 'local_player.dart';
 
@@ -59,7 +59,7 @@ class Board with _$Board {
       }
     }
 
-    return validateIcon;
+    return v;
   }
 
   bool get everyIcon => icons.values.every((value) => value.isCheck ?? false);

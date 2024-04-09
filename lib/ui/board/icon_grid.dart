@@ -23,8 +23,6 @@ class IconGrid extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final sizeNotifier = ref.watch(sizeProvider.notifier);
 
-    // final ScreenSize screenSize = ref.watch(sizeProvider);
-    //final bool isP = SizeNotifier(screenSize).isP;
     final BoardNotifier boardNotifier = ref.watch(boardNotifierProvider);
     return Container(
       alignment: Alignment.center,

@@ -7,7 +7,7 @@ import '../../model/player.dart';
 
 Logger _logger = Logger();
 
-class UserDatabase {
+class UserQL {
   Database? _database;
   static const String _tableName = 'user';
 

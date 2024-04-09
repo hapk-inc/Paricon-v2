@@ -65,7 +65,7 @@ class BoardNotifier extends ChangeNotifier {
     if (_alreadyClicked) {
       final bool validate = await validateIcon;
       if (validate) {
-        _iconFound++;
+        ++_iconFound;
         _everyFound = board.everyIcon;
       }
     }
@@ -89,7 +89,11 @@ class BoardNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  double get percentageFound => _iconFound / board.icons.length;
+  double get percentageFound {
+    _logger.i("IconFound $_iconFound");
+    _logger.i("Percentage ${_iconFound / board.icons.length}");
+    return _iconFound / (board.icons.length / 2);
+  }
 
   bool get everyFound => _everyFound;
 }
