@@ -18,7 +18,7 @@ class SettingsTile extends ConsumerWidget {
     final bool isP = sizeNotifier.isP;
     final TextTheme textTheme = Theme.of(context).textTheme;
     return AspectRatio(
-      aspectRatio: isP ? 7.2 : 9,
+      aspectRatio: isP ? 6 : 7.2,
       child: Container(
         decoration: BoxDecoration(
           border: showBorder
@@ -32,7 +32,7 @@ class SettingsTile extends ConsumerWidget {
           iconColor: gray,
           trailing: Icon(Icons.chevron_right, size: 21.r, color: charcoal),
           titleTextStyle: textTheme.headlineMedium,
-          leadingAndTrailingTextStyle: textTheme.headlineMedium,
+          leadingAndTrailingTextStyle: textTheme.headlineLarge,
           onTap: tileTap,
         ),
       ),

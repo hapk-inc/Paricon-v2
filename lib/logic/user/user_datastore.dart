@@ -17,13 +17,11 @@ class UserDatastore {
   final Ref<UserDatastore> ref;
 
   late FirebaseFirestore firebaseFirestore;
-  //late FirebaseDatabase firebaseDatabase;
   late CollectionReference userColl;
   late User? fUser;
 
   UserDatastore(this.ref) {
     firebaseFirestore = ref.read(fireStoreProvider);
-    //firebaseDatabase = ref.read(databaseProvider);
     userColl = firebaseFirestore.collection('users');
     fUser = ref.watch(authUserProvider).value;
 

@@ -24,7 +24,7 @@ class EnterTournamentCode extends ConsumerWidget {
         margin: EdgeInsets.symmetric(horizontal: 15.w),
         padding: EdgeInsets.only(left: 15.w),
         decoration: BoxDecoration(
-          color: lavender,
+          color: magnolia,
           borderRadius: BorderRadius.circular(7.5.r),
         ),
         child: ClipRRect(

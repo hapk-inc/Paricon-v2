@@ -11,10 +11,7 @@ class UserQL {
   Database? _database;
   static const String _tableName = 'user';
 
-  //String path = join(databasesPath, 'demo.db');
-
   Future<Database> get database async {
-    _logger.i("Initialising Database");
     if (_database != null) {
       _logger.i("Database Exist");
       return _database!;
@@ -28,7 +25,11 @@ class UserQL {
         join(await getDatabasesPath(), '$_tableName.db'),
         onCreate: (db, version) {
           return db.execute('CREATE TABLE $_tableName'
-              '(id TEXT PRIMARY KEY,name TEXT,tag INTEGER)');
+              '('
+              'id TEXT PRIMARY KEY,'
+              'name TEXT,'
+              'tag INTEGER'
+              ')');
         },
         version: 1,
       );

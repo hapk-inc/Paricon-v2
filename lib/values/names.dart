@@ -4318,5 +4318,5 @@ class NameGen {
     return small[mockInteger(0, small.length - 1)];
   }*/
 
-  static String get lastName => _last[mockInteger(0, lastName.length - 1)];
+  static String get lastName => _last[mockInteger(0, _last.length - 1)];
 }

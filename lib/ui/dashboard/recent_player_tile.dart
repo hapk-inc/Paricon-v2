@@ -1,9 +1,11 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/my_activity.dart';
 import '../../model/player.dart';
+import '../../values/names.dart';
 
 class RecentPlayerTile extends ConsumerWidget {
   final String id;
@@ -20,9 +22,14 @@ class RecentPlayerTile extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const AspectRatio(aspectRatio: 1.5, child: CircleAvatar()),
-          Text(
-            toBeginningOfSentenceCase(player.name) ?? "",
+          const AspectRatio(
+            aspectRatio: 1.5,
+            child: CircleAvatar(),
+          ),
+          AutoSizeText(
+            //toBeginningOfSentenceCase(player.name) ?? "",
+            //"${NameGen.dummyName()} ${NameGen.lastName}",
+            NameGen.dummyName(),
             style: textTheme.bodySmall,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,

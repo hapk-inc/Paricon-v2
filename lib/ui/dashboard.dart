@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:logger/logger.dart';
-import 'package:paricon/my_widget/staggered_9.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/app/size_provider.dart';
@@ -15,6 +14,7 @@ import '../logic/panel/dashboard_bloc.dart';
 import '../logic/user/bloc.dart';
 import '../logic/user/notifier.dart';
 import '../my_widget/pi_logo.dart';
+import '../my_widget/staggered_9.dart';
 import '../my_widget/staggered_gap.dart';
 import 'dashboard/enter_tournament_code.dart';
 import '../my_widget/leaderboard.dart';
@@ -55,19 +55,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
     final screenSize = ref.watch(sizeProvider.notifier);
     final bool isP = screenSize.isP;
     final bool isPT = screenSize.isPT;
-    /*  screenSize = ref.watch(sizeProvider);
-    final bool isPT = SizeNotifier(screenSize).isPT;*/
 
-    /*ref.listen(
-      dashboardPanelProvider.select((value) => value),
-      (prev, next) {
-        if (next.toString() != "BlankContainer") {
-          if (ref.read(dashboardPanelControllerProvider).isPanelClosed) {
-            ref.read(dashboardPanelControllerProvider).open();
-          }
-        }
-      },
-    );*/
     return Scaffold(
       appBar: isPT
           ? AppBar(

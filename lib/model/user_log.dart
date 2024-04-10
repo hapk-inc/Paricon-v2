@@ -7,11 +7,9 @@ part 'user_log.g.dart';
 class UserLog with _$UserLog {
   @JsonSerializable(includeIfNull: false)
   const factory UserLog({
-    String? id,
+    required String id,
     required DateTime when,
     required Duration timeTaken,
-    Duration? diff,
-    @Default(false) bool? firstTime,
     String? tournament,
   }) = _UserLog;
 

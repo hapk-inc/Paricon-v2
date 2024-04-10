@@ -20,11 +20,9 @@ UserLog _$UserLogFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserLog {
-  String? get id => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
   DateTime get when => throw _privateConstructorUsedError;
   Duration get timeTaken => throw _privateConstructorUsedError;
-  Duration? get diff => throw _privateConstructorUsedError;
-  bool? get firstTime => throw _privateConstructorUsedError;
   String? get tournament => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,13 +35,7 @@ abstract class $UserLogCopyWith<$Res> {
   factory $UserLogCopyWith(UserLog value, $Res Function(UserLog) then) =
       _$UserLogCopyWithImpl<$Res, UserLog>;
   @useResult
-  $Res call(
-      {String? id,
-      DateTime when,
-      Duration timeTaken,
-      Duration? diff,
-      bool? firstTime,
-      String? tournament});
+  $Res call({String id, DateTime when, Duration timeTaken, String? tournament});
 }
 
 /// @nodoc
@@ -59,18 +51,16 @@ class _$UserLogCopyWithImpl<$Res, $Val extends UserLog>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? when = null,
     Object? timeTaken = null,
-    Object? diff = freezed,
-    Object? firstTime = freezed,
     Object? tournament = freezed,
   }) {
     return _then(_value.copyWith(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       when: null == when
           ? _value.when
           : when // ignore: cast_nullable_to_non_nullable
@@ -79,14 +69,6 @@ class _$UserLogCopyWithImpl<$Res, $Val extends UserLog>
           ? _value.timeTaken
           : timeTaken // ignore: cast_nullable_to_non_nullable
               as Duration,
-      diff: freezed == diff
-          ? _value.diff
-          : diff // ignore: cast_nullable_to_non_nullable
-              as Duration?,
-      firstTime: freezed == firstTime
-          ? _value.firstTime
-          : firstTime // ignore: cast_nullable_to_non_nullable
-              as bool?,
       tournament: freezed == tournament
           ? _value.tournament
           : tournament // ignore: cast_nullable_to_non_nullable
@@ -102,13 +84,7 @@ abstract class _$$UserLogImplCopyWith<$Res> implements $UserLogCopyWith<$Res> {
       __$$UserLogImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String? id,
-      DateTime when,
-      Duration timeTaken,
-      Duration? diff,
-      bool? firstTime,
-      String? tournament});
+  $Res call({String id, DateTime when, Duration timeTaken, String? tournament});
 }
 
 /// @nodoc
@@ -122,18 +98,16 @@ class __$$UserLogImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
+    Object? id = null,
     Object? when = null,
     Object? timeTaken = null,
-    Object? diff = freezed,
-    Object? firstTime = freezed,
     Object? tournament = freezed,
   }) {
     return _then(_$UserLogImpl(
-      id: freezed == id
+      id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
       when: null == when
           ? _value.when
           : when // ignore: cast_nullable_to_non_nullable
@@ -142,14 +116,6 @@ class __$$UserLogImplCopyWithImpl<$Res>
           ? _value.timeTaken
           : timeTaken // ignore: cast_nullable_to_non_nullable
               as Duration,
-      diff: freezed == diff
-          ? _value.diff
-          : diff // ignore: cast_nullable_to_non_nullable
-              as Duration?,
-      firstTime: freezed == firstTime
-          ? _value.firstTime
-          : firstTime // ignore: cast_nullable_to_non_nullable
-              as bool?,
       tournament: freezed == tournament
           ? _value.tournament
           : tournament // ignore: cast_nullable_to_non_nullable
@@ -163,33 +129,26 @@ class __$$UserLogImplCopyWithImpl<$Res>
 @JsonSerializable(includeIfNull: false)
 class _$UserLogImpl implements _UserLog {
   const _$UserLogImpl(
-      {this.id,
+      {required this.id,
       required this.when,
       required this.timeTaken,
-      this.diff,
-      this.firstTime = false,
       this.tournament});
 
   factory _$UserLogImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserLogImplFromJson(json);
 
   @override
-  final String? id;
+  final String id;
   @override
   final DateTime when;
   @override
   final Duration timeTaken;
   @override
-  final Duration? diff;
-  @override
-  @JsonKey()
-  final bool? firstTime;
-  @override
   final String? tournament;
 
   @override
   String toString() {
-    return 'UserLog(id: $id, when: $when, timeTaken: $timeTaken, diff: $diff, firstTime: $firstTime, tournament: $tournament)';
+    return 'UserLog(id: $id, when: $when, timeTaken: $timeTaken, tournament: $tournament)';
   }
 
   @override
@@ -201,17 +160,13 @@ class _$UserLogImpl implements _UserLog {
             (identical(other.when, when) || other.when == when) &&
             (identical(other.timeTaken, timeTaken) ||
                 other.timeTaken == timeTaken) &&
-            (identical(other.diff, diff) || other.diff == diff) &&
-            (identical(other.firstTime, firstTime) ||
-                other.firstTime == firstTime) &&
             (identical(other.tournament, tournament) ||
                 other.tournament == tournament));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, when, timeTaken, diff, firstTime, tournament);
+  int get hashCode => Object.hash(runtimeType, id, when, timeTaken, tournament);
 
   @JsonKey(ignore: true)
   @override
@@ -229,25 +184,19 @@ class _$UserLogImpl implements _UserLog {
 
 abstract class _UserLog implements UserLog {
   const factory _UserLog(
-      {final String? id,
+      {required final String id,
       required final DateTime when,
       required final Duration timeTaken,
-      final Duration? diff,
-      final bool? firstTime,
       final String? tournament}) = _$UserLogImpl;
 
   factory _UserLog.fromJson(Map<String, dynamic> json) = _$UserLogImpl.fromJson;
 
   @override
-  String? get id;
+  String get id;
   @override
   DateTime get when;
   @override
   Duration get timeTaken;
-  @override
-  Duration? get diff;
-  @override
-  bool? get firstTime;
   @override
   String? get tournament;
   @override

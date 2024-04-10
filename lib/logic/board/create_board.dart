@@ -11,7 +11,8 @@ class CreateBoard {
     List<int> overall = List.from(boardIcon.keys);
     overall.shuffle();
 
-    List<int> filter = List.from(overall.take(28));
+    //List<int> filter = List.from(overall.take(28));
+    List<int> filter = List.from(overall.take(4));
     List<int> mix = filter + filter;
 
     mix.shuffle();

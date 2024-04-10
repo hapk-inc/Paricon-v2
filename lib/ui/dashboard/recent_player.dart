@@ -33,7 +33,7 @@ class RecentPlayer extends ConsumerWidget {
             _logger.d(activity);
             return RecentPlayerTile(doc.id, player, activity);
           },
-          separatorBuilder: (_, __) => Gap(0.15.w),
+          separatorBuilder: (_, __) => Gap(1.5.w),
         ),
       ),
     );

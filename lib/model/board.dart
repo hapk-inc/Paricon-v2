@@ -15,9 +15,9 @@ class Board with _$Board {
 
   @JsonSerializable(includeIfNull: false)
   const factory Board({
-    @Default({}) Map<String, LocalPlayer> players,
+    Map<String, LocalPlayer>? players,
     @Default({}) Map<String, LocalIcon> icons,
-    required String currentID,
+    String? currentID,
     @Default(BoardType.normal) BoardType type,
     String? currentIcon,
   }) = _Board;
@@ -62,5 +62,5 @@ class Board with _$Board {
     return v;
   }
 
-  bool get everyIcon => icons.values.every((value) => value.isCheck ?? false);
+  bool get everyIcon => icons.values.every((value) => value.isFound ?? false);
 }

@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:paricon/model/user_log.dart';
 
 import '../../model/board.dart';
 import '../app/game_match_bloc.dart';
 import '../auth/bloc.dart';
+import '../leaderboard/bloc.dart';
 import '../user/bloc.dart';
 import 'create_board.dart';
 
@@ -39,11 +41,7 @@ class BoardNotifier extends ChangeNotifier {
     _isDailyMatch = ref.watch(matchNotifierProvider.notifier).isDailyMatch;
 
     if (_isDailyMatch) {
-      _board = Board(
-        currentID: _me,
-        icons: CreateBoard.icons,
-        players: CreateBoard.localPlayers({_me: ref.watch(meProvider).value}),
-      );
+      _board = Board(icons: CreateBoard.icons);
     }
   }
 
@@ -66,7 +64,17 @@ class BoardNotifier extends ChangeNotifier {
       final bool validate = await validateIcon;
       if (validate) {
         ++_iconFound;
-        _everyFound = board.everyIcon;
+        everyFound = board.everyIcon;
+        _logger.i("72--$everyFound");
+        if (everyFound) {
+          ref.read(updateUserLogProvider(
+            UserLog(
+              id: _me,
+              when: DateTime.now(),
+              timeTaken: _stopwatch.elapsed,
+            ),
+          ));
+        }
       }
     }
     _wait = false;
@@ -96,4 +104,10 @@ class BoardNotifier extends ChangeNotifier {
   }
 
   bool get everyFound => _everyFound;
+
+  set everyFound(bool value) {
+    if (_everyFound == value) return;
+    _everyFound = value;
+    notifyListeners();
+  }
 }

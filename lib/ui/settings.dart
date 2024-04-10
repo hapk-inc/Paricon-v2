@@ -79,109 +79,111 @@ class _Settings extends ConsumerWidget {
         isDraggable: false,
         minHeight: 0,
         panel: Container(),
-        body: Column(
-          children: [
-            Flexible(
-              fit: FlexFit.tight,
-              child: ListTile(
-                contentPadding: EdgeInsets.all(15.r),
-                isThreeLine: true,
-                title: CircleAvatar(radius: 48.r, backgroundColor: magnolia),
-                subtitle: Column(
-                  children: [
-                    Gap(15.r),
-                    Text(
-                      me?.name ?? "",
-                      style: textTheme.titleMedium?.copyWith(
-                        color: majorelleBlue,
-                      ),
-                    ),
-                    Gap(7.5.r),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          email,
-                          style: const TextStyle(color: tropicalIndigo),
+        body: SafeArea(
+          child: Column(
+            children: [
+              Flexible(
+                fit: FlexFit.tight,
+                child: ListTile(
+                  contentPadding: EdgeInsets.all(15.r),
+                  isThreeLine: true,
+                  title: CircleAvatar(radius: 48.r, backgroundColor: magnolia),
+                  subtitle: Column(
+                    children: [
+                      Gap(15.r),
+                      Text(
+                        me?.name ?? "",
+                        style: textTheme.titleMedium?.copyWith(
+                          color: majorelleBlue,
                         ),
-                        const VerticalDivider(),
-                        Text(
-                          str,
-                          style: const TextStyle(color: tropicalIndigo),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Flexible(
-              flex: 3,
-              child: Container(
-                color: magnolia1,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ...[
-                      SettingsTile("Edit profile", tileTap: () {}),
-                      SettingsTile("Notifications", tileTap: () {}),
-                      SettingsTile(
-                        "Invite People and get a new avatar",
-                        tileTap: () {},
                       ),
-                      SettingsTile("Statistics", tileTap: () {}),
-                    ],
-                    const Spacer(),
-                    Padding(
-                      padding: EdgeInsets.all(15.r),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      Gap(7.5.r),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            version,
-                            style: textTheme.headlineMedium
-                                ?.copyWith(color: frenchGray),
+                            email,
+                            style: const TextStyle(color: tropicalIndigo),
                           ),
-                          Gap(15.r),
-                          CircleAvatar(
-                            radius: 3.r,
-                            backgroundColor: frenchGray,
-                          ),
-                          Gap(15.r),
+                          const VerticalDivider(),
                           Text(
-                            "Privacy Policy",
-                            style: textTheme.headlineMedium
-                                ?.copyWith(color: frenchGray),
-                          ),
-                          Gap(15.r),
-                          CircleAvatar(
-                            radius: 3.r,
-                            backgroundColor: frenchGray,
-                          ),
-                          Gap(15.r),
-                          InkWell(
-                            onTap: () => showDialog(
-                              context: context,
-                              builder: (_) => const LogOutDialog(),
-                            ),
-                            child: Text(
-                              "LOG OUT",
-                              style: textTheme.headlineMedium
-                                  ?.copyWith(color: cornellRed),
-                            ),
+                            str,
+                            style: const TextStyle(color: tropicalIndigo),
                           ),
                         ],
                       ),
-                    ),
-                    Gap(
-                      (Theme.of(context).appBarTheme.toolbarHeight ?? 135.h) *
-                          1.35,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+              Flexible(
+                flex: 3,
+                child: Container(
+                  color: magnolia1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ...[
+                        SettingsTile("Edit profile", tileTap: () {}),
+                        SettingsTile("Notifications", tileTap: () {}),
+                        SettingsTile(
+                          "Invite People and get a new avatar",
+                          tileTap: () {},
+                        ),
+                        SettingsTile("Statistics", tileTap: () {}),
+                      ],
+                      const Spacer(),
+                      Padding(
+                        padding: EdgeInsets.all(15.r),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              version,
+                              style: textTheme.headlineMedium
+                                  ?.copyWith(color: frenchGray),
+                            ),
+                            Gap(12.r),
+                            CircleAvatar(
+                              radius: 3.r,
+                              backgroundColor: frenchGray,
+                            ),
+                            Gap(12.r),
+                            Text(
+                              "Privacy Policy",
+                              style: textTheme.headlineMedium
+                                  ?.copyWith(color: frenchGray),
+                            ),
+                            Gap(12.r),
+                            CircleAvatar(
+                              radius: 3.r,
+                              backgroundColor: frenchGray,
+                            ),
+                            Gap(12.r),
+                            InkWell(
+                              onTap: () => showDialog(
+                                context: context,
+                                builder: (_) => const LogOutDialog(),
+                              ),
+                              child: Text(
+                                "LOG OUT",
+                                style: textTheme.headlineMedium
+                                    ?.copyWith(color: jasper, height: 0),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Gap(
+                        (Theme.of(context).appBarTheme.toolbarHeight ?? 135.h) *
+                            1.35,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
