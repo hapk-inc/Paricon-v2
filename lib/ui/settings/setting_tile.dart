@@ -18,7 +18,7 @@ class SettingsTile extends ConsumerWidget {
     final bool isP = sizeNotifier.isP;
     final TextTheme textTheme = Theme.of(context).textTheme;
     return AspectRatio(
-      aspectRatio: isP ? 6 : 7.2,
+      aspectRatio: isP ? 7.2 : 7.5,
       child: Container(
         decoration: BoxDecoration(
           border: showBorder
@@ -27,12 +27,12 @@ class SettingsTile extends ConsumerWidget {
         ),
         alignment: Alignment.centerLeft,
         child: ListTile(
-          contentPadding: EdgeInsets.only(left: 18.w, right: 15.w),
-          leading: Text(title, style: const TextStyle(color: tropicalIndigo)),
+          contentPadding: EdgeInsets.only(left: 15.w, right: 15.w),
+          title: Text(title, style: const TextStyle(color: gray)),
           iconColor: gray,
           trailing: Icon(Icons.chevron_right, size: 21.r, color: charcoal),
-          titleTextStyle: textTheme.headlineMedium,
-          leadingAndTrailingTextStyle: textTheme.headlineLarge,
+          titleTextStyle: textTheme.bodyMedium,
+          leadingAndTrailingTextStyle: textTheme.bodyMedium,
           onTap: tileTap,
         ),
       ),

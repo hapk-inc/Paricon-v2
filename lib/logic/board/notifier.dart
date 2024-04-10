@@ -7,7 +7,6 @@ import '../../model/board.dart';
 import '../app/game_match_bloc.dart';
 import '../auth/bloc.dart';
 import '../leaderboard/bloc.dart';
-import '../user/bloc.dart';
 import 'create_board.dart';
 
 Logger _logger = Logger();

@@ -16,16 +16,27 @@ final AutoDisposeFutureProviderFamily<void, UserLog> updateUserLogProvider =
   },
 );
 
-final Provider<Query<UserRecord>> queryLeaderboardProvider =
-    Provider<Query<UserRecord>>(
-  (ref) {
+final FutureProvider<List<UserRecord>> overallProvider =
+    FutureProvider<List<UserRecord>>(
+  (ref) async {
     final l = ref.read(leaderBoardDatastoreProvider);
-    return l.leaderBoardQuery;
+    return l.overall;
   },
 );
 
-final FutureProvider<Map<String, UserRecord>> overallLeaderBoardProvider =
-    FutureProvider<Map<String, UserRecord>>((ref) async {
-  final l = ref.read(leaderBoardDatastoreProvider);
-  return l.overallLeaderBoard;
-});
+final FutureProviderFamily<List<UserRecord>, DateTime> pendingRecordProvider =
+    FutureProvider.family<List<UserRecord>, DateTime>(
+  (ref, date) async {
+    final l = ref.read(leaderBoardDatastoreProvider);
+    return l.pendingRecord(date);
+  },
+);
+
+final StreamProvider<UserRecord> onNewRecordProvider =
+    StreamProvider<UserRecord>(
+  (ref) {
+    final LeaderBoardDatastore leaderBoardDatastore =
+        ref.read(leaderBoardDatastoreProvider);
+    return leaderBoardDatastore.onNewRecord;
+  },
+);

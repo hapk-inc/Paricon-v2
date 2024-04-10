@@ -131,10 +131,7 @@ class MyTheme {
         ),
 
         //bodyFonts
-        bodyLarge: questrialTheme.copyWith(
-          height: 1.8,
-          fontSize: 24.r,
-        ),
+        bodyLarge: questrialTheme.copyWith(height: 1.8, fontSize: 24.r),
         bodyMedium: questrialTheme.copyWith(
           height: 1.8,
           fontSize: SizeNotifier(screenSize).isP ? 15.r : 18.r,
@@ -149,14 +146,10 @@ class MyTheme {
         headlineSmall: montserratTheme.copyWith(fontSize: 12.r),
 
         //label
-        labelLarge: questrialTheme.copyWith(color: charcoal
-            //  fontSize: 15.r,
-            // fontWeight: FontWeight.w300,
-            ),
+        labelLarge: questrialTheme.copyWith(color: charcoal),
 
         displayMedium: questrialTheme.copyWith(
           fontSize: isP ? 18.r : 21.r,
-          //fontWeight: FontWeight.w300,
           height: 1.2,
         ),
 

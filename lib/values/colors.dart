@@ -45,3 +45,5 @@ const Color vanDyke = Color(0xff3d2c2e);
 //Welcome title and subtitle
 const Color lightOrange = Color(0xffF9DBBD);
 const Color mistyRose = Color(0xfffae1df);
+
+const Color linen = Color(0xfff1e5da);

@@ -40,6 +40,15 @@ class _PlayTournamentPageState extends ConsumerState<PlayTournamentPage> {
     final bool isP = sizeNotifier.isP;
     final bool isPT = sizeNotifier.isPT;
 
+    ref.listen(
+      boardNotifierProvider.select((value) => value.everyFound),
+      (previous, next) {
+        if (next) {
+          context.router.maybePop();
+        }
+      },
+    );
+
     return Scaffold(
       backgroundColor: majorelleBlue,
       body: SafeArea(

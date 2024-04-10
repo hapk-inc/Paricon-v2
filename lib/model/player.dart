@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mock_data/mock_data.dart';
 
+import '../values/names.dart';
+
 part 'player.freezed.dart';
 part 'player.g.dart';
 
@@ -36,7 +38,8 @@ class Player with _$Player {
   factory Player.createOne() {
     final num x = mockInteger(100000, 999999);
     return Player(
-      name: "User#$x",
+      name: NameGen.dummyName(),
+      //name: "User#$x",
       rName: "User#$x",
       tag: x,
       createdAt: DateTime.now(),

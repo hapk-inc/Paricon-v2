@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../firebase/bloc.dart';
 import '../../model/user_log.dart';
@@ -12,7 +14,7 @@ const String _ref = 'leaderboard';
 
 class LeaderBoardDatastore {
   final Ref ref;
-  final LeaderBoardQL _db = LeaderBoardQL();
+  //final LeaderBoardQL _db = LeaderBoardQL();
   late LeaderBoardDatabase database;
 
   late FirebaseFirestore firebaseFirestore;
@@ -28,43 +30,76 @@ class LeaderBoardDatastore {
     me = ref.watch(authUserProvider).value?.uid;
   }
 
-  Future<Map<String, UserRecord>> get overallLeaderBoard =>
-      leaderBoardQuery.get().then(
-            (value) => Map.fromIterables(
-              value.docs.map((e) => e.id),
-              value.docs.map((e) => e.data()),
-            ),
-          );
+  /*Future<Map<String, UserRecord>> get overall => lQuery.get().then(
+        (value) => Map.fromIterables(
+          value.docs.map((e) => e.id),
+          value.docs.map((e) => e.data()),
+        ),
+      );*/
+
+  Future<List<UserRecord>> get overall => lQuery.get().then(
+        (QuerySnapshot<UserRecord> querySnapshot) => List.from(
+          querySnapshot.docs.map(
+            (e) => e.data().copyWith(id: e.id),
+          ),
+        ),
+      );
+
+  Future<List<UserRecord>> pendingRecord(DateTime dateTime) => lQuery
+      .where('lastPlayed', isGreaterThan: dateTime.toIso8601String())
+      .get()
+      .then(
+        (value) => List.from(
+          value.docs.map(
+            (e) => e.data().copyWith(id: e.id),
+          ),
+        ),
+      );
 
   /////
   Future update(UserLog userLog) async {
     database.update(userLog);
 
     //
-    DocumentReference documentReference =
-        leaderBoardCollectionReference.doc(me ?? "x");
+    DocumentReference docRef = leaderBoardCollectionReference.doc(me ?? "x");
 
-    firebaseFirestore.runTransaction(
+    return firebaseFirestore.runTransaction(
       (transaction) async {
-        DocumentSnapshot snapshot = await transaction.get(documentReference);
-        UserRecord userRecord;
-
-        //
+        DocumentSnapshot snapshot = await transaction.get(docRef);
         if (!snapshot.exists) {
-          userRecord = UserRecord.fromUserLog(userLog);
-          transaction.set(documentReference, userRecord.toJson());
+          transaction.set(docRef, UserRecord.fromUserLog(userLog).toJson());
         } else {
-          userRecord = UserRecord.fromSnapshot(snapshot).fromExisting(userLog);
-          transaction.update(documentReference, userRecord.toJson());
+          final rec = UserRecord.fromSnapshot(snapshot).fromExisting(userLog);
+          transaction.update(docRef, rec.toJson());
         }
       },
     );
   }
 
-  Query<UserRecord> get leaderBoardQuery => leaderBoardCollectionReference
-      .orderBy('lastPlayed', descending: false)
+  Query<UserRecord> get lQuery => leaderBoardCollectionReference
+      .orderBy('lastPlayed', descending: true)
       .withConverter<UserRecord>(
-        fromFirestore: (snapshot, options) => UserRecord.fromSnapshot(snapshot),
-        toFirestore: (value, options) => value.toJson(),
+        fromFirestore: (snapshot, _) => UserRecord.fromSnapshot(snapshot),
+        toFirestore: (value, _) => value.toJson(),
       );
+
+  /*Stream<UserRecord> get onChangedRecord =>
+      lQuery.snapshots().listen((QuerySnapshot<UserRecord> querySnapshot) {});*/
+
+  Stream<UserRecord> get onNewRecord {
+    late BehaviorSubject<UserRecord> subject;
+    subject = BehaviorSubject(
+      onListen: () => lQuery
+          .where('lastPlayed', isGreaterThan: DateTime.now().toIso8601String())
+          .snapshots()
+          .listen(
+        (QuerySnapshot<UserRecord> querySnapshot) {
+          for (var element in querySnapshot.docChanges) {
+            subject.add(element.doc.data()!.copyWith(id: element.doc.id));
+          }
+        },
+      ),
+    );
+    return subject.stream;
+  }
 }

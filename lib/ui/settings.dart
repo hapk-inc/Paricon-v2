@@ -127,7 +127,7 @@ class _Settings extends ConsumerWidget {
                         SettingsTile("Edit profile", tileTap: () {}),
                         SettingsTile("Notifications", tileTap: () {}),
                         SettingsTile(
-                          "Invite People and get a new avatar",
+                          "Invite People, Get a new avatar",
                           tileTap: () {},
                         ),
                         SettingsTile("Statistics", tileTap: () {}),

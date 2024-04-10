@@ -27,9 +27,9 @@ class RecentPlayerTile extends ConsumerWidget {
             child: CircleAvatar(),
           ),
           AutoSizeText(
-            //toBeginningOfSentenceCase(player.name) ?? "",
-            //"${NameGen.dummyName()} ${NameGen.lastName}",
-            NameGen.dummyName(),
+            player.name.contains("User#")
+                ? NameGen.dummyName()
+                : toBeginningOfSentenceCase(player.name) ?? "",
             style: textTheme.bodySmall,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
