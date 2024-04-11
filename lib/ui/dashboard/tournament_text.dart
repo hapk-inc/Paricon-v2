@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,10 +33,11 @@ class TournamentText extends ConsumerWidget {
             tileColor: ghostWhite,
             title: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              child: Text(
+              child: AutoSizeText(
                 text ?? "",
+                key: ValueKey(key),
                 style: textTheme.titleLarge?.copyWith(color: jasper),
-                //maxLines: 3,
+                maxLines: (text ?? "").length < 30 ? 1 : null,
               ),
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,10 +30,10 @@ class SettingsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     //final double appH = Theme.of(context).appBarTheme.toolbarHeight ?? 120.h;
     final Player? player = ref.watch(meProvider).value;
-    final AppBarTheme appBarTheme = Theme.of(context).appBarTheme;
+    // final AppBarTheme appBarTheme = Theme.of(context).appBarTheme;
 
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         toolbarHeight: (appBarTheme.toolbarHeight ?? 120.h) * 0.75,
         leadingWidth: 60.w,
         iconTheme: IconThemeData(
@@ -41,7 +42,7 @@ class SettingsPage extends ConsumerWidget {
         ),
         titleSpacing: 0,
         title: const Text("Profile"),
-      ),
+      ),*/
       body: player == null ? Container() : const _Settings(),
     );
   }
@@ -84,104 +85,108 @@ class _Settings extends ConsumerWidget {
             children: [
               Flexible(
                 fit: FlexFit.tight,
-                child: ListTile(
-                  contentPadding: EdgeInsets.all(15.r),
-                  isThreeLine: true,
-                  title: CircleAvatar(radius: 48.r, backgroundColor: magnolia),
-                  subtitle: Column(
-                    children: [
-                      Gap(15.r),
-                      Text(
-                        me?.name ?? "",
-                        style: textTheme.titleMedium?.copyWith(
-                          color: majorelleBlue,
-                        ),
-                      ),
-                      Gap(7.5.r),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            email,
-                            style: const TextStyle(color: tropicalIndigo),
-                          ),
-                          const VerticalDivider(),
-                          Text(
-                            str,
-                            style: const TextStyle(color: tropicalIndigo),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Flexible(
-                flex: 3,
-                child: Container(
-                  color: magnolia1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ...[
-                        SettingsTile("Edit profile", tileTap: () {}),
-                        SettingsTile("Notifications", tileTap: () {}),
-                        SettingsTile(
-                          "Invite People, Get a new avatar",
-                          tileTap: () {},
-                        ),
-                        SettingsTile("Statistics", tileTap: () {}),
-                      ],
-                      const Spacer(),
-                      Padding(
-                        padding: EdgeInsets.all(15.r),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                child: Stack(
+                  children: [
+                    Center(
+                      child: ListTile(
+                        contentPadding: EdgeInsets.all(15.r),
+                        isThreeLine: true,
+                        title: CircleAvatar(
+                            radius: 48.r, backgroundColor: magnolia),
+                        subtitle: Column(
                           children: [
+                            Gap(15.r),
                             Text(
-                              version,
-                              style: textTheme.headlineMedium
-                                  ?.copyWith(color: frenchGray),
-                            ),
-                            Gap(12.r),
-                            CircleAvatar(
-                              radius: 3.r,
-                              backgroundColor: frenchGray,
-                            ),
-                            Gap(12.r),
-                            Text(
-                              "Privacy Policy",
-                              style: textTheme.headlineMedium
-                                  ?.copyWith(color: frenchGray),
-                            ),
-                            Gap(12.r),
-                            CircleAvatar(
-                              radius: 3.r,
-                              backgroundColor: frenchGray,
-                            ),
-                            Gap(12.r),
-                            InkWell(
-                              onTap: () => showDialog(
-                                context: context,
-                                builder: (_) => const LogOutDialog(),
+                              me?.name ?? "",
+                              style: textTheme.titleMedium?.copyWith(
+                                color: majorelleBlue,
                               ),
-                              child: Text(
-                                "LOG OUT",
-                                style: textTheme.headlineMedium
-                                    ?.copyWith(color: jasper, height: 0),
+                            ),
+                            Gap(7.5.r),
+                            DefaultTextStyle(
+                              style: textTheme.bodyMedium!
+                                  .copyWith(color: charcoal),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(email),
+                                  const VerticalDivider(),
+                                  Text(str),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                      Gap(
-                        (Theme.of(context).appBarTheme.toolbarHeight ?? 135.h) *
-                            1.35,
+                    ),
+                    Positioned(
+                      left: 15.r,
+                      top: 15.r,
+                      child: IconButton(
+                        onPressed: () => context.router.maybePop(),
+                        icon: Icon(
+                          Icons.chevron_left,
+                          size: 30.r,
+                          color: tropicalIndigo,
+                        ),
                       ),
+                    ),
+                  ],
+                ),
+              ),
+              Flexible(
+                flex: 3,
+                child: Container(
+                  color: magnolia,
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  child: Column(
+                    children: [
+                      Spacer(),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            version,
+                            style: textTheme.headlineMedium?.copyWith(
+                              color: gray,
+                            ),
+                          ),
+                          Gap(12.r),
+                          CircleAvatar(
+                            radius: 3.r,
+                            backgroundColor: frenchGray,
+                          ),
+                          Gap(12.r),
+                          Text(
+                            "Privacy Policy",
+                            style: textTheme.headlineMedium?.copyWith(
+                              color: gray,
+                            ),
+                          ),
+                          Gap(12.r),
+                          CircleAvatar(
+                            radius: 3.r,
+                            backgroundColor: frenchGray,
+                          ),
+                          Gap(12.r),
+                          InkWell(
+                            onTap: () => showDialog(
+                              context: context,
+                              builder: (_) => const LogOutDialog(),
+                            ),
+                            child: Text(
+                              "LOG OUT",
+                              style: textTheme.headlineMedium
+                                  ?.copyWith(color: jasper, height: 0),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Gap(30.r),
                     ],
                   ),
                 ),
-              ),
+              )
             ],
           ),
         ),

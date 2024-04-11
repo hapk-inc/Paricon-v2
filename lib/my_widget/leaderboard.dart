@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,34 +46,85 @@ class _LeaderBoardState extends ConsumerState<LeaderBoard> {
 
     return StaggeredGridTile.count(
       crossAxisCellCount: 15,
-      mainAxisCellCount: (sizeNotifier.isP ? 2.1 : 2.01) *
-          (leaderBoardNotifier.list.isEmpty
-              ? 1
-              : leaderBoardNotifier.list.length),
-      child: FadeIn(
-        child: AnimatedList(
+      mainAxisCellCount: sizeNotifier.isP ? 12.45 : 10.5,
+      child: Container(
+        color: magnolia1,
+        alignment: Alignment.center,
+        child: ListView.builder(
+          shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          key: listKey,
-          initialItemCount: leaderBoardNotifier.list.length > 6
-              ? 6
-              : leaderBoardNotifier.list.length,
-          itemBuilder: (_, index, animation) => AspectRatio(
-            aspectRatio: sizeNotifier.isP ? 7.5 : 7.8,
-            child: Container(
-              color: leaderBoardNotifier
-                          .rank(leaderBoardNotifier.list[index].id!) ==
-                      1
-                  ? linen
-                  : index.isEven
-                      ? magnolia
-                      : magnolia1,
-              alignment: Alignment.center,
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: LeaderBoardTile(leaderBoardNotifier.list[index]),
-            ),
-          ),
+          itemCount: leaderBoardNotifier.list.length,
+          itemBuilder: (context, index) {
+            final UserRecord record = leaderBoardNotifier.list[index];
+            return SlideInLeft(
+              child: FadeIn(
+                child: AspectRatio(
+                  aspectRatio: sizeNotifier.isP ? 7.5 : 9,
+                  child: Container(
+                      color: /*leaderBoardNotifier
+                                  .rank(leaderBoardNotifier.list[index].id!) ==
+                              1
+                          ? magnolia1
+                          : */
+                          index.isEven ? magnolia : magnolia1,
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.symmetric(horizontal: 15.w),
+                      child: LeaderBoardTile(record)),
+                ),
+              ),
+            );
+          },
         ),
       ),
+      /* mainAxisCellCount: (sizeNotifier.isP ? 2.4 : 2.01) *
+          (leaderBoardNotifier.list.isEmpty
+              ? 1
+              : leaderBoardNotifier.list.length),*/
     );
   }
 }
+
+/*   child: Container(
+        color: xantHous,
+        height: sizeNotifier.isP ? 360.h : 420.h,
+        alignment: Alignment.topCenter,
+        child: MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          removeBottom: false,
+          child: AnimatedList(
+            //clipBehavior: Clip.none,
+            //shrinkWrap: false,
+            reverse: true,
+            /*controller: ScrollController(
+              initialScrollOffset: 0,
+              keepScrollOffset: false,
+            ),*/
+            key: listKey,
+            padding: EdgeInsets.zero,
+            initialItemCount: leaderBoardNotifier.list.length > 6
+                ? 6
+                : leaderBoardNotifier.list.length,
+            itemBuilder: (_, index, animation) => SlideTransition(
+              position: animation.drive(
+                Tween(begin: Offset.zero, end: const Offset(0, 1.0)),
+              ),
+              child: AspectRatio(
+                aspectRatio: sizeNotifier.isP ? 7.5 : 8.1,
+                child: Container(
+                  color: leaderBoardNotifier
+                              .rank(leaderBoardNotifier.list[index].id!) ==
+                          1
+                      ? linen
+                      : index.isEven
+                          ? magnolia
+                          : magnolia1,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  child: LeaderBoardTile(leaderBoardNotifier.list[index]),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),*/

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:group_button/group_button.dart';
 import 'package:logger/logger.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -16,6 +17,8 @@ import '../logic/user/notifier.dart';
 import '../my_widget/pi_logo.dart';
 import '../my_widget/staggered_9.dart';
 import '../my_widget/staggered_gap.dart';
+import '../values/colors.dart';
+import 'dashboard/dashboard_btn.dart';
 import 'dashboard/enter_tournament_code.dart';
 import '../my_widget/leaderboard.dart';
 import 'dashboard/play_friend_text.dart';
@@ -62,9 +65,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
               leading: const SizedBox(),
               leadingWidth: 0.w,
               centerTitle: isP,
-              title: AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                width: isP ? 270.w : 210.w,
+              title: Container(
+                //duration: const Duration(milliseconds: 300),
+                width: isP ? 240.w : 210.w,
                 alignment: Alignment.center,
                 child: const MyLogo(),
               ),
@@ -113,15 +116,19 @@ class _Dashboard extends ConsumerWidget {
                     StaggeredGap(),
                     WelcomeUser(),
                     RecentPlayer(),
+                    //  StaggeredGap(),
+                    DashboardBtn(),
+                    StaggeredGap(),
                     TournamentText(),
                     StaggeredGap(),
                     EnterTournamentCode(),
                     StaggeredGap(),
                     LeaderBoard(),
                     StaggeredGap(),
-                    PlayFriendText(),
-                    StaggeredGap(),
-                    PlayFriendButton(),
+                    /*PlayFriendText(),
+                    //StaggeredGap(),
+                    PlayFriendButton(),*/
+                    DPlayFriend(),
                     Staggered9(),
                   ],
             ),

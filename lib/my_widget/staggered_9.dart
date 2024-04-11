@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -7,10 +7,11 @@ class Staggered9 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StaggeredGridTile.count(
+    return StaggeredGridTile.fit(
       crossAxisCellCount: 15,
-      mainAxisCellCount: 9.r,
-      child: const SizedBox(),
+      child: SizedBox(
+        height: Theme.of(context).appBarTheme.toolbarHeight,
+      ),
     );
   }
 }

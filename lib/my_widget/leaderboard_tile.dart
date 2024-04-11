@@ -1,8 +1,11 @@
 import 'package:animated_flip_counter/animated_flip_counter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:lottie/lottie.dart';
+import 'package:paricon/logic/auth/bloc.dart';
 import 'package:paricon/values/colors.dart';
 
 import '../logic/leaderboard/notifier.dart';
@@ -18,10 +21,9 @@ class LeaderBoardTile extends ConsumerWidget {
     final LeaderBoardNotifier leaderBoardNotifier =
         ref.watch(leaderBoardNotifierProvider);
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final User? user = ref.watch(authUserProvider).value;
     return ListTile(
-      //leadingAndTrailingTextStyle: textTheme.headlineMedium,
       titleTextStyle: textTheme.headlineLarge,
-      // leading: const Text("01" + "."),
       leading: AnimatedFlipCounter(
         value: leaderBoardNotifier.rank(record.id!),
         suffix: ".",
@@ -29,14 +31,39 @@ class LeaderBoardTile extends ConsumerWidget {
         textStyle: textTheme.headlineMedium,
       ),
       horizontalTitleGap: 15.w,
-      title: ref.watch(playerProvider(record.id ?? "x")).maybeWhen(
-            orElse: () => Container(),
-            data: (data) => Text(
-              data?.name ?? "User#",
-              maxLines: 1,
-              style: textTheme.headlineMedium,
-            ),
+      title: Row(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ref.watch(playerProvider(record.id ?? "x")).maybeWhen(
+                    orElse: () => Container(),
+                    data: (data) => Text(
+                      data?.name ?? "User#",
+                      maxLines: 1,
+                      style: textTheme.headlineMedium,
+                    ),
+                  ),
+              if (record.id == (user?.uid ?? "")) ...<Widget>[
+                Gap(7.2.r),
+                Text(
+                  "You",
+                  style: textTheme.bodySmall?.copyWith(fontSize: 9.r),
+                )
+              ]
+            ],
           ),
+          if (leaderBoardNotifier.rank(record.id!) == 1) ...[
+            Gap(7.5.r),
+            SizedBox.square(
+              dimension: 30.r,
+              child: Lottie.asset('lottie/trophy.json'),
+            ),
+          ]
+        ],
+      ),
+      dense: true,
       trailing: Container(
         width: 135.w,
         alignment: Alignment.centerLeft,
