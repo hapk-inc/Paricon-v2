@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:group_button/group_button.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 final Provider<PanelController> dashboardPanelControllerProvider =
@@ -7,7 +6,7 @@ final Provider<PanelController> dashboardPanelControllerProvider =
   (_) => PanelController(),
 );
 
-final Provider<GroupButtonController> boardLevelGroupControllerProvider =
+/*final Provider<GroupButtonController> boardLevelGroupControllerProvider =
     Provider<GroupButtonController>(
   (_) => GroupButtonController(selectedIndex: 0),
 );
@@ -15,7 +14,19 @@ final Provider<GroupButtonController> boardLevelGroupControllerProvider =
 final Provider<GroupButtonController> boardTypeGroupControllerProvider =
     Provider<GroupButtonController>(
   (_) => GroupButtonController(selectedIndex: 0),
+);*/
+
+final StateNotifierProvider<DBtn, int> dButtonNotifierProvider =
+    StateNotifierProvider<DBtn, int>(
+  (_) => DBtn(),
 );
+
+class DBtn extends StateNotifier<int> {
+  DBtn() : super(0);
+
+  @override
+  set state(int value) => super.state = value;
+}
 
 /*final ChangeNotifierProvider<DashboardPanel> dashboardPanelProvider =
     ChangeNotifierProvider<DashboardPanel>(

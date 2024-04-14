@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../logic/app/size_provider.dart';
 import '../../values/colors.dart';
 
 class SettingsTile extends ConsumerWidget {
@@ -14,11 +13,12 @@ class SettingsTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final sizeNotifier = ref.watch(sizeProvider.notifier);
-    final bool isP = sizeNotifier.isP;
+    //final sizeNotifier = ref.watch(sizeProvider.notifier);
+    //final bool isP = sizeNotifier.isP;
     final TextTheme textTheme = Theme.of(context).textTheme;
     return AspectRatio(
-      aspectRatio: isP ? 7.2 : 7.5,
+      aspectRatio: 7.5,
+      //aspectRatio: isP ? 7.2 : 7.5,
       child: Container(
         decoration: BoxDecoration(
           border: showBorder

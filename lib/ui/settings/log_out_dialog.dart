@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mock_data/mock_data.dart';
 
 import '../../logic/auth/bloc.dart';
+import '../../theme/sliding_panel.dart';
 import '../../values/colors.dart';
-import '../my_theme.dart';
 
 final SlidingPanelTheme _pTheme = SlidingPanelTheme();
 
@@ -15,9 +15,7 @@ class LogOutDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: _pTheme.slidingPanelFullRadius,
-      ),
+      shape: RoundedRectangleBorder(borderRadius: _pTheme.fullRadius),
       elevation: 0,
       surfaceTintColor: ghostWhite,
       title: const Text("Really!?"),

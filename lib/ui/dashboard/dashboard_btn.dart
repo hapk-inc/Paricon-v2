@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:group_button/group_button.dart';
 
+import '../../logic/dashboard/dashboard_bloc.dart';
 import '../../values/colors.dart';
 
 class DashboardBtn extends ConsumerWidget {
@@ -11,19 +12,21 @@ class DashboardBtn extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-    final TextStyle hMedium = textTheme.headlineMedium!;
-    return StaggeredGridTile.fit(
+    return StaggeredGridTile.count(
       crossAxisCellCount: 15,
+      mainAxisCellCount: 2.4,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         padding: EdgeInsets.only(left: 15.w),
         child: Container(
-          height: 54.h,
           alignment: Alignment.centerLeft,
+          height: 54.h,
           child: GroupButton(
-            controller: GroupButtonController(selectedIndex: 0),
+            controller: GroupButtonController(
+                selectedIndex: ref.watch(dButtonNotifierProvider)),
             buttons: const ['Daily Match', 'Play Friend'],
+            onSelected: (value, index, isSelected) =>
+                ref.watch(dButtonNotifierProvider.notifier).state = index,
             options: GroupButtonOptions(
               direction: Axis.horizontal,
               mainGroupAlignment: MainGroupAlignment.start,
@@ -32,10 +35,16 @@ class DashboardBtn extends ConsumerWidget {
               unselectedColor: lavender,
               selectedColor: majorelleBlue,
               borderRadius: BorderRadius.circular(4.5.r),
+              buttonWidth: 99.w,
               buttonHeight: 36.h,
-              buttonWidth: 105.w,
-              unselectedTextStyle: hMedium.copyWith(color: majorelleBlue),
-              selectedTextStyle: hMedium.copyWith(color: ghostWhite),
+              unselectedTextStyle: Theme.of(context)
+                  .textTheme
+                  .headlineMedium
+                  ?.copyWith(color: majorelleBlue),
+              selectedTextStyle: Theme.of(context)
+                  .textTheme
+                  .headlineMedium
+                  ?.copyWith(color: ghostWhite),
             ),
           ),
         ),

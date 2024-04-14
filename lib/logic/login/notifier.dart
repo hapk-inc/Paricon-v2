@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../app/device_provider.dart';
 import 'bloc.dart';
 
-final ChangeNotifierProvider<LoginNotifier> loginNotifierProvider =
+final ChangeNotifierProvider<LoginNotifier> loginProvider =
     ChangeNotifierProvider<LoginNotifier>(
   (ref) => LoginNotifier(ref),
 );

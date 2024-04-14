@@ -26,19 +26,21 @@ class IconTimer extends ConsumerWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.timer, size: 30.r, color: charcoal),
+              Icon(Icons.timer, size: 24.r, color: charcoal),
               SizedBox.square(dimension: 7.5.r),
               AnimatedFlipCounter(
+                padding: EdgeInsets.only(top: 1.5.r),
                 value: duration.inMinutes,
                 suffix: " : ",
                 wholeDigits: 2,
-                textStyle: textTheme.displayLarge,
+                textStyle: textTheme.displayLarge?.copyWith(color: cornellRed),
               ),
               SizedBox.square(dimension: 1.5.r),
               AnimatedFlipCounter(
+                padding: EdgeInsets.only(top: 1.5.r),
                 value: duration.inSeconds % 60,
                 wholeDigits: 2,
-                textStyle: textTheme.displayLarge,
+                textStyle: textTheme.displayLarge?.copyWith(color: cornellRed),
               ),
               const Spacer(),
               InkWell(

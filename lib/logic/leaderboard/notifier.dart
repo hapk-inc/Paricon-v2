@@ -1,13 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
 
 import '../../model/user_record.dart';
+import '../auth/bloc.dart';
 import 'bloc.dart';
 import 'leaderboard_ql.dart';
-
-Logger _logger = Logger();
 
 final ChangeNotifierProvider<LeaderBoardNotifier> leaderBoardNotifierProvider =
     ChangeNotifierProvider<LeaderBoardNotifier>(
@@ -66,6 +63,15 @@ class LeaderBoardNotifier extends ChangeNotifier {
     List<UserRecord> sorted = List.from(_list);
     sorted.sort((a, b) => a.recordTimeTaken.compareTo(b.recordTimeTaken));
     return sorted.indexWhere((x) => x.id == id) + 1;
+  }
+
+  UserRecord? get me {
+    final user = ref.watch(authUserProvider).value;
+    bool x = _list.any((x) => x.id == (user?.uid ?? ""));
+    if (x) {
+      return _list.firstWhere((x) => x.id == (user?.uid ?? ""));
+    }
+    return null;
   }
 
 /*  set list(List<UserRecord> value) {

@@ -5,12 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:lottie/lottie.dart';
-import 'package:paricon/logic/auth/bloc.dart';
-import 'package:paricon/values/colors.dart';
 
+import '../logic/auth/bloc.dart';
 import '../logic/leaderboard/notifier.dart';
 import '../logic/user/bloc.dart';
 import '../model/user_record.dart';
+import '../values/colors.dart';
 
 class LeaderBoardTile extends ConsumerWidget {
   final UserRecord record;
@@ -22,48 +22,52 @@ class LeaderBoardTile extends ConsumerWidget {
         ref.watch(leaderBoardNotifierProvider);
     final TextTheme textTheme = Theme.of(context).textTheme;
     final User? user = ref.watch(authUserProvider).value;
-    return ListTile(
-      titleTextStyle: textTheme.headlineLarge,
+
+    final bool isFirst = leaderBoardNotifier.rank(record.id!) == 1;
+    return GridTileBar(
       leading: AnimatedFlipCounter(
         value: leaderBoardNotifier.rank(record.id!),
         suffix: ".",
         wholeDigits: 2,
-        textStyle: textTheme.headlineMedium,
+        textStyle: textTheme.headlineMedium?.copyWith(
+          color: isFirst ? ghostWhite : null,
+        ),
       ),
-      horizontalTitleGap: 15.w,
+      //horizontalTitleGap: 15.w,
       title: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ref.watch(playerProvider(record.id ?? "x")).maybeWhen(
-                    orElse: () => Container(),
-                    data: (data) => Text(
-                      data?.name ?? "User#",
-                      maxLines: 1,
-                      style: textTheme.headlineMedium,
-                    ),
+          Gap(7.5.r),
+          ref.watch(playerProvider(record.id ?? "x")).maybeWhen(
+                orElse: () => Container(),
+                data: (data) => Text(
+                  data?.name ?? "User#",
+                  maxLines: 1,
+                  style: textTheme.headlineMedium?.copyWith(
+                    color: isFirst ? ghostWhite : null,
                   ),
-              if (record.id == (user?.uid ?? "")) ...<Widget>[
-                Gap(7.2.r),
-                Text(
-                  "You",
-                  style: textTheme.bodySmall?.copyWith(fontSize: 9.r),
-                )
-              ]
-            ],
-          ),
+                ),
+              ),
+          if (record.id == (user?.uid ?? "")) ...<Widget>[
+            Gap(7.5.r),
+            Text(
+              "- You",
+              style: textTheme.bodySmall?.copyWith(
+                fontSize: 12.r,
+                color: isFirst ? ghostWhite : hookerGreen,
+              ),
+            )
+          ],
           if (leaderBoardNotifier.rank(record.id!) == 1) ...[
             Gap(7.5.r),
             SizedBox.square(
-              dimension: 30.r,
+              dimension: 24.r,
               child: Lottie.asset('lottie/trophy.json'),
             ),
           ]
         ],
       ),
-      dense: true,
+      //  dense: true,
       trailing: Container(
         width: 135.w,
         alignment: Alignment.centerLeft,
@@ -78,35 +82,53 @@ class LeaderBoardTile extends ConsumerWidget {
                     AnimatedFlipCounter(
                       //prefix: "⇣ ",
                       value: record.timeTaken.inMinutes,
-                      suffix: " : ",
+                      suffix: " :",
                       wholeDigits: 2,
-                      textStyle: textTheme.headlineLarge,
+                      textStyle: textTheme.headlineLarge?.copyWith(
+                        color: isFirst ? ghostWhite : null,
+                      ),
                     ),
-                    SizedBox.square(dimension: 1.5.r),
+                    SizedBox.square(dimension: 4.5.r),
                     AnimatedFlipCounter(
                       value: record.timeTaken.inSeconds % 60,
                       wholeDigits: 2,
-                      textStyle: textTheme.headlineLarge,
+                      textStyle: textTheme.headlineLarge?.copyWith(
+                        color: isFirst ? ghostWhite : null,
+                      ),
+                    ),
+                    SizedBox.square(dimension: 4.5.r),
+                    AnimatedFlipCounter(
+                      value: record.timeTaken.inMilliseconds % 1000,
+                      wholeDigits: 3,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      //padding: EdgeInsets.only(top: 1.5.r),
+                      textStyle: textTheme.headlineSmall?.copyWith(
+                        color: isFirst ? ghostWhite : frenchGray,
+                        fontSize: 9.r,
+                      ),
                     ),
                   ],
                 ),
-                Gap(4.8.r),
-                Text(
-                  record.recordDifference,
-                  style: textTheme.headlineSmall?.copyWith(
-                    fontSize: 9.r,
-                    color: cornellRed,
-                  ),
-                )
+                if (record.recordDifference != "") ...[
+                  Gap(7.5.r),
+                  Text(
+                    record.recordDifference,
+                    style: textTheme.bodySmall?.copyWith(
+                      fontSize: 9.r,
+                      height: 0,
+                      color: isFirst ? ghostWhite : cornellRed,
+                    ),
+                  )
+                ]
               ],
             ),
-            /* SizedBox.square(dimension: 7.5.r),
-            Text(record.recordDifference,
-                style: textTheme.headlineSmall?.copyWith(
-                  color: frenchGray,
-                )),*/
             const Spacer(),
-            Text(record.lastPlayedDifference, style: textTheme.bodySmall)
+            Text(
+              record.lastPlayedDifference,
+              style: textTheme.headlineSmall?.copyWith(
+                color: isFirst ? ghostWhite : frenchGray,
+              ),
+            )
           ],
         ),
       ),

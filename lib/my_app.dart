@@ -3,18 +3,14 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:logger/logger.dart';
 
-import 'enums/enums.dart';
 import 'logic/app/size_provider.dart';
 import 'logic/auth/notifier.dart';
 
 import 'router/my_route.dart';
-import 'ui/my_theme.dart';
+import 'theme/my_theme.dart';
 
 final _myRoute = MyRouter();
-
-Logger _logger = Logger();
 
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
@@ -33,47 +29,23 @@ class _MyAppState extends ConsumerState<MyApp> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(360, 900),
-      //rebuildFactor: RebuildFactors.none,
-      //ensureScreenSize: true,
-      builder: (_, __) {
-        final double x = 900.h / 360.w;
-        _logger.i("ScreenRatio $x");
-        ScreenSize screenSize = _changeScreenSize(x);
-        return ProviderScope(
+  Widget build(BuildContext context) => ScreenUtilInit(
+        designSize: const Size(360, 900),
+        builder: (_, __) => ProviderScope(
           overrides: [
-            sizeProvider.overrideWith((_) => SizeNotifier(screenSize))
+            sizeProvider.overrideWith((_) => SizeNotifier(900.h / 360.w))
           ],
           child: MaterialApp.router(
             locale: DevicePreview.locale(context),
             builder: DevicePreview.appBuilder,
             debugShowCheckedModeBanner: false,
-            theme: MyTheme(screenSize).themeData,
+            theme: ref.watch(themeProvider).themeData,
             routerDelegate: AutoRouterDelegate.declarative(
               _myRoute,
-              routes: (handler) =>
-                  [ref.watch(authNotifierProvider).pageRouteInfo],
+              routes: (_) => [ref.watch(authNotifierProvider).pageRouteInfo],
             ),
           ),
-        );
-      },
-      useInheritedMediaQuery: true,
-    );
-  }
+        ),
+        useInheritedMediaQuery: true,
+      );
 }
-
-ScreenSize _changeScreenSize(double x) => x > 2
-    ? ScreenSize.mobile
-    : x > 1.65
-        ? ScreenSize.tab
-        : x > 1.2
-            ? ScreenSize.iPad
-            : x > 0.7
-                ? ScreenSize.pc
-                : x > 0.5
-                    ? ScreenSize.tv
-                    : ScreenSize.tooSmall;
-
-// For pad and above, use device-preview

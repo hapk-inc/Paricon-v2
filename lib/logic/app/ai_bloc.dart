@@ -2,9 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:mock_data/mock_data.dart';
 
-import '../../model/player.dart';
-import '../user/bloc.dart';
-
 const String _welcomePrompt =
     "Welcome the player in not more than 75 letters in one line "
     "when they opened the multiplayer puzzle app. "
@@ -18,10 +15,11 @@ const String _tournamentPrompt =
 
 const String _subTournamentPrompt =
     "Give a subtitle for - Ready, Set, Game : Join the Tournament. "
+    "Don't start with Join"
     "Use Easy English";
 
 const String _subPlayFriendPrompt =
-    "Give a subtitle for - Play with Friends Online."
+    "Give a subtitle for - Play with Friends Online.Don't start with Join"
     "Use Easy English";
 //" Player name is ";
 
@@ -31,12 +29,11 @@ const String _subPlayFriendPrompt =
 final Provider<GenerativeModel> geminiModelProvider =
     Provider<GenerativeModel>((_) => throw UnimplementedError());
 
-final AutoDisposeFutureProvider<String?> welcomeUserProvider =
-    FutureProvider.autoDispose<String?>(
+final FutureProvider<String?> welcomeUserProvider = FutureProvider<String?>(
   (ref) async {
     final GenerativeModel gemini = ref.watch(geminiModelProvider);
-    final Player? me = ref.watch(userNotifierProvider).me;
-    if (me == null) return null;
+    //final Player? me = ref.watch(userNotifierProvider).me;
+    //if (me == null) return null;
     final content = [Content.text(_welcomePrompt)];
 
     final response = await gemini.generateContent(content);
@@ -44,8 +41,7 @@ final AutoDisposeFutureProvider<String?> welcomeUserProvider =
   },
 );
 
-final AutoDisposeFutureProvider<String?> tournamentTextProvider =
-    FutureProvider.autoDispose<String?>(
+final FutureProvider<String?> tournamentTextProvider = FutureProvider<String?>(
   (ref) async {
     final GenerativeModel gemini = ref.watch(geminiModelProvider);
     //final Player? me = ref.watch(userNotifierProvider).me;
@@ -57,8 +53,8 @@ final AutoDisposeFutureProvider<String?> tournamentTextProvider =
   },
 );
 
-final AutoDisposeFutureProvider<String?> subTournamentTextProvider =
-    FutureProvider.autoDispose<String?>(
+final FutureProvider<String?> subTournamentTextProvider =
+    FutureProvider<String?>(
   (ref) async {
     final GenerativeModel gemini = ref.watch(geminiModelProvider);
     //final Player? me = ref.watch(userNotifierProvider).me;
@@ -70,8 +66,8 @@ final AutoDisposeFutureProvider<String?> subTournamentTextProvider =
   },
 );
 
-final AutoDisposeFutureProvider<String?> subPlayFriendTextProvider =
-    FutureProvider.autoDispose<String?>(
+final FutureProvider<String?> subPlayFriendTextProvider =
+    FutureProvider<String?>(
   (ref) async {
     final GenerativeModel gemini = ref.watch(geminiModelProvider);
     //final Player? me = ref.watch(userNotifierProvider).me;

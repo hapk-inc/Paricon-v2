@@ -4,8 +4,8 @@ import 'package:gap/gap.dart';
 
 import 'package:pinput/pinput.dart';
 
+import '../../theme/sliding_panel.dart';
 import '../../values/colors.dart';
-import '../my_theme.dart';
 
 final SlidingPanelTheme _panelTheme = SlidingPanelTheme();
 
@@ -44,9 +44,9 @@ class EnterRoomCode extends StatelessWidget {
         children: [
           Container(
             height: 420.h * 0.75,
-            padding: _panelTheme.slidingPanelPadding,
+            padding: _panelTheme.padding,
             decoration: BoxDecoration(
-              borderRadius: _panelTheme.slidingPanelRadius,
+              borderRadius: _panelTheme.panelRadius,
               // color: gray,
             ),
             child: Column(

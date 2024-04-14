@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../model/player.dart';
+import '../../theme/sliding_panel.dart';
 import '../../values/colors.dart';
-import '../my_theme.dart';
 
 final SlidingPanelTheme _pTheme = SlidingPanelTheme();
 
@@ -17,7 +17,7 @@ class RecentPlayerDetailDialog extends ConsumerWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return AlertDialog(
       shape: RoundedRectangleBorder(
-        borderRadius: _pTheme.slidingPanelFullRadius,
+        borderRadius: _pTheme.fullRadius,
       ),
       elevation: 0,
       surfaceTintColor: ghostWhite,

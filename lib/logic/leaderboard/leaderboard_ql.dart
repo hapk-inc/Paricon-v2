@@ -1,10 +1,7 @@
-import 'package:logger/logger.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../model/user_record.dart';
-
-Logger _logger = Logger();
 
 class LeaderBoardQL {
   Database? _database;

@@ -47,3 +47,7 @@ const Color lightOrange = Color(0xffF9DBBD);
 const Color mistyRose = Color(0xfffae1df);
 
 const Color linen = Color(0xfff1e5da);
+
+const Color lavenderBlush = Color(0xffF9E7EA);
+const Color lavenderBlush1 = Color(0xffFAF0F5);
+const Color snow = Color(0xfff8f2f5);

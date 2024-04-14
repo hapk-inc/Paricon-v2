@@ -17,13 +17,9 @@ class WelcomeUser extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final Player? me = ref.watch(userNotifierProvider).me;
-    final String? welcome = ref.watch(welcomeUserProvider).when(
-        data: (data) => data,
-        error: (e, s) {
-          // _logger.e("Welcome Error", error: e, stackTrace: s);
-          return null;
-        },
-        loading: () => null);
+    final String? welcome = ref
+        .watch(welcomeUserProvider)
+        .when(data: (data) => data, error: (e, s) => null, loading: () => null);
     final TextTheme textTheme = Theme.of(context).textTheme;
     return StaggeredGridTile.fit(
       crossAxisCellCount: 15,

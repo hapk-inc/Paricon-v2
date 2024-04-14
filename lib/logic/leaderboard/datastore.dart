@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -8,7 +7,6 @@ import '../../model/user_log.dart';
 import '../../model/user_record.dart';
 import '../auth/bloc.dart';
 import 'database.dart';
-import 'leaderboard_ql.dart';
 
 const String _ref = 'leaderboard';
 

@@ -7,12 +7,11 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../logic/app/size_provider.dart';
 import '../logic/board/notifier.dart';
+import '../theme/sliding_panel.dart';
 import '../values/colors.dart';
 import 'board/board_timer.dart';
 import 'board/icon_grid.dart';
-import 'my_theme.dart';
 
 final _pTheme = SlidingPanelTheme();
 
@@ -35,10 +34,10 @@ class _PlayTournamentPageState extends ConsumerState<PlayTournamentPage> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeNotifier = ref.watch(sizeProvider.notifier);
+    /*final sizeNotifier = ref.watch(sizeProvider.notifier);
 
     final bool isP = sizeNotifier.isP;
-    final bool isPT = sizeNotifier.isPT;
+    final bool isPT = sizeNotifier.isPT;*/
 
     ref.listen(
       boardNotifierProvider.select((value) => value.everyFound),
@@ -54,49 +53,51 @@ class _PlayTournamentPageState extends ConsumerState<PlayTournamentPage> {
       body: SafeArea(
         bottom: false,
         child: SlidingUpPanel(
-          borderRadius: _pTheme.slidingPanelRadius,
+          borderRadius: _pTheme.panelRadius,
           color: _pTheme.slidingPanelColor,
           maxHeight: 240.h,
           defaultPanelState: PanelState.CLOSED,
-          padding: _pTheme.slidingPanelPadding * 1.5,
+          padding: _pTheme.padding * 1.5,
           isDraggable: false,
           minHeight: 0,
           panel: Container(),
-          body: !isPT
+          body: /*!isPT
               ? Container()
-              : SingleChildScrollView(
-                  //padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: StaggeredGrid.count(
-                    crossAxisCount: 15,
-                    children: [
-                      Gap(45.r),
-                      StaggeredGridTile.fit(
-                        crossAxisCellCount: 15,
-                        child: AspectRatio(
-                          aspectRatio: isP ? 0.72 : 0.9,
-                          child: Card(
-                            margin: EdgeInsets.symmetric(horizontal: 15.w),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(7.5.r),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(7.5.r),
-                              child: const Column(
-                                children: [
-                                  Flexible(child: IconTimer()),
-                                  Expanded(flex: 5, child: IconGrid())
-                                ],
-                              ),
-                            ),
-                          ),
+              : */
+              SingleChildScrollView(
+            //padding: EdgeInsets.symmetric(horizontal: 15.w),
+            child: StaggeredGrid.count(
+              crossAxisCount: 15,
+              children: [
+                Gap(45.r),
+                StaggeredGridTile.fit(
+                  crossAxisCellCount: 15,
+                  child: AspectRatio(
+                    aspectRatio: 0.72,
+                    /*  aspectRatio: isP ? 0.72 : 0.9  */
+                    child: Card(
+                      margin: EdgeInsets.symmetric(horizontal: 15.w),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7.5.r),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(7.5.r),
+                        child: const Column(
+                          children: [
+                            Flexible(child: IconTimer()),
+                            Expanded(flex: 5, child: IconGrid())
+                          ],
                         ),
                       ),
-                      /*  Gap(45.r),
-                      const LeaderBoard(),
-                      Gap(45.r),*/
-                    ],
+                    ),
                   ),
                 ),
+                /*  Gap(45.r),
+                      const LeaderBoard(),
+                      Gap(45.r),*/
+              ],
+            ),
+          ),
         ),
       ),
     );

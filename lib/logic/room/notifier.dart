@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:paricon/logic/panel/dashboard_bloc.dart';
 
 import '../../enums/enums.dart';
 import '../../model/room.dart';
@@ -25,11 +24,9 @@ class RoomNotifier extends ChangeNotifier {
 
   Room get createRoom {
     final String id = ref.read(authUserProvider).value?.uid ?? "";
-    final BoardLevel level = BoardLevel
-        .values[ref.read(boardLevelGroupControllerProvider).selectedIndex ?? 0];
+    final BoardLevel level = BoardLevel.values[0];
 
-    final BoardType type = BoardType
-        .values[ref.read(boardTypeGroupControllerProvider).selectedIndex ?? 0];
+    final BoardType type = BoardType.values[0];
 
     return Room(
       code: mockInteger(100000, 999999),

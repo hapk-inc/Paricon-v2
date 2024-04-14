@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,11 +13,9 @@ import '../logic/app/device_provider.dart';
 import '../logic/auth/bloc.dart';
 import '../logic/user/bloc.dart';
 import '../model/player.dart';
+import '../theme/sliding_panel.dart';
 import '../values/colors.dart';
-import 'my_theme.dart';
 import 'settings/log_out_dialog.dart';
-
-import 'settings/setting_tile.dart';
 
 final SlidingPanelTheme _pTheme = SlidingPanelTheme();
 
@@ -28,9 +25,7 @@ class SettingsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //final double appH = Theme.of(context).appBarTheme.toolbarHeight ?? 120.h;
     final Player? player = ref.watch(meProvider).value;
-    // final AppBarTheme appBarTheme = Theme.of(context).appBarTheme;
 
     return Scaffold(
       /*appBar: AppBar(
@@ -53,7 +48,8 @@ class _Settings extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+    final ThemeData theme = Theme.of(context);
+    final TextTheme textTheme = theme.textTheme;
     final User? user = ref.read(authUserProvider).value;
 
     final String str = DateFormat.yMMMMd()
@@ -71,16 +67,18 @@ class _Settings extends ConsumerWidget {
     return SafeArea(
       bottom: false,
       child: SlidingUpPanel(
-        borderRadius: _pTheme.slidingPanelRadius,
+        borderRadius: _pTheme.panelRadius,
         backdropEnabled: true,
         color: _pTheme.slidingPanelColor,
         maxHeight: 360.r,
         defaultPanelState: PanelState.CLOSED,
-        padding: _pTheme.slidingPanelPadding,
+        padding: _pTheme.padding,
         isDraggable: false,
         minHeight: 0,
         panel: Container(),
         body: SafeArea(
+          minimum: EdgeInsets.only(
+              bottom: (theme.appBarTheme.toolbarHeight ?? 120) * 0.75),
           child: Column(
             children: [
               Flexible(
@@ -104,8 +102,8 @@ class _Settings extends ConsumerWidget {
                             ),
                             Gap(7.5.r),
                             DefaultTextStyle(
-                              style: textTheme.bodyMedium!
-                                  .copyWith(color: charcoal),
+                              style: textTheme.bodySmall!
+                                  .copyWith(color: tropicalIndigo),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -134,55 +132,54 @@ class _Settings extends ConsumerWidget {
                   ],
                 ),
               ),
+              Gap(15.r),
               Flexible(
                 flex: 3,
                 child: Container(
-                  color: magnolia,
+                  color: magnolia1,
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  alignment: Alignment.center,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Spacer(),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            version,
-                            style: textTheme.headlineMedium?.copyWith(
-                              color: gray,
-                            ),
+                      const Spacer(),
+                      DefaultTextStyle(
+                        style: textTheme.headlineMedium!.copyWith(
+                          color: frenchGray,
+                        ),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            //crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(version),
+                              Gap(12.r),
+                              CircleAvatar(
+                                radius: 3.r,
+                                backgroundColor: frenchGray,
+                              ),
+                              Gap(12.r),
+                              const Text("Privacy Policy"),
+                              Gap(12.r),
+                              CircleAvatar(
+                                radius: 3.r,
+                                backgroundColor: frenchGray,
+                              ),
+                              Gap(12.r),
+                              InkWell(
+                                onTap: () => showDialog(
+                                  context: context,
+                                  builder: (_) => const LogOutDialog(),
+                                ),
+                                child: const Text(
+                                  "LOG OUT",
+                                  style: TextStyle(color: jasper, height: 0),
+                                ),
+                              ),
+                            ],
                           ),
-                          Gap(12.r),
-                          CircleAvatar(
-                            radius: 3.r,
-                            backgroundColor: frenchGray,
-                          ),
-                          Gap(12.r),
-                          Text(
-                            "Privacy Policy",
-                            style: textTheme.headlineMedium?.copyWith(
-                              color: gray,
-                            ),
-                          ),
-                          Gap(12.r),
-                          CircleAvatar(
-                            radius: 3.r,
-                            backgroundColor: frenchGray,
-                          ),
-                          Gap(12.r),
-                          InkWell(
-                            onTap: () => showDialog(
-                              context: context,
-                              builder: (_) => const LogOutDialog(),
-                            ),
-                            child: Text(
-                              "LOG OUT",
-                              style: textTheme.headlineMedium
-                                  ?.copyWith(color: jasper, height: 0),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                      Gap(30.r),
                     ],
                   ),
                 ),

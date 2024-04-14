@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../logic/auth/bloc.dart';
+import '../../theme/sliding_panel.dart';
 import '../../values/colors.dart';
-import '../my_theme.dart';
 
 final SlidingPanelTheme _pTheme = SlidingPanelTheme();
 
@@ -15,7 +15,7 @@ class DeactivateAccountDialog extends ConsumerWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return AlertDialog(
       shape: RoundedRectangleBorder(
-        borderRadius: _pTheme.slidingPanelFullRadius,
+        borderRadius: _pTheme.fullRadius,
       ),
       elevation: 0,
       surfaceTintColor: ghostWhite,

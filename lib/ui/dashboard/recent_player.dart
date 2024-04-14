@@ -5,6 +5,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:logger/logger.dart';
+import 'package:paricon/values/colors.dart';
 
 import '../../logic/user/bloc.dart';
 import '../../model/my_activity.dart';
@@ -21,19 +22,19 @@ class RecentPlayer extends ConsumerWidget {
     return StaggeredGridTile.fit(
       crossAxisCellCount: 15,
       child: AspectRatio(
-        aspectRatio: 4.35,
+        aspectRatio: 4.5,
         child: FirestoreListView.separated(
           scrollDirection: Axis.horizontal,
           query: ref.watch(recentPlayerProvider),
           padding: EdgeInsets.only(left: 15.w),
-          itemBuilder: (context, doc) {
+          itemBuilder: (_, doc) {
             Player player = Player.fromSnapshot(doc);
             MyActivity activity = MyActivity.fromSnapshot(doc);
             _logger.d(player);
             _logger.d(activity);
             return RecentPlayerTile(doc.id, player, activity);
           },
-          separatorBuilder: (_, __) => Gap(1.5.w),
+          separatorBuilder: (_, __) => Container(width: 0.3, color: ghostWhite),
         ),
       ),
     );

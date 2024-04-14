@@ -91,19 +91,6 @@ Future<void> main() async {
     fetchTimeout: const Duration(seconds: 45),
     minimumFetchInterval: const Duration(seconds: 3),
   );
-/*
-  Database users = await openDatabase(
-    join(await getDatabasesPath(), 'users.db'),
-    onCreate: (db, version) {
-      return db.execute('CREATE TABLE users'
-          '('
-          'id TEXT PRIMARY KEY, '
-          'name TEXT, '
-          ')');
-    },
-    version: 1,
-  );*/
-  //await SQLUser.initSQL;
 
   await remoteConfig.setConfigSettings(remoteConfigSetting);
 
@@ -139,11 +126,6 @@ Future<void> main() async {
     await crashlytics.setCrashlyticsCollectionEnabled(!kDebugMode);
   }
 
-  //final SQUser sqUser = SQUser();
-  //if (!kIsWeb) {
-  //  await sqUser.initSQL;
-  //}
-
   List<Override> overrides = [
     firebaseAppProvider.overrideWithValue(app),
     firebaseAuthProvider.overrideWithValue(firebaseAuth),
@@ -154,15 +136,12 @@ Future<void> main() async {
     crashlyticsProvider.overrideWithValue(crashlytics),
     isEmulatorProvider.overrideWithValue(isEmulator),
     geminiModelProvider.overrideWithValue(model),
-    //userDatabaseProvider.overrideWith((ref) => UserDatabase(ref, users)),
-    //sqUserProvider.overrideWithValue(sqUser),
     if (kIsWeb) androidWebProvider.overrideWithValue(androidWeb),
   ];
 
   runApp(
     DevicePreview(
       data: const DevicePreviewData(isFrameVisible: false),
-      //backgroundColor: violetBlue,
       isToolbarVisible: kDebugMode,
       enabled: devicePreviewEnabled,
       builder: (_) => ProviderScope(overrides: overrides, child: const MyApp()),

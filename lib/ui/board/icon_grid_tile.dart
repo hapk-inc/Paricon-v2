@@ -30,7 +30,7 @@ class IconGridTile extends ConsumerWidget {
 
     final bool checkFound = localIcon.checkFound;
 
-    double randomPi = mockInteger(0, 1) == 0 ? pi : -pi;
+    final double randomPi = mockInteger(0, 1) == 0 ? pi : -pi;
 
     final Color random = iconColor[mockInteger(0, 2)];
 
@@ -63,7 +63,7 @@ class IconGridTile extends ConsumerWidget {
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 600),
                 color: color,
-                padding: EdgeInsets.all(9.0.r),
+                padding: EdgeInsets.all(7.5.r),
                 child: checkFound
                     ? FadeIn(
                         key: ValueKey("$id $checkFound"),

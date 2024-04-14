@@ -24,6 +24,9 @@ class TournamentText extends ConsumerWidget {
           data: (data) => data,
         );
     final TextTheme textTheme = Theme.of(context).textTheme;
+
+    final int mainTextSize = (text ?? "").length;
+
     return StaggeredGridTile.fit(
       crossAxisCellCount: 15,
       child: ListTile(
@@ -37,7 +40,11 @@ class TournamentText extends ConsumerWidget {
                 text ?? "",
                 key: ValueKey(key),
                 style: textTheme.titleLarge?.copyWith(color: jasper),
-                maxLines: (text ?? "").length < 30 ? 1 : null,
+                maxLines: mainTextSize < 30
+                    ? 1
+                    : mainTextSize < 60
+                        ? 2
+                        : null,
               ),
             ),
           ),
@@ -48,11 +55,11 @@ class TournamentText extends ConsumerWidget {
                 alignment: Alignment.centerLeft,
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
-                  child: Text(
+                  child: AutoSizeText(
                     "$sub 🏆",
                     key: ValueKey(sub),
                     style: textTheme.bodyMedium?.copyWith(color: jasper),
-                    maxLines: 2,
+                    maxLines: sub.length < 60 ? 1 : null,
                   ),
                 ),
               ),

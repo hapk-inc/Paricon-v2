@@ -1,21 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../enums/enums.dart';
-
-final StateNotifierProvider<SizeNotifier, ScreenSize> sizeProvider =
-    StateNotifierProvider<SizeNotifier, ScreenSize>(
-  (_) => SizeNotifier(ScreenSize.mobile),
+final StateNotifierProvider<SizeNotifier, double> sizeProvider =
+    StateNotifierProvider<SizeNotifier, double>(
+  (_) => SizeNotifier(0.0),
 );
 
-class SizeNotifier extends StateNotifier<ScreenSize> {
+class SizeNotifier extends StateNotifier<double> {
   SizeNotifier(super.state);
 
   @override
-  set state(ScreenSize value) => super.state = value;
-
-  bool get isPT => state == ScreenSize.mobile || state == ScreenSize.tab;
-
-  bool get isP => state == ScreenSize.mobile || state == ScreenSize.smallMobile;
-  bool get isTab => state == ScreenSize.tab;
-  bool get isPad => state == ScreenSize.iPad;
+  set state(double value) => super.state = value;
 }

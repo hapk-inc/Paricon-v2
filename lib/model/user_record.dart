@@ -80,7 +80,5 @@ class UserRecord with _$UserRecord {
     return difference == Duration.zero
         ? ""
         : "⇣ ${difference.inSeconds.toString().padLeft(2, '0')}";
-    /* : difference.inMinutes==0?"""" "⇣${difference.inMinutes.toString().padLeft(2, '0')} "
-            ": ${(difference.inSeconds % 60).toString().padLeft(2, '0')}";*/
   }
 }

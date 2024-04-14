@@ -9,41 +9,38 @@ class LSubtitle extends StatelessWidget {
   final bool isNetConnected;
 
   @override
-  Widget build(BuildContext context) {
-    final TextTheme tTheme = Theme.of(context).textTheme;
-    return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 300),
-      child: isNetConnected
-          ? AutoSizeText.rich(
-              TextSpan(
-                children: const [
-                  TextSpan(text: "New to Paricon?"),
-                  TextSpan(
-                    text: " Create a account",
-                    style: TextStyle(color: darkPastelGreen),
-                  ),
-                ],
-                style: tTheme.bodyMedium,
+  Widget build(BuildContext context) => AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: isNetConnected
+            ? AutoSizeText.rich(
+                TextSpan(
+                  children: const [
+                    TextSpan(text: "New to Paricon?"),
+                    TextSpan(
+                      text: " Create a account",
+                      style: TextStyle(color: darkPastelGreen),
+                    ),
+                  ],
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                key: ValueKey(isNetConnected),
+              )
+            : AutoSizeText.rich(
+                TextSpan(
+                  children: const [
+                    TextSpan(
+                      text: "Please check your internet connection",
+                      style: TextStyle(color: cornellRed),
+                    ),
+                    TextSpan(
+                      text: " and try again",
+                      style: TextStyle(color: hookerGreen),
+                    ),
+                  ],
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                maxLines: 1,
+                key: ValueKey(isNetConnected),
               ),
-              key: const ValueKey(true),
-            )
-          : AutoSizeText.rich(
-              TextSpan(
-                children: const [
-                  TextSpan(
-                    text: "Please check your internet connection",
-                    style: TextStyle(color: cornellRed),
-                  ),
-                  TextSpan(
-                    text: "  and try again",
-                    style: TextStyle(color: darkPastelGreen),
-                  ),
-                ],
-                style: tTheme.bodyMedium,
-              ),
-              maxLines: 1,
-              key: const ValueKey(false),
-            ),
-    );
-  }
+      );
 }

@@ -1,10 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:paricon/values/colors.dart';
 
 import '../../model/my_activity.dart';
 import '../../model/player.dart';
+import 'package:dotted_border/dotted_border.dart';
+
 import '../../values/names.dart';
 
 class RecentPlayerTile extends ConsumerWidget {
@@ -19,22 +25,28 @@ class RecentPlayerTile extends ConsumerWidget {
 
     return AspectRatio(
       aspectRatio: 0.9,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          const AspectRatio(
-            aspectRatio: 1.5,
-            child: CircleAvatar(),
+      child: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              DottedBorder(
+                borderType: BorderType.Circle,
+                dashPattern: const [6, 3, 7.5, 3],
+                color: emerald,
+                strokeWidth: 1,
+                child: CircleAvatar(radius: 24.r),
+              ),
+              Gap(15.r),
+              Text(
+                toBeginningOfSentenceCase(player.name) ?? "",
+                style: textTheme.headlineSmall?.copyWith(color: gray),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              )
+            ],
           ),
-          AutoSizeText(
-            player.name.contains("User#")
-                ? NameGen.dummyName()
-                : toBeginningOfSentenceCase(player.name) ?? "",
-            style: textTheme.bodySmall,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          )
-        ],
+        ),
       ),
     );
   }
