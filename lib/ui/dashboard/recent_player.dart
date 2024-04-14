@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:gap/gap.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:logger/logger.dart';
-import 'package:paricon/values/colors.dart';
 
 import '../../logic/user/bloc.dart';
 import '../../model/my_activity.dart';
 import '../../model/player.dart';
-import 'recent_player_tile.dart';
+import 'recent_player/recent_player_tile.dart';
 
 Logger _logger = Logger();
 
@@ -34,7 +32,7 @@ class RecentPlayer extends ConsumerWidget {
             _logger.d(activity);
             return RecentPlayerTile(doc.id, player, activity);
           },
-          separatorBuilder: (_, __) => Container(width: 0.3, color: ghostWhite),
+          separatorBuilder: (_, __) => const SizedBox(width: 0.3),
         ),
       ),
     );

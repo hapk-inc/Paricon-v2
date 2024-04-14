@@ -45,8 +45,7 @@ class MaintenancePage extends ConsumerWidget {
                   delay: const Duration(milliseconds: 600),
                   child: AutoSizeText(
                     "App improvements are in progress",
-                    style: tTheme.titleLarge?.copyWith(color: cornellRed),
-                    overflow: TextOverflow.ellipsis,
+                    style: tTheme.titleLarge?.copyWith(color: jasper),
                     maxLines: 2,
                   ),
                 ),
@@ -54,10 +53,10 @@ class MaintenancePage extends ConsumerWidget {
                 subtitleTextStyle: tTheme.bodySmall,
                 subtitle: FadeInRight(
                   delay: const Duration(milliseconds: 1200),
-                  child: Text(
+                  child: AutoSizeText(
                     "Appreciate your patience while we perform maintenance",
-                    maxLines: 2, style: tTheme.bodyMedium,
-                    //style: TextStyle(fontSize: 12.r, color: jasper),
+                    maxLines: 1,
+                    style: tTheme.bodyMedium,
                   ),
                 ),
               ),

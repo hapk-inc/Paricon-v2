@@ -3,7 +3,7 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:mock_data/mock_data.dart';
 
 const String _welcomePrompt =
-    "Welcome the player in not more than 75 letters in one line "
+    "Welcome the player. This should not exceed more than 75 letters in one line "
     "when they opened the multiplayer puzzle app. "
     "It's a puzzle app where pairing two blocks of same icons. "
     //"Also, welcome the user with a holi celebration"
@@ -15,7 +15,7 @@ const String _tournamentPrompt =
 
 const String _subTournamentPrompt =
     "Give a subtitle for - Ready, Set, Game : Join the Tournament. "
-    "Don't start with Join"
+    "Don't start with Join and don't use the word Blueprint"
     "Use Easy English";
 
 const String _subPlayFriendPrompt =

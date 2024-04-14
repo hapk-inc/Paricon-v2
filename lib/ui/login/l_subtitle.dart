@@ -18,10 +18,10 @@ class LSubtitle extends StatelessWidget {
                     TextSpan(text: "New to Paricon?"),
                     TextSpan(
                       text: " Create a account",
-                      style: TextStyle(color: darkPastelGreen),
+                      style: TextStyle(color: emerald),
                     ),
                   ],
-                  style: Theme.of(context).textTheme.bodySmall,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 key: ValueKey(isNetConnected),
               )
@@ -37,7 +37,7 @@ class LSubtitle extends StatelessWidget {
                       style: TextStyle(color: hookerGreen),
                     ),
                   ],
-                  style: Theme.of(context).textTheme.bodySmall,
+                  style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 maxLines: 1,
                 key: ValueKey(isNetConnected),

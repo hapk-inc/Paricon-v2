@@ -1,17 +1,13 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../../enums/enums.dart';
-import '../../logic/app/ai_bloc.dart';
-import '../../logic/app/game_match_bloc.dart';
-import '../../router/my_route.dart';
-import '../../values/colors.dart';
+import '../../../logic/app/ai_bloc.dart';
+import '../../../router/my_route.dart';
+import '../../../values/colors.dart';
 
 class DPlayFriend extends ConsumerWidget {
   const DPlayFriend({super.key});

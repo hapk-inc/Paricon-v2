@@ -1,17 +1,16 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:paricon/values/colors.dart';
 
-import '../../model/my_activity.dart';
-import '../../model/player.dart';
+import '../../../model/my_activity.dart';
+import '../../../model/player.dart';
 import 'package:dotted_border/dotted_border.dart';
 
-import '../../values/names.dart';
+import '../../../values/colors.dart';
+import 'recent_player_detail_dialog.dart';
 
 class RecentPlayerTile extends ConsumerWidget {
   final String id;
@@ -30,12 +29,18 @@ class RecentPlayerTile extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              DottedBorder(
-                borderType: BorderType.Circle,
-                dashPattern: const [6, 3, 7.5, 3],
-                color: emerald,
-                strokeWidth: 1,
-                child: CircleAvatar(radius: 24.r),
+              InkWell(
+                onTap: () => showDialog(
+                  context: context,
+                  builder: (_) => RecentPlayerDetailDialog(player),
+                ),
+                child: DottedBorder(
+                  borderType: BorderType.Circle,
+                  dashPattern: const [6, 3, 7.5, 3],
+                  color: emerald,
+                  strokeWidth: 1,
+                  child: CircleAvatar(radius: 24.r),
+                ),
               ),
               Gap(15.r),
               Text(

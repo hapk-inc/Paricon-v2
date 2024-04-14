@@ -4,8 +4,8 @@ import 'package:gap/gap.dart';
 
 import 'package:pinput/pinput.dart';
 
-import '../../theme/sliding_panel.dart';
-import '../../values/colors.dart';
+import '../../../theme/sliding_panel.dart';
+import '../../../values/colors.dart';
 
 final SlidingPanelTheme _panelTheme = SlidingPanelTheme();
 

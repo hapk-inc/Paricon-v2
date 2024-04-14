@@ -22,6 +22,7 @@ class MyTheme {
         scaffoldBackgroundColor: ghostWhite,
         appBarTheme: appBar,
         elevatedButtonTheme: elevatedButton,
+        iconButtonTheme: iconButton,
         textTheme: MyTextTheme.textTheme,
       );
 
@@ -33,7 +34,6 @@ class MyTheme {
           color: ghostWhite,
           fontSize: 21.r,
         ),
-
         //shape: RoundedRectangleBorder(borderRadius: bottomRadius),
         toolbarHeight: 120.h,
         elevation: 3.r,
@@ -45,7 +45,13 @@ class MyTheme {
         horizontalTitleGap: 0,
         minVerticalPadding: 0,
         minLeadingWidth: 0,
-        titleTextStyle: MyTextTheme.textTheme.titleLarge,
+        titleTextStyle: MyTextTheme.textTheme.titleLarge?.copyWith(
+          color: violetBlue,
+        ),
+        subtitleTextStyle: MyTextTheme.textTheme.bodyMedium?.copyWith(
+          color: tropicalIndigo,
+        ),
+        iconColor: violetBlue,
       );
 
   static CardTheme get card => CardTheme(
@@ -56,6 +62,13 @@ class MyTheme {
           borderRadius: BorderRadius.circular(15.r),
         ),
         elevation: 7.5.r,
+      );
+
+  static IconButtonThemeData get iconButton => IconButtonThemeData(
+        style: ButtonStyle(
+          iconSize: MaterialStatePropertyAll(24.r),
+          iconColor: const MaterialStatePropertyAll(vanDyke),
+        ),
       );
 
   static ElevatedButtonThemeData get elevatedButton => ElevatedButtonThemeData(
@@ -83,18 +96,18 @@ class MyTheme {
 mixin MyTextTheme {
   static TextTheme get textTheme => TextTheme(
         //title Font
-        titleLarge: title.copyWith(fontSize: 30, height: 1.5),
+        titleLarge: title.copyWith(fontSize: 30.r, height: 1.8.r),
         titleMedium: title.copyWith(fontSize: 24, height: 1.5),
         titleSmall: title.copyWith(fontSize: 21, height: 0.9),
 
         //bodyFonts
         bodyLarge: body.copyWith(fontSize: 24.r, height: 2.1),
-        bodyMedium: body.copyWith(fontSize: 13.2, height: 1.8),
+        bodyMedium: body.copyWith(fontSize: 15.r, height: 1.8),
         bodySmall: body.copyWith(fontSize: 12.r, height: 1.8),
 
         //headLineFonts
         headlineLarge: headline.copyWith(fontSize: 15.r),
-        headlineMedium: headline.copyWith(fontSize: 12),
+        headlineMedium: headline.copyWith(fontSize: 10.5),
         headlineSmall: headline.copyWith(fontSize: 9),
 
         //AnimatedFlipCounter

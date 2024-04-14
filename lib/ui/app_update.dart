@@ -21,19 +21,19 @@ class AppUpdatePage extends StatelessWidget {
               child: Lottie.asset('lottie/app_update.json'),
             ),
             SizedBox.square(dimension: 30.r),
-            ElevatedButton(
-              onPressed: () => InAppUpdate.performImmediateUpdate().catchError(
-                (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("An App Update is required")),
-                  );
-                  return AppUpdateResult.inAppUpdateFailed;
-                },
-              ),
-              child: Container(
-                width: 240.w,
-                height: 39.h,
-                alignment: Alignment.center,
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: ElevatedButton(
+                onPressed: () =>
+                    InAppUpdate.performImmediateUpdate().catchError(
+                  (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text("An App Update is required")),
+                    );
+                    return AppUpdateResult.inAppUpdateFailed;
+                  },
+                ),
                 child: const Text("Update Available"),
               ),
             )

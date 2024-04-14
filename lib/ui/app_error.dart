@@ -37,20 +37,23 @@ class _ErrorPageState extends State<ErrorPage> {
                     );
                   },
                 ),
-                if (animationOver)
-                  FadeIn(
-                    child: AutoSizeText(
-                      "Sorry for the inconvenience",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.copyWith(color: frenchGray),
-                      maxLines: 1,
-                    ),
-                  )
+                if (animationOver) const SorryText()
               ],
             ),
           ),
+        ),
+      );
+}
+
+class SorryText extends StatelessWidget {
+  const SorryText({super.key});
+
+  @override
+  Widget build(BuildContext context) => FadeIn(
+        child: AutoSizeText(
+          "Sorry for the inconvenience",
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(color: gray),
+          maxLines: 1,
         ),
       );
 }

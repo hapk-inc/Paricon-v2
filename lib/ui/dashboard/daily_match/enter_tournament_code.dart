@@ -1,17 +1,15 @@
-import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-import '../../enums/enums.dart';
-import '../../logic/app/game_match_bloc.dart';
-import '../../logic/leaderboard/notifier.dart';
-import '../../router/my_route.dart';
-import '../../values/colors.dart';
+import '../../../enums/enums.dart';
+import '../../../logic/app/game_match_bloc.dart';
+import '../../../logic/leaderboard/notifier.dart';
+import '../../../router/my_route.dart';
+import '../../../values/colors.dart';
 
 const List<String> _animText = ['PLAY NOW', 'TRY NOW', 'START NOW'];
 
