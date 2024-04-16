@@ -9,6 +9,7 @@ import '../../../model/my_activity.dart';
 import '../../../model/player.dart';
 import 'package:dotted_border/dotted_border.dart';
 
+import '../../../theme/my_theme.dart';
 import '../../../values/colors.dart';
 import 'recent_player_detail_dialog.dart';
 
@@ -39,7 +40,11 @@ class RecentPlayerTile extends ConsumerWidget {
                   dashPattern: const [6, 3, 7.5, 3],
                   color: emerald,
                   strokeWidth: 1,
-                  child: CircleAvatar(radius: 24.r),
+                  child: CircleAvatar(
+                      radius: ref.watch(sizeProvider) == ScreenSize.m ||
+                              ref.watch(sizeProvider) == ScreenSize.s
+                          ? 24.r
+                          : 30.r),
                 ),
               ),
               Gap(15.r),

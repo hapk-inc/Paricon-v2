@@ -12,7 +12,6 @@ class TournamentText extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    //final Player? me = ref.watch(userNotifierProvider).me;
     final String? text = ref.watch(tournamentTextProvider).maybeWhen(
           orElse: () => null,
           data: (data) => data,
@@ -44,7 +43,7 @@ class TournamentText extends ConsumerWidget {
                     ? 1
                     : mainTextSize < 60
                         ? 2
-                        : null,
+                        : 3,
               ),
             ),
           ),
@@ -56,7 +55,7 @@ class TournamentText extends ConsumerWidget {
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: AutoSizeText(
-                    "$sub 🏆",
+                    sub,
                     key: ValueKey(sub),
                     style: textTheme.bodyMedium?.copyWith(color: jasper),
                     maxLines: sub.length < 60 ? 1 : null,

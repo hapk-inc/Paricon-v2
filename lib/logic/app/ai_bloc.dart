@@ -3,24 +3,32 @@ import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:mock_data/mock_data.dart';
 
 const String _welcomePrompt =
-    "Welcome the player. This should not exceed more than 75 letters in one line "
+    "Welcome the player. This should not exceed more than 60 letters in one line "
     "when they opened the multiplayer puzzle app. "
     "It's a puzzle app where pairing two blocks of same icons. "
+    "And Don't question them."
     //"Also, welcome the user with a holi celebration"
-    "Also remove double-quotes and **. Use Easy English.";
+    "Also remove double-quotes and **. Use Easy English."
+    "Include emojis,if possible";
 
 const String _tournamentPrompt =
-    " Rephrase this line - Ready, Set, Game : Join the Tournament. "
-    "Use Easy English";
+    " Rephrase this line - Ready, Set, Game : Join the Tournament.  "
+    "Use Easy English."
+    "Don't use the words like tournament"
+    "It's a puzzle timer tournament"
+    "Include emojis,if possible";
 
 const String _subTournamentPrompt =
-    "Give a subtitle for - Ready, Set, Game : Join the Tournament. "
-    "Don't start with Join and don't use the word Blueprint"
-    "Use Easy English";
+    "Give a subtitle for - Ready, Set, Game : Join the Tournament."
+    "Don't start with Join and "
+    "don't use the words like Blueprint,Potential,Glory,Adventure,Arena and Guide"
+    "Use Easy English. This should not exceed more than 60 letters"
+    "It's a puzzle timer tournament ";
 
 const String _subPlayFriendPrompt =
-    "Give a subtitle for - Play with Friends Online.Don't start with Join"
-    "Use Easy English";
+    "Give a subtitle for - Play with Friends Online. Don't start with Join"
+    "Use Easy English."
+    "Include emojis,if possible";
 //" Player name is ";
 
 //const String _changeName =

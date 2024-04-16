@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../../logic/app/ai_bloc.dart';
-import '../../../router/my_route.dart';
 import '../../../values/colors.dart';
 
 class DPlayFriend extends ConsumerWidget {
@@ -17,7 +15,7 @@ class DPlayFriend extends ConsumerWidget {
     final String? sub = ref.watch(subPlayFriendTextProvider).maybeWhen(
           data: (data) => data,
           orElse: () => null,
-          error: (error, stackTrace) => "Try multiplayer game",
+          //error: (error, stackTrace) => "Try multiplayer game",
         );
     final TextTheme textTheme = Theme.of(context).textTheme;
     return StaggeredGridTile.fit(
@@ -28,32 +26,29 @@ class DPlayFriend extends ConsumerWidget {
           tileColor: ghostWhite,
           title: AutoSizeText(
             "Play with Friends Online",
-            style: textTheme.titleLarge?.copyWith(color: violetBlue),
-            maxLines: 1,
-            //maxLines: 3,
+            style: textTheme.titleLarge?.copyWith(color: hookerGreen),
+            //maxLines: 2,
           ),
           subtitle: Align(
             alignment: Alignment.centerLeft,
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              child: sub == null
-                  ? Container()
-                  : Text(
-                      "$sub 👥",
-                      key: ValueKey(sub),
-                      style: textTheme.bodyMedium?.copyWith(color: charcoal),
-                      maxLines: 2,
-                    ),
+              child: Text(
+                "$sub",
+                key: ValueKey(sub),
+                style: textTheme.bodyMedium?.copyWith(color: gray),
+                maxLines: 2,
+              ),
             ),
           ),
         ),
-        subtitle: SizedBox(
-          height: 120.h,
+        /*subtitle: SizedBox(
+          height: 105.h,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 60.h,
+                height: 54.h,
                 padding: EdgeInsets.only(left: 15.w),
                 decoration: BoxDecoration(
                   color: magnolia,
@@ -67,7 +62,11 @@ class DPlayFriend extends ConsumerWidget {
                         width: 150.w,
                         child: AutoSizeText(
                           "Enter room code here. . .",
-                          style: textTheme.bodyMedium?.copyWith(color: gray),
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                                fontWeight: FontWeight.w300,
+                                color: hookerGreen),
+                          ),
                         ),
                       ),
                       const Spacer(),
@@ -76,7 +75,7 @@ class DPlayFriend extends ConsumerWidget {
                         child: Container(
                           height: double.maxFinite,
                           alignment: Alignment.center,
-                          color: violetBlue,
+                          color: hookerGreen,
                           width: 120.w,
                           child: Text(
                             "CREATE ROOM",
@@ -92,7 +91,7 @@ class DPlayFriend extends ConsumerWidget {
               ),
             ],
           ),
-        ),
+        ),*/
       ),
     );
   }

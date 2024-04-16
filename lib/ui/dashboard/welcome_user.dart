@@ -54,7 +54,7 @@ class WelcomeUser extends ConsumerWidget {
                 welcome ?? "Nothing much",
                 key: ValueKey(welcome),
                 style: textTheme.bodyMedium?.copyWith(color: tropicalIndigo),
-                //maxLines: 2,
+                maxLines: 2,
               ),
             ),
           ],

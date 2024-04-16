@@ -32,8 +32,8 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) => ScreenUtilInit(
         designSize: const Size(360, 900),
         builder: (_, __) => ProviderScope(
-          overrides: [
-            sizeProvider.overrideWith((_) => SizeNotifier(900.h / 360.w))
+          overrides: const [
+            //sizeProvider.overrideWith((_) => SizeNotifier(900.h / 360.w))
           ],
           child: MaterialApp.router(
             locale: DevicePreview.locale(context),

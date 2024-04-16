@@ -51,3 +51,6 @@ const Color linen = Color(0xfff1e5da);
 const Color lavenderBlush = Color(0xffF9E7EA);
 const Color lavenderBlush1 = Color(0xffFAF0F5);
 const Color snow = Color(0xfff8f2f5);
+
+const Color olive = Color(0xff9b8816);
+const Color sepia = Color(0xff5d3a00);

@@ -2,8 +2,10 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:paricon/my_widget/staggered_9.dart';
 
 import '../../my_widget/staggered_gap.dart';
+import 'daily_match/daily_match_btn.dart';
 import 'daily_match/tournament_text.dart';
 
 class DailyMatch extends StatelessWidget {
@@ -19,9 +21,8 @@ class DailyMatch extends StatelessWidget {
               StaggeredGap(),
               TournamentText(),
               StaggeredGap(),
-              //EnterTournamentCode(),
-              //StaggeredGap(),
-              //LeaderBoard(),
+              DailyMatchBtn(),
+              // Staggered9(),
             ],
           ),
         ),

@@ -1,137 +1,69 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
-
-import '../values/colors.dart';
-import '../values/names.dart';
+import 'package:paricon/router/my_route.dart';
+import '../../values/colors.dart';
 
 @RoutePage()
-class GameRoomPage extends ConsumerWidget {
+class GameRoomPage extends ConsumerStatefulWidget {
   const GameRoomPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+  ConsumerState createState() => _GameRoomPageState();
+}
 
+class _GameRoomPageState extends ConsumerState<GameRoomPage> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: hookerGreen,
+      appBar: AppBar(
+        toolbarHeight: 60.h,
+        backgroundColor: hookerGreen,
+        elevation: 0,
+      ),
       body: SafeArea(
-        //minimum: EdgeInsets.symmetric(horizontal: 15.w),
+        bottom: false,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Gap(15.r),
-            ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
-              title: Text("Host Game", style: textTheme.titleLarge),
-              titleTextStyle: textTheme.titleLarge,
-              subtitle: Text(
-                "Choose Level and type",
-                style: textTheme.bodyMedium?.copyWith(color: frenchGray),
-              ),
-              trailing: IconButton(
-                onPressed: () => context.router.maybePop(),
-                icon: const Icon(Icons.close),
-                color: gray,
-              ),
-            ),
-            Gap(15.r),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Wrap(
-                spacing: 15.r,
-                runSpacing: 15.r,
-                children: [
-                  Container(
-                    width: 210.w,
-                    height: 51.h,
+            Flexible(child: Container()),
+            Flexible(
+              flex: 7,
+              child: FadeInUp(
+                child: SlideInUp(
+                  child: Container(
                     decoration: BoxDecoration(
-                        color: magnolia,
-                        borderRadius: BorderRadius.circular(4.5.r)),
-                  ),
-                  Container(
-                    width: 90.w,
-                    height: 51.h,
-                    decoration: BoxDecoration(
-                        color: magnolia,
-                        borderRadius: BorderRadius.circular(4.5.r)),
-                  ),
-                  Container(
-                    width: 180.w,
-                    height: 51.h,
-                    decoration: BoxDecoration(
-                        color: magnolia,
-                        borderRadius: BorderRadius.circular(4.5.r)),
-                  ),
-                ],
-              ),
-            ),
-            Gap(30.r),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Row(
-                children: [
-                  Text(
-                    "Invite Participants",
-                    style: textTheme.headlineMedium?.copyWith(color: gray),
-                  ),
-                  Gap(15.r),
-                  Expanded(child: Container(height: 0.24.r, color: gray))
-                ],
-              ),
-            ),
-            Gap(15.r),
-            Container(height: 75.h, color: magnolia1),
-            AnimatedContainer(
-              height: 210.h,
-              color: ghostWhite,
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(vertical: 15.h),
-              duration: const Duration(milliseconds: 450),
-              child: ListView(
-                children: List.generate(
-                    3,
-                    (index) => AspectRatio(
-                          aspectRatio: 6,
-                          child: Container(
-                            color: magnolia1,
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(bottom: 4.5.h),
-                            padding: EdgeInsets.symmetric(horizontal: 15.w),
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                radius: 18.r,
-                                backgroundColor: violetBlue,
-                              ),
-                              horizontalTitleGap: 15.w,
-                              title: AutoSizeText.rich(
-                                TextSpan(text: NameGen.dummyName(), children: [
-                                  if (index == 0)
-                                    TextSpan(
-                                      text: "   Host",
-                                      style: textTheme.bodySmall
-                                          ?.copyWith(color: emerald),
-                                    ),
-                                ]),
-                                style: textTheme.headlineMedium
-                                    ?.copyWith(color: charcoal),
-                              ),
+                      color: ghostWhite,
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(15.r),
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.w),
+                          child: ElevatedButton(
+                            style: const ButtonStyle(
+                              /*shape: MaterialStatePropertyAll(
+                  RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                                ),*/
+                              backgroundColor:
+                                  MaterialStatePropertyAll(hookerGreen),
                             ),
+                            onPressed: () =>
+                                context.router.push(const PlayFriendRoute()),
+                            child: const Text("Create Room"),
                           ),
-                        )),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: ElevatedButton(
-                onPressed: () {},
-                // child: const Text("Create Game"),
-                child: const Text("Let's Start"),
-              ),
-            ),
+            )
           ],
         ),
       ),

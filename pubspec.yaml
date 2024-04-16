@@ -162,6 +162,8 @@ dependencies:
   dart_emoji: ^0.2.0+2
   path: ^1.9.0
 
+  google_fonts: ^6.2.1
+
   typewritertext: ^3.0.2
 
 dev_dependencies:

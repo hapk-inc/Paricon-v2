@@ -24,8 +24,8 @@ class DashboardBtn extends ConsumerWidget {
           onToggle: (index) =>
               ref.watch(dashboardNotifierProvider).buttonIndex = index ?? 0,
           minWidth: 96.w,
-          customWidths: [105.w, 120.w],
-          minHeight: 36.h,
+          customWidths: [105.w, 108.w],
+          minHeight: 43.5.h,
           cornerRadius: 4.8.r,
           animate: true,
           animationDuration: 90,
@@ -37,61 +37,10 @@ class DashboardBtn extends ConsumerWidget {
           activeFgColor: ghostWhite,
           inactiveFgColor: charcoal,
           customTextStyles: [
-            TextStyle(
-              fontFamily: 'Montserrat',
-              fontSize: 12.r,
-            )
+            TextStyle(fontFamily: 'Montserrat', fontSize: 13.2.r)
           ],
         ),
       ),
     );
   }
 }
-
-/*
-class DashboardBtn extends ConsumerWidget {
-  const DashboardBtn({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return StaggeredGridTile.count(
-      crossAxisCellCount: 15,
-      mainAxisCellCount: 2.4,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.only(left: 15.w),
-        child: Container(
-          alignment: Alignment.centerLeft,
-          height: 54.h,
-          child: GroupButton(
-            // controller: GroupButtonController(
-            //     selectedIndex: ref.watch(dButtonNotifierProvider)),
-            buttons: const ['Daily Match', 'Play Friend'],
-            // onSelected: (value, index, isSelected) =>
-            //     ref.watch(dButtonNotifierProvider.notifier).state = index,
-            options: GroupButtonOptions(
-              direction: Axis.horizontal,
-              mainGroupAlignment: MainGroupAlignment.start,
-              spacing: 7.5.w,
-              textPadding: EdgeInsets.symmetric(horizontal: 15.w),
-              unselectedColor: lavender,
-              selectedColor: majorelleBlue,
-              borderRadius: BorderRadius.circular(4.5.r),
-              buttonWidth: 99.w,
-              buttonHeight: 36.h,
-              unselectedTextStyle: Theme.of(context)
-                  .textTheme
-                  .headlineMedium
-                  ?.copyWith(color: majorelleBlue),
-              selectedTextStyle: Theme.of(context)
-                  .textTheme
-                  .headlineMedium
-                  ?.copyWith(color: ghostWhite),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-*/

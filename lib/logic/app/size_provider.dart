@@ -1,4 +1,4 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+/*import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final StateNotifierProvider<SizeNotifier, double> sizeProvider =
     StateNotifierProvider<SizeNotifier, double>(
@@ -10,4 +10,4 @@ class SizeNotifier extends StateNotifier<double> {
 
   @override
   set state(double value) => super.state = value;
-}
+}*/

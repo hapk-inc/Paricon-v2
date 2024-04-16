@@ -7,6 +7,11 @@ import '../values/colors.dart';
 final Provider<MyTheme> themeProvider =
     Provider<MyTheme>((ref) => MyTheme(ref));
 
+enum ScreenSize { s, m, t, i, pc, tv, wide }
+
+final Provider<ScreenSize> sizeProvider =
+    Provider<ScreenSize>((ref) => MyTheme.screenSize);
+
 class MyTheme {
   final Ref ref;
 
@@ -23,36 +28,52 @@ class MyTheme {
         appBarTheme: appBar,
         elevatedButtonTheme: elevatedButton,
         iconButtonTheme: iconButton,
-        textTheme: MyTextTheme.textTheme,
+        textTheme: MyTextTheme.textTheme(screenSize),
       );
 
   static AppBarTheme get appBar => AppBarTheme(
-        centerTitle: false,
+        centerTitle: true,
         backgroundColor: majorelleBlue,
         iconTheme: IconThemeData(size: 21.r),
         titleTextStyle: MyFont.montserratTheme.copyWith(
           color: ghostWhite,
-          fontSize: 21.r,
+          fontSize: 18.r,
         ),
         //shape: RoundedRectangleBorder(borderRadius: bottomRadius),
         toolbarHeight: 120.h,
         elevation: 3.r,
       );
 
-  static ListTileThemeData get listTile => ListTileThemeData(
-        dense: true,
-        contentPadding: EdgeInsets.zero,
-        horizontalTitleGap: 0,
-        minVerticalPadding: 0,
-        minLeadingWidth: 0,
-        titleTextStyle: MyTextTheme.textTheme.titleLarge?.copyWith(
-          color: violetBlue,
-        ),
-        subtitleTextStyle: MyTextTheme.textTheme.bodyMedium?.copyWith(
-          color: tropicalIndigo,
-        ),
-        iconColor: violetBlue,
-      );
+  static ScreenSize get screenSize {
+    final double x = 900.h / 360.w;
+    return x > 2.3
+        ? ScreenSize.s
+        : x > 2
+            ? ScreenSize.m
+            : x > 1.5
+                ? ScreenSize.t
+                : x > 1.2
+                    ? ScreenSize.i
+                    : x > 0.6
+                        ? ScreenSize.pc
+                        : x > 0.4
+                            ? ScreenSize.tv
+                            : ScreenSize.wide;
+  }
+
+  static ListTileThemeData get listTile {
+    final textTheme = MyTextTheme.textTheme(screenSize);
+    return ListTileThemeData(
+      dense: true,
+      contentPadding: EdgeInsets.zero,
+      horizontalTitleGap: 0,
+      minVerticalPadding: 0,
+      minLeadingWidth: 0,
+      titleTextStyle: textTheme.titleLarge?.copyWith(color: violetBlue),
+      subtitleTextStyle: textTheme.bodyMedium?.copyWith(color: tropicalIndigo),
+      iconColor: violetBlue,
+    );
+  }
 
   static CardTheme get card => CardTheme(
         margin: EdgeInsets.zero,
@@ -78,7 +99,7 @@ class MyTheme {
           textStyle: MaterialStatePropertyAll(
             MyFont.montserratTheme.copyWith(
               color: ghostWhite,
-              fontSize: 15.r,
+              fontSize: 15.6.r,
             ),
           ),
           elevation: MaterialStatePropertyAll(1.5.r),
@@ -94,27 +115,31 @@ class MyTheme {
 }
 
 mixin MyTextTheme {
-  static TextTheme get textTheme => TextTheme(
-        //title Font
-        titleLarge: title.copyWith(fontSize: 30.r, height: 1.8.r),
-        titleMedium: title.copyWith(fontSize: 24, height: 1.5),
-        titleSmall: title.copyWith(fontSize: 21, height: 0.9),
+  static TextTheme textTheme(ScreenSize screenSize) {
+    final bool sm = screenSize == ScreenSize.s || screenSize == ScreenSize.m;
 
-        //bodyFonts
-        bodyLarge: body.copyWith(fontSize: 24.r, height: 2.1),
-        bodyMedium: body.copyWith(fontSize: 15.r, height: 1.8),
-        bodySmall: body.copyWith(fontSize: 12.r, height: 1.8),
+    return TextTheme(
+      //title Font
+      titleLarge: title.copyWith(fontSize: 30.r, height: sm ? 1.65 : 1.5),
+      titleMedium: title.copyWith(fontSize: 24, height: 1.5),
+      titleSmall: title.copyWith(fontSize: 21, height: 0.9),
 
-        //headLineFonts
-        headlineLarge: headline.copyWith(fontSize: 15.r),
-        headlineMedium: headline.copyWith(fontSize: 10.5),
-        headlineSmall: headline.copyWith(fontSize: 9),
+      //bodyFonts
+      bodyLarge: body.copyWith(fontSize: 24.r, height: 2.1),
+      bodyMedium: body.copyWith(fontSize: 15.r, height: 1.8),
+      bodySmall: body.copyWith(fontSize: 12.r, height: 1.8),
 
-        //AnimatedFlipCounter
-        displayLarge: headline.copyWith(fontSize: 18.r),
+      //headLineFonts
+      headlineLarge: headline.copyWith(fontSize: 15.r),
+      headlineMedium: headline.copyWith(fontSize: 10.5),
+      headlineSmall: headline.copyWith(fontSize: 9),
 
-        //caption: bodyTheme.copyWith(fontSize: 12.r),
-      );
+      //AnimatedFlipCounter
+      displayLarge: headline.copyWith(fontSize: 18.r),
+
+      //caption: bodyTheme.copyWith(fontSize: 12.r),
+    );
+  }
 
   static TextStyle get title => MyFont.wendyTheme;
   static TextStyle get body => MyFont.questrialTheme;

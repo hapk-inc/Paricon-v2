@@ -23,7 +23,7 @@ class RecentPlayerDetailDialog extends ConsumerWidget {
       surfaceTintColor: ghostWhite,
       title: Text(player.name),
       titleTextStyle: textTheme.titleLarge,
-      contentTextStyle: textTheme.bodySmall,
+      contentTextStyle: textTheme.bodyMedium,
       content: Text("Created ${DateFormat.yMMMMd().format(player.createdAt!)}"),
     );
   }
