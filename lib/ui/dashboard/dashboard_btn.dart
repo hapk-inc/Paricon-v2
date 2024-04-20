@@ -20,11 +20,11 @@ class DashboardBtn extends ConsumerWidget {
         child: ToggleSwitch(
           initialLabelIndex: ref.watch(dashboardNotifierProvider).buttonIndex,
           radiusStyle: true,
-          labels: const ["Daily Match", "Play Friend"],
+          labels: const ["Daily Match", "Play Friend", "LeaderBoard"],
           onToggle: (index) =>
               ref.watch(dashboardNotifierProvider).buttonIndex = index ?? 0,
           minWidth: 96.w,
-          customWidths: [105.w, 108.w],
+          customWidths: [105.w, 108.w, 120.w],
           minHeight: 43.5.h,
           cornerRadius: 4.8.r,
           animate: true,
@@ -32,7 +32,8 @@ class DashboardBtn extends ConsumerWidget {
           inactiveBgColor: magnolia,
           activeBgColors: const [
             [jasper],
-            [hookerGreen]
+            [hookerGreen],
+            [jasper],
           ],
           activeFgColor: ghostWhite,
           inactiveFgColor: charcoal,

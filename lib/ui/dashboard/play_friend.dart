@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:paricon/my_widget/staggered_gap.dart';
-import 'package:paricon/router/my_route.dart';
 
+import '../../my_widget/staggered_gap.dart';
+import '../../router/my_route.dart';
 import '../../values/colors.dart';
-import 'play_friend/create_room.dart';
+import '../../my_widget/create_room.dart';
 import 'play_friend/play_friend_text.dart';
 
 class PlayFriend extends ConsumerWidget {
@@ -21,12 +21,12 @@ class PlayFriend extends ConsumerWidget {
             crossAxisCount: 15,
             mainAxisSpacing: 15.r,
             children: const [
-              StaggeredGap(),
-              DPlayFriend(),
+              //DPlayFriend(),
               StaggeredGap(),
               CreateRoom(),
               StaggeredGap(),
-              PlayFriendBtn(),
+              PlayFriendBtn(), StaggeredGap(),
+              DPlayFriend(),
             ],
           ),
         ),

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'logic/app/size_provider.dart';
 import 'logic/auth/notifier.dart';
 
 import 'router/my_route.dart';

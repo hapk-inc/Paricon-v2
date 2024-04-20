@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,7 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../values/colors.dart';
+import '../logic/panel/bloc.dart';
+import '../router/my_route.dart';
+import '../values/colors.dart';
+import 'create_room/board_level.dart';
 
 class CreateRoom extends ConsumerWidget {
   const CreateRoom({super.key});
@@ -30,21 +34,42 @@ class CreateRoom extends ConsumerWidget {
               ),
               alignment: Alignment.center,
               padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Row(
-                children: [
-                  AutoSizeText(
-                    "Board Level",
-                    //style: textTheme.bodyMedium?.copyWith(color: gray),
-                    style: GoogleFonts.poppins(
-                      textStyle: textTheme.bodySmall?.copyWith(
-                        color: hookerGreen,
-                        fontWeight: FontWeight.w300,
+              child: InkWell(
+                onTap: () {
+                  //debugPrint(context.router.current.name == "");
+                  // if(context.router.currentChild == GameRoomRoute())
+                  switch (context.router.current.name) {
+                    case DashboardRoute.name:
+                      {
+                        final dashboardPanel =
+                            ref.read(dashboardPanelControllerProvider);
+                        ref.read(panelNotifierProvider.notifier).state =
+                            const BoardLevel();
+                        if (dashboardPanel.isPanelClosed) {
+                          dashboardPanel.open();
+                        }
+                        break;
+                      }
+                  }
+                },
+                child: Row(
+                  children: [
+                    AutoSizeText(
+                      "Board Level",
+                      style: GoogleFonts.poppins(
+                        textStyle: textTheme.bodySmall?.copyWith(
+                          color: hookerGreen,
+                          fontWeight: FontWeight.w300,
+                        ),
                       ),
                     ),
-                  ),
-                  const Spacer(),
-                  const Icon(Icons.arrow_drop_down_outlined, color: hookerGreen)
-                ],
+                    const Spacer(),
+                    const Icon(
+                      Icons.arrow_drop_down_outlined,
+                      color: hookerGreen,
+                    )
+                  ],
+                ),
               ),
             ),
             Container(

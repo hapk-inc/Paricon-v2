@@ -50,9 +50,9 @@ class SettingsPage extends ConsumerWidget {
                           bottom: BorderSide(color: magnolia1, width: 3.6.r),
                         ),
                       ),
-                      child: AspectRatio(
+                      child: const AspectRatio(
                         aspectRatio: 6,
-                        child: const GridTileBar(
+                        child: GridTileBar(
                           leading: Icon(Icons.add),
                           title: Text("Account"),
                           trailing: Icon(Icons.chevron_right),
@@ -86,9 +86,9 @@ class SettingsPage extends ConsumerWidget {
                           bottom: BorderSide(color: magnolia1, width: 3.6.r),
                         ),
                       ),
-                      child: AspectRatio(
+                      child: const AspectRatio(
                         aspectRatio: 6,
-                        child: const GridTileBar(
+                        child: GridTileBar(
                           leading: Icon(Icons.add),
                           title: Text("Account"),
                           trailing: Icon(Icons.add),

@@ -8,12 +8,12 @@ final ChangeNotifierProvider<DashboardNotifier> dashboardNotifierProvider =
 );
 
 class DashboardNotifier extends ChangeNotifier {
-  late PanelController panelController;
+  //late PanelController panelController;
   final Ref ref;
   int _buttonIndex = 0;
 
   DashboardNotifier(this.ref) {
-    panelController = PanelController();
+    //panelController = PanelController();
   }
 
   int get buttonIndex => _buttonIndex;

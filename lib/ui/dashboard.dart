@@ -5,6 +5,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/dashboard/notifier.dart';
+import '../logic/panel/bloc.dart';
 import '../my_widget/pi_logo.dart';
 import '../my_widget/staggered_gap.dart';
 import '../theme/sliding_panel.dart';
@@ -25,11 +26,13 @@ final SlidingPanelTheme _panelTheme = SlidingPanelTheme();
 
 class _DashboardPageState extends ConsumerState<DashboardPage> {
   late DashboardNotifier dashboardNotifier;
+  late PanelController panelController;
 
   @override
   void initState() {
     super.initState();
     dashboardNotifier = ref.refresh(dashboardNotifierProvider);
+    panelController = ref.read(dashboardPanelControllerProvider);
   }
 
   @override
@@ -45,8 +48,11 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
         body: SafeArea(
           bottom: false,
           child: SlidingUpPanel(
-            controller: dashboardNotifier.panelController,
-            panel: Container(),
+            controller: panelController,
+            panel: AnimatedContainer(
+              duration: const Duration(milliseconds: 450),
+              child: ref.watch(panelNotifierProvider),
+            ),
             borderRadius: _panelTheme.panelRadius,
             backdropEnabled: true,
             color: _panelTheme.slidingPanelColor,
@@ -84,11 +90,14 @@ class _DashboardSwitch extends ConsumerWidget {
 
     ref.listen(
       dashboardNotifierProvider.select((value) => value.buttonIndex),
-      (_, next) => pageController.animateToPage(
-        next,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      ),
+      (previous, next) =>
+          (previous ?? 0) + 1 == next || (previous ?? 0) - 1 == next
+              ? pageController.animateToPage(
+                  next,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
+                )
+              : pageController.jumpToPage(next),
     );
 
     return StaggeredGridTile.fit(
@@ -98,9 +107,22 @@ class _DashboardSwitch extends ConsumerWidget {
         child: PageView(
           controller: pageController,
           physics: const NeverScrollableScrollPhysics(),
-          children: const [DailyMatch(), PlayFriend()],
+          children: const [
+            DailyMatch(),
+            PlayFriend(),
+            LeaderBoard(),
+          ],
         ),
       ),
     );
+  }
+}
+
+class LeaderBoard extends StatelessWidget {
+  const LeaderBoard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
