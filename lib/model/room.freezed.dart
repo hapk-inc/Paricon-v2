@@ -26,6 +26,7 @@ mixin _$Room {
   BoardLevel get level => throw _privateConstructorUsedError;
   String get creator => throw _privateConstructorUsedError;
   BoardType get type => throw _privateConstructorUsedError;
+  PlayerCount get count => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +44,8 @@ abstract class $RoomCopyWith<$Res> {
       num code,
       BoardLevel level,
       String creator,
-      BoardType type});
+      BoardType type,
+      PlayerCount count});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$RoomCopyWithImpl<$Res, $Val extends Room>
     Object? level = null,
     Object? creator = null,
     Object? type = null,
+    Object? count = null,
   }) {
     return _then(_value.copyWith(
       players: null == players
@@ -91,6 +94,10 @@ class _$RoomCopyWithImpl<$Res, $Val extends Room>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as BoardType,
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as PlayerCount,
     ) as $Val);
   }
 }
@@ -108,7 +115,8 @@ abstract class _$$RoomImplCopyWith<$Res> implements $RoomCopyWith<$Res> {
       num code,
       BoardLevel level,
       String creator,
-      BoardType type});
+      BoardType type,
+      PlayerCount count});
 }
 
 /// @nodoc
@@ -127,6 +135,7 @@ class __$$RoomImplCopyWithImpl<$Res>
     Object? level = null,
     Object? creator = null,
     Object? type = null,
+    Object? count = null,
   }) {
     return _then(_$RoomImpl(
       players: null == players
@@ -153,6 +162,10 @@ class __$$RoomImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as BoardType,
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as PlayerCount,
     ));
   }
 }
@@ -167,7 +180,8 @@ class _$RoomImpl implements _Room {
       required this.code,
       required this.level,
       required this.creator,
-      required this.type})
+      required this.type,
+      required this.count})
       : _players = players;
 
   factory _$RoomImpl.fromJson(Map<String, dynamic> json) =>
@@ -192,10 +206,12 @@ class _$RoomImpl implements _Room {
   final String creator;
   @override
   final BoardType type;
+  @override
+  final PlayerCount count;
 
   @override
   String toString() {
-    return 'Room(players: $players, started: $started, code: $code, level: $level, creator: $creator, type: $type)';
+    return 'Room(players: $players, started: $started, code: $code, level: $level, creator: $creator, type: $type, count: $count)';
   }
 
   @override
@@ -208,7 +224,8 @@ class _$RoomImpl implements _Room {
             (identical(other.code, code) || other.code == code) &&
             (identical(other.level, level) || other.level == level) &&
             (identical(other.creator, creator) || other.creator == creator) &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.count, count) || other.count == count));
   }
 
   @JsonKey(ignore: true)
@@ -220,7 +237,8 @@ class _$RoomImpl implements _Room {
       code,
       level,
       creator,
-      type);
+      type,
+      count);
 
   @JsonKey(ignore: true)
   @override
@@ -243,7 +261,8 @@ abstract class _Room implements Room {
       required final num code,
       required final BoardLevel level,
       required final String creator,
-      required final BoardType type}) = _$RoomImpl;
+      required final BoardType type,
+      required final PlayerCount count}) = _$RoomImpl;
 
   factory _Room.fromJson(Map<String, dynamic> json) = _$RoomImpl.fromJson;
 
@@ -259,6 +278,8 @@ abstract class _Room implements Room {
   String get creator;
   @override
   BoardType get type;
+  @override
+  PlayerCount get count;
   @override
   @JsonKey(ignore: true)
   _$$RoomImplCopyWith<_$RoomImpl> get copyWith =>

@@ -14,6 +14,16 @@ final Provider<PanelController> settingsPanelControllerProvider =
   (_) => PanelController(),
 );
 
+final Provider<PanelController> roomPanelControllerProvider =
+    Provider<PanelController>(
+  (_) => PanelController(),
+);
+
+final Provider<PanelController> playFriendPanelControllerProvider =
+    Provider<PanelController>(
+  (_) => PanelController(),
+);
+
 final StateNotifierProvider<PanelNotifier, Widget> panelNotifierProvider =
     StateNotifierProvider<PanelNotifier, Widget>(
   (_) => PanelNotifier(),

@@ -7,15 +7,15 @@ import 'package:intl/intl.dart';
 import '../../enums/enums.dart';
 import '../../values/colors.dart';
 
-class BoardTypePanel extends ConsumerWidget {
-  const BoardTypePanel({super.key});
+class BoardPlayerPanel extends ConsumerWidget {
+  const BoardPlayerPanel({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return ListView.separated(
       itemBuilder: (_, index) {
-        MapEntry<BoardType, String> map = typeMap.entries.elementAt(index);
+        MapEntry<PlayerCount, String> map = countMap.entries.elementAt(index);
         return AspectRatio(
           aspectRatio: 4.2,
           child: Container(
@@ -31,13 +31,17 @@ class BoardTypePanel extends ConsumerWidget {
                 ),
               ),
               //titleTextStyle: textTheme.titleLarge,
-              subtitle: Text(map.value, style: textTheme.bodyMedium),
+              subtitle: Text(
+                map.value,
+                // style: GoogleFonts.questrial(textStyle: textTheme.bodyMedium),
+                style: textTheme.bodyMedium,
+              ),
             ),
           ),
         );
       },
       separatorBuilder: (_, __) => Gap(15.r),
-      itemCount: typeMap.length,
+      itemCount: countMap.length,
     );
   }
 }

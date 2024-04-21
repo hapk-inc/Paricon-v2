@@ -23,6 +23,7 @@ class IconGrid extends ConsumerWidget {
 
     return Container(
       alignment: Alignment.center,
+      padding: EdgeInsets.all(3.r),
       child: ResponsiveGridList(
         listViewBuilderOptions: ListViewBuilderOptions(
           physics: const NeverScrollableScrollPhysics(),
@@ -33,7 +34,7 @@ class IconGrid extends ConsumerWidget {
         //horizontalGridMargin: sizeNotifier.isP ? 15.r : 18.r,
         //verticalGridMargin: sizeNotifier.isP ? 15.r : 18.r,
         minItemsPerRow: 7,
-        maxItemsPerRow: 8,
+        maxItemsPerRow: 7,
         horizontalGridSpacing: 7.5.r,
         verticalGridSpacing: 7.5.r,
         //maxItemsPerRow: sizeNotifier.isP ? 7 : 8,

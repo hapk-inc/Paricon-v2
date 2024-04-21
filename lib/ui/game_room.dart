@@ -26,7 +26,7 @@ class _GameRoomPageState extends ConsumerState<GameRoomPage> {
 
   @override
   void initState() {
-    panelController = ref.read(settingsPanelControllerProvider);
+    panelController = ref.read(roomPanelControllerProvider);
     super.initState();
   }
 

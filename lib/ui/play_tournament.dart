@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
+import 'package:mock_data/mock_data.dart';
+import 'package:paricon/my_widget/my_duration.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/board/notifier.dart';
@@ -61,11 +63,8 @@ class _PlayTournamentPageState extends ConsumerState<PlayTournamentPage> {
           isDraggable: false,
           minHeight: 0,
           panel: Container(),
-          body: /*!isPT
-              ? Container()
-              : */
-              SingleChildScrollView(
-            //padding: EdgeInsets.symmetric(horizontal: 15.w),
+          body: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
             child: StaggeredGrid.count(
               crossAxisCount: 15,
               children: [
@@ -73,10 +72,10 @@ class _PlayTournamentPageState extends ConsumerState<PlayTournamentPage> {
                 StaggeredGridTile.fit(
                   crossAxisCellCount: 15,
                   child: AspectRatio(
-                    aspectRatio: 0.72,
+                    aspectRatio: 0.675,
                     /*  aspectRatio: isP ? 0.72 : 0.9  */
                     child: Card(
-                      margin: EdgeInsets.symmetric(horizontal: 15.w),
+                      // margin: EdgeInsets.symmetric(horizontal: 15.w),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(7.5.r),
                       ),
@@ -85,6 +84,7 @@ class _PlayTournamentPageState extends ConsumerState<PlayTournamentPage> {
                         child: const Column(
                           children: [
                             Flexible(child: IconTimer()),
+                            Gap(15),
                             Expanded(flex: 5, child: IconGrid())
                           ],
                         ),
@@ -92,8 +92,21 @@ class _PlayTournamentPageState extends ConsumerState<PlayTournamentPage> {
                     ),
                   ),
                 ),
-                /*  Gap(45.r),
-                      const LeaderBoard(),
+                Gap(45.r),
+                StaggeredGridTile.fit(
+                  crossAxisCellCount: 15,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 7.5.w),
+                    child: Row(
+                      children: [
+                        MyDuration(
+                          Duration(milliseconds: mockInteger(100000, 900000)),
+                        )
+                      ],
+                    ),
+                  ),
+                )
+                /*const LeaderBoard(),
                       Gap(45.r),*/
               ],
             ),

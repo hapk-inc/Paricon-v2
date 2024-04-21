@@ -8,8 +8,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:paricon/values/colors.dart';
 
+import '../../logic/panel/bloc.dart';
 import '../../my_widget/create_room.dart';
 import '../../router/my_route.dart';
+import 'enter_code.dart';
 
 class RoomBody extends ConsumerWidget {
   const RoomBody({super.key});
@@ -77,22 +79,31 @@ class RoomBody extends ConsumerWidget {
           crossAxisCellCount: 15,
           mainAxisCellCount: 2.4,
           child: Center(
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 30.w),
-              decoration: BoxDecoration(
-                color: magnolia,
-                borderRadius: BorderRadius.circular(7.5.r),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                "${mockInteger(111111, 999999)}",
-                style: GoogleFonts.russoOne(
-                  textStyle: TextStyle(
-                    fontSize: 30.r,
-                    height: 0,
-                    letterSpacing: 4.5.w,
-                    fontWeight: FontWeight.w700,
-                    color: charcoal,
+            child: InkWell(
+              onTap: () {
+                ref.read(panelNotifierProvider.notifier).state =
+                    const EnterCode();
+                if (ref.read(roomPanelControllerProvider).isPanelClosed) {
+                  ref.read(roomPanelControllerProvider).open();
+                }
+              },
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 30.w),
+                decoration: BoxDecoration(
+                  color: magnolia,
+                  borderRadius: BorderRadius.circular(7.5.r),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  "${mockInteger(111111, 999999)}",
+                  style: GoogleFonts.russoOne(
+                    textStyle: TextStyle(
+                      fontSize: 30.r,
+                      height: 0,
+                      letterSpacing: 4.5.w,
+                      fontWeight: FontWeight.w700,
+                      color: charcoal,
+                    ),
                   ),
                 ),
               ),

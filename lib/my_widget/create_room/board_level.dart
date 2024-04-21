@@ -1,18 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 
+import '../../enums/enums.dart';
 import '../../values/colors.dart';
 
-class BoardLevel extends ConsumerWidget {
-  const BoardLevel({super.key});
+class BoardLevelPanel extends ConsumerWidget {
+  const BoardLevelPanel({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      color: xantHous,
-      child: Column(
-        children: [],
-      ),
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    return ListView.separated(
+      itemBuilder: (_, index) {
+        MapEntry<BoardLevel, String> map = levelMap.entries.elementAt(index);
+        return AspectRatio(
+          aspectRatio: 4.2,
+          child: Container(
+            color: aquamarine,
+            alignment: Alignment.center,
+            child: ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
+              title: Text(
+                toBeginningOfSentenceCase(map.key.name) ?? "",
+                style: textTheme.displayLarge?.copyWith(
+                  fontSize: 18.r,
+                  height: 1.8,
+                ),
+              ),
+              //titleTextStyle: textTheme.titleLarge,
+              subtitle: Text(
+                map.value,
+                //style: GoogleFonts.questrial(textStyle: textTheme.bodyMedium),
+                style: textTheme.bodyMedium,
+              ),
+            ),
+          ),
+        );
+      },
+      separatorBuilder: (_, __) => Gap(15.r),
+      itemCount: levelMap.length,
     );
   }
 }

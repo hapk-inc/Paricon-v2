@@ -16,6 +16,7 @@ _$RoomImpl _$$RoomImplFromJson(Map<String, dynamic> json) => _$RoomImpl(
       level: $enumDecode(_$BoardLevelEnumMap, json['level']),
       creator: json['creator'] as String,
       type: $enumDecode(_$BoardTypeEnumMap, json['type']),
+      count: $enumDecode(_$PlayerCountEnumMap, json['count']),
     );
 
 Map<String, dynamic> _$$RoomImplToJson(_$RoomImpl instance) {
@@ -34,16 +35,22 @@ Map<String, dynamic> _$$RoomImplToJson(_$RoomImpl instance) {
   val['level'] = _$BoardLevelEnumMap[instance.level]!;
   val['creator'] = instance.creator;
   val['type'] = _$BoardTypeEnumMap[instance.type]!;
+  val['count'] = _$PlayerCountEnumMap[instance.count]!;
   return val;
 }
 
 const _$BoardLevelEnumMap = {
-  BoardLevel.beginner: 'beginner',
-  BoardLevel.expert: 'expert',
+  BoardLevel.easy: 'easy',
+  BoardLevel.hard: 'hard',
 };
 
 const _$BoardTypeEnumMap = {
   BoardType.normal: 'normal',
   BoardType.closed: 'closed',
   BoardType.orderwise: 'orderwise',
+};
+
+const _$PlayerCountEnumMap = {
+  PlayerCount.vs: 'vs',
+  PlayerCount.trio: 'trio',
 };

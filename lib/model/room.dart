@@ -17,6 +17,7 @@ class Room with _$Room {
     required BoardLevel level,
     required String creator,
     required BoardType type,
+    required PlayerCount count,
   }) = _Room;
 
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);

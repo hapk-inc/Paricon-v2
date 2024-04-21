@@ -15,7 +15,7 @@ class RoomHeader extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 15.w),
         alignment: Alignment.centerLeft,
         child: Text(
-          "Hosting the Game",
+          "Hosting Game",
           style: textTheme.titleLarge?.copyWith(color: ghostWhite),
         ),
       ),

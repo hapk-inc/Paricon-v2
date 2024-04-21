@@ -1,28 +1,28 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mock_data/mock_data.dart';
 
-import '../../enums/enums.dart';
 import '../../model/room.dart';
-import '../auth/bloc.dart';
-import 'bloc.dart';
 import 'id.dart';
+
+final Provider<RoomNotifier> roomNotifierProvider = Provider<RoomNotifier>(
+  (ref) => RoomNotifier(ref),
+);
 
 class RoomNotifier extends ChangeNotifier {
   final Ref ref;
-  late Room? room;
+  Room? room;
 
   RoomNotifier(this.ref) {
     final String? id = ref.watch(idNotifier);
 
     if (id == null) {
-      room = createRoom;
-      ref.read(createRoomProvider(room!));
+      //room = createRoom;
+      //ref.read(createRoomProvider(room!));
     } else {}
     //room = id == null ? createRoom : ref.watch(roomProvider).value;
   }
 
-  Room get createRoom {
+/*  Room get createRoom {
     final String id = ref.read(authUserProvider).value?.uid ?? "";
     final BoardLevel level = BoardLevel.values[0];
 
@@ -34,5 +34,5 @@ class RoomNotifier extends ChangeNotifier {
       creator: id,
       type: type,
     );
-  }
+  }*/
 }
