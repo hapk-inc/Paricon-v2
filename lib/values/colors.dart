@@ -54,3 +54,10 @@ const Color snow = Color(0xfff8f2f5);
 
 const Color olive = Color(0xff9b8816);
 const Color sepia = Color(0xff5d3a00);
+
+const Color tiffanyBlue = Color(0xff7dd7dc);
+const Color naplesYellow = Color(0xffFADF63);
+const Color thistle = Color(0xffdac2e1);
+const Color cherryBlossomPink = Color(0xfff9acb5);
+
+const Color darkPurple = Color(0xff321325);

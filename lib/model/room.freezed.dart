@@ -20,13 +20,14 @@ Room _$RoomFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Room {
-  Map<String, Player> get players => throw _privateConstructorUsedError;
+  @PlayerConverter()
+  Map<String, Player>? get players => throw _privateConstructorUsedError;
   bool? get started => throw _privateConstructorUsedError;
-  num get code => throw _privateConstructorUsedError;
-  BoardLevel get level => throw _privateConstructorUsedError;
-  String get creator => throw _privateConstructorUsedError;
-  BoardType get type => throw _privateConstructorUsedError;
-  PlayerCount get count => throw _privateConstructorUsedError;
+  num? get code => throw _privateConstructorUsedError;
+  BoardLevel? get level => throw _privateConstructorUsedError;
+  String? get creator => throw _privateConstructorUsedError;
+  BoardType? get type => throw _privateConstructorUsedError;
+  PlayerCount? get count => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,13 +40,13 @@ abstract class $RoomCopyWith<$Res> {
       _$RoomCopyWithImpl<$Res, Room>;
   @useResult
   $Res call(
-      {Map<String, Player> players,
+      {@PlayerConverter() Map<String, Player>? players,
       bool? started,
-      num code,
-      BoardLevel level,
-      String creator,
-      BoardType type,
-      PlayerCount count});
+      num? code,
+      BoardLevel? level,
+      String? creator,
+      BoardType? type,
+      PlayerCount? count});
 }
 
 /// @nodoc
@@ -61,43 +62,43 @@ class _$RoomCopyWithImpl<$Res, $Val extends Room>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? players = null,
+    Object? players = freezed,
     Object? started = freezed,
-    Object? code = null,
-    Object? level = null,
-    Object? creator = null,
-    Object? type = null,
-    Object? count = null,
+    Object? code = freezed,
+    Object? level = freezed,
+    Object? creator = freezed,
+    Object? type = freezed,
+    Object? count = freezed,
   }) {
     return _then(_value.copyWith(
-      players: null == players
+      players: freezed == players
           ? _value.players
           : players // ignore: cast_nullable_to_non_nullable
-              as Map<String, Player>,
+              as Map<String, Player>?,
       started: freezed == started
           ? _value.started
           : started // ignore: cast_nullable_to_non_nullable
               as bool?,
-      code: null == code
+      code: freezed == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
-              as num,
-      level: null == level
+              as num?,
+      level: freezed == level
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
-              as BoardLevel,
-      creator: null == creator
+              as BoardLevel?,
+      creator: freezed == creator
           ? _value.creator
           : creator // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
+              as String?,
+      type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as BoardType,
-      count: null == count
+              as BoardType?,
+      count: freezed == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
-              as PlayerCount,
+              as PlayerCount?,
     ) as $Val);
   }
 }
@@ -110,13 +111,13 @@ abstract class _$$RoomImplCopyWith<$Res> implements $RoomCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {Map<String, Player> players,
+      {@PlayerConverter() Map<String, Player>? players,
       bool? started,
-      num code,
-      BoardLevel level,
-      String creator,
-      BoardType type,
-      PlayerCount count});
+      num? code,
+      BoardLevel? level,
+      String? creator,
+      BoardType? type,
+      PlayerCount? count});
 }
 
 /// @nodoc
@@ -129,43 +130,43 @@ class __$$RoomImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? players = null,
+    Object? players = freezed,
     Object? started = freezed,
-    Object? code = null,
-    Object? level = null,
-    Object? creator = null,
-    Object? type = null,
-    Object? count = null,
+    Object? code = freezed,
+    Object? level = freezed,
+    Object? creator = freezed,
+    Object? type = freezed,
+    Object? count = freezed,
   }) {
     return _then(_$RoomImpl(
-      players: null == players
+      players: freezed == players
           ? _value._players
           : players // ignore: cast_nullable_to_non_nullable
-              as Map<String, Player>,
+              as Map<String, Player>?,
       started: freezed == started
           ? _value.started
           : started // ignore: cast_nullable_to_non_nullable
               as bool?,
-      code: null == code
+      code: freezed == code
           ? _value.code
           : code // ignore: cast_nullable_to_non_nullable
-              as num,
-      level: null == level
+              as num?,
+      level: freezed == level
           ? _value.level
           : level // ignore: cast_nullable_to_non_nullable
-              as BoardLevel,
-      creator: null == creator
+              as BoardLevel?,
+      creator: freezed == creator
           ? _value.creator
           : creator // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
+              as String?,
+      type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as BoardType,
-      count: null == count
+              as BoardType?,
+      count: freezed == count
           ? _value.count
           : count // ignore: cast_nullable_to_non_nullable
-              as PlayerCount,
+              as PlayerCount?,
     ));
   }
 }
@@ -173,45 +174,63 @@ class __$$RoomImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(includeIfNull: false)
-class _$RoomImpl implements _Room {
+class _$RoomImpl extends _Room with DiagnosticableTreeMixin {
   const _$RoomImpl(
-      {final Map<String, Player> players = const {},
+      {@PlayerConverter() final Map<String, Player>? players = const {},
       this.started,
-      required this.code,
-      required this.level,
-      required this.creator,
-      required this.type,
-      required this.count})
-      : _players = players;
+      this.code,
+      this.level,
+      this.creator,
+      this.type,
+      this.count})
+      : _players = players,
+        super._();
 
   factory _$RoomImpl.fromJson(Map<String, dynamic> json) =>
       _$$RoomImplFromJson(json);
 
-  final Map<String, Player> _players;
+  final Map<String, Player>? _players;
   @override
   @JsonKey()
-  Map<String, Player> get players {
+  @PlayerConverter()
+  Map<String, Player>? get players {
+    final value = _players;
+    if (value == null) return null;
     if (_players is EqualUnmodifiableMapView) return _players;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_players);
+    return EqualUnmodifiableMapView(value);
   }
 
   @override
   final bool? started;
   @override
-  final num code;
+  final num? code;
   @override
-  final BoardLevel level;
+  final BoardLevel? level;
   @override
-  final String creator;
+  final String? creator;
   @override
-  final BoardType type;
+  final BoardType? type;
   @override
-  final PlayerCount count;
+  final PlayerCount? count;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'Room(players: $players, started: $started, code: $code, level: $level, creator: $creator, type: $type, count: $count)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'Room'))
+      ..add(DiagnosticsProperty('players', players))
+      ..add(DiagnosticsProperty('started', started))
+      ..add(DiagnosticsProperty('code', code))
+      ..add(DiagnosticsProperty('level', level))
+      ..add(DiagnosticsProperty('creator', creator))
+      ..add(DiagnosticsProperty('type', type))
+      ..add(DiagnosticsProperty('count', count));
   }
 
   @override
@@ -254,32 +273,34 @@ class _$RoomImpl implements _Room {
   }
 }
 
-abstract class _Room implements Room {
+abstract class _Room extends Room {
   const factory _Room(
-      {final Map<String, Player> players,
+      {@PlayerConverter() final Map<String, Player>? players,
       final bool? started,
-      required final num code,
-      required final BoardLevel level,
-      required final String creator,
-      required final BoardType type,
-      required final PlayerCount count}) = _$RoomImpl;
+      final num? code,
+      final BoardLevel? level,
+      final String? creator,
+      final BoardType? type,
+      final PlayerCount? count}) = _$RoomImpl;
+  const _Room._() : super._();
 
   factory _Room.fromJson(Map<String, dynamic> json) = _$RoomImpl.fromJson;
 
   @override
-  Map<String, Player> get players;
+  @PlayerConverter()
+  Map<String, Player>? get players;
   @override
   bool? get started;
   @override
-  num get code;
+  num? get code;
   @override
-  BoardLevel get level;
+  BoardLevel? get level;
   @override
-  String get creator;
+  String? get creator;
   @override
-  BoardType get type;
+  BoardType? get type;
   @override
-  PlayerCount get count;
+  PlayerCount? get count;
   @override
   @JsonKey(ignore: true)
   _$$RoomImplCopyWith<_$RoomImpl> get copyWith =>

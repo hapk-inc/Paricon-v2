@@ -1,10 +1,13 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../../logic/app/ai_bloc.dart';
+import '../../../router/my_route.dart';
 import '../../../values/colors.dart';
 
 class DPlayFriend extends ConsumerWidget {
@@ -12,11 +15,11 @@ class DPlayFriend extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String? sub = ref.watch(subPlayFriendTextProvider).maybeWhen(
+    /* final String? sub = ref.watch(subPlayFriendTextProvider).maybeWhen(
           data: (data) => data,
           orElse: () => null,
           //error: (error, stackTrace) => "Try multiplayer game",
-        );
+        );*/
     final TextTheme textTheme = Theme.of(context).textTheme;
     return StaggeredGridTile.fit(
       crossAxisCellCount: 15,
@@ -26,23 +29,38 @@ class DPlayFriend extends ConsumerWidget {
           tileColor: ghostWhite,
           title: AutoSizeText(
             "Play with Friends Online",
-            style: textTheme.titleLarge?.copyWith(color: hookerGreen),
+            style: textTheme.titleLarge?.copyWith(color: darkPurple),
             //maxLines: 2,
           ),
           subtitle: Align(
             alignment: Alignment.centerLeft,
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              child: Text(
-                "$sub",
-                key: ValueKey(sub),
-                style: textTheme.bodyMedium?.copyWith(color: gray),
+              child: RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: "or Click here",
+                      style: const TextStyle(color: cornellRed),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap =
+                            () => context.router.push(const GameRoomRoute()),
+                    ),
+                    const TextSpan(text: " to enter the room code"),
+                  ],
+                  style: textTheme.bodyMedium?.copyWith(color: gray),
+                ),
                 maxLines: 2,
               ),
             ),
           ),
         ),
-        /*subtitle: SizedBox(
+      ),
+    );
+  }
+}
+
+/*subtitle: SizedBox(
           height: 105.h,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -92,7 +110,3 @@ class DPlayFriend extends ConsumerWidget {
             ],
           ),
         ),*/
-      ),
-    );
-  }
-}

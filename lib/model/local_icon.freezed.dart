@@ -192,30 +192,6 @@ class _$LocalIconImpl extends _LocalIcon {
   @override
   final bool? isFound;
 
-  @override
-  String toString() {
-    return 'LocalIcon(color: $color, audio: $audio, iconCode: $iconCode, iconNo: $iconNo, isCheck: $isCheck, isFound: $isFound)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LocalIconImpl &&
-            (identical(other.color, color) || other.color == color) &&
-            (identical(other.audio, audio) || other.audio == audio) &&
-            (identical(other.iconCode, iconCode) ||
-                other.iconCode == iconCode) &&
-            (identical(other.iconNo, iconNo) || other.iconNo == iconNo) &&
-            (identical(other.isCheck, isCheck) || other.isCheck == isCheck) &&
-            (identical(other.isFound, isFound) || other.isFound == isFound));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, color, audio, iconCode, iconNo, isCheck, isFound);
-
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')

@@ -7,19 +7,23 @@ import '../../model/player.dart';
 import 'board_icons.dart';
 
 class CreateBoard {
-  static Map<String, LocalIcon> get icons {
+  static Map<String, LocalIcon> icons([int totalIcon = 56]) {
     List<int> overall = List.from(boardIcon.keys);
     overall.shuffle();
 
-    List<int> filter = List.from(overall.take(28));
-    //List<int> filter = List.from(overall.take(4));
+    List<int> filter = List.from(overall.take(totalIcon ~/ 2));
+
     List<int> mix = filter + filter;
 
     mix.shuffle();
-    return {
+    List<String> keys = List.generate(mix.length, (index) => mockString(12));
+    List<LocalIcon> values = List.generate(
+        mix.length, (index) => LocalIcon(iconCode: mix[index], iconNo: index));
+    return Map.fromIterables(keys, values);
+    /*return {
       for (var icon in mix)
         mockString(8): LocalIcon(iconCode: icon, iconNo: mix.indexOf(icon))
-    };
+    };*/
   }
 
   static Map<String, LocalPlayer> localPlayers(Map<String, Player?> users) {

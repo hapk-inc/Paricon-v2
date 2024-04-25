@@ -5,6 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 
 import '../values/colors.dart';
+import 'settings/log_out_dialog.dart';
+import 'settings/setting_tile.dart';
+
+BorderRadius get _iconRadius => BorderRadius.circular(4.5.r);
 
 @RoutePage()
 class SettingsPage extends ConsumerWidget {
@@ -30,7 +34,7 @@ class SettingsPage extends ConsumerWidget {
             Gap(15.r),
             Text(
               "General",
-              style: textTheme.headlineMedium?.copyWith(color: charcoal),
+              style: textTheme.headlineLarge?.copyWith(color: charcoal),
             ),
             Gap(24.r),
             Container(
@@ -42,31 +46,57 @@ class SettingsPage extends ConsumerWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.r),
                 child: Column(
-                  children: List.generate(
-                    3,
-                    (index) => Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(color: magnolia1, width: 3.6.r),
-                        ),
-                      ),
-                      child: const AspectRatio(
-                        aspectRatio: 6,
-                        child: GridTileBar(
-                          leading: Icon(Icons.add),
-                          title: Text("Account"),
-                          trailing: Icon(Icons.chevron_right),
+                  children: [
+                    SettingsTile(
+                      onTap: () {},
+                      title: 'Account',
+                      leading: SizedBox.square(
+                        dimension: 30.r,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: uranianBlue,
+                            borderRadius: _iconRadius,
+                          ),
+                          child: Icon(Icons.person, size: 18.r),
                         ),
                       ),
                     ),
-                  ),
+                    SettingsTile(
+                      onTap: () {},
+                      title: 'Notifications',
+                      leading: SizedBox.square(
+                        dimension: 30.r,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: naplesYellow,
+                            borderRadius: _iconRadius,
+                          ),
+                          child: Icon(Icons.notifications, size: 18.r),
+                        ),
+                      ),
+                    ),
+                    SettingsTile(
+                      onTap: () {},
+                      title: 'Statistics',
+                      leading: SizedBox.square(
+                        dimension: 30.r,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: aquamarine,
+                            borderRadius: _iconRadius,
+                          ),
+                          child: Icon(Icons.bar_chart, size: 18.r),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
             Gap(30.r),
             Text(
               "More Settings",
-              style: textTheme.headlineMedium?.copyWith(color: charcoal),
+              style: textTheme.headlineLarge?.copyWith(color: charcoal),
             ),
             Gap(24.r),
             Container(
@@ -78,24 +108,57 @@ class SettingsPage extends ConsumerWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.r),
                 child: Column(
-                  children: List.generate(
-                    3,
-                    (index) => Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(color: magnolia1, width: 3.6.r),
-                        ),
-                      ),
-                      child: const AspectRatio(
-                        aspectRatio: 6,
-                        child: GridTileBar(
-                          leading: Icon(Icons.add),
-                          title: Text("Account"),
-                          trailing: Icon(Icons.add),
+                  children: [
+                    SettingsTile(
+                      onTap: () {},
+                      title: 'Privacy Policy',
+                      leading: SizedBox.square(
+                        dimension: 30.r,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: thistle,
+                            borderRadius: _iconRadius,
+                          ),
+                          child: Icon(Icons.policy, size: 18.r),
                         ),
                       ),
                     ),
-                  ),
+                    SettingsTile(
+                      onTap: () => showDialog(
+                        context: context,
+                        builder: (_) => const LogOutDialog(),
+                      ),
+                      title: 'Log Out',
+                      leading: SizedBox.square(
+                        dimension: 30.r,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: cherryBlossomPink,
+                            borderRadius: _iconRadius,
+                          ),
+                          child: Icon(Icons.logout, size: 18.r),
+                        ),
+                      ),
+                    ),
+                    SettingsTile(
+                      onTap: () {},
+                      title: 'Deactivate Account',
+                      leading: SizedBox.square(
+                        dimension: 30.r,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: jasper,
+                            borderRadius: _iconRadius,
+                          ),
+                          child: Icon(
+                            Icons.delete,
+                            size: 18.r,
+                            color: ghostWhite,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             )

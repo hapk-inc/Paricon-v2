@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../values/colors.dart';
 
+/*
 class SettingsTile extends ConsumerWidget {
   final String title;
   final bool showBorder;
@@ -34,6 +35,46 @@ class SettingsTile extends ConsumerWidget {
           titleTextStyle: textTheme.bodyMedium,
           leadingAndTrailingTextStyle: textTheme.bodyMedium,
           onTap: tileTap,
+        ),
+      ),
+    );
+  }
+}
+*/
+
+class SettingsTile extends ConsumerWidget {
+  final GestureTapCallback? onTap;
+  final String title;
+  final Widget leading;
+
+  const SettingsTile({
+    required this.title,
+    required this.onTap,
+    required this.leading,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+    return AspectRatio(
+      aspectRatio: 6,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(bottom: BorderSide(color: magnolia1, width: 3.r)),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 7.5.w),
+        alignment: Alignment.center,
+        child: ListTile(
+          onTap: onTap,
+          horizontalTitleGap: 15.w,
+          //minLeadingWidth: 15,
+          leading: leading,
+          title: Text(
+            title,
+            style: textTheme.bodyMedium,
+          ),
+          trailing: const Icon(Icons.chevron_right, color: frenchGray),
         ),
       ),
     );

@@ -7,14 +7,12 @@ part of 'board.dart';
 // **************************************************************************
 
 _$BoardImpl _$$BoardImplFromJson(Map<String, dynamic> json) => _$BoardImpl(
-      players: (json['players'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, LocalPlayer.fromJson(e as Map<String, dynamic>)),
-      ),
-      icons: (json['icons'] as Map<String, dynamic>?)?.map(
-            (k, e) =>
-                MapEntry(k, LocalIcon.fromJson(e as Map<String, dynamic>)),
-          ) ??
-          const {},
+      players: json['players'] == null
+          ? const {}
+          : const LocalPlayerConverter().fromJson(json['players'] as Map),
+      icons: json['icons'] == null
+          ? const {}
+          : const LocalIconConverter().fromJson(json['icons'] as Map),
       currentID: json['currentID'] as String?,
       type: $enumDecodeNullable(_$BoardTypeEnumMap, json['type']) ??
           BoardType.normal,
@@ -22,7 +20,10 @@ _$BoardImpl _$$BoardImplFromJson(Map<String, dynamic> json) => _$BoardImpl(
     );
 
 Map<String, dynamic> _$$BoardImplToJson(_$BoardImpl instance) {
-  final val = <String, dynamic>{};
+  final val = <String, dynamic>{
+    'players': const LocalPlayerConverter().toJson(instance.players),
+    'icons': const LocalIconConverter().toJson(instance.icons),
+  };
 
   void writeNotNull(String key, dynamic value) {
     if (value != null) {
@@ -30,8 +31,6 @@ Map<String, dynamic> _$$BoardImplToJson(_$BoardImpl instance) {
     }
   }
 
-  writeNotNull('players', instance.players);
-  val['icons'] = instance.icons;
   writeNotNull('currentID', instance.currentID);
   val['type'] = _$BoardTypeEnumMap[instance.type]!;
   writeNotNull('currentIcon', instance.currentIcon);

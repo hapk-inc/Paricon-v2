@@ -38,7 +38,7 @@ class UserNotifier extends ChangeNotifier {
     _logger.d("initializeMe");
     final String? id = ref.read(authUserProvider).value?.uid;
     if (id != null) {
-      me = await _db.player(id);
+      me = kIsWeb ? null : await _db.player(id);
       _logger.d("Initialize Player $_me");
       if (me == null) {
         newUser(id);
@@ -49,9 +49,8 @@ class UserNotifier extends ChangeNotifier {
   }
 
   Future newUser(id) async {
-    _logger.d("New User");
     me = Player.createOne();
-    await _db.insertUser(me!.toDatabase(id));
+    if (!kIsWeb) await _db.insertUser(me!.toDatabase(id));
     ref.read(createMeProvider(me));
   }
 
@@ -65,9 +64,8 @@ class UserNotifier extends ChangeNotifier {
 
   @override
   void dispose() async {
-    // TODO: implement dispose
-    super.dispose();
     _logger.d("Running OnDispose");
-    _db.delete();
+    if (!kIsWeb) _db.delete();
+    super.dispose();
   }
 }

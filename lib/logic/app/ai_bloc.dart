@@ -9,26 +9,30 @@ const String _welcomePrompt =
     "And Don't question them."
     //"Also, welcome the user with a holi celebration"
     "Also remove double-quotes and **. Use Easy English."
-    "Include emojis,if possible";
+    "Include emojis,if possible"
+    "Don't include ** in prefix and suffix";
 
 const String _tournamentPrompt =
     " Rephrase this line - Ready, Set, Game : Join the Tournament.  "
     "Use Easy English."
     "Don't use the words like tournament"
     "It's a puzzle timer tournament"
-    "Include emojis,if possible";
+    "Include emojis,if possible"
+    "Don't include ** in prefix and suffix";
 
 const String _subTournamentPrompt =
     "Give a subtitle for - Ready, Set, Game : Join the Tournament."
     "Don't start with Join and "
     "don't use the words like Blueprint,Potential,Glory,Adventure,Arena and Guide"
     "Use Easy English. This should not exceed more than 60 letters"
-    "It's a puzzle timer tournament ";
+    "It's a puzzle timer tournament. "
+    "Don't include ** in prefix and suffix";
 
 const String _subPlayFriendPrompt =
     "Give a subtitle for - Play with Friends Online. Don't start with Join"
     "Use Easy English."
-    "Include emojis,if possible";
+    "Include emojis,if possible"
+    "Don't include ** in prefix and suffix";
 //" Player name is ";
 
 //const String _changeName =

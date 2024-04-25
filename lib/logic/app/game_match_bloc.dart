@@ -14,5 +14,5 @@ class MatchNotifier extends StateNotifier<GameMatch> {
       state == GameMatch.dailyMatch || state == GameMatch.tournament;
 
   @override
-  set state(GameMatch value) => state == value;
+  set state(GameMatch value) => super.state = value;
 }

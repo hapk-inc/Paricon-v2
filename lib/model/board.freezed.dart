@@ -20,7 +20,9 @@ Board _$BoardFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Board {
-  Map<String, LocalPlayer>? get players => throw _privateConstructorUsedError;
+  @LocalPlayerConverter()
+  Map<String, LocalPlayer> get players => throw _privateConstructorUsedError;
+  @LocalIconConverter()
   Map<String, LocalIcon> get icons => throw _privateConstructorUsedError;
   String? get currentID => throw _privateConstructorUsedError;
   BoardType get type => throw _privateConstructorUsedError;
@@ -37,8 +39,8 @@ abstract class $BoardCopyWith<$Res> {
       _$BoardCopyWithImpl<$Res, Board>;
   @useResult
   $Res call(
-      {Map<String, LocalPlayer>? players,
-      Map<String, LocalIcon> icons,
+      {@LocalPlayerConverter() Map<String, LocalPlayer> players,
+      @LocalIconConverter() Map<String, LocalIcon> icons,
       String? currentID,
       BoardType type,
       String? currentIcon});
@@ -57,17 +59,17 @@ class _$BoardCopyWithImpl<$Res, $Val extends Board>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? players = freezed,
+    Object? players = null,
     Object? icons = null,
     Object? currentID = freezed,
     Object? type = null,
     Object? currentIcon = freezed,
   }) {
     return _then(_value.copyWith(
-      players: freezed == players
+      players: null == players
           ? _value.players
           : players // ignore: cast_nullable_to_non_nullable
-              as Map<String, LocalPlayer>?,
+              as Map<String, LocalPlayer>,
       icons: null == icons
           ? _value.icons
           : icons // ignore: cast_nullable_to_non_nullable
@@ -96,8 +98,8 @@ abstract class _$$BoardImplCopyWith<$Res> implements $BoardCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {Map<String, LocalPlayer>? players,
-      Map<String, LocalIcon> icons,
+      {@LocalPlayerConverter() Map<String, LocalPlayer> players,
+      @LocalIconConverter() Map<String, LocalIcon> icons,
       String? currentID,
       BoardType type,
       String? currentIcon});
@@ -114,17 +116,17 @@ class __$$BoardImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? players = freezed,
+    Object? players = null,
     Object? icons = null,
     Object? currentID = freezed,
     Object? type = null,
     Object? currentIcon = freezed,
   }) {
     return _then(_$BoardImpl(
-      players: freezed == players
+      players: null == players
           ? _value.players
           : players // ignore: cast_nullable_to_non_nullable
-              as Map<String, LocalPlayer>?,
+              as Map<String, LocalPlayer>,
       icons: null == icons
           ? _value.icons
           : icons // ignore: cast_nullable_to_non_nullable
@@ -150,8 +152,8 @@ class __$$BoardImplCopyWithImpl<$Res>
 @JsonSerializable(includeIfNull: false)
 class _$BoardImpl extends _Board with DiagnosticableTreeMixin {
   const _$BoardImpl(
-      {this.players,
-      this.icons = const {},
+      {@LocalPlayerConverter() this.players = const {},
+      @LocalIconConverter() this.icons = const {},
       this.currentID,
       this.type = BoardType.normal,
       this.currentIcon})
@@ -161,9 +163,12 @@ class _$BoardImpl extends _Board with DiagnosticableTreeMixin {
       _$$BoardImplFromJson(json);
 
   @override
-  final Map<String, LocalPlayer>? players;
+  @JsonKey()
+  @LocalPlayerConverter()
+  final Map<String, LocalPlayer> players;
   @override
   @JsonKey()
+  @LocalIconConverter()
   final Map<String, LocalIcon> icons;
   @override
   final String? currentID;
@@ -230,8 +235,8 @@ class _$BoardImpl extends _Board with DiagnosticableTreeMixin {
 
 abstract class _Board extends Board {
   const factory _Board(
-      {final Map<String, LocalPlayer>? players,
-      final Map<String, LocalIcon> icons,
+      {@LocalPlayerConverter() final Map<String, LocalPlayer> players,
+      @LocalIconConverter() final Map<String, LocalIcon> icons,
       final String? currentID,
       final BoardType type,
       final String? currentIcon}) = _$BoardImpl;
@@ -240,8 +245,10 @@ abstract class _Board extends Board {
   factory _Board.fromJson(Map<String, dynamic> json) = _$BoardImpl.fromJson;
 
   @override
-  Map<String, LocalPlayer>? get players;
+  @LocalPlayerConverter()
+  Map<String, LocalPlayer> get players;
   @override
+  @LocalIconConverter()
   Map<String, LocalIcon> get icons;
   @override
   String? get currentID;

@@ -37,7 +37,11 @@ class MyRouter extends _$MyRouter {
             AutoRoute(page: PlayTournamentRoute.page),
             AutoRoute(page: SettingsRoute.page),
             AutoRoute(page: GameRoomRoute.page),
-            AutoRoute(page: PlayFriendRoute.page),
+            CustomRoute(
+              page: PlayFriendRoute.page,
+              transitionsBuilder: TransitionsBuilders.slideTop,
+            )
+            //AutoRoute(page: PlayFriendRoute.page),
           ],
         )
       ];

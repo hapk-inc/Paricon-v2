@@ -32,7 +32,7 @@ class DashboardBtn extends ConsumerWidget {
           inactiveBgColor: magnolia,
           activeBgColors: const [
             [jasper],
-            [hookerGreen],
+            [darkPurple],
             [jasper],
           ],
           activeFgColor: ghostWhite,

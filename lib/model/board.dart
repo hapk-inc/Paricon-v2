@@ -1,10 +1,13 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../enums/enums.dart';
 import '../values/colors.dart';
 import 'local_icon.dart';
+import 'local_icon_converter.dart';
 import 'local_player.dart';
+import 'local_player_converter.dart';
 
 part 'board.freezed.dart';
 part 'board.g.dart';
@@ -15,8 +18,8 @@ class Board with _$Board {
 
   @JsonSerializable(includeIfNull: false)
   const factory Board({
-    Map<String, LocalPlayer>? players,
-    @Default({}) Map<String, LocalIcon> icons,
+    @LocalPlayerConverter() @Default({}) Map<String, LocalPlayer> players,
+    @LocalIconConverter() @Default({}) Map<String, LocalIcon> icons,
     String? currentID,
     @Default(BoardType.normal) BoardType type,
     String? currentIcon,
@@ -46,10 +49,13 @@ class Board with _$Board {
           (value) => value.copyWith(
             isCheck: false,
             isFound: true,
-            color: majorelleBlue,
+            color:
+                currentID == null ? majorelleBlue : players[currentID]!.color,
           ),
         );
       }
+      players.update(
+          currentID!, (value) => value.copyWith(pts: (value.pts ?? 0) + 1));
     } else {
       for (MapEntry<String, LocalIcon> e in x) {
         icons.update(
@@ -60,6 +66,13 @@ class Board with _$Board {
     }
 
     return v;
+  }
+
+  factory Board.fromSnapshot(DataSnapshot snapshot) {
+    Map map = snapshot.value as Map;
+    Map<String, dynamic> json = Map<String, dynamic>.from(map);
+    final Board board = Board.fromJson(json);
+    return board;
   }
 
   bool get everyIcon => icons.values.every((value) => value.isFound ?? false);

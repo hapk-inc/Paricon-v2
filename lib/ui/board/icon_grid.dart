@@ -18,8 +18,8 @@ class IconGrid extends ConsumerWidget {
 
     final BoardNotifier boardNotifier = ref.watch(boardNotifierProvider);
 
-    final Map<String, LocalIcon> icons = boardNotifier.board.icons;
-    debugPrint(icons.length.toString());
+    final Map<String, LocalIcon> icons = boardNotifier.board!.icons;
+    //debugPrint(icons.length.toString());
 
     return Container(
       alignment: Alignment.center,
@@ -31,15 +31,12 @@ class IconGrid extends ConsumerWidget {
         ),
         horizontalGridMargin: 15.r,
         verticalGridMargin: 15.r,
-        //horizontalGridMargin: sizeNotifier.isP ? 15.r : 18.r,
-        //verticalGridMargin: sizeNotifier.isP ? 15.r : 18.r,
+
         minItemsPerRow: 7,
         maxItemsPerRow: 7,
         horizontalGridSpacing: 7.5.r,
         verticalGridSpacing: 7.5.r,
-        //maxItemsPerRow: sizeNotifier.isP ? 7 : 8,
-        //horizontalGridSpacing: sizeNotifier.isP ? 7.5.r : 9.r,
-        //verticalGridSpacing: sizeNotifier.isP ? 7.5.r : 9.r,
+
         minItemWidth: 1.w,
         children: List.generate(
           icons.length,

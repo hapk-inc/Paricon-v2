@@ -5,57 +5,41 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../enums/enums.dart';
-import '../logic/dashboard/notifier.dart';
 import '../logic/panel/bloc.dart';
-import '../logic/room/notifier.dart';
+import '../logic/room/bloc.dart';
+import '../logic/room/create_room.dart';
+import '../model/room.dart';
 import '../router/my_route.dart';
 import '../values/colors.dart';
 import 'create_room/board_level.dart';
 import 'create_room/board_player.dart';
 import 'create_room/board_type.dart';
 
-class CreateRoom extends ConsumerStatefulWidget {
-  const CreateRoom({super.key});
+class CreateRoom extends ConsumerWidget {
+  final Room room;
+  const CreateRoom(this.room, {super.key});
 
   @override
-  ConsumerState createState() => _CreateRoomState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool isDashboardRoute =
+        context.router.current.name == DashboardRoute.name;
+    PanelController panel = isDashboardRoute
+        ? ref.read(dashboardPanelControllerProvider)
+        : ref.read(roomPanelControllerProvider);
 
-class _CreateRoomState extends ConsumerState<CreateRoom> {
-  late PanelController panel;
-  late BoardLevel? level;
-  late BoardType? type;
-  late PlayerCount? boardPlayer;
+    //final Room room = Room();
+    /* PanelController panel = isDashboardRoute
+        ? ref.read(dashboardPanelControllerProvider)
+        : ref.read(roomPanelControllerProvider);*/
+    //final Room room = ref.read(roomNotifierProvider).room;
 
-  @override
-  void initState() {
-    switch (context.router.current.name) {
-      case DashboardRoute.name:
-        {
-          panel = ref.read(dashboardPanelControllerProvider);
-          level = ref.read(dashboardNotifierProvider).level;
-          type = ref.read(dashboardNotifierProvider).type;
-          boardPlayer = ref.read(dashboardNotifierProvider).player;
-          break;
-        }
-      case GameRoomRoute.name:
-        {
-          panel = ref.read(roomPanelControllerProvider);
-          level = ref.read(roomNotifierProvider).room?.level;
-          type = ref.read(roomNotifierProvider).room?.type;
-          boardPlayer = ref.read(roomNotifierProvider).room?.count;
-          break;
-        }
-    }
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+    //
+    //final Room room = ref.watch(createRoomNotifierProvider);
     final TextTheme textTheme = Theme.of(context).textTheme;
+
     return StaggeredGridTile.fit(
       crossAxisCellCount: 15,
       child: Container(
@@ -75,7 +59,9 @@ class _CreateRoomState extends ConsumerState<CreateRoom> {
                 child: Row(
                   children: [
                     AutoSizeText(
-                      level?.name ?? "Board Level",
+                      toBeginningOfSentenceCase(
+                              room.level?.name ?? "Board Level") ??
+                          "",
                       style: GoogleFonts.poppins(
                         textStyle: textTheme.bodySmall?.copyWith(
                           color: hookerGreen,
@@ -99,7 +85,8 @@ class _CreateRoomState extends ConsumerState<CreateRoom> {
                 child: Row(
                   children: [
                     AutoSizeText(
-                      boardPlayer?.name ?? "2 / 3",
+                      toBeginningOfSentenceCase(room.count?.name ?? "2 / 3") ??
+                          "",
                       style: GoogleFonts.poppins(
                         textStyle: textTheme.bodySmall?.copyWith(
                           color: hookerGreen,
@@ -123,7 +110,9 @@ class _CreateRoomState extends ConsumerState<CreateRoom> {
                 child: Row(
                   children: [
                     AutoSizeText(
-                      type?.name ?? "Board Type",
+                      toBeginningOfSentenceCase(
+                              room.type?.name ?? "Board Type") ??
+                          "",
                       style: GoogleFonts.poppins(
                         textStyle: textTheme.bodySmall?.copyWith(
                           color: hookerGreen,
@@ -142,6 +131,144 @@ class _CreateRoomState extends ConsumerState<CreateRoom> {
     );
   }
 }
+
+/*class CreateRoom extends ConsumerStatefulWidget {
+  const CreateRoom({super.key});
+
+  @override
+  ConsumerState createState() => _CreateRoomState();
+}
+
+class _CreateRoomState extends ConsumerState<CreateRoom> {
+  late bool isDashboardRoute;
+  late PanelController panel;
+
+  //
+  //late BoardLevel? level;
+  //late BoardType? type;
+  //late PlayerCount? boardPlayer;
+
+  @override
+  void initState() {
+    isDashboardRoute = context.router.current.name == DashboardRoute.name;
+    panel = isDashboardRoute
+        ? ref.read(dashboardPanelControllerProvider)
+        : ref.read(roomPanelControllerProvider);
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
+
+    final Room room = ref.watch(roomNotifierProvider).room;
+    */ /*final dynamic notifier = isDashboardRoute
+        ? ref.watch(dashboardNotifierProvider)
+        : ref.watch(roomNotifierProvider);
+
+    if (notifier is DashboardNotifier) {
+      level = notifier.level;
+      type = notifier.type;
+      boardPlayer = notifier.playerCount;
+    }
+    if (notifier is RoomNotifier) {
+      level = notifier.room?.level;
+      type = notifier.room?.type;
+      boardPlayer = notifier.room?.count;
+    }*/ /*
+
+    return StaggeredGridTile.fit(
+      crossAxisCellCount: 15,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 15.w),
+        child: Wrap(
+          spacing: 15.r,
+          runSpacing: 15.r,
+          children: [
+            _WrapContainer(
+              lWidth: 210.w,
+              lChild: InkWell(
+                onTap: () {
+                  ref.read(panelNotifierProvider.notifier).state =
+                      const BoardLevelPanel();
+                  panel.open();
+                },
+                child: Row(
+                  children: [
+                    AutoSizeText(
+                      toBeginningOfSentenceCase(
+                              room.level?.name ?? "Board Level") ??
+                          "",
+                      style: GoogleFonts.poppins(
+                        textStyle: textTheme.bodySmall?.copyWith(
+                          color: hookerGreen,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ),
+                    ..._endWidget,
+                  ],
+                ),
+              ),
+            ),
+            _WrapContainer(
+              lWidth: 90.w,
+              lChild: InkWell(
+                onTap: () {
+                  ref.read(panelNotifierProvider.notifier).state =
+                      const BoardPlayerPanel();
+                  panel.open();
+                },
+                child: Row(
+                  children: [
+                    AutoSizeText(
+                      toBeginningOfSentenceCase(room.count?.name ?? "2 / 3") ??
+                          "",
+                      style: GoogleFonts.poppins(
+                        textStyle: textTheme.bodySmall?.copyWith(
+                          color: hookerGreen,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ),
+                    ..._endWidget,
+                  ],
+                ),
+              ),
+            ),
+            _WrapContainer(
+              lWidth: 180.w,
+              lChild: InkWell(
+                onTap: () {
+                  ref.read(panelNotifierProvider.notifier).state =
+                      const BoardTypePanel();
+                  panel.open();
+                },
+                child: Row(
+                  children: [
+                    AutoSizeText(
+                      toBeginningOfSentenceCase(
+                              room.type?.name ?? "Board Type") ??
+                          "",
+                      style: GoogleFonts.poppins(
+                        textStyle: textTheme.bodySmall?.copyWith(
+                          color: hookerGreen,
+                          fontWeight: FontWeight.w300,
+                        ),
+                      ),
+                    ),
+                    ..._endWidget,
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}*/
 
 class _WrapContainer extends StatelessWidget {
   final Widget lChild;
@@ -313,3 +440,22 @@ List<Widget> get _endWidget => [
     );
   }
 }*/
+
+/*switch (context.router.current.name) {
+      case DashboardRoute.name:
+        {
+          panel = ref.read(dashboardPanelControllerProvider);
+          level = ref.read(dashboardNotifierProvider).level;
+          type = ref.read(dashboardNotifierProvider).type;
+          boardPlayer = ref.read(dashboardNotifierProvider).player;
+          break;
+        }
+      case GameRoomRoute.name:
+        {
+          panel = ref.read(roomPanelControllerProvider);
+          level = ref.read(roomNotifierProvider).room?.level;
+          type = ref.read(roomNotifierProvider).room?.type;
+          boardPlayer = ref.read(roomNotifierProvider).room?.count;
+          break;
+        }
+    }*/

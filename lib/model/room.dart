@@ -1,23 +1,27 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../enums/enums.dart';
 import 'player.dart';
+import 'player_converter.dart';
 
 part 'room.freezed.dart';
 part 'room.g.dart';
 
 @freezed
 class Room with _$Room {
+  const Room._();
+
   @JsonSerializable(includeIfNull: false)
   const factory Room({
-    @Default({}) Map<String, Player> players,
+    @PlayerConverter() @Default({}) Map<String, Player>? players,
     bool? started,
-    required num code,
-    required BoardLevel level,
-    required String creator,
-    required BoardType type,
-    required PlayerCount count,
+    num? code,
+    BoardLevel? level,
+    String? creator,
+    BoardType? type,
+    PlayerCount? count,
   }) = _Room;
 
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
@@ -28,4 +32,6 @@ class Room with _$Room {
     final Room room = Room.fromJson(json);
     return room;
   }
+
+  bool get notNull => level != null && type != null && count != null;
 }

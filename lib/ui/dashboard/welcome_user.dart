@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
+import 'package:paricon/values/names.dart';
 
 import '../../logic/app/ai_bloc.dart';
 import '../../logic/user/bloc.dart';
@@ -37,7 +38,7 @@ class WelcomeUser extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  me?.name ?? "",
+                  me?.name ?? NameGen.dummyName(),
                   style: textTheme.titleLarge?.copyWith(color: violetBlue),
                   maxLines: 1,
                 ),
@@ -54,7 +55,6 @@ class WelcomeUser extends ConsumerWidget {
                 welcome ?? "Nothing much",
                 key: ValueKey(welcome),
                 style: textTheme.bodyMedium?.copyWith(color: tropicalIndigo),
-                maxLines: 2,
               ),
             ),
           ],

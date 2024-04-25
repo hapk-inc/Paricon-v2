@@ -1,38 +1,67 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mock_data/mock_data.dart';
 
+import '../../enums/enums.dart';
 import '../../model/room.dart';
-import 'id.dart';
+import 'bloc.dart';
+import 'database.dart';
 
-final Provider<RoomNotifier> roomNotifierProvider = Provider<RoomNotifier>(
-  (ref) => RoomNotifier(ref),
-);
-
+/*
 class RoomNotifier extends ChangeNotifier {
+  Room _room = const Room();
+  late RoomDatabase _roomDatabase;
+  String? _id;
+
   final Ref ref;
-  Room? room;
 
   RoomNotifier(this.ref) {
-    final String? id = ref.watch(idNotifier);
-
-    if (id == null) {
-      //room = createRoom;
-      //ref.read(createRoomProvider(room!));
-    } else {}
-    //room = id == null ? createRoom : ref.watch(roomProvider).value;
+    _roomDatabase = RoomDatabase(ref, _id);
   }
 
-/*  Room get createRoom {
-    final String id = ref.read(authUserProvider).value?.uid ?? "";
-    final BoardLevel level = BoardLevel.values[0];
+  @override
+  void addListener(VoidCallback listener) {
+    if (_id != null) {
+      ref.listen<Room?>(
+        roomProvider.select((value) => value.value),
+        (previous, next) {
+          debugPrint("27--");
+          _room = next!;
+          notifyListeners();
+        },
+      );
+    }
+  }
 
-    final BoardType type = BoardType.values[0];
+  set type(BoardType value) {
+    if (_room.type == value) return;
+    _room = _room.copyWith(type: value);
+    notifyListeners();
+  }
 
-    return Room(
+  set level(BoardLevel value) {
+    if (_room.level == value) return;
+    _room = _room.copyWith(level: value);
+    notifyListeners();
+  }
+
+  set count(PlayerCount value) {
+    if (_room.count == value) return;
+    _room = _room.copyWith(count: value);
+    notifyListeners();
+  }
+
+  String? get id => _id;
+
+  Room get room => _room;
+
+  Future<bool> get createRoom async {
+    _room = room.copyWith(
       code: mockInteger(100000, 999999),
-      level: level,
-      creator: id,
-      type: type,
     );
-  }*/
+    _id = await _roomDatabase.createRoom(_room);
+    notifyListeners();
+    return true;
+  }
 }
+*/

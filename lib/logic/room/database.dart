@@ -1,52 +1,72 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:rxdart/rxdart.dart';
 
 import '../../firebase/bloc.dart';
 import '../../model/player.dart';
 import '../../model/room.dart';
-import '../auth/notifier.dart';
+import '../auth/bloc.dart';
 import '../user/bloc.dart';
-import '../user/notifier.dart';
-import 'id.dart';
-
-final Provider<RoomDatabase> roomDatabaseProvider = Provider(
-  (ref) {
-    return RoomDatabase(ref);
-  },
-);
 
 class RoomDatabase {
-  final Ref<RoomDatabase> ref;
+  final Ref ref;
+  final String? id;
 
   late DatabaseReference firebaseReference;
   late DatabaseReference roomReference;
-  late String? id;
 
-  RoomDatabase(this.ref) {
+  RoomDatabase(this.ref, [this.id]) {
     firebaseReference = ref.read(databaseProvider).ref();
     roomReference = firebaseReference.child('rooms');
-    id = ref.watch(idNotifier);
   }
+
+  Future get gameStart => roomReference.child(id!).update({
+        "started": true,
+      });
 
   Future<String?> createRoom(Room room) async {
     String? key = roomReference.push().key;
-    await roomReference.child(key!).set(room.toJson());
+    await roomReference
+        .child(key!)
+        .set(room.toJson())
+        .then((value) => joinRoom(key));
     return key;
   }
 
-  Future get joinRoom async {
-    final AuthNotifier authNotifier = ref.read(authNotifierProvider);
-    final UserNotifier userNotifier = ref.read(userNotifierProvider);
-
-    if (id != null && authNotifier.fUser != null && userNotifier.me != null) {
-      return roomReference
-          .child(id!)
-          .child('players/${authNotifier.fUser!.uid}')
-          .set(Player(
-                  name: userNotifier.me?.name ?? "",
-                  createdAt: DateTime.now(),
-                  avatar: userNotifier.me?.avatar)
-              .toJson());
-    }
+  Future joinRoom(String room) async {
+    final String id = ref.read(authUserProvider).value!.uid;
+    final Player player = ref.read(meProvider).value!;
+    return roomReference
+        .child(room)
+        .child('players')
+        .child(id)
+        .set(player.toJson());
   }
+
+  Stream<Room?> get hostRoom {
+    late BehaviorSubject<Room?> subject;
+    subject = BehaviorSubject<Room?>(
+      onListen: id == null
+          ? null
+          : () => roomReference.child(id!).onValue.listen(
+                (event) {
+                  if (event.snapshot.exists) {
+                    if (event.snapshot.value != null) {
+                      debugPrint("52--");
+                      Room room = Room.fromSnapshot(event.snapshot);
+                      subject.add(room);
+                    } else {
+                      subject.close();
+                    }
+                  }
+                },
+              ),
+    );
+    return subject.stream;
+  }
+
+  Future updateRoom(Room room) =>
+      roomReference.child(id!).update(room.toJson());
 }
