@@ -7,6 +7,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/dashboard/notifier.dart';
 import '../logic/panel/bloc.dart';
+import '../my_widget/leaderboard.dart';
 import '../my_widget/pi_logo.dart';
 import '../my_widget/staggered_gap.dart';
 import '../theme/sliding_panel.dart';
@@ -117,14 +118,5 @@ class _DashboardSwitch extends ConsumerWidget {
         ),
       ),
     );
-  }
-}
-
-class LeaderBoard extends StatelessWidget {
-  const LeaderBoard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }

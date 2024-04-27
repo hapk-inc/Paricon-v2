@@ -14,6 +14,7 @@ import '../ui/play_friend.dart';
 import '../ui/settings.dart';
 import '../ui/splash.dart';
 import '../ui/play_tournament.dart';
+import '../values/colors.dart';
 
 part 'my_route.gr.dart';
 

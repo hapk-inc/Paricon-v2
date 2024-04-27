@@ -15,7 +15,7 @@ class Player with _$Player {
   const factory Player({
     @Default("User#") String name,
     String? rName,
-    @Default(0) num? tag,
+    num? tag,
     bool? isActive,
     String? avatar,
     String? avatarCode,

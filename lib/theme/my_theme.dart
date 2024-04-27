@@ -131,7 +131,7 @@ mixin MyTextTheme {
 
       //headLineFonts
       headlineLarge: headline.copyWith(fontSize: 15.r),
-      headlineMedium: headline.copyWith(fontSize: 10.5),
+      headlineMedium: headline.copyWith(fontSize: 12.r),
       headlineSmall: headline.copyWith(fontSize: 9),
 
       //AnimatedFlipCounter

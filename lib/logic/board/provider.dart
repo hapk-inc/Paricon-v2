@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../model/board.dart';
 import '../../model/local_icon.dart';
+import '../../model/local_player.dart';
 import '../../model/room.dart';
 import '../room/bloc.dart';
 import 'database.dart';
@@ -9,7 +10,7 @@ import 'notifier.dart';
 
 final Provider<BoardDatabase> boardDatabaseProvider = Provider<BoardDatabase>(
   (ref) {
-    final id = ref.watch(idNotifier);
+    final String? id = ref.watch(idNotifier);
     return BoardDatabase(ref, id);
   },
 );
@@ -25,10 +26,18 @@ final AutoDisposeFutureProvider createPlayFriendBoardProvider =
 
 final FutureProvider<Board> initBoardProvider = FutureProvider<Board>(
   (ref) {
-    final boardDatabase = ref.read(boardDatabaseProvider);
+    final boardDatabase = ref.watch(boardDatabaseProvider);
     return boardDatabase.initBoard;
   },
 );
+
+//final StreamProviderFamily<Board> boardProvider =
+/*final onBoardChangeProvider = StreamProvider.autoDispose<Board>(
+  (ref) {
+    final boardDatabase = ref.read(boardDatabaseProvider);
+    return boardDatabase.onBoardChange;
+  },
+);*/
 
 /*final StreamProviderFamily<LocalIcon, String> iconProvider =
     StreamProvider.family<LocalIcon, String>(
@@ -55,10 +64,28 @@ final AutoDisposeFutureProviderFamily updateBoardProvider =
   },
 );
 
-final StreamProvider<MapEntry<String, LocalIcon>> onIconChangedProvider =
-    StreamProvider<MapEntry<String, LocalIcon>>(
+final AutoDisposeStreamProvider<MapEntry<String, LocalIcon>>
+    onIconChangedProvider =
+    StreamProvider.autoDispose<MapEntry<String, LocalIcon>>(
   (ref) {
     final boardDatabase = ref.read(boardDatabaseProvider);
     return boardDatabase.onIconChanged;
+  },
+);
+
+final AutoDisposeStreamProvider<MapEntry<String, LocalPlayer>>
+    onPlayerChangedProvider =
+    StreamProvider.autoDispose<MapEntry<String, LocalPlayer>>(
+  (ref) {
+    final boardDatabase = ref.read(boardDatabaseProvider);
+    return boardDatabase.onPlayerChanged;
+  },
+);
+
+final AutoDisposeStreamProvider<String> currentIdProvider =
+    StreamProvider.autoDispose<String>(
+  (ref) {
+    final boardDatabase = ref.read(boardDatabaseProvider);
+    return boardDatabase.currentID;
   },
 );

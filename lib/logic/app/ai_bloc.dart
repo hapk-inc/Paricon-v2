@@ -9,15 +9,19 @@ const String _welcomePrompt =
     "And Don't question them."
     //"Also, welcome the user with a holi celebration"
     "Also remove double-quotes and **. Use Easy English."
-    "Include emojis,if possible"
-    "Don't include ** in prefix and suffix";
+    "Include emojis,if possible, But only one emoji is allowed."
+    "Don't include ** in prefix and suffix"
+    "Total characters including spaces should not exceed more than 100 characters"
+    "It should be single-line sentence";
 
 const String _tournamentPrompt =
     " Rephrase this line - Ready, Set, Game : Join the Tournament.  "
     "Use Easy English."
-    "Don't use the words like tournament"
-    "It's a puzzle timer tournament"
-    "Include emojis,if possible"
+    "Don't use the words like tournament."
+    "It's a puzzle timer tournament."
+    "Include emojis,if possible.But only one emoji is allowed."
+    "Total characters including spaces should not exceed more than 30 characters."
+    "It should be single-line sentence."
     "Don't include ** in prefix and suffix";
 
 const String _subTournamentPrompt =

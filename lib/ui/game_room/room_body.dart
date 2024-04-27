@@ -48,7 +48,7 @@ class RoomBody extends ConsumerWidget {
                     onTap: () {
                       if (isCreator) {
                         ref.read(panelNotifierProvider.notifier).state =
-                            const BoardLevelPanel();
+                            const LevelPanel();
                         ref.read(roomPanelControllerProvider).open();
                       }
                     },
@@ -76,7 +76,7 @@ class RoomBody extends ConsumerWidget {
                     onTap: () {
                       if (isCreator) {
                         ref.read(panelNotifierProvider.notifier).state =
-                            const BoardPlayerPanel();
+                            const PlayerPanel();
                         ref.read(roomPanelControllerProvider).open();
                       }
                     },
@@ -104,7 +104,7 @@ class RoomBody extends ConsumerWidget {
                     onTap: () {
                       if (isCreator) {
                         ref.read(panelNotifierProvider.notifier).state =
-                            const BoardTypePanel();
+                            const TypePanel();
                         ref.read(roomPanelControllerProvider).open();
                       }
                     },

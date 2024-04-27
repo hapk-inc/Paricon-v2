@@ -1,10 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:path/path.dart';
 
 import '../../enums/enums.dart';
+import '../../firebase/bloc.dart';
 import '../../router/my_route.dart';
 
 import '../app/net_notifier.dart';
@@ -46,10 +49,12 @@ class AuthNotifier extends ChangeNotifier {
     super.addListener(listener);
     _logger.i("AuthNotifier Override addListener");
 
-    ref.listen(
-      internetConnectionProvider.select((x) => x.value),
+    ref.listen<ConnectivityResult>(
+      internetConnectionProvider.select(
+        (x) => x.value?.last ?? ConnectivityResult.none,
+      ),
       (previous, next) async {
-        /* final bool validConnection = next == ConnectivityResult.wifi ||
+        final bool validConnection = next == ConnectivityResult.wifi ||
             next == ConnectivityResult.mobile;
         _logger.i("validConnection $validConnection");
         if (validConnection) {
@@ -68,7 +73,7 @@ class AuthNotifier extends ChangeNotifier {
               remoteConnected;
         } else {
           ref.read(netConnectedNotifierProvider.notifier).state = -1;
-        }*/
+        }
       },
     );
 

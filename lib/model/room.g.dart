@@ -13,10 +13,13 @@ _$RoomImpl _$$RoomImplFromJson(Map<String, dynamic> json) => _$RoomImpl(
               const {},
       started: json['started'] as bool?,
       code: json['code'] as num?,
-      level: $enumDecodeNullable(_$BoardLevelEnumMap, json['level']),
+      level: $enumDecodeNullable(_$BoardLevelEnumMap, json['level']) ??
+          BoardLevel.easy,
       creator: json['creator'] as String?,
-      type: $enumDecodeNullable(_$BoardTypeEnumMap, json['type']),
-      count: $enumDecodeNullable(_$PlayerCountEnumMap, json['count']),
+      type: $enumDecodeNullable(_$BoardTypeEnumMap, json['type']) ??
+          BoardType.normal,
+      count: $enumDecodeNullable(_$PlayerCountEnumMap, json['count']) ??
+          PlayerCount.vs,
     );
 
 Map<String, dynamic> _$$RoomImplToJson(_$RoomImpl instance) {

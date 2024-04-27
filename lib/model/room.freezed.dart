@@ -179,10 +179,10 @@ class _$RoomImpl extends _Room with DiagnosticableTreeMixin {
       {@PlayerConverter() final Map<String, Player>? players = const {},
       this.started,
       this.code,
-      this.level,
+      this.level = BoardLevel.easy,
       this.creator,
-      this.type,
-      this.count})
+      this.type = BoardType.normal,
+      this.count = PlayerCount.vs})
       : _players = players,
         super._();
 
@@ -206,12 +206,15 @@ class _$RoomImpl extends _Room with DiagnosticableTreeMixin {
   @override
   final num? code;
   @override
+  @JsonKey()
   final BoardLevel? level;
   @override
   final String? creator;
   @override
+  @JsonKey()
   final BoardType? type;
   @override
+  @JsonKey()
   final PlayerCount? count;
 
   @override

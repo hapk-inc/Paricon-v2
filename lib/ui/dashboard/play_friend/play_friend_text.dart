@@ -7,8 +7,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import '../../../logic/app/ai_bloc.dart';
+import '../../../logic/panel/bloc.dart';
 import '../../../router/my_route.dart';
 import '../../../values/colors.dart';
+import '../../game_room/enter_code.dart';
 
 class DPlayFriend extends ConsumerWidget {
   const DPlayFriend({super.key});
@@ -43,8 +45,12 @@ class DPlayFriend extends ConsumerWidget {
                       text: "or Click here",
                       style: const TextStyle(color: cornellRed),
                       recognizer: TapGestureRecognizer()
-                        ..onTap =
-                            () => context.router.push(const GameRoomRoute()),
+                        ..onTap = () {
+                          ref.read(panelNotifierProvider.notifier).state =
+                              const EnterCode();
+                          ref.read(dashboardPanelControllerProvider).open();
+                          // context.router.push(GameRoomRoute());
+                        },
                     ),
                     const TextSpan(text: " to enter the room code"),
                   ],

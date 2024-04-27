@@ -204,7 +204,7 @@ class _$PlayerImpl extends _Player {
   const _$PlayerImpl(
       {this.name = "User#",
       this.rName,
-      this.tag = 0,
+      this.tag,
       this.isActive,
       this.avatar,
       this.avatarCode,
@@ -224,7 +224,6 @@ class _$PlayerImpl extends _Player {
   @override
   final String? rName;
   @override
-  @JsonKey()
   final num? tag;
   @override
   final bool? isActive;

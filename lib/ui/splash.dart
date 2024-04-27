@@ -15,8 +15,8 @@ Logger _logger = Logger();
 
 @RoutePage()
 class SplashPage extends StatelessWidget {
-  final Color? otherColor;
-  const SplashPage({this.otherColor, super.key});
+  final Color otherColor;
+  const SplashPage({this.otherColor = majorelleBlue, super.key});
 
   @override
   Widget build(BuildContext context) => const Scaffold(

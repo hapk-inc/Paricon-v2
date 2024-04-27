@@ -27,23 +27,21 @@ class Board with _$Board {
 
   factory Board.fromJson(Map<String, dynamic> json) => _$BoardFromJson(json);
 
-  int get checkCount =>
-      icons.values.where((value) => value.isCheck ?? false).length;
-
-  bool get validateIcon {
-    Iterable<LocalIcon> x = icons.values.where((x) => x.isCheck ?? false);
-    if (x.length != 2) return false;
-    return x.every((e) => x.first.iconCode == e.iconCode);
+  factory Board.fromSnapshot(DataSnapshot snapshot) {
+    Map map = snapshot.value as Map;
+    Map<String, dynamic> json = Map<String, dynamic>.from(map);
+    final Board board = Board.fromJson(json);
+    return board;
   }
 
-  bool updateIcon(bool isDailyMatch) {
-    Iterable<MapEntry<String, LocalIcon>> x =
+  bool? updateIcon(String icon) {
+    Iterable<MapEntry<String, LocalIcon>> clickedIcons =
         icons.entries.where((x) => x.value.isCheck ?? false);
-
-    bool v = validateIcon;
-
-    if (v) {
-      for (MapEntry<String, LocalIcon> e in x) {
+    if (clickedIcons.length <= 1) return null;
+    bool validate = clickedIcons
+        .every((element) => icons[icon]?.iconCode == element.value.iconCode);
+    if (validate) {
+      for (MapEntry<String, LocalIcon> e in clickedIcons) {
         icons.update(
           e.key,
           (value) => value.copyWith(
@@ -54,26 +52,32 @@ class Board with _$Board {
           ),
         );
       }
-      players.update(
-          currentID!, (value) => value.copyWith(pts: (value.pts ?? 0) + 1));
+      if (currentID != null) {
+        players.update(
+          currentID!,
+          (value) => value.copyWith(pts: (value.pts ?? 0) + 1),
+        );
+      }
     } else {
-      for (MapEntry<String, LocalIcon> e in x) {
+      for (MapEntry<String, LocalIcon> e in clickedIcons) {
         icons.update(
           e.key,
           (value) => value.copyWith(isCheck: false),
         );
       }
     }
-
-    return v;
+    return validate;
   }
 
-  factory Board.fromSnapshot(DataSnapshot snapshot) {
-    Map map = snapshot.value as Map;
-    Map<String, dynamic> json = Map<String, dynamic>.from(map);
-    final Board board = Board.fromJson(json);
-    return board;
+  String? get nextID {
+    /* if (players.keys.last == currentID) {
+      return players.keys.first;
+    }*/
+    final int index = players[currentID]?.playerNo ?? 0;
+    if (index + 1 == players.length) return players.keys.first;
+    return players.keys.elementAt(index + 1);
   }
 
-  bool get everyIcon => icons.values.every((value) => value.isFound ?? false);
+  bool get everyIconFound =>
+      icons.values.every((value) => value.isFound ?? false);
 }

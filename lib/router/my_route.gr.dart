@@ -239,7 +239,7 @@ class SettingsRoute extends PageRouteInfo<void> {
 /// [SplashPage]
 class SplashRoute extends PageRouteInfo<SplashRouteArgs> {
   SplashRoute({
-    Color? otherColor,
+    Color otherColor = majorelleBlue,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
@@ -258,11 +258,11 @@ class SplashRoute extends PageRouteInfo<SplashRouteArgs> {
 
 class SplashRouteArgs {
   const SplashRouteArgs({
-    this.otherColor,
+    this.otherColor = majorelleBlue,
     this.key,
   });
 
-  final Color? otherColor;
+  final Color otherColor;
 
   final Key? key;
 

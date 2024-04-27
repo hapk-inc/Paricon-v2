@@ -9,7 +9,7 @@ part of 'player.dart';
 _$PlayerImpl _$$PlayerImplFromJson(Map<String, dynamic> json) => _$PlayerImpl(
       name: json['name'] as String? ?? "User#",
       rName: json['rName'] as String?,
-      tag: json['tag'] as num? ?? 0,
+      tag: json['tag'] as num?,
       isActive: json['isActive'] as bool?,
       avatar: json['avatar'] as String?,
       avatarCode: json['avatarCode'] as String?,

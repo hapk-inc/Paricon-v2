@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:animate_do/animate_do.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,7 @@ import 'package:logger/logger.dart';
 import 'package:mock_data/mock_data.dart';
 
 import '../../logic/app/game_match_bloc.dart';
+import '../../logic/auth/bloc.dart';
 import '../../logic/board/board_icons.dart';
 import '../../logic/board/notifier.dart';
 import '../../logic/board/provider.dart';
@@ -24,25 +26,7 @@ class IconGridTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final BoardNotifier boardNotifier = ref.watch(boardNotifierProvider);
-    /*if (!ref.read(matchNotifierProvider.notifier).isDailyMatch) {
-      ref.listen(
-        iconProvider(id).select((value) => value.value),
-        (previous, next) {
-          if (next != null) {
-            // if (boardNotifier.board!.icons[id] != next) {
-            _logger.i("New icon Change ${next.toString()}");
-            boardNotifier.board!.icons[id] = next;
-            if (previous != null) boardNotifier.runValidate();
-
-            */ /*} else {
-            debugPrint("Same icon");
-          }*/ /*
-          }
-          //board.icons[key] = board.icons[i]!.copyWith(isCheck: true);
-        },
-      );
-    }*/
-
+    final User? user = ref.read(authUserProvider).value;
     final bool isDailyMatch =
         ref.read(matchNotifierProvider.notifier).isDailyMatch;
     final LocalIcon? localIcon = boardNotifier.board?.icons[id];
@@ -83,7 +67,9 @@ class IconGridTile extends ConsumerWidget {
           child: ClipRRect(
             borderRadius: _radius,
             child: InkWell(
-              onTap: !boardNotifier.wait && !checkFound
+              onTap: !boardNotifier.wait &&
+                      !checkFound &&
+                      boardNotifier.board?.currentID == user?.uid
                   ? () async => boardNotifier.iconClick(id)
                   : null,
               child: AnimatedContainer(

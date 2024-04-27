@@ -17,7 +17,7 @@ class DailyMatch extends StatelessWidget {
             crossAxisCount: 15,
             mainAxisSpacing: 15.r,
             children: const [
-              StaggeredGap(),
+              //StaggeredGap(),
               TournamentText(),
               StaggeredGap(),
               DailyMatchBtn(),

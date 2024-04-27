@@ -9,7 +9,9 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../logic/auth/bloc.dart';
 import '../logic/board/notifier.dart';
+import '../logic/board/provider.dart';
 import '../logic/panel/bloc.dart';
 import '../theme/sliding_panel.dart';
 import '../values/colors.dart';
@@ -30,19 +32,57 @@ class PlayFriendPage extends ConsumerStatefulWidget {
 
 class _PlayFriendPageState extends ConsumerState<PlayFriendPage> {
   late PanelController panelController;
-  late BoardNotifier boardNotifier;
+  late BoardNotifier notifier;
 
   @override
   void initState() {
     panelController = ref.read(playFriendPanelControllerProvider);
-    boardNotifier = ref.refresh(boardNotifierProvider);
+    notifier = ref.refresh(boardNotifierProvider);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    boardNotifier = ref.watch(boardNotifierProvider);
-    if (boardNotifier.board == null) return const Scaffold();
+    notifier = ref.watch(boardNotifierProvider);
+    if (notifier.board == null) return const Scaffold();
+    final String? user = ref.watch(authUserProvider).value?.uid;
+    ref.listen(
+      onIconChangedProvider.select((value) => value.value),
+      (_, next) async {
+        if (next != null) {
+          notifier.wait = true;
+          notifier.board?.icons[next.key] = next.value;
+          //
+          if (next.value.isCheck ?? false) {
+            if (notifier.board?.currentID == user) {
+              debugPrint("52--Running runValidate()");
+              await notifier.runValidate(next.key);
+            }
+            //
+          }
+          notifier.wait = false;
+        }
+      },
+    );
+
+    ref.listen(
+      onPlayerChangedProvider.select((value) => value.value),
+      (_, next) {
+        if (next != null) {
+          notifier.board?.players[next.key] = next.value;
+        }
+      },
+    );
+
+    ref.listen<String?>(
+      currentIdProvider.select((value) => value.value),
+      (_, next) {
+        if (next != null) {
+          notifier.changeUser(next);
+        }
+      },
+    );
+
     return Scaffold(
       backgroundColor: majorelleBlue,
       body: SafeArea(
@@ -52,7 +92,8 @@ class _PlayFriendPageState extends ConsumerState<PlayFriendPage> {
           borderRadius: _pTheme.panelRadius,
           color: _pTheme.slidingPanelColor,
           maxHeight: 240.h,
-          defaultPanelState: PanelState.CLOSED,
+          defaultPanelState: PanelState.OPEN,
+          backdropEnabled: true,
           padding: _pTheme.padding * 1.5,
           isDraggable: false,
           minHeight: 0,
@@ -61,12 +102,12 @@ class _PlayFriendPageState extends ConsumerState<PlayFriendPage> {
             child: StaggeredGrid.count(
               crossAxisCount: 15,
               children: [
-                Gap(boardNotifier.board!.icons.length == 30 ? 90.r : 45.r),
+                Gap(notifier.board!.icons.length == 30 ? 90.r : 45.r),
                 StaggeredGridTile.fit(
                   crossAxisCellCount: 15,
                   child: AspectRatio(
                     aspectRatio:
-                        boardNotifier.board!.icons.length == 30 ? 0.96 : 0.72,
+                        notifier.board!.icons.length == 30 ? 0.96 : 0.72,
                     child: FadeIn(
                       child: Card(
                         margin: EdgeInsets.symmetric(horizontal: 15.w),
@@ -95,9 +136,9 @@ class _PlayFriendPageState extends ConsumerState<PlayFriendPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: List.generate(
-                        boardNotifier.board!.players.length,
+                        notifier.board!.players.length,
                         (index) {
-                          final p = boardNotifier.board!.players;
+                          final p = notifier.board!.players;
                           return LocalPlayerTile(
                             p.keys.elementAt(index),
                             p.values.elementAt(index),

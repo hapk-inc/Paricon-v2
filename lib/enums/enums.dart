@@ -10,6 +10,8 @@ enum PlayerCount { vs, trio }
 
 enum GameMatch { dailyMatch, playFriend, tournament }
 
+enum ValidateRoom { notExists, duplicateCode, houseFull, alreadyStarted }
+
 Map<BoardLevel, String> levelMap = Map.fromIterables(
   BoardLevel.values,
   ["30 Blocks: Simple Mode", "56 Blocks: Tough Mode"],

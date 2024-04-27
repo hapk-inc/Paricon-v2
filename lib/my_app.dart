@@ -30,19 +30,16 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) => ScreenUtilInit(
         designSize: const Size(360, 900),
-        builder: (_, __) => ProviderScope(
-          overrides: const [
-            //sizeProvider.overrideWith((_) => SizeNotifier(900.h / 360.w))
-          ],
-          child: MaterialApp.router(
-            locale: DevicePreview.locale(context),
-            builder: DevicePreview.appBuilder,
-            debugShowCheckedModeBanner: false,
-            theme: ref.watch(themeProvider).themeData,
-            routerDelegate: AutoRouterDelegate.declarative(
-              _myRoute,
-              routes: (_) => [ref.watch(authNotifierProvider).pageRouteInfo],
-            ),
+        builder: (_, __) => MaterialApp.router(
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          debugShowCheckedModeBanner: false,
+          theme: ref.watch(themeProvider).themeData,
+          //routeInformationParser: _myRoute.defaultRouteParser(),
+          //routerDelegate: _myRoute.delegate(),
+          routerDelegate: AutoRouterDelegate.declarative(
+            _myRoute,
+            routes: (_) => [ref.watch(authNotifierProvider).pageRouteInfo],
           ),
         ),
         useInheritedMediaQuery: true,

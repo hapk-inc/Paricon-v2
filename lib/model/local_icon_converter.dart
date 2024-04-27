@@ -17,8 +17,7 @@ class LocalIconConverter implements JsonConverter<Map<String, LocalIcon>, Map> {
         LocalIcon.fromJson(Map<String, dynamic>.from(e)),
       ),
     );
-    debugPrint("18--$map");
-    debugPrint("21--${map.length}");
+
     return SplayTreeMap.from(
       map,
       (a, b) => map[a]!.iconNo.compareTo(map[b]!.iconNo),

@@ -42,11 +42,18 @@ final AutoDisposeFutureProvider<String?> createRoomProvider =
   },
 );
 
-final AutoDisposeFutureProviderFamily updateRoomProvider =
-    FutureProvider.autoDispose.family<void, Room>(
-  (ref, room) async {
+final AutoDisposeFutureProvider joinRoomProvider = FutureProvider.autoDispose(
+  (ref) async {
     final roomDatabase = ref.read(roomDatabaseProvider);
-    return roomDatabase.updateRoom(room);
+    return roomDatabase.joinRoom;
+  },
+);
+
+final AutoDisposeFutureProviderFamily<dynamic, String> validateCodeProvider =
+    FutureProvider.autoDispose.family<dynamic, String>(
+  (ref, code) async {
+    final roomDatabase = ref.read(roomDatabaseProvider);
+    return roomDatabase.validateCode(code);
   },
 );
 

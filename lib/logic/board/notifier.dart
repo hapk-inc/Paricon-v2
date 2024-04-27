@@ -1,25 +1,23 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
-import 'package:paricon/model/local_icon.dart';
 
 import '../../model/board.dart';
 import '../../model/user_log.dart';
 import '../app/game_match_bloc.dart';
 import '../auth/bloc.dart';
 import '../leaderboard/bloc.dart';
-
 import 'create_board.dart';
 import 'provider.dart';
 
 Logger _logger = Logger();
 
-final ChangeNotifierProvider<BoardNotifier> boardNotifierProvider =
-    ChangeNotifierProvider<BoardNotifier>(
+final AutoDisposeChangeNotifierProvider<BoardNotifier> boardNotifierProvider =
+    AutoDisposeChangeNotifierProvider<BoardNotifier>(
   (ref) {
     final notifier = BoardNotifier(ref);
     if (!ref.read(matchNotifierProvider.notifier).isDailyMatch) {
-      return notifier..initFriendBoard;
+      return notifier..init;
     }
     return notifier;
   },
@@ -27,58 +25,33 @@ final ChangeNotifierProvider<BoardNotifier> boardNotifierProvider =
 
 class BoardNotifier extends ChangeNotifier {
   final Ref ref;
-
-  Board? _board;
-
+  Board _board = const Board();
   bool _wait = false;
-
   late Stopwatch _stopwatch;
   late String _me;
   late bool _isDailyMatch;
   int _iconFound = 0;
-  bool _ifYouAreCreator = false;
-
-  late bool _alreadyClicked;
-
   bool _everyFound = false;
 
   BoardNotifier(this.ref) {
-    _logger.d("initializeBoard");
     _me = ref.read(authUserProvider).value?.uid ?? "";
     _stopwatch = Stopwatch();
-    _alreadyClicked = true;
     _isDailyMatch = ref.read(matchNotifierProvider.notifier).isDailyMatch;
-
     if (_isDailyMatch) {
       _board = Board(icons: CreateBoard.icons());
     }
   }
 
-  @override
-  void addListener(VoidCallback listener) {
-    if (!_isDailyMatch) {
-      ref.listen(
-        onIconChangedProvider.select((value) => value.value),
-        (previous, next) async {
-          if (next != null) {
-            wait = true;
-
-            if (next.value.isCheck ?? false) {
-              _board?.icons[next.key] = next.value;
-              if (_alreadyClicked) await runValidate();
-              notifyListeners();
-            }
-            wait = false;
-          }
-        },
-      );
-    }
-    super.addListener(listener);
+  Future get init async {
+    _board = await ref.watch(initBoardProvider.future);
+    notifyListeners();
   }
 
-  Future get initFriendBoard async {
-    debugPrint("78--");
-    _board = await ref.watch(initBoardProvider.future);
+  bool get wait => _wait;
+
+  set wait(bool value) {
+    if (_wait == value) return;
+    _wait = value;
     notifyListeners();
   }
 
@@ -86,34 +59,48 @@ class BoardNotifier extends ChangeNotifier {
 
   Stopwatch get stopwatch => _stopwatch;
 
-  Future iconClick(String i) async {
-    if (_board == null) return;
+  bool get everyFound => _everyFound;
+
+  Future iconClick(String icon) async {
     wait = true;
 
     if (!_stopwatch.isRunning) {
       _stopwatch.start();
     }
-
-    _board!.icons[i] = _board!.icons[i]!.copyWith(isCheck: true);
-    _alreadyClicked = !_alreadyClicked;
+    _board.icons[icon] = _board.icons[icon]!.copyWith(isCheck: true);
     notifyListeners();
 
     if (_isDailyMatch) {
-      runValidate();
+      await runValidate(icon);
     } else {
-      ref.read(updateIconProvider(i));
+      ref.read(updateIconProvider(icon));
     }
+
     wait = false;
   }
 
-  Future runValidate() async {
-    if (_alreadyClicked) {
-      final bool validate = await validateIcon;
+  Future runValidate(String icon) async {
+    wait = true;
+    bool? validate = await Future.delayed(
+      const Duration(milliseconds: 450),
+      () {
+        final bool? x = _board.updateIcon(icon);
+        notifyListeners();
+        return x;
+      },
+    );
+    if (validate != null) {
+      if (!_isDailyMatch) {
+        if (!validate) {
+          _board = _board.copyWith(currentID: _board.nextID);
+        }
+        ref.read(updateBoardProvider(_board));
+      }
       if (validate) {
         ++_iconFound;
-        everyFound = board?.everyIcon ?? false;
-        _logger.i("72--$everyFound");
-        if (everyFound) {
+        _everyFound = _board.everyIconFound;
+
+        if (_everyFound || _isDailyMatch) {
           ref.read(
             updateUserLogProvider(
               UserLog(
@@ -124,36 +111,17 @@ class BoardNotifier extends ChangeNotifier {
             ),
           );
         }
+        if (_everyFound) _stopwatch.stop();
       }
-      if (!_isDailyMatch) ref.read(updateBoardProvider(board));
     }
+    wait = false;
   }
 
-  Future<bool> get validateIcon async => Future.delayed(
-        const Duration(milliseconds: 750),
-        () {
-          final x = board?.updateIcon(_isDailyMatch);
-          notifyListeners();
-          return x ?? false;
-        },
-      );
+  double get percentageFound =>
+      _board.icons.isEmpty ? 0 : _iconFound / (_board.icons.length ~/ 2);
 
-  bool get wait => _wait;
-
-  set wait(bool value) {
-    if (_wait == value) return;
-    notifyListeners();
-  }
-
-  double get percentageFound => (board?.icons ?? {}).isEmpty
-      ? 0
-      : _iconFound / (board?.icons.length ?? 30 ~/ 2);
-
-  bool get everyFound => _everyFound;
-
-  set everyFound(bool value) {
-    if (_everyFound == value) return;
-    _everyFound = value;
+  changeUser(String next) {
+    _board = _board.copyWith(currentID: next);
     notifyListeners();
   }
 }

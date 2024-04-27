@@ -35,15 +35,18 @@ class TournamentText extends ConsumerWidget {
             tileColor: ghostWhite,
             title: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              child: AutoSizeText(
-                text ?? "",
-                key: ValueKey(key),
-                style: textTheme.titleLarge?.copyWith(color: jasper),
-                maxLines: mainTextSize < 30
-                    ? 1
-                    : mainTextSize < 60
-                        ? 2
-                        : 3,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: AutoSizeText(
+                  text ?? "",
+                  key: ValueKey(key),
+                  style: textTheme.titleLarge?.copyWith(color: jasper),
+                  maxLines: mainTextSize < 30
+                      ? 1
+                      : mainTextSize < 60
+                          ? 2
+                          : 3,
+                ),
               ),
             ),
           ),

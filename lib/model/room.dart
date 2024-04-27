@@ -18,10 +18,10 @@ class Room with _$Room {
     @PlayerConverter() @Default({}) Map<String, Player>? players,
     bool? started,
     num? code,
-    BoardLevel? level,
+    @Default(BoardLevel.easy) BoardLevel? level,
     String? creator,
-    BoardType? type,
-    PlayerCount? count,
+    @Default(BoardType.normal) BoardType? type,
+    @Default(PlayerCount.vs) PlayerCount? count,
   }) = _Room;
 
   factory Room.fromJson(Map<String, dynamic> json) => _$RoomFromJson(json);
