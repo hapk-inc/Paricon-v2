@@ -16,6 +16,7 @@ import '../logic/panel/bloc.dart';
 import '../theme/sliding_panel.dart';
 import '../values/colors.dart';
 import 'board/board_timer.dart';
+import 'board/final_board.dart';
 import 'board/icon_grid.dart';
 
 import 'board/player_tile.dart';
@@ -48,10 +49,13 @@ class _PlayFriendPageState extends ConsumerState<PlayFriendPage> {
     final String? user = ref.watch(authUserProvider).value?.uid;
     ref.listen(
       onIconChangedProvider.select((value) => value.value),
-      (_, next) async {
+      (prev, next) async {
         if (next != null) {
           notifier.wait = true;
           notifier.board?.icons[next.key] = next.value;
+          /*if (user != notifier.board?.currentID) {
+            notifier.everyFound = notifier.board?.everyIconFound ?? false;
+          }*/
           //
           if (next.value.isCheck ?? false) {
             if (notifier.board?.currentID == user) {
@@ -59,6 +63,11 @@ class _PlayFriendPageState extends ConsumerState<PlayFriendPage> {
               await notifier.runValidate(next.key);
             }
             //
+          } else {
+            if ((next.value.isFound ?? false) &&
+                (prev?.value.isFound ?? false)) {
+              notifier.incrementAndDoEveryFound();
+            }
           }
           notifier.wait = false;
         }
@@ -68,17 +77,22 @@ class _PlayFriendPageState extends ConsumerState<PlayFriendPage> {
     ref.listen(
       onPlayerChangedProvider.select((value) => value.value),
       (_, next) {
-        if (next != null) {
-          notifier.board?.players[next.key] = next.value;
-        }
+        if (next != null) notifier.board?.players[next.key] = next.value;
       },
     );
 
     ref.listen<String?>(
       currentIdProvider.select((value) => value.value),
       (_, next) {
-        if (next != null) {
-          notifier.changeUser(next);
+        if (next != null) notifier.changeUser(next);
+      },
+    );
+
+    ref.listen<bool>(
+      boardNotifierProvider.select((value) => value.everyFound),
+      (previous, next) {
+        if (next) {
+          if (panelController.isPanelClosed) panelController.open();
         }
       },
     );
@@ -91,13 +105,20 @@ class _PlayFriendPageState extends ConsumerState<PlayFriendPage> {
           controller: panelController,
           borderRadius: _pTheme.panelRadius,
           color: _pTheme.slidingPanelColor,
-          maxHeight: 240.h,
-          defaultPanelState: PanelState.OPEN,
+          maxHeight: 480.h,
+          backdropTapClosesPanel: !notifier.everyFound,
+          //defaultPanelState: PanelState.OPEN,
           backdropEnabled: true,
-          padding: _pTheme.padding * 1.5,
+          // padding: _pTheme.padding * 1.5,
           isDraggable: false,
           minHeight: 0,
-          panel: Container(),
+          panel: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: ClipRRect(
+              borderRadius: _pTheme.panelRadius,
+              child: FinalBoard(notifier.board!),
+            ),
+          ),
           body: SingleChildScrollView(
             child: StaggeredGrid.count(
               crossAxisCount: 15,
@@ -138,6 +159,7 @@ class _PlayFriendPageState extends ConsumerState<PlayFriendPage> {
                       children: List.generate(
                         notifier.board!.players.length,
                         (index) {
+                          debugPrint("162--${notifier.board!.players}");
                           final p = notifier.board!.players;
                           return LocalPlayerTile(
                             p.keys.elementAt(index),

@@ -69,7 +69,8 @@ class IconGridTile extends ConsumerWidget {
             child: InkWell(
               onTap: !boardNotifier.wait &&
                       !checkFound &&
-                      boardNotifier.board?.currentID == user?.uid
+                      ((boardNotifier.board?.currentID == user?.uid) ||
+                          boardNotifier.board?.currentID == null)
                   ? () async => boardNotifier.iconClick(id)
                   : null,
               child: AnimatedContainer(

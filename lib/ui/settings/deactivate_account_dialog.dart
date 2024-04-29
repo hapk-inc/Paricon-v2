@@ -15,7 +15,7 @@ class DeactivateAccountDialog extends ConsumerWidget {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return AlertDialog(
       shape: RoundedRectangleBorder(
-        borderRadius: _pTheme.fullRadius,
+        borderRadius: _pTheme.dialogRadius,
       ),
       elevation: 0,
       surfaceTintColor: ghostWhite,

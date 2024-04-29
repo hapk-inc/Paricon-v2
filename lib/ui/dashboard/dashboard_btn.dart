@@ -27,21 +27,22 @@ class DashboardBtn extends ConsumerWidget {
             onToggle: (index) =>
                 ref.watch(dashboardNotifierProvider).buttonIndex = index ?? 0,
             minWidth: 96.w,
-            customWidths: [105.w, 108.w, 120.w],
+            customWidths: [105.w, 105.w, 120.w],
             minHeight: 43.5.h,
             cornerRadius: 4.8.r,
             animate: true,
             animationDuration: 90,
             inactiveBgColor: magnolia,
-            activeBgColors: const [
+            activeBgColor: const [majorelleBlue],
+            /*activeBgColors: const [
               [jasper],
               [darkPurple],
               [jasper],
-            ],
+            ],*/
             activeFgColor: ghostWhite,
             inactiveFgColor: charcoal,
             customTextStyles: [
-              TextStyle(fontFamily: 'Montserrat', fontSize: 13.2.r)
+              TextStyle(fontFamily: 'Montserrat', fontSize: 13.5.r)
             ],
           ),
         ),

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:paricon/values/colors.dart';
 
@@ -20,13 +21,15 @@ class CreateBoard {
     List<LocalIcon> values = List.generate(
         mix.length, (index) => LocalIcon(iconCode: mix[index], iconNo: index));
     return Map.fromIterables(keys, values);
-    /*return {
-      for (var icon in mix)
-        mockString(8): LocalIcon(iconCode: icon, iconNo: mix.indexOf(icon))
-    };*/
   }
 
   static Map<String, LocalPlayer> localPlayers(Map<String, Player?> users) {
+    final List<Color> color = List.from(iconColor);
+
+    if (users.length == 2) {
+      color.remove((mockInteger(0, 1) == 0) ? aquamarine : uranianBlue);
+    }
+    color.shuffle();
     return Map<String, LocalPlayer>.fromIterables(
       users.keys,
       users.values.map(
@@ -35,7 +38,7 @@ class CreateBoard {
           return LocalPlayer(
             name: e?.name ?? "User#",
             playerNo: index,
-            color: iconColor[index],
+            color: color[index],
           );
         },
       ),

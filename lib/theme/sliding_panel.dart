@@ -9,13 +9,15 @@ final Provider<SlidingPanelTheme> slidingPanelProvider = Provider(
 );
 
 class SlidingPanelTheme {
-  double slidingPanelHeight = 240.h;
+  double slidingPanelHeight = 270.h;
 
   EdgeInsets padding = EdgeInsets.all(24.r);
 
   BorderRadius panelRadius = BorderRadius.vertical(top: Radius.circular(30.r));
 
-  BorderRadius fullRadius = BorderRadius.circular(15.r);
+  BorderRadius dialogRadius = BorderRadius.circular(15.r);
+
+  BorderRadius fullRadius30 = BorderRadius.circular(30.r);
 
   Color slidingPanelColor = ghostWhite;
 

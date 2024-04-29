@@ -19,6 +19,7 @@ import '../my_widget/create_room.dart';
 import '../router/my_route.dart';
 import '../theme/sliding_panel.dart';
 import '../values/colors.dart';
+import 'game_room/room_widget.dart';
 
 @RoutePage()
 class GameRoomPage extends ConsumerStatefulWidget {
@@ -76,157 +77,10 @@ class _GameRoomPageState extends ConsumerState<GameRoomPage> {
           minHeight: 0,
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.w),
-            child: room == null ? Container() : _RoomWidget(room),
+            child: room == null ? Container() : RoomWidget(room),
           ),
         ),
       ),
-    );
-  }
-}
-
-class _RoomWidget extends ConsumerWidget {
-  final Room room;
-  const _RoomWidget(this.room);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
-    ref.listen(
-      roomProvider.select((value) => value.value?.started ?? false),
-      (_, next) {
-        if (next) context.router.replace(const PlayFriendRoute());
-      },
-    );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Gap(15.r),
-        AutoSizeText(
-          "Hosting the room",
-          maxLines: 2,
-          style: textTheme.titleLarge?.copyWith(color: ghostWhite),
-        ),
-        Gap(30.r),
-        Container(
-          height: 480.h,
-          margin: EdgeInsets.symmetric(horizontal: 15.w),
-          decoration: BoxDecoration(
-            color: ghostWhite,
-            borderRadius: BorderRadius.circular(7.5.r),
-            boxShadow: [
-              BoxShadow(color: charcoal, blurRadius: 24.r),
-            ],
-          ),
-          //alignment: Alignment.center,
-          child: StaggeredGrid.count(
-            crossAxisCount: 15,
-            children: [
-              const StaggeredGridTile.count(
-                crossAxisCellCount: 15,
-                mainAxisCellCount: 1.5,
-                child: SizedBox(),
-              ),
-              CreateRoom(room),
-              const StaggeredGridTile.count(
-                crossAxisCellCount: 15,
-                mainAxisCellCount: 1.5,
-                child: SizedBox(),
-              ),
-              StaggeredGridTile.count(
-                crossAxisCellCount: 15,
-                mainAxisCellCount: 2.1,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 18.w),
-                  alignment: Alignment.center,
-                  child: ListTile(
-                    leading: const Icon(
-                      Icons.groups_2,
-                      size: 30,
-                      color: charcoal,
-                    ),
-                    horizontalTitleGap: 15.w,
-                    title: Text(mockString(30)),
-                    titleTextStyle: textTheme.bodyMedium,
-                  ),
-                ),
-              ),
-              const StaggeredGridTile.fit(
-                crossAxisCellCount: 15,
-                child: Divider(
-                  indent: 7.5,
-                  endIndent: 7.5,
-                  color: frenchGray,
-                  height: 30,
-                  thickness: 0.75,
-                ),
-              ),
-              StaggeredGridTile.count(
-                crossAxisCellCount: 15,
-                mainAxisCellCount: 1.5,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Room code",
-                    style: textTheme.bodyMedium?.copyWith(color: gray),
-                  ),
-                ),
-              ),
-              const StaggeredGridTile.count(
-                crossAxisCellCount: 15,
-                mainAxisCellCount: 0.3,
-                child: SizedBox(),
-              ),
-              StaggeredGridTile.count(
-                crossAxisCellCount: 15,
-                mainAxisCellCount: 3,
-                child: Container(
-                  color: magnolia,
-                  alignment: Alignment.center,
-                  child: AnimatedFlipCounter(
-                    value: room.code ?? 000000,
-                    wholeDigits: 6,
-                    textStyle: const TextStyle(
-                      letterSpacing: 15,
-                      fontFamily: 'RussoOne',
-                      fontSize: 30,
-                      color: darkPurple,
-                    ),
-                  ),
-                ),
-              ),
-              const StaggeredGridTile.count(
-                crossAxisCellCount: 15,
-                mainAxisCellCount: 0.75,
-                child: SizedBox(),
-              ),
-              StaggeredGridTile.count(
-                crossAxisCellCount: 15,
-                mainAxisCellCount: 1.5,
-                child: Center(
-                  child: Text(
-                    "Ask your friends to enter this pin code",
-                    style: textTheme.bodyMedium?.copyWith(color: frenchGray),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const Spacer(),
-        ElevatedButton(
-          onPressed: () => ref.read(createPlayFriendBoardProvider.future).then(
-            (value) {
-              ref.read(setGameRoomStartProvider);
-            },
-          ),
-          style: const ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(darkPurple),
-          ),
-          child: const Text("Let's Play"),
-        ),
-        Gap(Theme.of(context).appBarTheme.toolbarHeight ?? 60),
-      ],
     );
   }
 }

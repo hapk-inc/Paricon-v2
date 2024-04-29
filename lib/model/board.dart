@@ -1,6 +1,9 @@
+import 'dart:collection';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:paricon/model/friendly_stats.dart';
 
 import '../enums/enums.dart';
 import '../values/colors.dart';
@@ -70,14 +73,35 @@ class Board with _$Board {
   }
 
   String? get nextID {
-    /* if (players.keys.last == currentID) {
-      return players.keys.first;
-    }*/
     final int index = players[currentID]?.playerNo ?? 0;
     if (index + 1 == players.length) return players.keys.first;
     return players.keys.elementAt(index + 1);
   }
 
+  List<String> get winners {
+    if (players.isEmpty) return [];
+    final Map<String, LocalPlayer> sortWinner = SplayTreeMap.from(
+      players,
+      (a, b) {
+        final int x = players[a]!.pts ?? 0;
+        final int y = players[b]!.pts ?? 0;
+        return y.compareTo(x);
+      },
+    );
+
+    return sortWinner.keys
+        .where((key) => sortWinner[key]?.pts == sortWinner.values.first.pts)
+        .toList();
+  }
+
   bool get everyIconFound =>
       icons.values.every((value) => value.isFound ?? false);
+
+  FriendlyStats friendlyStats(String id) => FriendlyStats(
+        pts: players[id]?.pts ?? 0,
+        type: type,
+        count: players.length > 2 ? PlayerCount.trio : PlayerCount.vs,
+        level: icons.length == 56 ? BoardLevel.hard : BoardLevel.easy,
+        winner: winners.contains(id),
+      );
 }

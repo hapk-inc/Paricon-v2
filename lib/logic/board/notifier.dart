@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 import '../../model/board.dart';
+import '../../model/friendly_stats.dart';
 import '../../model/user_log.dart';
 import '../app/game_match_bloc.dart';
 import '../auth/bloc.dart';
 import '../leaderboard/bloc.dart';
+import '../user/bloc.dart';
 import 'create_board.dart';
 import 'provider.dart';
 
@@ -61,6 +63,11 @@ class BoardNotifier extends ChangeNotifier {
 
   bool get everyFound => _everyFound;
 
+  set everyFound(bool value) {
+    if (_everyFound == value) return;
+    _everyFound = value;
+  }
+
   Future iconClick(String icon) async {
     wait = true;
 
@@ -97,8 +104,9 @@ class BoardNotifier extends ChangeNotifier {
         ref.read(updateBoardProvider(_board));
       }
       if (validate) {
-        ++_iconFound;
-        _everyFound = _board.everyIconFound;
+        /* ++_iconFound;
+        _everyFound = _board.everyIconFound;*/
+        if (_isDailyMatch) incrementAndDoEveryFound();
 
         if (_everyFound || _isDailyMatch) {
           ref.read(
@@ -121,7 +129,18 @@ class BoardNotifier extends ChangeNotifier {
       _board.icons.isEmpty ? 0 : _iconFound / (_board.icons.length ~/ 2);
 
   changeUser(String next) {
+    if ((_board.currentID ?? "") == next) return;
     _board = _board.copyWith(currentID: next);
+    notifyListeners();
+  }
+
+  incrementAndDoEveryFound() {
+    ++_iconFound;
+    _everyFound = _board.everyIconFound;
+    if (_everyFound && !_isDailyMatch) {
+      final FriendlyStats stats = board!.friendlyStats(_me);
+      ref.read(newFriendlyStatsProvider(stats));
+    }
     notifyListeners();
   }
 }

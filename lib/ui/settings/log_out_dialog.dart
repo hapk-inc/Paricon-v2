@@ -15,7 +15,7 @@ class LogOutDialog extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     return AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: _pTheme.fullRadius),
+      shape: RoundedRectangleBorder(borderRadius: _pTheme.dialogRadius),
       elevation: 0,
       surfaceTintColor: ghostWhite,
       title: const Text("Really!?"),

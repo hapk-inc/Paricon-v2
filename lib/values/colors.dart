@@ -10,11 +10,15 @@ const Color richBlack = Color(0xff0E1116);
 const Color pictonBlue = Color(0xff00a7e1);
 
 //Icon colors
+const Color coralPink = Color(0xfffe938c);
+const Color pistachio = Color(0xff88d18a);
 const Color aquamarine = Color(0xff93efd8);
 const Color uranianBlue = Color(0xffbfe7fc);
 const Color xantHous = Color(0xffffc759);
 
-const List<Color> iconColor = [aquamarine, uranianBlue, xantHous];
+const Color darkGreen = Color(0xff16302B);
+
+const List<Color> iconColor = [pistachio, uranianBlue, xantHous, coralPink];
 
 //New To Paricon
 const Color gray = Color(0xff7F7979);

@@ -5,9 +5,11 @@ import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../firebase/bloc.dart';
+import '../../model/friendly_stats.dart';
 import '../../model/my_activity.dart';
 import '../../model/player.dart';
 import '../auth/bloc.dart';
+import '../room/bloc.dart';
 
 //const Duration _m900 = Duration(milliseconds: 900);
 
@@ -69,5 +71,14 @@ class UserDatastore {
   Query recentPlayer(num id) {
     _logger.i("recentPlayerId $id");
     return userColl.where('tag', isNotEqualTo: id);
+  }
+
+  Future newFriendlyStats(FriendlyStats friendlyStats) {
+    final String room = ref.watch(idNotifier)!;
+    return userColl
+        .doc(fUser?.uid ?? "")
+        .collection('stats')
+        .doc(room)
+        .set(friendlyStats.toJson());
   }
 }

@@ -29,9 +29,10 @@ class TournamentText extends ConsumerWidget {
     return StaggeredGridTile.fit(
       crossAxisCellCount: 15,
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
+        contentPadding: EdgeInsets.symmetric(horizontal: 24.w),
         title: Center(
           child: ListTile(
+            // contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
             tileColor: ghostWhite,
             title: AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
