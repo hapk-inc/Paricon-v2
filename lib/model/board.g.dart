@@ -40,5 +40,4 @@ Map<String, dynamic> _$$BoardImplToJson(_$BoardImpl instance) {
 const _$BoardTypeEnumMap = {
   BoardType.normal: 'normal',
   BoardType.closed: 'closed',
-  BoardType.orderwise: 'orderwise',
 };

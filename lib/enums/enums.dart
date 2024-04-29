@@ -4,7 +4,8 @@ enum AuthValidate { notLogged, loggedIn, userExist }
 
 enum BoardLevel { easy, hard }
 
-enum BoardType { normal, closed, orderwise }
+//enum BoardType { normal, closed, orderwise }
+enum BoardType { normal, closed }
 
 enum PlayerCount { vs, trio }
 
@@ -22,7 +23,7 @@ Map<BoardType, String> typeMap = Map.fromIterables(
   [
     "Classic Pairing Fun",
     "Stealth Mode: Memory Challenge",
-    "Memory Sequence Challenge: Match and Recall"
+    //  "Memory Sequence Challenge: Match and Recall"
   ],
 );
 

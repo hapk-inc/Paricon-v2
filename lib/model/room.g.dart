@@ -58,7 +58,6 @@ const _$BoardLevelEnumMap = {
 const _$BoardTypeEnumMap = {
   BoardType.normal: 'normal',
   BoardType.closed: 'closed',
-  BoardType.orderwise: 'orderwise',
 };
 
 const _$PlayerCountEnumMap = {

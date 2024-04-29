@@ -8,7 +8,7 @@ import '../../model/player.dart';
 import 'board_icons.dart';
 
 class CreateBoard {
-  static Map<String, LocalIcon> icons([int totalIcon = 56]) {
+  static Map<String, LocalIcon> icons([int totalIcon = 6]) {
     List<int> overall = List.from(boardIcon.keys);
     overall.shuffle();
 
