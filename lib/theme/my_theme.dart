@@ -99,7 +99,7 @@ class MyTheme {
           textStyle: MaterialStatePropertyAll(
             MyFont.montserratTheme.copyWith(
               color: ghostWhite,
-              fontSize: 15.6.r,
+              fontSize: 16.5.r,
             ),
           ),
           elevation: MaterialStatePropertyAll(1.5.r),
@@ -107,7 +107,7 @@ class MyTheme {
           minimumSize: const MaterialStatePropertyAll(Size.fromHeight(48)),
           shape: MaterialStatePropertyAll(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4.5.r),
+              borderRadius: BorderRadius.circular(24.r),
             ),
           ),
         ),

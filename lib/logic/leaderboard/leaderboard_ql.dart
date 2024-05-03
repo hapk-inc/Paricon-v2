@@ -54,8 +54,11 @@ class LeaderBoardQL {
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
 
-  Future delete() async =>
+  Future delete() async {
+    if (await databaseFactory.databaseExists(await getDatabasesPath())) {
       deleteDatabase(join(await getDatabasesPath(), '$_tableName.db'));
+    }
+  }
 }
 
 /* Future<List<Player>> getAllPlayersSortedByRank() async {

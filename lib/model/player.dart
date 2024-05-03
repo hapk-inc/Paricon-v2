@@ -41,6 +41,7 @@ class Player extends Equatable with _$Player {
     Map m = snapshot.data() as Map;
 
     Map<String, dynamic> json = Map<String, dynamic>.from(m);
+    json.addAll({"id": snapshot.id.toString()});
     return Player.fromJson(json);
   }
 
@@ -57,8 +58,8 @@ class Player extends Equatable with _$Player {
     );
   }
 
-  Map<String, dynamic> toDatabase() => {
-        ...{'id': id},
+  Map<String, dynamic> toDatabase([String? x]) => {
+        ...{'id': id ?? x},
         ...{
           'name': name,
           'no': no,
@@ -68,5 +69,5 @@ class Player extends Equatable with _$Player {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [no, name];
+  List<Object?> get props => [no, name, id, nowTime, avatar, isActive];
 }

@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
 
 import '../../logic/leaderboard/notifier.dart';
+import '../../logic/user/bloc.dart';
 import '../../logic/user/notifier.dart';
 import '../../model/player.dart';
 import '../../model/user_record.dart';
@@ -27,7 +28,7 @@ class _LeaderBoardState extends ConsumerState<LeaderBoard> {
   @override
   void initState() {
     listColor = List.from(iconColor)..shuffle();
-    leaderBoardNotifier = ref.refresh(leaderBoardNotifierProvider);
+    // leaderBoardNotifier = ref.refresh(leaderBoardNotifierProvider);
     super.initState();
   }
 
@@ -47,7 +48,7 @@ class _LeaderBoardState extends ConsumerState<LeaderBoard> {
             ),
           ),
         ),
-        Gap(7.5.h),
+        Gap(15.h),
         Expanded(
           child: ListView.separated(
             padding: EdgeInsets.symmetric(horizontal: 7.5.w),
@@ -77,9 +78,9 @@ class LeaderBoardTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final notifier = ref.read(leaderBoardNotifierProvider);
-    final userNotifier = ref.watch(userNotifierProvider);
+    //final userNotifier = ref.watch(userNotifierProvider);
     return AspectRatio(
-      aspectRatio: 4.8,
+      aspectRatio: 5.1,
       child: Container(
         decoration: BoxDecoration(
           color: color.withOpacity(0.12),
@@ -102,11 +103,12 @@ class LeaderBoardTile extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CircleAvatar(radius: 24.r, backgroundColor: color),
-                    Gap(7.5.w),
+                    Gap(12.w),
                     Expanded(
                       child: ListTile(
                         title: Text(
-                          "No Name",
+                          ref.watch(xPlayerProvider(record.id ?? ""))?.name ??
+                              "No Name",
                           //NameGen.dummyName(),
                           style: textTheme.headlineLarge?.copyWith(
                             color: charcoal,

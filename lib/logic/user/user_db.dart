@@ -1,12 +1,9 @@
-import 'package:logger/logger.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../model/player.dart';
 
-Logger _logger = Logger();
-
-class UserQL {
+class UserDB {
   Database? _database;
   static const String _tableName = 'user';
 
@@ -43,13 +40,13 @@ class UserQL {
     return [];
   }
 
-  Future<Player?> player(String id) async {
+/*  Future<Player?> player(String id) async {
     final Database db = await database;
     final List<Map<String, dynamic>> maps =
         await db.query(_tableName, where: 'id = ?', whereArgs: [id]);
     if (maps.isNotEmpty) return Player.fromJson(maps.first);
     return null;
-  }
+  }*/
 
   Future insertUser(Map<String, dynamic> map) async {
     final Database db = await database;
@@ -61,13 +58,9 @@ class UserQL {
     );
   }
 
-  Future delete() async =>
+  Future delete() async {
+    if (await databaseFactory.databaseExists(await getDatabasesPath())) {
       deleteDatabase(join(await getDatabasesPath(), '$_tableName.db'));
-
-  // void insertR(iJson) {}
-/*  Future insertR(Map<String, dynamic> map) => _database!.insert(
-    _tableName,
-    map,
-    conflictAlgorithm: ConflictAlgorithm.replace,
-  );*/
+    }
+  }
 }

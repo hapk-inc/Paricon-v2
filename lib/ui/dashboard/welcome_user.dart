@@ -9,9 +9,11 @@ import 'package:gap/gap.dart';
 import 'package:paricon/values/names.dart';
 
 import '../../logic/app/ai_bloc.dart';
+import '../../logic/panel/bloc.dart';
 import '../../logic/user/bloc.dart';
 import '../../logic/user/notifier.dart';
 import '../../model/player.dart';
+import '../../my_widget/no_internet.dart';
 import '../../router/my_route.dart';
 import '../../values/colors.dart';
 
@@ -38,10 +40,17 @@ class WelcomeUser extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  me?.name ?? NameGen.dummyName(),
-                  style: textTheme.titleLarge?.copyWith(color: violetBlue),
-                  maxLines: 1,
+                InkWell(
+                  onDoubleTap: () {
+                    ref.read(panelNotifierProvider.notifier).state =
+                        const NoInternet();
+                    ref.read(dashboardPanelControllerProvider).open();
+                  },
+                  child: Text(
+                    me?.name ?? "Fetching your Name",
+                    style: textTheme.titleLarge?.copyWith(color: violetBlue),
+                    maxLines: 1,
+                  ),
                 ),
                 IconButton(
                   onPressed: () => context.router.push(const SettingsRoute()),

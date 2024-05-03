@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
@@ -140,4 +141,29 @@ class UserDatastore {
           ),
         ),
       );*/
+
+  Stream<Player> get onNewPlayer {
+    late BehaviorSubject<Player> subject;
+    subject = BehaviorSubject(
+      onListen: () => userColl
+          .withConverter<Player>(
+            fromFirestore: (snapshot, _) {
+              Player player = Player.fromSnapshot(snapshot);
+              return player.copyWith(id: snapshot.id);
+            },
+            toFirestore: (value, _) => value.toJson(),
+          )
+          .snapshots()
+          .listen(
+        (QuerySnapshot<Player> querySnapshot) {
+          for (var docs in querySnapshot.docChanges) {
+            debugPrint("160--");
+            Player? player = docs.doc.data();
+            subject.add(player!.copyWith(id: docs.doc.id));
+          }
+        },
+      ),
+    );
+    return subject.stream;
+  }
 }

@@ -19,10 +19,17 @@ class RecentPlayer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final List<Player> users = ref.watch(userNotifierProvider).users;
     return StaggeredGridTile.fit(
       crossAxisCellCount: 15,
       child: AspectRatio(
         aspectRatio: 4.5,
+        child: ListView.builder(
+          padding: EdgeInsets.only(left: 15.w),
+          itemBuilder: (_, index) => RecentPlayerTile(users[index]),
+          scrollDirection: Axis.horizontal,
+          itemCount: users.length < 6 ? users.length : 6,
+        ),
         /*child: FirestoreListView.separated(
           pageSize: 3,
           scrollDirection: Axis.horizontal,

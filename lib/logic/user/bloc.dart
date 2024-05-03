@@ -4,6 +4,7 @@ import 'package:logger/logger.dart';
 
 import '../../model/friendly_stats.dart';
 import '../../model/player.dart';
+import 'notifier.dart';
 import 'user_datastore.dart';
 
 Logger _logger = Logger();
@@ -14,7 +15,7 @@ final Provider<UserDatastore> userDatastoreProvider =
 final AutoDisposeFutureProviderFamily createMeProvider =
     FutureProvider.autoDispose.family<void, Player>(
   (ref, me) async {
-    final datastore = ref.read(userDatastoreProvider);
+    final UserDatastore datastore = ref.read(userDatastoreProvider);
     _logger.i("Running CreateUser");
     return datastore.createPlayer(me);
   },
@@ -23,7 +24,7 @@ final AutoDisposeFutureProviderFamily createMeProvider =
 final FutureProviderFamily<List<Player>, DateTime> pendingUserProvider =
     FutureProvider.family<List<Player>, DateTime>(
   (ref, date) async {
-    final datastore = ref.read(userDatastoreProvider);
+    final UserDatastore datastore = ref.read(userDatastoreProvider);
     return datastore.pendingUser(date);
   },
 );
@@ -46,7 +47,7 @@ final AutoDisposeFutureProviderFamily<void, FriendlyStats>
     newFriendlyStatsProvider =
     FutureProvider.autoDispose.family<void, FriendlyStats>(
   (ref, stats) async {
-    final datastore = ref.read(userDatastoreProvider);
+    final UserDatastore datastore = ref.read(userDatastoreProvider);
     return datastore.newFriendlyStats(stats);
   },
 );
@@ -54,7 +55,7 @@ final AutoDisposeFutureProviderFamily<void, FriendlyStats>
 final AutoDisposeFutureProvider updateNowTimeProvider =
     FutureProvider.autoDispose(
   (ref) async {
-    final datastore = ref.read(userDatastoreProvider);
+    final UserDatastore datastore = ref.read(userDatastoreProvider);
     return datastore.updateNowTime();
   },
 );
@@ -62,7 +63,29 @@ final AutoDisposeFutureProvider updateNowTimeProvider =
 final FutureProvider<List<Player>> overallUserProvider =
     FutureProvider<List<Player>>(
   (ref) async {
-    final l = ref.read(userDatastoreProvider);
-    return l.overall;
+    final UserDatastore userDatastore = ref.read(userDatastoreProvider);
+    return userDatastore.overall;
+  },
+);
+
+final StreamProvider<Player> onNewPlayerProvider = StreamProvider<Player>(
+  (ref) {
+    final UserDatastore userDatastore = ref.read(userDatastoreProvider);
+    return userDatastore.onNewPlayer;
+  },
+);
+
+final Provider<Player?> meProvider = Provider<Player?>(
+  (ref) {
+    final UserNotifier notifier = ref.read(userNotifierProvider);
+    return notifier.me;
+  },
+);
+
+final ProviderFamily<Player?, String> xPlayerProvider =
+    Provider.family<Player?, String>(
+  (ref, id) {
+    final UserNotifier notifier = ref.read(userNotifierProvider);
+    return notifier.player(id);
   },
 );

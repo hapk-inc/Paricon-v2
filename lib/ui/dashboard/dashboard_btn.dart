@@ -23,11 +23,16 @@ class DashboardBtn extends ConsumerWidget {
           child: ToggleSwitch(
             initialLabelIndex: ref.watch(dashboardNotifierProvider).buttonIndex,
             radiusStyle: true,
-            labels: const ["Daily Match", "Play Friend", "LeaderBoard"],
+            labels: const [
+              "Daily Match",
+              "Play Friend",
+              "LeaderBoard",
+              "New Avatars"
+            ],
             onToggle: (index) =>
                 ref.watch(dashboardNotifierProvider).buttonIndex = index ?? 0,
             minWidth: 96.w,
-            customWidths: [105.w, 105.w, 120.w],
+            customWidths: [105.w, 105.w, 120.w, 105.w],
             minHeight: 43.5.h,
             cornerRadius: 4.8.r,
             animate: true,

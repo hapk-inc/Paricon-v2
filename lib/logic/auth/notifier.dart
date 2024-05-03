@@ -80,7 +80,7 @@ class AuthNotifier extends ChangeNotifier {
       netConnectedNotifierProvider.select((value) => value),
       (previous, next) {
         _logger.i("netConnectedNotifierProvider $next");
-        isConnected = !next.isNegative;
+        //isConnected = !next.isNegative;
       },
     );
     if (!_inMaintenance) {

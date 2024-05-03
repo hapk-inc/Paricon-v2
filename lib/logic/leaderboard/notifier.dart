@@ -37,11 +37,16 @@ class LeaderBoardNotifier extends ChangeNotifier {
         //
         if (next != null) {
           final UserRecord i = next;
-          _db.insertR(i.iJson);
+          if (!kIsWeb) _db.insertR(i.iJson);
 
           //
-          int index = _list.indexWhere((x) => next.id == x.id);
-          _list.insert(index.isNegative ? 0 : index, next);
+          int index = _list.indexWhere((x) => i.id == x.id);
+          if (index.isNegative) {
+            _list.insert(0, i);
+          } else {
+            _list[index] = i;
+          }
+          //_list.insert(index.isNegative ? 0 : index, next);
           notifyListeners();
         }
       },
@@ -57,17 +62,19 @@ class LeaderBoardNotifier extends ChangeNotifier {
   }
 
   Future get initialize async {
-    _list = await _db.leaderboard;
+    if (!kIsWeb) _list = await _db.leaderboard;
     if (list.isEmpty) {
       _list = await ref.watch(overallLeaderboardProvider.future);
-      for (var i in list) {
-        _db.insertR(i.iJson);
+      if (!kIsWeb) {
+        for (var i in list) {
+          _db.insertR(i.iJson);
+        }
       }
     } else {
       await checkPending;
     }
 
-    final String? uid = ref.read(authUserProvider).value?.uid;
+    //final String? uid = ref.read(authUserProvider).value?.uid;
     //if()
     notifyListeners();
   }
@@ -108,8 +115,10 @@ class LeaderBoardNotifier extends ChangeNotifier {
     final List<UserRecord> pending =
         await ref.watch(pendingRecordProvider(lastCheck).future);
     _logger.i("Pending Data $pending");
-    for (var i in pending) {
-      _db.insertR(i.iJson);
+    if (!kIsWeb) {
+      for (var i in pending) {
+        _db.insertR(i.iJson);
+      }
     }
     list.addAll(pending);
   }
