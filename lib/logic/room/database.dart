@@ -35,13 +35,13 @@ class RoomDatabase {
   }
 
   Future get joinRoom async {
-    debugPrint("Joining Room");
+    //
     final String user = ref.read(authUserProvider).value!.uid;
-    final Player player = ref.read(meProvider).value!;
+    //final Player player = ref.read(meProvider).value!;
     return roomReference.child(id!).child('players').child(user).set(Player(
-          name: player.name,
+          name: "User#",
           createdAt: DateTime.now(),
-          avatar: player.avatar,
+          //  avatar: player.avatar,
         ).toJson());
   }
 

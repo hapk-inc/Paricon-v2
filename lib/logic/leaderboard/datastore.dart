@@ -35,7 +35,7 @@ class LeaderBoardDatastore {
         ),
       );*/
 
-  Future<List<UserRecord>> get overall => lQuery.get().then(
+  Future<List<UserRecord>> get overall => leaderboardQuery.get().then(
         (QuerySnapshot<UserRecord> querySnapshot) => List.from(
           querySnapshot.docs.map(
             (e) => e.data().copyWith(id: e.id),
@@ -43,7 +43,7 @@ class LeaderBoardDatastore {
         ),
       );
 
-  Future<List<UserRecord>> pendingRecord(DateTime dateTime) => lQuery
+  Future<List<UserRecord>> pendingRecord(DateTime dateTime) => leaderboardQuery
       .where('lastPlayed', isGreaterThan: dateTime.toIso8601String())
       .get()
       .then(
@@ -74,7 +74,7 @@ class LeaderBoardDatastore {
     );
   }
 
-  Query<UserRecord> get lQuery => leaderBoardCollectionReference
+  Query<UserRecord> get leaderboardQuery => leaderBoardCollectionReference
       .orderBy('lastPlayed', descending: true)
       .withConverter<UserRecord>(
         fromFirestore: (snapshot, _) => UserRecord.fromSnapshot(snapshot),
@@ -87,7 +87,7 @@ class LeaderBoardDatastore {
   Stream<UserRecord> get onNewRecord {
     late BehaviorSubject<UserRecord> subject;
     subject = BehaviorSubject(
-      onListen: () => lQuery
+      onListen: () => leaderboardQuery
           .where('lastPlayed', isGreaterThan: DateTime.now().toIso8601String())
           .snapshots()
           .listen(

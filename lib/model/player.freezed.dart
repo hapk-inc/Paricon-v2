@@ -22,13 +22,21 @@ Player _$PlayerFromJson(Map<String, dynamic> json) {
 mixin _$Player {
   String get name => throw _privateConstructorUsedError;
   String? get rName => throw _privateConstructorUsedError;
-  num? get tag => throw _privateConstructorUsedError;
+  num? get no => throw _privateConstructorUsedError;
   bool? get isActive => throw _privateConstructorUsedError;
   String? get avatar => throw _privateConstructorUsedError;
   String? get avatarCode => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   List<String>? get avatarArr => throw _privateConstructorUsedError;
-  List<String>? get friendArr => throw _privateConstructorUsedError;
+  List<String>? get friendArr => throw _privateConstructorUsedError; //
+  DateTime? get lastOpened => throw _privateConstructorUsedError;
+  DateTime? get lastGamePlayed => throw _privateConstructorUsedError;
+  dynamic get isPlaying => throw _privateConstructorUsedError;
+  String? get appVersion => throw _privateConstructorUsedError;
+  DateTime? get nowTime => throw _privateConstructorUsedError;
+  bool get isEmulator => throw _privateConstructorUsedError;
+  @JsonKey(toJson: null, includeIfNull: false)
+  String? get id => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,13 +51,20 @@ abstract class $PlayerCopyWith<$Res> {
   $Res call(
       {String name,
       String? rName,
-      num? tag,
+      num? no,
       bool? isActive,
       String? avatar,
       String? avatarCode,
       DateTime? createdAt,
       List<String>? avatarArr,
-      List<String>? friendArr});
+      List<String>? friendArr,
+      DateTime? lastOpened,
+      DateTime? lastGamePlayed,
+      dynamic isPlaying,
+      String? appVersion,
+      DateTime? nowTime,
+      bool isEmulator,
+      @JsonKey(toJson: null, includeIfNull: false) String? id});
 }
 
 /// @nodoc
@@ -67,13 +82,20 @@ class _$PlayerCopyWithImpl<$Res, $Val extends Player>
   $Res call({
     Object? name = null,
     Object? rName = freezed,
-    Object? tag = freezed,
+    Object? no = freezed,
     Object? isActive = freezed,
     Object? avatar = freezed,
     Object? avatarCode = freezed,
     Object? createdAt = freezed,
     Object? avatarArr = freezed,
     Object? friendArr = freezed,
+    Object? lastOpened = freezed,
+    Object? lastGamePlayed = freezed,
+    Object? isPlaying = freezed,
+    Object? appVersion = freezed,
+    Object? nowTime = freezed,
+    Object? isEmulator = null,
+    Object? id = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -84,9 +106,9 @@ class _$PlayerCopyWithImpl<$Res, $Val extends Player>
           ? _value.rName
           : rName // ignore: cast_nullable_to_non_nullable
               as String?,
-      tag: freezed == tag
-          ? _value.tag
-          : tag // ignore: cast_nullable_to_non_nullable
+      no: freezed == no
+          ? _value.no
+          : no // ignore: cast_nullable_to_non_nullable
               as num?,
       isActive: freezed == isActive
           ? _value.isActive
@@ -112,6 +134,34 @@ class _$PlayerCopyWithImpl<$Res, $Val extends Player>
           ? _value.friendArr
           : friendArr // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      lastOpened: freezed == lastOpened
+          ? _value.lastOpened
+          : lastOpened // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      lastGamePlayed: freezed == lastGamePlayed
+          ? _value.lastGamePlayed
+          : lastGamePlayed // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      isPlaying: freezed == isPlaying
+          ? _value.isPlaying
+          : isPlaying // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      appVersion: freezed == appVersion
+          ? _value.appVersion
+          : appVersion // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nowTime: freezed == nowTime
+          ? _value.nowTime
+          : nowTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      isEmulator: null == isEmulator
+          ? _value.isEmulator
+          : isEmulator // ignore: cast_nullable_to_non_nullable
+              as bool,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -126,13 +176,20 @@ abstract class _$$PlayerImplCopyWith<$Res> implements $PlayerCopyWith<$Res> {
   $Res call(
       {String name,
       String? rName,
-      num? tag,
+      num? no,
       bool? isActive,
       String? avatar,
       String? avatarCode,
       DateTime? createdAt,
       List<String>? avatarArr,
-      List<String>? friendArr});
+      List<String>? friendArr,
+      DateTime? lastOpened,
+      DateTime? lastGamePlayed,
+      dynamic isPlaying,
+      String? appVersion,
+      DateTime? nowTime,
+      bool isEmulator,
+      @JsonKey(toJson: null, includeIfNull: false) String? id});
 }
 
 /// @nodoc
@@ -148,13 +205,20 @@ class __$$PlayerImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? rName = freezed,
-    Object? tag = freezed,
+    Object? no = freezed,
     Object? isActive = freezed,
     Object? avatar = freezed,
     Object? avatarCode = freezed,
     Object? createdAt = freezed,
     Object? avatarArr = freezed,
     Object? friendArr = freezed,
+    Object? lastOpened = freezed,
+    Object? lastGamePlayed = freezed,
+    Object? isPlaying = freezed,
+    Object? appVersion = freezed,
+    Object? nowTime = freezed,
+    Object? isEmulator = null,
+    Object? id = freezed,
   }) {
     return _then(_$PlayerImpl(
       name: null == name
@@ -165,9 +229,9 @@ class __$$PlayerImplCopyWithImpl<$Res>
           ? _value.rName
           : rName // ignore: cast_nullable_to_non_nullable
               as String?,
-      tag: freezed == tag
-          ? _value.tag
-          : tag // ignore: cast_nullable_to_non_nullable
+      no: freezed == no
+          ? _value.no
+          : no // ignore: cast_nullable_to_non_nullable
               as num?,
       isActive: freezed == isActive
           ? _value.isActive
@@ -193,6 +257,34 @@ class __$$PlayerImplCopyWithImpl<$Res>
           ? _value._friendArr
           : friendArr // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      lastOpened: freezed == lastOpened
+          ? _value.lastOpened
+          : lastOpened // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      lastGamePlayed: freezed == lastGamePlayed
+          ? _value.lastGamePlayed
+          : lastGamePlayed // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      isPlaying: freezed == isPlaying
+          ? _value.isPlaying
+          : isPlaying // ignore: cast_nullable_to_non_nullable
+              as dynamic,
+      appVersion: freezed == appVersion
+          ? _value.appVersion
+          : appVersion // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nowTime: freezed == nowTime
+          ? _value.nowTime
+          : nowTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      isEmulator: null == isEmulator
+          ? _value.isEmulator
+          : isEmulator // ignore: cast_nullable_to_non_nullable
+              as bool,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -204,13 +296,20 @@ class _$PlayerImpl extends _Player {
   const _$PlayerImpl(
       {this.name = "User#",
       this.rName,
-      this.tag,
+      this.no,
       this.isActive,
       this.avatar,
       this.avatarCode,
       this.createdAt,
       final List<String>? avatarArr,
-      final List<String>? friendArr})
+      final List<String>? friendArr,
+      this.lastOpened,
+      this.lastGamePlayed,
+      this.isPlaying,
+      this.appVersion,
+      this.nowTime,
+      this.isEmulator = false,
+      @JsonKey(toJson: null, includeIfNull: false) this.id})
       : _avatarArr = avatarArr,
         _friendArr = friendArr,
         super._();
@@ -224,7 +323,7 @@ class _$PlayerImpl extends _Player {
   @override
   final String? rName;
   @override
-  final num? tag;
+  final num? no;
   @override
   final bool? isActive;
   @override
@@ -253,45 +352,23 @@ class _$PlayerImpl extends _Player {
     return EqualUnmodifiableListView(value);
   }
 
+//
   @override
-  String toString() {
-    return 'Player(name: $name, rName: $rName, tag: $tag, isActive: $isActive, avatar: $avatar, avatarCode: $avatarCode, createdAt: $createdAt, avatarArr: $avatarArr, friendArr: $friendArr)';
-  }
-
+  final DateTime? lastOpened;
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$PlayerImpl &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.rName, rName) || other.rName == rName) &&
-            (identical(other.tag, tag) || other.tag == tag) &&
-            (identical(other.isActive, isActive) ||
-                other.isActive == isActive) &&
-            (identical(other.avatar, avatar) || other.avatar == avatar) &&
-            (identical(other.avatarCode, avatarCode) ||
-                other.avatarCode == avatarCode) &&
-            (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt) &&
-            const DeepCollectionEquality()
-                .equals(other._avatarArr, _avatarArr) &&
-            const DeepCollectionEquality()
-                .equals(other._friendArr, _friendArr));
-  }
-
-  @JsonKey(ignore: true)
+  final DateTime? lastGamePlayed;
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      name,
-      rName,
-      tag,
-      isActive,
-      avatar,
-      avatarCode,
-      createdAt,
-      const DeepCollectionEquality().hash(_avatarArr),
-      const DeepCollectionEquality().hash(_friendArr));
+  final dynamic isPlaying;
+  @override
+  final String? appVersion;
+  @override
+  final DateTime? nowTime;
+  @override
+  @JsonKey()
+  final bool isEmulator;
+  @override
+  @JsonKey(toJson: null, includeIfNull: false)
+  final String? id;
 
   @JsonKey(ignore: true)
   @override
@@ -309,15 +386,23 @@ class _$PlayerImpl extends _Player {
 
 abstract class _Player extends Player {
   const factory _Player(
-      {final String name,
-      final String? rName,
-      final num? tag,
-      final bool? isActive,
-      final String? avatar,
-      final String? avatarCode,
-      final DateTime? createdAt,
-      final List<String>? avatarArr,
-      final List<String>? friendArr}) = _$PlayerImpl;
+          {final String name,
+          final String? rName,
+          final num? no,
+          final bool? isActive,
+          final String? avatar,
+          final String? avatarCode,
+          final DateTime? createdAt,
+          final List<String>? avatarArr,
+          final List<String>? friendArr,
+          final DateTime? lastOpened,
+          final DateTime? lastGamePlayed,
+          final dynamic isPlaying,
+          final String? appVersion,
+          final DateTime? nowTime,
+          final bool isEmulator,
+          @JsonKey(toJson: null, includeIfNull: false) final String? id}) =
+      _$PlayerImpl;
   const _Player._() : super._();
 
   factory _Player.fromJson(Map<String, dynamic> json) = _$PlayerImpl.fromJson;
@@ -327,7 +412,7 @@ abstract class _Player extends Player {
   @override
   String? get rName;
   @override
-  num? get tag;
+  num? get no;
   @override
   bool? get isActive;
   @override
@@ -340,6 +425,21 @@ abstract class _Player extends Player {
   List<String>? get avatarArr;
   @override
   List<String>? get friendArr;
+  @override //
+  DateTime? get lastOpened;
+  @override
+  DateTime? get lastGamePlayed;
+  @override
+  dynamic get isPlaying;
+  @override
+  String? get appVersion;
+  @override
+  DateTime? get nowTime;
+  @override
+  bool get isEmulator;
+  @override
+  @JsonKey(toJson: null, includeIfNull: false)
+  String? get id;
   @override
   @JsonKey(ignore: true)
   _$$PlayerImplCopyWith<_$PlayerImpl> get copyWith =>

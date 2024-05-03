@@ -108,7 +108,7 @@ class BoardNotifier extends ChangeNotifier {
         _everyFound = _board.everyIconFound;*/
         if (_isDailyMatch) incrementAndDoEveryFound();
 
-        if (_everyFound || _isDailyMatch) {
+        if (_everyFound && _isDailyMatch) {
           ref.read(
             updateUserLogProvider(
               UserLog(

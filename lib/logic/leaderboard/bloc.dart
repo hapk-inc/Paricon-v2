@@ -10,12 +10,13 @@ final Provider<LeaderBoardDatastore> leaderBoardDatastoreProvider =
 final AutoDisposeFutureProviderFamily<void, UserLog> updateUserLogProvider =
     FutureProvider.autoDispose.family<void, UserLog>(
   (ref, userLog) async {
-    final leaderBoard = ref.read(leaderBoardDatastoreProvider);
+    final LeaderBoardDatastore leaderBoard =
+        ref.read(leaderBoardDatastoreProvider);
     return leaderBoard.update(userLog);
   },
 );
 
-final FutureProvider<List<UserRecord>> overallProvider =
+final FutureProvider<List<UserRecord>> overallLeaderboardProvider =
     FutureProvider<List<UserRecord>>(
   (ref) async {
     final l = ref.read(leaderBoardDatastoreProvider);

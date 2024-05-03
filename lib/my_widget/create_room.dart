@@ -9,8 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/panel/bloc.dart';
-import '../logic/room/bloc.dart';
-import '../logic/room/create_room.dart';
 import '../model/room.dart';
 import '../router/my_route.dart';
 import '../values/colors.dart';
@@ -146,7 +144,7 @@ class _WrapContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: lWidth,
-      height: 51.h,
+      height: 48.h,
       decoration: BoxDecoration(
         color: magnolia,
         borderRadius: BorderRadius.circular(4.5.r),

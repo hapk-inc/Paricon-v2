@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +7,8 @@ import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:logger/logger.dart';
 
 import '../../logic/user/bloc.dart';
-import '../../model/my_activity.dart';
+//import '../../model/my_activity.dart';
+import '../../logic/user/notifier.dart';
 import '../../model/player.dart';
 import 'recent_player/recent_player_tile.dart';
 
@@ -21,19 +23,15 @@ class RecentPlayer extends ConsumerWidget {
       crossAxisCellCount: 15,
       child: AspectRatio(
         aspectRatio: 4.5,
-        child: FirestoreListView.separated(
+        /*child: FirestoreListView.separated(
+          pageSize: 3,
           scrollDirection: Axis.horizontal,
           query: ref.watch(recentPlayerProvider),
           padding: EdgeInsets.only(left: 15.w),
-          itemBuilder: (_, doc) {
-            Player player = Player.fromSnapshot(doc);
-            MyActivity activity = MyActivity.fromSnapshot(doc);
-            _logger.d(player);
-            _logger.d(activity);
-            return RecentPlayerTile(doc.id, player, activity);
-          },
           separatorBuilder: (_, __) => const SizedBox(width: 0.3),
-        ),
+          itemBuilder: (_, QueryDocumentSnapshot<Player> doc) =>
+              RecentPlayerTile(doc.id, doc.data()),
+        ),*/
       ),
     );
   }

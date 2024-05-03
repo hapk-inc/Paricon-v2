@@ -1,6 +1,5 @@
 import 'package:logger/logger.dart';
 import 'package:path/path.dart';
-
 import 'package:sqflite/sqflite.dart';
 
 import '../../model/player.dart';
@@ -12,11 +11,7 @@ class UserQL {
   static const String _tableName = 'user';
 
   Future<Database> get database async {
-    if (_database != null) {
-      _logger.i("Database Exist");
-      return _database!;
-    }
-
+    if (_database != null) return _database!;
     _database = await initializeDatabase;
     return _database!;
   }
@@ -28,27 +23,38 @@ class UserQL {
               '('
               'id TEXT PRIMARY KEY,'
               'name TEXT,'
-              'tag INTEGER'
+              'nowTime TEXT,'
+              'no INTEGER'
               ')');
         },
         version: 1,
       );
 
+  Future<List<Player>> get userList async {
+    _database = await database;
+    if (_database != null) {
+      final List<Map<String, dynamic>> maps =
+          await _database!.query(_tableName);
+      if (maps.isNotEmpty) {
+        return List.from(maps.map((e) => Player.fromJson(e)));
+      }
+      return [];
+    }
+    return [];
+  }
+
   Future<Player?> player(String id) async {
     final Database db = await database;
     final List<Map<String, dynamic>> maps =
         await db.query(_tableName, where: 'id = ?', whereArgs: [id]);
-    if (maps.isNotEmpty) {
-      _logger.d("$maps");
-      return Player.fromJson(maps.first);
-    }
+    if (maps.isNotEmpty) return Player.fromJson(maps.first);
     return null;
   }
 
   Future insertUser(Map<String, dynamic> map) async {
     final Database db = await database;
-    _logger.i("$map");
-    await db.insert(
+    //
+    return await db.insert(
       _tableName,
       map,
       conflictAlgorithm: ConflictAlgorithm.replace,
@@ -58,17 +64,10 @@ class UserQL {
   Future delete() async =>
       deleteDatabase(join(await getDatabasesPath(), '$_tableName.db'));
 
-/*
-  Future updateUser(String id, Player user) async {
-    final Database db = await database;
-    await db.update(
-      _tableName,
-      user.toJson(),
-      where: 'id = ?',
-      whereArgs: [user.numId],
-    );
-  }
-*/
-
-// Add more methods for other CRUD operations as needed
+  // void insertR(iJson) {}
+/*  Future insertR(Map<String, dynamic> map) => _database!.insert(
+    _tableName,
+    map,
+    conflictAlgorithm: ConflictAlgorithm.replace,
+  );*/
 }

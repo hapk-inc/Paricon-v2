@@ -7,8 +7,11 @@ import '../values/colors.dart';
 
 class MyDuration extends StatelessWidget {
   final Duration duration;
+  final Color textColor;
+  final double size;
 
-  const MyDuration(this.duration, {super.key});
+  const MyDuration(this.duration,
+      {this.textColor = charcoal, this.size = 30, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,60 +22,54 @@ class MyDuration extends StatelessWidget {
             child: AnimatedFlipCounter(
               value: duration.inMinutes,
               wholeDigits: 2,
-              textStyle: GoogleFonts.russoOne(
-                textStyle: TextStyle(
-                  fontSize: 30.r,
-                  height: 0,
-                  fontWeight: FontWeight.w700,
-                  color: ghostWhite,
-                ),
+              //padding: EdgeInsets.only(top: 3.6.r),
+              textStyle: TextStyle(
+                fontSize: size.r,
+                height: 0,
+                fontFamily: 'RussoOne',
+                color: textColor,
               ),
             ),
           ),
-          TextSpan(text: " ", style: TextStyle(fontSize: 18.r)),
+          TextSpan(text: " ", style: TextStyle(fontSize: (size * 0.48).r)),
           TextSpan(
             text: ":",
-            style: TextStyle(fontSize: 24.r),
+            style: TextStyle(fontSize: (size * 0.75).r),
           ),
-          TextSpan(text: " ", style: TextStyle(fontSize: 18.r)),
+          TextSpan(text: " ", style: TextStyle(fontSize: (size * 0.48).r)),
           WidgetSpan(
             child: AnimatedFlipCounter(
               value: duration.inSeconds % 60,
               wholeDigits: 2,
-              textStyle: GoogleFonts.russoOne(
-                textStyle: TextStyle(
-                  fontSize: 30.r,
-                  height: 0,
-                  fontWeight: FontWeight.w700,
-                  color: ghostWhite,
-                ),
+              //padding: EdgeInsets.only(top: 3.6.r),
+              textStyle: TextStyle(
+                fontSize: size.r,
+                height: 0,
+                fontFamily: 'RussoOne',
+                color: textColor,
               ),
             ),
           ),
-          TextSpan(text: " ", style: TextStyle(fontSize: 18.r)),
+          TextSpan(text: " ", style: TextStyle(fontSize: (size * 0.54).r)),
           WidgetSpan(
             child: AnimatedFlipCounter(
               value: duration.inMilliseconds % 1000,
               padding: EdgeInsets.only(bottom: 3.6.r),
               wholeDigits: 3,
-              textStyle: GoogleFonts.russoOne(
-                textStyle: TextStyle(
-                  fontSize: 15.r,
-                  height: 0,
-                  fontWeight: FontWeight.w700,
-                  color: ghostWhite,
-                ),
+              textStyle: TextStyle(
+                fontSize: (size * 0.5).r,
+                height: 0,
+                fontFamily: 'RussoOne',
+                color: textColor.withOpacity(0.75),
               ),
             ),
           ),
         ],
-        style: GoogleFonts.russoOne(
-          textStyle: TextStyle(
-            fontSize: 30.r,
-            height: 0,
-            fontWeight: FontWeight.w700,
-            color: ghostWhite,
-          ),
+        style: TextStyle(
+          height: 0,
+          fontSize: size.r,
+          fontFamily: 'RussoOne',
+          color: textColor,
         ),
       ),
     );

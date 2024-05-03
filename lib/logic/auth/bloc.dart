@@ -11,14 +11,16 @@ final Provider<Auth> authProvider = Provider<Auth>((ref) => Auth(ref));
   return auth.currentUser;
 });*/
 
-final StreamProvider<User?> authUserProvider = StreamProvider<User?>((ref) {
-  final auth = ref.read(authProvider);
-  return auth.authUser;
-});
+final StreamProvider<User?> authUserProvider = StreamProvider<User?>(
+  (ref) {
+    final Auth auth = ref.read(authProvider);
+    return auth.authUser;
+  },
+);
 
 final AutoDisposeFutureProvider signOutProvider = FutureProvider.autoDispose(
   (ref) {
-    final auth = ref.read(authProvider);
+    final Auth auth = ref.read(authProvider);
     return auth.signOut;
   },
 );
@@ -26,7 +28,7 @@ final AutoDisposeFutureProvider signOutProvider = FutureProvider.autoDispose(
 final AutoDisposeFutureProvider deleteAccountProvider =
     FutureProvider.autoDispose(
   (ref) {
-    final auth = ref.read(authProvider);
+    final Auth auth = ref.read(authProvider);
     return auth.deleteAccount;
   },
 );
@@ -34,7 +36,7 @@ final AutoDisposeFutureProvider deleteAccountProvider =
 final AutoDisposeFutureProviderFamily<void, String> updateNameProvider =
     FutureProvider.autoDispose.family<void, String>(
   (ref, name) async {
-    final auth = ref.read(authProvider);
+    final Auth auth = ref.read(authProvider);
     return auth.updateName(name);
   },
 );

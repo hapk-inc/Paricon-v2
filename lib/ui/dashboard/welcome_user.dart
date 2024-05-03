@@ -10,6 +10,7 @@ import 'package:paricon/values/names.dart';
 
 import '../../logic/app/ai_bloc.dart';
 import '../../logic/user/bloc.dart';
+import '../../logic/user/notifier.dart';
 import '../../model/player.dart';
 import '../../router/my_route.dart';
 import '../../values/colors.dart';

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'dart:convert';
@@ -11,6 +12,11 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../firebase/bloc.dart';
+import '../leaderboard/notifier.dart';
+import '../user/bloc.dart';
+import '../user/notifier.dart';
+
+Logger _logger = Logger();
 
 class Auth {
   final Ref ref;
@@ -26,9 +32,18 @@ class Auth {
     subject = BehaviorSubject<User?>(
       onListen: () => _auth.authStateChanges().listen(
         (event) {
+          if (event == null) {
+            if (subject.hasValue) {
+              ref.read(userNotifierProvider).onDispose();
+              ref.read(leaderBoardNotifierProvider).onDispose();
+            }
+          }
           subject.add(event);
         },
       ),
+      onCancel: () {
+        _logger.i("35--authUser onCancel");
+      },
     );
     return subject.stream;
   }
@@ -45,21 +60,21 @@ class Auth {
       .updateDisplayName(toBeginningOfSentenceCase(name) ?? "");
 
   Future<UserCredential?> get googleSignIn async {
-    _AuthLoginOption authLoginOption = _AuthLoginOption();
-    final AuthCredential? credential = await authLoginOption.googleCredentials;
+    //_AuthLoginOption authLoginOption = _AuthLoginOption();
+    final AuthCredential? credential = await _AuthLoginOption.googleCredentials;
     if (credential == null) return null;
     return _auth.signInWithCredential(credential);
   }
 
   Future<UserCredential?> get appleLogin async {
-    _AuthLoginOption authLoginOption = _AuthLoginOption();
-    final AuthCredential credential = await authLoginOption.appleLogin;
+    //_AuthLoginOption authLoginOption = _AuthLoginOption();
+    final AuthCredential credential = await _AuthLoginOption.appleLogin;
     return _auth.signInWithCredential(credential);
   }
 }
 
-class _AuthLoginOption {
-  Future<OAuthCredential> get appleLogin async {
+mixin _AuthLoginOption {
+  static Future<OAuthCredential> get appleLogin async {
     // To prevent replay attacks with the credential returned from Apple, we
     // include a nonce in the credential request. When signing in with
     // Firebase, the nonce in the id token returned by Apple, is expected to
@@ -88,13 +103,13 @@ class _AuthLoginOption {
   }
 
   /// Returns the sha256 hash of [input] in hex notation.
-  String sha256ofString(String input) {
+  static String sha256ofString(String input) {
     final bytes = utf8.encode(input);
     final digest = sha256.convert(bytes);
     return digest.toString();
   }
 
-  Future<AuthCredential?> get googleCredentials async {
+  static Future<AuthCredential?> get googleCredentials async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     try {

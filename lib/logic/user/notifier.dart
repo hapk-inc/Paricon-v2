@@ -9,48 +9,61 @@ import 'user_ql.dart';
 
 Logger _logger = Logger();
 
-//const Duration _m900 = Duration(milliseconds: 900);
+final ChangeNotifierProvider<UserNotifier> userNotifierProvider =
+    ChangeNotifierProvider<UserNotifier>(
+  (ref) => UserNotifier(ref)..initialize(),
+);
 
 class UserNotifier extends ChangeNotifier {
   final UserQL _db = UserQL();
+  List<Player> _list = [];
   Player? _me;
   final Ref ref;
 
   UserNotifier(this.ref);
 
-  @override
-  void addListener(VoidCallback listener) {
-    super.addListener(listener);
-    _logger.i("Overriding User Notifier Listener");
-
-    ref.listen<Player?>(
-      meProvider.select((value) => value.value),
-      (_, next) {
-        if (next != null) {
-          _logger.i("AuthNotifier Listener $next");
-          me = next;
-        }
-      },
-    );
-  }
-
-  Future initializeMe() async {
-    _logger.d("initializeMe");
-    final String? id = ref.read(authUserProvider).value?.uid;
-    if (id != null) {
-      me = kIsWeb ? null : await _db.player(id);
-      _logger.d("Initialize Player $_me");
-      if (me == null) {
-        newUser(id);
-      } else {
-        _logger.i(me);
+  Future initialize() async {
+    debugPrint("26---Initialize");
+    _list = await _db.userList;
+    if (_list.isEmpty) {
+      _list = await ref.watch(overallUserProvider.future);
+      debugPrint("29--Running overallUserProvider $_list");
+      for (var player in _list) {
+        _db.insertUser(player.toDatabase());
       }
+    } else {
+      await checkPending;
     }
+    /*final String? id = ref.read(authUserProvider).value?.uid;
+    if (id != null) {
+      me = kIsWeb ? null : await _sql.player(id);
+      if (_me == null) createMe(id);
+    }*/
+    notifyListeners();
   }
 
-  Future newUser(id) async {
+  Future get checkPending async {
+    debugPrint("46---checkPending");
+    for (var i in _list) {
+      debugPrint("48--${i.nowTime}");
+    }
+    _list.sort((a, b) =>
+        (b.nowTime ?? DateTime.now()).compareTo((a.nowTime ?? DateTime.now())));
+
+    DateTime lastCheck = _list.first.nowTime ?? DateTime.now();
+    final List<Player> pending =
+        await ref.watch(pendingUserProvider(lastCheck).future);
+    _logger.i("Pending User $pending");
+    for (var i in pending) {
+      _db.insertUser(i.toDatabase());
+    }
+    _list.addAll(pending);
+  }
+
+  Future createMe(id) async {
     me = Player.createOne();
-    if (!kIsWeb) await _db.insertUser(me!.toDatabase(id));
+    //if (!kIsWeb) await _db.insertUser(me!.toDatabase(id));
+    if (!kIsWeb) await _db.insertUser(me!.toDatabase());
     ref.read(createMeProvider(me));
   }
 
@@ -62,10 +75,13 @@ class UserNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  @override
-  void dispose() async {
-    _logger.d("Running OnDispose");
+/*  Future insertUser(String id, Player player) async {
+    if (!kIsWeb) await _db.insertUser(me!.toDatabase(id));
+    if (!kIsWeb) await _db.insertUser(me!.toDatabase(id));
+  }*/
+
+  onDispose() {
+    _logger.d("Running OnDispose UserNotifier");
     if (!kIsWeb) _db.delete();
-    super.dispose();
   }
 }

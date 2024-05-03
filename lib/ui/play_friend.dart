@@ -13,6 +13,7 @@ import '../logic/auth/bloc.dart';
 import '../logic/board/notifier.dart';
 import '../logic/board/provider.dart';
 import '../logic/panel/bloc.dart';
+import '../model/local_player.dart';
 import '../theme/sliding_panel.dart';
 import '../values/colors.dart';
 import 'board/board_timer.dart';
@@ -53,15 +54,13 @@ class _PlayFriendPageState extends ConsumerState<PlayFriendPage> {
         if (next != null) {
           notifier.wait = true;
           notifier.board?.icons[next.key] = next.value;
-          /*if (user != notifier.board?.currentID) {
-            notifier.everyFound = notifier.board?.everyIconFound ?? false;
-          }*/
+
           //
           if (next.value.isCheck ?? false) {
             if (notifier.board?.currentID == user) {
-              debugPrint("52--Running runValidate()");
               await notifier.runValidate(next.key);
             }
+
             //
           } else {
             if ((next.value.isFound ?? false) &&
@@ -159,12 +158,11 @@ class _PlayFriendPageState extends ConsumerState<PlayFriendPage> {
                       children: List.generate(
                         notifier.board!.players.length,
                         (index) {
-                          debugPrint("162--${notifier.board!.players}");
-                          final p = notifier.board!.players;
-                          return LocalPlayerTile(
-                            p.keys.elementAt(index),
-                            p.values.elementAt(index),
-                          );
+                          final map = notifier.board!.players;
+                          final String id = map.keys.elementAt(index);
+                          final LocalPlayer player =
+                              map.values.elementAt(index);
+                          return LocalPlayerTile(id, player);
                         },
                       ),
                     ),

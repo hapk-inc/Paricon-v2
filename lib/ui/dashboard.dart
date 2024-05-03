@@ -7,13 +7,14 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/dashboard/notifier.dart';
 import '../logic/panel/bloc.dart';
-import '../my_widget/leaderboard.dart';
+import '../logic/user/bloc.dart';
+import '../logic/user/notifier.dart';
 import '../my_widget/pi_logo.dart';
 import '../my_widget/staggered_gap.dart';
 import '../theme/sliding_panel.dart';
 import 'dashboard/daily_match.dart';
 import 'dashboard/dashboard_btn.dart';
-import 'dashboard/leaderboard/leaderboard.dart';
+import 'dashboard/leaderboard.dart';
 import 'dashboard/play_friend.dart';
 import 'dashboard/recent_player.dart';
 import 'dashboard/welcome_user.dart';
@@ -31,12 +32,14 @@ final SlidingPanelTheme _panelTheme = SlidingPanelTheme();
 class _DashboardPageState extends ConsumerState<DashboardPage> {
   late DashboardNotifier dashboardNotifier;
   late PanelController panelController;
+  late UserNotifier userNotifier;
 
   @override
   void initState() {
     super.initState();
     dashboardNotifier = ref.refresh(dashboardNotifierProvider);
     panelController = ref.read(dashboardPanelControllerProvider);
+    userNotifier = ref.refresh(userNotifierProvider);
   }
 
   @override

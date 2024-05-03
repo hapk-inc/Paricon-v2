@@ -4,33 +4,12 @@ import 'package:logger/logger.dart';
 
 import '../../model/friendly_stats.dart';
 import '../../model/player.dart';
-import 'notifier.dart';
 import 'user_datastore.dart';
 
 Logger _logger = Logger();
 
 final Provider<UserDatastore> userDatastoreProvider =
     Provider<UserDatastore>((ref) => UserDatastore(ref));
-
-final StreamProvider<Player?> meProvider = StreamProvider<Player?>(
-  (ref) {
-    final UserDatastore datastore = ref.watch(userDatastoreProvider);
-    return datastore.user;
-  },
-);
-
-final FutureProviderFamily<Player?, String> playerProvider =
-    FutureProvider.family<Player?, String>(
-  (ref, id) async {
-    final datastore = ref.read(userDatastoreProvider);
-    return datastore.player(id);
-  },
-);
-
-final AutoDisposeChangeNotifierProvider<UserNotifier> userNotifierProvider =
-    AutoDisposeChangeNotifierProvider<UserNotifier>(
-  (ref) => UserNotifier(ref)..initializeMe(),
-);
 
 final AutoDisposeFutureProviderFamily createMeProvider =
     FutureProvider.autoDispose.family<void, Player>(
@@ -41,13 +20,27 @@ final AutoDisposeFutureProviderFamily createMeProvider =
   },
 );
 
-final Provider<Query> recentPlayerProvider = Provider<Query>(
+final FutureProviderFamily<List<Player>, DateTime> pendingUserProvider =
+    FutureProvider.family<List<Player>, DateTime>(
+  (ref, date) async {
+    final datastore = ref.read(userDatastoreProvider);
+    return datastore.pendingUser(date);
+  },
+);
+/*final StreamProvider<Player?> meProvider = StreamProvider<Player?>(
+  (ref) {
+    final UserDatastore datastore = ref.watch(userDatastoreProvider);
+    return datastore.user;
+  },
+);*/
+
+/*final Provider<Query<Player>> recentPlayerProvider = Provider<Query<Player>>(
   (ref) {
     final datastore = ref.read(userDatastoreProvider);
     final num id = ref.watch(meProvider).value?.tag ?? 0;
     return datastore.recentPlayer(id);
   },
-);
+);*/
 
 final AutoDisposeFutureProviderFamily<void, FriendlyStats>
     newFriendlyStatsProvider =
@@ -55,5 +48,21 @@ final AutoDisposeFutureProviderFamily<void, FriendlyStats>
   (ref, stats) async {
     final datastore = ref.read(userDatastoreProvider);
     return datastore.newFriendlyStats(stats);
+  },
+);
+
+final AutoDisposeFutureProvider updateNowTimeProvider =
+    FutureProvider.autoDispose(
+  (ref) async {
+    final datastore = ref.read(userDatastoreProvider);
+    return datastore.updateNowTime();
+  },
+);
+
+final FutureProvider<List<Player>> overallUserProvider =
+    FutureProvider<List<Player>>(
+  (ref) async {
+    final l = ref.read(userDatastoreProvider);
+    return l.overall;
   },
 );

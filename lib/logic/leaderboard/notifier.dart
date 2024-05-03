@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
 
+import '../../model/player.dart';
 import '../../model/user_record.dart';
 import '../auth/bloc.dart';
 import 'bloc.dart';
@@ -11,9 +13,12 @@ final ChangeNotifierProvider<LeaderBoardNotifier> leaderBoardNotifierProvider =
   (ref) => LeaderBoardNotifier(ref)..initialize,
 );
 
+Logger _logger = Logger();
+
 class LeaderBoardNotifier extends ChangeNotifier {
   final Ref ref;
   List<UserRecord> _list = [];
+  UserRecord? _myRecord;
   final LeaderBoardQL _db = LeaderBoardQL();
 
   LeaderBoardNotifier(this.ref);
@@ -22,10 +27,13 @@ class LeaderBoardNotifier extends ChangeNotifier {
   void addListener(VoidCallback listener) {
     super.addListener(listener);
 
+    debugPrint("28--");
+
     //
-    ref.listen(
+    ref.listen<UserRecord?>(
       onNewRecordProvider.select((value) => value.value),
-      (previous, next) {
+      (_, next) {
+        _logger.i("onNewRecordProvider");
         //
         if (next != null) {
           final UserRecord i = next;
@@ -33,27 +41,34 @@ class LeaderBoardNotifier extends ChangeNotifier {
 
           //
           int index = _list.indexWhere((x) => next.id == x.id);
-          if (index.isNegative) {
-            _list.insert(0, next);
-          } else {
-            _list[index] = next;
-          }
+          _list.insert(index.isNegative ? 0 : index, next);
           notifyListeners();
         }
       },
     );
   }
 
+  UserRecord? get myRecord => _myRecord;
+
+  set myRecord(UserRecord? value) {
+    if (_myRecord == value) return;
+    _myRecord = value;
+    notifyListeners();
+  }
+
   Future get initialize async {
     _list = await _db.leaderboard;
     if (list.isEmpty) {
-      final List<UserRecord> list = await ref.watch(overallProvider.future);
+      _list = await ref.watch(overallLeaderboardProvider.future);
       for (var i in list) {
         _db.insertR(i.iJson);
       }
     } else {
       await checkPending;
     }
+
+    final String? uid = ref.read(authUserProvider).value?.uid;
+    //if()
     notifyListeners();
   }
 
@@ -65,14 +80,14 @@ class LeaderBoardNotifier extends ChangeNotifier {
     return sorted.indexWhere((x) => x.id == id) + 1;
   }
 
-  UserRecord? get me {
-    final user = ref.watch(authUserProvider).value;
+/*  UserRecord? get me {
+    final user = ref.read(authUserProvider).value;
     bool x = _list.any((x) => x.id == (user?.uid ?? ""));
     if (x) {
       return _list.firstWhere((x) => x.id == (user?.uid ?? ""));
     }
     return null;
-  }
+  }*/
 
 /*  set list(List<UserRecord> value) {
     if (_list == value) return;
@@ -92,9 +107,22 @@ class LeaderBoardNotifier extends ChangeNotifier {
     DateTime lastCheck = list.first.lastPlayed;
     final List<UserRecord> pending =
         await ref.watch(pendingRecordProvider(lastCheck).future);
-
+    _logger.i("Pending Data $pending");
     for (var i in pending) {
       _db.insertR(i.iJson);
     }
+    list.addAll(pending);
   }
+
+  onDispose() {
+    _logger.d("Running OnDispose LeaderBoardNotifier");
+    if (!kIsWeb) _db.delete();
+  }
+
+/*  @override
+  void dispose() {
+    _logger.i("Running OnDispose LeaderBoardNotifier");
+    if (!kIsWeb) _db.delete();
+    super.dispose();
+  }*/
 }

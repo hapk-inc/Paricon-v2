@@ -6,10 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
 import 'package:mock_data/mock_data.dart';
-import 'package:paricon/my_widget/my_duration.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/board/notifier.dart';
+import '../my_widget/my_duration.dart';
 import '../theme/sliding_panel.dart';
 import '../values/colors.dart';
 import 'board/board_timer.dart';
@@ -100,14 +100,14 @@ class _PlayTournamentPageState extends ConsumerState<PlayTournamentPage> {
                     child: Row(
                       children: [
                         MyDuration(
-                          Duration(milliseconds: mockInteger(100000, 900000)),
+                          Duration(milliseconds: mockInteger(10000, 99999)),
+                          size: 30,
+                          textColor: ghostWhite,
                         )
                       ],
                     ),
                   ),
                 )
-                /*const LeaderBoard(),
-                      Gap(45.r),*/
               ],
             ),
           ),

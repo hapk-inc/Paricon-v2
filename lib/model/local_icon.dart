@@ -31,15 +31,6 @@ class LocalIcon extends Equatable with _$LocalIcon {
   bool get checkFound => (isCheck ?? false) || (isFound ?? false);
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is LocalIcon && runtimeType == other.runtimeType;
-  }
-
-  @override
-  int get hashCode => 0;
-
-  @override
   // TODO: implement props
   List<Object?> get props => [isCheck, isFound];
 }
