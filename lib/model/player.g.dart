@@ -33,7 +33,7 @@ _$PlayerImpl _$$PlayerImplFromJson(Map<String, dynamic> json) => _$PlayerImpl(
       nowTime: json['nowTime'] == null
           ? null
           : DateTime.parse(json['nowTime'] as String),
-      isEmulator: json['isEmulator'] as bool? ?? false,
+      isEmulator: json['isEmulator'] as bool?,
       id: json['id'] as String?,
     );
 
@@ -61,7 +61,7 @@ Map<String, dynamic> _$$PlayerImplToJson(_$PlayerImpl instance) {
   writeNotNull('isPlaying', instance.isPlaying);
   writeNotNull('appVersion', instance.appVersion);
   writeNotNull('nowTime', instance.nowTime?.toIso8601String());
-  val['isEmulator'] = instance.isEmulator;
+  writeNotNull('isEmulator', instance.isEmulator);
   writeNotNull('id', instance.id);
   return val;
 }

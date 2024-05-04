@@ -31,7 +31,7 @@ class Player extends Equatable with _$Player {
     dynamic isPlaying,
     String? appVersion,
     DateTime? nowTime,
-    @Default(false) bool isEmulator,
+    bool? isEmulator,
     @JsonKey(toJson: null, includeIfNull: false) String? id,
   }) = _Player;
 

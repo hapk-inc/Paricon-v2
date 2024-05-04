@@ -1,3 +1,4 @@
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:auto_route/auto_route.dart';
 
 import 'package:flutter/material.dart';
@@ -5,13 +6,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../logic/board/notifier.dart';
+import '../logic/leaderboard/bloc.dart';
+import '../model/user_record.dart';
 import '../my_widget/my_duration.dart';
 import '../theme/sliding_panel.dart';
 import '../values/colors.dart';
+import 'board/best_record.dart';
 import 'board/board_timer.dart';
 import 'board/icon_grid.dart';
 
@@ -49,6 +54,10 @@ class _PlayTournamentPageState extends ConsumerState<PlayTournamentPage> {
         }
       },
     );
+
+    final UserRecord? myBest = ref.watch(myBestProvider);
+
+    final TextTheme textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
       backgroundColor: majorelleBlue,
@@ -93,21 +102,7 @@ class _PlayTournamentPageState extends ConsumerState<PlayTournamentPage> {
                   ),
                 ),
                 Gap(45.r),
-                StaggeredGridTile.fit(
-                  crossAxisCellCount: 15,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 7.5.w),
-                    child: Row(
-                      children: [
-                        MyDuration(
-                          Duration(milliseconds: mockInteger(10000, 99999)),
-                          size: 30,
-                          textColor: ghostWhite,
-                        )
-                      ],
-                    ),
-                  ),
-                )
+                if (myBest != null) BestRecordWidget(myBest)
               ],
             ),
           ),

@@ -6,7 +6,6 @@ import '../auth/bloc.dart';
 import 'create_room.dart';
 import 'database.dart';
 import 'id.dart';
-import 'notifier.dart';
 
 /*final ChangeNotifierProvider<RoomNotifier> roomNotifierProvider =
     ChangeNotifierProvider<RoomNotifier>(

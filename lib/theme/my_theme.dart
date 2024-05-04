@@ -99,7 +99,7 @@ class MyTheme {
           textStyle: MaterialStatePropertyAll(
             MyFont.montserratTheme.copyWith(
               color: ghostWhite,
-              fontSize: 16.5.r,
+              fontSize: 16.r,
             ),
           ),
           elevation: MaterialStatePropertyAll(1.5.r),
@@ -174,6 +174,7 @@ mixin MyFont {
   static TextStyle get montserratTheme => const TextStyle(
         fontFamily: 'Montserrat',
         letterSpacing: 0,
+        fontWeight: FontWeight.w600,
         height: 0,
         color: charcoal,
         fontSize: 14,

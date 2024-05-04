@@ -23,26 +23,25 @@ class RoomDatabase {
     roomReference = firebaseReference.child('rooms');
   }
 
-  Future get gameStart => roomReference.child(id!).update({
-        "started": true,
-      });
+  Future get gameStart => roomReference.child(id!).update(
+        {"started": true},
+      );
 
   Future<String?> createRoom(Room room) async {
     String? key = roomReference.push().key;
     await roomReference.child(key!).set(room.toJson());
-    // .then((value) => joinRoom(key));
     return key;
   }
 
   Future get joinRoom async {
     //
     final String user = ref.read(authUserProvider).value!.uid;
-    //final Player player = ref.read(meProvider).value!;
-    return roomReference.child(id!).child('players').child(user).set(Player(
-          name: "User#",
-          createdAt: DateTime.now(),
-          //  avatar: player.avatar,
-        ).toJson());
+    final Player? player = ref.read(meProvider);
+    return roomReference
+        .child(id!)
+        .child('players')
+        .child(user)
+        .set(player?.toJson());
   }
 
   Stream<Room?> get hostRoom {

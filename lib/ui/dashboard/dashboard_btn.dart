@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:group_button/group_button.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 import '../../logic/dashboard/notifier.dart';
@@ -15,40 +16,29 @@ class DashboardBtn extends ConsumerWidget {
     return StaggeredGridTile.fit(
       crossAxisCellCount: 15,
       child: Container(
+        height: 75.h,
         color: magnolia,
-        padding: EdgeInsets.symmetric(vertical: 15.h),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.only(left: 15.w),
-          child: ToggleSwitch(
-            initialLabelIndex: ref.watch(dashboardNotifierProvider).buttonIndex,
-            radiusStyle: true,
-            labels: const [
+          child: GroupButton(
+            isRadio: true,
+            onSelected: (_, index, __) =>
+                ref.watch(dashboardNotifierProvider).buttonIndex = index,
+            buttons: const [
               "Daily Match",
-              "Play Friend",
-              "LeaderBoard",
-              "New Avatars"
+              "Play Friends",
+              "Leaderboard",
+              "New Avatars",
             ],
-            onToggle: (index) =>
-                ref.watch(dashboardNotifierProvider).buttonIndex = index ?? 0,
-            minWidth: 96.w,
-            customWidths: [105.w, 105.w, 120.w, 105.w],
-            minHeight: 43.5.h,
-            cornerRadius: 4.8.r,
-            animate: true,
-            animationDuration: 90,
-            inactiveBgColor: magnolia,
-            activeBgColor: const [majorelleBlue],
-            /*activeBgColors: const [
-              [jasper],
-              [darkPurple],
-              [jasper],
-            ],*/
-            activeFgColor: ghostWhite,
-            inactiveFgColor: charcoal,
-            customTextStyles: [
-              TextStyle(fontFamily: 'Montserrat', fontSize: 13.5.r)
-            ],
+            options: GroupButtonOptions(
+              direction: Axis.horizontal,
+              selectedColor: majorelleBlue,
+              spacing: 12.w,
+              buttonWidth: 120.w,
+              elevation: 0.3,
+              borderRadius: BorderRadius.circular(24.r),
+            ),
           ),
         ),
       ),

@@ -156,7 +156,7 @@ class RoomWidget extends ConsumerWidget {
           ),
           child: const Text("Let's Play"),
         ),
-        Gap(Theme.of(context).appBarTheme.toolbarHeight ?? 60),
+        Gap((Theme.of(context).appBarTheme.toolbarHeight ?? 60) * 1.2),
       ],
     );
   }

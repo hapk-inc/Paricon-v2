@@ -65,3 +65,5 @@ const Color thistle = Color(0xffdac2e1);
 const Color cherryBlossomPink = Color(0xfff9acb5);
 
 const Color darkPurple = Color(0xff321325);
+
+const Color mintGreen = Color(0xffcff0e7);

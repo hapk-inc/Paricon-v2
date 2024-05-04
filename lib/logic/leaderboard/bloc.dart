@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../model/user_log.dart';
 import '../../model/user_record.dart';
 import 'datastore.dart';
+import 'notifier.dart';
 
 final Provider<LeaderBoardDatastore> leaderBoardDatastoreProvider =
     Provider<LeaderBoardDatastore>((ref) => LeaderBoardDatastore(ref));
@@ -29,6 +30,13 @@ final FutureProviderFamily<List<UserRecord>, DateTime> pendingRecordProvider =
   (ref, date) async {
     final l = ref.read(leaderBoardDatastoreProvider);
     return l.pendingRecord(date);
+  },
+);
+
+final Provider<UserRecord?> myBestProvider = Provider<UserRecord?>(
+  (ref) {
+    final notifier = ref.watch(leaderBoardNotifierProvider);
+    return notifier.myBest;
   },
 );
 

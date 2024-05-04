@@ -27,7 +27,7 @@ class LevelPanel extends ConsumerWidget {
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(Icons.close, size: 21.r, color: frenchGray),
+              icon: Icon(Icons.close, size: 18.r, color: frenchGray),
             )
           ],
         ),
@@ -54,13 +54,16 @@ class LevelPanel extends ConsumerWidget {
                       contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
                       title: Text(
                         toBeginningOfSentenceCase(map.key.name) ?? "",
-                        style: textTheme.displayLarge?.copyWith(height: 2.1),
+                        style: textTheme.displayLarge?.copyWith(
+                          height: 2.1,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       subtitle: Text(
                         map.value,
                         style: textTheme.bodyMedium?.copyWith(
-                          color: cinerous,
-                          fontFamily: 'Poppins',
+                          color: gray,
+                          fontFamily: 'Montserrat',
                           fontSize: 12.r,
                           fontWeight: FontWeight.w300,
                         ),

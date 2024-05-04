@@ -13,7 +13,6 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../firebase/bloc.dart';
 import '../leaderboard/notifier.dart';
-import '../user/bloc.dart';
 import '../user/notifier.dart';
 
 Logger _logger = Logger();

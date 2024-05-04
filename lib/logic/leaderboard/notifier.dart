@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
-import '../../model/player.dart';
 import '../../model/user_record.dart';
 import '../auth/bloc.dart';
 import 'bloc.dart';
@@ -18,7 +17,7 @@ Logger _logger = Logger();
 class LeaderBoardNotifier extends ChangeNotifier {
   final Ref ref;
   List<UserRecord> _list = [];
-  UserRecord? _myRecord;
+  UserRecord? _myBest;
   final LeaderBoardQL _db = LeaderBoardQL();
 
   LeaderBoardNotifier(this.ref);
@@ -46,19 +45,17 @@ class LeaderBoardNotifier extends ChangeNotifier {
           } else {
             _list[index] = i;
           }
-          //_list.insert(index.isNegative ? 0 : index, next);
           notifyListeners();
         }
       },
     );
   }
 
-  UserRecord? get myRecord => _myRecord;
-
-  set myRecord(UserRecord? value) {
-    if (_myRecord == value) return;
-    _myRecord = value;
-    notifyListeners();
+  UserRecord? get myBest {
+    final String? id = ref.read(authUserProvider).value?.uid;
+    if (!_list.any((e) => e.id == id)) return null;
+    int index = _list.indexWhere((x) => x.id == id);
+    return _list[index];
   }
 
   Future get initialize async {
@@ -74,8 +71,6 @@ class LeaderBoardNotifier extends ChangeNotifier {
       await checkPending;
     }
 
-    //final String? uid = ref.read(authUserProvider).value?.uid;
-    //if()
     notifyListeners();
   }
 
@@ -87,31 +82,10 @@ class LeaderBoardNotifier extends ChangeNotifier {
     return sorted.indexWhere((x) => x.id == id) + 1;
   }
 
-/*  UserRecord? get me {
-    final user = ref.read(authUserProvider).value;
-    bool x = _list.any((x) => x.id == (user?.uid ?? ""));
-    if (x) {
-      return _list.firstWhere((x) => x.id == (user?.uid ?? ""));
-    }
-    return null;
-  }*/
-
-/*  set list(List<UserRecord> value) {
-    if (_list == value) return;
-    _list = value;
-    notifyListeners();
-  }*/
-
-/*  int rank(UserRecord record) {
-    List<UserRecord> sorted = List.from(_list);
-    sorted.sort((a, b) => a.recordTimeTaken.compareTo(b.recordTimeTaken));
-    return sorted.indexOf(record) + 1;
-  }*/
-
   Future get checkPending async {
-    list.sort((a, b) => b.lastPlayed.compareTo(a.lastPlayed));
+    _list.sort((a, b) => b.lastPlayed.compareTo(a.lastPlayed));
 
-    DateTime lastCheck = list.first.lastPlayed;
+    DateTime lastCheck = _list.first.lastPlayed;
     final List<UserRecord> pending =
         await ref.watch(pendingRecordProvider(lastCheck).future);
     _logger.i("Pending Data $pending");
@@ -120,18 +94,11 @@ class LeaderBoardNotifier extends ChangeNotifier {
         _db.insertR(i.iJson);
       }
     }
-    list.addAll(pending);
+    _list.addAll(pending);
   }
 
   onDispose() {
     _logger.d("Running OnDispose LeaderBoardNotifier");
     if (!kIsWeb) _db.delete();
   }
-
-/*  @override
-  void dispose() {
-    _logger.i("Running OnDispose LeaderBoardNotifier");
-    if (!kIsWeb) _db.delete();
-    super.dispose();
-  }*/
 }

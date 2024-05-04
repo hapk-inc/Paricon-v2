@@ -34,7 +34,7 @@ mixin _$Player {
   dynamic get isPlaying => throw _privateConstructorUsedError;
   String? get appVersion => throw _privateConstructorUsedError;
   DateTime? get nowTime => throw _privateConstructorUsedError;
-  bool get isEmulator => throw _privateConstructorUsedError;
+  bool? get isEmulator => throw _privateConstructorUsedError;
   @JsonKey(toJson: null, includeIfNull: false)
   String? get id => throw _privateConstructorUsedError;
 
@@ -63,7 +63,7 @@ abstract class $PlayerCopyWith<$Res> {
       dynamic isPlaying,
       String? appVersion,
       DateTime? nowTime,
-      bool isEmulator,
+      bool? isEmulator,
       @JsonKey(toJson: null, includeIfNull: false) String? id});
 }
 
@@ -94,7 +94,7 @@ class _$PlayerCopyWithImpl<$Res, $Val extends Player>
     Object? isPlaying = freezed,
     Object? appVersion = freezed,
     Object? nowTime = freezed,
-    Object? isEmulator = null,
+    Object? isEmulator = freezed,
     Object? id = freezed,
   }) {
     return _then(_value.copyWith(
@@ -154,10 +154,10 @@ class _$PlayerCopyWithImpl<$Res, $Val extends Player>
           ? _value.nowTime
           : nowTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      isEmulator: null == isEmulator
+      isEmulator: freezed == isEmulator
           ? _value.isEmulator
           : isEmulator // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -188,7 +188,7 @@ abstract class _$$PlayerImplCopyWith<$Res> implements $PlayerCopyWith<$Res> {
       dynamic isPlaying,
       String? appVersion,
       DateTime? nowTime,
-      bool isEmulator,
+      bool? isEmulator,
       @JsonKey(toJson: null, includeIfNull: false) String? id});
 }
 
@@ -217,7 +217,7 @@ class __$$PlayerImplCopyWithImpl<$Res>
     Object? isPlaying = freezed,
     Object? appVersion = freezed,
     Object? nowTime = freezed,
-    Object? isEmulator = null,
+    Object? isEmulator = freezed,
     Object? id = freezed,
   }) {
     return _then(_$PlayerImpl(
@@ -277,10 +277,10 @@ class __$$PlayerImplCopyWithImpl<$Res>
           ? _value.nowTime
           : nowTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      isEmulator: null == isEmulator
+      isEmulator: freezed == isEmulator
           ? _value.isEmulator
           : isEmulator // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -308,7 +308,7 @@ class _$PlayerImpl extends _Player {
       this.isPlaying,
       this.appVersion,
       this.nowTime,
-      this.isEmulator = false,
+      this.isEmulator,
       @JsonKey(toJson: null, includeIfNull: false) this.id})
       : _avatarArr = avatarArr,
         _friendArr = friendArr,
@@ -364,8 +364,7 @@ class _$PlayerImpl extends _Player {
   @override
   final DateTime? nowTime;
   @override
-  @JsonKey()
-  final bool isEmulator;
+  final bool? isEmulator;
   @override
   @JsonKey(toJson: null, includeIfNull: false)
   final String? id;
@@ -400,7 +399,7 @@ abstract class _Player extends Player {
           final dynamic isPlaying,
           final String? appVersion,
           final DateTime? nowTime,
-          final bool isEmulator,
+          final bool? isEmulator,
           @JsonKey(toJson: null, includeIfNull: false) final String? id}) =
       _$PlayerImpl;
   const _Player._() : super._();
@@ -436,7 +435,7 @@ abstract class _Player extends Player {
   @override
   DateTime? get nowTime;
   @override
-  bool get isEmulator;
+  bool? get isEmulator;
   @override
   @JsonKey(toJson: null, includeIfNull: false)
   String? get id;

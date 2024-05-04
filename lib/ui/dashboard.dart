@@ -14,7 +14,8 @@ import '../my_widget/staggered_gap.dart';
 import '../theme/sliding_panel.dart';
 import 'dashboard/daily_match.dart';
 import 'dashboard/dashboard_btn.dart';
-import 'dashboard/leaderboard.dart';
+import 'dashboard/leaderboard/leaderboard.dart';
+import 'dashboard/new_avatar/new_avatar.dart';
 import 'dashboard/play_friend.dart';
 import 'dashboard/recent_player.dart';
 import 'dashboard/welcome_user.dart';
@@ -118,7 +119,7 @@ class _DashboardSwitch extends ConsumerWidget {
             DailyMatch(),
             PlayFriend(),
             LeaderBoard(),
-            LeaderBoard(),
+            NewAvatar(),
           ],
         ),
       ),
