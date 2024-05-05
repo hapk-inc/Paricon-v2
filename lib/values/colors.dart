@@ -18,7 +18,33 @@ const Color xantHous = Color(0xffffc759);
 
 const Color darkGreen = Color(0xff16302B);
 
+const Color aliceBlue = Color(0xffddf0fe);
+const Color peachYellow = Color(0xfffde0ac);
+const Color teaRose = Color(0xffFDC6C6);
+
 const List<Color> iconColor = [pistachio, uranianBlue, xantHous, coralPink];
+
+//const Color honeyDew = Color(0xffdfefe2);
+const Color teaGreen = Color(0xffc2e5c5);
+
+const Color pistachioLight = Color(0xffa7dda9);
+const Color uranianBlueLight = Color(0xffd0edfd);
+const Color xantHousLight = Color(0xffffd581);
+const Color coralPinkLight = Color(0xfffeaea8);
+
+const List<Color> cardColor = [
+  pistachioLight,
+  uranianBlueLight,
+  xantHousLight,
+  coralPinkLight
+];
+
+const List<Color> cardColor1 = [
+  teaGreen,
+  aliceBlue,
+  peachYellow,
+  teaRose,
+];
 
 //New To Paricon
 const Color gray = Color(0xff7F7979);

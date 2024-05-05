@@ -71,6 +71,7 @@ class LeaderBoardTile extends ConsumerWidget {
                   record.recordTimeTaken,
                   //Duration(milliseconds: mockInteger(10000, 99999)),
                   textColor: charcoal,
+                  family: 'Montserrat',
                   size: 18,
                 ),
               ),

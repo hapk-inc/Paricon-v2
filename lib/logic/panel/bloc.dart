@@ -26,5 +26,5 @@ final Provider<PanelController> playFriendPanelControllerProvider =
 
 final StateNotifierProvider<PanelNotifier, Widget> panelNotifierProvider =
     StateNotifierProvider<PanelNotifier, Widget>(
-  (_) => PanelNotifier(),
+  (ref) => PanelNotifier(ref),
 );

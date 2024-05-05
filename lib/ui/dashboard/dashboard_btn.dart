@@ -22,20 +22,24 @@ class DashboardBtn extends ConsumerWidget {
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.only(left: 15.w),
           child: GroupButton(
+            controller: GroupButtonController(
+              selectedIndex: ref.watch(dashboardNotifierProvider).buttonIndex,
+            ),
             isRadio: true,
             onSelected: (_, index, __) =>
-                ref.watch(dashboardNotifierProvider).buttonIndex = index,
+                ref.read(dashboardNotifierProvider).buttonIndex = index,
             buttons: const [
               "Daily Match",
               "Play Friends",
               "Leaderboard",
-              "New Avatars",
+              "My Avatars",
             ],
             options: GroupButtonOptions(
               direction: Axis.horizontal,
               selectedColor: majorelleBlue,
-              spacing: 12.w,
+              spacing: 7.5.w,
               buttonWidth: 120.w,
+              buttonHeight: 45.h,
               elevation: 0.3,
               borderRadius: BorderRadius.circular(24.r),
             ),

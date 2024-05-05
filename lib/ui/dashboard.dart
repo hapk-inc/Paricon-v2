@@ -44,49 +44,52 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Container(
-            width: 270.w,
-            alignment: Alignment.center,
-            child: const MyLogo(),
+  Widget build(BuildContext context) {
+    dashboardNotifier = ref.watch(dashboardNotifierProvider);
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Container(
+          width: 270.w,
+          alignment: Alignment.center,
+          child: const MyLogo(),
+        ),
+      ),
+      body: SafeArea(
+        bottom: false,
+        child: SlidingUpPanel(
+          controller: panelController,
+          panel: AnimatedContainer(
+            duration: const Duration(milliseconds: 450),
+            child: ref.watch(panelNotifierProvider),
+          ),
+          borderRadius: _panelTheme.panelRadius,
+          backdropEnabled: true,
+          color: _panelTheme.slidingPanelColor,
+          maxHeight: dashboardNotifier.panelH,
+          defaultPanelState: PanelState.CLOSED,
+          padding: _panelTheme.padding,
+          isDraggable: false,
+          minHeight: 0,
+          onPanelClosed: () {},
+          body: SingleChildScrollView(
+            child: StaggeredGrid.count(
+              crossAxisCount: 15,
+              mainAxisSpacing: 15.r,
+              children: const [
+                StaggeredGap(),
+                WelcomeUser(),
+                RecentPlayer(),
+                //StaggeredGap(),
+                DashboardBtn(),
+                _DashboardSwitch(),
+              ],
+            ),
           ),
         ),
-        body: SafeArea(
-          bottom: false,
-          child: SlidingUpPanel(
-            controller: panelController,
-            panel: AnimatedContainer(
-              duration: const Duration(milliseconds: 450),
-              child: ref.watch(panelNotifierProvider),
-            ),
-            borderRadius: _panelTheme.panelRadius,
-            backdropEnabled: true,
-            color: _panelTheme.slidingPanelColor,
-            maxHeight: 360.r,
-            defaultPanelState: PanelState.CLOSED,
-            padding: _panelTheme.padding,
-            isDraggable: false,
-            minHeight: 0,
-            onPanelClosed: () {},
-            body: SingleChildScrollView(
-              child: StaggeredGrid.count(
-                crossAxisCount: 15,
-                mainAxisSpacing: 15.r,
-                children: const [
-                  StaggeredGap(),
-                  WelcomeUser(),
-                  RecentPlayer(),
-                  StaggeredGap(),
-                  DashboardBtn(),
-                  _DashboardSwitch(),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
+      ),
+    );
+  }
 }
 
 class _DashboardSwitch extends ConsumerWidget {

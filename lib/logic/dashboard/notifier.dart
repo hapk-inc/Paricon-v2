@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -17,6 +18,7 @@ Logger _logger = Logger();
 class DashboardNotifier extends ChangeNotifier {
   final Ref ref;
   int _buttonIndex = 0;
+  double _panelH = 360.h;
 
   DashboardNotifier(this.ref);
 
@@ -45,6 +47,14 @@ class DashboardNotifier extends ChangeNotifier {
   set buttonIndex(int value) {
     if (_buttonIndex == value) return;
     _buttonIndex = value;
+    notifyListeners();
+  }
+
+  double get panelH => _panelH;
+
+  set panelH(double value) {
+    if (_panelH == value) return;
+    _panelH = value;
     notifyListeners();
   }
 }

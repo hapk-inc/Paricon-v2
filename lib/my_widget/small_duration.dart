@@ -8,33 +8,42 @@ import '../values/colors.dart';
 class SmallDuration extends StatelessWidget {
   final Duration duration;
   final Color color;
-  const SmallDuration(this.duration, {this.color = mintGreen, super.key});
+  final int size;
+  final String family;
+  const SmallDuration(
+    this.duration, {
+    this.color = mintGreen,
+    this.size = 9,
+    this.family = "Montserrat",
+    super.key,
+  });
+
+  TextStyle get _textStyle => TextStyle(
+        color: color,
+        fontFamily: family,
+        fontSize: size.r,
+      );
 
   @override
   Widget build(BuildContext context) => Row(
         children: [
           AnimatedFlipCounter(
             value: mockInteger(0, 1),
-            wholeDigits: 2,
+            wholeDigits: 1,
             suffix: " : ",
-            textStyle: TextStyle(color: color, fontFamily: 'RussoOne'),
+            textStyle: _textStyle,
           ),
           AnimatedFlipCounter(
             value: mockInteger(10, 50),
             wholeDigits: 2,
             suffix: " ",
-            textStyle: TextStyle(color: color, fontFamily: 'RussoOne'),
+            textStyle: _textStyle,
           ),
           AnimatedFlipCounter(
             value: mockInteger(100, 500),
             wholeDigits: 3,
             suffix: " ",
-            textStyle: TextStyle(
-              fontSize: 9.r,
-              color: color,
-              fontFamily: 'RussoOne',
-              letterSpacing: 0.3,
-            ),
+            textStyle: _textStyle.copyWith(fontSize: (size / 1.5).r),
           )
         ],
       );

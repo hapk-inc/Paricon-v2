@@ -45,7 +45,10 @@ class _LeaderBoardState extends ConsumerState<LeaderBoard> {
           height: 36.h,
           padding: EdgeInsets.symmetric(horizontal: 15.w),
           alignment: Alignment.centerLeft,
-          child: Text("Overall . . .", style: textTheme.titleSmall),
+          child: Text(
+            "Overall . . .",
+            style: textTheme.titleSmall?.copyWith(color: jasper),
+          ),
         ),
         /*AspectRatio(
           aspectRatio: 9,
@@ -73,7 +76,8 @@ class _LeaderBoardState extends ConsumerState<LeaderBoard> {
             itemCount: leaderBoardNotifier.list.length,
           ),
         ),
-        SizedBox(height: Theme.of(context).appBarTheme.toolbarHeight)
+        SizedBox(
+            height: (Theme.of(context).appBarTheme.toolbarHeight ?? 120) * 0.3)
       ],
     );
   }

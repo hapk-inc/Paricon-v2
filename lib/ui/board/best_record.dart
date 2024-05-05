@@ -1,8 +1,10 @@
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
+import 'package:mock_data/mock_data.dart';
 
 import '../../model/user_record.dart';
 import '../../my_widget/my_duration.dart';
@@ -33,21 +35,25 @@ class BestRecordWidget extends ConsumerWidget {
                         size: 33,
                         textColor: ghostWhite,
                       ),
-                      subtitle: SizedBox(
+                      /* subtitle: SizedBox(
                         height: 36.h,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Icon(
                               Icons.trending_up,
-                              size: 18.r,
-                              color: mintGreen,
+                              size: 21.r,
+                              color: ghostWhite,
                             ),
-                            Gap(2.4.r),
-                            SmallDuration(bestRecord.recordTimeTaken)
+                            Gap(3.r),
+                            SmallDuration(
+                              bestRecord.recordTimeTaken,
+                              color: ghostWhite,
+                              size: 15,
+                            )
                           ],
                         ),
-                      ),
+                      ),*/
                     ),
                   )),
             ),
@@ -55,34 +61,28 @@ class BestRecordWidget extends ConsumerWidget {
               child: AspectRatio(
                 aspectRatio: 3.6,
                 child: ListTile(
-                  title: Text(
-                    "Previous Game",
-                    style: textTheme.bodyMedium?.copyWith(
-                      color: linen,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w100,
-                      fontSize: 13.5.r,
+                  title: Container(
+                    height: 24.h,
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      "Rank",
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: ghostWhite,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.normal,
+                        fontSize: 13.5.r,
+                      ),
+                      textAlign: TextAlign.end,
+                    ),
+                  ),
+                  subtitle: Text(
+                    "${mockInteger(1, 10)}",
+                    style: TextStyle(
+                      fontFamily: 'RussoOne',
+                      fontSize: 30.r,
+                      color: ghostWhite,
                     ),
                     textAlign: TextAlign.end,
-                  ),
-                  subtitle: Container(
-                    height: 30.h,
-                    alignment: Alignment.centerRight,
-                    child: FittedBox(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Icon(Icons.trending_down,
-                              size: 18.r, color: mistyRose),
-                          Gap(2.4.r),
-                          SmallDuration(
-                            bestRecord.recordTimeTaken,
-                            color: ghostWhite,
-                          )
-                        ],
-                      ),
-                    ),
                   ),
                 ),
               ),

@@ -51,7 +51,10 @@ class RecentPlayerTile extends ConsumerWidget {
               Gap(15.r),
               Text(
                 toBeginningOfSentenceCase(player.name) ?? "",
-                style: textTheme.headlineSmall?.copyWith(color: gray),
+                style: textTheme.headlineMedium?.copyWith(
+                  color: sepia,
+                  fontWeight: FontWeight.w400,
+                ),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
               )

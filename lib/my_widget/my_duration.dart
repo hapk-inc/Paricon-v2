@@ -1,17 +1,20 @@
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../values/colors.dart';
 
 class MyDuration extends StatelessWidget {
   final Duration duration;
   final Color textColor;
+  final String family;
   final double size;
 
   const MyDuration(this.duration,
-      {this.textColor = charcoal, this.size = 30, super.key});
+      {this.textColor = charcoal,
+      this.size = 30,
+      this.family = "RussoOne",
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,8 @@ class MyDuration extends StatelessWidget {
               textStyle: TextStyle(
                 fontSize: size.r,
                 height: 0,
-                fontFamily: 'RussoOne',
+                fontFamily: family,
+                fontWeight: FontWeight.w700,
                 color: textColor,
               ),
             ),
@@ -34,7 +38,7 @@ class MyDuration extends StatelessWidget {
           TextSpan(text: " ", style: TextStyle(fontSize: (size * 0.48).r)),
           TextSpan(
             text: ":",
-            style: TextStyle(fontSize: (size * 0.75).r),
+            style: TextStyle(fontSize: (size * 0.9).r),
           ),
           TextSpan(text: " ", style: TextStyle(fontSize: (size * 0.48).r)),
           WidgetSpan(
@@ -45,7 +49,8 @@ class MyDuration extends StatelessWidget {
               textStyle: TextStyle(
                 fontSize: size.r,
                 height: 0,
-                fontFamily: 'RussoOne',
+                fontFamily: family,
+                fontWeight: FontWeight.w700,
                 color: textColor,
               ),
             ),
@@ -59,7 +64,8 @@ class MyDuration extends StatelessWidget {
               textStyle: TextStyle(
                 fontSize: (size * 0.5).r,
                 height: 0,
-                fontFamily: 'RussoOne',
+                fontFamily: family,
+                fontWeight: FontWeight.w700,
                 color: textColor.withOpacity(0.75),
               ),
             ),
@@ -68,7 +74,7 @@ class MyDuration extends StatelessWidget {
         style: TextStyle(
           height: 0,
           fontSize: size.r,
-          fontFamily: 'RussoOne',
+          fontFamily: family,
           color: textColor,
         ),
       ),

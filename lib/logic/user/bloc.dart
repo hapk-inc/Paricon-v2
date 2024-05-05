@@ -1,5 +1,7 @@
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
+import 'package:mock_data/mock_data.dart';
 
 import '../../model/friendly_stats.dart';
 import '../../model/player.dart';
@@ -10,6 +12,17 @@ Logger _logger = Logger();
 
 final Provider<UserDatastore> userDatastoreProvider =
     Provider<UserDatastore>((ref) => UserDatastore(ref));
+
+final Provider<String> newAvatarCodeProvider = Provider<String>(
+  (ref) {
+    /*String str = List.generate(
+        6,
+        <String>(int index) => defaultEmojiSet[1]
+            .emoji[mockInteger(0, defaultEmojiSet[1].emoji.length - 1)]
+            .emoji).join();*/
+    return mockString(6, 'A').toUpperCase();
+  },
+);
 
 final AutoDisposeFutureProviderFamily createMeProvider =
     FutureProvider.autoDispose.family<void, Player>(

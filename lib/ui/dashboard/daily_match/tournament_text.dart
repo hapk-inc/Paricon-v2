@@ -44,9 +44,10 @@ class TournamentText extends ConsumerWidget {
                   style: textTheme.titleLarge?.copyWith(color: jasper),
                   maxLines: mainTextSize < 30
                       ? 1
-                      : mainTextSize < 60
+                      : /*mainTextSize < 60
                           ? 2
-                          : 3,
+                          :*/
+                      3,
                 ),
               ),
             ),

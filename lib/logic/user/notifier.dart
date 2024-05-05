@@ -96,7 +96,7 @@ class UserNotifier extends ChangeNotifier {
   Future createMe(String? id) async {
     _me = Player.createOne();
     ref.read(createMeProvider(me));
-    _me = _me?.copyWith(id: id);
+    _me = _me?.copyWith(id: id, avatarCode: ref.read(newAvatarCodeProvider));
   }
 
   Future pendingUser() async {
