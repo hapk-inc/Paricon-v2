@@ -1,50 +1,161 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gap/gap.dart';
+
 import 'package:pinput/pinput.dart';
 
-import '../../logic/panel/bloc.dart';
 import '../../values/colors.dart';
+import '../../values/names.dart';
 
-class EnterAvatarCode extends ConsumerWidget {
+class EnterAvatarCode extends ConsumerStatefulWidget {
   const EnterAvatarCode({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState createState() => _EnterAvatarCodeState();
+}
+
+PinTheme _defaultPinTheme = PinTheme(
+  width: 54.r,
+  height: 60.r,
+  textStyle: TextStyle(
+    fontSize: 21.r,
+    fontFamily: 'Montserrat',
+    fontWeight: FontWeight.w700,
+  ),
+  decoration: BoxDecoration(
+    color: magnolia,
+    borderRadius: BorderRadius.circular(7.5.r),
+    border: Border.all(color: Colors.transparent),
+  ),
+);
+
+class _EnterAvatarCodeState extends ConsumerState<EnterAvatarCode> {
+  late FocusNode focusNode;
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    focusNode = FocusNode();
+    controller = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final TextTheme textTheme = Theme.of(context).textTheme;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return StaggeredGrid.count(
+      crossAxisCount: 15,
       children: [
-        // Gap(15.r),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Enter Avatar code",
-              style: textTheme.titleMedium?.copyWith(
-                color: jasper,
+        StaggeredGridTile.fit(
+          crossAxisCellCount: 15,
+          child: Text(
+            "Enter Avatar code",
+            style: textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.normal,
+              color: charcoal,
+            ),
+          ),
+        ),
+        const StaggeredGridTile.fit(
+          crossAxisCellCount: 15,
+          child: Text(
+            "Type your friend's code or click here to paste",
+            style: TextStyle(color: frenchGray),
+          ),
+        ),
+        const StaggeredGridTile.count(
+          crossAxisCellCount: 15,
+          mainAxisCellCount: 1.2,
+          child: SizedBox(),
+        ),
+        StaggeredGridTile.fit(
+          crossAxisCellCount: 15,
+          child: Pinput(
+            length: 6,
+            focusNode: focusNode,
+            controller: controller,
+            pinAnimationType: PinAnimationType.fade,
+            keyboardType: TextInputType.name,
+            useNativeKeyboard: true,
+            defaultPinTheme: _defaultPinTheme,
+            focusedPinTheme: _defaultPinTheme.copyWith(
+              decoration: _defaultPinTheme.decoration?.copyWith(
+                color: magnolia1,
               ),
             ),
-            IconButton(
-              onPressed: () =>
-                  ref.read(dashboardPanelControllerProvider).close(),
-              icon: Icon(Icons.close, size: 21.r, color: frenchGray),
-            )
-          ],
+            showCursor: true,
+            cursor: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 1.5.w),
+                  width: double.maxFinite,
+                  height: 1.5.h,
+                  decoration: BoxDecoration(
+                      color: charcoal,
+                      borderRadius: BorderRadius.circular(4.5.r)),
+                )
+              ],
+            ),
+            preFilledWidget: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 1.5.w),
+                  width: double.maxFinite,
+                  height: 1.5.h,
+                  decoration: BoxDecoration(
+                    color: ghostWhite,
+                    borderRadius: BorderRadius.circular(4.5.r),
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
-        //Gap(4.5.r),
-        const Text(
-          "Enter 6-Digit code to share new avatar",
-          style: TextStyle(color: frenchGray),
+        const StaggeredGridTile.count(
+          crossAxisCellCount: 15,
+          mainAxisCellCount: 1.2,
+          child: SizedBox(),
         ),
-        Gap(30.h),
-        Pinput(
-          length: 6,
-          onCompleted: (value) {},
+        StaggeredGridTile.count(
+          crossAxisCellCount: 15,
+          mainAxisCellCount: 15,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: ListView(
+                  children: List.generate(
+                    5,
+                    (index) => AspectRatio(
+                      aspectRatio: 8.1,
+                      child: ListTile(
+                        leading: Text(
+                          "12:34 am",
+                          style: textTheme.bodySmall?.copyWith(
+                            color: frenchGray,
+                          ),
+                        ),
+                        horizontalTitleGap: 15.w,
+                        title: AutoSizeText(
+                          "${NameGen.dummyName()} shares a new avatar to ${NameGen.dummyName()}",
+                          style: textTheme.bodyMedium?.copyWith(
+                            color: frenchGray,
+                          ),
+                          maxLines: 1,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-        Gap(30.h),
-        Expanded(child: Container(color: xantHousLight))
       ],
     );
   }

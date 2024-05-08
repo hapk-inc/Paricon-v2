@@ -1,6 +1,7 @@
 import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +18,7 @@ import '../../values/colors.dart';
 
 class RoomWidget extends ConsumerWidget {
   final Room room;
-  const RoomWidget(this.room);
+  const RoomWidget(this.room, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -76,7 +77,7 @@ class RoomWidget extends ConsumerWidget {
                       color: charcoal,
                     ),
                     horizontalTitleGap: 15.w,
-                    title: Text(mockString(30)),
+                    title: Text(room.onlyYou ? "Only You" : mockString(30)),
                     titleTextStyle: textTheme.bodyMedium,
                   ),
                 ),
@@ -146,11 +147,13 @@ class RoomWidget extends ConsumerWidget {
         ),
         const Spacer(),
         ElevatedButton(
-          onPressed: () => ref.read(createPlayFriendBoardProvider.future).then(
-            (value) {
-              ref.read(setGameRoomStartProvider);
-            },
-          ),
+          onPressed: room.onlyYou && !kDebugMode
+              ? null
+              : () => ref.read(createPlayFriendBoardProvider.future).then(
+                    (value) {
+                      ref.read(setGameRoomStartProvider);
+                    },
+                  ),
           style: const ButtonStyle(
             backgroundColor: MaterialStatePropertyAll(darkPurple),
           ),

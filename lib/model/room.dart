@@ -34,4 +34,6 @@ class Room with _$Room {
   }
 
   bool get notNull => level != null && type != null && count != null;
+
+  bool get onlyYou => (players?.length ?? 0) == 1;
 }

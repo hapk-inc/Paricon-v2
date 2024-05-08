@@ -24,48 +24,31 @@ class TournamentText extends ConsumerWidget {
         );
     final TextTheme textTheme = Theme.of(context).textTheme;
 
-    final int mainTextSize = (text ?? "").length;
-
     return StaggeredGridTile.fit(
       crossAxisCellCount: 15,
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 24.w),
-        title: Center(
-          child: ListTile(
-            // contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
-            tileColor: ghostWhite,
-            title: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 300),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: AutoSizeText(
-                  text ?? "",
-                  key: ValueKey(key),
-                  style: textTheme.titleLarge?.copyWith(color: jasper),
-                  maxLines: mainTextSize < 30
-                      ? 1
-                      : /*mainTextSize < 60
-                          ? 2
-                          :*/
-                      3,
+        contentPadding: EdgeInsets.symmetric(horizontal: 15.w),
+        title: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          child: text == null || sub == null
+              ? Container()
+              : ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 7.5.w),
+                  tileColor: ghostWhite,
+                  title: AutoSizeText(
+                    text,
+                    key: ValueKey(key),
+                    style: textTheme.titleLarge?.copyWith(color: jasper),
+                  ),
                 ),
-              ),
-            ),
-          ),
         ),
         subtitle: sub == null
             ? null
-            : Align(
-                alignment: Alignment.centerLeft,
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 300),
-                  child: AutoSizeText(
-                    sub,
-                    key: ValueKey(sub),
-                    style: textTheme.bodyMedium?.copyWith(color: jasper),
-                    maxLines: sub.length < 60 ? 1 : null,
-                  ),
-                ),
+            : AutoSizeText(
+                sub,
+                key: ValueKey(sub),
+                style: textTheme.bodyMedium?.copyWith(color: jasper),
+                maxLines: sub.length < 60 ? 1 : null,
               ),
       ),
     );

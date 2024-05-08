@@ -13,6 +13,7 @@ class DashboardBtn extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final TextTheme textTheme = Theme.of(context).textTheme;
     return StaggeredGridTile.fit(
       crossAxisCellCount: 15,
       child: Container(
@@ -40,8 +41,12 @@ class DashboardBtn extends ConsumerWidget {
               spacing: 7.5.w,
               buttonWidth: 120.w,
               buttonHeight: 45.h,
+              selectedTextStyle:
+                  textTheme.headlineLarge?.copyWith(color: ghostWhite),
+              unselectedTextStyle:
+                  textTheme.headlineLarge?.copyWith(color: charcoal),
               elevation: 0.3,
-              borderRadius: BorderRadius.circular(24.r),
+              borderRadius: BorderRadius.circular(30.r),
             ),
           ),
         ),

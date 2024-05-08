@@ -20,23 +20,21 @@ class SettingsPage extends ConsumerWidget {
     return Scaffold(
       backgroundColor: magnolia,
       appBar: AppBar(
-        toolbarHeight: 75.h,
+        toolbarHeight: 60.h,
         backgroundColor: magnolia,
         elevation: 0,
-        title: const Text("Settings", style: TextStyle(color: charcoal)),
-        // centerTitle: true,
       ),
       body: SafeArea(
         minimum: EdgeInsets.symmetric(horizontal: 15.w),
         child: ListView(
           //crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Gap(15.r),
-            Text(
+            // Gap(15.r),
+            /* Text(
               "General",
               style: textTheme.headlineLarge?.copyWith(color: charcoal),
-            ),
-            Gap(24.r),
+            ),*/
+            Gap(15.r),
             Container(
               decoration: BoxDecoration(
                 color: ghostWhite,
@@ -47,47 +45,20 @@ class SettingsPage extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(15.r),
                 child: Column(
                   children: [
-                    SettingsTile(
+                    SettingTile(
                       onTap: () {},
-                      title: 'Account',
-                      leading: SizedBox.square(
-                        dimension: 30.r,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: uranianBlue,
-                            borderRadius: _iconRadius,
-                          ),
-                          child: Icon(Icons.person, size: 18.r),
-                        ),
-                      ),
+                      name: 'Account',
+                      icon: Icons.person,
                     ),
-                    SettingsTile(
+                    SettingTile(
                       onTap: () {},
-                      title: 'Notifications',
-                      leading: SizedBox.square(
-                        dimension: 30.r,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: naplesYellow,
-                            borderRadius: _iconRadius,
-                          ),
-                          child: Icon(Icons.notifications, size: 18.r),
-                        ),
-                      ),
+                      name: 'Notifications',
+                      icon: Icons.notifications,
                     ),
-                    SettingsTile(
+                    SettingTile(
                       onTap: () {},
-                      title: 'Statistics',
-                      leading: SizedBox.square(
-                        dimension: 30.r,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: aquamarine,
-                            borderRadius: _iconRadius,
-                          ),
-                          child: Icon(Icons.bar_chart, size: 18.r),
-                        ),
-                      ),
+                      name: 'Statistics',
+                      icon: Icons.bar_chart,
                     ),
                   ],
                 ),
@@ -109,54 +80,23 @@ class SettingsPage extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(15.r),
                 child: Column(
                   children: [
-                    SettingsTile(
+                    SettingTile(
                       onTap: () {},
-                      title: 'Privacy Policy',
-                      leading: SizedBox.square(
-                        dimension: 30.r,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: thistle,
-                            borderRadius: _iconRadius,
-                          ),
-                          child: Icon(Icons.policy, size: 18.r),
-                        ),
-                      ),
+                      name: 'Privacy Policy',
+                      icon: Icons.policy,
                     ),
-                    SettingsTile(
+                    SettingTile(
                       onTap: () => showDialog(
                         context: context,
                         builder: (_) => const LogOutDialog(),
                       ),
-                      title: 'Log Out',
-                      leading: SizedBox.square(
-                        dimension: 30.r,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: cherryBlossomPink,
-                            borderRadius: _iconRadius,
-                          ),
-                          child: Icon(Icons.logout, size: 18.r),
-                        ),
-                      ),
+                      name: 'Logout',
+                      icon: Icons.logout,
                     ),
-                    SettingsTile(
+                    SettingTile(
                       onTap: () {},
-                      title: 'Deactivate Account',
-                      leading: SizedBox.square(
-                        dimension: 30.r,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: jasper,
-                            borderRadius: _iconRadius,
-                          ),
-                          child: Icon(
-                            Icons.delete,
-                            size: 18.r,
-                            color: ghostWhite,
-                          ),
-                        ),
-                      ),
+                      name: 'Deactivate Account',
+                      icon: Icons.delete,
                     ),
                   ],
                 ),

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:logger/logger.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../logic/app/app_state.dart';
 import '../logic/dashboard/notifier.dart';
 import '../logic/panel/bloc.dart';
 import '../logic/user/bloc.dart';
@@ -20,6 +22,8 @@ import 'dashboard/play_friend.dart';
 import 'dashboard/recent_player.dart';
 import 'dashboard/welcome_user.dart';
 
+Logger _logger = Logger();
+
 @RoutePage()
 class DashboardPage extends ConsumerStatefulWidget {
   const DashboardPage({super.key});
@@ -30,7 +34,9 @@ class DashboardPage extends ConsumerStatefulWidget {
 
 final SlidingPanelTheme _panelTheme = SlidingPanelTheme();
 
-class _DashboardPageState extends ConsumerState<DashboardPage> {
+class _DashboardPageState extends ConsumerState<DashboardPage>
+    with WidgetsBindingObserver {
+  late AppStateNotifier appState;
   late DashboardNotifier dashboardNotifier;
   late PanelController panelController;
   late UserNotifier userNotifier;
@@ -38,13 +44,31 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     dashboardNotifier = ref.refresh(dashboardNotifierProvider);
     panelController = ref.read(dashboardPanelControllerProvider);
     userNotifier = ref.refresh(userNotifierProvider);
+    appState = ref.read(appStateNotifierProvider.notifier);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _logger.d(state.name);
+    appState.state = state;
+    super.didChangeAppLifecycleState(state);
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AppLifecycleState>(
+      appStateNotifierProvider,
+      (previous, next) {
+        if (next == AppLifecycleState.resumed) {
+          if (previous != null) {}
+        }
+      },
+    );
+
     dashboardNotifier = ref.watch(dashboardNotifierProvider);
     return Scaffold(
       appBar: AppBar(
