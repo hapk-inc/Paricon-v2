@@ -77,7 +77,11 @@ class RoomWidget extends ConsumerWidget {
                       color: charcoal,
                     ),
                     horizontalTitleGap: 15.w,
-                    title: Text(room.onlyYou ? "Only You" : mockString(30)),
+                    title: Text(room.onlyYou
+                        ? "Only You"
+                        : (room.players ?? {})
+                            .values
+                            .fold("", (prev, n) => prev + ", ${n.name}")),
                     titleTextStyle: textTheme.bodyMedium,
                   ),
                 ),

@@ -5,9 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:mock_data/mock_data.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 import '../../../logic/leaderboard/notifier.dart';
 import '../../../logic/user/bloc.dart';
+import '../../../model/player.dart';
 import '../../../model/user_record.dart';
 import '../../../my_widget/my_duration.dart';
 import '../../../values/colors.dart';
@@ -21,9 +24,11 @@ class LeaderBoardTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final TextTheme textTheme = Theme.of(context).textTheme;
     final notifier = ref.read(leaderBoardNotifierProvider);
+    final Player? player = ref.watch(xPlayerProvider(record.id ?? ""));
+    //  ?.name ?? "No Name";
     //final userNotifier = ref.watch(userNotifierProvider);
     return AspectRatio(
-      aspectRatio: 5.1,
+      aspectRatio: 5.4,
       child: Container(
         decoration: BoxDecoration(
           color: color.withOpacity(0.12),
@@ -45,13 +50,15 @@ class LeaderBoardTile extends ConsumerWidget {
                 title: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(radius: 24.r, backgroundColor: color),
+                    CircleAvatar(
+                      radius: 24.r,
+                      child: RandomAvatar(player?.avatar ?? mockString(5)),
+                    ),
                     Gap(12.w),
                     Expanded(
                       child: ListTile(
                         title: Text(
-                          ref.watch(xPlayerProvider(record.id ?? ""))?.name ??
-                              "No Name",
+                          player?.name ?? "No Name",
                           //NameGen.dummyName(),
                           style: textTheme.headlineLarge?.copyWith(
                             color: charcoal,

@@ -51,12 +51,8 @@ class CreateRoom extends ConsumerWidget {
                       toBeginningOfSentenceCase(
                               room.level?.name ?? "Board Level") ??
                           "",
-                      style: GoogleFonts.poppins(
-                        textStyle: textTheme.bodySmall?.copyWith(
-                          color: darkPurple,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      style: textTheme.headlineMedium
+                          ?.copyWith(fontWeight: FontWeight.w600),
                     ),
                     ..._endWidget,
                   ],
@@ -82,12 +78,8 @@ class CreateRoom extends ConsumerWidget {
                     AutoSizeText(
                       toBeginningOfSentenceCase(room.count?.name ?? "2 / 3") ??
                           "",
-                      style: GoogleFonts.poppins(
-                        textStyle: textTheme.bodySmall?.copyWith(
-                          color: darkPurple,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      style: textTheme.headlineMedium
+                          ?.copyWith(fontWeight: FontWeight.w600),
                     ),
                     ..._endWidget,
                   ],
@@ -115,12 +107,8 @@ class CreateRoom extends ConsumerWidget {
                       toBeginningOfSentenceCase(
                               room.type?.name ?? "Board Type") ??
                           "",
-                      style: GoogleFonts.poppins(
-                        textStyle: textTheme.bodySmall?.copyWith(
-                          color: darkPurple,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      style: textTheme.headlineMedium
+                          ?.copyWith(fontWeight: FontWeight.w600),
                     ),
                     ..._endWidget,
                   ],

@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
+import 'package:mock_data/mock_data.dart';
+import 'package:random_avatar/random_avatar.dart';
 import '../../../logic/user/notifier.dart';
 import '../../../model/player.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -39,13 +41,17 @@ class RecentPlayerTile extends ConsumerWidget {
                 child: DottedBorder(
                   borderType: BorderType.Circle,
                   dashPattern: const [6, 3, 7.5, 3],
-                  color: emerald,
-                  strokeWidth: 1,
+                  color: player.todayPlayer ? emerald : frenchGray,
+                  strokeWidth: player.todayPlayer ? 1.5 : 0.9,
                   child: CircleAvatar(
-                      radius: ref.watch(sizeProvider) == ScreenSize.m ||
-                              ref.watch(sizeProvider) == ScreenSize.s
-                          ? 24.r
-                          : 30.r),
+                    radius: ref.watch(sizeProvider) == ScreenSize.m ||
+                            ref.watch(sizeProvider) == ScreenSize.s
+                        ? 24.r
+                        : 30.r,
+                    child: player.avatar != null
+                        ? RandomAvatar(player.avatar ?? mockString(1))
+                        : Container(),
+                  ),
                 ),
               ),
               Gap(15.r),

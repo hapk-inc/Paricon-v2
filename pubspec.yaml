@@ -155,8 +155,6 @@ dependencies:
 
   toggle_switch: ^2.3.0
 
-  # confetti: ^0.7.0
-
   dotted_border: ^2.1.0
 
   emoji_picker_flutter: ^2.0.0

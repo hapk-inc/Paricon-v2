@@ -33,7 +33,7 @@ class DashboardBtn extends ConsumerWidget {
               "Daily Match",
               "Play Friends",
               "Leaderboard",
-              "My Avatars",
+              // "My Avatars",
             ],
             options: GroupButtonOptions(
               direction: Axis.horizontal,
@@ -41,10 +41,16 @@ class DashboardBtn extends ConsumerWidget {
               spacing: 7.5.w,
               buttonWidth: 120.w,
               buttonHeight: 45.h,
-              selectedTextStyle:
-                  textTheme.headlineLarge?.copyWith(color: ghostWhite),
-              unselectedTextStyle:
-                  textTheme.headlineLarge?.copyWith(color: charcoal),
+              selectedTextStyle: textTheme.headlineLarge?.copyWith(
+                color: ghostWhite,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w600,
+              ),
+              unselectedTextStyle: textTheme.headlineLarge?.copyWith(
+                color: charcoal,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w600,
+              ),
               elevation: 0.3,
               borderRadius: BorderRadius.circular(30.r),
             ),

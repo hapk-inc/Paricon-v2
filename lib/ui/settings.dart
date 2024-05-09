@@ -27,13 +27,7 @@ class SettingsPage extends ConsumerWidget {
       body: SafeArea(
         minimum: EdgeInsets.symmetric(horizontal: 15.w),
         child: ListView(
-          //crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Gap(15.r),
-            /* Text(
-              "General",
-              style: textTheme.headlineLarge?.copyWith(color: charcoal),
-            ),*/
             Gap(15.r),
             Container(
               decoration: BoxDecoration(

@@ -42,12 +42,12 @@ class _LeaderBoardState extends ConsumerState<LeaderBoard> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 36.h,
+          height: 30.h,
           padding: EdgeInsets.symmetric(horizontal: 15.w),
           alignment: Alignment.centerLeft,
           child: Text(
-            "Overall . . .",
-            style: textTheme.titleSmall?.copyWith(color: jasper),
+            "Overall Leaderboard",
+            style: textTheme.headlineLarge?.copyWith(color: sepia),
           ),
         ),
         /*AspectRatio(

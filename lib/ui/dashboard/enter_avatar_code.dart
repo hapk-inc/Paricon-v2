@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:gap/gap.dart';
 
 import 'package:pinput/pinput.dart';
 
 import '../../values/colors.dart';
 import '../../values/names.dart';
+
+final formKey = GlobalKey<FormState>();
 
 class EnterAvatarCode extends ConsumerStatefulWidget {
   const EnterAvatarCode({super.key});
@@ -53,9 +54,12 @@ class _EnterAvatarCodeState extends ConsumerState<EnterAvatarCode> {
           crossAxisCellCount: 15,
           child: Text(
             "Enter Avatar code",
-            style: textTheme.bodyLarge?.copyWith(
-              fontWeight: FontWeight.normal,
-              color: charcoal,
+            style: textTheme.headlineLarge?.copyWith(
+              fontWeight: FontWeight.w700,
+              color: sepia,
+              fontSize: 21.r,
+              height: 2.1,
+              // fontFamily: 'Montserrat',
             ),
           ),
         ),
@@ -63,7 +67,7 @@ class _EnterAvatarCodeState extends ConsumerState<EnterAvatarCode> {
           crossAxisCellCount: 15,
           child: Text(
             "Type your friend's code or click here to paste",
-            style: TextStyle(color: frenchGray),
+            style: TextStyle(color: gray),
           ),
         ),
         const StaggeredGridTile.count(
@@ -73,52 +77,72 @@ class _EnterAvatarCodeState extends ConsumerState<EnterAvatarCode> {
         ),
         StaggeredGridTile.fit(
           crossAxisCellCount: 15,
-          child: Pinput(
-            length: 6,
-            focusNode: focusNode,
-            controller: controller,
-            pinAnimationType: PinAnimationType.fade,
-            keyboardType: TextInputType.name,
-            useNativeKeyboard: true,
-            defaultPinTheme: _defaultPinTheme,
-            focusedPinTheme: _defaultPinTheme.copyWith(
-              decoration: _defaultPinTheme.decoration?.copyWith(
-                color: magnolia1,
-              ),
-            ),
-            showCursor: true,
-            cursor: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 1.5.w),
-                  width: double.maxFinite,
-                  height: 1.5.h,
-                  decoration: BoxDecoration(
-                      color: charcoal,
-                      borderRadius: BorderRadius.circular(4.5.r)),
-                )
-              ],
-            ),
-            preFilledWidget: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 1.5.w),
-                  width: double.maxFinite,
-                  height: 1.5.h,
-                  decoration: BoxDecoration(
-                    color: ghostWhite,
-                    borderRadius: BorderRadius.circular(4.5.r),
+          child: Form(
+            key: formKey,
+            child: SizedBox(
+              height: 96.h,
+              child: Pinput(
+                length: 6,
+                focusNode: focusNode,
+                controller: controller,
+                pinAnimationType: PinAnimationType.fade,
+                keyboardType: TextInputType.name,
+                useNativeKeyboard: true,
+                defaultPinTheme: _defaultPinTheme,
+                pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                validator: (value) {
+                  return "Error";
+                },
+                errorTextStyle: textTheme.bodyMedium?.copyWith(
+                  color: cornellRed,
+                ),
+                focusedPinTheme: _defaultPinTheme.copyWith(
+                  decoration: _defaultPinTheme.decoration?.copyWith(
+                    color: magnolia1,
                   ),
-                )
-              ],
+                ),
+                errorPinTheme: _defaultPinTheme.copyWith(
+                  decoration: _defaultPinTheme.decoration?.copyWith(
+                    color: magnolia1,
+                    border: Border.all(color: cornellRed, width: 0.45.r),
+                  ),
+                ),
+                showCursor: true,
+                cursor: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 1.5.w),
+                      width: double.maxFinite,
+                      height: 1.5.h,
+                      decoration: BoxDecoration(
+                        color: charcoal,
+                        borderRadius: BorderRadius.circular(4.5.r),
+                      ),
+                    )
+                  ],
+                ),
+                preFilledWidget: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 1.5.w),
+                      width: double.maxFinite,
+                      height: 1.5.h,
+                      decoration: BoxDecoration(
+                        color: ghostWhite,
+                        borderRadius: BorderRadius.circular(4.5.r),
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
           ),
         ),
         const StaggeredGridTile.count(
           crossAxisCellCount: 15,
-          mainAxisCellCount: 1.2,
+          mainAxisCellCount: 0.3,
           child: SizedBox(),
         ),
         StaggeredGridTile.count(
@@ -140,7 +164,7 @@ class _EnterAvatarCodeState extends ConsumerState<EnterAvatarCode> {
                             color: frenchGray,
                           ),
                         ),
-                        horizontalTitleGap: 15.w,
+                        horizontalTitleGap: 7.5.w,
                         title: AutoSizeText(
                           "${NameGen.dummyName()} shares a new avatar to ${NameGen.dummyName()}",
                           style: textTheme.bodyMedium?.copyWith(

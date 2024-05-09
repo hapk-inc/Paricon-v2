@@ -19,7 +19,6 @@ const String _tournamentPrompt =
     "Use Easy English."
     "Don't use the words like tournament."
     "It's a puzzle timer tournament."
-    "Include emojis,if possible.But only one emoji is allowed. And also don't include puzzle emoji"
     "Total characters including spaces should not exceed more than 30 characters."
     "It should be single-line sentence. No word should be fully uppercase letters"
     "Don't include ** in prefix and suffix";

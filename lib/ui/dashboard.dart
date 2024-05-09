@@ -146,7 +146,7 @@ class _DashboardSwitch extends ConsumerWidget {
             DailyMatch(),
             PlayFriend(),
             LeaderBoard(),
-            NewAvatar(),
+            //  NewAvatar(),
           ],
         ),
       ),

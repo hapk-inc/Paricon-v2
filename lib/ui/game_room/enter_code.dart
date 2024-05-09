@@ -66,7 +66,16 @@ class _EnterCodeState extends ConsumerState<EnterCode> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Enter Room code", style: textTheme.titleMedium),
+            Text(
+              "Enter 6-Digit Room code",
+              style: textTheme.headlineLarge?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: sepia,
+                fontSize: 18.r,
+                height: 2.1,
+                // fontFamily: 'Montserrat',
+              ),
+            ),
             IconButton(
               onPressed: () =>
                   ref.read(dashboardPanelControllerProvider).close(),
@@ -75,10 +84,10 @@ class _EnterCodeState extends ConsumerState<EnterCode> {
           ],
         ),
         //Gap(4.5.r),
-        const Text(
+        /*const Text(
           "Enter 6-Digit code to join the room",
           style: TextStyle(color: frenchGray),
-        ),
+        ),*/
         Gap(30.r),
         Pinput(
           length: 6,

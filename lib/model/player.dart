@@ -49,13 +49,20 @@ class Player extends Equatable with _$Player {
 
   factory Player.createOne() {
     final num x = mockInteger(100000, 999999);
+
     return Player(
       name: NameGen.dummyName(),
       //name: "User#$x",
       rName: "User#$x",
+      avatar: mockString(4),
       no: x,
       createdAt: DateTime.now(),
     );
+  }
+
+  bool get todayPlayer {
+    if (nowTime == null) return true;
+    return nowTime?.day == DateTime.now().day;
   }
 
   Map<String, dynamic> toDatabase([String? x]) => {
